@@ -2,6 +2,7 @@
 using Apoc3D.Graphics;
 using Apoc3D.Core;
 using Apoc3D.Vfs;
+using Apoc3D.Media;
 using Microsoft.Xna.Framework.Storage;
 
 namespace Code2015
@@ -16,6 +17,13 @@ namespace Code2015
             DeviceContent devContent = GraphicsAPIManager.Instance.CreateDeviceContent();
 
             PresentParameters pm = new PresentParameters();
+            
+#warning test code
+            pm.BackBufferFormat = ImagePixelFormat.X8R8G8B8;
+            pm.BackBufferWidth = 1024;
+            pm.BackBufferHeight = 768;
+            pm.IsWindowed = true;
+            pm.DepthFormat = DepthFormat.Depth24Stencil8;
 
             RenderControl ctrl = devContent.Create(pm);
 

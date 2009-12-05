@@ -9,31 +9,32 @@ namespace Code2015
 {
     class Code2015 : IRenderWindowHandler
     {
+        
         #region IRenderWindowHandler 成员
 
         public void Initialize()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Load()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Unload()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Update(GameTime time)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public void Draw()
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         #endregion
