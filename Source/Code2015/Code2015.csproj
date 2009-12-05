@@ -146,6 +146,10 @@
       <Project>{AA72D449-B468-4698-A28D-926E2225FC5A}</Project>
       <Name>Apoc3D.Ide</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\..\apoc3d\Source\Apoc3D.RenderSystem.Xna\Apoc3D.RenderSystem.Xna.PC.csproj">
+      <Project>{AE28499E-7D28-42AC-8CE6-4F93753342AD}</Project>
+      <Name>Apoc3D.RenderSystem.Xna.PC</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\..\apoc3d\Source\JigLibX\JigLibX.csproj">
       <Project>{7C3F7EE7-7E67-462B-80C8-588331703AE9}</Project>
       <Name>JigLibX</Name>
