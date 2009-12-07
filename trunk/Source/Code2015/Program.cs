@@ -22,15 +22,12 @@ namespace Code2015
             devContent = GraphicsAPIManager.Instance.CreateDeviceContent();
 
             PresentParameters pm = new PresentParameters();
-
-#warning test code
+            
             pm.BackBufferFormat = ImagePixelFormat.X8R8G8B8;
-            pm.BackBufferWidth = 1024;
-            pm.BackBufferHeight = 768;
-            pm.IsWindowed = true;
+            pm.BackBufferWidth = Properties.Settings.Default.ScreenWidth;
+            pm.BackBufferHeight = Properties.Settings.Default.ScreenHeight;
+            pm.IsWindowed = Properties.Settings.Default.IsWindowed;
             pm.DepthFormat = DepthFormat.Depth24Stencil8;
-
-
 
 
             RenderControl ctrl = devContent.Create(pm);
@@ -54,11 +51,11 @@ namespace Code2015
         /// </summary>
         static void Main(string[] args)
         {
-            RenderWindow game = CreateRenderWindow();
-            //using (RenderWindow game = CreateRenderWindow())
+            using (RenderWindow game = CreateRenderWindow())
             {
                 game.Run();
             }
+            Properties.Settings.Default.Save();
         }
     }
 }
