@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
-using System.IO;
-using Apoc3D.Vfs;
+using Apoc3D;
 using Apoc3D.Ide;
+using Apoc3D.Vfs;
 using SevenZip;
 
 namespace Plugin.ArchiveTools
@@ -21,6 +22,8 @@ namespace Plugin.ArchiveTools
         public PackerFrom()
         {
             InitializeComponent();
+
+            LanguageParser.ParseLanguage(DevStringTable.Instance, this);
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -104,13 +107,9 @@ namespace Plugin.ArchiveTools
 
             System.IO.MemoryStream propms = new System.IO.MemoryStream();
             encoder.WriteCoderProperties (propms);
-            propms.Close();
-
-
             bw.Write((int)propms.Length);
+            propms.Close();
             bw.Write(propms.ToArray());
-
-            encoder.WriteCoderProperties(bw.BaseStream);
 
             for (int i = 0; i < count; i++)
             {
