@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D.Ide;
 using Apoc3D.Ide.Designers;
 using Apoc3D.Vfs;
-using Apoc3D.Ide;
 
 namespace Plugin.ArchiveTools
 {
