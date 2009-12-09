@@ -5,6 +5,8 @@ using System.Text;
 
 namespace Code2015.balanceSystem
 {
+    
+
     class SocietyStatus:IUpdatable
     {
         public float Development
@@ -27,7 +29,8 @@ namespace Code2015.balanceSystem
             get;
             set;
         }
-        City[] city;
+        Apoc3D.Collections.FastList<City> city = new Apoc3D.Collections.FastList<City>();
+        
         public void Update(float time)
         { }
     }
