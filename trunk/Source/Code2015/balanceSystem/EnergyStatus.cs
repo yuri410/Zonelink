@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    class EnergyStatus:IUpdatable
+    class EnergyStatus : IUpdatable
     {
         private float currentHPEnergy, currentLPEnergy, remainingLPEnergy, renmainingHPEnergy;
         public float CurrentHPEnergy
@@ -29,9 +30,9 @@ namespace Code2015.balanceSystem
             set { remainingLPEnergy = value; }
         }
 
-        EnergyProducer[] energyProduers;
-        public void Update(float time)
+        NaturalResource[] energyProduers;
+        public void Update(GameTime time)
         { }
-        
+
     }
 }

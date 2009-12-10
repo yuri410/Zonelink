@@ -3,14 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-  
-        //动物物种
-        class AnimalSpecies : CreationSpecies
-        {
-            public float FertilisingSpeed = 0.0f;//繁殖速度
+    /// <summary>
+    ///  表示动物物种
+    /// </summary>
+    class AnimalSpecies : CreationSpecies
+    {
+        /// <summary>
+        ///  动物使土壤肥沃的速度
+        /// </summary>
+        public float FertilisingSpeed;
 
-        }
-    
+    }
 }

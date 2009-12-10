@@ -89,14 +89,14 @@
     <Compile Include="balanceSystem\CarbonGroup.cs" />
     <Compile Include="balanceSystem\City.cs" />
     <Compile Include="balanceSystem\CreationSpecies.cs" />
-    <Compile Include="balanceSystem\EnergyProducer.cs" />
+    <Compile Include="balanceSystem\NaturalResource.cs" />
     <Compile Include="balanceSystem\EnergyStatus.cs" />
     <Compile Include="balanceSystem\Forest.cs" />
-    <Compile Include="balanceSystem\IBalanceObject.cs" />
     <Compile Include="balanceSystem\IUpdatable.cs" />
     <Compile Include="balanceSystem\LocalEcoSystem.cs" />
     <Compile Include="balanceSystem\OilFiled.cs" />
     <Compile Include="balanceSystem\PlantSpecies.cs" />
+    <Compile Include="balanceSystem\Player.cs" />
     <Compile Include="balanceSystem\Region.cs" />
     <Compile Include="balanceSystem\SocietyStatus.cs" />
     <Compile Include="balanceSystem\WorldEcoSystem.cs" />

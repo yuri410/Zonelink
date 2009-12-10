@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D.Collections;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    
-
-    class SocietyStatus:IUpdatable
+    class SocietyStatus : IUpdatable
     {
         public float Development
         {
@@ -29,9 +29,9 @@ namespace Code2015.balanceSystem
             get;
             set;
         }
-        Apoc3D.Collections.FastList<City> city = new Apoc3D.Collections.FastList<City>();
-        
-        public void Update(float time)
+        FastList<City> city = new FastList<City>();
+
+        public void Update(GameTime time)
         { }
     }
 }
