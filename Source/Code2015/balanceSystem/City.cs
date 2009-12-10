@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    class City:IUpdatable
+    class City : IUpdatable
     {
         private string name;
         private float population, development, food, disease;
@@ -34,8 +35,8 @@ namespace Code2015.balanceSystem
             get { return disease; }
             set { disease = value; }
         }
-        public void Update(float time)
+        public void Update(GameTime time)
         { }
-      
+
     }
 }

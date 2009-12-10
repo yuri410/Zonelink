@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
     class LocalEcoSystem:IUpdatable
     {
@@ -37,7 +38,7 @@ namespace Code2015.balanceSystem
         AnimalSpecies[] animals = new AnimalSpecies[3];//分别有昆虫，小型动物和大型动物
         PlantSpecies[] plants = new PlantSpecies[3];//分别有草，灌木，树
 
-        public void Update(float time)
+        public void Update(GameTime time)
         { 
             
         }

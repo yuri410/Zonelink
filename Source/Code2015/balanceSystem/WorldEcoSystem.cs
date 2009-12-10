@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
     class WorldEcoSystem:IUpdatable
     {
@@ -29,7 +30,7 @@ namespace Code2015.balanceSystem
             return 0.0f;
         }
 
-         public void Update(float time)
+        public void Update(GameTime time)
         { }
     }
 }

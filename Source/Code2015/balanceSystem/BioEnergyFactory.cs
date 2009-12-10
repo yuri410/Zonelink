@@ -3,10 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    class BioEnergyFactory:EnergyProducer
+    class BioEnergyFactory : NaturalResource
     {
-        public bool isCaptured = false;
     }
 }

@@ -2,8 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
     class Region : IUpdatable
     {
@@ -27,10 +28,11 @@ namespace Code2015.balanceSystem
             set { Owner = value; }
         }
 
-        LocalEcoSystem[] lacalecoSystem=null;
-        EnergyStatus energyStatus=null;
-        SocietyStatus societyStatus=null;
-        public void Update(float time)
+        LocalEcoSystem[] lacalecoSystem;
+        EnergyStatus energyStatus;
+        SocietyStatus societyStatus;
+
+        public void Update(GameTime time)
         { }
     }
 }

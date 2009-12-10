@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    class CarbonGroup:IUpdatable
+    class CarbonGroup : IUpdatable
     {
         public float Weight
         {
@@ -13,7 +14,7 @@ namespace Code2015.balanceSystem
             set;
         }
 
-        public void Update(float time)
+        public void Update(GameTime time)
         { }
     }
 }

@@ -2,17 +2,18 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    class CreationSpecies:IUpdatable
+    class CreationSpecies : IUpdatable
     {
-        public float Strength=0.0f;
-        public int SpecyDiversity=0;//物种的多样性
+        public float Strength;
+        public int SpecyDiversity; //物种的多样性
 
 
-        public void Update(float time)
+        public void Update(GameTime time)
         { }
     }
-    
+
 }

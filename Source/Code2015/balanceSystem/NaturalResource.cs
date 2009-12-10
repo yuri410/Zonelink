@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
-namespace Code2015.balanceSystem
+namespace Code2015.BalanceSystem
 {
-    class EnergyProducer:IUpdatable
+    class NaturalResource : IUpdatable
     {
         private float ProductSpeed;
         private float TotalAmount;
@@ -26,11 +27,10 @@ namespace Code2015.balanceSystem
             get { return ProductionType; }
             set { ProductionType = value; }
         }
-        public EnergyProducer()
+        public NaturalResource()
         { }
 
-        public void Update(float time)
+        public void Update(GameTime time)
         { }
     }
-   
 }
