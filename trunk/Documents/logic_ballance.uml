@@ -2220,12 +2220,6 @@
 <XPD:REF name="Generalizations[0]">QIQ4dsNvbEmgwgFFUk4pGQAA</XPD:REF>
 <XPD:ATTR name="#Associations" type="integer">1</XPD:ATTR>
 <XPD:REF name="Associations[0]">LdvHnV8itE6t1jPB51mCxAAA</XPD:REF>
-<XPD:ATTR name="#Attributes" type="integer">1</XPD:ATTR>
-<XPD:OBJ name="Attributes[0]" type="UMLAttribute" guid="Ns4EqIowikGA7FPmrBM6hwAA">
-<XPD:ATTR name="Name" type="string">IsSealed</XPD:ATTR>
-<XPD:ATTR name="TypeExpression" type="string">bool</XPD:ATTR>
-<XPD:REF name="Owner">QS69D4F2KEWlHBs0pYWmvgAA</XPD:REF>
-</XPD:OBJ>
 </XPD:OBJ>
 <XPD:OBJ name="OwnedElements[5]" type="UMLClass" guid="B0QsqlHZzkC3/IriHNBgawAA">
 <XPD:ATTR name="Name" type="string">SocietyStatus</XPD:ATTR>
