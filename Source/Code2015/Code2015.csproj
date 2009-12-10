@@ -89,7 +89,7 @@
     <Compile Include="BalanceSystem\CarbonGroup.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CreationSpecies.cs" />
-    <Compile Include="BbalanceSystem\NaturalResource.cs" />
+    <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\EnergyStatus.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
     <Compile Include="BalanceSystem\IUpdatable.cs" />
