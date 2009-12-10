@@ -84,22 +84,22 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="balanceSystem\AnimalSpecies.cs" />
-    <Compile Include="balanceSystem\BioEnergyFactory.cs" />
-    <Compile Include="balanceSystem\CarbonGroup.cs" />
-    <Compile Include="balanceSystem\City.cs" />
-    <Compile Include="balanceSystem\CreationSpecies.cs" />
-    <Compile Include="balanceSystem\NaturalResource.cs" />
-    <Compile Include="balanceSystem\EnergyStatus.cs" />
-    <Compile Include="balanceSystem\Forest.cs" />
-    <Compile Include="balanceSystem\IUpdatable.cs" />
-    <Compile Include="balanceSystem\LocalEcoSystem.cs" />
-    <Compile Include="balanceSystem\OilField.cs" />
-    <Compile Include="balanceSystem\PlantSpecies.cs" />
-    <Compile Include="balanceSystem\Player.cs" />
-    <Compile Include="balanceSystem\Region.cs" />
-    <Compile Include="balanceSystem\SocietyStatus.cs" />
-    <Compile Include="balanceSystem\WorldEcoSystem.cs" />
+    <Compile Include="BalanceSystem\AnimalSpecies.cs" />
+    <Compile Include="BalanceSystem\BioEnergyFactory.cs" />
+    <Compile Include="BalanceSystem\CarbonGroup.cs" />
+    <Compile Include="BalanceSystem\City.cs" />
+    <Compile Include="BalanceSystem\CreationSpecies.cs" />
+    <Compile Include="BbalanceSystem\NaturalResource.cs" />
+    <Compile Include="BalanceSystem\EnergyStatus.cs" />
+    <Compile Include="BalanceSystem\Forest.cs" />
+    <Compile Include="BalanceSystem\IUpdatable.cs" />
+    <Compile Include="BalanceSystem\LocalEcoSystem.cs" />
+    <Compile Include="BalanceSystem\OilField.cs" />
+    <Compile Include="BalanceSystem\PlantSpecies.cs" />
+    <Compile Include="BalanceSystem\Player.cs" />
+    <Compile Include="BalanceSystem\Region.cs" />
+    <Compile Include="BalanceSystem\SocietyStatus.cs" />
+    <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
