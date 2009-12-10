@@ -94,7 +94,7 @@
     <Compile Include="balanceSystem\Forest.cs" />
     <Compile Include="balanceSystem\IUpdatable.cs" />
     <Compile Include="balanceSystem\LocalEcoSystem.cs" />
-    <Compile Include="balanceSystem\OilFiled.cs" />
+    <Compile Include="balanceSystem\OilField.cs" />
     <Compile Include="balanceSystem\PlantSpecies.cs" />
     <Compile Include="balanceSystem\Player.cs" />
     <Compile Include="balanceSystem\Region.cs" />
