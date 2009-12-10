@@ -12,7 +12,8 @@ namespace Code2015.BalanceSystem
     /// </summary>
     abstract class CityPlugin 
     {
-
+        public abstract void NotifyAdded(City city);
+        public abstract void NotifyRemoved(City city);        
     }
 
     /// <summary>
