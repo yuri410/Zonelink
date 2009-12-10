@@ -9,6 +9,8 @@ namespace Code2015.BalanceSystem
 {
     class SocietyStatus : IUpdatable
     {
+        FastList<City> city = new FastList<City>();
+
         public float Development
         {
             get;
@@ -29,7 +31,6 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        FastList<City> city = new FastList<City>();
 
         public void Update(GameTime time)
         { }

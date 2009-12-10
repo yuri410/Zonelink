@@ -84,6 +84,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
     <Compile Include="BalanceSystem\BioEnergyFactory.cs" />
     <Compile Include="BalanceSystem\CarbonGroup.cs" />
