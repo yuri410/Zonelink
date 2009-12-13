@@ -7,21 +7,12 @@ using Apoc3D.Scene;
 
 namespace Code2015.World
 {
-    class Border : SceneObject
+    class Border : StaticModelObject
     {
-        public override RenderOperation[] GetRenderOperation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update(float dt)
-        {
-            throw new NotImplementedException();
-        }
 
         public override bool IsSerializable
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
     }
 }
