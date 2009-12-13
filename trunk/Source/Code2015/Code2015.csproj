@@ -87,7 +87,6 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
     <Compile Include="BalanceSystem\BioEnergyFactory.cs" />
-    <Compile Include="BalanceSystem\CarbonGroup.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CreationSpecies.cs" />
     <Compile Include="BalanceSystem\NaturalResource.cs" />

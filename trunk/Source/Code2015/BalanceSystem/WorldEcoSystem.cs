@@ -36,19 +36,24 @@ namespace Code2015.BalanceSystem
 
 
         Region[] regions;
-        
-        FastList<CarbonGroup> carbonGroups;
 
-        //计算碳含量
-        public float AccumulatedCarbon()
+        public float AccumulatedCarbon
         {
-            float result = 0;
-            for (int i = 0; i < carbonGroups.Count; i++) 
-            {
-                result += carbonGroups[i].Weight;
-            }
-            return result;
+            get;
+            private set;
         }
+        //FastList<CarbonGroup> carbonGroups;
+
+        ////计算碳含量
+        //public float AccumulatedCarbon()
+        //{
+        //    float result = 0;
+        //    for (int i = 0; i < carbonGroups.Count; i++) 
+        //    {
+        //        result += carbonGroups[i].Weight;
+        //    }
+        //    return result;
+        //}
 
         public void Update(GameTime time)
         {
@@ -57,7 +62,7 @@ namespace Code2015.BalanceSystem
                 LocalEcoSystem[] ecos = regions[i].EcoSystems;
                 for (int j = 0; j < ecos.Length; j++)
                 {
-
+                    AccumulatedCarbon += ecos[j].CarbonChange;
                 }
             }
         }

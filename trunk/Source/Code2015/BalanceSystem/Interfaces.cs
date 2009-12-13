@@ -20,6 +20,6 @@ namespace Code2015.BalanceSystem
         ///  获取碳变化
         /// </summary>
         /// <returns></returns>
-        CarbonGroup[] GetCarbonGroup();
+        float CarbonChange { get; }
     }
 }
