@@ -101,11 +101,12 @@ namespace Code2015.BalanceSystem
         }
 
 
+
         #region ICarbon 成员
 
-        public CarbonGroup[] GetCarbonGroup()
+        public float CarbonChange
         {
-            throw new NotImplementedException();
+            get { throw new NotImplementedException(); }
         }
 
         #endregion
