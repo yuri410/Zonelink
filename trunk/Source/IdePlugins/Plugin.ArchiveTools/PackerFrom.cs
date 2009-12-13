@@ -95,11 +95,13 @@ namespace Plugin.ArchiveTools
 
             CoderPropID[] propIDs = 
 			{ 
-				CoderPropID.DictionarySize
+				CoderPropID.DictionarySize,
+                CoderPropID.Algorithm
 			};
             object[] properties = 
 			{
-				1048576
+				1048576*8,
+                2
 			};
             SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
 
