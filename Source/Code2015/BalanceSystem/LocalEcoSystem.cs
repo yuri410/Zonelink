@@ -6,7 +6,7 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    class LocalEcoSystem:IUpdatable
+    class LocalEcoSystem : IUpdatable, ICarbon
     {
         private float age, humidity, fertility, desertification;
         private bool balanced;
@@ -42,5 +42,14 @@ namespace Code2015.BalanceSystem
         { 
             
         }
+
+        #region ICarbon 成员
+
+        public CarbonGroup[] GetCarbonGroup()
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

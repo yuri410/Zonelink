@@ -93,7 +93,7 @@
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\EnergyStatus.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
-    <Compile Include="BalanceSystem\IUpdatable.cs" />
+    <Compile Include="BalanceSystem\Interfaces.cs" />
     <Compile Include="BalanceSystem\LocalEcoSystem.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />
     <Compile Include="BalanceSystem\PlantSpecies.cs" />

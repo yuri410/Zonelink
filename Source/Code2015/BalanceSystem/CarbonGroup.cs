@@ -6,7 +6,7 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    class CarbonGroup : IUpdatable
+    struct CarbonGroup
     {
         public float Weight
         {
@@ -14,7 +14,5 @@ namespace Code2015.BalanceSystem
             set;
         }
 
-        public void Update(GameTime time)
-        { }
     }
 }

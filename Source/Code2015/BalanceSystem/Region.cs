@@ -12,7 +12,7 @@ namespace Code2015.BalanceSystem
     class Region : IUpdatable
     {
 
-        LocalEcoSystem[] lacalecoSystem;
+        LocalEcoSystem[] localEcoSystem;
         EnergyStatus energyStatus;
         SocietyStatus societyStatus;
 
@@ -34,6 +34,11 @@ namespace Code2015.BalanceSystem
         {
             get;
             private set;
+        }
+
+        public LocalEcoSystem[] EcoSystems 
+        {
+            get { return localEcoSystem; }
         }
 
         public Region(Player owner, object border) 
