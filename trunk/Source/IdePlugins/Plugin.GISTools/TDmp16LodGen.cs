@@ -158,7 +158,7 @@ namespace Plugin.GISTools
 
         public override string Name
         {
-            get { return "TDmp 16 Lod Generator"; }
+            get { return "16位LOD地形数据生成器"; }
         }
 
         public override string[] SourceExt
@@ -173,12 +173,12 @@ namespace Plugin.GISTools
 
         public override string SourceDesc
         {
-            get { return "Terrain Displacement Map"; }
+            get { return "地形位移图"; }
         }
 
         public override string DestDesc
         {
-            get { return "Terrain Displacement Map"; }
+            get { return "地形位移图"; }
         }
     }
 }

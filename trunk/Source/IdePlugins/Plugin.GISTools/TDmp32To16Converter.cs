@@ -101,7 +101,7 @@ namespace Plugin.GISTools
 
         public override string Name
         {
-            get { return "TDmp 32 to 16 Converter"; }
+            get { return "32位至16位地形数据转换器"; }
         }
 
         public override string[] SourceExt
