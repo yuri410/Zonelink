@@ -5,8 +5,8 @@ using System.Text;
 using System.Windows.Forms;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Apoc3D.Core.MathLib;
 
 namespace Plugin.GISTools
 {

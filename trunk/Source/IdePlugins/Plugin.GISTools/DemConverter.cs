@@ -10,6 +10,7 @@ using System.Windows.Forms;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
 using Apoc3D.Vfs;
+using Apoc3D.MathLib;
 
 namespace Plugin.GISTools
 {
@@ -91,23 +92,6 @@ namespace Plugin.GISTools
         {
             DemConvDlg dlg = new DemConvDlg(this);
             dlg.ShowDialog();
-        }
-
-        static float sinc(float x)
-        {
-            //该函数计算插值曲线sin(x*PI)/(x*PI)的值 //PI=3.1415926535897932385; 
-            //下面是它的近似拟合表达式
-            const float a = -1; //a还可以取 a=-2,-1,-0.75,-0.5等等，起到调节锐化或模糊程度的作用
-
-            if (x < 0) x = -x; //x=abs(x);
-            float x2 = x * x;
-            float x3 = x2 * x;
-            if (x <= 1)
-                return (a + 2) * x3 - (a + 3) * x2 + 1;
-            else if (x <= 2)
-                return a * x3 - (5 * a) * x2 + (8 * a) * x - (4 * a);
-            else
-                return 0;
         }
 
 
@@ -321,14 +305,14 @@ namespace Plugin.GISTools
                         }
                     }
 
-                    afu[0] = sinc(1 + fu);
-                    afu[1] = sinc(fu);
-                    afu[2] = sinc(1 - fu);
-                    afu[3] = sinc(2 - fu);
-                    afv[0] = sinc(1 + fv);
-                    afv[1] = sinc(fv);
-                    afv[2] = sinc(1 - fv);
-                    afv[3] = sinc(2 - fv);
+                    afu[0] = MathEx.Sinc(1 + fu);
+                    afu[1] = MathEx.Sinc(fu);
+                    afu[2] = MathEx.Sinc(1 - fu);
+                    afu[3] = MathEx.Sinc(2 - fu);
+                    afv[0] = MathEx.Sinc(1 + fv);
+                    afv[1] = MathEx.Sinc(fv);
+                    afv[2] = MathEx.Sinc(1 - fv);
+                    afv[3] = MathEx.Sinc(2 - fv);
 
                     float s = 0;
                     for (int ii = 0; ii < 4; ii++)
