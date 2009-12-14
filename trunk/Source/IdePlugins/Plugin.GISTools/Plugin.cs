@@ -14,6 +14,7 @@ namespace Plugin.GISTools
         TDmp32To8Converter tdmp32to8;
         TDmp32To16Converter tdmp32to16;
         TDmp16LodGen tdmplod16;
+        TextureColorCalculator texClrCalc;
 
         public void Load()
         {
@@ -33,10 +34,15 @@ namespace Plugin.GISTools
             {
                 tdmplod16 = new TDmp16LodGen();
             }
+            if (texClrCalc == null) 
+            {
+                texClrCalc = new TextureColorCalculator();
+            }
             ConverterManager.Instance.Register(tdmplod16);
             ConverterManager.Instance.Register(demConverter);
             ConverterManager.Instance.Register(tdmp32to8);
             ConverterManager.Instance.Register(tdmp32to16);
+            ConverterManager.Instance.Register(texClrCalc);
         }
 
         public void Unload()
@@ -45,6 +51,7 @@ namespace Plugin.GISTools
             ConverterManager.Instance.Unregister(tdmp32to8);
             ConverterManager.Instance.Unregister(tdmp32to16);
             ConverterManager.Instance.Unregister(tdmplod16);
+            ConverterManager.Instance.Unregister(texClrCalc);
         }
 
         public string Name
