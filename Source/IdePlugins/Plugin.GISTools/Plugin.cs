@@ -29,7 +29,7 @@ namespace Plugin.GISTools
             {
                 tdmp32to16 = new TDmp32To16Converter();
             }
-            if (tdmplod16 != null) 
+            if (tdmplod16 == null) 
             {
                 tdmplod16 = new TDmp16LodGen();
             }
@@ -49,7 +49,7 @@ namespace Plugin.GISTools
 
         public string Name
         {
-            get { return "GIS Converter"; }
+            get { return "GIS 转换器"; }
         }
 
         public Icon PluginIcon

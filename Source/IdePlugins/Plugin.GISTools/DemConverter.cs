@@ -266,8 +266,10 @@ namespace Plugin.GISTools
 
             float invHeightScale = 1.0f / Parameters.HeightScale;
 
+            
             float[] demData = new float[Parameters.RescaleSize * Parameters.RescaleSize];
 
+            #region 三次卷积
             float wzoom = width / (float)Parameters.RescaleSize;
             float hzoom = height / (float)Parameters.RescaleSize;
 
@@ -333,118 +335,7 @@ namespace Plugin.GISTools
             {
                 ProgressCBK.Invoke(width + 100, width + 100);
             }
-
-            
-            //float[] demData = new float[Parameters.RescaleSize * Parameters.RescaleSize];
-
-            //int halfWidth = width / 2;
-            //int halfHeight = height / 2;
-
-            //for (int i = 0; i < Parameters.RescaleSize; i++)
-            //{
-            //    for (int j = 0; j < Parameters.RescaleSize; j++)
-            //    {
-            //        int tempHeight = i - halfHeight;
-            //        int tempWidth = j - halfWidth;
-            //        float tempX = tempWidth / wzoom;
-            //        float tempY = tempHeight / hzoom;
-
-            //        int xz = 0;
-            //        int yz = 0;
-
-            //        if (tempWidth > 0)
-            //        {
-            //            xz = (int)(tempWidth / x + 0.5f);
-            //        }
-            //        else
-            //        {
-            //            xz = (int)(tempWidth / x - 0.5f);
-            //        }
-            //        if (tempHeight > 0)
-            //        {
-            //            yz = (int)(tempHeight / y + 0.5f);
-            //        }
-            //        else
-            //        {
-            //            yz = (int)(tempHeight / y - 0.5f);
-            //        }
-            //        float p = tempX - xz;
-            //        float q = tempY - yz;
-
-            //        tempWidth = xz + halfWidth;
-            //        tempHeight = yz + halfHeight;
-
-            //        if (tempWidth < 0)
-            //        {
-            //            if (tempHeight < 0)
-            //            {
-            //                demData[i * Parameters.RescaleSize + j] = heightMap[0][0];
-            //            }
-            //            else if (tempHeight + 1 >= height)
-            //            {
-            //                demData[i * Parameters.RescaleSize + j] = heightMap[height - 1][0];
-            //            }
-            //            else
-            //            {
-            //                int a = heightMap[tempHeight][0];
-            //                int b = heightMap[tempHeight][1];
-            //                int c = heightMap[tempHeight + 1][0];
-            //                int d = heightMap[tempHeight + 1][1];
-
-            //                demData[i * Parameters.RescaleSize + j] =
-            //                    (1 - q) * ((1 - p) * a + p * b) +
-            //                    q * ((1 - p) * c + p * d);
-            //            }
-            //        }
-            //        else if (tempWidth + 1 >= width)
-            //        {
-            //            if (tempHeight < 0)
-            //            {
-            //                demData[i * Parameters.RescaleSize + j] = heightMap[0][width - 1];
-            //            }
-            //            else if (tempHeight + 1 >= height)
-            //            {
-            //                demData[i * Parameters.RescaleSize + j] = heightMap[height - 1][width - 1];
-            //            }
-            //            else
-            //            {
-            //                int a = heightMap[tempHeight][width - 1];
-            //                int b = heightMap[tempHeight + 1][width - 1];
-
-            //                demData[i * Parameters.RescaleSize + j] = (1 - q) * a + q * b;
-            //            }
-            //        }
-            //        else
-            //        {
-            //            demData[i * Parameters.RescaleSize + j] =
-            //                (1 - q) * ((1 - p) * heightMap[tempHeight][tempWidth] + p * heightMap[tempHeight][tempWidth + 1]) +
-            //                q * ((1 - p) * heightMap[tempHeight + 1][tempWidth] + p * heightMap[tempHeight + 1][tempWidth + 1]);
-            //        }
-            //    }
-            //}
-
-            //Bitmap bmp = new Bitmap(Parameters.RescaleSize, Parameters.RescaleSize);
-
-            //BitmapData data = bmp.LockBits(new Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
-
-            //int* dst = (int*)data.Scan0;
-
-            //for (int i = 0; i < demData.Length; i++)
-            //{
-            //    int g = (int)(255 * demData[i]);
-
-            //    if (g < 0) g = 0;
-            //    if (g > 255) g = 255;
-
-            //    dst[i] = Color.FromArgb(g, 255 - g, 0).ToArgb();
-            //}
-
-            //bmp.UnlockBits(data);
-            //bmp.Save(dstStm, ImageFormat.Png);
-
-            //bmp.Dispose();
-
-            //dstStm.Close();
+            #endregion
 
 
             BinaryDataWriter result = new BinaryDataWriter();
@@ -491,12 +382,12 @@ namespace Plugin.GISTools
 
         public override string SourceDesc
         {
-            get { return "Elevation Data"; }
+            get { return "高程数据"; }
         }
 
         public override string DestDesc
         {
-            get { return "Displacement Map"; }
+            get { return "地形位移贴图"; }
         }
     }
 }

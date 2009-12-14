@@ -108,7 +108,7 @@ namespace Plugin.BitmapFontTools
 
         public override string Name
         {
-            get { return "Font Converter"; }
+            get { return "位图字体生成器"; }
         }
 
         public override string[] SourceExt

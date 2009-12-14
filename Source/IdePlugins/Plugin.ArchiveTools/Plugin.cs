@@ -29,7 +29,7 @@ namespace Plugin.ArchiveTools
 
         public string Name
         {
-            get { return "Archive Tools"; }
+            get { return "文件包工具"; }
         }
 
         public void Load()

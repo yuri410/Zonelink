@@ -29,7 +29,7 @@ namespace Plugin.BitmapFontTools
 
         public string Name
         {
-            get { return "Bitmap Font Tools"; }
+            get { return "位图字体工具"; }
         }
 
         public Icon PluginIcon

@@ -21,7 +21,7 @@ namespace Plugin.ArchiveTools
 
         public override string Name
         {
-            get { return "Lpk Packer"; }
+            get { return "Lpk打包工具"; }
         }
 
         public override string[] SourceExt
@@ -36,12 +36,12 @@ namespace Plugin.ArchiveTools
 
         public override string SourceDesc
         {
-            get { return "All Files"; }
+            get { return "所有文件"; }
         }
 
         public override string DestDesc
         {
-            get { return "Lpk Archive"; }
+            get { return "Lpk文件包"; }
         }
     }
 }
