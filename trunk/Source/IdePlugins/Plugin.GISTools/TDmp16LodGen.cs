@@ -28,9 +28,9 @@ namespace Plugin.GISTools
                 pd.Show();
                 for (int i = 0; i < files.Length; i++)
                 {
-                    string dest = Path.Combine(path, Path.GetFileNameWithoutExtension(files[i]) + ".tdmp");
+                    //string dest = Path.Combine(path, Path.GetFileNameWithoutExtension(files[i]) + ".tdmp");
 
-                    Convert(new DevFileLocation(files[i]), new DevFileLocation(dest));
+                    Convert(new DevFileLocation(files[i]), null);
 
                     pd.Value = i;
                     Application.DoEvents();
@@ -124,7 +124,8 @@ namespace Plugin.GISTools
 
                 float[] demData = Half.ConvertToSingle(srcData.Data);
 
-                int tw, th;
+                int tw = srcData.Width;
+                int th = srcData.Height;
 
                 int level = 0;
 
@@ -134,10 +135,11 @@ namespace Plugin.GISTools
 
                 do
                 {
-                    tw = srcData.Width / 2 + 1;
-                    th = srcData.Height / 2 + 1;
+                    tw = tw / 4 + 1;
+                    th = th / 4 + 1;
 
-                    demData = Resize(demData, srcData.Width, srcData.Height, tw, th);
+                    float[] levelData = Resize(demData, srcData.Width, srcData.Height, tw, th);
+                    
 
                     TDMP16IO result;
                     result.Width = tw;
@@ -147,12 +149,12 @@ namespace Plugin.GISTools
                     result.Xllcorner = srcData.Xllcorner;
                     result.Yllcorner = srcData.Yllcorner;
 
-                    result.Data = Half.ConvertToHalf(demData);
+                    result.Data = Half.ConvertToHalf(levelData);
 
                     fs = new FileStream(Path.Combine(dir, fn + "_" + level++.ToString() + ".tdmp"), FileMode.OpenOrCreate, FileAccess.Write);
                     result.Save(fs);
                 }
-                while (tw > 4 && th > 4);
+                while (tw > 10 && th > 10);
             }
         }
 
