@@ -13,6 +13,7 @@ namespace Plugin.GISTools
         DemConverter demConverter;
         TDmp32To8Converter tdmp32to8;
         TDmp32To16Converter tdmp32to16;
+        TDmp16LodGen tdmplod16;
 
         public void Load()
         {
@@ -28,7 +29,11 @@ namespace Plugin.GISTools
             {
                 tdmp32to16 = new TDmp32To16Converter();
             }
-
+            if (tdmplod16 != null) 
+            {
+                tdmplod16 = new TDmp16LodGen();
+            }
+            ConverterManager.Instance.Register(tdmplod16);
             ConverterManager.Instance.Register(demConverter);
             ConverterManager.Instance.Register(tdmp32to8);
             ConverterManager.Instance.Register(tdmp32to16);
@@ -39,6 +44,7 @@ namespace Plugin.GISTools
             ConverterManager.Instance.Unregister(demConverter);
             ConverterManager.Instance.Unregister(tdmp32to8);
             ConverterManager.Instance.Unregister(tdmp32to16);
+            ConverterManager.Instance.Unregister(tdmplod16);
         }
 
         public string Name
