@@ -22,6 +22,13 @@ namespace Code2015.EngineEx
 
             Frustum frus = camera.Frustum;
 
+            Vector3 dir;
+            Plane nearPlane;
+            frus.GetPlane(FrustumPlane.Near, out nearPlane);
+
+            dir = nearPlane.Normal;
+
+
             // do a BFS pass here
 
             queue.Enqueue(octRootNode);
@@ -33,7 +40,8 @@ namespace Code2015.EngineEx
                 Vector3 center = node.BoundingSphere.Center;
 
                 // if the node does't intersect the frustum we don't give a damn
-                if (frus.IntersectsSphere(ref center, node.BoundingSphere.Radius))
+                if (Vector3.Dot(ref dir, ref center) <= 0 &&
+                    frus.IntersectsSphere(ref center, node.BoundingSphere.Radius))
                 {
                     for (int i = 0; i < 2; i++)
                         for (int j = 0; j < 2; j++)
