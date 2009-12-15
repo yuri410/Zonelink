@@ -30,5 +30,11 @@ namespace Code2015.EngineEx
         }
 
         private TerrainMeshManager() { }
+
+        public const float TerrainScale = 1;
+
+        public const float HeightScale = 5500;
+        public const float ZeroLevel = 100;
+
     }
 }
