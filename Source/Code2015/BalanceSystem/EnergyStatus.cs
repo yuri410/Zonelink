@@ -8,6 +8,8 @@ namespace Code2015.BalanceSystem
 {
     class EnergyStatus : IUpdatable
     {
+        NaturalResource[] energyProduers;
+
         private float currentHPEnergy, currentLPEnergy, remainingLPEnergy, renmainingHPEnergy;
         public float CurrentHPEnergy
         {
@@ -30,7 +32,7 @@ namespace Code2015.BalanceSystem
             set { remainingLPEnergy = value; }
         }
 
-        NaturalResource[] energyProduers;
+      
         public void Update(GameTime time)
         { }
 

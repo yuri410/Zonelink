@@ -8,10 +8,16 @@ namespace Code2015.BalanceSystem
 {
     class CreationSpecies : IUpdatable
     {
-        public float Strength;
-        public int SpecyDiversity; //物种的多样性
-
-
+      
+        /// <summary>
+        /// 生物所拥有的生存领地面积
+        /// </summary>
+        public float CreationsArea
+        {
+            get;
+            set;
+        }
+       
         public void Update(GameTime time)
         { }
     }
