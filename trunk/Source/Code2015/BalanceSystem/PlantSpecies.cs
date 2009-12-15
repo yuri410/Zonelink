@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
@@ -11,7 +12,7 @@ namespace Code2015.BalanceSystem
         private float carbonTransformSpeed;
         private float humidityAdjust;
         private float desertificationAdjust;
-
+       
         /// <summary>
         ///  光合作用固化碳的速度
         /// </summary>
@@ -35,7 +36,15 @@ namespace Code2015.BalanceSystem
         {
             get { return desertificationAdjust; }
             set { desertificationAdjust = value; }
+        }  
+        public string Name
+        {
+            get;
+            set;
         }
-
+        public PlantSpecies(string name)
+        {
+            Name = name;
+        }
     }
 }

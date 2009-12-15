@@ -8,25 +8,34 @@ namespace Code2015.BalanceSystem
 {
     class NaturalResource : IUpdatable
     {
-        private float ProductSpeed;
-        private float TotalAmount;
-        private string ProductionType;
+       
+    
+        /// <summary>
+        /// 自然的资源生产速度
+        /// </summary>
+        public float ProductSpeed
+        {
+            get;
+            set;
+        }
+       
+        /// <summary>
+        /// 自然界总的资源
+        /// </summary>
+        public float TotalAmount
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 生产类型
+        /// </summary>
+        public string ProductType
+        {
+            get;
+            set;
+        }
 
-        public float setProductSpeed
-        {
-            get { return ProductSpeed; }
-            set { ProductSpeed = value; }
-        }
-        public float setTotalAmount
-        {
-            get { return TotalAmount; }
-            set { TotalAmount = value; }
-        }
-        public string setProductType
-        {
-            get { return ProductionType; }
-            set { ProductionType = value; }
-        }
         public NaturalResource()
         { }
 
