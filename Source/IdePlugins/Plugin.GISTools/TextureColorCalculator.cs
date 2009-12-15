@@ -70,8 +70,8 @@ namespace Plugin.GISTools
                 {
                     uint clr = src[i * bmp.Width + j];
 
-                    totalR += ((clr & 0x00ff000000) >> 16);
-                    totalB += ((clr & 0x0000ff0000) >> 8);
+                    totalR += ((clr & 0x00ff0000) >> 16);
+                    totalG += ((clr & 0x0000ff00) >> 8);
                     totalB += clr & 0xff;
                 }
             }
@@ -99,7 +99,7 @@ namespace Plugin.GISTools
 
         public override string[] SourceExt
         {
-            get { return new string[] { ".png", ".bmp" }; }
+            get { return new string[] { ".png", ".bmp", ".jpg" }; }
         }
 
         public override string[] DestExt
