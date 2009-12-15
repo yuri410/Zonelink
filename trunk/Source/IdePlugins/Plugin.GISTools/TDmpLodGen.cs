@@ -11,7 +11,7 @@ using Apoc3D.Vfs;
 
 namespace Plugin.GISTools
 {
-    class TDmp16LodGen : ConverterBase
+    class TDmpLodGen : ConverterBase
     {
         public override void ShowDialog(object sender, EventArgs e)
         {
@@ -40,7 +40,7 @@ namespace Plugin.GISTools
             }
         }
 
-        static float[] Resize(float[] inp, int width, int height, int tw, int th) 
+        public static float[] Resize(float[] inp, int width, int height, int tw, int th)
         {
             float[] result = new float[tw * th];
             float wzoom = width / (float)tw;
@@ -119,10 +119,10 @@ namespace Plugin.GISTools
                 string fn = Path.GetFileNameWithoutExtension(path);
 
 
-                TDMP16IO srcData = new TDMP16IO();
+                TDMPIO srcData = new TDMPIO();
                 srcData.Load(source);
 
-                float[] demData = Half.ConvertToSingle(srcData.Data);
+                float[] demData = srcData.Data;
 
                 int tw = srcData.Width;
                 int th = srcData.Height;
@@ -139,28 +139,29 @@ namespace Plugin.GISTools
                     th = th / 4 + 1;
 
                     float[] levelData = Resize(demData, srcData.Width, srcData.Height, tw, th);
-                    
 
-                    TDMP16IO result;
+
+                    TDMPIO result = new TDMPIO();
                     result.Width = tw;
                     result.Height = th;
                     result.XSpan = srcData.XSpan;
                     result.YSpan = srcData.YSpan;
                     result.Xllcorner = srcData.Xllcorner;
                     result.Yllcorner = srcData.Yllcorner;
+                    result.Bits = srcData.Bits;
 
-                    result.Data = Half.ConvertToHalf(levelData);
+                    result.Data = levelData;
 
                     fs = new FileStream(Path.Combine(dir, fn + "_" + level++.ToString() + ".tdmp"), FileMode.OpenOrCreate, FileAccess.Write);
                     result.Save(fs);
                 }
-                while (tw > 10 && th > 10);
+                while (tw > 32 && th > 32);
             }
         }
 
         public override string Name
         {
-            get { return "16位LOD地形数据生成器"; }
+            get { return "位LOD地形数据生成器"; }
         }
 
         public override string[] SourceExt

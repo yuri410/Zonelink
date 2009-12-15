@@ -9,14 +9,16 @@ using System.Text;
 using System.Windows.Forms;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
-using Apoc3D.Vfs;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
+using Apoc3D.Collections;
+using Apoc3D.Graphics;
 
 namespace Plugin.GISTools
 {
     class DemParameters
     {
-        const int DefaultRescaleSize = 3000;
+        const int DefaultRescaleSize = 4096;
         const float DefaultCellSize = 2;
         const float DefaultHeightScale = 5500;
         const int DefaultZeroLevel = 100;
@@ -68,14 +70,83 @@ namespace Plugin.GISTools
         }
     }
 
-    interface IItemProgressCallback 
+    interface IItemProgressCallback
     {
         void Invoke(int current, int total);
     }
 
-    class DemConverter : ConverterBase
+    unsafe class DemConverter : ConverterBase
     {
+        //class DataSetter
+        //{
+        //    float[] data;
+        //    int merge;
+        //    int width, height;
+
+        //    int unitWid, unitHgt;
+        //    int[] indexOfsX;
+        //    int[] indexOfsY;
+
+        //    public DataSetter(int w, int h, int uw, int uh, int merge)
+        //    {
+        //        this.unitHgt = uh;
+        //        this.unitWid = uw;
+
+        //        this.width = w;
+        //        this.height = h;
+        //        this.merge = merge;
+        //        this.data = new float[w * h];
+
+        //        indexOfsX = new int[4];
+        //        indexOfsY = new int[4];
+        //        indexOfsX[1] = unitWid;
+        //        indexOfsX[3] = unitWid;
+
+        //        indexOfsY[2] = unitHgt;
+        //        indexOfsY[3] = unitHgt;
+
+        //    }
+
+        //    public float[] Data { get { return data; } }
+
+        //    public void SetDem(int uw, int uh)
+        //    {
+        //        this.unitHgt = uh;
+        //        this.unitWid = uw;
+
+        //        indexOfsX[1] = unitWid;
+        //        indexOfsX[3] = unitWid;
+
+        //        indexOfsY[2] = unitHgt;
+        //        indexOfsY[3] = unitHgt;
+
+        //    }
+
+        //    public int CurrentIndex
+        //    {
+        //        get;
+        //        set;
+        //    }
+
+        //    public float this[int y, int x]
+        //    {
+        //        get { return data[(y + indexOfsY[CurrentIndex]) * width + x + indexOfsX[CurrentIndex]]; }
+        //        set { data[(y + indexOfsY[CurrentIndex]) * width + x + indexOfsX[CurrentIndex]] = value; }
+        //    }
+        //    public float this[int i]
+        //    {
+        //        get { return data[i]; }
+        //        set { data[i] = value; }
+        //    }
+
+        //    public int Length
+        //    {
+        //        get { return data.Length; }
+        //    }
+        //}
+
         const int NoValue = -9999;
+       
 
         public IItemProgressCallback ProgressCBK
         {
@@ -93,7 +164,6 @@ namespace Plugin.GISTools
             DemConvDlg dlg = new DemConvDlg(this);
             dlg.ShowDialog();
         }
-
 
         int ParseInt(string s, int begin, int l, int nodVal)
         {
@@ -125,7 +195,7 @@ namespace Plugin.GISTools
             return result;
         }
 
-        unsafe void Split(string str, int[] array, int nodVal)
+        void Split(string str, int[] array, int nodVal)
         {
             int lastSepPos = 0;
             int len;
@@ -159,10 +229,12 @@ namespace Plugin.GISTools
             }
         }
 
-        unsafe void ConvertDem(Stream srcStm, Stream dstStm)
+        public override void Convert(ResourceLocation source, ResourceLocation dest)
         {
-            StreamReader sr = new StreamReader(srcStm, Encoding.Default);
-            
+            int resSize = Parameters.RescaleSize;
+
+            StreamReader sr = new StreamReader(source.GetStream, Encoding.Default);
+
             int width = -1;
             int height = -1;
 
@@ -175,6 +247,7 @@ namespace Plugin.GISTools
 
             int[][] heightMap = null;
 
+            #region 读取SRTM
             int row = 0;
 
             char[] sep = new char[] { ' ' };
@@ -263,26 +336,32 @@ namespace Plugin.GISTools
             {
                 ProgressCBK.Invoke(width, width + 100);
             }
+            #endregion
 
             float invHeightScale = 1.0f / Parameters.HeightScale;
 
-            
+
+            //Bitmap bmp = new Bitmap(Parameters.RescaleSize, Parameters.RescaleSize);
+            //BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, Parameters.RescaleSize, Parameters.RescaleSize), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+            //ColorValue* bdst = (ColorValue*)bmpData.Scan0;
+
             float[] demData = new float[Parameters.RescaleSize * Parameters.RescaleSize];
 
             #region 三次卷积
-            float wzoom = width / (float)Parameters.RescaleSize;
-            float hzoom = height / (float)Parameters.RescaleSize;
+            float wzoom = width / (float)resSize;
+            float hzoom = height / (float)resSize;
 
             int[] buffer = new int[16];
             float[] afu = new float[4];
             float[] afv = new float[4];
 
-            for (int i = 0; i < Parameters.RescaleSize; i++)
+            for (int i = 0; i < resSize; i++)
             {
                 float srcy = (i + 0.5f) * hzoom - 0.5f;
                 int y0 = (int)srcy; if (y0 > srcy) --y0;
-  
-                for (int j = 0; j < Parameters.RescaleSize; j++)
+
+                for (int j = 0; j < resSize; j++)
                 {
                     float srcx = (j + 0.5f) * wzoom - 0.5f;
 
@@ -328,6 +407,9 @@ namespace Plugin.GISTools
                     }
 
                     demData[i * Parameters.RescaleSize + j] = s * invHeightScale;
+
+                    //byte c = (byte)(255 * s * invHeightScale);
+                    //bdst[i * Parameters.RescaleSize + j] = new ColorValue(c, c, c);
                 }
             }
 
@@ -335,34 +417,25 @@ namespace Plugin.GISTools
             {
                 ProgressCBK.Invoke(width + 100, width + 100);
             }
+            //bmp.UnlockBits(bmpData);
+            //bmp.Save(@"E:\Desktop\sss.png", ImageFormat.Png);
+
+            //bmp.Dispose();
+
             #endregion
 
+            TDMPIO result = new TDMPIO();
 
-            BinaryDataWriter result = new BinaryDataWriter();
+            result.Xllcorner = xllcorner;
+            result.Yllcorner = yllcorner;
+            result.Width = resSize;
+            result.Height = resSize;
+            result.XSpan = 5;
+            result.YSpan = 5;
+            result.Bits = 32;
 
-            result.AddEntry("xllcorner", xllcorner);
-            result.AddEntry("yllcorner", yllcorner);
-            result.AddEntry("width", Parameters.RescaleSize);
-            result.AddEntry("height", Parameters.RescaleSize);
-
-            Stream dataStream = result.AddEntryStream("data");
-
-            ContentBinaryWriter bw = new ContentBinaryWriter(dataStream);
-            for (int i = 0; i < demData.Length; i++)
-            {
-                bw.Write(demData[i]);
-            }
-
-            bw.Close();
-
-            bw = new ContentBinaryWriter(dstStm);
-            bw.Write(result);
-            bw.Close();
-        }
-
-        public override void Convert(ResourceLocation source, ResourceLocation dest)
-        {
-            ConvertDem(source.GetStream, dest.GetStream);
+            result.Data = demData;
+            result.Save(dest.GetStream);
         }
 
         public override string Name

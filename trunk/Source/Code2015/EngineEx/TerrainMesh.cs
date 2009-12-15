@@ -38,7 +38,7 @@ namespace Code2015.EngineEx
 
         protected override void load()
         {
-            TDMP16IO data = new TDMP16IO();
+            TDMPIO data = new TDMPIO();
             data.Load(resLoc);
 
             MeshData meshData = new MeshData(renderSystem);

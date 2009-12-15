@@ -4,6 +4,8 @@ using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
+using System.Windows.Forms;
+using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
 using Apoc3D.Vfs;
 
@@ -11,10 +13,23 @@ namespace Plugin.GISTools
 {
     unsafe class ImageRemerger : ConverterBase
     {
+        string srcDir;
 
         public override void ShowDialog(object sender, EventArgs e)
         {
-            throw new NotImplementedException();
+            FolderBrowserDialog dlg = new FolderBrowserDialog();
+            dlg.Description = "选择输入目录";
+
+            if (dlg.ShowDialog()== DialogResult.OK)
+            {
+                SaveFileDialog fdlg = new SaveFileDialog();
+
+                if (fdlg.ShowDialog() == DialogResult.OK) 
+                {
+                    srcDir = dlg.SelectedPath;
+                    Convert(null, new DevFileLocation(fdlg.FileName));
+                }
+            }
         }
 
         public override void Convert(ResourceLocation source, ResourceLocation dest)
@@ -27,7 +42,7 @@ namespace Plugin.GISTools
             int ofsY = 0;
             for (int i = 4; i >= 0; i--)
             {
-                string[] files = Directory.GetFiles(@"D:\BMNG\BMNG (Shaded + Bathymetry) Tiled - 10.2004\0\000" + i.ToString() + "\\", "*.*");
+                string[] files = Directory.GetFiles(Path.Combine(srcDir, "000" + i.ToString() + "\\"), "*.*");
 
                 for (int j = 0; j < 10; j++)
                 {
@@ -60,35 +75,36 @@ namespace Plugin.GISTools
 
             bmp.UnlockBits(data);
 
-            bmp.Save(@"E:\Desktop\clr.png");
-
+            Stream stm = dest.GetStream;
+            bmp.Save(stm, ImageFormat.Png);
+            stm.Close();
 
             bmp.Dispose();
         }
 
         public override string Name
         {
-            get { throw new NotImplementedException(); }
+            get { return "卫星图像拼接器"; }
         }
 
         public override string[] SourceExt
         {
-            get { throw new NotImplementedException(); }
+            get { return new string[] { ".jpg" }; }
         }
 
         public override string[] DestExt
         {
-            get { throw new NotImplementedException(); }
+            get { return new string[] { ".png" }; }
         }
 
         public override string SourceDesc
         {
-            get { throw new NotImplementedException(); }
+            get { return "Image"; }
         }
 
         public override string DestDesc
         {
-            get { throw new NotImplementedException(); }
+            get { return "Image"; }
         }
     }
 }
