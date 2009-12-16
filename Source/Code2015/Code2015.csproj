@@ -194,7 +194,6 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="CompileShader.bat" />
-    <None Include="Content.contentproj" />
     <None Include="Effects\terrain.ps" />
     <None Include="Effects\terrain.vs" />
     <None Include="Properties\Settings.settings">
