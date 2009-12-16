@@ -1,16 +1,7 @@
-﻿struct PSInput
-{
-	float2 TexCoord1 : TEXCOORD0; 
-};
 
-struct PSOutput
-{
-    float4 Color : COLOR;
-};
+float4x4 mvp : register(c0);
 
-PSOutput main(PSInput ip)
+void main(float3 ip: POSITION, out float4 op : POSITION)
 {
-	PSOutput out;
-	out.Color = 1;
-	return out;
+    op = mul(mvp, ip);
 }
