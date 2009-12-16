@@ -2,12 +2,13 @@
 {
 	float2 TexCoord1 : TEXCOORD0; 
 };
+
 struct PSOutput
 {
     float4 Color : COLOR;
 };
 
-PSOutput Main(PSInput ip)
+PSOutput main(PSInput ip)
 {
 	PSOutput out;
 	out.Color = 1;

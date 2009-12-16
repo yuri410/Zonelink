@@ -12,7 +12,7 @@ struct VSOutput
 	float2 TexCoord1 : TEXCOORD0; 
 };
 
-VSOutput Main(VSInput ip)
+VSOutput main(VSInput ip)
 {
 	VSOutput out;
     out.Position = mul(mvp, ip.Position);
