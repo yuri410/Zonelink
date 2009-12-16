@@ -54,9 +54,6 @@ namespace Code2015.EngineEx
         VertexDeclaration vtxDecl;
         VertexBuffer vtxBuffer;
 
-        VertexBuffer testVB;
-        IndexBuffer testIB;
-
         IndexBuffer[] indexBuffer = new IndexBuffer[LocalLodCount];
 
 
@@ -105,7 +102,8 @@ namespace Code2015.EngineEx
             this.bfsQueue = new Queue<TerrainTreeNode>();
             this.opBuffer = new FastList<RenderOperation>();
 
-            resLoc = FileSystem.Instance.TryLocate("tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, FileLocateRule.Default);// GameFileLocs.Terrain);
+            resLoc = FileSystem.Instance.TryLocate(
+                "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
             dataLevel = lod;
             renderSystem = rs;
             factory = rs.ObjectFactory;
@@ -141,39 +139,9 @@ namespace Code2015.EngineEx
             int vertexCount = edgeVtxCount * edgeVtxCount;
 
             ResourceInterlock.EnterAtomicOp();
-            vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
-            testVB = factory.CreateVertexBuffer(16, vtxDecl, BufferUsage.WriteOnly);
-
-            TerrainVertex* testVtx = (TerrainVertex*)testVB.Lock(LockMode.None);
-            for (int i = 0; i < 4; i++) 
-            {
-                for (int j = 0; j < 4; j++)
-                {
-                    testVtx[i * 4 + j].Position = new Vector3(i, 0, j);
-                }
-            }
-            testVB.Unlock();
-
-            //testIB = factory.CreateIndexBuffer(IndexBufferType.Bit32, 4, BufferUsage.WriteOnly);
-            //int* iptr = (int*)testIB.Lock(0, 0, LockMode.None);
-            
-            //*iptr++ = 0;
-            //*iptr++ = 1;
-            //*iptr++ = 2;
-
-            //*iptr++ = 0;
-            //*iptr++ = 2;
-            //*iptr++ = 3;
-
-
-            //testIB.Unlock();
-
-            ResourceInterlock.ExitAtomicOp();
-
-
-            ResourceInterlock.EnterAtomicOp();
             try
             {
+                vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
 
                 vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
                 TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
@@ -271,7 +239,7 @@ namespace Code2015.EngineEx
 
         float ComputeTerrainHeight(float inp)
         {
-            return 0;// inp * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+            return 0.1f * inp * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
         }
         TerrainBlock defBlk;
 
@@ -387,89 +355,74 @@ namespace Code2015.EngineEx
             if (State == ResourceState.Loaded)
             {
                 opBuffer.Clear();
-                
 
-                RenderOperation op;
 
-                op.Material = material;
-                op.Geomentry = defBlk.GeoData;
+                Frustum frus = cam.Frustum;
+                Vector3 camPos = cam.Position;
 
-                op.Geomentry.PrimitiveType = RenderPrimitiveType.PointList;
-                //op.Geomentry.IndexBuffer = defBlk.IndexBuffers[0];
-                op.Geomentry.PrimCount = 16;// levelVertexCount[0]; //levelPrimConut[0];// levelLengths[lodLevel] * levelLengths[lodLevel] * 2;
-                op.Geomentry.VertexCount = 16;// levelVertexCount[0];// MathEx.Sqr(levelLengths[lodLevel] + 1);
+                Vector3 c = rootNode.BoundingVolume.Center;
 
-                op.Transformation = Matrix.Identity;
+                if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
+                {
+                    bfsQueue.Enqueue(rootNode);
 
-                opBuffer.Add(op);
+                    while (bfsQueue.Count > 0)
+                    {
+                        TerrainTreeNode node = bfsQueue.Dequeue();
+                        TerrainTreeNode[] nodes = node.Children;
 
-                //Frustum frus = cam.Frustum;
-                //Vector3 camPos = cam.Position;
+                        if (nodes != null)
+                        {
+                            // 遍历子节点
+                            for (int i = 0; i < node.Children.Length; i++)
+                            {
+                                c = node.Children[i].BoundingVolume.Center;
 
-                //Vector3 c = rootNode.BoundingVolume.Center;
+                                if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
+                                {
+                                    bfsQueue.Enqueue(node.Children[i]);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (node.Block != null)
+                            {
+                                c = node.BoundingVolume.Center;
 
-                //if (true)//frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
-                //{
-                //    bfsQueue.Enqueue(rootNode);
+                                if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
+                                {
+                                    float dist = MathEx.DistanceSquared(ref c, ref camPos);
 
-                //    while (bfsQueue.Count > 0)
-                //    {
-                //        TerrainTreeNode node = bfsQueue.Dequeue();
-                //        TerrainTreeNode[] nodes = node.Children;
+                                    RenderOperation op;
 
-                //        if (nodes != null)
-                //        {
-                //            // 遍历子节点
-                //            for (int i = 0; i < node.Children.Length; i++)
-                //            {
-                //                c = node.Children[i].BoundingVolume.Center;
+                                    op.Material = material;
+                                    op.Geomentry = node.Block.GeoData;
 
-                //                if (true)//frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
-                //                {
-                //                    bfsQueue.Enqueue(node.Children[i]);
-                //                }
-                //            }
-                //        }
-                //        else
-                //        {
-                //            if (node.Block != null)
-                //            {
-                //                c = node.BoundingVolume.Center;
+                                    int lodLevel = 3;
 
-                //                if (true)//frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
-                //                {
-                //                    float dist = MathEx.DistanceSquared(ref c, ref camPos);
+                                    for (int lod = 0; lod < 4; lod++)
+                                    {
+                                        if (dist <= lodLevelThreshold[3 - lod])
+                                        {
+                                            lodLevel = lod;
+                                            break;
+                                        }
+                                    }
 
-                //                    RenderOperation op;
+                                    op.Geomentry.IndexBuffer = node.Block.IndexBuffers[lodLevel];
+                                    op.Geomentry.PrimCount = levelPrimConut[lodLevel];// levelLengths[lodLevel] * levelLengths[lodLevel] * 2;
+                                    op.Geomentry.VertexCount = levelVertexCount[lodLevel];// MathEx.Sqr(levelLengths[lodLevel] + 1);
 
-                //                    op.Material = material;
-                //                    op.Geomentry = node.Block.GeoData;
+                                    op.Transformation = Matrix.Identity;
 
-                //                    int lodLevel = 0;
-                //                    //int lodLevel = 3;
+                                    opBuffer.Add(op);
+                                }
+                            }
+                        }
 
-                //                    //for (int lod = 0; lod < 4; lod++)
-                //                    //{
-                //                    //    if (dist <= lodLevelThreshold[3 - lod])
-                //                    //    {
-                //                    //        lodLevel = lod;
-                //                    //        break;
-                //                    //    }
-                //                    //}
-
-                //                    op.Geomentry.IndexBuffer = node.Block.IndexBuffers[lodLevel];
-                //                    op.Geomentry.PrimCount = levelPrimConut[lodLevel];// levelLengths[lodLevel] * levelLengths[lodLevel] * 2;
-                //                    op.Geomentry.VertexCount = levelVertexCount[lodLevel];// MathEx.Sqr(levelLengths[lodLevel] + 1);
-
-                //                    op.Transformation = Matrix.Identity;
-
-                //                    opBuffer.Add(op);
-                //                }
-                //            }
-                //        }
-
-                //    }
-                //}
+                    }
+                }
             }
         }
 

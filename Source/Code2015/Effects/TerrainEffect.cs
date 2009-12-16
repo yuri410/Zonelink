@@ -99,11 +99,8 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix p = EffectParams.CurrentCamera.ProjectionMatrix;
-            
-            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * p;
+            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
-            //Matrix.Transpose(ref mvp, out mvp);
             vtxShader.SetValue("mvp", ref mvp);            
         }
 
