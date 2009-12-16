@@ -194,6 +194,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="CompileShader.bat" />
+    <None Include="Content.contentproj" />
     <None Include="dx_setenv.cmd" />
     <None Include="Effects\terrain.ps" />
     <None Include="Effects\terrain.vs" />
@@ -214,4 +215,8 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>
+    </PostBuildEvent>
+  </PropertyGroup>
 </Project>
