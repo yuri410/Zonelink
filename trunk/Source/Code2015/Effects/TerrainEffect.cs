@@ -4,6 +4,9 @@ using System.Linq;
 using System.Text;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
@@ -41,30 +44,47 @@ namespace Code2015.Effects
     {
         RenderSystem renderSystem;
 
+
+        PixelShader pixShader;
+        VertexShader vtxShader;
+
         public TerrainEffect(RenderSystem renderSystem)
             : base(false, TerrainEffectFactory.Name)
         {
+            this.renderSystem = renderSystem;
+
+            FileLocation fl = FileSystem.Instance.Locate("terrain.cvs", GameFileLocs.Effects);
+            vtxShader = LoadVertexShader(renderSystem, fl);
+
+
+            fl = FileSystem.Instance.Locate("terrain.cps", GameFileLocs.Effects);
+            pixShader = LoadPixelShader(renderSystem, fl);
 
         }
 
         protected override int begin()
         {
-            throw new NotImplementedException();
+            renderSystem.BindShader(vtxShader);
+            renderSystem.BindShader(pixShader);
+
+            return 1;
         }
 
         protected override void end()
         {
-            throw new NotImplementedException();
+            renderSystem.BindShader((VertexShader)null);
+            renderSystem.BindShader((PixelShader)null);
+
         }
 
         public override void BeginPass(int passId)
         {
-            throw new NotImplementedException();
+
         }
 
         public override void EndPass()
         {
-            throw new NotImplementedException();
+
         }
 
         public override void BeginShadowPass()
@@ -79,7 +99,8 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            throw new NotImplementedException();
+            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+            vtxShader.SetValue("mvp", ref mvp);            
         }
 
         public override void SetupShadowPass(Material mat, ref RenderOperation op)
@@ -89,7 +110,7 @@ namespace Code2015.Effects
 
         protected override void Dispose(bool disposing)
         {
-            throw new NotImplementedException();
+
         }
     }
 }
