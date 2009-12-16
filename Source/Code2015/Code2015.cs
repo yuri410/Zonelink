@@ -57,7 +57,7 @@ namespace Code2015
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
             renderer.RegisterCamera(camera);
-            camera.Position = new Vector3(0, 2, 0);
+            camera.Position = new Vector3(0, 0, 0);
 
             camera.NearPlane = 1;
             camera.FarPlane = 1000;
@@ -252,6 +252,14 @@ namespace Code2015
             if (GetAsyncKeyState(VKeys.VK_CONTROL))
             {
                 camera.MoveDown();
+            } 
+            if (GetAsyncKeyState(VKeys.VK_LEFT))
+            {
+                camera.TurnLeft();
+            }
+            if (GetAsyncKeyState(VKeys.VK_RIGHT))
+            {
+                camera.TurnRight();
             }
             camera.Update(time.ElapsedGameTime);
 
