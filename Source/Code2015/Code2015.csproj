@@ -105,6 +105,7 @@
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
+    <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
@@ -192,6 +193,10 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
+    <None Include="CompileShader.bat" />
+    <None Include="dx_setenv.cmd" />
+    <None Include="Effects\terrain.ps" />
+    <None Include="Effects\terrain.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
