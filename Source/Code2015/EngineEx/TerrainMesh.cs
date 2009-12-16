@@ -336,7 +336,7 @@ namespace Code2015.EngineEx
             }
         }
 
-        public override void PrepareVisibleObjects(ICamera cam)
+        public void PrepareVisibleObjects(ICamera cam)
         {
             opBuffer.Clear();
 
