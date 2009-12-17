@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
-using Apoc3D.Core;
 
 namespace Code2015.World
 {

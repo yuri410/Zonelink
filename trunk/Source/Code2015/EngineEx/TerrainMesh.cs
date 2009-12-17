@@ -239,7 +239,7 @@ namespace Code2015.EngineEx
 
         float ComputeTerrainHeight(float inp)
         {
-            return 0.1f * inp * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+            return 0.005f * inp * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
         }
         TerrainBlock defBlk;
 
