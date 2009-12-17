@@ -10,28 +10,43 @@ namespace Code2015.BalanceSystem
     class LocalEcoSystem : IUpdatable, ICarbon
     {
         private float age, humidity, fertility, desertification;
-
+        
         private bool balanced;
+        /// <summary>
+        /// 局部生态系统的存在时间
+        /// </summary>
         public float Age
         {
             get { return age; }
             set { age = value; }
         }
+        /// <summary>
+        /// 局部生态系统湿度调整系数
+        /// </summary>
         public float Humidity
         {
             get { return humidity; }
             set { humidity = value; }
         }
+        /// <summary>
+        /// 动物使土壤肥沃程度
+        /// </summary>
         public float Fertility
         {
             get { return fertility; }
             set { fertility = value; }
         }
+        /// <summary>
+        /// 沙漠化调整系数
+        /// </summary>
         public float Desertification
         {
             get { return desertification; }
             set { desertification = value; }
         }
+        /// <summary>
+        ///局部生态系统是否平衡
+        /// </summary>
         public bool Balanced
         {
             get { return balanced; }
@@ -45,9 +60,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        /// <summary>
-        /// 植物有草，灌木，树
-        /// </summary>
+      
         FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
        
         /// <summary>
@@ -55,40 +68,36 @@ namespace Code2015.BalanceSystem
         /// </summary>
         FastList<AnimalSpecies> animals = new FastList<AnimalSpecies>();
 
-
-        /// <summary>
-        /// 植物的面积和本地生态系统的面积之间的比例决定植物的各个因素对系统的影响
-        /// </summary>
-        
-        public void SetPlantFactor(PlantSpecies plant, LocalEcoSystem local)
+        public LocalEcoSystem GetFactors(PlantSpecies plant, AnimalSpecies animal,LocalEcoSystem local)
         {
-             FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
-             
-            if (plant.CreationsArea > local.LocalSysArea / 4)
+            local.Desertification = animal.FertilisingSpeed;
+            local.Humidity = plant.HumidityAdjust;
+            local.Desertification = plant.DesertificationAdjust;
+            return local;
+        }
+
+        public bool IsBalanced(LocalEcoSystem local)
+        {
+            if (local.Desertification > 0.5 && local.Humidity > 0.5 && local.Fertility >= 80)
             {
-                plant.CarbonTransformSpeed = 300;
-                plant.HumidityAdjust = 0.8f;
-                plant.DesertificationAdjust = 0.8f;
-            }
-            else if (local.LocalSysArea / 6 < plant.CreationsArea && (plant.CreationsArea < local.LocalSysArea / 4))
-            {
-                plant.CarbonTransformSpeed = 200;
-                plant.HumidityAdjust = 0.6f;
-                plant.DesertificationAdjust = 0.6f;
+                return local.Balanced = true;
             }
             else
             {
-                plant.CarbonTransformSpeed = 100;
-                plant.HumidityAdjust = 0.3f;
-                plant.DesertificationAdjust = 0.3f;
+                return local.Balanced = false;
             }
+
         }
+
+     
+       
+       
         
         /// <summary>
         /// 动物因素对本地生态系统的影响
         /// </summary>
        
-
+        
         public void Update(GameTime time)
         { 
             

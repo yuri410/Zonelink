@@ -6,7 +6,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    //植物物种，有CO2的转换速度，湿度适应力，干燥适应力
+   
     class PlantSpecies : CreationSpecies
     {
         private float carbonTransformSpeed;
@@ -45,6 +45,27 @@ namespace Code2015.BalanceSystem
         public PlantSpecies(string name)
         {
             Name = name;
+        }
+        public void GetPlantsFactors(PlantSpecies plant,LocalEcoSystem local)
+        {
+            if (plant.CreationsArea > local.LocalSysArea / 3)
+            {
+                plant.CarbonTransformSpeed = 400;
+                plant.HumidityAdjust = 1.0f;
+                plant.DesertificationAdjust = 1.0f;
+            }
+            else if ((plant.CreationsArea > local.LocalSysArea / 5) && (plant.CreationsArea <= local.LocalSysArea / 3))
+            {
+                plant.CarbonTransformSpeed = 300;
+                plant.HumidityAdjust = 0.7f;
+                plant.DesertificationAdjust = 0.7f;
+            }
+            else
+            {
+                plant.CarbonTransformSpeed = 150;
+                plant.HumidityAdjust = 0.4f;
+                plant.DesertificationAdjust = 0.4f;
+            }
         }
     }
 }

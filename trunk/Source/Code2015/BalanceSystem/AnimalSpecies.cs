@@ -42,5 +42,26 @@ namespace Code2015.BalanceSystem
         {
             Name = name;
         }
+
+        public void GetAniSpeed(PlantSpecies plant, AnimalSpecies animal, LocalEcoSystem local)
+        {
+            if (plant.CreationsArea > local.LocalSysArea / 3)
+            {
+                animal.FertilisingSpeed = 100;
+                animal.BreedSpeed = 0.01f;
+                animal.DeadSpeed = 0;
+            }
+            else if (plant.CreationsArea < local.LocalSysArea / 5)
+            {
+                animal.FertilisingSpeed = 50;
+                animal.BreedSpeed = 0;
+                animal.DeadSpeed = 0.1f;
+            }
+            else
+            {
+                animal.FertilisingSpeed = 80;
+                animal.BreedSpeed = animal.DeadSpeed = 0;
+            }
+        }
     }
 }
