@@ -14,12 +14,11 @@ namespace Code2015.World
     {
         ResourceHandle<TerrainMesh> terrain;
 
-        public TerrainTile(RenderSystem rs)
+        public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain = TerrainMeshManager.Instance.CreateInstance(rs, 59, 5, 0);
+            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
 
-            BoundingSphere.Radius = float.MaxValue;
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -39,8 +38,7 @@ namespace Code2015.World
 
         public override void Update(float dt)
         {
-            
-
+            BoundingSphere = terrain.Resource.BoundingSphere;
         }
 
         public override bool IsSerializable
