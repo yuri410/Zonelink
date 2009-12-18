@@ -60,7 +60,7 @@ namespace Code2015
             camera.Position = new Vector3(0, 0, 0);
 
             camera.NearPlane = 1;
-            camera.FarPlane = 1000;
+            camera.FarPlane = 10000;
             
         }
 
