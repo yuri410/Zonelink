@@ -43,8 +43,6 @@ namespace Code2015.EngineEx
             }
         }
 
-        //static readonly int[] AuxLodSize = new int[] { 513, 129, 33, 9 };
-        //static readonly int[] DataLodSize = new int[] { 1025, 257, 65, 17 };
 
         FileLocation resLoc;
 
@@ -62,6 +60,8 @@ namespace Code2015.EngineEx
         RenderSystem renderSystem;
         ObjectFactory factory;
 
+        GeomentryData noDataGeo;
+
         Queue<TerrainTreeNode> bfsQueue;
         TerrainTreeNode rootNode;
 
@@ -69,7 +69,9 @@ namespace Code2015.EngineEx
 
         Material material;
 
-        BoundingSphere BoundingSphere;
+        public BoundingSphere BoundingSphere;
+        public Matrix Transformation = Matrix.Identity;
+
 
         int blockCount;
         int blockEdgeCount;
@@ -119,6 +121,7 @@ namespace Code2015.EngineEx
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
         }
 
+        #region Resource实现
         public override int GetSize()
         {
             return dataEdgeSize * dataEdgeSize * TerrainVertex.Size;
@@ -126,128 +129,178 @@ namespace Code2015.EngineEx
 
         protected override void load()
         {
-            TDMPIO data = new TDMPIO();
-            data.Load(resLoc);
-
-            MeshData meshData = new MeshData(renderSystem);
-
-            #region 顶点数据
-
-            dataEdgeSize = data.Width;
-
-            int edgeVtxCount = dataEdgeSize;
-            int vertexCount = edgeVtxCount * edgeVtxCount;
-
-            ResourceInterlock.EnterAtomicOp();
-            try
+            if (resLoc == null)
             {
-                vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
-
-                vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
-                TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
-
-                for (int i = 0; i < edgeVtxCount; i++)
-                {
-                    for (int j = 0; j < edgeVtxCount; j++)
-                    {
-                        vertices[i * edgeVtxCount + j].Position =
-                            new Vector3(j * TerrainMeshManager.TerrainScale,
-                                ComputeTerrainHeight(data.Data[i * edgeVtxCount + j]),
-                                i * TerrainMeshManager.TerrainScale);
-                    }
-                }
-
-                vtxBuffer.Unlock();
-            }
-            finally
-            {
-                ResourceInterlock.ExitAtomicOp();
-            }
-
-            #endregion
-
-            #region 索引数据
-            int blockEdgeLen = TerrainBlockSize - 1;
-            int edgeLen = edgeVtxCount - 1;
-            this.blockEdgeCount = edgeLen / blockEdgeLen;
-            this.blockCount = MathEx.Sqr(blockEdgeCount);
-
-            levelLengths = new int[LocalLodCount];
-            cellSpan = new int[LocalLodCount];
-            lodLevelThreshold = new float[LocalLodCount];
-
-            levelPrimConut = new int[LocalLodCount];
-            levelVertexCount = new int[LocalLodCount];
-
-            for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
-            {
-                int cellLength = blockEdgeLen / levelLength;
-
-
-                lodLevelThreshold[k] = (edgeVtxCount * MathEx.Root2 * 0.25f) / (float)(k + 1);
-                lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
-
-                cellSpan[k] = cellLength;
-                levelLengths[k] = levelLength;
-
-                int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
-
-                levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
-                levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
-
                 ResourceInterlock.EnterAtomicOp();
                 try
                 {
-                    indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+                    vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
+                    vtxBuffer = factory.CreateVertexBuffer(4, vtxDecl, BufferUsage.WriteOnly);
+                    TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
 
-                    int* iptr = (int*)indexBuffer[k].Lock(0, 0, LockMode.None);
+                    vertices[0].Position = new Vector3(0, 0, 0);
+                    vertices[2].Position = new Vector3(dataEdgeSize, 0, dataEdgeSize);
+                    vertices[1].Position = new Vector3(dataEdgeSize, 0, 0);
+                    vertices[3].Position = new Vector3(0, 0, dataEdgeSize);
 
-                    for (int i = 0; i < levelLength; i++)
-                    {
-                        for (int j = 0; j < levelLength; j++)
-                        {
-                            int x = i * cellLength;
-                            int y = j * cellLength;
-
-                            (*iptr) = y * edgeVtxCount + x;
-                            iptr++;
-                            (*iptr) = y * edgeVtxCount + (x + cellLength);
-                            iptr++;
-                            (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
-                            iptr++;
-
-                            (*iptr) = y * edgeVtxCount + x;
-                            iptr++;
-                            (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
-                            iptr++;
-                            (*iptr) = (y + cellLength) * edgeVtxCount + x;
-                            iptr++;
-                        }
-                    }
-                    indexBuffer[k].Unlock();
+                    vtxBuffer.Unlock();
                 }
                 finally
                 {
                     ResourceInterlock.ExitAtomicOp();
                 }
+
+                noDataGeo = new GeomentryData(this);
+                noDataGeo.VertexDeclaration = vtxDecl;
+
+                noDataGeo.VertexSize = TerrainVertex.Size;
+                noDataGeo.VertexBuffer = vtxBuffer;
+                noDataGeo.PrimCount = 2;
+                noDataGeo.VertexCount = 4;
+
+                noDataGeo.PrimitiveType = RenderPrimitiveType.TriangleStrip;
+
+                noDataGeo.BaseVertex = 0;
+
             }
-            #endregion
+            else
+            {
+                TDMPIO data = new TDMPIO();
+                data.Load(resLoc);
 
-            BuildTerrainTree(data.Data, blockEdgeCount);
+                MeshData meshData = new MeshData(renderSystem);
 
+                #region 顶点数据
+
+                dataEdgeSize = data.Width;
+
+                int edgeVtxCount = dataEdgeSize;
+                int vertexCount = edgeVtxCount * edgeVtxCount;
+
+                ResourceInterlock.EnterAtomicOp();
+                try
+                {
+                    vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
+
+                    vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
+                    TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
+
+                    for (int i = 0; i < edgeVtxCount; i++)
+                    {
+                        for (int j = 0; j < edgeVtxCount; j++)
+                        {
+                            vertices[i * edgeVtxCount + j].Position =
+                                new Vector3(j * TerrainMeshManager.TerrainScale,
+                                    ComputeTerrainHeight(data.Data[i * edgeVtxCount + j]),
+                                    i * TerrainMeshManager.TerrainScale);
+                        }
+                    }
+
+                    vtxBuffer.Unlock();
+                }
+                finally
+                {
+                    ResourceInterlock.ExitAtomicOp();
+                }
+
+                #endregion
+
+                #region 索引数据
+                int blockEdgeLen = TerrainBlockSize - 1;
+                int edgeLen = edgeVtxCount - 1;
+                this.blockEdgeCount = edgeLen / blockEdgeLen;
+                this.blockCount = MathEx.Sqr(blockEdgeCount);
+
+                levelLengths = new int[LocalLodCount];
+                cellSpan = new int[LocalLodCount];
+                lodLevelThreshold = new float[LocalLodCount];
+
+                levelPrimConut = new int[LocalLodCount];
+                levelVertexCount = new int[LocalLodCount];
+
+                for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
+                {
+                    int cellLength = blockEdgeLen / levelLength;
+
+
+                    lodLevelThreshold[k] = (edgeVtxCount * MathEx.Root2 * 0.25f) / (float)(k + 1);
+                    lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
+
+                    cellSpan[k] = cellLength;
+                    levelLengths[k] = levelLength;
+
+                    int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
+
+                    levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
+                    levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
+
+                    ResourceInterlock.EnterAtomicOp();
+                    try
+                    {
+                        indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+
+                        int* iptr = (int*)indexBuffer[k].Lock(0, 0, LockMode.None);
+
+                        for (int i = 0; i < levelLength; i++)
+                        {
+                            for (int j = 0; j < levelLength; j++)
+                            {
+                                int x = i * cellLength;
+                                int y = j * cellLength;
+
+                                (*iptr) = y * edgeVtxCount + x;
+                                iptr++;
+                                (*iptr) = y * edgeVtxCount + (x + cellLength);
+                                iptr++;
+                                (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
+                                iptr++;
+
+                                (*iptr) = y * edgeVtxCount + x;
+                                iptr++;
+                                (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
+                                iptr++;
+                                (*iptr) = (y + cellLength) * edgeVtxCount + x;
+                                iptr++;
+                            }
+                        }
+                        indexBuffer[k].Unlock();
+                    }
+                    finally
+                    {
+                        ResourceInterlock.ExitAtomicOp();
+                    }
+                }
+                #endregion
+
+                BuildTerrainTree(data.Data, blockEdgeCount);
+            }
         }
+
+        protected override void unload()
+        {
+            vtxBuffer.Dispose();
+            vtxDecl.Dispose();
+            vtxBuffer = null;
+            vtxDecl = null;
+
+            for (int i = 0; i < LocalLodCount; i++)
+            {
+                indexBuffer[i].Dispose();
+                indexBuffer[i] = null;
+            }
+        }
+        #endregion
 
         float ComputeTerrainHeight(float inp)
         {
             return inp * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
         }
-        TerrainBlock defBlk;
 
         void BuildTerrainTree(float[] dmData, int blockEdgeLen)
         {
             TerrainBlock[] blocks = new TerrainBlock[blockCount];
 
-            
+
             int index = 0;
 
             for (int i = 0; i < blockEdgeCount; i++)
@@ -330,37 +383,28 @@ namespace Code2015.EngineEx
                     index++;
                 }
             }
-            defBlk = blocks[0];
             rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (dataEdgeSize - 1) / 2, (dataEdgeSize - 1) / 2, 1, dataEdgeSize);
 
             this.BoundingSphere = rootNode.BoundingVolume;
         }
 
-        protected override void unload()
-        {
-            vtxBuffer.Dispose();
-            vtxDecl.Dispose();
-            vtxBuffer = null;
-            vtxDecl = null;
-
-            for (int i = 0; i < LocalLodCount; i++) 
-            {
-                indexBuffer[i].Dispose();
-                indexBuffer[i] = null;
-            }
-        }
-
         public void PrepareVisibleObjects(ICamera cam)
         {
+            if (resLoc == null)
+                return;
+
             if (State == ResourceState.Loaded)
             {
                 opBuffer.Clear();
 
+                Matrix invTrans;
+                Matrix.Invert(ref Transformation, out invTrans);
 
                 Frustum frus = cam.Frustum;
                 Vector3 camPos = cam.Position;
 
                 Vector3 c = rootNode.BoundingVolume.Center;
+                Vector3.TransformSimple(ref c, ref invTrans, out c);
 
                 if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
                 {
@@ -377,6 +421,7 @@ namespace Code2015.EngineEx
                             for (int i = 0; i < node.Children.Length; i++)
                             {
                                 c = node.Children[i].BoundingVolume.Center;
+                                Vector3.TransformSimple(ref c, ref invTrans, out c);
 
                                 if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
                                 {
@@ -389,6 +434,7 @@ namespace Code2015.EngineEx
                             if (node.Block != null)
                             {
                                 c = node.BoundingVolume.Center;
+                                Vector3.TransformSimple(ref c, ref invTrans, out c);
 
                                 if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
                                 {
@@ -411,10 +457,10 @@ namespace Code2015.EngineEx
                                     }
 
                                     op.Geomentry.IndexBuffer = node.Block.IndexBuffers[lodLevel];
-                                    op.Geomentry.PrimCount = levelPrimConut[lodLevel];// levelLengths[lodLevel] * levelLengths[lodLevel] * 2;
-                                    op.Geomentry.VertexCount = levelVertexCount[lodLevel];// MathEx.Sqr(levelLengths[lodLevel] + 1);
+                                    op.Geomentry.PrimCount = levelPrimConut[lodLevel];
+                                    op.Geomentry.VertexCount = levelVertexCount[lodLevel];
 
-                                    op.Transformation = Matrix.Identity;
+                                    op.Transformation = Transformation;
 
                                     opBuffer.Add(op);
                                 }
@@ -430,6 +476,18 @@ namespace Code2015.EngineEx
 
         public RenderOperation[] GetRenderOperation()
         {
+            if (resLoc == null)
+            {
+                RenderOperation op;
+
+                op.Material = material;
+                op.Geomentry = noDataGeo;
+
+                op.Transformation = Transformation;
+
+                opBuffer.Add(op);
+            }
+
             if (State == ResourceState.Loaded)
             {
                 return opBuffer.Elements;

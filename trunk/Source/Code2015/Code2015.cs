@@ -43,7 +43,7 @@ namespace Code2015
 
 
 
-            terrain = new TerrainTile(renderSys);
+            terrain = new TerrainTile(renderSys, 59, 5);
 
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(6371);
