@@ -475,21 +475,23 @@ namespace Code2015.EngineEx
         #region IRenderable 成员
 
         public RenderOperation[] GetRenderOperation()
-        {
-            if (resLoc == null)
-            {
-                RenderOperation op;
-
-                op.Material = material;
-                op.Geomentry = noDataGeo;
-
-                op.Transformation = Transformation;
-
-                opBuffer.Add(op);
-            }
-
+        {           
             if (State == ResourceState.Loaded)
             {
+                if (resLoc == null)
+                {
+                    opBuffer.Clear();
+                    RenderOperation op;
+
+                    op.Material = material;
+                    op.Geomentry = noDataGeo;
+
+                    op.Transformation = Transformation;
+
+                    opBuffer.Add(op);
+                    return opBuffer.Elements;
+                }
+            
                 return opBuffer.Elements;
             }
             return null;
