@@ -18,7 +18,7 @@ namespace Code2015.World
             : base(true)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
-
+            BoundingSphere.Radius = float.MaxValue;
         }
 
         public override RenderOperation[] GetRenderOperation()

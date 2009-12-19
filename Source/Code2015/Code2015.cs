@@ -261,8 +261,9 @@ namespace Code2015
             {
                 camera.TurnRight();
             }
-            camera.Update(time.ElapsedGameTime);
+            camera.Update(time);
 
+            renderer.Update(time);
         }
 
         public void Draw()
