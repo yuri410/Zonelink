@@ -57,7 +57,7 @@ namespace Code2015
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
             renderer.RegisterCamera(camera);
-            camera.Position = new Vector3(PlanetEarth.PlanetRadius, 0, 0);
+            //camera.Position = new Vector3(PlanetEarth.PlanetRadius, 0, 0);
 
             camera.NearPlane = 1;
             camera.FarPlane = 10000;
@@ -233,11 +233,11 @@ namespace Code2015
             {
                 camera.MoveFront();
             }
-            if (GetAsyncKeyState((short)'A'))
+            if (GetAsyncKeyState((short)'D'))
             {
                 camera.MoveLeft();
             }
-            if (GetAsyncKeyState((short)'D'))
+            if (GetAsyncKeyState((short)'A'))
             {
                 camera.MoveRight();
             }
@@ -256,19 +256,19 @@ namespace Code2015
 
             if (GetAsyncKeyState(VKeys.VK_LEFT))
             {
-                camera.TurnLeft();
+                camera.TurnRight();
             }
             if (GetAsyncKeyState(VKeys.VK_RIGHT))
             {
-                camera.TurnRight();
+                camera.TurnLeft();
             }
             if (GetAsyncKeyState(VKeys.VK_UP))
             {
-                camera.TurnLeft();
+                camera.TurnUp();
             }
             if (GetAsyncKeyState(VKeys.VK_DOWN))
             {
-                camera.TurnRight();
+                camera.TurnDown();
             } 
             
             camera.Update(time);
