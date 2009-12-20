@@ -132,7 +132,10 @@ namespace Code2015.EngineEx
 
             for (int i = 0; i < indexBuffer.Length; i++)
             {
-                size += indexBuffer[i].Size;
+                if (indexBuffer[i] != null)
+                {
+                    size += indexBuffer[i].Size;
+                }
             }
             return size;
         }
