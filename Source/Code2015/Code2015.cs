@@ -46,7 +46,7 @@ namespace Code2015
             terrain = new TerrainTile(renderSys, 59, 5);
 
             SceneRendererParameter sm = new SceneRendererParameter();
-            sm.SceneManager = new OctplSceneManager(6371);
+            sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
@@ -57,7 +57,7 @@ namespace Code2015
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
             renderer.RegisterCamera(camera);
-            camera.Position = new Vector3(0, 0, 0);
+            camera.Position = new Vector3(PlanetEarth.PlanetRadius, 0, 0);
 
             camera.NearPlane = 1;
             camera.FarPlane = 10000;
@@ -253,6 +253,7 @@ namespace Code2015
             {
                 camera.MoveDown();
             } 
+
             if (GetAsyncKeyState(VKeys.VK_LEFT))
             {
                 camera.TurnLeft();
@@ -261,6 +262,15 @@ namespace Code2015
             {
                 camera.TurnRight();
             }
+            if (GetAsyncKeyState(VKeys.VK_UP))
+            {
+                camera.TurnLeft();
+            }
+            if (GetAsyncKeyState(VKeys.VK_DOWN))
+            {
+                camera.TurnRight();
+            } 
+            
             camera.Update(time);
 
             renderer.Update(time);

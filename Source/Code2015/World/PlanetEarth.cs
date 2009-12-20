@@ -10,7 +10,7 @@ namespace Code2015.World
     class PlanetEarth : StaticModelObject
     {
         const int MaxInstance = 25;
-        const float PlanetRadius = 6371f;
+        public const float PlanetRadius = 6371f;
 
         public static float GetTileLegth(float rad)
         {
@@ -20,6 +20,9 @@ namespace Code2015.World
         {
             return (float)Math.Asin(len / PlanetRadius);
         }
+
+
+
         public static Vector3 GetPosition(float x, float y)
         {
             // 微积分 球面参数方程
