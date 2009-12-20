@@ -124,7 +124,17 @@ namespace Code2015.EngineEx
         #region Resource实现
         public override int GetSize()
         {
-            return dataEdgeSize * dataEdgeSize * TerrainVertex.Size;
+            int size = 0;
+            if (vtxBuffer != null)
+            {
+                size += vtxBuffer.Size;
+            }
+
+            for (int i = 0; i < indexBuffer.Length; i++)
+            {
+                size += indexBuffer[i].Size;
+            }
+            return size;
         }
 
         protected override void load()

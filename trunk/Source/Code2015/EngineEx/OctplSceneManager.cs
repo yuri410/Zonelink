@@ -40,7 +40,7 @@ namespace Code2015.EngineEx
                 Vector3 center = node.BoundingSphere.Center;
 
                 // if the node does't intersect the frustum we don't give a damn
-                if (//Vector3.Dot(ref dir, ref center) <= 0 &&
+                if (Vector3.Dot(ref dir, ref center) <= 0 &&
                     frus.IntersectsSphere(ref center, node.BoundingSphere.Radius))
                 {
                     for (int i = 0; i < 2; i++)
