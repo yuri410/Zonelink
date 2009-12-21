@@ -10,6 +10,7 @@ using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.Effects;
+using Code2015.World;
 
 namespace Code2015.EngineEx
 {
@@ -17,6 +18,8 @@ namespace Code2015.EngineEx
     {
         public const int TerrainBlockSize = 33;
         public const int LocalLodCount = 4;
+
+        const float PlanetRadius = PlanetEarth.PlanetRadius;
 
         struct TerrainVertex
         {
@@ -46,7 +49,7 @@ namespace Code2015.EngineEx
 
         FileLocation resLoc;
 
-        int dataEdgeSize;
+        int terrEdgeSize;
 
 
         VertexDeclaration vtxDecl;
@@ -93,6 +96,11 @@ namespace Code2015.EngineEx
         int[] levelVertexCount;
 
 
+        float topLen;
+        float bottomLen;
+        float tileCol;
+        float tileLat;
+
         public static string GetHashString(int x, int y, int lod)
         {
             return "TM" + x.ToString() + y.ToString() + lod.ToString();
@@ -119,6 +127,12 @@ namespace Code2015.EngineEx
             //material.Specular = terrData.MaterialSpecular;
             //material.Power = terrData.MaterialPower;
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
+
+            tileCol = x * 5;
+            tileLat = 60 + (y - 13) * 5;
+            topLen = PlanetEarth.GetTileWidth(tileLat + 10, 10);
+            bottomLen = PlanetEarth.GetTileWidth(tileLat, 10);
+
         }
 
         #region Resource实现
@@ -152,9 +166,9 @@ namespace Code2015.EngineEx
                     TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
 
                     vertices[0].Position = new Vector3(0, 0, 0);
-                    vertices[2].Position = new Vector3(dataEdgeSize, 0, dataEdgeSize);
-                    vertices[1].Position = new Vector3(dataEdgeSize, 0, 0);
-                    vertices[3].Position = new Vector3(0, 0, dataEdgeSize);
+                    vertices[2].Position = new Vector3(terrEdgeSize, 0, terrEdgeSize);
+                    vertices[1].Position = new Vector3(terrEdgeSize, 0, 0);
+                    vertices[3].Position = new Vector3(0, 0, terrEdgeSize);
 
                     vtxBuffer.Unlock();
                 }
@@ -180,14 +194,21 @@ namespace Code2015.EngineEx
             {
                 TDMPIO data = new TDMPIO();
                 data.Load(resLoc);
+                tileCol = data.Xllcorner;
+                tileLat = data.Yllcorner;
+            
+                topLen = PlanetEarth.GetTileWidth(tileLat + data.YSpan, data.XSpan);
+                bottomLen = PlanetEarth.GetTileWidth(tileLat, data.XSpan);
+
 
                 MeshData meshData = new MeshData(renderSystem);
 
                 #region 顶点数据
 
-                dataEdgeSize = data.Width;
+                terrEdgeSize = data.Width;
+                float halfTerrSize = terrEdgeSize * 0.5f;
 
-                int edgeVtxCount = dataEdgeSize;
+                int edgeVtxCount = terrEdgeSize;
                 int vertexCount = edgeVtxCount * edgeVtxCount;
 
                 ResourceInterlock.EnterAtomicOp();
@@ -202,10 +223,12 @@ namespace Code2015.EngineEx
                     {
                         for (int j = 0; j < edgeVtxCount; j++)
                         {
-                            vertices[i * edgeVtxCount + j].Position =
-                                new Vector3(j * TerrainMeshManager.TerrainScale,
-                                    ComputeTerrainHeight(data.Data[i * edgeVtxCount + j]),
-                                    i * TerrainMeshManager.TerrainScale);
+                            //float px = j * TerrainMeshManager.TerrainScale;
+                            //float pz = i * TerrainMeshManager.TerrainScale;
+                            vertices[i * edgeVtxCount + j].Position = GetPosition(j, i, data, halfTerrSize, PlanetRadius);
+                              //  new Vector3(px,
+                                //    ComputeTerrainHeight(px, pz, data.Data[i * edgeVtxCount + j], halfTerrSize, PlanetRadius),
+                                  //  pz);
                         }
                     }
 
@@ -285,7 +308,7 @@ namespace Code2015.EngineEx
                 }
                 #endregion
 
-                BuildTerrainTree(data.Data, blockEdgeCount);
+                BuildTerrainTree(data, blockEdgeCount);
             }
         }
 
@@ -304,15 +327,33 @@ namespace Code2015.EngineEx
         }
         #endregion
 
-        float ComputeTerrainHeight(float inp)
+        Vector3 GetPosition(int x, int z, TDMPIO data, float halfTile, float planetRadius)
         {
-            return inp * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+            float lerp = x / (float)terrEdgeSize;
+            float latCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeSize;
+
+            return new Vector3(x * TerrainMeshManager.TerrainScale,
+                data.Data[z * terrEdgeSize + x] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
+                z * TerrainMeshManager.TerrainScale * latCellWidth);
         }
 
-        void BuildTerrainTree(float[] dmData, int blockEdgeLen)
+        [Obsolete()]
+        float ComputeTerrainHeight(float x, float z, float y, float halfTile, float planetRadius)
+        {
+            float rx = x - halfTile;
+            float ry = z - halfTile;
+
+            float rh = rx * rx + ry * ry;
+
+            return y * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+                //(float)Math.Sqrt(planetRadius * planetRadius - rh) - planetRadius;
+        }
+
+        void BuildTerrainTree(TDMPIO dmData, int blockEdgeLen)
         {
             TerrainBlock[] blocks = new TerrainBlock[blockCount];
 
+            float halfTerrSize = terrEdgeSize * 0.5f;
 
             int index = 0;
 
@@ -348,7 +389,7 @@ namespace Code2015.EngineEx
                     int x = (j == 0) ? 0 : j * blockEdgeLen;
                     int y = (i == 0) ? 0 : i * blockEdgeLen;
 
-                    gd.BaseVertex = y * dataEdgeSize + x;
+                    gd.BaseVertex = y * terrEdgeSize + x;
 
                     blocks[index].GeoData = gd;
 
@@ -359,9 +400,10 @@ namespace Code2015.EngineEx
                             int dmY = i * blockEdgeLen + ii;
                             int dmX = j * blockEdgeLen + jj;
 
-                            center.X += TerrainMeshManager.TerrainScale * dmX;
-                            center.Y += ComputeTerrainHeight(dmData[dmY * dataEdgeSize + dmX]);
-                            center.Z += TerrainMeshManager.TerrainScale * dmY;
+                            center = GetPosition(j, i, dmData, halfTerrSize, PlanetRadius);
+                            //center.X += TerrainMeshManager.TerrainScale * dmX;                            
+                            //center.Z += TerrainMeshManager.TerrainScale * dmY;
+                            //center.Y += ComputeTerrainHeight(center.X, center.Z, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius);
                         }
                     }
 
@@ -379,10 +421,12 @@ namespace Code2015.EngineEx
                             int dmY = i * blockEdgeLen + ii;
                             int dmX = j * blockEdgeLen + jj;
 
-                            Vector3 vtxPos = new Vector3(
-                                TerrainMeshManager.TerrainScale * dmX,
-                                ComputeTerrainHeight(dmData[dmY * dataEdgeSize + dmX]),
-                                TerrainMeshManager.TerrainScale * dmY);
+                            //float px = TerrainMeshManager.TerrainScale * dmX;
+                            //float pz = TerrainMeshManager.TerrainScale * dmY;
+                            Vector3 vtxPos = GetPosition(dmX, dmY, dmData, halfTerrSize, PlanetRadius);
+                                //px,
+                                //ComputeTerrainHeight(px, pz, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius),
+                                //pz);
                             float dist = Vector3.Distance(vtxPos, center);
                             if (dist > radius)
                             {
@@ -396,7 +440,7 @@ namespace Code2015.EngineEx
                     index++;
                 }
             }
-            rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (dataEdgeSize - 1) / 2, (dataEdgeSize - 1) / 2, 1, dataEdgeSize);
+            rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (terrEdgeSize - 1) / 2, (terrEdgeSize - 1) / 2, 1, terrEdgeSize);
 
             this.BoundingSphere = rootNode.BoundingVolume;
         }
