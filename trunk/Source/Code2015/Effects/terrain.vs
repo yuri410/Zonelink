@@ -1,6 +1,6 @@
 //Y = y + r - sqrt(r*r-rh*rh);
 //rh*rh = x*x + y*y
-#define radius 673
+#define radius 6731
 #define halfTile 512.5
 
 
@@ -22,12 +22,12 @@ VSOutput main(VSInput ip)
 {
     VSOutput o;
 
-    float rx = ip.Position.x - halfTile;
-    float ry = ip.Position.z - halfTile;
+    float rx = ip.Position.x-halfTile;
+    float ry = ip.Position.z-halfTile;
 
-    float rh = halfTile - sqrt(rx*rx + ry*ry);
+    float rh = rx*rx + ry*ry;
 
-    ip.Position.y += radius-sqrt(radius*radius - rh*rh);
+    ip.Position.y += sqrt(radius*radius - rh)-radius;
     o.Position = mul(ip.Position, mvp);
     o.TexCoord1 = ip.TexCoord1;
     return o;
