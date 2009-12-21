@@ -203,43 +203,13 @@ namespace Code2015.EngineEx
 
                 MeshData meshData = new MeshData(renderSystem);
 
-                #region 顶点数据
-
+             
                 terrEdgeSize = data.Width;
                 float halfTerrSize = terrEdgeSize * 0.5f;
 
                 int edgeVtxCount = terrEdgeSize;
                 int vertexCount = edgeVtxCount * edgeVtxCount;
 
-                ResourceInterlock.EnterAtomicOp();
-                try
-                {
-                    vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
-
-                    vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
-                    TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
-
-                    for (int i = 0; i < edgeVtxCount; i++)
-                    {
-                        for (int j = 0; j < edgeVtxCount; j++)
-                        {
-                            //float px = j * TerrainMeshManager.TerrainScale;
-                            //float pz = i * TerrainMeshManager.TerrainScale;
-                            vertices[i * edgeVtxCount + j].Position = GetPosition(j, i, data, halfTerrSize, PlanetRadius);
-                              //  new Vector3(px,
-                                //    ComputeTerrainHeight(px, pz, data.Data[i * edgeVtxCount + j], halfTerrSize, PlanetRadius),
-                                  //  pz);
-                        }
-                    }
-
-                    vtxBuffer.Unlock();
-                }
-                finally
-                {
-                    ResourceInterlock.ExitAtomicOp();
-                }
-
-                #endregion
 
                 #region 索引数据
                 int blockEdgeLen = TerrainBlockSize - 1;
@@ -308,7 +278,47 @@ namespace Code2015.EngineEx
                 }
                 #endregion
 
-                BuildTerrainTree(data, blockEdgeCount);
+                #region 顶点数据
+
+                ResourceInterlock.EnterAtomicOp();
+                try
+                {
+                    vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
+
+                    vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
+                    TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
+
+                    for (int i = 0; i < edgeVtxCount; i++)
+                    {
+                        float lerp = i / (float)terrEdgeSize;
+                        float latCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeSize;
+                        float latOfs = (1 - latCellWidth) * halfTerrSize;
+
+                        for (int j = 0; j < edgeVtxCount; j++)
+                        {
+                            //float px = j * TerrainMeshManager.TerrainScale;
+                            //float pz = i * TerrainMeshManager.TerrainScale;
+                            vertices[i * edgeVtxCount + j].Position =
+                                new Vector3(j * TerrainMeshManager.TerrainScale * latCellWidth + latOfs,
+                                            data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
+                                            i * TerrainMeshManager.TerrainScale);
+                              //  new Vector3(px,
+                                //    ComputeTerrainHeight(px, pz, data.Data[i * edgeVtxCount + j], halfTerrSize, PlanetRadius),
+                                  //  pz);
+                        }
+                    }
+                    BuildTerrainTree(vertices, blockEdgeCount);
+
+                    vtxBuffer.Unlock();
+                }
+                finally
+                {
+                    ResourceInterlock.ExitAtomicOp();
+                }
+
+                #endregion
+
+
             }
         }
 
@@ -327,29 +337,8 @@ namespace Code2015.EngineEx
         }
         #endregion
 
-        Vector3 GetPosition(int x, int z, TDMPIO data, float halfTile, float planetRadius)
-        {
-            float lerp = x / (float)terrEdgeSize;
-            float latCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeSize;
 
-            return new Vector3(x * TerrainMeshManager.TerrainScale,
-                data.Data[z * terrEdgeSize + x] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
-                z * TerrainMeshManager.TerrainScale * latCellWidth);
-        }
-
-        [Obsolete()]
-        float ComputeTerrainHeight(float x, float z, float y, float halfTile, float planetRadius)
-        {
-            float rx = x - halfTile;
-            float ry = z - halfTile;
-
-            float rh = rx * rx + ry * ry;
-
-            return y * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
-                //(float)Math.Sqrt(planetRadius * planetRadius - rh) - planetRadius;
-        }
-
-        void BuildTerrainTree(TDMPIO dmData, int blockEdgeLen)
+        void BuildTerrainTree(TerrainVertex* vertices, int blockEdgeLen)
         {
             TerrainBlock[] blocks = new TerrainBlock[blockCount];
 
@@ -400,7 +389,7 @@ namespace Code2015.EngineEx
                             int dmY = i * blockEdgeLen + ii;
                             int dmX = j * blockEdgeLen + jj;
 
-                            center = GetPosition(j, i, dmData, halfTerrSize, PlanetRadius);
+                            center = vertices[dmY * terrEdgeSize + dmX].Position;
                             //center.X += TerrainMeshManager.TerrainScale * dmX;                            
                             //center.Z += TerrainMeshManager.TerrainScale * dmY;
                             //center.Y += ComputeTerrainHeight(center.X, center.Z, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius);
@@ -423,7 +412,7 @@ namespace Code2015.EngineEx
 
                             //float px = TerrainMeshManager.TerrainScale * dmX;
                             //float pz = TerrainMeshManager.TerrainScale * dmY;
-                            Vector3 vtxPos = GetPosition(dmX, dmY, dmData, halfTerrSize, PlanetRadius);
+                            Vector3 vtxPos = vertices[dmY * terrEdgeSize + dmX].Position;
                                 //px,
                                 //ComputeTerrainHeight(px, pz, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius),
                                 //pz);
