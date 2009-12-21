@@ -22,12 +22,7 @@ VSOutput main(VSInput ip)
 {
     VSOutput o;
 
-    float rx = ip.Position.x-halfTile;
-    float ry = ip.Position.z-halfTile;
 
-    float rh = rx*rx + ry*ry;
-
-    ip.Position.y += sqrt(radius*radius - rh)-radius;
     o.Position = mul(ip.Position, mvp);
     o.TexCoord1 = ip.TexCoord1;
     return o;

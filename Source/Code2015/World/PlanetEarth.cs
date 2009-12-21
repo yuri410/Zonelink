@@ -12,17 +12,40 @@ namespace Code2015.World
         const int MaxInstance = 25;
         public const float PlanetRadius = 6371f;
 
-        public static float GetTileLegth(float rad)
+        /// <summary>
+        ///  计算地块弦长
+        /// </summary>
+        /// <param name="rad"></param>
+        /// <returns></returns>
+        public static float GetTileLength(float rad)
         {
             return (float)Math.Sin(rad) * PlanetRadius;
         }
+        /// <summary>
+        ///  计算地块角度
+        /// </summary>
+        /// <param name="len"></param>
+        /// <returns></returns>
         public static float GetTileArc(float len)
         {
             return (float)Math.Asin(len / PlanetRadius);
         }
 
 
+        public static float GetTileWidth(float lat, float span)
+        {
+            float r = GetLatRadius(lat);
+            return (float)Math.Sqrt(2 * r * r * (1 - (float)Math.Cos(MathEx.Degree2Radian(span))));
+        }
+        public static float GetTileHeight(float span) 
+        {
+            return (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(MathEx.Degree2Radian(span)));
+        }
 
+        public static float GetLatRadius(float lat)
+        {
+            return PlanetRadius * (float)Math.Cos(MathEx.Degree2Radian(lat));
+        }
         public static Vector3 GetPosition(float x, float y)
         {
             // 微积分 球面参数方程
