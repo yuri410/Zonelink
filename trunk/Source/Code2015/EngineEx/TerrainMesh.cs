@@ -101,6 +101,19 @@ namespace Code2015.EngineEx
         float tileCol;
         float tileLat;
 
+
+        public float TileCol
+        {
+            get { return tileCol; }
+        }
+        public float TileLat 
+        {
+            get { return tileLat; }
+        }
+
+
+
+
         public static string GetHashString(int x, int y, int lod)
         {
             return "TM" + x.ToString() + y.ToString() + lod.ToString();
@@ -130,9 +143,31 @@ namespace Code2015.EngineEx
 
             tileCol = x * 5;
             tileLat = 60 + (y - 13) * 5;
-            topLen = PlanetEarth.GetTileWidth(tileLat + 10, 10);
-            bottomLen = PlanetEarth.GetTileWidth(tileLat, 10);
 
+            float radtc = MathEx.Degree2Radian(tileCol);
+            float radtl = MathEx.Degree2Radian(tileLat);
+
+            topLen = PlanetEarth.GetTileWidth(MathEx.Degree2Radian(tileLat + 10), MathEx.Degree2Radian(10));
+            bottomLen = PlanetEarth.GetTileWidth(radtl, MathEx.Degree2Radian(10));
+            terrEdgeSize = 1025;
+
+            
+            float hs = terrEdgeSize * 0.5f;
+            Matrix b1 = Matrix.Translation(-hs, 0, -hs);
+            Matrix facing = Matrix.Identity;
+            facing.Up = -PlanetEarth.GetNormal(radtc, radtl);
+            facing.Forward = PlanetEarth.GetTangentY(radtc, radtl);
+            facing.Right = -Vector3.Cross(facing.Up, facing.Forward);// PlanetEarth.GetTangentX(radtc, radtl);
+
+            Matrix b2 = Matrix.Translation(hs, 0, hs);
+
+            Matrix trans = Matrix.Translation(0, 0, PlanetEarth.PlanetRadius);
+
+            Matrix mlat = Matrix.RotationX(-radtl);
+            Matrix mcol = Matrix.RotationY(radtc);
+
+            Transformation = b1 * facing * b2 * trans * mlat * mcol;
+            BoundingSphere.Center = Vector3.TransformSimple(Vector3.Zero, Transformation);
         }
 
         #region Resource实现
@@ -196,14 +231,14 @@ namespace Code2015.EngineEx
                 data.Load(resLoc);
                 tileCol = data.Xllcorner;
                 tileLat = data.Yllcorner;
-            
-                topLen = PlanetEarth.GetTileWidth(tileLat + data.YSpan, data.XSpan);
-                bottomLen = PlanetEarth.GetTileWidth(tileLat, data.XSpan);
+
+                topLen = PlanetEarth.GetTileWidth(MathEx.Degree2Radian(tileLat + data.YSpan), MathEx.Degree2Radian(data.XSpan));
+                bottomLen = PlanetEarth.GetTileWidth(MathEx.Degree2Radian(tileLat), MathEx.Degree2Radian(data.XSpan));
 
 
                 MeshData meshData = new MeshData(renderSystem);
 
-             
+
                 terrEdgeSize = data.Width;
                 float halfTerrSize = terrEdgeSize * 0.5f;
 
@@ -302,9 +337,9 @@ namespace Code2015.EngineEx
                                 new Vector3(j * TerrainMeshManager.TerrainScale * latCellWidth + latOfs,
                                             data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
                                             i * TerrainMeshManager.TerrainScale);
-                              //  new Vector3(px,
-                                //    ComputeTerrainHeight(px, pz, data.Data[i * edgeVtxCount + j], halfTerrSize, PlanetRadius),
-                                  //  pz);
+                            //  new Vector3(px,
+                            //    ComputeTerrainHeight(px, pz, data.Data[i * edgeVtxCount + j], halfTerrSize, PlanetRadius),
+                            //  pz);
                         }
                     }
                     BuildTerrainTree(vertices, blockEdgeCount);
@@ -320,6 +355,8 @@ namespace Code2015.EngineEx
 
 
             }
+
+
         }
 
         protected override void unload()
@@ -336,7 +373,6 @@ namespace Code2015.EngineEx
             }
         }
         #endregion
-
 
         void BuildTerrainTree(TerrainVertex* vertices, int blockEdgeLen)
         {
@@ -389,7 +425,7 @@ namespace Code2015.EngineEx
                             int dmY = i * blockEdgeLen + ii;
                             int dmX = j * blockEdgeLen + jj;
 
-                            center = vertices[dmY * terrEdgeSize + dmX].Position;
+                            center += vertices[dmY * terrEdgeSize + dmX].Position;
                             //center.X += TerrainMeshManager.TerrainScale * dmX;                            
                             //center.Z += TerrainMeshManager.TerrainScale * dmY;
                             //center.Y += ComputeTerrainHeight(center.X, center.Z, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius);
@@ -443,14 +479,14 @@ namespace Code2015.EngineEx
             {
                 opBuffer.Clear();
 
-                Matrix invTrans;
-                Matrix.Invert(ref Transformation, out invTrans);
+                //Matrix invTrans;
+                //Matrix.Invert(ref Transformation, out invTrans);
 
                 Frustum frus = cam.Frustum;
                 Vector3 camPos = cam.Position;
 
                 Vector3 c = rootNode.BoundingVolume.Center;
-                Vector3.TransformSimple(ref c, ref invTrans, out c);
+                Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                 if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
                 {
@@ -467,7 +503,7 @@ namespace Code2015.EngineEx
                             for (int i = 0; i < node.Children.Length; i++)
                             {
                                 c = node.Children[i].BoundingVolume.Center;
-                                Vector3.TransformSimple(ref c, ref invTrans, out c);
+                                Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                                 if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
                                 {
@@ -480,7 +516,7 @@ namespace Code2015.EngineEx
                             if (node.Block != null)
                             {
                                 c = node.BoundingVolume.Center;
-                                Vector3.TransformSimple(ref c, ref invTrans, out c);
+                                Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                                 if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
                                 {

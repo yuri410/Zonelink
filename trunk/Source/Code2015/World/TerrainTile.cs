@@ -7,6 +7,7 @@ using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
+using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
@@ -18,7 +19,7 @@ namespace Code2015.World
             : base(true)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
-            BoundingSphere.Radius = float.MaxValue;
+            BoundingSphere.Radius = float.MaxValue;           
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -38,7 +39,9 @@ namespace Code2015.World
 
         public override void Update(float dt)
         {
-            BoundingSphere = terrain.Resource.BoundingSphere;
+            TerrainMesh tm = terrain.Resource;
+            Transformation = tm.Transformation;
+            BoundingSphere = tm.BoundingSphere;
         }
 
         public override bool IsSerializable
