@@ -35,16 +35,16 @@ namespace Code2015.World
         public static float GetTileWidth(float lat, float span)
         {
             float r = GetLatRadius(lat);
-            return (float)Math.Sqrt(2 * r * r * (1 - (float)Math.Cos(MathEx.Degree2Radian(span))));
+            return (float)Math.Sqrt(2 * r * r * (1 - (float)Math.Cos(span)));
         }
         public static float GetTileHeight(float span) 
         {
-            return (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(MathEx.Degree2Radian(span)));
+            return (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(span));
         }
 
         public static float GetLatRadius(float lat)
         {
-            return PlanetRadius * (float)Math.Cos(MathEx.Degree2Radian(lat));
+            return PlanetRadius * (float)Math.Cos(lat);
         }
         public static Vector3 GetPosition(float x, float y)
         {
@@ -53,7 +53,7 @@ namespace Code2015.World
             float py = (float)Math.Cos(y);
             float rr = PlanetRadius * py;
 
-            result.Y = (float)Math.Sqrt(PlanetRadius * PlanetRadius - py * PlanetRadius);
+            result.Y = (float)Math.Sqrt(PlanetRadius * PlanetRadius - rr * rr);
             result.X = (float)Math.Cos(x) * rr;
             result.Z = (float)Math.Sin(x) * rr;
 
@@ -72,13 +72,13 @@ namespace Code2015.World
 
             return result;
         }
-        public static Vector3 GetTangentX(float x, float y)
-        {
-            Vector3 result = GetPosition(x + MathEx.PiOver2, y);
-            result.Normalize();
+        //public static Vector3 GetTangentX(float x, float y)
+        //{
+        //    Vector3 result = GetPosition(x + MathEx.PiOver2, y);
+        //    result.Normalize();
 
-            return result;
-        }
+        //    return result;
+        //}
 
         public override bool IsSerializable
         {
