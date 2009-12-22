@@ -24,15 +24,14 @@ namespace Code2015.EngineEx
         struct TerrainVertex
         {
             public Vector3 Position;
-            public Vector2 TexCoord;
 
             static VertexElement[] elements;
 
             static TerrainVertex()
             {
-                elements = new VertexElement[2];
+                elements = new VertexElement[1];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-                elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
+               // elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
             }
 
             public static VertexElement[] Elements
@@ -42,7 +41,7 @@ namespace Code2015.EngineEx
 
             public static int Size
             {
-                get { return Vector3.SizeInBytes + Vector2.SizeInBytes; }
+                get { return Vector3.SizeInBytes; }
             }
         }
 
@@ -139,32 +138,45 @@ namespace Code2015.EngineEx
             //material.Power = terrData.MaterialPower;
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
 
-            tileCol = x * 5;
+            tileCol = - x * 5;
             tileLat = 60 + (y - 13) * 5;
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
 
-            topLen = PlanetEarth.GetTileWidth(MathEx.Degree2Radian(tileLat + 10), MathEx.Degree2Radian(10));
-            bottomLen = PlanetEarth.GetTileWidth(radtl, MathEx.Degree2Radian(10));
+            float rad10 = MathEx.Degree2Radian(10);
+
+            topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
+            bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
             terrEdgeSize = 1025;
+
 
 
             //float hs = terrEdgeSize * 0.5f;
             //Matrix b1 = Matrix.Translation(-hs, 0, -hs);
             //Matrix facing = Matrix.Identity;
-            //facing.Up = -PlanetEarth.GetNormal(radtc, radtl);
+            //facing.Up = PlanetEarth.GetNormal(radtc, radtl);
             //facing.Forward = PlanetEarth.GetTangentY(radtc, radtl);
             //facing.Right = -Vector3.Cross(facing.Up, facing.Forward);
             //Matrix b2 = Matrix.Translation(hs, 0, hs);
 
-            Matrix trans = Matrix.Translation(0, 0, PlanetEarth.PlanetRadius);
+            //Matrix trans = Matrix.Translation(0, 0, PlanetEarth.PlanetRadius);
 
-            Matrix mlat = Matrix.RotationX(-radtl);
-            Matrix mcol = Matrix.RotationY(radtc);
+            //Matrix mlat = Matrix.RotationX(-radtl);
+            //Matrix mcol = Matrix.RotationY(radtc);
 
-            Transformation = Matrix.RotationX(MathEx.PiOver2) * trans * mlat * mcol;//b1 * facing * b2 *
+            Vector3 tp1 = PlanetEarth.GetPosition(radtc, radtl);
+            Vector3 tp2 = PlanetEarth.GetPosition(radtc + rad10, radtl);
+            Vector3 tp3 = PlanetEarth.GetPosition(radtc, radtl + rad10);
+
+            Vector3 op1 = new Vector3(0, 1, 0);
+            Vector3 op2 = new Vector3(terrEdgeSize, 1, 0);
+            Vector3 op3 = new Vector3(terrEdgeSize, 1, terrEdgeSize);
+
+            Transformation = Matrix.Transformation(op1, op2, op3, tp1, tp2, tp3);//b1 * facing * Matrix.Translation(PlanetEarth.GetPosition(radtc, radtl)) * b2; //Matrix.RotationX(MathEx.PiOver2) * trans * mlat * mcol;// *
         }
+
+
 
         #region Resource实现
         public override int GetSize()
@@ -241,6 +253,7 @@ namespace Code2015.EngineEx
                 int edgeVtxCount = terrEdgeSize;
                 int vertexCount = edgeVtxCount * edgeVtxCount;
 
+                
 
                 #region 索引数据
                 int blockEdgeLen = TerrainBlockSize - 1;
@@ -330,7 +343,7 @@ namespace Code2015.EngineEx
                             //float px = j * TerrainMeshManager.TerrainScale;
                             //float pz = i * TerrainMeshManager.TerrainScale;
                             vertices[i * edgeVtxCount + j].Position =
-                                new Vector3(j * TerrainMeshManager.TerrainScale * latCellWidth + latOfs,
+                                new Vector3(j * TerrainMeshManager.TerrainScale,//* latCellWidth + latOfs
                                             data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
                                             i * TerrainMeshManager.TerrainScale);
                             //  new Vector3(px,

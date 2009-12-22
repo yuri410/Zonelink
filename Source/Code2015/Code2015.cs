@@ -12,13 +12,15 @@ using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
+using Apoc3D.Vfs;
 
 namespace Code2015
 {
     class Code2015 : IRenderWindowHandler
     {
         RenderSystem renderSys;
-        TerrainTile terrain;
+        //TerrainTile terrain;
+        List<TerrainTile> terrList = new List<TerrainTile>();
         FpsCamera camera;
         SceneRenderer renderer;
 
@@ -42,17 +44,28 @@ namespace Code2015
             EffectManager.Instance.LoadEffects();
 
 
+            //string[] files = FileSystem.Instance.SearchFile("terrain.lpk\\*_3.tdmp");
 
-            terrain = new TerrainTile(renderSys, 59, 5);
-
+            
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
+            //for (int i = 0; i < files.Length; i++)
+            {
+                //string[] v = files[i].Split('_');
 
-            sm.SceneManager.AddObjectToScene(terrain);
 
+
+                TerrainTile terrain = new TerrainTile(renderSys, 59, 5);
+
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 5);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
 
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
