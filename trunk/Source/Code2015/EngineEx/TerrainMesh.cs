@@ -106,12 +106,10 @@ namespace Code2015.EngineEx
         {
             get { return tileCol; }
         }
-        public float TileLat 
+        public float TileLat
         {
             get { return tileLat; }
         }
-
-
 
 
         public static string GetHashString(int x, int y, int lod)
@@ -151,23 +149,21 @@ namespace Code2015.EngineEx
             bottomLen = PlanetEarth.GetTileWidth(radtl, MathEx.Degree2Radian(10));
             terrEdgeSize = 1025;
 
-            
-            float hs = terrEdgeSize * 0.5f;
-            Matrix b1 = Matrix.Translation(-hs, 0, -hs);
-            Matrix facing = Matrix.Identity;
-            facing.Up = -PlanetEarth.GetNormal(radtc, radtl);
-            facing.Forward = PlanetEarth.GetTangentY(radtc, radtl);
-            facing.Right = -Vector3.Cross(facing.Up, facing.Forward);// PlanetEarth.GetTangentX(radtc, radtl);
 
-            Matrix b2 = Matrix.Translation(hs, 0, hs);
+            //float hs = terrEdgeSize * 0.5f;
+            //Matrix b1 = Matrix.Translation(-hs, 0, -hs);
+            //Matrix facing = Matrix.Identity;
+            //facing.Up = -PlanetEarth.GetNormal(radtc, radtl);
+            //facing.Forward = PlanetEarth.GetTangentY(radtc, radtl);
+            //facing.Right = -Vector3.Cross(facing.Up, facing.Forward);
+            //Matrix b2 = Matrix.Translation(hs, 0, hs);
 
             Matrix trans = Matrix.Translation(0, 0, PlanetEarth.PlanetRadius);
 
             Matrix mlat = Matrix.RotationX(-radtl);
             Matrix mcol = Matrix.RotationY(radtc);
 
-            Transformation = b1 * facing * b2 * trans * mlat * mcol;
-            BoundingSphere.Center = Vector3.TransformSimple(Vector3.Zero, Transformation);
+            Transformation = Matrix.RotationX(MathEx.PiOver2) * trans * mlat * mcol;//b1 * facing * b2 *
         }
 
         #region Resource实现
@@ -353,10 +349,7 @@ namespace Code2015.EngineEx
 
                 #endregion
 
-
             }
-
-
         }
 
         protected override void unload()
@@ -426,9 +419,6 @@ namespace Code2015.EngineEx
                             int dmX = j * blockEdgeLen + jj;
 
                             center += vertices[dmY * terrEdgeSize + dmX].Position;
-                            //center.X += TerrainMeshManager.TerrainScale * dmX;                            
-                            //center.Z += TerrainMeshManager.TerrainScale * dmY;
-                            //center.Y += ComputeTerrainHeight(center.X, center.Z, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius);
                         }
                     }
 
@@ -446,12 +436,8 @@ namespace Code2015.EngineEx
                             int dmY = i * blockEdgeLen + ii;
                             int dmX = j * blockEdgeLen + jj;
 
-                            //float px = TerrainMeshManager.TerrainScale * dmX;
-                            //float pz = TerrainMeshManager.TerrainScale * dmY;
                             Vector3 vtxPos = vertices[dmY * terrEdgeSize + dmX].Position;
-                                //px,
-                                //ComputeTerrainHeight(px, pz, dmData[dmY * terrEdgeSize + dmX], halfTerrSize, PlanetRadius),
-                                //pz);
+
                             float dist = Vector3.Distance(vtxPos, center);
                             if (dist > radius)
                             {
@@ -467,7 +453,8 @@ namespace Code2015.EngineEx
             }
             rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (terrEdgeSize - 1) / 2, (terrEdgeSize - 1) / 2, 1, terrEdgeSize);
 
-            this.BoundingSphere = rootNode.BoundingVolume;
+            BoundingSphere = rootNode.BoundingVolume;
+            BoundingSphere.Center = Vector3.TransformSimple(BoundingSphere.Center, Transformation);
         }
 
         public void PrepareVisibleObjects(ICamera cam)
@@ -479,14 +466,16 @@ namespace Code2015.EngineEx
             {
                 opBuffer.Clear();
 
-                //Matrix invTrans;
-                //Matrix.Invert(ref Transformation, out invTrans);
+                Matrix invTrans;
+                Matrix.Invert(ref Transformation, out invTrans);
 
-                Frustum frus = cam.Frustum;
-                Vector3 camPos = cam.Position;
+
+
+                Frustum frus = cam.Frustum.Transform(invTrans);
+                Vector3 camPos = Vector3.TransformSimple(cam.Position, invTrans);
 
                 Vector3 c = rootNode.BoundingVolume.Center;
-                Vector3.TransformSimple(ref c, ref Transformation, out c);
+                //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                 if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
                 {
@@ -503,7 +492,7 @@ namespace Code2015.EngineEx
                             for (int i = 0; i < node.Children.Length; i++)
                             {
                                 c = node.Children[i].BoundingVolume.Center;
-                                Vector3.TransformSimple(ref c, ref Transformation, out c);
+                                //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                                 if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
                                 {
@@ -516,7 +505,7 @@ namespace Code2015.EngineEx
                             if (node.Block != null)
                             {
                                 c = node.BoundingVolume.Center;
-                                Vector3.TransformSimple(ref c, ref Transformation, out c);
+                                //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                                 if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
                                 {
@@ -557,7 +546,7 @@ namespace Code2015.EngineEx
         #region IRenderable 成员
 
         public RenderOperation[] GetRenderOperation()
-        {           
+        {
             if (State == ResourceState.Loaded)
             {
                 if (resLoc == null)
@@ -573,7 +562,7 @@ namespace Code2015.EngineEx
                     opBuffer.Add(op);
                     return opBuffer.Elements;
                 }
-            
+
                 return opBuffer.Elements;
             }
             return null;

@@ -67,7 +67,7 @@ namespace Code2015.World
         }
         public static Vector3 GetTangentY(float x, float y)
         {
-            Vector3 result = GetPosition(x, y + MathEx.PiOver2);
+            Vector3 result = GetPosition(x, y - MathEx.PiOver2);
             result.Normalize();
 
             return result;
