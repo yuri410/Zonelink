@@ -5,20 +5,24 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
-using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
     class TerrainTile : SceneObject
     {
         ResourceHandle<TerrainMesh> terrain;
+        ResourceHandle<TerrainMesh> terrain1;
+        ResourceHandle<TerrainMesh> terrain2;
 
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
+            //terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
+            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
             BoundingSphere.Radius = float.MaxValue;           
         }
 
@@ -29,7 +33,17 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            return GetRenderOperation();
+            //switch (level) 
+            //{
+                //case 0:
+                //    return terrain.Resource.GetRenderOperation();
+                //case 1:
+                //    return terrain1.Resource.GetRenderOperation();
+                //case 2:
+                //    return terrain2.Resource.GetRenderOperation();
+            //}
+            return terrain.Resource.GetRenderOperation();
+            
         }
 
         public override void PrepareVisibleObjects(ICamera cam)

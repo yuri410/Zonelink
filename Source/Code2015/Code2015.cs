@@ -43,55 +43,33 @@ namespace Code2015
 
             EffectManager.Instance.LoadEffects();
 
-
-            //string[] files = FileSystem.Instance.SearchFile("terrain.lpk\\*_3.tdmp");
-
-            
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            //for (int i = 0; i < files.Length; i++)
-            //{
-            //    //string[] v = files[i].Split('_');
-
-
-
-            //    TerrainTile terrain = new TerrainTile(renderSys, 59, 5);
-
-            //    sm.SceneManager.AddObjectToScene(terrain);
-            //}
             {
                 TerrainTile terrain = new TerrainTile(renderSys, 57, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
-            //{
-            //    TerrainTile terrain = new TerrainTile(renderSys, 59, 7);
-            //    sm.SceneManager.AddObjectToScene(terrain);
-            //}
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 7);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            //{
-            //    TerrainTile terrain = new TerrainTile(renderSys, 59, 9);
-            //    sm.SceneManager.AddObjectToScene(terrain);
-            //}
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 9);
+                TerrainTile terrain = new TerrainTile(renderSys, 59, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 11);
+                TerrainTile terrain = new TerrainTile(renderSys, 55, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 3);
+                TerrainTile terrain = new TerrainTile(renderSys, 53, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 1);
+                TerrainTile terrain = new TerrainTile(renderSys, 51, 5);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 49, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             renderer = new SceneRenderer(renderSys, sm);
