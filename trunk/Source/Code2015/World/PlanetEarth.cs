@@ -19,7 +19,7 @@ namespace Code2015.World
         /// <returns></returns>
         public static float GetTileArcLength(float rad)
         {
-            return (float)Math.Sin(rad) * PlanetRadius;
+            return rad * PlanetRadius;
         }
         /// <summary>
         ///  计算地块角度
@@ -28,18 +28,30 @@ namespace Code2015.World
         /// <returns></returns>
         public static float GetTileArcAngle(float len)
         {
-            return (float)Math.Asin(len / PlanetRadius);
+            return len / PlanetRadius;
         }
 
-
+        /// <summary>
+        ///  计算弦长
+        /// </summary>
+        /// <param name="lat"></param>
+        /// <param name="span"></param>
+        /// <returns></returns>
         public static float GetTileWidth(float lat, float span)
         {
             float r = GetLatRadius(lat);
-            return (float)Math.Sqrt(2 * r * r * (1 - (float)Math.Cos(span)));
+            return (float)(2 * r * Math.Sin(span * 0.5));
+            // (float)Math.Sqrt(2 * r * r * (1 - (float)Math.Cos(span)));
         }
+        /// <summary>
+        ///  计算弦长
+        /// </summary>
+        /// <param name="span"></param>
+        /// <returns></returns>
         public static float GetTileHeight(float span) 
         {
-            return (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(span));
+            return (float)(2 * PlanetRadius * Math.Sin(span * 0.5));
+            // (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(span));
         }
 
         public static float GetLatRadius(float lat)
@@ -71,6 +83,9 @@ namespace Code2015.World
             result.X = (float)Math.Cos(x) * rr;
             result.Z = (float)Math.Sin(x) * rr;
 
+
+            if (float.IsNaN(result.Y))
+                result.Y = 0;
             return result;
         }
         public static Vector3 GetNormal(float x, float y)
@@ -86,13 +101,16 @@ namespace Code2015.World
 
             return result;
         }
-        //public static Vector3 GetTangentX(float x, float y)
-        //{
-        //    Vector3 result = GetPosition(x + MathEx.PiOver2, y);
-        //    result.Normalize();
+        public static Vector3 GetTangentX(float x, float y)
+        {
+            Vector3 up = GetNormal(x,y);
+            Vector3 fwd = GetTangentY(x, y);
 
-        //    return result;
-        //}
+            Vector3 result = Vector3.Cross(up, fwd);            
+            result.Normalize();
+
+            return result;
+        }
 
         public override bool IsSerializable
         {
