@@ -128,7 +128,10 @@ namespace Code2015.BalanceSystem
             for (int i = 0; i < plants.Count; i++)
             {
                 plantIn += plants[i].Strength * plants[i].CarbonTransformSpeed;
+                animalOut += animals[i].Strength * animals[i].ProduceGgas(animals[i], 89);
             }
+                return 0.0f;
+
         
         }
         public void Update(GameTime time)
