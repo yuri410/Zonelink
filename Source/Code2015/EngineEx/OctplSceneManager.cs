@@ -17,8 +17,14 @@ namespace Code2015.EngineEx
         {
         }
 
-        int GetLevel(ref BoundingSphere sphere, ref Vector3 pos) 
+        protected int GetLevel(ref BoundingSphere sphere, ref Vector3 pos)
         {
+            float dist = Vector3.Distance(ref sphere.Center, ref pos);
+            if (dist > sphere.Radius * 3.5)
+                return 2;
+
+            if (dist > sphere.Radius * 2.5f)
+                return 1;
             return 0;
         }
 
@@ -61,11 +67,12 @@ namespace Code2015.EngineEx
                     FastList<SceneObject> objs = node.AttchedObjects;
                     for (int i = 0; i < objs.Count; i++)
                     {
+                        int level = GetLevel(ref objs.Elements[i].BoundingSphere, ref camPos);
+
                         if (objs.Elements[i].HasSubObjects)
                         {
-                            objs.Elements[i].PrepareVisibleObjects(camera);
+                            objs.Elements[i].PrepareVisibleObjects(camera, level);
                         }
-                        int level = GetLevel(ref objs.Elements[i].BoundingSphere, ref camPos);
                         AddVisibleObject(objs.Elements[i], level, batchHelper);
                     }
                 }
