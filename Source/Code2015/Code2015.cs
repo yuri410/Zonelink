@@ -66,6 +66,14 @@ namespace Code2015
                 TerrainTile terrain = new TerrainTile(renderSys, 57, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 59, 7);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 7);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
 
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);

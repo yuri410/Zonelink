@@ -138,44 +138,38 @@ namespace Code2015.EngineEx
             //material.Power = terrData.MaterialPower;
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
 
-            tileCol = - x * 5;
+            tileCol = x * 5;
             tileLat = 60 + (y - 13) * 5;
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-
-            float rad10 = MathEx.Degree2Radian(10);
-
-            topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
-            bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
             terrEdgeSize = 1025;
 
-
-
-            //float hs = terrEdgeSize * 0.5f;
-            //Matrix b1 = Matrix.Translation(-hs, 0, -hs);
-            //Matrix facing = Matrix.Identity;
-            //facing.Up = PlanetEarth.GetNormal(radtc, radtl);
-            //facing.Forward = PlanetEarth.GetTangentY(radtc, radtl);
-            //facing.Right = -Vector3.Cross(facing.Up, facing.Forward);
-            //Matrix b2 = Matrix.Translation(hs, 0, hs);
-
-            //Matrix trans = Matrix.Translation(0, 0, PlanetEarth.PlanetRadius);
-
-            //Matrix mlat = Matrix.RotationX(-radtl);
-            //Matrix mcol = Matrix.RotationY(radtc);
-
-            Vector3 tp1 = PlanetEarth.GetPosition(radtc, radtl);
-            Vector3 tp2 = PlanetEarth.GetPosition(radtc + rad10, radtl);
-            Vector3 tp3 = PlanetEarth.GetPosition(radtc, radtl + rad10);
-
-            Vector3 op1 = new Vector3(0, 1, 0);
-            Vector3 op2 = new Vector3(terrEdgeSize, 1, 0);
-            Vector3 op3 = new Vector3(terrEdgeSize, 1, terrEdgeSize);
-
-            Transformation = Matrix.Transformation(op1, op2, op3, tp1, tp2, tp3);//b1 * facing * Matrix.Translation(PlanetEarth.GetPosition(radtc, radtl)) * b2; //Matrix.RotationX(MathEx.PiOver2) * trans * mlat * mcol;// *
+            UpdateTransformation(radtc, radtl, terrEdgeSize, 10);
         }
 
+        void UpdateTransformation(float radtc, float radtl, float terrSize, float span)
+        {
+            float rad10 = MathEx.Degree2Radian(span);
+            float rad5 = MathEx.Degree2Radian(span * 0.5f);
+            topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
+            bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
+
+
+            float poscol = radtc + rad5;
+            float poslat = radtl + rad5;
+
+            float hs = terrSize * 0.5f;
+            Matrix b1 = Matrix.Translation(-hs, 0, -hs);
+            Matrix facing = Matrix.Identity;
+            facing.Up = PlanetEarth.GetNormal(poscol, poslat);
+            facing.Forward = PlanetEarth.GetTangentY(poscol, poslat);
+            facing.Right = Vector3.Cross(facing.Up, facing.Forward);
+            Matrix b2 = Matrix.Translation(hs, 0, hs);
+
+            Transformation = b1 * Matrix.Scaling(-1, 1, 1) * facing * Matrix.Translation(PlanetEarth.GetInnerPosition(poscol, poslat, rad10));
+
+        }
 
 
         #region Resource实现
@@ -240,9 +234,9 @@ namespace Code2015.EngineEx
                 tileCol = data.Xllcorner;
                 tileLat = data.Yllcorner;
 
-                topLen = PlanetEarth.GetTileWidth(MathEx.Degree2Radian(tileLat + data.YSpan), MathEx.Degree2Radian(data.XSpan));
-                bottomLen = PlanetEarth.GetTileWidth(MathEx.Degree2Radian(tileLat), MathEx.Degree2Radian(data.XSpan));
-
+                float radtc = MathEx.Degree2Radian(tileCol);
+                float radtl = MathEx.Degree2Radian(tileLat);
+                UpdateTransformation(radtc, radtl, terrEdgeSize, data.XSpan);
 
                 MeshData meshData = new MeshData(renderSystem);
 
