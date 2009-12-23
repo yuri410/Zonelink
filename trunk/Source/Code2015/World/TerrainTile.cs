@@ -21,8 +21,8 @@ namespace Code2015.World
             : base(true)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
-            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
-            terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            //terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
+            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
             BoundingSphere.Radius = float.MaxValue;           
         }
 
@@ -33,22 +33,33 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            switch (level)
-            {
-                case 0:
+            //switch (level)
+            //{
+            //    case 0:
                     return terrain.Resource.GetRenderOperation();
-                case 1:
-                    return terrain1.Resource.GetRenderOperation();
-                case 2:
-                    return terrain2.Resource.GetRenderOperation();
-            }
-            return null;
+            //    case 1:
+            //        return terrain1.Resource.GetRenderOperation();
+            //    case 2:
+            //        return terrain2.Resource.GetRenderOperation();
+            //}
+            //return null;
             
         }
 
         public override void PrepareVisibleObjects(ICamera cam, int level)
         {
-            terrain.Resource.PrepareVisibleObjects(cam, level);
+            //switch (level)
+            //{
+            //    case 0:
+                    terrain.Resource.PrepareVisibleObjects(cam, level);
+            //        break;
+            //    case 1:
+            //        terrain1.Resource.PrepareVisibleObjects(cam, level);
+            //        break;
+            //    case 2:
+            //        terrain2.Resource.PrepareVisibleObjects(cam, level);
+            //        break;
+            //}
         }
 
         public override void Update(GameTime dt)
