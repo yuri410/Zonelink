@@ -31,7 +31,7 @@ namespace Code2015.EngineEx
             {
                 elements = new VertexElement[1];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-               // elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
+                // elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
             }
 
             public static VertexElement[] Elements
@@ -147,7 +147,7 @@ namespace Code2015.EngineEx
             float radtl = MathEx.Degree2Radian(tileLat);
             terrEdgeSize = 1025;
 
-            UpdateTransformation(radtc, radtl, terrEdgeSize, 9.8f);
+            UpdateTransformation(radtc, radtl, terrEdgeSize, 10);
         }
 
         void UpdateTransformation(float radtc, float radtl, float terrSize, float span)
@@ -165,11 +165,23 @@ namespace Code2015.EngineEx
             Matrix b1 = Matrix.Translation(-hs, 0, -hs);
             Matrix facing = Matrix.Identity;
             facing.Up = PlanetEarth.GetNormal(poscol, poslat);
-            facing.Forward = PlanetEarth.GetTangentY(poscol, poslat);
-            facing.Right = Vector3.Cross(facing.Up, facing.Forward);
-            //Matrix b2 = Matrix.Translation(hs, 0, hs);
 
-            Transformation = b1 * Matrix.Scaling(-1, 1, 1) * facing * Matrix.Translation(PlanetEarth.GetPosition(poscol, poslat));
+            Vector3 v = Vector3.Cross(Vector3.UnitY, facing.Up);
+            v.Normalize();
+            facing.Right = v;// PlanetEarth.GetTangentX(poscol, poslat);
+
+            v = Vector3.Cross(facing.Right, facing.Up);
+            v.Normalize();
+
+            facing.Forward = -v;// PlanetEarth.GetTangentY(poscol, poslat);            
+
+            Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
+
+
+            Transformation = b1 * scaling * facing * Matrix.Translation(PlanetEarth.GetPosition(poscol, poslat));
+
+            //Console.WriteLine(PlanetEarth.GetPosition(radtc, radtl));
+            //Console.WriteLine(Vector3.TransformSimple(new Vector3(0, 0, terrSize), Transformation));
 
         }
 
@@ -233,8 +245,8 @@ namespace Code2015.EngineEx
             {
                 TDMPIO data = new TDMPIO();
                 data.Load(resLoc);
-                tileCol = data.Xllcorner;
-                tileLat = data.Yllcorner;
+                tileCol = (float)Math.Round(data.Xllcorner);
+                tileLat = (float)Math.Round(data.Yllcorner);
 
                 float radtc = MathEx.Degree2Radian(tileCol);
                 float radtl = MathEx.Degree2Radian(tileLat);
@@ -249,7 +261,7 @@ namespace Code2015.EngineEx
                 int edgeVtxCount = terrEdgeSize;
                 int vertexCount = edgeVtxCount * edgeVtxCount;
 
-                
+
 
                 #region 索引数据
                 int blockEdgeLen = TerrainBlockSize - 1;
@@ -320,6 +332,7 @@ namespace Code2015.EngineEx
 
                 #region 顶点数据
 
+                //Vector3 lastPosition = new Vector3();
                 ResourceInterlock.EnterAtomicOp();
                 try
                 {
@@ -328,29 +341,31 @@ namespace Code2015.EngineEx
                     vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
                     TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
 
-                    float latCellSize = heightLen / (float)terrEdgeSize;
+                    //float latCellSize = heightLen / (float)(terrEdgeSize);
                     for (int i = 0; i < edgeVtxCount; i++)
                     {
-                        float lerp = i / (float)terrEdgeSize;
+                        float lerp = i / (float)(terrEdgeSize);
                         float colCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeSize;
                         float colOfs = (1 - colCellWidth) * halfTerrSize;
 
                         for (int j = 0; j < edgeVtxCount; j++)
                         {
-                            //float px = j * TerrainMeshManager.TerrainScale;
-                            //float pz = i * TerrainMeshManager.TerrainScale;
                             vertices[i * edgeVtxCount + j].Position =
                                 new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
                                             data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
-                                            i * TerrainMeshManager.TerrainScale * latCellSize);
-                            //  new Vector3(px,
-                            //    ComputeTerrainHeight(px, pz, data.Data[i * edgeVtxCount + j], halfTerrSize, PlanetRadius),
-                            //  pz);
+                                            i * TerrainMeshManager.TerrainScale);
+
+                            //lastPosition = vertices[i * edgeVtxCount + j].Position;
                         }
                     }
                     BuildTerrainTree(vertices, blockEdgeCount);
 
                     vtxBuffer.Unlock();
+
+                    //lastPosition.Y = 0;
+                    //lastPosition = Vector3.TransformSimple(lastPosition, Transformation);
+                    //Console.WriteLine(lastPosition.ToString());
+
                 }
                 finally
                 {

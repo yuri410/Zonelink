@@ -12,7 +12,7 @@ namespace Code2015.EngineEx
     class OctplSceneManager : OctreeSceneManager
     {
         public OctplSceneManager(float planetRadius)
-            : base(new OctreeBox(planetRadius * 2.1f), planetRadius / 50f)
+            : base(new OctreeBox(planetRadius * 4f), planetRadius / 75f)
         {
         }
 
