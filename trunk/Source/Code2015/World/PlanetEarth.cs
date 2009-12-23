@@ -46,8 +46,22 @@ namespace Code2015.World
         {
             return PlanetRadius * (float)Math.Cos(lat);
         }
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="span">弧度制</param>
+        /// <returns></returns>
+        public static Vector3 GetInnerPosition(float x, float y, float span)
+        {
+            Vector3 n = GetNormal(x, y);
+            float ir = (float)(PlanetRadius * Math.Cos(0.5 * span));
+            return n * ir;
+        }
         public static Vector3 GetPosition(float x, float y)
         {
+            x = -x;
             // 微积分 球面参数方程
             Vector3 result;
             float py = (float)Math.Cos(y);
