@@ -7,7 +7,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    class LocalEcoSystem : IUpdatable, ICarbon
+    class LocalEcoSystem : IUpdatable
     {
         private float age, humidity, fertility, desertification;
         
@@ -52,66 +52,96 @@ namespace Code2015.BalanceSystem
             get { return balanced; }
             set { balanced = value; }
          }
+
         /// <summary>
-        /// 本地生态系统的面积
+        ///分别有树木，灌木，草
         /// </summary>
-        public float LocalSysArea
+        FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
+
+        //得到所有植物的数目
+        public float GetPlantsAmount(FastList<PlantSpecies> plants)
         {
-            get;
-            set;
+            float plantsAmount = 0.0f;
+            for (int i = 0; i < plants.Count; i++)
+            {
+                plantsAmount += ((PlantSpecies)plants[i]).Strength;
+            }
+            return plantsAmount;
         }
       
-        FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
-       
+        public void SetFactorPlant()
+        {
+            plants.Add(new PlantSpecies("Trees"));
+            plants.Add(new PlantSpecies("Bushes"));
+            plants.Add(new PlantSpecies("Grass"));
+            plants[0].SetPlantFactor(300, 1.0f, 1.0f);
+            plants[1].SetPlantFactor(100, 0.8f, 0.8f);
+            plants[2].SetPlantFactor(70, 0.6f, 0.7f);
+            float plantsAmount = 0.0f;
+            plantsAmount = GetPlantsAmount(plants);
+            float humi=0, desert=0;
+            for (int i = 0; i < plants.Count; i++)
+            {
+                humi += plants[i].HumidityAdjust * plants[i].Strength;
+                desert += plants[i].DesertificationAdjust * plants[i].Strength;
+            }
+            this.Humidity = humi;
+            this.Desertification = desert;
+        }
+
+
         /// <summary>
         /// 动物分别有昆虫，小型动物，大型动物
         /// </summary>
         FastList<AnimalSpecies> animals = new FastList<AnimalSpecies>();
 
-        public LocalEcoSystem GetFactors(PlantSpecies plant, AnimalSpecies animal,LocalEcoSystem local)
+        //得到动物的总数目
+        public float GetAnimalAmount(FastList<AnimalSpecies> animals)
         {
-            local.Desertification = animal.FertilisingSpeed;
-            local.Humidity = plant.HumidityAdjust;
-            local.Desertification = plant.DesertificationAdjust;
-            return local;
+            float animalAmount = 0.0f;
+            for (int i = 0; i < animals.Count; i++)
+            {
+                animalAmount += ((AnimalSpecies)animals[i]).Strength;
+            }
+            return animalAmount;
+        }
+        public void SetFactorAnimal()
+        {
+            animals.Add(new AnimalSpecies("LargeAnimal"));
+            animals.Add(new AnimalSpecies("LittleAnimal"));
+            animals.Add(new AnimalSpecies("Insect"));
+            float fertiliseSpeed = 0;
+            animals[0].SetFertilisingSpeed(100);
+            animals[1].SetFertilisingSpeed(40);
+            animals[2].SetFertilisingSpeed(1);
+            for (int i = 0; i < animals.Count; i++)
+            {
+                fertiliseSpeed += animals[i].Strength * animals[i].FertilisingSpeed;
+            }
+
+            this.Fertility = fertiliseSpeed;    
         }
 
-        public bool IsBalanced(LocalEcoSystem local)
+        public float GetCarbonWeight()
         {
-            if (local.Desertification > 0.5 && local.Humidity > 0.5 && local.Fertility >= 80)
+            float plantIn = 0, animalOut = 0;
+            for (int i = 0; i < plants.Count; i++)
             {
-                return local.Balanced = true;
+                plantIn += plants[i].Strength * plants[i].CarbonTransformSpeed;
             }
-            else
-            {
-                return local.Balanced = false;
-            }
-
+        
         }
-
-     
-       
-       
-        
-        /// <summary>
-        /// 动物因素对本地生态系统的影响
-        /// </summary>
-       
-        
         public void Update(GameTime time)
         { 
             
         }
 
-
-
-        #region ICarbon 成员
-
         public float CarbonChange
         {
-            get { throw new NotImplementedException(); }
+            get;
+            set;
         }
 
-        #endregion
+      
     }
 }

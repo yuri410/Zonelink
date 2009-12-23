@@ -6,13 +6,13 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-   
+
     class PlantSpecies : CreationSpecies
     {
         private float carbonTransformSpeed;
         private float humidityAdjust;
         private float desertificationAdjust;
-       
+
         /// <summary>
         ///  光合作用固化碳的速度
         /// </summary>
@@ -36,7 +36,7 @@ namespace Code2015.BalanceSystem
         {
             get { return desertificationAdjust; }
             set { desertificationAdjust = value; }
-        }  
+        }
         public string Name
         {
             get;
@@ -46,26 +46,15 @@ namespace Code2015.BalanceSystem
         {
             Name = name;
         }
-        public void GetPlantsFactors(PlantSpecies plant,LocalEcoSystem local)
+        
+        //设置不同植物的固碳速度，生态环境湿度调整系数，沙漠化调整系数
+        public void SetPlantFactor(float plantCSpeed, float plantHumidity, float plantDesert)
         {
-            if (plant.CreationsArea > local.LocalSysArea / 3)
-            {
-                plant.CarbonTransformSpeed = 400;
-                plant.HumidityAdjust = 1.0f;
-                plant.DesertificationAdjust = 1.0f;
-            }
-            else if ((plant.CreationsArea > local.LocalSysArea / 5) && (plant.CreationsArea <= local.LocalSysArea / 3))
-            {
-                plant.CarbonTransformSpeed = 300;
-                plant.HumidityAdjust = 0.7f;
-                plant.DesertificationAdjust = 0.7f;
-            }
-            else
-            {
-                plant.CarbonTransformSpeed = 150;
-                plant.HumidityAdjust = 0.4f;
-                plant.DesertificationAdjust = 0.4f;
-            }
+            this.CarbonTransformSpeed = plantCSpeed;
+            this.HumidityAdjust = plantHumidity;
+            this.DesertificationAdjust = plantDesert;
         }
+
+
     }
 }
