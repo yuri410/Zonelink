@@ -6,13 +6,13 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
 using Code2015.Effects;
 using Code2015.EngineEx;
 using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
-using Apoc3D.Vfs;
 
 namespace Code2015
 {
@@ -74,7 +74,14 @@ namespace Code2015
                 TerrainTile terrain = new TerrainTile(renderSys, 57, 7);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
-
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 59, 9);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 9);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
             renderer.RegisterCamera(camera);
