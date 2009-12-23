@@ -11,8 +11,8 @@ namespace GameTest
     {
         static void Main(string[] args)
         {
-            Console.WriteLine(PlanetEarth.GetTileWidth(MathEx.Degree2Radian(60), MathEx.Degree2Radian(10)));
-            Console.WriteLine(PlanetEarth.GetTileHeight(MathEx.Degree2Radian(10)));
+            Console.WriteLine(MathEx.Radian2Degree(PlanetEarth.GetTileArcAngle(90 * 6)));
+            //Console.WriteLine(PlanetEarth.GetTileHeight(MathEx.Degree2Radian(10)));
             Console.ReadKey();
         }
     }
