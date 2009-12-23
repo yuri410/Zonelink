@@ -167,6 +167,7 @@ namespace Code2015.EngineEx
             float poscol = radtc + rad5;
             float poslat = radtl + rad5;
 
+            terrSize--;
             float hs = terrSize * 0.5f;
             Matrix b1 = Matrix.Translation(-hs, 0, -hs);
             Matrix facing = Matrix.Identity;
@@ -184,7 +185,7 @@ namespace Code2015.EngineEx
             Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
 
 
-            Transformation = b1 * scaling * facing * Matrix.Translation(PlanetEarth.GetPosition(poscol, poslat));
+            Transformation = b1 * scaling * facing * Matrix.Translation(PlanetEarth.GetInnerPosition(poscol, poslat, rad10));
 
             //Console.WriteLine(PlanetEarth.GetPosition(radtc, radtl));
             //Console.WriteLine(Vector3.TransformSimple(new Vector3(0, 0, terrSize), Transformation));
@@ -348,6 +349,8 @@ namespace Code2015.EngineEx
                     TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
 
                     //float latCellSize = heightLen / (float)(terrEdgeSize);
+                    float cellAngle = MathEx.Degree2Radian(data.XSpan) / (terrEdgeSize - 1);
+
                     for (int i = 0; i < edgeVtxCount; i++)
                     {
                         float lerp = i / (float)(terrEdgeSize);
@@ -356,10 +359,17 @@ namespace Code2015.EngineEx
 
                         for (int j = 0; j < edgeVtxCount; j++)
                         {
-                            vertices[i * edgeVtxCount + j].Position =
-                                new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
-                                            data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel,
+                            Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
+                                            0,
                                             i * TerrainMeshManager.TerrainScale);
+
+
+                            float height = data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+
+
+                            vertices[i * edgeVtxCount + j].Position = pos;
+                              //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
+                                
 
                             //lastPosition = vertices[i * edgeVtxCount + j].Position;
                         }

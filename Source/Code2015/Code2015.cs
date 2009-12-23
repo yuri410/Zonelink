@@ -49,27 +49,27 @@ namespace Code2015
             sm.PostRenderer = new DefaultPostRenderer();
 
             {
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 1);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 3);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
+            {
                 TerrainTile terrain = new TerrainTile(renderSys, 57, 5);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 59, 5);
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 7);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 55, 5);
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 9);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 53, 5);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 51, 5);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 49, 5);
+                TerrainTile terrain = new TerrainTile(renderSys, 57, 11);
                 sm.SceneManager.AddObjectToScene(terrain);
             }
             renderer = new SceneRenderer(renderSys, sm);
