@@ -29,7 +29,7 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示一座城市
     /// </summary>
-    class City : IUpdatable, ICarbon
+    class City : IUpdatable
     {
         [SLGValueAttribute()]
         const int TownPluginCount = 1;
@@ -102,13 +102,6 @@ namespace Code2015.BalanceSystem
 
         
 
-        #region ICarbon 成员
-
-        public float CarbonChange
-        {
-            get { throw new NotImplementedException(); }
-        }
-
-        #endregion
+      
     }
 }

@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
     class EnergyStatus : IUpdatable
     {
-        NaturalResource[] energyProduers;
+        
 
         private float currentHPEnergy, currentLPEnergy, remainingLPEnergy, renmainingHPEnergy;
         public float CurrentHPEnergy
@@ -32,7 +33,9 @@ namespace Code2015.BalanceSystem
             set { remainingLPEnergy = value; }
         }
 
-      
+
+        FastList<NaturalResource> natualResource = new FastList<NaturalResource>();
+        
         public void Update(GameTime time)
         { }
 

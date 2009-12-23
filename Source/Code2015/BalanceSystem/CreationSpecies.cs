@@ -10,14 +10,18 @@ namespace Code2015.BalanceSystem
     {
       
         /// <summary>
-        /// 生物所拥有的生存领地面积
+        /// 代表生物的数目
         /// </summary>
-        public float CreationsArea
+        public float Strength
         {
             get;
             set;
         }
-       
+        public float CarbonGasWeight
+        {
+            get;
+            set;
+        }
         public void Update(GameTime time)
         { }
     }
