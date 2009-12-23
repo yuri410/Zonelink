@@ -21,8 +21,8 @@ namespace Code2015.World
             : base(true)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
-            //terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
-            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
+            terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
             BoundingSphere.Radius = float.MaxValue;           
         }
 
@@ -33,25 +33,25 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            //switch (level) 
-            //{
-                //case 0:
-                //    return terrain.Resource.GetRenderOperation();
-                //case 1:
-                //    return terrain1.Resource.GetRenderOperation();
-                //case 2:
-                //    return terrain2.Resource.GetRenderOperation();
-            //}
-            return terrain.Resource.GetRenderOperation();
+            switch (level)
+            {
+                case 0:
+                    return terrain.Resource.GetRenderOperation();
+                case 1:
+                    return terrain1.Resource.GetRenderOperation();
+                case 2:
+                    return terrain2.Resource.GetRenderOperation();
+            }
+            return null;
             
         }
 
-        public override void PrepareVisibleObjects(ICamera cam)
+        public override void PrepareVisibleObjects(ICamera cam, int level)
         {
-            terrain.Resource.PrepareVisibleObjects(cam);
+            terrain.Resource.PrepareVisibleObjects(cam, level);
         }
 
-        public override void Update(float dt)
+        public override void Update(GameTime dt)
         {
             TerrainMesh tm = terrain.Resource;
             Transformation = tm.Transformation;

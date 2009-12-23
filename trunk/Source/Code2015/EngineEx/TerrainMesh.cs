@@ -498,7 +498,7 @@ namespace Code2015.EngineEx
             BoundingSphere.Center = Vector3.TransformSimple(BoundingSphere.Center, Transformation);
         }
 
-        public void PrepareVisibleObjects(ICamera cam)
+        public void PrepareVisibleObjects(ICamera cam, int level)
         {
             if (resLoc == null)
                 return;
