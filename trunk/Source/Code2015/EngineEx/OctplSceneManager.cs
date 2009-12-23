@@ -6,6 +6,7 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
+using Apoc3D.Graphics;
 
 namespace Code2015.EngineEx
 {
@@ -14,6 +15,11 @@ namespace Code2015.EngineEx
         public OctplSceneManager(float planetRadius)
             : base(new OctreeBox(planetRadius * 4f), planetRadius / 75f)
         {
+        }
+
+        int GetLevel(ref BoundingSphere sphere, ref Vector3 pos) 
+        {
+            return 0;
         }
 
         public override void PrepareVisibleObjects(ICamera camera, PassData batchHelper)
@@ -28,7 +34,7 @@ namespace Code2015.EngineEx
 
             dir = nearPlane.Normal;
 
-
+            Vector3 camPos = camera.Position;
             // do a BFS pass here
 
             queue.Enqueue(octRootNode);
@@ -59,7 +65,8 @@ namespace Code2015.EngineEx
                         {
                             objs.Elements[i].PrepareVisibleObjects(camera);
                         }
-                        AddVisibleObject(objs.Elements[i], batchHelper);
+                        int level = GetLevel(ref objs.Elements[i].BoundingSphere, ref camPos);
+                        AddVisibleObject(objs.Elements[i], level, batchHelper);
                     }
                 }
 
@@ -67,7 +74,9 @@ namespace Code2015.EngineEx
 
             for (int i = 0; i < farObjects.Count; i++)
             {
-                AddVisibleObject(farObjects[i], batchHelper);
+                int level = GetLevel(ref farObjects[i].BoundingSphere, ref camPos);
+
+                AddVisibleObject(farObjects[i], level, batchHelper);
             }
         }
     }
