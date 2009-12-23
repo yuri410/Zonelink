@@ -147,7 +147,7 @@ namespace Code2015.EngineEx
             float radtl = MathEx.Degree2Radian(tileLat);
             terrEdgeSize = 1025;
 
-            UpdateTransformation(radtc, radtl, terrEdgeSize, 10);
+            UpdateTransformation(radtc, radtl, terrEdgeSize, 9.8f);
         }
 
         void UpdateTransformation(float radtc, float radtl, float terrSize, float span)
@@ -158,8 +158,8 @@ namespace Code2015.EngineEx
             bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
             heightLen = PlanetEarth.GetTileHeight(rad10);
 
-            float poscol = radtc;// +rad5;
-            float poslat = radtl;// +rad5;
+            float poscol = radtc + rad5;
+            float poslat = radtl + rad5;
 
             float hs = terrSize * 0.5f;
             Matrix b1 = Matrix.Translation(-hs, 0, -hs);
@@ -167,7 +167,7 @@ namespace Code2015.EngineEx
             facing.Up = PlanetEarth.GetNormal(poscol, poslat);
             facing.Forward = PlanetEarth.GetTangentY(poscol, poslat);
             facing.Right = Vector3.Cross(facing.Up, facing.Forward);
-            Matrix b2 = Matrix.Translation(hs, 0, hs);
+            //Matrix b2 = Matrix.Translation(hs, 0, hs);
 
             Transformation = b1 * Matrix.Scaling(-1, 1, 1) * facing * Matrix.Translation(PlanetEarth.GetPosition(poscol, poslat));
 
