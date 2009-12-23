@@ -7,17 +7,17 @@ using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
-    class PlanetEarth : StaticModelObject
+    public class PlanetEarth : StaticModelObject
     {
         const int MaxInstance = 25;
         public const float PlanetRadius = 6371f;
 
         /// <summary>
-        ///  计算地块弦长
+        ///  计算地块弧长
         /// </summary>
         /// <param name="rad"></param>
         /// <returns></returns>
-        public static float GetTileLength(float rad)
+        public static float GetTileArcLength(float rad)
         {
             return (float)Math.Sin(rad) * PlanetRadius;
         }
@@ -26,7 +26,7 @@ namespace Code2015.World
         /// </summary>
         /// <param name="len"></param>
         /// <returns></returns>
-        public static float GetTileArc(float len)
+        public static float GetTileArcAngle(float len)
         {
             return (float)Math.Asin(len / PlanetRadius);
         }
