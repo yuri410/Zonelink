@@ -149,7 +149,13 @@ namespace Code2015.EngineEx
 
             UpdateTransformation(radtc, radtl, terrEdgeSize, 10);
         }
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="radtc">经度</param>
+        /// <param name="radtl">纬度</param>
+        /// <param name="terrSize">原始地形大小</param>
+        /// <param name="span">边所占的度数</param>
         void UpdateTransformation(float radtc, float radtl, float terrSize, float span)
         {
             float rad10 = MathEx.Degree2Radian(span);
