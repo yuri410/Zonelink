@@ -266,16 +266,12 @@ namespace Code2015.EngineEx
 
             //float halfTerrSize = terrEdgeSize * 0.5f;
 
-            int edgeVtxCount = terrEdgeSize;
-            int vertexCount = edgeVtxCount * edgeVtxCount;
-
-            int terrEdgeLen = terrEdgeSize - 1;
-
+            int vertexCount = terrEdgeSize * terrEdgeSize;
 
             #region 索引数据
             int blockEdgeLen = TerrainBlockSize - 1;
-            int edgeLen = edgeVtxCount - 1;
-            this.blockEdgeCount = edgeLen / blockEdgeLen;
+            int terrEdgeLen = terrEdgeSize - 1;
+            this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
             this.blockCount = MathEx.Sqr(blockEdgeCount);
 
             levelLengths = new int[LocalLodCount];
@@ -290,7 +286,7 @@ namespace Code2015.EngineEx
                 int cellLength = blockEdgeLen / levelLength;
 
 
-                lodLevelThreshold[k] = (edgeVtxCount * MathEx.Root2 * 0.25f) / (float)(k + 1);
+                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.25f) / (float)(k + 1);
                 lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
 
                 cellSpan[k] = cellLength;
@@ -312,18 +308,18 @@ namespace Code2015.EngineEx
                         int x = i * cellLength;
                         int y = j * cellLength;
 
-                        (*iptr) = y * edgeVtxCount + x;
+                        (*iptr) = y * terrEdgeSize + x;
                         iptr++;
-                        (*iptr) = y * edgeVtxCount + (x + cellLength);
+                        (*iptr) = y * terrEdgeSize + (x + cellLength);
                         iptr++;
-                        (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
+                        (*iptr) = (y + cellLength) * terrEdgeSize + (x + cellLength);
                         iptr++;
 
-                        (*iptr) = y * edgeVtxCount + x;
+                        (*iptr) = y * terrEdgeSize + x;
                         iptr++;
-                        (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
+                        (*iptr) = (y + cellLength) * terrEdgeSize + (x + cellLength);
                         iptr++;
-                        (*iptr) = (y + cellLength) * edgeVtxCount + x;
+                        (*iptr) = (y + cellLength) * terrEdgeSize + x;
                         iptr++;
                     }
                 }
@@ -338,35 +334,34 @@ namespace Code2015.EngineEx
 
             vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
 
-            TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
+            TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
             //float latCellSize = heightLen / (float)(terrEdgeSize);
-            float cellAngle = MathEx.Degree2Radian(data.XSpan) / (terrEdgeLen);
+            float cellAngle = MathEx.Degree2Radian(data.XSpan) / (float)(terrEdgeLen);
 
-            for (int i = 0; i < edgeVtxCount; i++)
+            for (int i = 0; i < terrEdgeSize; i++)
             {
                 float lerp = i / (float)(terrEdgeLen);
                 float colCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeLen;
                 float colOfs = (1 - colCellWidth) * terrEdgeLen * 0.5f;
 
-                for (int j = 0; j < edgeVtxCount; j++)
+                for (int j = 0; j < terrEdgeSize; j++)
                 {
                     Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
                                     0,
                                     i * TerrainMeshManager.TerrainScale);
 
-                    float height = data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+                    float height = data.Data[i * terrEdgeSize + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
 
-                    vertices[i * edgeVtxCount + j].Position = pos;
+                    vtxArray[i * terrEdgeSize + j].Position = pos;
                     //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
                 }
             }
 
-            BuildTerrainTree(vertices);
-
-            vtxBuffer.Unlock();
-
+            BuildTerrainTree(vtxArray);
+            vtxBuffer.SetData<TerrainVertex>(vtxArray);
+            
             #endregion
         }
 
@@ -398,7 +393,7 @@ namespace Code2015.EngineEx
         ///  构造地形树
         /// </summary>
         /// <param name="vertices">顶点数据</param>
-        void BuildTerrainTree(TerrainVertex* vertices)
+        void BuildTerrainTree(TerrainVertex[] vertices)
         {
             // 地块边的长度，边定点数减1
             int blockEdgeLen = TerrainBlockSize - 1;
