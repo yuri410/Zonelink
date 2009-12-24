@@ -120,9 +120,15 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="World\TerrainTile.cs" />
-    <Compile Include="World\Border.cs" />
-    <Compile Include="World\PlanetEarth.cs" />
+    <Compile Include="World\Border.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="World\PlanetEarth.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="World\TerrainTile.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Content Include="Game.ico" />

@@ -40,9 +40,9 @@ namespace Code2015.BalanceSystem
         }
 
         //得到各种动物产生CO2的数量
-        public float ProduceGgas(AnimalSpecies animal, float speed)
+        public float ProduceGgas(float strength, float speed)
         {
-            return animal.Strength * speed;
+            return strength * speed;
         }
 
     }
