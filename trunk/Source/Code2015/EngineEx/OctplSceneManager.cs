@@ -24,7 +24,6 @@ namespace Code2015.EngineEx
         {
             float dist = Vector3.Distance(ref sphere.Center, ref pos);
 
-
             for (int i = WorldLodLevelCount - 1; i >= 0; i--)
             {
                 if (dist >= sphere.Radius * LodThresold[i])
@@ -33,15 +32,6 @@ namespace Code2015.EngineEx
                 }
             }
             return WorldLodLevelCount;
-            //if (dist > sphere.Radius * 5)
-            //    return 3;
-
-            //if (dist > sphere.Radius * 3.5f)
-            //    return 2;
-
-            //if (dist > sphere.Radius * 2.5f)
-            //    return 1;
-            //return 0;
         }
 
         public override void PrepareVisibleObjects(ICamera camera, PassData batchHelper)
@@ -49,22 +39,6 @@ namespace Code2015.EngineEx
             batchHelper.visibleObjects.FastClear();
 
             Frustum frus = camera.Frustum;
-
-            //Plane nearPlane;
-            //frus.GetPlane(FrustumPlane.Near, out nearPlane);
-            //Plane leftPlane;
-            //frus.GetPlane(FrustumPlane.Left, out leftPlane);
-            //Plane rightPlane;
-            //frus.GetPlane(FrustumPlane.Right, out rightPlane);
-
-            //Vector3 viewUp;
-            //Vector3.Cross(ref leftPlane.Normal, ref nearPlane.Normal, out viewUp);
-
-            //Vector3 leftDir;
-            //Vector3.Cross(ref viewUp, ref leftPlane.Normal, out leftDir);
-
-            //Vector3 rightDir;
-            //Vector3.Cross(ref rightPlane.Normal, ref viewUp, out rightDir);
 
             Vector3 camPos = camera.Position;
             // do a BFS pass here
