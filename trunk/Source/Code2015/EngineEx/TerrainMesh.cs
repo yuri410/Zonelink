@@ -169,7 +169,7 @@ namespace Code2015.EngineEx
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
 
             tileCol = x * 5 - 185;
-            tileLat = 60 + (y - 12) * 5;
+            tileLat = 50 - y * 5;// Math.Abs((y - 12) * 5);//y * 5;//
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
@@ -292,7 +292,7 @@ namespace Code2015.EngineEx
                 TDMPIO data = new TDMPIO();
                 data.Load(resLoc);
                 tileCol = (float)Math.Round(data.Xllcorner);
-                tileLat = (float)Math.Round(data.Yllcorner);
+                tileLat = (float)Math.Round(data.Yllcorner);// tileLat < 0 ? MathEx.PiOver2 + (float)Math.Round(data.Yllcorner) : (float)Math.Round(data.Yllcorner);
 
                 float radtc = MathEx.Degree2Radian(tileCol);
                 float radtl = MathEx.Degree2Radian(tileLat);
