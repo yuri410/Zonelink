@@ -61,7 +61,6 @@ namespace Code2015
             {
                 for (int j = 1; j < 24; j += 2)
                 {
-                    
                     TerrainTile terrain = new TerrainTile(renderSys, i, j);
                     sm.SceneManager.AddObjectToScene(terrain);
                 }

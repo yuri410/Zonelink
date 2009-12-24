@@ -103,6 +103,9 @@ namespace Code2015.World
             float rr = PlanetRadius * py;
 
             result.Y = (float)Math.Sqrt(PlanetRadius * PlanetRadius - rr * rr);
+            if (y < 0)
+                result.Y = -result.Y;
+
             result.X = (float)Math.Cos(x) * rr;
             result.Z = (float)Math.Sin(x) * rr;
 
