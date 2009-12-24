@@ -14,8 +14,12 @@ using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
 
+
 namespace Code2015
 {
+    /// <summary>
+    ///  表示游戏。处理、分配各种操作例如渲染，逻辑等等。
+    /// </summary>
     class Code2015 : IRenderWindowHandler
     {
         RenderSystem renderSys;
@@ -32,10 +36,16 @@ namespace Code2015
 
         #region IRenderWindowHandler 成员
 
+        /// <summary>
+        ///  处理游戏初始化操作，在游戏初始加载之前
+        /// </summary>
         public void Initialize()
         {
         }
 
+        /// <summary>
+        ///  处理游戏初始加载资源工作
+        /// </summary>
         public void Load()
         {
             EffectManager.Initialize(renderSys);
@@ -82,11 +92,14 @@ namespace Code2015
             camera.MoveSpeed = 50;
         }
 
+        /// <summary>
+        ///  处理游戏关闭时的释放资源工作
+        /// </summary>
         public void Unload()
         {
         }
 
-
+        #region 临时测试代码
         [System.Runtime.InteropServices.DllImport("user32")]
         static extern bool GetAsyncKeyState(VKeys vKey);
         [System.Runtime.InteropServices.DllImport("user32")]
@@ -243,8 +256,12 @@ namespace Code2015
             VK_PA1 = 253,
             VK_OEM_CLEAR = 254
         }
-       
+        #endregion
 
+        /// <summary>
+        ///  进行游戏逻辑帧中的处理
+        /// </summary>
+        /// <param name="time"></param>
         public void Update(GameTime time)
         {
             if (GetAsyncKeyState((short)'W'))
@@ -270,7 +287,7 @@ namespace Code2015
             if (GetAsyncKeyState(VKeys.VK_CONTROL))
             {
                 camera.MoveDown();
-            } 
+            }
 
             if (GetAsyncKeyState(VKeys.VK_LEFT))
             {
@@ -287,13 +304,16 @@ namespace Code2015
             if (GetAsyncKeyState(VKeys.VK_DOWN))
             {
                 camera.TurnDown();
-            } 
-            
+            }
+
             camera.Update(time);
 
             renderer.Update(time);
         }
 
+        /// <summary>
+        ///  进行游戏图像渲染帧中的渲染操作
+        /// </summary>
         public void Draw()
         {
             renderer.RenderScene();

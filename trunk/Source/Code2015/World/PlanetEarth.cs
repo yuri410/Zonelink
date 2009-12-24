@@ -7,6 +7,9 @@ using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
+    /// <summary>
+    ///  表示地球
+    /// </summary>
     public class PlanetEarth : StaticModelObject
     {
         const int MaxInstance = 25;

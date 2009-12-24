@@ -7,6 +7,9 @@ using Apoc3D.Scene;
 
 namespace Code2015.World
 {
+    /// <summary>
+    ///  表示边界
+    /// </summary>
     class Border : StaticModelObject
     {
 
