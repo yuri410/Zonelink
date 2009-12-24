@@ -57,19 +57,19 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            for (int i = 1; i < 72; i += 2)
-            {
-                for (int j = 1; j < 12; j += 2) 
-                {
-                    TerrainTile terrain = new TerrainTile(renderSys, i, j);
-                    sm.SceneManager.AddObjectToScene(terrain);
-                }
-            }
-
+            //for (int i = 1; i < 72; i += 2)
             //{
-            //    TerrainTile terrain = new TerrainTile(renderSys, 1, 5);
-            //    sm.SceneManager.AddObjectToScene(terrain);
+            //    for (int j = 1; j < 12; j += 2)
+            //    {
+            //        TerrainTile terrain = new TerrainTile(renderSys, i, j);
+            //        sm.SceneManager.AddObjectToScene(terrain);
+            //    }
             //}
+
+            {
+                TerrainTile terrain = new TerrainTile(renderSys, 59, 5);
+                sm.SceneManager.AddObjectToScene(terrain);
+            }
             //{
             //    TerrainTile terrain = new TerrainTile(renderSys, 57, 3);
             //    sm.SceneManager.AddObjectToScene(terrain);
