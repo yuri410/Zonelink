@@ -299,8 +299,9 @@ namespace Code2015.EngineEx
 
                 indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
 
-                int* iptr = (int*)indexBuffer[k].Lock(0, 0, LockMode.None);
+                int[] indexArray = new int[indexCount];
 
+                int index = 0;
                 for (int i = 0; i < levelLength; i++)
                 {
                     for (int j = 0; j < levelLength; j++)
@@ -308,23 +309,16 @@ namespace Code2015.EngineEx
                         int x = i * cellLength;
                         int y = j * cellLength;
 
-                        (*iptr) = y * terrEdgeSize + x;
-                        iptr++;
-                        (*iptr) = y * terrEdgeSize + (x + cellLength);
-                        iptr++;
-                        (*iptr) = (y + cellLength) * terrEdgeSize + (x + cellLength);
-                        iptr++;
+                        indexArray[index++] = y * terrEdgeSize + x;
+                        indexArray[index++] = y * terrEdgeSize + (x + cellLength);
+                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
 
-                        (*iptr) = y * terrEdgeSize + x;
-                        iptr++;
-                        (*iptr) = (y + cellLength) * terrEdgeSize + (x + cellLength);
-                        iptr++;
-                        (*iptr) = (y + cellLength) * terrEdgeSize + x;
-                        iptr++;
+                        indexArray[index++] = y * terrEdgeSize + x;
+                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+                        indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
                     }
                 }
-                indexBuffer[k].Unlock();
-
+                indexBuffer[k].SetData<int>(indexArray);
             }
             #endregion
 
