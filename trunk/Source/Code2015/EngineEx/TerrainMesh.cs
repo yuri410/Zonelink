@@ -215,10 +215,6 @@ namespace Code2015.EngineEx
 
 
             Transformation = b1 * scaling * facing * Matrix.Translation(PlanetEarth.GetInnerPosition(poscol, poslat, rad10));
-
-            //Console.WriteLine(PlanetEarth.GetPosition(radtc, radtl));
-            //Console.WriteLine(Vector3.TransformSimple(new Vector3(0, 0, terrSize), Transformation));
-
         }
 
 
@@ -226,18 +222,41 @@ namespace Code2015.EngineEx
         public override int GetSize()
         {
             int size = 0;
-            if (vtxBuffer != null)
+            if (resLoc == null)
             {
-                size += vtxBuffer.Size;
+                size += TerrainVertex.Size * 4;
             }
-
-            for (int i = 0; i < indexBuffer.Length; i++)
+            else
             {
-                if (indexBuffer[i] != null)
+                switch (dataLevel)
                 {
-                    size += indexBuffer[i].Size;
+                    case 0:
+                        size += TerrainVertex.Size * 1025 * 1025;
+                        size += sizeof(int) * (32 * 32) * 6 * LocalLodCount;
+                        break;
+                    case 1:
+                        size += TerrainVertex.Size * 257 * 257;
+                        size += sizeof(int) * (8 * 8) * 6 * LocalLodCount;
+                        break;
+                    case 2:
+                        size += TerrainVertex.Size * 65 * 65;
+                        size += sizeof(int) * (2 * 2) * 6 * LocalLodCount;
+                        break;
                 }
             }
+
+            //if (vtxBuffer != null)
+            //{
+            //    size += vtxBuffer.Size;
+            //}
+
+            //for (int i = 0; i < indexBuffer.Length; i++)
+            //{
+            //    if (indexBuffer[i] != null)
+            //    {
+            //        size += indexBuffer[i].Size;
+            //    }
+            //}
             return size;
         }
 
@@ -255,9 +274,9 @@ namespace Code2015.EngineEx
                     TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
 
                     vertices[0].Position = new Vector3(0, 0, 0);
-                    vertices[2].Position = new Vector3(terrEdgeSize, 0, terrEdgeSize);
-                    vertices[1].Position = new Vector3(terrEdgeSize, 0, 0);
-                    vertices[3].Position = new Vector3(0, 0, terrEdgeSize);
+                    vertices[1].Position = new Vector3(0, 0, terrEdgeSize);
+                    vertices[2].Position = new Vector3(terrEdgeSize, 0, 0);
+                    vertices[3].Position = new Vector3(terrEdgeSize, 0, terrEdgeSize);
 
                     vtxBuffer.Unlock();
                 }
@@ -370,7 +389,6 @@ namespace Code2015.EngineEx
 
                 #region 顶点数据
 
-                //Vector3 lastPosition = new Vector3();
                 ResourceInterlock.EnterAtomicOp();
                 try
                 {
@@ -400,19 +418,11 @@ namespace Code2015.EngineEx
 
                             vertices[i * edgeVtxCount + j].Position = pos;
                             //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
-
-
-                            //lastPosition = vertices[i * edgeVtxCount + j].Position;
                         }
                     }
                     BuildTerrainTree(vertices);
 
                     vtxBuffer.Unlock();
-
-                    //lastPosition.Y = 0;
-                    //lastPosition = Vector3.TransformSimple(lastPosition, Transformation);
-                    //Console.WriteLine(lastPosition.ToString());
-
                 }
                 finally
                 {
@@ -433,8 +443,11 @@ namespace Code2015.EngineEx
 
             for (int i = 0; i < LocalLodCount; i++)
             {
-                indexBuffer[i].Dispose();
-                indexBuffer[i] = null;
+                if (indexBuffer[i] != null)
+                {
+                    indexBuffer[i].Dispose();
+                    indexBuffer[i] = null;
+                }
             }
         }
         #endregion
@@ -478,8 +491,8 @@ namespace Code2015.EngineEx
                     gd.VertexSize = TerrainVertex.Size;
                     gd.VertexBuffer = vtxBuffer;
                     gd.IndexBuffer = indexBuffer[0];
-                    gd.PrimCount = levelPrimConut[0];// levelLengths[0] * levelLengths[0] * 2;
-                    gd.VertexCount = levelVertexCount[0];// MathEx.Sqr(levelLengths[0] + 1);
+                    gd.PrimCount = levelPrimConut[0];
+                    gd.VertexCount = levelVertexCount[0];
 
                     gd.PrimitiveType = RenderPrimitiveType.TriangleList;
 

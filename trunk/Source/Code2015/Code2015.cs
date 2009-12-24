@@ -14,7 +14,6 @@ using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
 
-
 namespace Code2015
 {
     /// <summary>
@@ -58,30 +57,39 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
+            for (int i = 1; i < 72; i += 2)
             {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 1);
-                sm.SceneManager.AddObjectToScene(terrain);
+                for (int j = 1; j < 12; j += 2) 
+                {
+                    TerrainTile terrain = new TerrainTile(renderSys, i, j);
+                    sm.SceneManager.AddObjectToScene(terrain);
+                }
             }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 3);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 5);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 7);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 9);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
-            {
-                TerrainTile terrain = new TerrainTile(renderSys, 57, 11);
-                sm.SceneManager.AddObjectToScene(terrain);
-            }
+
+            //{
+            //    TerrainTile terrain = new TerrainTile(renderSys, 1, 5);
+            //    sm.SceneManager.AddObjectToScene(terrain);
+            //}
+            //{
+            //    TerrainTile terrain = new TerrainTile(renderSys, 57, 3);
+            //    sm.SceneManager.AddObjectToScene(terrain);
+            //}
+            //{
+            //    TerrainTile terrain = new TerrainTile(renderSys, 57, 5);
+            //    sm.SceneManager.AddObjectToScene(terrain);
+            //}
+            //{
+            //    TerrainTile terrain = new TerrainTile(renderSys, 57, 7);
+            //    sm.SceneManager.AddObjectToScene(terrain);
+            //}
+            //{
+            //    TerrainTile terrain = new TerrainTile(renderSys, 57, 9);
+            //    sm.SceneManager.AddObjectToScene(terrain);
+            //}
+            //{
+            //    TerrainTile terrain = new TerrainTile(renderSys, 57, 11);
+            //    sm.SceneManager.AddObjectToScene(terrain);
+            //}
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
             renderer.RegisterCamera(camera);
