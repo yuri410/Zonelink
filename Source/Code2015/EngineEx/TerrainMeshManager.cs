@@ -23,7 +23,7 @@ namespace Code2015.EngineEx
                     {
                         if (singleton == null)
                         {
-                            singleton = new TerrainMeshManager(1028576 * 100);
+                            singleton = new TerrainMeshManager(1028576 * 80);
                         }
                     }
                 }
@@ -51,10 +51,10 @@ namespace Code2015.EngineEx
                 retrived = mdl;
                 base.NotifyResourceNew(mdl);
             }
-            else
-            {
-                retrived.Use();
-            }
+            //else
+            //{
+            //    retrived.Use();
+            //}
             return new ResourceHandle<TerrainMesh>((TerrainMesh)retrived);
         }
     }

@@ -142,7 +142,7 @@ namespace Code2015.EngineEx
 
         public static string GetHashString(int x, int y, int lod)
         {
-            return "TM" + x.ToString() + y.ToString() + lod.ToString();
+            return "TM" + x.ToString("D2") + y.ToString("D2") + lod.ToString("D1");
         }
 
         public TerrainMesh(RenderSystem rs, int x, int y, int lod)
