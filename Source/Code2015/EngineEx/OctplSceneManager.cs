@@ -50,11 +50,21 @@ namespace Code2015.EngineEx
 
             Frustum frus = camera.Frustum;
 
-            Vector3 dir;
-            Plane nearPlane;
-            frus.GetPlane(FrustumPlane.Near, out nearPlane);
+            //Plane nearPlane;
+            //frus.GetPlane(FrustumPlane.Near, out nearPlane);
+            //Plane leftPlane;
+            //frus.GetPlane(FrustumPlane.Left, out leftPlane);
+            //Plane rightPlane;
+            //frus.GetPlane(FrustumPlane.Right, out rightPlane);
 
-            dir = nearPlane.Normal;
+            //Vector3 viewUp;
+            //Vector3.Cross(ref leftPlane.Normal, ref nearPlane.Normal, out viewUp);
+
+            //Vector3 leftDir;
+            //Vector3.Cross(ref viewUp, ref leftPlane.Normal, out leftDir);
+
+            //Vector3 rightDir;
+            //Vector3.Cross(ref rightPlane.Normal, ref viewUp, out rightDir);
 
             Vector3 camPos = camera.Position;
             // do a BFS pass here
@@ -65,11 +75,10 @@ namespace Code2015.EngineEx
             {
                 OctreeSceneNode node = queue.Dequeue();
 
-                Vector3 center = node.BoundingSphere.Center;
-
-                // if the node does't intersect the frustum we don't give a damn
-                if (Vector3.Dot(ref dir, ref center) <= 0 &&
-                    frus.IntersectsSphere(ref center, node.BoundingSphere.Radius))
+                Vector3 dir;
+                Vector3 center2;
+                
+                if (frus.IntersectsSphere(ref node.BoundingSphere.Center, node.BoundingSphere.Radius))
                 {
                     for (int i = 0; i < 2; i++)
                         for (int j = 0; j < 2; j++)
@@ -83,13 +92,25 @@ namespace Code2015.EngineEx
                     FastList<SceneObject> objs = node.AttchedObjects;
                     for (int i = 0; i < objs.Count; i++)
                     {
-                        int level = GetLevel(ref objs.Elements[i].BoundingSphere, ref camPos);
+                        SceneObject obj = objs.Elements[i];
+                        dir = obj.BoundingSphere.Center;
+                        dir.Normalize();
+                        Vector3.Multiply(ref dir, node.BoundingSphere.Radius, out dir);
+                        Vector3.Add(ref obj.BoundingSphere.Center, ref dir, out center2);
 
-                        if (objs.Elements[i].HasSubObjects)
+                        Vector3.Subtract(ref obj.BoundingSphere.Center, ref camPos, out dir);
+
+
+                        if (Vector3.Dot(ref dir, ref center2) <= 0)
                         {
-                            objs.Elements[i].PrepareVisibleObjects(camera, level);
+                            int level = GetLevel(ref obj.BoundingSphere, ref camPos);
+
+                            if (obj.HasSubObjects)
+                            {
+                                obj.PrepareVisibleObjects(camera, level);
+                            }
+                            AddVisibleObject(obj, level, batchHelper);
                         }
-                        AddVisibleObject(objs.Elements[i], level, batchHelper);
                     }
                 }
 

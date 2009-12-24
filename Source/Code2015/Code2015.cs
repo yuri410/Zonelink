@@ -72,7 +72,7 @@ namespace Code2015
             //camera.Position = new Vector3(PlanetEarth.PlanetRadius, 0, 0);
 
             camera.NearPlane = 1;
-            camera.FarPlane = 10000;
+            camera.FarPlane = 15000;
             camera.MoveSpeed = 50;
         }
 
