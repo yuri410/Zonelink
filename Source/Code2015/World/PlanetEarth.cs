@@ -12,7 +12,16 @@ namespace Code2015.World
     /// </summary>
     public class PlanetEarth : StaticModelObject
     {
+        /// <summary>
+        /// ？？？
+        /// </summary>
+        [Obsolete()]
         const int MaxInstance = 25;
+
+        #region 工具
+        /// <summary>
+        ///  表示地球的半径
+        /// </summary>
         public const float PlanetRadius = 6371f;
 
         /// <summary>
@@ -27,7 +36,7 @@ namespace Code2015.World
         /// <summary>
         ///  计算地块角度
         /// </summary>
-        /// <param name="len"></param>
+        /// <param name="len">弧长</param>
         /// <returns></returns>
         public static float GetTileArcAngle(float len)
         {
@@ -35,10 +44,10 @@ namespace Code2015.World
         }
 
         /// <summary>
-        ///  计算弦长
+        ///  计算纬度方向的弦长
         /// </summary>
-        /// <param name="lat"></param>
-        /// <param name="span"></param>
+        /// <param name="lat">纬度</param>
+        /// <param name="span">经度圆心角</param>
         /// <returns></returns>
         public static float GetTileWidth(float lat, float span)
         {
@@ -47,9 +56,9 @@ namespace Code2015.World
             // (float)Math.Sqrt(2 * r * r * (1 - (float)Math.Cos(span)));
         }
         /// <summary>
-        ///  计算弦长
+        ///  计算经度方向的弦长
         /// </summary>
-        /// <param name="span"></param>
+        /// <param name="span">纬度圆心角</param>
         /// <returns></returns>
         public static float GetTileHeight(float span) 
         {
@@ -57,16 +66,21 @@ namespace Code2015.World
             // (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(span));
         }
 
+        /// <summary>
+        ///  计算纬度截面园的半径
+        /// </summary>
+        /// <param name="lat">纬度</param>
+        /// <returns></returns>
         public static float GetLatRadius(float lat)
         {
             return PlanetRadius * (float)Math.Cos(lat);
         }
         /// <summary>
-        /// 
+        ///  计算弦上点的坐标
         /// </summary>
-        /// <param name="x"></param>
-        /// <param name="y"></param>
-        /// <param name="span">弧度制</param>
+        /// <param name="x">经度</param>
+        /// <param name="y">纬度</param>
+        /// <param name="span">经度圆心角，弧度制</param>
         /// <returns></returns>
         public static Vector3 GetInnerPosition(float x, float y, float span)
         {
@@ -74,6 +88,12 @@ namespace Code2015.World
             float ir = (float)(PlanetRadius * Math.Cos(0.5 * span));
             return n * ir;
         }
+        /// <summary>
+        ///  计算球面上的点的坐标
+        /// </summary>
+        /// <param name="x">经度</param>
+        /// <param name="y">纬度</param>
+        /// <returns></returns>
         public static Vector3 GetPosition(float x, float y)
         {
             x = -x;
@@ -91,12 +111,24 @@ namespace Code2015.World
                 result.Y = 0;
             return result;
         }
+        /// <summary>
+        ///  计算球面上一点的法向量
+        /// </summary>
+        /// <param name="x">经度</param>
+        /// <param name="y">纬度</param>
+        /// <returns></returns>
         public static Vector3 GetNormal(float x, float y)
         {
             Vector3 result = GetPosition(x, y);
             result.Normalize();
             return result;
         }
+        /// <summary>
+        ///  计算球面上一点沿经度方向的切向量
+        /// </summary>
+        /// <param name="x">经度</param>
+        /// <param name="y">纬度</param>
+        /// <returns></returns>
         public static Vector3 GetTangentY(float x, float y)
         {
             Vector3 result = GetPosition(x, y + MathEx.PiOver2);
@@ -104,6 +136,12 @@ namespace Code2015.World
 
             return result;
         }
+        /// <summary>
+        ///  计算球面上一点沿纬度方向的切向量
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <returns></returns>
         public static Vector3 GetTangentX(float x, float y)
         {
             Vector3 up = GetNormal(x,y);
@@ -114,6 +152,7 @@ namespace Code2015.World
 
             return result;
         }
+        #endregion
 
         public override bool IsSerializable
         {

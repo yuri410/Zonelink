@@ -12,6 +12,9 @@ namespace Code2015.EngineEx
 {
     class OctplSceneManager : OctreeSceneManager
     {
+        const int WorldLodLevelCount = 3;
+        static readonly float[] LodThresold = new float[WorldLodLevelCount] { 0, 1.5f, 4 };
+
         public OctplSceneManager(float planetRadius)
             : base(new OctreeBox(planetRadius * 4f), planetRadius / 75f)
         {
@@ -20,12 +23,25 @@ namespace Code2015.EngineEx
         protected int GetLevel(ref BoundingSphere sphere, ref Vector3 pos)
         {
             float dist = Vector3.Distance(ref sphere.Center, ref pos);
-            if (dist > sphere.Radius * 3.5)
-                return 2;
 
-            if (dist > sphere.Radius * 2.5f)
-                return 1;
-            return 0;
+
+            for (int i = WorldLodLevelCount - 1; i >= 0; i--)
+            {
+                if (dist >= sphere.Radius * LodThresold[i])
+                {
+                    return i;
+                }
+            }
+            return WorldLodLevelCount;
+            //if (dist > sphere.Radius * 5)
+            //    return 3;
+
+            //if (dist > sphere.Radius * 3.5f)
+            //    return 2;
+
+            //if (dist > sphere.Radius * 2.5f)
+            //    return 1;
+            //return 0;
         }
 
         public override void PrepareVisibleObjects(ICamera camera, PassData batchHelper)

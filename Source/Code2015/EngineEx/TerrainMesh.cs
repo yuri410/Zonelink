@@ -289,18 +289,17 @@ namespace Code2015.EngineEx
 
                 float radtc = MathEx.Degree2Radian(tileCol);
                 float radtl = MathEx.Degree2Radian(tileLat);
+                terrEdgeSize = data.Width;
+
                 UpdateTransformation(radtc, radtl, terrEdgeSize, data.XSpan);
 
                 MeshData meshData = new MeshData(renderSystem);
 
 
-                terrEdgeSize = data.Width;
                 float halfTerrSize = terrEdgeSize * 0.5f;
 
                 int edgeVtxCount = terrEdgeSize;
                 int vertexCount = edgeVtxCount * edgeVtxCount;
-
-
 
                 #region 索引数据
                 int blockEdgeLen = TerrainBlockSize - 1;
@@ -400,8 +399,8 @@ namespace Code2015.EngineEx
 
 
                             vertices[i * edgeVtxCount + j].Position = pos;
-                              //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
-                                
+                            //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
+
 
                             //lastPosition = vertices[i * edgeVtxCount + j].Position;
                         }
