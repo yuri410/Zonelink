@@ -62,7 +62,6 @@ namespace Code2015.EngineEx
         RenderSystem renderSystem;
         ObjectFactory factory;
 
-        GeomentryData noDataGeo;
 
         Queue<TerrainTreeNode> bfsQueue;
         TerrainTreeNode rootNode;
@@ -222,11 +221,7 @@ namespace Code2015.EngineEx
         public override int GetSize()
         {
             int size = 0;
-            if (resLoc == null)
-            {
-                size += TerrainVertex.Size * 4;
-            }
-            else
+            if (resLoc != null)
             {
                 switch (dataLevel)
                 {
@@ -634,21 +629,10 @@ namespace Code2015.EngineEx
         {
             if (State == ResourceState.Loaded)
             {
-                if (resLoc == null)
+                if (resLoc != null)
                 {
-                    opBuffer.Clear();
-                    RenderOperation op;
-
-                    op.Material = material;
-                    op.Geomentry = noDataGeo;
-
-                    op.Transformation = Matrix.Identity;// Transformation;
-
-                    opBuffer.Add(op);
                     return opBuffer.Elements;
                 }
-
-                return opBuffer.Elements;
             }
             return null;
         }
