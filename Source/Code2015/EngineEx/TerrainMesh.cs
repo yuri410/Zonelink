@@ -11,6 +11,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.Effects;
 using Code2015.World;
+using System.Threading;
 
 namespace Code2015.EngineEx
 {
@@ -252,7 +253,7 @@ namespace Code2015.EngineEx
             TDMPIO data = new TDMPIO();
             data.Load(resLoc);
             tileCol = (float)Math.Round(data.Xllcorner);
-            tileLat = (float)Math.Round(data.Yllcorner);// tileLat < 0 ? MathEx.PiOver2 + (float)Math.Round(data.Yllcorner) : (float)Math.Round(data.Yllcorner);
+            tileLat = (float)Math.Round(data.Yllcorner);
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
@@ -263,10 +264,13 @@ namespace Code2015.EngineEx
             MeshData meshData = new MeshData(renderSystem);
 
 
-            float halfTerrSize = terrEdgeSize * 0.5f;
+            //float halfTerrSize = terrEdgeSize * 0.5f;
 
             int edgeVtxCount = terrEdgeSize;
             int vertexCount = edgeVtxCount * edgeVtxCount;
+
+            int terrEdgeLen = terrEdgeSize - 1;
+
 
             #region 索引数据
             int blockEdgeLen = TerrainBlockSize - 1;
@@ -297,85 +301,71 @@ namespace Code2015.EngineEx
                 levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
                 levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
 
-                ResourceInterlock.EnterAtomicOp();
-                try
+                indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+
+                int* iptr = (int*)indexBuffer[k].Lock(0, 0, LockMode.None);
+
+                for (int i = 0; i < levelLength; i++)
                 {
-                    indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-
-                    int* iptr = (int*)indexBuffer[k].Lock(0, 0, LockMode.None);
-
-                    for (int i = 0; i < levelLength; i++)
+                    for (int j = 0; j < levelLength; j++)
                     {
-                        for (int j = 0; j < levelLength; j++)
-                        {
-                            int x = i * cellLength;
-                            int y = j * cellLength;
+                        int x = i * cellLength;
+                        int y = j * cellLength;
 
-                            (*iptr) = y * edgeVtxCount + x;
-                            iptr++;
-                            (*iptr) = y * edgeVtxCount + (x + cellLength);
-                            iptr++;
-                            (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
-                            iptr++;
+                        (*iptr) = y * edgeVtxCount + x;
+                        iptr++;
+                        (*iptr) = y * edgeVtxCount + (x + cellLength);
+                        iptr++;
+                        (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
+                        iptr++;
 
-                            (*iptr) = y * edgeVtxCount + x;
-                            iptr++;
-                            (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
-                            iptr++;
-                            (*iptr) = (y + cellLength) * edgeVtxCount + x;
-                            iptr++;
-                        }
+                        (*iptr) = y * edgeVtxCount + x;
+                        iptr++;
+                        (*iptr) = (y + cellLength) * edgeVtxCount + (x + cellLength);
+                        iptr++;
+                        (*iptr) = (y + cellLength) * edgeVtxCount + x;
+                        iptr++;
                     }
-                    indexBuffer[k].Unlock();
                 }
-                finally
-                {
-                    ResourceInterlock.ExitAtomicOp();
-                }
+                indexBuffer[k].Unlock();
+
             }
             #endregion
 
             #region 顶点数据
 
-            ResourceInterlock.EnterAtomicOp();
-            try
+            vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
+
+            vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
+
+            TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
+
+            //float latCellSize = heightLen / (float)(terrEdgeSize);
+            float cellAngle = MathEx.Degree2Radian(data.XSpan) / (terrEdgeLen);
+
+            for (int i = 0; i < edgeVtxCount; i++)
             {
-                vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
+                float lerp = i / (float)(terrEdgeLen);
+                float colCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeLen;
+                float colOfs = (1 - colCellWidth) * terrEdgeLen * 0.5f;
 
-                vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
-                TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
-
-                //float latCellSize = heightLen / (float)(terrEdgeSize);
-                float cellAngle = MathEx.Degree2Radian(data.XSpan) / (terrEdgeSize - 1);
-
-                for (int i = 0; i < edgeVtxCount; i++)
+                for (int j = 0; j < edgeVtxCount; j++)
                 {
-                    float lerp = i / (float)(terrEdgeSize);
-                    float colCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeSize;
-                    float colOfs = (1 - colCellWidth) * halfTerrSize;
+                    Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
+                                    0,
+                                    i * TerrainMeshManager.TerrainScale);
 
-                    for (int j = 0; j < edgeVtxCount; j++)
-                    {
-                        Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
-                                        0,
-                                        i * TerrainMeshManager.TerrainScale);
+                    float height = data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
 
-                        float height = data.Data[i * edgeVtxCount + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
-
-
-                        vertices[i * edgeVtxCount + j].Position = pos;
-                        //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
-                    }
+                    vertices[i * edgeVtxCount + j].Position = pos;
+                    //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
                 }
-                BuildTerrainTree(vertices);
+            }
 
-                vtxBuffer.Unlock();
-            }
-            finally
-            {
-                ResourceInterlock.ExitAtomicOp();
-            }
+            BuildTerrainTree(vertices);
+
+            vtxBuffer.Unlock();
 
             #endregion
         }
