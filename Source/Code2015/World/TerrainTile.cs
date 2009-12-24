@@ -21,9 +21,11 @@ namespace Code2015.World
             : base(true)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
-            //terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
-            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            BoundingSphere.Radius = float.MaxValue;           
+            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
+            terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            BoundingSphere.Radius = float.MaxValue;
+
+            Transformation = Matrix.Identity;
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -35,7 +37,7 @@ namespace Code2015.World
         {
             //switch (level)
             //{
-            //    case 0:
+                //case 0:
                     return terrain.Resource.GetRenderOperation();
             //    case 1:
             //        return terrain1.Resource.GetRenderOperation();

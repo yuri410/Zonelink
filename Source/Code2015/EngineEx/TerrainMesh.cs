@@ -374,7 +374,7 @@ namespace Code2015.EngineEx
                             //lastPosition = vertices[i * edgeVtxCount + j].Position;
                         }
                     }
-                    BuildTerrainTree(vertices, blockEdgeCount);
+                    BuildTerrainTree(vertices);
 
                     vtxBuffer.Unlock();
 
@@ -408,14 +408,22 @@ namespace Code2015.EngineEx
         }
         #endregion
 
-        void BuildTerrainTree(TerrainVertex* vertices, int blockEdgeLen)
+        /// <summary>
+        ///  
+        /// </summary>
+        /// <param name="vertices">顶点数据</param>
+        void BuildTerrainTree(TerrainVertex* vertices)
         {
+            // 地块边的长度，边定点数减1
+
+            int blockEdgeLen = TerrainBlockSize - 1;
             TerrainBlock[] blocks = new TerrainBlock[blockCount];
 
             float halfTerrSize = terrEdgeSize * 0.5f;
 
             int index = 0;
 
+            // 枚举每个地块
             for (int i = 0; i < blockEdgeCount; i++)
             {
                 for (int j = 0; j < blockEdgeCount; j++)
@@ -452,6 +460,7 @@ namespace Code2015.EngineEx
 
                     blocks[index].GeoData = gd;
 
+                    #region 计算包围球中心点
                     for (int ii = 0; ii < TerrainBlockSize; ii++)
                     {
                         for (int jj = 0; jj < TerrainBlockSize; jj++)
@@ -468,6 +477,9 @@ namespace Code2015.EngineEx
                     center.Y *= invVtxCount;
                     center.Z *= invVtxCount;
 
+                    #endregion
+
+                    #region 计算包围球半径
 
                     float radius = 0;
                     for (int ii = 0; ii < TerrainBlockSize; ii++)
@@ -489,6 +501,7 @@ namespace Code2015.EngineEx
                     blocks[index].Radius = radius;
                     blocks[index].Center = center;
 
+                    #endregion
                     index++;
                 }
             }
@@ -557,11 +570,11 @@ namespace Code2015.EngineEx
                                     op.Material = material;
                                     op.Geomentry = node.Block.GeoData;
 
-                                    int lodLevel = 3;
+                                    int lodLevel = LocalLodCount - 1;
 
-                                    for (int lod = 0; lod < 4; lod++)
+                                    for (int lod = 0; lod < LocalLodCount; lod++)
                                     {
-                                        if (dist <= lodLevelThreshold[3 - lod])
+                                        if (dist <= lodLevelThreshold[LocalLodCount - lod - 1])
                                         {
                                             lodLevel = lod;
                                             break;
@@ -572,7 +585,7 @@ namespace Code2015.EngineEx
                                     op.Geomentry.PrimCount = levelPrimConut[lodLevel];
                                     op.Geomentry.VertexCount = levelVertexCount[lodLevel];
 
-                                    op.Transformation = Transformation;
+                                    op.Transformation = Matrix.Identity;// Transformation;
 
                                     opBuffer.Add(op);
                                 }
@@ -598,7 +611,7 @@ namespace Code2015.EngineEx
                     op.Material = material;
                     op.Geomentry = noDataGeo;
 
-                    op.Transformation = Transformation;
+                    op.Transformation = Matrix.Identity;// Transformation;
 
                     opBuffer.Add(op);
                     return opBuffer.Elements;
