@@ -10,7 +10,7 @@ namespace Code2015.BalanceSystem
     class LocalEcoSystem : IUpdatable
     {
         private float age, humidity, fertility, desertification;
-        
+
         private bool balanced;
         /// <summary>
         /// 局部生态系统的存在时间
@@ -51,7 +51,13 @@ namespace Code2015.BalanceSystem
         {
             get { return balanced; }
             set { balanced = value; }
-         }
+        }
+
+        public float CarbonChange
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///分别有树木，灌木，草
@@ -68,7 +74,7 @@ namespace Code2015.BalanceSystem
             }
             return plantsAmount;
         }
-      
+
         public void SetFactorPlant()
         {
             plants.Add(new PlantSpecies("Trees"));
@@ -79,7 +85,7 @@ namespace Code2015.BalanceSystem
             plants[2].SetPlantFactor(70, 0.6f, 0.7f);
             float plantsAmount = 0.0f;
             plantsAmount = GetPlantsAmount(plants);
-            float humi=0, desert=0;
+            float humi = 0, desert = 0;
             for (int i = 0; i < plants.Count; i++)
             {
                 humi += plants[i].HumidityAdjust * plants[i].Strength;
@@ -105,6 +111,7 @@ namespace Code2015.BalanceSystem
             }
             return animalAmount;
         }
+        //得到动物的影响因素
         public void SetFactorAnimal()
         {
             animals.Add(new AnimalSpecies("LargeAnimal"));
@@ -119,32 +126,90 @@ namespace Code2015.BalanceSystem
                 fertiliseSpeed += animals[i].Strength * animals[i].FertilisingSpeed;
             }
 
-            this.Fertility = fertiliseSpeed;    
+            this.Fertility = fertiliseSpeed;
         }
-
-        public float GetCarbonWeight()
+        /// <summary>
+        /// 获得改变的CO2的数量
+        /// </summary>
+        public void GetCarbonWeight()
         {
             float plantIn = 0, animalOut = 0;
             for (int i = 0; i < plants.Count; i++)
             {
                 plantIn += plants[i].Strength * plants[i].CarbonTransformSpeed;
-                animalOut += animals[i].Strength * animals[i].ProduceGgas(animals[i], 89);
             }
-                return 0.0f;
+            animalOut = animals[0].ProduceGgas(animals[0].Strength, 200) + animals[1].ProduceGgas(animals[1].Strength, 80) + animals[2].ProduceGgas(animals[2].Strength, 20);
 
-        
+            this.CarbonChange = plantIn - animalOut;
+
+
+        }
+
+        /// <summary>
+        /// 获得动物的种类
+        /// </summary>
+        /// <param name="creations"></param>
+        /// <returns></returns>
+        public int KindOfCreations(FastList<AnimalSpecies> creations)
+        {
+            int kind = 0;
+            for (int i = 0; i < creations.Count; i++)
+            {
+                if (creations[i].Strength == 0)
+                {
+                    creations.RemoveAt(i);
+                }
+            }
+            kind = creations.Count;
+            return kind;
+        }
+
+
+        /// <summary>
+        /// 获得植物的种类
+        /// </summary>
+        /// <param name="creations"></param>
+        /// <returns></returns>
+        public int KindOfCreations(FastList<PlantSpecies> plants)
+        {
+            int kind = 0;
+            for (int i = 0; i < plants.Count; i++)
+            {
+                if (plants[i].Strength == 0)
+                {
+                    plants.RemoveAt(i);
+                }
+            }
+            kind = plants.Count;
+            return kind;
+        }
+        public bool IsBalanced(LocalEcoSystem local)
+        {
+            bool balanced = true;
+            if ((local.KindOfCreations(animals) >= 3) && (local.KindOfCreations(plants) >= 3))
+            {
+                if (local.CarbonChange > 20)
+                {
+                    balanced = true;
+                    
+                }
+
+            }
+            else
+            {
+                balanced = false;
+            }
+            return balanced;
+            
+
         }
         public void Update(GameTime time)
-        { 
-            
-        }
-
-        public float CarbonChange
         {
-            get;
-            set;
+
         }
 
-      
+       
+
+
     }
 }

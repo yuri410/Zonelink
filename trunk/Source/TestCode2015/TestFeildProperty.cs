@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Collections;
 
 
 namespace TestCode2015
@@ -41,5 +42,23 @@ namespace TestCode2015
             get { return _TestField; }
         }
         
+
+    }
+
+    class test
+    {
+      
+        public int Kind(ArrayList list)
+        {
+            int a= 0;
+            for (int i = 0; i < list.Capacity; i++)
+            {
+                if (list[i].Equals("ok"))
+                {
+                    list.RemoveAt(i);
+                }
+            }
+            return a = list.Capacity;
+        }
     }
 }
