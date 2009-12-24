@@ -168,8 +168,8 @@ namespace Code2015.EngineEx
             //material.Power = terrData.MaterialPower;
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
 
-            tileCol = x * 5;
-            tileLat = 60 + (y - 13) * 5;
+            tileCol = x * 5 - 185;
+            tileLat = 60 + (y - 12) * 5;
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
@@ -245,18 +245,6 @@ namespace Code2015.EngineEx
                 }
             }
 
-            //if (vtxBuffer != null)
-            //{
-            //    size += vtxBuffer.Size;
-            //}
-
-            //for (int i = 0; i < indexBuffer.Length; i++)
-            //{
-            //    if (indexBuffer[i] != null)
-            //    {
-            //        size += indexBuffer[i].Size;
-            //    }
-            //}
             return size;
         }
 
