@@ -245,44 +245,9 @@ namespace Code2015.EngineEx
 
         protected override void load()
         {
-            //// 判断是否有地形数据
-            //if (resLoc == null)
-            //{
-            //    // 如果没有则使用空白地形
-            //    ResourceInterlock.EnterAtomicOp();
-            //    try
-            //    {
-            //        vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
-            //        vtxBuffer = factory.CreateVertexBuffer(4, vtxDecl, BufferUsage.WriteOnly);
-            //        TerrainVertex* vertices = (TerrainVertex*)vtxBuffer.Lock(LockMode.None);
+            if (resLoc == null)
+                return;
 
-            //        vertices[0].Position = new Vector3(0, 0, 0);
-            //        vertices[1].Position = new Vector3(0, 0, terrEdgeSize);
-            //        vertices[2].Position = new Vector3(terrEdgeSize, 0, 0);
-            //        vertices[3].Position = new Vector3(terrEdgeSize, 0, terrEdgeSize);
-
-            //        vtxBuffer.Unlock();
-            //    }
-            //    finally
-            //    {
-            //        ResourceInterlock.ExitAtomicOp();
-            //    }
-
-            //    noDataGeo = new GeomentryData(this);
-            //    noDataGeo.VertexDeclaration = vtxDecl;
-
-            //    noDataGeo.VertexSize = TerrainVertex.Size;
-            //    noDataGeo.VertexBuffer = vtxBuffer;
-            //    noDataGeo.PrimCount = 2;
-            //    noDataGeo.VertexCount = 4;
-
-            //    noDataGeo.PrimitiveType = RenderPrimitiveType.TriangleStrip;
-
-            //    noDataGeo.BaseVertex = 0;
-
-            //}
-            //else
-            //{
             // 读取地形数据
             TDMPIO data = new TDMPIO();
             data.Load(resLoc);
@@ -417,15 +382,24 @@ namespace Code2015.EngineEx
 
         protected override void unload()
         {
-            vtxBuffer.Dispose();
-            vtxDecl.Dispose();
-            vtxBuffer = null;
-            vtxDecl = null;
+            if (vtxBuffer != null)
+            {
+                vtxBuffer.Dispose();
+                vtxBuffer = null;
+            }
+            if (!object.ReferenceEquals(vtxDecl, null))
+            {
+                vtxDecl.Dispose();
+                vtxDecl = null;
+            }
 
             for (int i = 0; i < LocalLodCount; i++)
             {
-                indexBuffer[i].Dispose();
-                indexBuffer[i] = null;
+                if (indexBuffer[i] != null)
+                {
+                    indexBuffer[i].Dispose();
+                    indexBuffer[i] = null;
+                }
             }
         }
         #endregion
