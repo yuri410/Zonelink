@@ -37,13 +37,7 @@ namespace Code2015.World
             set
             {
                 activeTerrain = value;
-                if (activeTerrain != null)
-                {
-                    TerrainMesh tm = activeTerrain.Resource;
-                    Transformation = tm.Transformation;
-                    RequiresUpdate = true;
-                    BoundingSphere = tm.BoundingSphere;
-                }
+                
             }
         }
         public TerrainTile(RenderSystem rs, int col, int lat)
@@ -66,25 +60,9 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            switch (level)
-            {
-                case 0:
-                    ActiveTerrain = terrain;
-                    break;
-                case 1:
-                    ActiveTerrain = terrain1;
-                    break;
-                case 2:
-                    ActiveTerrain = terrain2;
-                    break;
-                default:
-                    ActiveTerrain = null;
-                    break;
-            }
             if (ActiveTerrain != null)
                 return ActiveTerrain.Resource.GetRenderOperation();
             return null;
-            
         }
 
         public override void PrepareVisibleObjects(ICamera cam, int level)
@@ -92,10 +70,24 @@ namespace Code2015.World
             switch (level)
             {
                 case 0:
-                    ActiveTerrain = terrain;
+                    if (terrain.State == ResourceState.Loaded)
+                    {
+                        ActiveTerrain = terrain;
+                    }
+                    else
+                    {
+                        terrain.Touch();
+                    } 
                     break;
                 case 1:
-                    ActiveTerrain = terrain1;
+                    if (terrain1.State == ResourceState.Loaded)
+                    {
+                        ActiveTerrain = terrain1;
+                    }
+                    else
+                    {
+                        terrain1.Touch();
+                    }
                     break;
                 case 2:
                     ActiveTerrain = terrain2;
@@ -104,13 +96,25 @@ namespace Code2015.World
                     ActiveTerrain = null;
                     break;
             }
+
             if (ActiveTerrain != null)
+            {
+                TerrainMesh tm = ActiveTerrain.Resource;
+
+                if (tm.State == ResourceState.Loaded)
+                {
+                    Transformation = tm.Transformation;
+                    RequiresUpdate = true;
+                    BoundingSphere = tm.BoundingSphere;
+                }
+
                 ActiveTerrain.Resource.PrepareVisibleObjects(cam, level);
+            }
         }
 
         public override void Update(GameTime dt)
         {
-           
+
         }
 
         public override bool IsSerializable
