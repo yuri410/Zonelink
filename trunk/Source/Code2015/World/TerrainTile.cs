@@ -41,6 +41,7 @@ namespace Code2015.World
                 {
                     TerrainMesh tm = activeTerrain.Resource;
                     Transformation = tm.Transformation;
+                    RequiresUpdate = true;
                     BoundingSphere = tm.BoundingSphere;
                 }
             }
