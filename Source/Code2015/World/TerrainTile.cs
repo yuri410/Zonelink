@@ -51,9 +51,9 @@ namespace Code2015.World
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
             terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
             terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            BoundingSphere.Radius = float.MaxValue;
+            BoundingSphere.Radius = 0;
 
-            Transformation = Matrix.Identity;
+            Transformation = new Matrix();
         }
 
         public override RenderOperation[] GetRenderOperation()

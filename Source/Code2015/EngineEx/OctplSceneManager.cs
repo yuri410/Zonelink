@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
+using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
-using Apoc3D.Graphics;
 
 namespace Code2015.EngineEx
 {
@@ -69,7 +69,7 @@ namespace Code2015.EngineEx
 
                 // if the node does't intersect the frustum we don't give a damn
                 if (//Vector3.Dot(ref dir, ref center) <= 0 &&
-                    frus.IntersectsSphere(ref center, node.BoundingSphere.Radius))
+                    true)//frus.IntersectsSphere(ref center, node.BoundingSphere.Radius))
                 {
                     for (int i = 0; i < 2; i++)
                         for (int j = 0; j < 2; j++)
