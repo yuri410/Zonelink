@@ -11,11 +11,24 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
+    /// <summary>
+    ///  表示地球上的一个地形块
+    /// </summary>
     class TerrainTile : SceneObject
     {
+        /// <summary>
+        ///  0级LOD地形
+        /// </summary>
         ResourceHandle<TerrainMesh> terrain;
+        /// <summary>
+        ///  1级LOD地形
+        /// </summary>
         ResourceHandle<TerrainMesh> terrain1;
+        /// <summary>
+        ///  2级LOD地形
+        /// </summary>
         ResourceHandle<TerrainMesh> terrain2;
+
 
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)

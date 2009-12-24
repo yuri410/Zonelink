@@ -74,10 +74,19 @@ namespace Code2015.EngineEx
         public BoundingSphere BoundingSphere;
         public Matrix Transformation = Matrix.Identity;
 
-
+        /// <summary>
+        ///  地形块的数量
+        /// </summary>
         int blockCount;
+
+        /// <summary>
+        ///  地形分块的在地形的一条边上的数量
+        /// </summary>
         int blockEdgeCount;
 
+        /// <summary>
+        ///  不同的lod级别下一个地形分块的长度
+        /// </summary>
         int[] levelLengths;
 
         /// <summary>
@@ -90,23 +99,42 @@ namespace Code2015.EngineEx
         /// </summary>
         float[] lodLevelThreshold;
 
+        /// <summary>
+        ///  不同的lod级别下一个地形分块的三角形数量
+        /// </summary>
         int[] levelPrimConut;
 
+        /// <summary>
+        ///  不同的lod级别下一个地形分块的顶点数量
+        /// </summary>
         int[] levelVertexCount;
 
-
+        /// <summary>
+        ///  地形的上边（纬度较高的边）的长度
+        /// </summary>
         float topLen;
+        /// <summary>
+        ///  地形的下边（纬度较低的边）的长度
+        /// </summary>
         float bottomLen;
+        /// <summary>
+        ///  地形的侧边（沿经度方向）的长度
+        /// </summary>
         float heightLen;
 
         float tileCol;
         float tileLat;
 
-
+        /// <summary>
+        ///  经度
+        /// </summary>
         public float TileCol
         {
             get { return tileCol; }
         }
+        /// <summary>
+        ///  纬度
+        /// </summary>
         public float TileLat
         {
             get { return tileLat; }
@@ -149,8 +177,9 @@ namespace Code2015.EngineEx
 
             UpdateTransformation(radtc, radtl, terrEdgeSize, 10);
         }
+
         /// <summary>
-        /// 
+        ///  计算该地形的变换矩阵
         /// </summary>
         /// <param name="radtc">经度</param>
         /// <param name="radtl">纬度</param>
@@ -214,8 +243,10 @@ namespace Code2015.EngineEx
 
         protected override void load()
         {
+            // 判断是否有地形数据
             if (resLoc == null)
             {
+                // 如果没有则使用空白地形
                 ResourceInterlock.EnterAtomicOp();
                 try
                 {
@@ -250,6 +281,7 @@ namespace Code2015.EngineEx
             }
             else
             {
+                // 读取地形数据
                 TDMPIO data = new TDMPIO();
                 data.Load(resLoc);
                 tileCol = (float)Math.Round(data.Xllcorner);
@@ -409,13 +441,12 @@ namespace Code2015.EngineEx
         #endregion
 
         /// <summary>
-        ///  
+        ///  构造地形树
         /// </summary>
         /// <param name="vertices">顶点数据</param>
         void BuildTerrainTree(TerrainVertex* vertices)
         {
             // 地块边的长度，边定点数减1
-
             int blockEdgeLen = TerrainBlockSize - 1;
             TerrainBlock[] blocks = new TerrainBlock[blockCount];
 
@@ -511,6 +542,11 @@ namespace Code2015.EngineEx
             BoundingSphere.Center = Vector3.TransformSimple(BoundingSphere.Center, Transformation);
         }
 
+        /// <summary>
+        ///  准备特定lod级别下的可见物体
+        /// </summary>
+        /// <param name="cam"></param>
+        /// <param name="level"></param>
         public void PrepareVisibleObjects(ICamera cam, int level)
         {
             if (resLoc == null)
