@@ -111,7 +111,12 @@
     <Compile Include="EngineEx\OctplSceneManager.cs" />
     <Compile Include="EngineEx\TerrainMesh.cs" />
     <Compile Include="EngineEx\TerrainMeshManager.cs" />
+    <Compile Include="EngineEx\TerrainTexture.cs" />
+    <Compile Include="EngineEx\TerrainTextureManager.cs" />
     <Compile Include="EngineEx\TerrainTreeNode.cs" />
+    <Compile Include="EngineEx\TerrainTextureLibrary.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="LevelSystem\Level.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
