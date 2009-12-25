@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Core;
@@ -11,7 +12,6 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.Effects;
 using Code2015.World;
-using System.Threading;
 
 namespace Code2015.EngineEx
 {
@@ -220,8 +220,11 @@ namespace Code2015.EngineEx
 
             Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
 
+            Vector3 position = PlanetEarth.GetInnerPosition(poscol, poslat, rad10);
+            Transformation = b1 * scaling * facing * Matrix.Translation(position);
 
-            Transformation = b1 * scaling * facing * Matrix.Translation(PlanetEarth.GetInnerPosition(poscol, poslat, rad10));
+            BoundingSphere.Center = position;
+            BoundingSphere.Radius = terrSize * MathEx.Root2;
         }
 
 

@@ -46,12 +46,8 @@ namespace Code2015.World
             terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
-
-            terrain2.Touch();
-            //BoundingSphere.Radius = -5;
-            //BoundingSphere.Center = new Vector3();
-
-            Transformation = new Matrix();
+            Transformation = terrain2.GetWeakResource().Transformation;
+            BoundingSphere = terrain2.GetWeakResource().BoundingSphere;
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -103,9 +99,6 @@ namespace Code2015.World
                         terrain2.Touch();
                     }
                     break;
-                //case 3:
-                //    ActiveTerrain = terrain3;
-                //    break;
                 default:
                     ActiveTerrain = null;
                     break;
