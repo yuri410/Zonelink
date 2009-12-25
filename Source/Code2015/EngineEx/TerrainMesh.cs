@@ -49,6 +49,9 @@ namespace Code2015.EngineEx
 
         FileLocation resLoc;
 
+        /// <summary>
+        ///  地形一条边上的顶点数
+        /// </summary>
         int terrEdgeSize;
 
 
@@ -57,7 +60,9 @@ namespace Code2015.EngineEx
 
         IndexBuffer[] indexBuffer = new IndexBuffer[LocalLodCount];
 
-
+        /// <summary>
+        ///  世界LOD级别
+        /// </summary>
         int dataLevel;
 
         RenderSystem renderSystem;
@@ -71,6 +76,9 @@ namespace Code2015.EngineEx
         public BoundingSphere BoundingSphere;
         public Matrix Transformation = Matrix.Identity;
 
+        /// <summary>
+        ///  表示地形是否是分块的
+        /// </summary>
         bool isBlockTerrain;
 
         #region 分块地形的数据
@@ -113,6 +121,9 @@ namespace Code2015.EngineEx
         TerrainTreeNode rootNode;
         #endregion
 
+        /// <summary>
+        ///  不是分块地形时，
+        /// </summary>
         GeomentryData defGeometryData;
 
 
