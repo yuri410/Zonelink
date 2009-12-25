@@ -28,6 +28,7 @@ namespace Code2015.World
         ///  2级LOD地形
         /// </summary>
         ResourceHandle<TerrainMesh> terrain2;
+        ResourceHandle<TerrainMesh> terrain3;
 
         ResourceHandle<TerrainMesh> activeTerrain;
 
@@ -43,6 +44,7 @@ namespace Code2015.World
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
             terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
             terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
             BoundingSphere.Radius = 0;
 
             Transformation = new Matrix();
