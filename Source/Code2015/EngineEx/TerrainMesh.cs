@@ -244,6 +244,14 @@ namespace Code2015.EngineEx
             return size;
         }
 
+        static float GetOffset(float span, float beta)
+        {
+            float a = 0.5f * (MathEx.PIf - span);
+            float x = (float)(PlanetRadius * Math.Cos(a) + Math.Sin(MathEx.PiOver2 - beta) * PlanetRadius * Math.Sin(a));
+
+            return (float)Math.Sqrt(PlanetRadius * PlanetRadius + x * x - 2 * PlanetRadius * x * Math.Cos(a));
+        }
+
         protected override void load()
         {
             if (resLoc == null)
@@ -347,6 +355,7 @@ namespace Code2015.EngineEx
 
                     float height = data.Data[i * terrEdgeSize + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
+                    
 
                     vtxArray[i * terrEdgeSize + j].Position = pos;
                     //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
