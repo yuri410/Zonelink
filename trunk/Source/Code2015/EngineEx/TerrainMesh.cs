@@ -583,7 +583,6 @@ namespace Code2015.EngineEx
             {
                 opBuffer.Clear();
 
-
                 if (isBlockTerrain)
                 {
                     #region 分块地形的可见性测试
