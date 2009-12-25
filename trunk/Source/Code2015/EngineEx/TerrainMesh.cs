@@ -251,14 +251,6 @@ namespace Code2015.EngineEx
             return size;
         }
 
-        static float GetOffset(float span, float beta)
-        {
-            float a = 0.5f * (MathEx.PIf - span);
-            float x = (float)(PlanetRadius * Math.Cos(a) + Math.Sin(MathEx.PiOver2 - beta) * PlanetRadius * Math.Sin(a));
-
-            return (float)Math.Sqrt(PlanetRadius * PlanetRadius + x * x - 2 * PlanetRadius * x * Math.Cos(a));
-        }
-
         protected override void load()
         {
             if (resLoc == null)
@@ -278,6 +270,7 @@ namespace Code2015.EngineEx
 
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
+            isBlockTerrain = terrEdgeSize >= TerrainBlockSize;
 
             #region 顶点数据
 
@@ -297,7 +290,7 @@ namespace Code2015.EngineEx
             //Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
             #endregion
 
-
+            #region 计算顶点坐标
             for (int i = 0; i < terrEdgeSize; i++)
             {
                 float lerp = i / (float)(terrEdgeLen);
@@ -324,16 +317,12 @@ namespace Code2015.EngineEx
                     vtxArray[i * terrEdgeSize + j].Position = pos + normal * (height + delta);
                 }
             }
-
-            BuildTerrainTree(vtxArray);
-            vtxBuffer.SetData<TerrainVertex>(vtxArray);
+            #endregion
 
             #endregion
 
-            if (terrEdgeSize >= TerrainBlockSize)
+            if (isBlockTerrain)
             {
-                isBlockTerrain = true;
-
                 #region 索引数据
                 int blockEdgeLen = TerrainBlockSize - 1;
                 this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
@@ -386,9 +375,12 @@ namespace Code2015.EngineEx
                     indexBuffer[k].SetData<int>(indexArray);
                 }
                 #endregion
+
+                BuildTerrainTree(vtxArray);
             }
             else
             {
+                #region 索引数据
                 this.blockEdgeCount = 1;
                 this.blockCount = 1;
 
@@ -430,6 +422,7 @@ namespace Code2015.EngineEx
                     }
                 }
                 indexBuffer[0].SetData<int>(indexArray);
+                #endregion
 
                 #region 构造GeomentryData
                 defGeometryData = new GeomentryData(this);
@@ -446,8 +439,8 @@ namespace Code2015.EngineEx
                 defGeometryData.BaseVertex = 0;
 
                 #endregion
-
             }
+            vtxBuffer.SetData<TerrainVertex>(vtxArray);
         }
 
         protected override void unload()
