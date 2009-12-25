@@ -64,9 +64,6 @@ namespace Code2015.EngineEx
         ObjectFactory factory;
 
 
-        Queue<TerrainTreeNode> bfsQueue;
-        TerrainTreeNode rootNode;
-
         FastList<RenderOperation> opBuffer;
 
         Material material;
@@ -74,6 +71,9 @@ namespace Code2015.EngineEx
         public BoundingSphere BoundingSphere;
         public Matrix Transformation = Matrix.Identity;
 
+        bool isBlockTerrain;
+
+        #region 分块地形的数据
         /// <summary>
         ///  地形块的数量
         /// </summary>
@@ -108,6 +108,13 @@ namespace Code2015.EngineEx
         ///  不同的lod级别下一个地形分块的顶点数量
         /// </summary>
         int[] levelVertexCount;
+
+        Queue<TerrainTreeNode> bfsQueue;
+        TerrainTreeNode rootNode;
+        #endregion
+
+        GeomentryData defGeometryData;
+
 
         /// <summary>
         ///  地形的上边（纬度较高的边）的长度
@@ -269,66 +276,8 @@ namespace Code2015.EngineEx
 
             UpdateTransformation(radtc, radtl, terrEdgeSize, data.XSpan);
 
-            MeshData meshData = new MeshData(renderSystem);
-
-
-            //float halfTerrSize = terrEdgeSize * 0.5f;
-
             int vertexCount = terrEdgeSize * terrEdgeSize;
-
-            #region 索引数据
-            int blockEdgeLen = TerrainBlockSize - 1;
             int terrEdgeLen = terrEdgeSize - 1;
-            this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
-            this.blockCount = MathEx.Sqr(blockEdgeCount);
-
-            levelLengths = new int[LocalLodCount];
-            cellSpan = new int[LocalLodCount];
-            lodLevelThreshold = new float[LocalLodCount];
-
-            levelPrimConut = new int[LocalLodCount];
-            levelVertexCount = new int[LocalLodCount];
-
-            for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
-            {
-                int cellLength = blockEdgeLen / levelLength;
-
-
-                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.25f) / (float)(k + 1);
-                lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
-
-                cellSpan[k] = cellLength;
-                levelLengths[k] = levelLength;
-
-                int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
-
-                levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
-                levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
-
-                indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-
-                int[] indexArray = new int[indexCount];
-
-                int index = 0;
-                for (int i = 0; i < levelLength; i++)
-                {
-                    for (int j = 0; j < levelLength; j++)
-                    {
-                        int x = i * cellLength;
-                        int y = j * cellLength;
-
-                        indexArray[index++] = y * terrEdgeSize + x;
-                        indexArray[index++] = y * terrEdgeSize + (x + cellLength);
-                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-
-                        indexArray[index++] = y * terrEdgeSize + x;
-                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-                        indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
-                    }
-                }
-                indexBuffer[k].SetData<int>(indexArray);
-            }
-            #endregion
 
             #region 顶点数据
 
@@ -361,11 +310,13 @@ namespace Code2015.EngineEx
                                     0,
                                     i * TerrainMeshManager.TerrainScale);
 
+                    // 计算海拔高度
                     float height = data.Data[i * terrEdgeSize + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
                     Vector3 worldPos;
                     Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
 
+                    // 计算曲面偏移量
                     float delta = PlanetRadius - worldPos.Length();
 
                     Vector3 normal = pos - localEarthCenter;
@@ -376,8 +327,127 @@ namespace Code2015.EngineEx
 
             BuildTerrainTree(vtxArray);
             vtxBuffer.SetData<TerrainVertex>(vtxArray);
-            
+
             #endregion
+
+            if (terrEdgeSize >= TerrainBlockSize)
+            {
+                isBlockTerrain = true;
+
+                #region 索引数据
+                int blockEdgeLen = TerrainBlockSize - 1;
+                this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
+                this.blockCount = MathEx.Sqr(blockEdgeCount);
+
+                levelLengths = new int[LocalLodCount];
+                cellSpan = new int[LocalLodCount];
+                lodLevelThreshold = new float[LocalLodCount];
+
+                levelPrimConut = new int[LocalLodCount];
+                levelVertexCount = new int[LocalLodCount];
+
+                for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
+                {
+                    int cellLength = blockEdgeLen / levelLength;
+
+
+                    lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.25f) / (float)(k + 1);
+                    lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
+
+                    cellSpan[k] = cellLength;
+                    levelLengths[k] = levelLength;
+
+                    int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
+
+                    levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
+                    levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
+
+                    indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+
+                    int[] indexArray = new int[indexCount];
+
+                    int index = 0;
+                    for (int i = 0; i < levelLength; i++)
+                    {
+                        for (int j = 0; j < levelLength; j++)
+                        {
+                            int x = i * cellLength;
+                            int y = j * cellLength;
+
+                            indexArray[index++] = y * terrEdgeSize + x;
+                            indexArray[index++] = y * terrEdgeSize + (x + cellLength);
+                            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+
+                            indexArray[index++] = y * terrEdgeSize + x;
+                            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+                            indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
+                        }
+                    }
+                    indexBuffer[k].SetData<int>(indexArray);
+                }
+                #endregion
+            }
+            else
+            {
+                this.blockEdgeCount = 1;
+                this.blockCount = 1;
+
+                levelLengths = new int[1];
+                cellSpan = new int[1];
+                lodLevelThreshold = new float[1];
+
+                levelPrimConut = new int[1];
+                levelVertexCount = new int[1];
+
+
+                cellSpan[0] = 1;
+                levelLengths[0] = terrEdgeLen;
+
+                int indexCount = MathEx.Sqr(terrEdgeLen) * 2 * 3;
+
+                levelPrimConut[0] = MathEx.Sqr(terrEdgeLen) * 2;
+                levelVertexCount[0] = MathEx.Sqr(terrEdgeSize);
+
+                indexBuffer[0] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+
+                int[] indexArray = new int[indexCount];
+
+                int index = 0;
+                for (int i = 0; i < terrEdgeLen; i++)
+                {
+                    for (int j = 0; j < terrEdgeLen; j++)
+                    {
+                        int x = i;
+                        int y = j;
+
+                        indexArray[index++] = y * terrEdgeSize + x;
+                        indexArray[index++] = y * terrEdgeSize + (x + 1);
+                        indexArray[index++] = (y + 1) * terrEdgeSize + (x + 1);
+
+                        indexArray[index++] = y * terrEdgeSize + x;
+                        indexArray[index++] = (y + 1) * terrEdgeSize + (x + 1);
+                        indexArray[index++] = (y + 1) * terrEdgeSize + x;
+                    }
+                }
+                indexBuffer[0].SetData<int>(indexArray);
+
+                #region 构造GeomentryData
+                defGeometryData = new GeomentryData(this);
+                defGeometryData.VertexDeclaration = vtxDecl;
+
+                defGeometryData.VertexSize = TerrainVertex.Size;
+                defGeometryData.VertexBuffer = vtxBuffer;
+                defGeometryData.IndexBuffer = indexBuffer[0];
+                defGeometryData.PrimCount = levelPrimConut[0];
+                defGeometryData.VertexCount = levelVertexCount[0];
+
+                defGeometryData.PrimitiveType = RenderPrimitiveType.TriangleList;
+
+                defGeometryData.BaseVertex = 0;
+
+                #endregion
+
+            }
         }
 
         protected override void unload()
@@ -520,79 +590,94 @@ namespace Code2015.EngineEx
             {
                 opBuffer.Clear();
 
-                Matrix invTrans;
-                Matrix.Invert(ref Transformation, out invTrans);
 
-
-
-                Frustum frus = cam.Frustum.Transform(invTrans);
-                Vector3 camPos = Vector3.TransformSimple(cam.Position, invTrans);
-
-                Vector3 c = rootNode.BoundingVolume.Center;
-                //Vector3.TransformSimple(ref c, ref Transformation, out c);
-
-                if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
+                if (isBlockTerrain)
                 {
-                    bfsQueue.Enqueue(rootNode);
+                    #region 分块地形的可见性测试
+                    Matrix invTrans;
+                    Matrix.Invert(ref Transformation, out invTrans);
 
-                    while (bfsQueue.Count > 0)
+                    Frustum frus = cam.Frustum.Transform(invTrans);
+                    Vector3 camPos = Vector3.TransformSimple(cam.Position, invTrans);
+
+                    Vector3 c = rootNode.BoundingVolume.Center;
+                    //Vector3.TransformSimple(ref c, ref Transformation, out c);
+
+                    if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
                     {
-                        TerrainTreeNode node = bfsQueue.Dequeue();
-                        TerrainTreeNode[] nodes = node.Children;
+                        bfsQueue.Enqueue(rootNode);
 
-                        if (nodes != null)
+                        while (bfsQueue.Count > 0)
                         {
-                            // 遍历子节点
-                            for (int i = 0; i < node.Children.Length; i++)
+                            TerrainTreeNode node = bfsQueue.Dequeue();
+                            TerrainTreeNode[] nodes = node.Children;
+
+                            if (nodes != null)
                             {
-                                c = node.Children[i].BoundingVolume.Center;
-                                //Vector3.TransformSimple(ref c, ref Transformation, out c);
-
-                                if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
+                                // 遍历子节点
+                                for (int i = 0; i < node.Children.Length; i++)
                                 {
-                                    bfsQueue.Enqueue(node.Children[i]);
-                                }
-                            }
-                        }
-                        else
-                        {
-                            if (node.Block != null)
-                            {
-                                c = node.BoundingVolume.Center;
-                                //Vector3.TransformSimple(ref c, ref Transformation, out c);
+                                    c = node.Children[i].BoundingVolume.Center;
+                                    //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
-                                if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
-                                {
-                                    float dist = MathEx.DistanceSquared(ref c, ref camPos);
-
-                                    RenderOperation op;
-
-                                    op.Material = material;
-                                    op.Geomentry = node.Block.GeoData;
-
-                                    int lodLevel = LocalLodCount - 1;
-
-                                    for (int lod = 0; lod < LocalLodCount; lod++)
+                                    if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
                                     {
-                                        if (dist <= lodLevelThreshold[LocalLodCount - lod - 1])
-                                        {
-                                            lodLevel = lod;
-                                            break;
-                                        }
+                                        bfsQueue.Enqueue(node.Children[i]);
                                     }
-
-                                    op.Geomentry.IndexBuffer = node.Block.IndexBuffers[lodLevel];
-                                    op.Geomentry.PrimCount = levelPrimConut[lodLevel];
-                                    op.Geomentry.VertexCount = levelVertexCount[lodLevel];
-
-                                    op.Transformation = Matrix.Identity;// Transformation;
-
-                                    opBuffer.Add(op);
                                 }
                             }
-                        }
+                            else
+                            {
+                                if (node.Block != null)
+                                {
+                                    c = node.BoundingVolume.Center;
+                                    //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
+                                    if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
+                                    {
+                                        float dist = MathEx.DistanceSquared(ref c, ref camPos);
+
+                                        RenderOperation op;
+
+                                        op.Material = material;
+                                        op.Geomentry = node.Block.GeoData;
+
+                                        int lodLevel = LocalLodCount - 1;
+
+                                        for (int lod = 0; lod < LocalLodCount; lod++)
+                                        {
+                                            if (dist <= lodLevelThreshold[LocalLodCount - lod - 1])
+                                            {
+                                                lodLevel = lod;
+                                                break;
+                                            }
+                                        }
+
+                                        op.Geomentry.IndexBuffer = node.Block.IndexBuffers[lodLevel];
+                                        op.Geomentry.PrimCount = levelPrimConut[lodLevel];
+                                        op.Geomentry.VertexCount = levelVertexCount[lodLevel];
+
+                                        op.Transformation = Matrix.Identity;
+
+                                        opBuffer.Add(op);
+                                    }
+                                }
+                            }
+
+                        }
                     }
+                    #endregion
+                }
+                else
+                {
+                    RenderOperation op;
+
+                    op.Material = material;
+                    op.Geomentry = defGeometryData;
+
+                    op.Transformation = Matrix.Identity;
+
+                    opBuffer.Add(op);
                 }
             }
         }
