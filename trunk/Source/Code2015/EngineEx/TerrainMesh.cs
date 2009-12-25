@@ -25,14 +25,21 @@ namespace Code2015.EngineEx
         struct TerrainVertex
         {
             public Vector3 Position;
+            public uint Normal;
 
             static VertexElement[] elements;
 
             static TerrainVertex()
             {
-                elements = new VertexElement[1];
+                elements = new VertexElement[2];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-                // elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
+
+                elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 0);
+            }
+
+            public void SetNormal(float x, float y, float z)
+            {
+                Normal = ColorValue.PackValue(x, y, z, 1);
             }
 
             public static VertexElement[] Elements
@@ -42,7 +49,7 @@ namespace Code2015.EngineEx
 
             public static int Size
             {
-                get { return Vector3.SizeInBytes; }
+                get { return Vector3.SizeInBytes + sizeof(uint); }
             }
         }
 
@@ -329,6 +336,8 @@ namespace Code2015.EngineEx
                     Vector3 normal = pos - localEarthCenter;
                     normal.Normalize();
                     vtxArray[i * terrEdgeSize + j].Position = pos + normal * (height + delta);
+                    vtxArray[i * terrEdgeSize + j].SetNormal(normal.X, normal.Y, normal.Z);
+
                 }
             }
             #endregion
