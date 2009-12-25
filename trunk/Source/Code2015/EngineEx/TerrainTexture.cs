@@ -11,25 +11,35 @@ namespace Code2015.EngineEx
     class TerrainTexture : Resource
     {
         Texture texture;
+        FileLocation texLoc;
 
-        public TerrainTexture(RenderSystem rs, ResourceLocation rl)
-            : base(TerrainTextureManager.Instance, rl.Name)
+        public TerrainTexture(RenderSystem rs, FileLocation fl)
+            : base(TerrainTextureManager.Instance, fl.Name)
         {
+            texLoc = fl;
         }
 
         public override int GetSize()
         {
-            throw new NotImplementedException();
+            if (texture != null)
+                return texture.GetSize();
+            return 0;
         }
 
         protected override void load()
         {
-            throw new NotImplementedException();
+            texture = TextureManager.Instance.CreateInstance(texLoc);
         }
 
         protected override void unload()
         {
-            throw new NotImplementedException();
+            texture.Dispose();
+        }
+
+
+        public Texture Texture 
+        {
+            get { return texture; }
         }
     }
 }

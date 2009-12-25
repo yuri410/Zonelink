@@ -37,7 +37,7 @@ namespace Code2015.EngineEx
         {
         }
 
-        public ResourceHandle<TerrainTexture> CreateInstance(RenderSystem rs, ResourceLocation rl)
+        public ResourceHandle<TerrainTexture> CreateInstance(RenderSystem rs, FileLocation rl)
         {
             Resource retrived = base.Exists(rl.Name);
             if (retrived == null)
