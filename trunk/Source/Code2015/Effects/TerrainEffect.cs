@@ -53,11 +53,11 @@ namespace Code2015.Effects
         {
             this.renderSystem = renderSystem;
 
-            FileLocation fl = FileSystem.Instance.Locate("terrain.cvs", GameFileLocs.Effects);
+            FileLocation fl = FileSystem.Instance.Locate("terrain.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSystem, fl);
 
 
-            fl = FileSystem.Instance.Locate("terrain.cps", GameFileLocs.Effects);
+            fl = FileSystem.Instance.Locate("terrain.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
 
         }
