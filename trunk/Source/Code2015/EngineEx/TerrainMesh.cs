@@ -566,7 +566,7 @@ namespace Code2015.EngineEx
             rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (terrEdgeSize - 1) / 2, (terrEdgeSize - 1) / 2, 1, terrEdgeSize);
 
             BoundingSphere = rootNode.BoundingVolume;
-            BoundingSphere.Center = Vector3.TransformSimple(BoundingSphere.Center, Transformation);
+            BoundingSphere.Center = Vector3.TransformSimple(rootNode.BoundingVolume.Center, Transformation);
         }
 
         /// <summary>
