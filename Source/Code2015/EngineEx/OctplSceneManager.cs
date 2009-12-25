@@ -13,7 +13,7 @@ namespace Code2015.EngineEx
     class OctplSceneManager : OctreeSceneManager
     {
         const int WorldLodLevelCount = 3;
-        static readonly float[] LodThresold = new float[WorldLodLevelCount] { 0, 1.5f, 4 };
+        static readonly float[] LodThresold = new float[WorldLodLevelCount] { 1.5f, 3, 4.5f };
 
         public OctplSceneManager(float planetRadius)
             : base(new OctreeBox(planetRadius * 4f), planetRadius / 75f)
@@ -24,9 +24,9 @@ namespace Code2015.EngineEx
         {
             float dist = Vector3.Distance(ref sphere.Center, ref pos);
 
-            for (int i = WorldLodLevelCount - 1; i >= 0; i--)
+            for (int i = 0; i < WorldLodLevelCount; i++)
             {
-                if (dist >= sphere.Radius * LodThresold[i])
+                if (dist <= sphere.Radius * LodThresold[i])
                 {
                     return i;
                 }

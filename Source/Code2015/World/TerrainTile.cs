@@ -76,7 +76,7 @@ namespace Code2015.World
                     else
                     {
                         terrain.Touch();
-                    } 
+                    }
                     break;
                 case 1:
                     if (terrain1.State == ResourceState.Loaded)
@@ -89,7 +89,17 @@ namespace Code2015.World
                     }
                     break;
                 case 2:
-                    ActiveTerrain = terrain2;
+                    if (terrain2.State == ResourceState.Loaded)
+                    {
+                        ActiveTerrain = terrain2;
+                    }
+                    else
+                    {
+                        terrain2.Touch();
+                    }
+                    break;
+                case 3:
+                    ActiveTerrain = terrain3;
                     break;
                 default:
                     ActiveTerrain = null;
