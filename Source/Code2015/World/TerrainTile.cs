@@ -34,12 +34,9 @@ namespace Code2015.World
         ResourceHandle<TerrainMesh> ActiveTerrain
         {
             get { return activeTerrain; }
-            set
-            {
-                activeTerrain = value;
-                
-            }
+            set { activeTerrain = value; }
         }
+
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
