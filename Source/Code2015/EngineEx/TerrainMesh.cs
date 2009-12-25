@@ -338,8 +338,16 @@ namespace Code2015.EngineEx
 
             TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
-            //float latCellSize = heightLen / (float)(terrEdgeSize);
-            float cellAngle = MathEx.Degree2Radian(data.XSpan) / (float)(terrEdgeLen);
+            #region 计算局部坐标系下的地心坐标
+            float beta = 0.5f * (MathEx.PIf - MathEx.Degree2Radian(data.XSpan));
+
+            Vector3 localEarthCenter = new Vector3(terrEdgeLen * 0.5f, 0, terrEdgeLen * 0.5f);
+            localEarthCenter.Y = -(float)Math.Sin(beta) * PlanetRadius;
+
+            //Matrix invTrans = Matrix.Invert(Transformation);
+            //Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
+            #endregion
+
 
             for (int i = 0; i < terrEdgeSize; i++)
             {
@@ -355,10 +363,14 @@ namespace Code2015.EngineEx
 
                     float height = data.Data[i * terrEdgeSize + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
-                    
+                    Vector3 worldPos;
+                    Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
 
-                    vtxArray[i * terrEdgeSize + j].Position = pos;
-                    //  PlanetEarth.GetNormal(radtc + Math.Abs(j * cellAngle), radtl + Math.Abs(i * cellAngle)) * height;
+                    float delta = PlanetRadius - worldPos.Length();
+
+                    Vector3 normal = pos - localEarthCenter;
+                    normal.Normalize();
+                    vtxArray[i * terrEdgeSize + j].Position = pos + normal * (height + delta);
                 }
             }
 
