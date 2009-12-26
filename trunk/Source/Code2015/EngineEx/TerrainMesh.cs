@@ -379,7 +379,7 @@ namespace Code2015.EngineEx
                 levelPrimConut = sharedData.LevelPrimCount;
                 levelVertexCount = sharedData.LevelVertexCount;
                 indexBuffer = sharedData.IndexBuffers;
-                
+
                 #endregion
 
                 BuildTerrainTree(vtxArray);
