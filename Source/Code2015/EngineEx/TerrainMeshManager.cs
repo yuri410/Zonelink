@@ -9,6 +9,12 @@ using Apoc3D.MathLib;
 
 namespace Code2015.EngineEx
 {
+    /// <summary>
+    ///  表示共享的地形数据。用于节约内存。
+    ///  
+    ///  对于所有一定大小的地形，所使用的顶点数据是相同的。
+    /// </summary>
+    /// <remarks>如果必要的话可以将共享地形索引数据做成Resource管理</remarks>
     class SharedBlockIndexData : IDisposable
     {
         IndexBuffer[] indexBuffer;
@@ -130,6 +136,9 @@ namespace Code2015.EngineEx
         }
 
         #region IDisposable 成员
+
+        object gcSyncHelper = new object();
+
         public bool Disposed
         {
             get;
@@ -137,21 +146,33 @@ namespace Code2015.EngineEx
         }
         public void Dispose()
         {
-            if (!Disposed) 
+            lock (gcSyncHelper)
             {
-                if (indexBuffer != null)
+                if (!Disposed)
                 {
-                    for (int i = 0; i < indexBuffer.Length; i++)
+                    if (indexBuffer != null)
                     {
-                        if (indexBuffer[i] != null)
+                        for (int i = 0; i < indexBuffer.Length; i++)
                         {
-                            indexBuffer[i].Dispose();
-                            indexBuffer[i] = null;
+                            if (indexBuffer[i] != null)
+                            {
+                                indexBuffer[i].Dispose();
+                                indexBuffer[i] = null;
+                            }
                         }
+                        indexBuffer = null;
                     }
-                    indexBuffer = null;
+                    Disposed = true;
                 }
-                Disposed = true;
+            }
+        }
+
+        ~SharedBlockIndexData()
+        {
+            if (!Disposed)
+            {
+                try { Dispose(); }
+                catch { }
             }
         }
 
