@@ -9,7 +9,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.EngineEx
 {
-    class SharedBlockIndexData
+    class SharedBlockIndexData : IDisposable
     {
         IndexBuffer[] indexBuffer;
 
@@ -128,6 +128,34 @@ namespace Code2015.EngineEx
                 indexBuffer[k].SetData<int>(indexArray);
             }
         }
+
+        #region IDisposable 成员
+        public bool Disposed
+        {
+            get;
+            private set;
+        }
+        public void Dispose()
+        {
+            if (!Disposed) 
+            {
+                if (indexBuffer != null)
+                {
+                    for (int i = 0; i < indexBuffer.Length; i++)
+                    {
+                        if (indexBuffer[i] != null)
+                        {
+                            indexBuffer[i].Dispose();
+                            indexBuffer[i] = null;
+                        }
+                    }
+                    indexBuffer = null;
+                }
+                Disposed = true;
+            }
+        }
+
+        #endregion
     }
 
     [Obsolete("如果需要使用，删除该属性")]
