@@ -53,7 +53,6 @@ namespace Code2015.EngineEx
             }
         }
 
-
         FileLocation resLoc;
 
         /// <summary>
