@@ -70,4 +70,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+  <PropertyGroup>
+    <PostBuildEvent>Copy $(TargetPath) ..\..\..\..\..\..\apoc3d\Source\Apoc3D.Ide\bin\Plugins\$(TargetFileName)
+
+Copy $(TargetDir)$(TargetName)".pdb" ..\..\..\..\..\..\apoc3d\Source\Apoc3D.Ide\bin\Plugins\$(TargetName)".pdb"</PostBuildEvent>
+  </PropertyGroup>
 </Project>
