@@ -69,7 +69,7 @@ namespace Code2015.EngineEx
         }
     }
 
-    public class TerrainTreeNode
+    public class TerrainTreeNode : IDisposable
     {
         #region 字段
 
@@ -239,6 +239,15 @@ namespace Code2015.EngineEx
                 BoundingVolume.Radius = Block.Radius;
             }
 
+        }
+
+        #endregion
+
+        #region IDisposable 成员
+
+        public void Dispose()
+        {
+            children = null;
         }
 
         #endregion
