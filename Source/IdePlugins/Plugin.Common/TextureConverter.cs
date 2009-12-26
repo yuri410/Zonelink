@@ -42,9 +42,9 @@ namespace Plugin.Common
             }
         }
 
-        Apoc3D.Media.ImagePixelFormat Convert(Format fmt) 
+        Apoc3D.Media.ImagePixelFormat Convert(Format fmt)
         {
-            switch (fmt) 
+            switch (fmt)
             {
                 case Format.A16B16G16R16:
                     return Apoc3D.Media.ImagePixelFormat.A16B16G16R16;
@@ -54,7 +54,7 @@ namespace Plugin.Common
                     return Apoc3D.Media.ImagePixelFormat.A1R5G5B5;
                 case Format.A2B10G10R10:
                     return Apoc3D.Media.ImagePixelFormat.A2B10G10R10;
-                case Format.A2R10G10B10 :
+                case Format.A2R10G10B10:
                     return Apoc3D.Media.ImagePixelFormat.A2R10G10B10;
                 case Format.A32B32G32R32F:
                     return Apoc3D.Media.ImagePixelFormat.A32B32G32R32F;
@@ -136,8 +136,8 @@ namespace Plugin.Common
 
             ImageInformation info;
             PaletteEntry[] palEntry;
-            Texture tex = Texture.FromStream(dev, source.GetStream, 
-                D3DX.Default,D3DX.Default,D3DX.Default,D3DX.Default,
+            Texture tex = Texture.FromStream(dev, source.GetStream,
+                D3DX.Default, D3DX.Default, D3DX.Default, D3DX.Default,
                 Usage.None, Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0, out info, out palEntry);
 
 
@@ -153,9 +153,9 @@ namespace Plugin.Common
             FastList<byte> buffer = new FastList<byte>(
                 texData.Width * texData.Height * Apoc3D.Media.PixelFormat.GetMemorySize(texData.Width, texData.Height, 1, texData.Format));
             for (int i = 0; i < texData.LevelCount; i++)
-            {                
+            {
                 DataRectangle rect = tex.LockRectangle(0, LockFlags.ReadOnly);
-                
+
                 DataStream ds = rect.Data;
 
                 texData.LevelSize[i] = (int)ds.Length;
