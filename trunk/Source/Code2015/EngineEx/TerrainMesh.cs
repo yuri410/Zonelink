@@ -350,19 +350,8 @@ namespace Code2015.EngineEx
                 this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
                 this.blockCount = MathEx.Sqr(blockEdgeCount);
 
-                SharedBlockIndexData sharedData = null;
-                if (terrEdgeSize == TerrainMeshManager.Instance.SharedIndexBuffer1025.TerrainSize)
-                {
-                    sharedData = TerrainMeshManager.Instance.SharedIndexBuffer1025;
-                }
-                else if (terrEdgeSize == TerrainMeshManager.Instance.SharedIndexBuffer257.TerrainSize) 
-                {
-                    sharedData = TerrainMeshManager.Instance.SharedIndexBuffer257;
-                }
-                else if (terrEdgeSize == TerrainMeshManager.Instance.SharedIndexBuffer65.TerrainSize)
-                {
-                    sharedData = TerrainMeshManager.Instance.SharedIndexBuffer65;
-                }
+                SharedBlockIndexData sharedData = TerrainMeshManager.Instance.GetSharedIndexData(terrEdgeSize);
+               
                 if (sharedData != null)
                 {
                     levelLengths = sharedData.LevelLength;
@@ -372,7 +361,7 @@ namespace Code2015.EngineEx
                     levelVertexCount = sharedData.LevelVertexCount;
                     indexBuffer = sharedData.IndexBuffers;
                 }
-               
+
                 #endregion
 
                 BuildTerrainTree(vtxArray);
