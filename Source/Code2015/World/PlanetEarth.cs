@@ -186,7 +186,7 @@ namespace Code2015.World
             mats[0][0] = new Material(renderSys);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
-            earthSphere = new Sphere(rs, PlanetRadius, 32, 20, mats);
+            earthSphere = new Sphere(rs, PlanetRadius - 100, 32, 20, mats);
 
             base.ModelL0 = earthSphere;
             

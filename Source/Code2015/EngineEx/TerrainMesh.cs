@@ -301,13 +301,13 @@ namespace Code2015.EngineEx
             TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
             #region 计算局部坐标系下的地心坐标
-            float beta = 0.5f * (MathEx.PIf - MathEx.Degree2Radian(data.XSpan));
+            //float beta = 0.5f * (MathEx.PIf - MathEx.Degree2Radian(data.XSpan));
 
-            Vector3 localEarthCenter = new Vector3(terrEdgeLen * 0.5f, 0, terrEdgeLen * 0.5f);
-            localEarthCenter.Y = -(float)Math.Sin(beta) * PlanetRadius;
+            //Vector3 localEarthCenter = new Vector3(terrEdgeLen * 0.5f, 0, terrEdgeLen * 0.5f);
+            //localEarthCenter.Y = -(float)Math.Sin(beta) * PlanetRadius;
 
-            //Matrix invTrans = Matrix.Invert(Transformation);
-            //Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
+            Matrix invTrans = Matrix.Invert(Transformation);
+            Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
             #endregion
 
             #region 计算顶点坐标
@@ -389,8 +389,7 @@ namespace Code2015.EngineEx
 
                 int[] indexArray = new int[indexCount];
 
-                int index = 0;
-                for (int i = 0; i < terrEdgeLen; i++)
+                for (int i = 0, index = 0; i < terrEdgeLen; i++)
                 {
                     for (int j = 0; j < terrEdgeLen; j++)
                     {
