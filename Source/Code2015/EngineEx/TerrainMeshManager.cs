@@ -172,9 +172,8 @@ namespace Code2015.EngineEx
         public const float ZeroLevel = 100;
 
         bool loaded;
-        SharedBlockIndexData sharedIdxBuffer1025;
-        SharedBlockIndexData sharedIdxBuffer257;
-        SharedBlockIndexData sharedIdxBuffer65;
+        RenderSystem renderSystem;
+        Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
 
         private TerrainMeshManager() { }
         private TerrainMeshManager(int cacheSize)
@@ -182,17 +181,14 @@ namespace Code2015.EngineEx
         {
         }
 
-        public SharedBlockIndexData SharedIndexBuffer1025
+        public SharedBlockIndexData GetSharedIndexData(int terrEdgeSize) 
         {
-            get { return sharedIdxBuffer1025; }
-        }
-        public SharedBlockIndexData SharedIndexBuffer257
-        {
-            get { return sharedIdxBuffer257; }
-        }
-        public SharedBlockIndexData SharedIndexBuffer65
-        {
-            get { return sharedIdxBuffer65; }
+            SharedBlockIndexData result;
+            if (!sharedIBCache.TryGetValue(terrEdgeSize, out result ))
+            {
+                result = new SharedBlockIndexData(renderSystem, terrEdgeSize);
+            }
+            return result;
         }
         public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y, int lod)
         {
@@ -203,9 +199,13 @@ namespace Code2015.EngineEx
                     if (!loaded)
                     {
                         loaded = true;
-                        sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 1025);
-                        sharedIdxBuffer257 = new SharedBlockIndexData(rs, 257);
-                        sharedIdxBuffer65 = new SharedBlockIndexData(rs, 65);
+                        renderSystem = rs;
+                        SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 1025);
+                        SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 257);
+                        SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 65);
+                        sharedIBCache.Add(1025, sharedIdxBuffer1025);
+                        sharedIBCache.Add(257, sharedIdxBuffer257);
+                        sharedIBCache.Add(65, sharedIdxBuffer65);
                     }
                 }
             }
