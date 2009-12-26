@@ -64,7 +64,7 @@ namespace Code2015.World
         /// </summary>
         /// <param name="span">纬度圆心角</param>
         /// <returns></returns>
-        public static float GetTileHeight(float span) 
+        public static float GetTileHeight(float span)
         {
             return (float)(2 * PlanetRadius * Math.Sin(span * 0.5));
             // (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(span));
@@ -151,10 +151,10 @@ namespace Code2015.World
         /// <returns></returns>
         public static Vector3 GetTangentX(float x, float y)
         {
-            Vector3 up = GetNormal(x,y);
+            Vector3 up = GetNormal(x, y);
             Vector3 fwd = GetTangentY(x, y);
 
-            Vector3 result = Vector3.Cross(up, fwd);            
+            Vector3 result = Vector3.Cross(up, fwd);
             result.Normalize();
 
             return result;
@@ -164,16 +164,21 @@ namespace Code2015.World
         RenderSystem renderSys;
         Sphere earthSphere;
 
-        public PlanetEarth(RenderSystem rs, SceneManagerBase sceManager)
+
+        TerrainTile[] terrainTiles;
+
+        public PlanetEarth(RenderSystem rs)
         {
             renderSys = rs;
 
+            terrainTiles = new TerrainTile[36 * 12];
+
+            int index = 0;
             for (int i = 1; i < 72; i += 2)
             {
                 for (int j = 1; j < 24; j += 2)
                 {
-                    TerrainTile terrain = new TerrainTile(renderSys, i, j);
-                    sceManager.AddObjectToScene(terrain);
+                    terrainTiles[index++] = new TerrainTile(renderSys, i, j);
                 }
             }
             Material[][] mats = new Material[1][];
@@ -184,11 +189,40 @@ namespace Code2015.World
             earthSphere = new Sphere(rs, PlanetRadius, 32, 32, mats);
 
             base.ModelL0 = earthSphere;
-       }
+        }
+
+        public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
+        {
+            for (int i = 0; i < terrainTiles.Length; i++)
+            {
+                sceneMgr.AddObjectToScene(terrainTiles[i]);
+            }
+        }
+        public override void OnRemovedFromScene(object sender, SceneManagerBase sceneMgr)
+        {
+            for (int i = 0; i < terrainTiles.Length; i++)
+            {
+                sceneMgr.RemoveObjectFromScene(terrainTiles[i]);
+            }
+        }
 
         public override bool IsSerializable
         {
             get { return false; }
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (terrainTiles != null)
+            {
+                for (int i = 0; i < terrainTiles.Length; i++)
+                {
+                    terrainTiles[i].Dispose();
+                }
+                terrainTiles = null;
+            }
         }
     }
 }
