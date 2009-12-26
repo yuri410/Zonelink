@@ -128,5 +128,20 @@ namespace Code2015.World
         {
             get { return false; }
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            if (disposing)
+            {
+                terrain.Dispose();
+                terrain1.Dispose();
+                terrain2.Dispose();
+            }
+            terrain = null;
+            terrain1 = null;
+            terrain2 = null;
+        }
     }
 }
