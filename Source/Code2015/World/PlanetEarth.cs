@@ -217,9 +217,12 @@ namespace Code2015.World
 
             if (terrainTiles != null)
             {
-                for (int i = 0; i < terrainTiles.Length; i++)
+                if (disposing)
                 {
-                    terrainTiles[i].Dispose();
+                    for (int i = 0; i < terrainTiles.Length; i++)
+                    {
+                        terrainTiles[i].Dispose();
+                    }
                 }
                 terrainTiles = null;
             }
