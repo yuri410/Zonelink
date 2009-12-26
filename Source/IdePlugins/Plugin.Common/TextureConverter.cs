@@ -8,10 +8,12 @@ using System.Windows.Forms;
 using System.IO;
 using SlimDX.Direct3D9;
 using SlimDX;
+using Apoc3D.Collections;
+using Apoc3D;
 
 namespace Plugin.Common
 {
-    class TextureConverter : ConverterBase
+    unsafe class TextureConverter : ConverterBase
     {
         public override void ShowDialog(object sender, EventArgs e)
         {
@@ -132,10 +134,9 @@ namespace Plugin.Common
             pm.Windowed = true;
             Device dev = new Device(d3d, 0, DeviceType.Reference, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, pm);
 
-            Stream srcStm = source.GetStream;
             ImageInformation info;
             PaletteEntry[] palEntry;
-            Texture tex = Texture.FromStream(dev, srcStm, 
+            Texture tex = Texture.FromStream(dev, source.GetStream, 
                 D3DX.Default,D3DX.Default,D3DX.Default,D3DX.Default,
                 Usage.None, Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0, out info, out palEntry);
 
@@ -149,13 +150,30 @@ namespace Plugin.Common
             texData.Format = Convert(info.Format);
 
 
-            for (int i = 0, pos = 0; i < texData.LevelCount; i++)
-            {
+            FastList<byte> buffer = new FastList<byte>(
+                texData.Width * texData.Height * Apoc3D.Media.PixelFormat.GetMemorySize(texData.Width, texData.Height, 1, texData.Format));
+            for (int i = 0; i < texData.LevelCount; i++)
+            {                
                 DataRectangle rect = tex.LockRectangle(0, LockFlags.ReadOnly);
+                
+                DataStream ds = rect.Data;
+
+                texData.LevelSize[i] = (int)ds.Length;
+
+                for (int j = 0; i < texData.LevelSize[j]; j++)
+                {
+                    int val = ds.ReadByte();
+                    buffer.Add((byte)val);
+                }
 
                 tex.UnlockRectangle(0);
             }
+            texData.ContentSize = buffer.Count;
+            texData.Content = new byte[buffer.Count];
+            Array.Copy(buffer.Elements, texData.Content, buffer.Count);
 
+
+            texData.Save(dest.GetStream);
             tex.Dispose();
 
             dev.Dispose();
