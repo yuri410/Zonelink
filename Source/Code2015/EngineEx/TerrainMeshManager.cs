@@ -5,6 +5,7 @@ using System.Text;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Vfs;
+using Apoc3D.MathLib;
 
 namespace Code2015.EngineEx
 {
@@ -37,28 +38,28 @@ namespace Code2015.EngineEx
         /// </summary>
         int[] levelVertexCount;
 
-        public IndexBuffer[] IndexBuffers 
+        public IndexBuffer[] IndexBuffers
         {
             get { return indexBuffer; }
         }
 
-        public int[] LevelLength 
+        public int[] LevelLength
         {
             get { return levelLengths; }
         }
-        public int[] CellSpan 
+        public int[] CellSpan
         {
             get { return cellSpan; }
         }
-        public float[] LodLevelThreshold 
+        public float[] LodLevelThreshold
         {
             get { return lodLevelThreshold; }
         }
-        public int[] LevelPrimCount 
+        public int[] LevelPrimCount
         {
             get { return levelPrimConut; }
         }
-        public int[] LevelVertexCount 
+        public int[] LevelVertexCount
         {
             get { return levelVertexCount; }
         }
@@ -67,11 +68,69 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
-        public SharedBlockIndexData(RenderSystem rs, int terrSize) 
+        public SharedBlockIndexData(RenderSystem rs, int terrEdgeSize)
         {
-            TerrainSize = terrSize;
+            ObjectFactory factory = rs.ObjectFactory;
+            const int TerrainBlockSize = TerrainMesh.TerrainBlockSize;
+            const int LocalLodCount = TerrainMesh.LocalLodCount;
+
+            TerrainSize = terrEdgeSize;
+            int terrEdgeLen = terrEdgeSize - 1;
+
+            int blockEdgeLen = TerrainBlockSize - 1;
+            //this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
+            //this.blockCount = MathEx.Sqr(blockEdgeCount);
+            indexBuffer = new IndexBuffer[LocalLodCount];
+            levelLengths = new int[LocalLodCount];
+            cellSpan = new int[LocalLodCount];
+            lodLevelThreshold = new float[LocalLodCount];
+
+            levelPrimConut = new int[LocalLodCount];
+            levelVertexCount = new int[LocalLodCount];
+
+            for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
+            {
+                int cellLength = blockEdgeLen / levelLength;
+
+
+                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.25f) / (float)(k + 1);
+                lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
+
+                cellSpan[k] = cellLength;
+                levelLengths[k] = levelLength;
+
+                int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
+
+                levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
+                levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
+
+                indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+
+                int[] indexArray = new int[indexCount];
+
+                int index = 0;
+                for (int i = 0; i < levelLength; i++)
+                {
+                    for (int j = 0; j < levelLength; j++)
+                    {
+                        int x = i * cellLength;
+                        int y = j * cellLength;
+
+                        indexArray[index++] = y * terrEdgeSize + x;
+                        indexArray[index++] = y * terrEdgeSize + (x + cellLength);
+                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+
+                        indexArray[index++] = y * terrEdgeSize + x;
+                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+                        indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
+                    }
+                }
+                indexBuffer[k].SetData<int>(indexArray);
+            }
         }
     }
+
+    [Obsolete("如果需要使用，删除该属性")]
     class SharedIndexData
     {
         public int TerrainSize
@@ -137,9 +196,9 @@ namespace Code2015.EngineEx
         }
         public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y, int lod)
         {
-            if (!loaded) 
+            if (!loaded)
             {
-                lock (syncHelper) 
+                lock (syncHelper)
                 {
                     if (!loaded)
                     {

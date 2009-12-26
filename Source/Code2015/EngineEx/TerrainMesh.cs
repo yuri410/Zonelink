@@ -64,7 +64,7 @@ namespace Code2015.EngineEx
         VertexDeclaration vtxDecl;
         VertexBuffer vtxBuffer;
 
-        IndexBuffer[] indexBuffer = new IndexBuffer[LocalLodCount];
+        IndexBuffer[] indexBuffer;
 
         /// <summary>
         ///  世界LOD级别
@@ -350,52 +350,29 @@ namespace Code2015.EngineEx
                 this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
                 this.blockCount = MathEx.Sqr(blockEdgeCount);
 
-                levelLengths = new int[LocalLodCount];
-                cellSpan = new int[LocalLodCount];
-                lodLevelThreshold = new float[LocalLodCount];
-
-                levelPrimConut = new int[LocalLodCount];
-                levelVertexCount = new int[LocalLodCount];
-
-                for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
+                SharedBlockIndexData sharedData = null;
+                if (terrEdgeSize == TerrainMeshManager.Instance.SharedIndexBuffer1025.TerrainSize)
                 {
-                    int cellLength = blockEdgeLen / levelLength;
-
-
-                    lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.25f) / (float)(k + 1);
-                    lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
-
-                    cellSpan[k] = cellLength;
-                    levelLengths[k] = levelLength;
-
-                    int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
-
-                    levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
-                    levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
-
-                    indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-
-                    int[] indexArray = new int[indexCount];
-
-                    int index = 0;
-                    for (int i = 0; i < levelLength; i++)
-                    {
-                        for (int j = 0; j < levelLength; j++)
-                        {
-                            int x = i * cellLength;
-                            int y = j * cellLength;
-
-                            indexArray[index++] = y * terrEdgeSize + x;
-                            indexArray[index++] = y * terrEdgeSize + (x + cellLength);
-                            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-
-                            indexArray[index++] = y * terrEdgeSize + x;
-                            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-                            indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
-                        }
-                    }
-                    indexBuffer[k].SetData<int>(indexArray);
+                    sharedData = TerrainMeshManager.Instance.SharedIndexBuffer1025;
                 }
+                else if (terrEdgeSize == TerrainMeshManager.Instance.SharedIndexBuffer257.TerrainSize) 
+                {
+                    sharedData = TerrainMeshManager.Instance.SharedIndexBuffer257;
+                }
+                else if (terrEdgeSize == TerrainMeshManager.Instance.SharedIndexBuffer65.TerrainSize)
+                {
+                    sharedData = TerrainMeshManager.Instance.SharedIndexBuffer65;
+                }
+                if (sharedData != null)
+                {
+                    levelLengths = sharedData.LevelLength;
+                    cellSpan = sharedData.CellSpan;
+                    lodLevelThreshold = sharedData.LodLevelThreshold;
+                    levelPrimConut = sharedData.LevelPrimCount;
+                    levelVertexCount = sharedData.LevelVertexCount;
+                    indexBuffer = sharedData.IndexBuffers;
+                }
+               
                 #endregion
 
                 BuildTerrainTree(vtxArray);
