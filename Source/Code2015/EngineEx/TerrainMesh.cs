@@ -351,17 +351,14 @@ namespace Code2015.EngineEx
                 this.blockCount = MathEx.Sqr(blockEdgeCount);
 
                 SharedBlockIndexData sharedData = TerrainMeshManager.Instance.GetSharedIndexData(terrEdgeSize);
-               
-                if (sharedData != null)
-                {
-                    levelLengths = sharedData.LevelLength;
-                    cellSpan = sharedData.CellSpan;
-                    lodLevelThreshold = sharedData.LodLevelThreshold;
-                    levelPrimConut = sharedData.LevelPrimCount;
-                    levelVertexCount = sharedData.LevelVertexCount;
-                    indexBuffer = sharedData.IndexBuffers;
-                }
 
+                levelLengths = sharedData.LevelLength;
+                cellSpan = sharedData.CellSpan;
+                lodLevelThreshold = sharedData.LodLevelThreshold;
+                levelPrimConut = sharedData.LevelPrimCount;
+                levelVertexCount = sharedData.LevelVertexCount;
+                indexBuffer = sharedData.IndexBuffers;
+                
                 #endregion
 
                 BuildTerrainTree(vtxArray);
@@ -433,7 +430,7 @@ namespace Code2015.EngineEx
 
         protected override void unload()
         {
-            if (vtxBuffer != null)
+            if (!object.ReferenceEquals(vtxBuffer, null))
             {
                 vtxBuffer.Dispose();
                 vtxBuffer = null;
@@ -443,15 +440,8 @@ namespace Code2015.EngineEx
                 vtxDecl.Dispose();
                 vtxDecl = null;
             }
-
-            for (int i = 0; i < LocalLodCount; i++)
-            {
-                if (indexBuffer[i] != null)
-                {
-                    indexBuffer[i].Dispose();
-                    indexBuffer[i] = null;
-                }
-            }
+            indexBuffer = null;
+           
         }
         #endregion
 
