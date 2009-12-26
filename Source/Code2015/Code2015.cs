@@ -57,7 +57,8 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            PlanetEarth earth = new PlanetEarth(renderSys, sm.SceneManager);
+            PlanetEarth earth = new PlanetEarth(renderSys);
+            sm.SceneManager.AddObjectToScene(earth);
 
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
