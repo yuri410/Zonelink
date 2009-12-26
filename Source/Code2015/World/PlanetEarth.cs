@@ -4,6 +4,10 @@ using System.Linq;
 using System.Text;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
+using Apoc3D.Graphics;
+using Apoc3D.Graphics.Geometry;
+using Apoc3D.Graphics.Effects;
+using Code2015.Effects;
 
 namespace Code2015.World
 {
@@ -156,6 +160,31 @@ namespace Code2015.World
             return result;
         }
         #endregion
+
+        RenderSystem renderSys;
+        Sphere earthSphere;
+
+        public PlanetEarth(RenderSystem rs, SceneManagerBase sceManager)
+        {
+            renderSys = rs;
+
+            for (int i = 1; i < 72; i += 2)
+            {
+                for (int j = 1; j < 24; j += 2)
+                {
+                    TerrainTile terrain = new TerrainTile(renderSys, i, j);
+                    sceManager.AddObjectToScene(terrain);
+                }
+            }
+            Material[][] mats = new Material[1][];
+            mats[0] = new Material[1];
+            mats[0][0] = new Material(renderSys);
+
+            mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
+            earthSphere = new Sphere(rs, PlanetRadius, 32, 32, mats);
+
+            base.ModelL0 = earthSphere;
+       }
 
         public override bool IsSerializable
         {

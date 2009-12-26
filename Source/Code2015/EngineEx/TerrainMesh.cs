@@ -441,7 +441,11 @@ namespace Code2015.EngineEx
                 vtxDecl = null;
             }
             indexBuffer = null;
-           
+            if (rootNode != null)
+            {
+                rootNode.Dispose();
+                rootNode = null;
+            }
         }
         #endregion
 

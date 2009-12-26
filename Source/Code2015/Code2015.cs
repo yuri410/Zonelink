@@ -57,14 +57,7 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            for (int i = 1; i < 72; i += 2)
-            {
-                for (int j = 1; j < 24; j += 2)
-                {
-                    TerrainTile terrain = new TerrainTile(renderSys, i, j);
-                    sm.SceneManager.AddObjectToScene(terrain);
-                }
-            }
+            PlanetEarth earth = new PlanetEarth(renderSys, sm.SceneManager);
 
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
