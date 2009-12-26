@@ -1,14 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Text;
 using Apoc3D.Ide;
-using System.Drawing;
 
 namespace Plugin.Common
 {
     class Plugin : IPlugin
     {
-
+        TextureConverter tex2dConv;
 
         #region IPlugin 成员
 
@@ -33,12 +33,16 @@ namespace Plugin.Common
 
         public void Load()
         {
-            
+            if (tex2dConv == null)
+            {
+                tex2dConv = new TextureConverter();
+            }
+            ConverterManager.Instance.Register(tex2dConv);
         }
 
         public void Unload()
         {
-           
+            ConverterManager.Instance.Unregister(tex2dConv);
         }
 
         #endregion
