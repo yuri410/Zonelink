@@ -10,6 +10,7 @@ using SlimDX.Direct3D9;
 using SlimDX;
 using Apoc3D.Collections;
 using Apoc3D;
+using DevIl;
 
 namespace Plugin.Common
 {
@@ -128,18 +129,19 @@ namespace Plugin.Common
 
         public override void Convert(ResourceLocation source, ResourceLocation dest)
         {
-            Direct3D d3d = new Direct3D();
+            //Direct3D d3d = new Direct3D();
 
-            PresentParameters pm = new PresentParameters();
-            pm.Windowed = true;
-            Device dev = new Device(d3d, 0, DeviceType.Reference, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, pm);
+            //PresentParameters pm = new PresentParameters();
+            //pm.Windowed = true;
+            //Device dev = new Device(d3d, 0, DeviceType.Reference, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, pm);
 
-            ImageInformation info;
-            PaletteEntry[] palEntry;
-            Texture tex = Texture.FromStream(dev, source.GetStream,
-                D3DX.Default, D3DX.Default, D3DX.Default, D3DX.Default,
-                Usage.None, Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0, out info, out palEntry);
-
+            //ImageInformation info;
+            //PaletteEntry[] palEntry;
+            //Texture tex = Texture.FromStream(dev, source.GetStream,
+            //    D3DX.Default, D3DX.Default, D3DX.Default, D3DX.Default,
+            //    Usage.None, Format.Unknown, Pool.Managed, Filter.Default, Filter.Default, 0, out info, out palEntry);
+            int image = Il.ilGenImage();
+            Il.
 
             Apoc3D.Graphics.TextureData texData;
             texData.Depth = 1;
@@ -174,10 +176,10 @@ namespace Plugin.Common
 
 
             texData.Save(dest.GetStream);
-            tex.Dispose();
+            //tex.Dispose();
 
-            dev.Dispose();
-            d3d.Dispose();
+            //dev.Dispose();
+            //d3d.Dispose();
         }
 
         public override string Name
