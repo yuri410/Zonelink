@@ -173,8 +173,8 @@ namespace Code2015.World
 
             terrainTiles = new TerrainTile[36 * 12];
 
-            int index = 0;
-            for (int i = 1; i < 72; i += 2)
+
+            for (int i = 1, index = 0; i < 72; i += 2)
             {
                 for (int j = 1; j < 24; j += 2)
                 {
@@ -186,9 +186,13 @@ namespace Code2015.World
             mats[0][0] = new Material(renderSys);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
-            earthSphere = new Sphere(rs, PlanetRadius, 32, 32, mats);
+            earthSphere = new Sphere(rs, PlanetRadius, 32, 20, mats);
 
             base.ModelL0 = earthSphere;
+            
+            
+            BoundingSphere.Radius = PlanetRadius;
+
         }
 
         public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
