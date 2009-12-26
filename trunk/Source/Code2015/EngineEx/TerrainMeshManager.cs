@@ -217,8 +217,10 @@ namespace Code2015.EngineEx
 
         public const float TerrainScale = 1;
 
-        public const float HeightScale = 5500 * 0.01f;
+        public const float HeightScale = 5500;
         public const float ZeroLevel = 100;
+
+        public const float PostHeightScale = 0.01f;
 
         bool loaded;
         RenderSystem renderSystem;

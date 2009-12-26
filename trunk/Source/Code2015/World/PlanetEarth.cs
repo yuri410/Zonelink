@@ -2,12 +2,13 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
+using Apoc3D.Graphics.Geometry;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
-using Apoc3D.Graphics;
-using Apoc3D.Graphics.Geometry;
-using Apoc3D.Graphics.Effects;
 using Code2015.Effects;
+using Code2015.EngineEx;
 
 namespace Code2015.World
 {
@@ -21,6 +22,9 @@ namespace Code2015.World
         /// </summary>
         [Obsolete()]
         const int MaxInstance = 25;
+
+        const int ColTileCount = 36;
+        const int LatTileCount = 12;
 
         #region 工具
         /// <summary>
@@ -167,16 +171,18 @@ namespace Code2015.World
 
         TerrainTile[] terrainTiles;
 
+
+
         public PlanetEarth(RenderSystem rs)
         {
             renderSys = rs;
 
-            terrainTiles = new TerrainTile[36 * 12];
+            terrainTiles = new TerrainTile[ColTileCount * LatTileCount];
 
 
-            for (int i = 1, index = 0; i < 72; i += 2)
+            for (int i = 1, index = 0; i < ColTileCount * 2; i += 2)
             {
-                for (int j = 1; j < 24; j += 2)
+                for (int j = 1; j < LatTileCount * 2; j += 2)
                 {
                     terrainTiles[index++] = new TerrainTile(renderSys, i, j);
                 }
@@ -186,11 +192,11 @@ namespace Code2015.World
             mats[0][0] = new Material(renderSys);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
-            earthSphere = new Sphere(rs, PlanetRadius - 100, 32, 20, mats);
+            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.ZeroLevel, ColTileCount, LatTileCount, mats);
 
             base.ModelL0 = earthSphere;
-            
-            
+
+
             BoundingSphere.Radius = PlanetRadius;
 
         }

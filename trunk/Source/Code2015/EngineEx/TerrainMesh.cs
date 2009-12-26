@@ -326,6 +326,11 @@ namespace Code2015.EngineEx
                     // 计算海拔高度
                     float height = data.Data[i * terrEdgeSize + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
+                    if (height > 0)
+                    {
+                        height = (height + TerrainMeshManager.ZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    }
+
                     Vector3 worldPos;
                     Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
 
@@ -335,12 +340,28 @@ namespace Code2015.EngineEx
                     Vector3 normal = pos - localEarthCenter;
                     normal.Normalize();
                     vtxArray[i * terrEdgeSize + j].Position = pos + normal * (height + delta);
-                    vtxArray[i * terrEdgeSize + j].SetNormal(normal.X, normal.Y, normal.Z);
-
                 }
             }
             #endregion
 
+            #region 计算顶点法向量
+            for (int i = 0; i < terrEdgeSize - 1; i++)
+            {
+                for (int j = 0; j < terrEdgeSize - 1; j++)
+                {
+                    int idx = i * terrEdgeSize + j;
+
+                    Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
+                    Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
+
+                    Vector3 n;
+                    Vector3.Cross(ref u, ref v, out n);
+                    vtxArray[idx].SetNormal(n.X, n.Y, n.Z);
+
+                }
+            }
+
+            #endregion
             #endregion
 
             if (isBlockTerrain)
