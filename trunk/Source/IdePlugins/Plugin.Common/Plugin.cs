@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text;
 using Apoc3D.Ide;
-using DevIl;
 
 namespace Plugin.Common
 {
@@ -23,10 +22,6 @@ namespace Plugin.Common
             get { return true; }
         }
 
-        #endregion
-
-        #region IPlugin 成员
-
         public string Name
         {
             get { return "通用插件"; }
@@ -34,7 +29,6 @@ namespace Plugin.Common
 
         public void Load()
         {
-            Il.ilInit();
             if (tex2dConv == null)
             {
                 tex2dConv = new TextureConverter();
