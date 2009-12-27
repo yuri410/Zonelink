@@ -27,7 +27,7 @@ namespace GameTest
 
             Console.WriteLine(" Type: {0}", Il.ilGetInteger(Il.IL_IMAGE_TYPE).ToString());
             Console.WriteLine(" Mipmap Count: {0}", mipCount);
-
+            //Console.WriteLine(" DT: {0}", Il.ilGetInteger (Il.IL_
             for (int i = 0; i < mipCount; i++)
             {
                 Il.ilBindImage(image);

@@ -5,9 +5,12 @@ using System.Text;
 using System.Windows.Forms;
 using Apoc3D;
 using Apoc3D.Collections;
+using Apoc3D.Graphics;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
+using Apoc3D.Media;
 using Apoc3D.Vfs;
+using DevIl;
 
 namespace Plugin.Common
 {
@@ -40,138 +43,193 @@ namespace Plugin.Common
             }
         }
 
-        //Apoc3D.Media.ImagePixelFormat Convert(Format fmt)
-        //{
-        //    switch (fmt)
-        //    {
-        //        case Format.A16B16G16R16:
-        //            return Apoc3D.Media.ImagePixelFormat.A16B16G16R16;
-        //        case Format.A16B16G16R16F:
-        //            return Apoc3D.Media.ImagePixelFormat.A16B16G16R16F;
-        //        case Format.A1R5G5B5:
-        //            return Apoc3D.Media.ImagePixelFormat.A1R5G5B5;
-        //        case Format.A2B10G10R10:
-        //            return Apoc3D.Media.ImagePixelFormat.A2B10G10R10;
-        //        case Format.A2R10G10B10:
-        //            return Apoc3D.Media.ImagePixelFormat.A2R10G10B10;
-        //        case Format.A32B32G32R32F:
-        //            return Apoc3D.Media.ImagePixelFormat.A32B32G32R32F;
-        //        case Format.A4L4:
-        //            return Apoc3D.Media.ImagePixelFormat.A4L4;
-        //        case Format.A4R4G4B4:
-        //            return Apoc3D.Media.ImagePixelFormat.A4R4G4B4;
-        //        case Format.A8:
-        //            return Apoc3D.Media.ImagePixelFormat.Alpha8;
-        //        case Format.A8B8G8R8:
-        //            return Apoc3D.Media.ImagePixelFormat.A8B8G8R8;
-        //        case Format.A8L8:
-        //            return Apoc3D.Media.ImagePixelFormat.A8L8;
-        //        case Format.A8R8G8B8:
-        //            return Apoc3D.Media.ImagePixelFormat.A8R8G8B8;
-        //        case Format.D15S1:
-        //        case Format.D16:
-        //        case Format.D16Lockable:
-        //        case Format.D24S8:
-        //        case Format.D24SingleS8:
-        //        case Format.D24X4S4:
-        //        case Format.D24X8:
-        //        case Format.D32:
-        //        case Format.D32Lockable:
-        //        case Format.D32SingleLockable:
-        //            return Apoc3D.Media.ImagePixelFormat.Depth;
-        //        case Format.Dxt1:
-        //            return Apoc3D.Media.ImagePixelFormat.DXT1;
-        //        case Format.Dxt2:
-        //            return Apoc3D.Media.ImagePixelFormat.DXT2;
-        //        case Format.Dxt3:
-        //            return Apoc3D.Media.ImagePixelFormat.DXT3;
-        //        case Format.Dxt4:
-        //            return Apoc3D.Media.ImagePixelFormat.DXT4;
-        //        case Format.Dxt5:
-        //            return Apoc3D.Media.ImagePixelFormat.DXT5;
-        //        case Format.G16R16:
-        //            return Apoc3D.Media.ImagePixelFormat.G16R16;
-        //        case Format.G16R16F:
-        //            return Apoc3D.Media.ImagePixelFormat.G16R16F;
-        //        case Format.G32R32F:
-        //            return Apoc3D.Media.ImagePixelFormat.G32R32F;
-        //        case Format.L16:
-        //            return Apoc3D.Media.ImagePixelFormat.Luminance16;
-        //        case Format.L8:
-        //            return Apoc3D.Media.ImagePixelFormat.Luminance8;
-        //        case Format.P8:
-        //            return Apoc3D.Media.ImagePixelFormat.Palette8;
-        //        case Format.A8P8:
-        //            return Apoc3D.Media.ImagePixelFormat.Palette8Alpha8;
-        //        case Format.R16F:
-        //            return Apoc3D.Media.ImagePixelFormat.R16F;
-        //        case Format.R32F:
-        //            return Apoc3D.Media.ImagePixelFormat.R32F;
-        //        case Format.R3G3B2:
-        //            return Apoc3D.Media.ImagePixelFormat.R3G3B2;
-        //        case Format.R5G6B5:
-        //            return Apoc3D.Media.ImagePixelFormat.R5G6B5;
-        //        case Format.R8G8B8:
-        //            return Apoc3D.Media.ImagePixelFormat.R8G8B8;
-        //        case Format.Unknown:
-        //            return Apoc3D.Media.ImagePixelFormat.Unknown;
-        //        case Format.X8B8G8R8:
-        //            return Apoc3D.Media.ImagePixelFormat.X8B8G8R8;
-        //        case Format.X8R8G8B8:
-        //            return Apoc3D.Media.ImagePixelFormat.X8R8G8B8;
-        //        default:
-        //            return Apoc3D.Media.ImagePixelFormat.Unknown;
-        //    }
-        //}
+        public ImagePixelFormat ConvertFormat(int format, int elementType, int bpp)
+        {
+            switch (format)
+            {
+                case Il.IL_BGR:
+                    switch (elementType) 
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE:
+                            if (bpp ==4)
+                                return ImagePixelFormat.X8R8G8B8;
+                            return ImagePixelFormat.R8G8B8;
+                    }
+                    break;
+                case Il.IL_BGRA:
+                    switch (elementType)
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE:
+                            return ImagePixelFormat.A8R8G8B8;
+                    }
+                    break;
+                case Il.IL_COLOUR_INDEX:
+                    switch (elementType)
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE:
+                            return ImagePixelFormat.Palette8;
+                    }
+                    break;
+                case Il.IL_LUMINANCE:
+                    switch (elementType)
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE :
+                            return ImagePixelFormat.Luminance8;
+                        case Il.IL_SHORT:
+                        case Il.IL_UNSIGNED_SHORT:
+                            return ImagePixelFormat.Luminance16;
+                    }
+
+                    break;
+                case Il.IL_LUMINANCE_ALPHA:
+                    switch (elementType)
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE:
+                            return ImagePixelFormat.A8L8;
+                    }
+                    break;
+                case Il.IL_RGB:
+                    switch (elementType)
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE:
+                            if (bpp == 4)
+                                return ImagePixelFormat.X8B8G8R8;
+                            return ImagePixelFormat.B8G8R8;
+                    }
+                    break;
+                case Il.IL_RGBA:
+                    switch (elementType)
+                    {
+                        case Il.IL_BYTE:
+                        case Il.IL_UNSIGNED_BYTE:
+                            return ImagePixelFormat.A8B8G8R8;
+                        case Il.IL_SHORT:
+                        case Il.IL_UNSIGNED_SHORT:
+                            return ImagePixelFormat.A16B16G16R16;
+                        case Il.IL_FLOAT:
+                            if (bpp == 2)
+                                return ImagePixelFormat.A16B16G16R16F;
+                            return ImagePixelFormat.A32B32G32R32F;
+                    }
+                    break;
+                // hacks
+                case Il.IL_DXT1:
+                    return ImagePixelFormat.DXT1;
+                case Il.IL_DXT2:
+                    return ImagePixelFormat.DXT2;
+                case Il.IL_DXT3:
+                    return ImagePixelFormat.DXT3;
+                case Il.IL_DXT4:
+                    return ImagePixelFormat.DXT4;
+                case Il.IL_DXT5:
+                    return ImagePixelFormat.DXT5;
+            }
+            return ImagePixelFormat.Unknown;
+        }
 
         public override void Convert(ResourceLocation source, ResourceLocation dest)
         {
-            //Direct3D d3d = new Direct3D();
+            FileLocation rl = source as FileLocation;
 
-            //PresentParameters pm = new PresentParameters();
-            //pm.Windowed = true;
-            //Device dev = new Device(d3d, 0, DeviceType.Reference, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, pm);
+            if (rl == null)
+            {
+                MessageBox.Show("Not supported", "");
+                return;
+            }
 
-            //ImageInformation info;
-            //PaletteEntry[] palEntry;
+            int image = Il.ilGenImage();
 
-            //Texture tex = Texture.FromStream(dev, source.GetStream,
-            //    0, D3DX.DefaultNonPowerOf2, D3DX.DefaultNonPowerOf2, D3DX.DefaultNonPowerOf2,
-            //    Usage.None, Format.Unknown, Pool.Managed, Filter.None, Filter.None, 0, out info, out palEntry);
+            Il.ilBindImage(image);
+            Il.ilSetInteger(Il.IL_KEEP_DXTC_DATA, Il.IL_TRUE);
 
-            //Apoc3D.Graphics.TextureData texData;
-            //texData.Depth = 1;
-            //texData.Width = info.Width;
-            //texData.Height = info.Height;
-            //texData.LevelCount = info.MipLevels;
-            //texData.Type = Apoc3D.Graphics.TextureType.Texture2D;
-            //texData.Format = Convert(info.Format);
+            Il.ilLoadImage(rl.Path);
 
-            //byte[] buffer = new byte[Apoc3D.Media.PixelFormat.GetMemorySize(texData.Width, texData.Height, 1, texData.Format) * 2];
-            //int size = 0;
-            //for (int i = 0; i < texData.LevelCount; i++)
-            //{
-            //    DataRectangle rect = tex.LockRectangle(i, LockFlags.ReadOnly);
+            int mipCount = Il.ilGetInteger(Il.IL_NUM_MIPMAPS) + 1;
 
-            //    DataStream ds = rect.Data;
+            int ilFormat = Il.ilGetInteger(Il.IL_IMAGE_FORMAT);
+            int dataType = Il.ilGetInteger(Il.IL_IMAGE_TYPE);
+            int bytePP = Il.ilGetInteger(Il.IL_IMAGE_BYTES_PER_PIXEL);
 
-            //    texData.LevelSize[i] = (int)ds.Length;
+            bool cubeFlags = (Il.ilGetInteger(Il.IL_IMAGE_CUBEFLAGS) > 0);
 
-            //    ds.Read(buffer, 0, texData.LevelSize[i]);
+            int depth0 = Il.ilGetInteger(Il.IL_IMAGE_DEPTH);
 
-            //    size += texData.LevelSize[i];
+            TextureData texData;
+            texData.LevelCount = mipCount;
+            texData.Levels = new TextureLevelData[mipCount];
+            texData.ContentSize = 0;
+            texData.Format = ConvertFormat(ilFormat, dataType, bytePP);
 
-            //    tex.UnlockRectangle(i);
-            //}
-            //texData.ContentSize = size;
-            //texData.Content = new byte[size];
-            //Array.Copy(buffer, texData.Content, size);
+            if (cubeFlags)
+                texData.Type = TextureType.CubeTexture;
+            else 
+                texData.Type = depth0 > 1 ? TextureType.Texture3D : TextureType.Texture2D;
 
-            //texData.Save(dest.GetStream);
-            //tex.Dispose();
+            int dxtFormat = Il.ilGetInteger(Il.IL_DXTC_DATA_FORMAT);
 
-            //dev.Dispose();
-            //d3d.Dispose();
+            for (int i = 0; i < mipCount; i++)
+            {
+                Il.ilBindImage(image);
+                Il.ilActiveMipmap(i);
+
+                texData.Levels[i].Width = Il.ilGetInteger(Il.IL_IMAGE_WIDTH);
+                texData.Levels[i].Height = Il.ilGetInteger(Il.IL_IMAGE_HEIGHT);
+                texData.Levels[i].Depth = Il.ilGetInteger(Il.IL_IMAGE_DEPTH);
+
+                if (dxtFormat != Il.IL_DXT_NO_COMP)
+                {
+                    int dxtSize = Il.ilGetDXTCData(IntPtr.Zero, 0, dxtFormat);
+                    texData.Levels[i].Content = new byte[dxtSize];
+                    texData.Levels[i].LevelSize = dxtSize;
+
+                    fixed (byte* dst = &texData.Levels[i].Content[0])
+                    {
+                        Il.ilGetDXTCData(new IntPtr(dst), dxtSize, dxtFormat);
+                    }
+
+                    texData.ContentSize += dxtSize;
+                }
+                else
+                {
+                    int numImagePasses = cubeFlags ? 6 : 1;
+                    int imageSize = Il.ilGetInteger(Il.IL_IMAGE_SIZE_OF_DATA);
+
+                    texData.Levels[i].LevelSize = imageSize;
+                    byte[] buffer = new byte[numImagePasses * imageSize];
+                    texData.Levels[i].Content = buffer;
+
+                    for (int j = 0, offset = 0; j < numImagePasses; j++, offset += imageSize)
+                    {
+                        if (cubeFlags)
+                        {
+                            Il.ilBindImage(image);
+                            Il.ilActiveImage(j);
+                            Il.ilActiveMipmap(i);
+                        }
+
+                        IntPtr ptr = Il.ilGetData();
+
+                        fixed (byte* dst = &buffer[offset])
+                        {
+                            Memory.Copy(ptr.ToPointer(), dst, imageSize);
+                        }
+
+                    }
+
+                    texData.ContentSize += imageSize;
+                }
+
+            }
+            Il.ilDeleteImage(image);
+
+            texData.Save(dest.GetStream);
+
         }
 
         public override string Name
