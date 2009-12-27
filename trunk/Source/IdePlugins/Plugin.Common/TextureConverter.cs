@@ -42,9 +42,9 @@ namespace Plugin.Common
             }
         }
 
-        Apoc3D.Media.ImagePixelFormat Convert(Format fmt) 
+        Apoc3D.Media.ImagePixelFormat Convert(Format fmt)
         {
-            switch (fmt) 
+            switch (fmt)
             {
                 case Format.A16B16G16R16:
                     return Apoc3D.Media.ImagePixelFormat.A16B16G16R16;
@@ -54,7 +54,7 @@ namespace Plugin.Common
                     return Apoc3D.Media.ImagePixelFormat.A1R5G5B5;
                 case Format.A2B10G10R10:
                     return Apoc3D.Media.ImagePixelFormat.A2B10G10R10;
-                case Format.A2R10G10B10 :
+                case Format.A2R10G10B10:
                     return Apoc3D.Media.ImagePixelFormat.A2R10G10B10;
                 case Format.A32B32G32R32F:
                     return Apoc3D.Media.ImagePixelFormat.A32B32G32R32F;
@@ -128,52 +128,52 @@ namespace Plugin.Common
 
         public override void Convert(ResourceLocation source, ResourceLocation dest)
         {
-            Direct3D d3d = new Direct3D();
+            //Direct3D d3d = new Direct3D();
 
-            PresentParameters pm = new PresentParameters();
-            pm.Windowed = true;
-            Device dev = new Device(d3d, 0, DeviceType.Reference, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, pm);
+            //PresentParameters pm = new PresentParameters();
+            //pm.Windowed = true;
+            //Device dev = new Device(d3d, 0, DeviceType.Reference, IntPtr.Zero, CreateFlags.SoftwareVertexProcessing, pm);
 
-            ImageInformation info;
-            PaletteEntry[] palEntry;
+            //ImageInformation info;
+            //PaletteEntry[] palEntry;
 
-            Texture tex = Texture.FromStream(dev, source.GetStream,
-                0, D3DX.DefaultNonPowerOf2, D3DX.DefaultNonPowerOf2, D3DX.DefaultNonPowerOf2,
-                Usage.None, Format.Unknown, Pool.Managed, Filter.None, Filter.None, 0, out info, out palEntry);
+            //Texture tex = Texture.FromStream(dev, source.GetStream,
+            //    0, D3DX.DefaultNonPowerOf2, D3DX.DefaultNonPowerOf2, D3DX.DefaultNonPowerOf2,
+            //    Usage.None, Format.Unknown, Pool.Managed, Filter.None, Filter.None, 0, out info, out palEntry);
 
-            Apoc3D.Graphics.TextureData texData;
-            texData.Depth = 1;
-            texData.Width = info.Width;
-            texData.Height = info.Height;
-            texData.LevelCount = info.MipLevels;
-            texData.Type = Apoc3D.Graphics.TextureType.Texture2D;
-            texData.Format = Convert(info.Format);
+            //Apoc3D.Graphics.TextureData texData;
+            //texData.Depth = 1;
+            //texData.Width = info.Width;
+            //texData.Height = info.Height;
+            //texData.LevelCount = info.MipLevels;
+            //texData.Type = Apoc3D.Graphics.TextureType.Texture2D;
+            //texData.Format = Convert(info.Format);
 
-            byte[] buffer = new byte[Apoc3D.Media.PixelFormat.GetMemorySize(texData.Width, texData.Height, 1, texData.Format) * 2];
-            int size = 0;
-            for (int i = 0; i < texData.LevelCount; i++)
-            {                
-                DataRectangle rect = tex.LockRectangle(i, LockFlags.ReadOnly);
-                
-                DataStream ds = rect.Data;
+            //byte[] buffer = new byte[Apoc3D.Media.PixelFormat.GetMemorySize(texData.Width, texData.Height, 1, texData.Format) * 2];
+            //int size = 0;
+            //for (int i = 0; i < texData.LevelCount; i++)
+            //{
+            //    DataRectangle rect = tex.LockRectangle(i, LockFlags.ReadOnly);
 
-                texData.LevelSize[i] = (int)ds.Length;
+            //    DataStream ds = rect.Data;
 
-                ds.Read(buffer, 0, texData.LevelSize[i]);
+            //    texData.LevelSize[i] = (int)ds.Length;
 
-                size += texData.LevelSize[i];
+            //    ds.Read(buffer, 0, texData.LevelSize[i]);
 
-                tex.UnlockRectangle(i);
-            }
-            texData.ContentSize = size;
-            texData.Content = new byte[size];
-            Array.Copy(buffer, texData.Content, size);
+            //    size += texData.LevelSize[i];
 
-            texData.Save(dest.GetStream);
-            tex.Dispose();
+            //    tex.UnlockRectangle(i);
+            //}
+            //texData.ContentSize = size;
+            //texData.Content = new byte[size];
+            //Array.Copy(buffer, texData.Content, size);
 
-            dev.Dispose();
-            d3d.Dispose();
+            //texData.Save(dest.GetStream);
+            //tex.Dispose();
+
+            //dev.Dispose();
+            //d3d.Dispose();
         }
 
         public override string Name

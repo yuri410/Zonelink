@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Code2015.World;
 using Apoc3D.MathLib;
+using Code2015.World;
 using DevIl;
-using System.IO;
 
 namespace GameTest
 {
@@ -17,25 +17,31 @@ namespace GameTest
 
             int image = Il.ilGenImage();
 
-            BinaryReader br = new BinaryReader(File.Open(@"E:\Desktop\jlxphys.png", FileMode.Open));
-
-            byte[] data = br.ReadBytes((int)br.BaseStream.Length);
-
-            br.Close();
-
             Il.ilBindImage(image);
-            Il.ilLoadL(Il.IL_DONT_CARE, data, data.Length);
+            Il.ilLoadImage(@"E:\Desktop\jlxphys1.dds");
 
-            Console.WriteLine("Width: {0}", Il.ilGetInteger(Il.IL_IMAGE_WIDTH).ToString());
-            Console.WriteLine("Height: {0}", Il.ilGetInteger(Il.IL_IMAGE_HEIGHT).ToString());
-            Console.WriteLine("Depth: {0}", Il.ilGetInteger(Il.IL_IMAGE_DEPTH).ToString());
+            int mipCount = Il.ilGetInteger(Il.IL_NUM_MIPMAPS) + 1;
 
-            Console.WriteLine("Byte per pix: {0}", Il.ilGetInteger(Il.IL_IMAGE_BYTES_PER_PIXEL).ToString());
-            Console.WriteLine("Data Size: {0}", Il.ilGetInteger(Il.IL_IMAGE_SIZE_OF_DATA).ToString());
-            Console.WriteLine("Format: {0}", Il.ilGetInteger(Il.IL_IMAGE_FORMAT).ToString());
+           
+            Console.WriteLine(" Format: {0}", Il.ilGetInteger(Il.IL_IMAGE_FORMAT).ToString());
 
-            Console.WriteLine("Type: {0}", Il.ilGetInteger(Il.IL_IMAGE_TYPE).ToString());
-            Console.WriteLine("Mipmap Count: {0}", Il.ilGetInteger(Il.IL_NUM_MIPMAPS).ToString());
+            Console.WriteLine(" Type: {0}", Il.ilGetInteger(Il.IL_IMAGE_TYPE).ToString());
+            Console.WriteLine(" Mipmap Count: {0}", mipCount);
+
+            for (int i = 0; i < mipCount; i++)
+            {
+                Il.ilBindImage(image);
+
+                Il.ilActiveMipmap(i);
+                Console.WriteLine("Layer: {0}", i);
+                Console.WriteLine(" Width: {0}", Il.ilGetInteger(Il.IL_IMAGE_WIDTH).ToString());
+                Console.WriteLine(" Height: {0}", Il.ilGetInteger(Il.IL_IMAGE_HEIGHT).ToString());
+                Console.WriteLine(" Depth: {0}", Il.ilGetInteger(Il.IL_IMAGE_DEPTH).ToString());
+
+                Console.WriteLine(" Byte per pix: {0}", Il.ilGetInteger(Il.IL_IMAGE_BYTES_PER_PIXEL).ToString());
+                Console.WriteLine(" Data Size: {0}", Il.ilGetInteger(Il.IL_IMAGE_SIZE_OF_DATA).ToString());
+                Console.WriteLine(" Data: {0}", Il.ilGetData());
+            }
 
             Il.ilDeleteImage(image);
         }
