@@ -8,8 +8,6 @@ using Apoc3D.Collections;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
 using Apoc3D.Vfs;
-using SlimDX;
-using SlimDX.Direct3D9;
 
 namespace Plugin.Common
 {
@@ -42,89 +40,89 @@ namespace Plugin.Common
             }
         }
 
-        Apoc3D.Media.ImagePixelFormat Convert(Format fmt)
-        {
-            switch (fmt)
-            {
-                case Format.A16B16G16R16:
-                    return Apoc3D.Media.ImagePixelFormat.A16B16G16R16;
-                case Format.A16B16G16R16F:
-                    return Apoc3D.Media.ImagePixelFormat.A16B16G16R16F;
-                case Format.A1R5G5B5:
-                    return Apoc3D.Media.ImagePixelFormat.A1R5G5B5;
-                case Format.A2B10G10R10:
-                    return Apoc3D.Media.ImagePixelFormat.A2B10G10R10;
-                case Format.A2R10G10B10:
-                    return Apoc3D.Media.ImagePixelFormat.A2R10G10B10;
-                case Format.A32B32G32R32F:
-                    return Apoc3D.Media.ImagePixelFormat.A32B32G32R32F;
-                case Format.A4L4:
-                    return Apoc3D.Media.ImagePixelFormat.A4L4;
-                case Format.A4R4G4B4:
-                    return Apoc3D.Media.ImagePixelFormat.A4R4G4B4;
-                case Format.A8:
-                    return Apoc3D.Media.ImagePixelFormat.Alpha8;
-                case Format.A8B8G8R8:
-                    return Apoc3D.Media.ImagePixelFormat.A8B8G8R8;
-                case Format.A8L8:
-                    return Apoc3D.Media.ImagePixelFormat.A8L8;
-                case Format.A8R8G8B8:
-                    return Apoc3D.Media.ImagePixelFormat.A8R8G8B8;
-                case Format.D15S1:
-                case Format.D16:
-                case Format.D16Lockable:
-                case Format.D24S8:
-                case Format.D24SingleS8:
-                case Format.D24X4S4:
-                case Format.D24X8:
-                case Format.D32:
-                case Format.D32Lockable:
-                case Format.D32SingleLockable:
-                    return Apoc3D.Media.ImagePixelFormat.Depth;
-                case Format.Dxt1:
-                    return Apoc3D.Media.ImagePixelFormat.DXT1;
-                case Format.Dxt2:
-                    return Apoc3D.Media.ImagePixelFormat.DXT2;
-                case Format.Dxt3:
-                    return Apoc3D.Media.ImagePixelFormat.DXT3;
-                case Format.Dxt4:
-                    return Apoc3D.Media.ImagePixelFormat.DXT4;
-                case Format.Dxt5:
-                    return Apoc3D.Media.ImagePixelFormat.DXT5;
-                case Format.G16R16:
-                    return Apoc3D.Media.ImagePixelFormat.G16R16;
-                case Format.G16R16F:
-                    return Apoc3D.Media.ImagePixelFormat.G16R16F;
-                case Format.G32R32F:
-                    return Apoc3D.Media.ImagePixelFormat.G32R32F;
-                case Format.L16:
-                    return Apoc3D.Media.ImagePixelFormat.Luminance16;
-                case Format.L8:
-                    return Apoc3D.Media.ImagePixelFormat.Luminance8;
-                case Format.P8:
-                    return Apoc3D.Media.ImagePixelFormat.Palette8;
-                case Format.A8P8:
-                    return Apoc3D.Media.ImagePixelFormat.Palette8Alpha8;
-                case Format.R16F:
-                    return Apoc3D.Media.ImagePixelFormat.R16F;
-                case Format.R32F:
-                    return Apoc3D.Media.ImagePixelFormat.R32F;
-                case Format.R3G3B2:
-                    return Apoc3D.Media.ImagePixelFormat.R3G3B2;
-                case Format.R5G6B5:
-                    return Apoc3D.Media.ImagePixelFormat.R5G6B5;
-                case Format.R8G8B8:
-                    return Apoc3D.Media.ImagePixelFormat.R8G8B8;
-                case Format.Unknown:
-                    return Apoc3D.Media.ImagePixelFormat.Unknown;
-                case Format.X8B8G8R8:
-                    return Apoc3D.Media.ImagePixelFormat.X8B8G8R8;
-                case Format.X8R8G8B8:
-                    return Apoc3D.Media.ImagePixelFormat.X8R8G8B8;
-                default:
-                    return Apoc3D.Media.ImagePixelFormat.Unknown;
-            }
-        }
+        //Apoc3D.Media.ImagePixelFormat Convert(Format fmt)
+        //{
+        //    switch (fmt)
+        //    {
+        //        case Format.A16B16G16R16:
+        //            return Apoc3D.Media.ImagePixelFormat.A16B16G16R16;
+        //        case Format.A16B16G16R16F:
+        //            return Apoc3D.Media.ImagePixelFormat.A16B16G16R16F;
+        //        case Format.A1R5G5B5:
+        //            return Apoc3D.Media.ImagePixelFormat.A1R5G5B5;
+        //        case Format.A2B10G10R10:
+        //            return Apoc3D.Media.ImagePixelFormat.A2B10G10R10;
+        //        case Format.A2R10G10B10:
+        //            return Apoc3D.Media.ImagePixelFormat.A2R10G10B10;
+        //        case Format.A32B32G32R32F:
+        //            return Apoc3D.Media.ImagePixelFormat.A32B32G32R32F;
+        //        case Format.A4L4:
+        //            return Apoc3D.Media.ImagePixelFormat.A4L4;
+        //        case Format.A4R4G4B4:
+        //            return Apoc3D.Media.ImagePixelFormat.A4R4G4B4;
+        //        case Format.A8:
+        //            return Apoc3D.Media.ImagePixelFormat.Alpha8;
+        //        case Format.A8B8G8R8:
+        //            return Apoc3D.Media.ImagePixelFormat.A8B8G8R8;
+        //        case Format.A8L8:
+        //            return Apoc3D.Media.ImagePixelFormat.A8L8;
+        //        case Format.A8R8G8B8:
+        //            return Apoc3D.Media.ImagePixelFormat.A8R8G8B8;
+        //        case Format.D15S1:
+        //        case Format.D16:
+        //        case Format.D16Lockable:
+        //        case Format.D24S8:
+        //        case Format.D24SingleS8:
+        //        case Format.D24X4S4:
+        //        case Format.D24X8:
+        //        case Format.D32:
+        //        case Format.D32Lockable:
+        //        case Format.D32SingleLockable:
+        //            return Apoc3D.Media.ImagePixelFormat.Depth;
+        //        case Format.Dxt1:
+        //            return Apoc3D.Media.ImagePixelFormat.DXT1;
+        //        case Format.Dxt2:
+        //            return Apoc3D.Media.ImagePixelFormat.DXT2;
+        //        case Format.Dxt3:
+        //            return Apoc3D.Media.ImagePixelFormat.DXT3;
+        //        case Format.Dxt4:
+        //            return Apoc3D.Media.ImagePixelFormat.DXT4;
+        //        case Format.Dxt5:
+        //            return Apoc3D.Media.ImagePixelFormat.DXT5;
+        //        case Format.G16R16:
+        //            return Apoc3D.Media.ImagePixelFormat.G16R16;
+        //        case Format.G16R16F:
+        //            return Apoc3D.Media.ImagePixelFormat.G16R16F;
+        //        case Format.G32R32F:
+        //            return Apoc3D.Media.ImagePixelFormat.G32R32F;
+        //        case Format.L16:
+        //            return Apoc3D.Media.ImagePixelFormat.Luminance16;
+        //        case Format.L8:
+        //            return Apoc3D.Media.ImagePixelFormat.Luminance8;
+        //        case Format.P8:
+        //            return Apoc3D.Media.ImagePixelFormat.Palette8;
+        //        case Format.A8P8:
+        //            return Apoc3D.Media.ImagePixelFormat.Palette8Alpha8;
+        //        case Format.R16F:
+        //            return Apoc3D.Media.ImagePixelFormat.R16F;
+        //        case Format.R32F:
+        //            return Apoc3D.Media.ImagePixelFormat.R32F;
+        //        case Format.R3G3B2:
+        //            return Apoc3D.Media.ImagePixelFormat.R3G3B2;
+        //        case Format.R5G6B5:
+        //            return Apoc3D.Media.ImagePixelFormat.R5G6B5;
+        //        case Format.R8G8B8:
+        //            return Apoc3D.Media.ImagePixelFormat.R8G8B8;
+        //        case Format.Unknown:
+        //            return Apoc3D.Media.ImagePixelFormat.Unknown;
+        //        case Format.X8B8G8R8:
+        //            return Apoc3D.Media.ImagePixelFormat.X8B8G8R8;
+        //        case Format.X8R8G8B8:
+        //            return Apoc3D.Media.ImagePixelFormat.X8R8G8B8;
+        //        default:
+        //            return Apoc3D.Media.ImagePixelFormat.Unknown;
+        //    }
+        //}
 
         public override void Convert(ResourceLocation source, ResourceLocation dest)
         {
