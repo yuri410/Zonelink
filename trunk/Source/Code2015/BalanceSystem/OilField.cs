@@ -5,22 +5,34 @@ using System.Text;
 
 namespace Code2015.BalanceSystem
 {
-    class OilField : NaturalResource
+    class OilField :Simulateobject
     {
-        //这里我加了两个属性，分别是土壤的板结程度和肥沃程度
-        private int Hardenth;
-        private int Enrichment;
-
-        public int setHardenth
+        public float CurrentOilWeight
         {
-            get { return Hardenth; }
-            set { Hardenth = value; }
-        }
-        public int setEnrichment
-        {
-            get { return Enrichment; }
-            set { Enrichment = value; }
+            get;
+            set;
         }
 
+        public float RemainedOilWeight
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 得到开采到的石油
+        /// </summary>
+        /// <returns></returns>
+        public float GetOilWeight()
+        {
+            return CurrentOilWeight - RemainedOilWeight;
+        }
+       /// <summary>
+       /// 开采石油要产生的碳量
+       /// </summary>
+       /// <returns></returns>
+        public override float GetCarbonWeight()
+        {
+            return this.GetCarbonWeight() * 200;
+        }
     }
 }

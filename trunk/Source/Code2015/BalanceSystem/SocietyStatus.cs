@@ -7,25 +7,17 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    class SocietyStatus : IUpdatable
+    public class SocietyStatus : IUpdatable
     {
-        FastList<City> city = new FastList<City>();
+
 
         public float Development
         {
             get;
             set;
         }
-        public float PracticalEnvProtection
-        {
-            get;
-            set;
-        }
-        public float EnvProductive
-        {
-            get;
-            set;
-        }
+
+
         public float Population
         {
             get;

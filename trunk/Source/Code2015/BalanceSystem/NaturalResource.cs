@@ -6,40 +6,42 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    class NaturalResource : IUpdatable
+    ///铁和铜
+    enum SourceType { Iron,Copper}
+    class NaturalResource : Simulateobject
     {
+        /// <summary>
+        /// 自然界总的资源,包括铁，铝等其他矿产等
+        /// </summary>
+        public float TotalAmount = 10000;
        
-    
+        public float ConsumeSpeed
+        {
+            get
+            {
+                switch (NatSourceType)
+                { 
+                    case SourceType.Iron:
+                        return 10;
+                    case SourceType.Copper:
+                        return 4;
+                       
+                }
+                return 0;
+               
+            }
+        }
         /// <summary>
-        /// 自然的资源生产速度
+        /// 资源类型
         /// </summary>
-        public float ProductSpeed
+        public SourceType NatSourceType
         {
             get;
-            set;
+           private  set;
         }
        
-        /// <summary>
-        /// 自然界总的资源
-        /// </summary>
-        public float TotalAmount
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 生产类型
-        /// </summary>
-        public string ProductType
-        {
-            get;
-            set;
-        }
 
-        public NaturalResource()
-        { }
 
-        public void Update(GameTime time)
-        { }
+     
     }
 }

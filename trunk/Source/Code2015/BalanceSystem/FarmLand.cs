@@ -5,40 +5,67 @@ using System.Text;
 
 namespace Code2015.BalanceSystem
 {
-    class FarmLand:NaturalResource
+    /// <summary>
+    /// 农场土壤的等级
+    /// </summary>
+    public enum SoilGrade { fine, medium, bad };
+
+    class FarmLand:Simulateobject
     {
-        /// <summary>
-        /// 农场的面积
-        /// </summary>
-        public float FarmArea
+
+        PlantSpecies foofPlant = new PlantSpecies("foodPlant");
+       /// <summary>
+       /// 粮食的总产量
+       /// </summary>
+        public float FoodWeight
         {
             get;
             set;
         }
-       
         /// <summary>
-        /// 农场土壤的等级
+        /// 土壤的等级
         /// </summary>
-        public enum OilGrade { fine, medium, bad };
-        
+        public SoilGrade soilGrade
+        {
+            get;
+            private set;
+        }
         /// <summary>
-        /// 得到区域内的粮食的产量
+        /// 单位的产量
+        /// </summary>
+        public float UnitProduct
+        {
+            get
+            {
+                switch (soilGrade)
+                { 
+                    case SoilGrade.fine:
+                        return 1000;
+                    case SoilGrade.medium:
+                        return 700;
+                    case SoilGrade.bad:
+                        return 300;
+
+                }
+                return 0;
+            }
+        }
+        /// <summary>
+        /// 得到粮食的总产量
         /// </summary>
         /// <returns></returns>
-        public float GetFoodAmount(OilGrade oilGrade)
+        public float GetFoodWeight()
         {
-            switch (oilGrade)
-            { 
-                case OilGrade.fine:
-                    return FarmArea * 1000;
-                case OilGrade.medium:
-                    return FarmArea * 800;
-                case OilGrade.bad:
-                    return FarmArea * 600;
-            }
-
-            return 0;
+            return this.FoodWeight= UnitProduct * foofPlant.Amount;
         }
-
+        /// <summary>
+        /// 获得粮食固碳量
+        /// </summary>
+        /// <returns></returns>
+        public override float GetCarbonWeight()
+        {
+            return foofPlant.Amount * (UnitProduct + 200);
+        }
+       
     }
 }

@@ -37,6 +37,14 @@ namespace Code2015.BalanceSystem
             get { return desertificationAdjust; }
             set { desertificationAdjust = value; }
         }
+        /// <summary>
+        /// 植物的数目
+        /// </summary>
+        public float Amount
+        {
+            get;
+            set;
+        }
         public string Name
         {
             get;

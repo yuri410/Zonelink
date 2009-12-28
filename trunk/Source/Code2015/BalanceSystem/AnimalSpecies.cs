@@ -31,7 +31,11 @@ namespace Code2015.BalanceSystem
             Name = name;
         }
 
-
+        public float Amount
+        {
+            get;
+            set;
+        }
 
         //得到使土壤肥沃的速度
         public void SetFertilisingSpeed(float fertiliseSpeed)
@@ -40,9 +44,9 @@ namespace Code2015.BalanceSystem
         }
 
         //得到各种动物产生CO2的数量
-        public float ProduceGgas(float strength, float speed)
+        public float ProduceGgas(float amount, float speed)
         {
-            return strength * speed;
+            return amount * speed;
         }
 
     }

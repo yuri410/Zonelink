@@ -34,7 +34,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-        FastList<NaturalResource> natualResource = new FastList<NaturalResource>();
+
         
         public void Update(GameTime time)
         { }
