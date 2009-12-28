@@ -23,7 +23,7 @@ namespace Code2015
     class Code2015 : IRenderWindowHandler
     {
         RenderSystem renderSys;
-        //TerrainTile terrain;
+
         List<TerrainTile> terrList = new List<TerrainTile>();
         FpsCamera camera;
         SceneRenderer renderer;

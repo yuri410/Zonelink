@@ -45,6 +45,33 @@ namespace GameTest
 
             Il.ilDeleteImage(image);
         }
+        static void Vec2Ang()
+        {
+            for (int i = 0; i < 36; i++)
+            {
+                Console.Write(i * 10);
+                Console.Write(' ');
+                if ((i + 1) % 12 == 0)
+                    Console.WriteLine();
+            }
+            Console.WriteLine();
+
+            for (int i = 0; i < 36; i++)
+            {
+                float rad = MathEx.Degree2Radian(i * 10);
+
+                Vector2 a = new Vector2((float)Math.Cos(rad), (float)Math.Sin(rad));
+
+                float ang = MathEx.Vector2DirAngle(a);
+                ang = MathEx.Radian2Degree(ang);
+                //ang = -ang;
+
+                Console.Write(ang);
+                Console.Write(' ');
+                if ((i + 1) % 12 == 0)
+                    Console.WriteLine();
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -57,7 +84,8 @@ namespace GameTest
             //Console.WriteLine(PlanetEarth.GetTileWidth(rad10, rad10));
 
             //Console.WriteLine(PlanetEarth.GetPosition(0, rad10));
-            TestIl();
+            //TestIl();
+            Vec2Ang();
             Console.ReadKey();
         }
     }
