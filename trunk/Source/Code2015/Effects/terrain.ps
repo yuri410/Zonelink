@@ -1,6 +1,5 @@
 
-texture texDif;
-sampler2D samDif : register(s0);
+sampler2D texDif;
 
 struct PSInput
 {
@@ -15,6 +14,6 @@ struct PSOutput
 PSOutput main(PSInput ip)
 {
     PSOutput o;
-    o.Color = 1;
+    o.Color = tex2D(texDif, ip.TexCoord1);
     return o;
 }
