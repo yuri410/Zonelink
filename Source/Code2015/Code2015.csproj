@@ -114,7 +114,7 @@
     <Compile Include="EngineEx\TerrainTexture.cs" />
     <Compile Include="EngineEx\TerrainTextureManager.cs" />
     <Compile Include="EngineEx\TerrainTreeNode.cs" />
-    <Compile Include="EngineEx\TerrainTextureLibrary.cs">
+    <Compile Include="EngineEx\TerrainMaterialLibrary.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="LevelSystem\Level.cs" />
