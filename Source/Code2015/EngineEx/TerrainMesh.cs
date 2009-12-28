@@ -25,8 +25,8 @@ namespace Code2015.EngineEx
         struct TerrainVertex
         {
             public Vector3 Position;
-            public Half u;
-            public Half v;
+            public float u;
+            public float v;
             public uint Normal;
 
             static VertexElement[] elements;
@@ -36,7 +36,7 @@ namespace Code2015.EngineEx
                 elements = new VertexElement[3];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
                 elements[1] = new VertexElement(elements[0].Size,
-                    VertexElementFormat.HalfVector2, VertexElementUsage.TextureCoordinate, 0);
+                    VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
                 elements[2] = new VertexElement(elements[1].Offset + elements[1].Size, 
                     VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 1);
             }
@@ -350,10 +350,9 @@ namespace Code2015.EngineEx
                     float curLat;
                     float curCol;
                     PlanetEarth.GetCoord(worldPos, out curCol, out curLat);
-                    curCol += MathEx.PiOver2;
 
-                    vtxArray[index].u = new Half(Half.Convert(0.5f * curCol / MathEx.PIf));
-                    vtxArray[index].v = new Half(Half.Convert((-curLat + MathEx.PiOver2) / MathEx.PIf));
+                    vtxArray[index].u = 0.5f * -curCol / MathEx.PIf;
+                    vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
 
                 }
             }
