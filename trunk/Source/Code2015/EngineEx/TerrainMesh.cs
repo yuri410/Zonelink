@@ -190,6 +190,7 @@ namespace Code2015.EngineEx
             //material.Emissive = terrData.MaterialEmissive;
             //material.Specular = terrData.MaterialSpecular;
             //material.Power = terrData.MaterialPower;
+            material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
             material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
 
             tileCol = x * 5 - 185;

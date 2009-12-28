@@ -13,6 +13,7 @@ using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
+using Apoc3D.Config;
 
 namespace Code2015
 {
@@ -47,10 +48,21 @@ namespace Code2015
         /// </summary>
         public void Load()
         {
+            ConfigurationManager.Initialize();
+            ConfigurationManager.Instance.Register(new ConfigurationIniFormat());
+
             EffectManager.Initialize(renderSys);
             EffectManager.Instance.RegisterModelEffectType(TerrainEffectFactory.Name, new TerrainEffectFactory(renderSys));
 
             EffectManager.Instance.LoadEffects();
+
+            TextureManager.Instance.Factory = renderSys.ObjectFactory;
+            TerrainMaterialLibrary.Initialize(renderSys);
+
+            FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
+
+            TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
+
 
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);

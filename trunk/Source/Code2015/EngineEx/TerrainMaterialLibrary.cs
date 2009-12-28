@@ -6,28 +6,33 @@ using Apoc3D;
 using Apoc3D.Config;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-    class TerrainTextureLibrary : Singleton
+    class TerrainMaterialLibrary : Singleton
     {
-        static TerrainTextureLibrary singleton;
+        static TerrainMaterialLibrary singleton;
 
 
-        public static TerrainTextureLibrary Instance
+        public static TerrainMaterialLibrary Instance
         {
             get { return singleton; }
         }
 
         public static void Initialize(RenderSystem device)
         {
-            singleton = new TerrainTextureLibrary(device);
+            singleton = new TerrainMaterialLibrary(device);
         }
 
         protected struct Entry
         {
             public ResourceHandle<TerrainTexture> Map;
+            public ColorValue Color;
+            public Color4F Ambient;
+            public Color4F Diffuse;
+            public Color4F Specular;
 
             public string Name;
         }
@@ -42,39 +47,70 @@ namespace Code2015.EngineEx
             get { return defaultMap; }
             private set { defaultMap = value; }
         }
-
+        public ResourceHandle<Texture> GlobalIndexTexture
+        {
+            get;
+            private set;
+        }
         public void LoadTextureSet(FileLocation configLoc)
         {
             Configuration config = ConfigurationManager.Instance.CreateInstance(configLoc);
 
-            ConfigurationSection sect = config["DetailedMapsList"];
+            ConfigurationSection sect = config["MaterialList"];
 
             ConfigurationSection.ValueCollection entries = sect.Values;
 
             foreach (string s in entries)
             {
                 Entry entry;
-                ConfigurationSection texSect = config[s];
+                ConfigurationSection matSect = config[s];
 
-                string fileName = texSect["Map"];
+                string fileName = matSect["DiffuseMap"];
                 FileLocation fl = FileSystem.Instance.Locate(fileName, GameFileLocs.TerrainTexture);
 
-                entry.Map = TerrainTextureManager.Instance.CreateInstance(renderSystem, fl);
+                ResourceHandle<TerrainTexture> texture = TerrainTextureManager.Instance.CreateInstance(renderSystem, fl);
+                entry.Map = texture;
+                entry.Color = new ColorValue((uint)matSect.GetColorRGBInt("DiffuseMapColor"));
+
+                float[] v = matSect.GetSingleArray("Ambient");
+                entry.Ambient = new Color4F(v[0], v[1], v[2], v[3]);
+
+                v = matSect.GetSingleArray("Diffuse");
+                entry.Diffuse = new Color4F(v[0], v[1], v[2], v[3]);
+
+                v = matSect.GetSingleArray("Specular");
+                entry.Specular = new Color4F(v[0], v[1], v[2], v[3]);
 
                 entry.Name = s;
 
                 detailedMaps.Add(s, entry);
             }
 
+            FileLocation fl2 = FileSystem.Instance.Locate("planetClr.tex", GameFileLocs.TerrainTexture);
+            GlobalIndexTexture = TextureManager.Instance.CreateInstance(fl2);
+
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 
             EngineConsole.Instance.Write(string.Format(msg, detailedMaps.Count.ToString()), ConsoleMessageType.Information);
         }
 
-        private TerrainTextureLibrary(RenderSystem device)
+        private TerrainMaterialLibrary(RenderSystem device)
         {
             this.renderSystem = device;
             this.detailedMaps = new Dictionary<string, Entry>(CaseInsensitiveStringComparer.Instance);
+        }
+
+        public Color4F GetAmbient(string name)
+        {
+            return detailedMaps[name].Ambient;
+        }
+        public Color4F GetDiffuse(string name)
+        {
+            return detailedMaps[name].Diffuse;
+        }
+        public Color4F GetSpecular(string name)
+        {
+            return detailedMaps[name].Specular;
         }
 
         public ResourceHandle<TerrainTexture> GetTexture(string name)
