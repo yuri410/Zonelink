@@ -172,6 +172,10 @@ namespace Plugin.Common
                 texData.Type = depth0 > 1 ? TextureType.Texture3D : TextureType.Texture2D;
 
             int dxtFormat = Il.ilGetInteger(Il.IL_DXTC_DATA_FORMAT);
+            if (dxtFormat != Il.IL_DXT_NO_COMP)
+            {
+                texData.Format = ConvertFormat(dxtFormat, 0, 0);
+            }
 
             for (int i = 0; i < mipCount; i++)
             {

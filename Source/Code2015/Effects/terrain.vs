@@ -22,7 +22,6 @@ VSOutput main(VSInput ip)
 {
     VSOutput o;
 
-
     o.Position = mul(ip.Position, mvp);
     o.TexCoord1 = ip.TexCoord1;
     return o;

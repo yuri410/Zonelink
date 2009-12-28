@@ -25,16 +25,20 @@ namespace Code2015.EngineEx
         struct TerrainVertex
         {
             public Vector3 Position;
+            public Half u;
+            public Half v;
             public uint Normal;
 
             static VertexElement[] elements;
-
+            static int size = sizeof(TerrainVertex);
             static TerrainVertex()
             {
-                elements = new VertexElement[2];
+                elements = new VertexElement[3];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-
-                elements[1] = new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 0);
+                elements[1] = new VertexElement(elements[0].Size,
+                    VertexElementFormat.HalfVector2, VertexElementUsage.TextureCoordinate, 0);
+                elements[2] = new VertexElement(elements[1].Offset + elements[1].Size, 
+                    VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 1);
             }
 
             public void SetNormal(float x, float y, float z)
@@ -49,7 +53,7 @@ namespace Code2015.EngineEx
 
             public static int Size
             {
-                get { return Vector3.SizeInBytes + sizeof(uint); }
+                get { return size; }
             }
         }
 
@@ -323,9 +327,10 @@ namespace Code2015.EngineEx
                     Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
                                     0,
                                     i * TerrainMeshManager.TerrainScale);
+                    int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = data.Data[i * terrEdgeSize + j] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+                    float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
                     if (height > 0)
                     {
@@ -340,7 +345,16 @@ namespace Code2015.EngineEx
 
                     Vector3 normal = pos - localEarthCenter;
                     normal.Normalize();
-                    vtxArray[i * terrEdgeSize + j].Position = pos + normal * (height + delta);
+                    vtxArray[index].Position = pos + normal * (height + delta);
+
+                    float curLat;
+                    float curCol;
+                    PlanetEarth.GetCoord(worldPos, out curCol, out curLat);
+                    curCol += MathEx.PiOver2;
+
+                    vtxArray[index].u = new Half(Half.Convert(0.5f * curCol / MathEx.PIf));
+                    vtxArray[index].v = new Half(Half.Convert((-curLat + MathEx.PiOver2) / MathEx.PIf));
+
                 }
             }
             #endregion
