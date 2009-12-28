@@ -59,7 +59,7 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("terrain.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
-
+             
         }
 
         protected override int begin()
@@ -102,7 +102,6 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-
 
             pixShader.SetTexture("texDif", mat.GetTexture(0));
         }
