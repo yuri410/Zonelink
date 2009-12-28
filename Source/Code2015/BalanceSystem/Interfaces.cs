@@ -11,15 +11,5 @@ namespace Code2015.BalanceSystem
         void Update(GameTime time);
     }
 
-    /// <summary>
-    ///  表示能够产生/吸收碳的对象
-    /// </summary>
-    interface ICarbon
-    {
-        /// <summary>
-        ///  获取碳变化
-        /// </summary>
-        /// <returns></returns>
-        float CarbonChange { get; }
-    }
+    
 }

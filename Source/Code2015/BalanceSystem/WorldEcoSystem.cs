@@ -35,7 +35,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-        Region[] regions;
+        SimulateRegion[] regions;
 
         public float AccumulatedCarbon
         {
@@ -57,14 +57,14 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
-            for (int i = 0; i < regions.Length; i++)
-            {
-                LocalEcoSystem[] ecos = regions[i].EcoSystems;
-                for (int j = 0; j < ecos.Length; j++)
-                {
-                    AccumulatedCarbon += ecos[j].CarbonChange;
-                }
-            }
+        //    for (int i = 0; i < regions.Length; i++)
+        //    {
+        //        LocalEcoSystem[] ecos = regions[i].EcoSystems;
+        //        for (int j = 0; j < ecos.Length; j++)
+        //        {
+        //            AccumulatedCarbon += ecos[j].CarbonChange;
+        //        }
+        //    }
         }
 
        

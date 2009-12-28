@@ -90,6 +90,8 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
     <Compile Include="BalanceSystem\BioEnergyFactory.cs" />
+    <Compile Include="BalanceSystem\ObjectFactory.cs" />
+    <Compile Include="BalanceSystem\Simulateobject.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CreationSpecies.cs" />
     <Compile Include="BalanceSystem\FarmLand.cs" />
@@ -101,7 +103,7 @@
     <Compile Include="BalanceSystem\OilField.cs" />
     <Compile Include="BalanceSystem\PlantSpecies.cs" />
     <Compile Include="BalanceSystem\Player.cs" />
-    <Compile Include="BalanceSystem\Region.cs" />
+    <Compile Include="BalanceSystem\SimulateRegion.cs" />
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />

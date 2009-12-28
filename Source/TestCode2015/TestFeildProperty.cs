@@ -45,20 +45,5 @@ namespace TestCode2015
 
     }
 
-    class test
-    {
-      
-        public int Kind(ArrayList list)
-        {
-            int a= 0;
-            for (int i = 0; i < list.Capacity; i++)
-            {
-                if (list[i].Equals("ok"))
-                {
-                    list.RemoveAt(i);
-                }
-            }
-            return a = list.Capacity;
-        }
-    }
+   
 }

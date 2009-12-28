@@ -59,7 +59,7 @@ namespace Code2015.BalanceSystem
             get { return population; }
             set { population = value; }
         }
-        public float Food
+        public float FoodCost
         {
             get { return food; }
             set { food = value; }
