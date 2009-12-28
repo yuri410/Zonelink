@@ -44,6 +44,7 @@ namespace Code2015.World
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
             terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
             terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            terrain2.Touch();
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
             Transformation = terrain2.GetWeakResource().Transformation;

@@ -96,6 +96,17 @@ namespace Code2015.World
             float ir = (float)(PlanetRadius * Math.Cos(0.5 * span));
             return n * ir;
         }
+
+        public static void GetCoord(Vector3 p, out float col, out float lat)
+        {
+            p.Normalize();
+
+            lat = (float)Math.Asin(p.Y);
+
+            Vector2 latCir = new Vector2(p.X, p.Z);
+            col = MathEx.Vector2DirAngle(latCir);
+        }
+
         /// <summary>
         ///  计算球面上的点的坐标
         /// </summary>
@@ -179,7 +190,6 @@ namespace Code2015.World
 
             terrainTiles = new TerrainTile[ColTileCount * LatTileCount];
 
-
             for (int i = 1, index = 0; i < ColTileCount * 2; i += 2)
             {
                 for (int j = 1; j < LatTileCount * 2; j += 2)
@@ -187,9 +197,12 @@ namespace Code2015.World
                     terrainTiles[index++] = new TerrainTile(renderSys, i, j);
                 }
             }
+
             Material[][] mats = new Material[1][];
             mats[0] = new Material[1];
             mats[0][0] = new Material(renderSys);
+            
+            mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
             earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.ZeroLevel, ColTileCount, LatTileCount, mats);
