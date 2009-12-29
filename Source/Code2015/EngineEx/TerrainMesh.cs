@@ -204,7 +204,7 @@ namespace Code2015.EngineEx
             float radtl = MathEx.Degree2Radian(tileLat);
             terrEdgeSize = 1025;
 
-            UpdateTransformation(radtc, radtl, terrEdgeSize, 10);
+            UpdateTransformation(radtc, radtl, terrEdgeSize, MathEx.Degree2Radian(10));
         }
 
         /// <summary>
@@ -291,7 +291,9 @@ namespace Code2015.EngineEx
             float radtl = MathEx.Degree2Radian(tileLat);
             terrEdgeSize = data.Width;
 
-            UpdateTransformation(radtc, radtl, terrEdgeSize, data.XSpan);
+            float radSpan = MathEx.Degree2Radian(data.XSpan);
+
+            UpdateTransformation(radtc, radtl, terrEdgeSize, radSpan);
 
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
@@ -306,7 +308,7 @@ namespace Code2015.EngineEx
             TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
             #region 计算局部坐标系下的地心坐标
-            //float beta = 0.5f * (MathEx.PIf - MathEx.Degree2Radian(data.XSpan));
+            //float beta = 0.5f * (MathEx.PIf - radSpan);
 
             //Vector3 localEarthCenter = new Vector3(terrEdgeLen * 0.5f, 0, terrEdgeLen * 0.5f);
             //localEarthCenter.Y = -(float)Math.Sin(beta) * PlanetRadius;
@@ -315,13 +317,16 @@ namespace Code2015.EngineEx
             Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
             #endregion
 
+            float cellAngle = radSpan / (float)terrEdgeLen;
             #region 计算顶点坐标
+            // i为经度方向
             for (int i = 0; i < terrEdgeSize; i++)
             {
                 float lerp = i / (float)(terrEdgeLen);
                 float colCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeLen;
                 float colOfs = (1 - colCellWidth) * terrEdgeLen * 0.5f;
 
+                // j为纬度方向
                 for (int j = 0; j < terrEdgeSize; j++)
                 {
                     Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
@@ -347,11 +352,11 @@ namespace Code2015.EngineEx
                     normal.Normalize();
                     vtxArray[index].Position = pos + normal * (height + delta);
 
-                    float curLat;
-                    float curCol;
-                    PlanetEarth.GetCoord(worldPos, out curCol, out curLat);
+                    float curCol = radtc + j * cellAngle;
+                    float curLat = radSpan + radtl - i * cellAngle;
+                    //PlanetEarth.GetCoord(worldPos, out curCol, out curLat);
 
-                    vtxArray[index].u = 0.5f * -curCol / MathEx.PIf;
+                    vtxArray[index].u = 0.5f * curCol / MathEx.PIf;
                     vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
 
                 }
