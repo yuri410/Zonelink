@@ -103,6 +103,14 @@ namespace Code2015.Effects
 
             vtxShader.SetValue("mvp", ref mvp);
 
+            //ShaderSamplerState state = new ShaderSamplerState();
+            //state.AddressU = TextureAddressMode.Mirror;
+            //state.AddressV = TextureAddressMode.Mirror;
+            //state.AddressW = TextureAddressMode.Mirror;
+            //state.MinFilter = TextureFilter.Linear;
+            //state.MagFilter = TextureFilter.Linear;
+            //state.MipFilter = TextureFilter.Linear;
+            //pixShader.SetSamplerState("texDif", ref state);
             pixShader.SetTexture("texDif", mat.GetTexture(0));
         }
 

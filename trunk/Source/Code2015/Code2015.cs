@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Config;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
@@ -13,7 +14,6 @@ using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
-using Apoc3D.Config;
 
 namespace Code2015
 {
@@ -79,7 +79,7 @@ namespace Code2015
 
             camera.NearPlane = 1;
             camera.FarPlane = 15000;
-            camera.MoveSpeed = 50;
+            //camera.MoveSpeed = 50;
         }
 
         /// <summary>
@@ -270,6 +270,12 @@ namespace Code2015
             {
                 camera.MoveBack();
             }
+
+            if (GetAsyncKeyState(VKeys.VK_SHIFT))            
+                camera.MoveSpeed = 50;            
+            else            
+                camera.MoveSpeed = 2;
+
             if (GetAsyncKeyState(VKeys.VK_SPACE))
             {
                 camera.MoveUp();
