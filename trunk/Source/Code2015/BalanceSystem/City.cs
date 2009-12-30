@@ -10,8 +10,32 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示城市的附加设施
     /// </summary>
-    abstract class CityPlugin 
+   public  abstract class CityPlugin 
     {
+        public string Name
+        {
+            get;
+            set;
+        }
+
+        public CityPlugin()
+        { }
+        /// <summary>
+        /// 建造一个所需费用
+        /// </summary>
+        public float CostMoney
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 升级所需费用
+        /// </summary>
+        public float ImproveCost
+        {
+            get;
+            set;
+        }
         public abstract void NotifyAdded(City city);
         public abstract void NotifyRemoved(City city);        
     }
@@ -19,7 +43,7 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示城市的大小
     /// </summary>
-    enum UrbanSize
+    public  enum UrbanSize
     {
         Town,
         Normal,
@@ -29,7 +53,7 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示一座城市
     /// </summary>
-    class City : IUpdatable
+   public  class City : IUpdatable
     {
         [SLGValueAttribute()]
         const int TownPluginCount = 1;
@@ -98,6 +122,7 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
+
         }
 
         

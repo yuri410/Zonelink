@@ -7,7 +7,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    class WorldEcoSystem : IUpdatable
+    public class WorldEcoSystem : IUpdatable
     {
         /// <summary>
         ///  厄尔尼诺程度
@@ -42,31 +42,20 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        //FastList<CarbonGroup> carbonGroups;
-
-        ////计算碳含量
-        //public float AccumulatedCarbon()
-        //{
-        //    float result = 0;
-        //    for (int i = 0; i < carbonGroups.Count; i++) 
-        //    {
-        //        result += carbonGroups[i].Weight;
-        //    }
-        //    return result;
-        //}
+       
 
         public void Update(GameTime time)
         {
-        //    for (int i = 0; i < regions.Length; i++)
-        //    {
-        //        LocalEcoSystem[] ecos = regions[i].EcoSystems;
-        //        for (int j = 0; j < ecos.Length; j++)
-        //        {
-        //            AccumulatedCarbon += ecos[j].CarbonChange;
-        //        }
-        //    }
+            //    for (int i = 0; i < regions.Length; i++)
+            //    {
+            //        LocalEcoSystem[] ecos = regions[i].EcoSystems;
+            //        for (int j = 0; j < ecos.Length; j++)
+            //        {
+            //            AccumulatedCarbon += ecos[j].CarbonChange;
+            //        }
+            //    }
         }
 
-       
+
     }
 }

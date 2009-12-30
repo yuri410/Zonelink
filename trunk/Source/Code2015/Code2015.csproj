@@ -89,12 +89,15 @@
     <Compile Include="ActionSystem\CycleJet.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
-    <Compile Include="BalanceSystem\BioEnergyFactory.cs" />
-    <Compile Include="BalanceSystem\ObjectFactory.cs" />
+    <Compile Include="BalanceSystem\CityPluginFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="BalanceSystem\FarmLand.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="BalanceSystem\Simulateobject.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CreationSpecies.cs" />
-    <Compile Include="BalanceSystem\FarmLand.cs" />
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\EnergyStatus.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
@@ -138,6 +141,7 @@
     </Compile>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="BalanceSystem\BalanceSystemInfo.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

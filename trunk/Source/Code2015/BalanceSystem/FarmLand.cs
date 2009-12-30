@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
@@ -10,18 +11,31 @@ namespace Code2015.BalanceSystem
     /// </summary>
     public enum SoilGrade { fine, medium, bad };
 
-    class FarmLand:Simulateobject
+    public class FarmLand : NaturalResource
     {
 
-        PlantSpecies foofPlant = new PlantSpecies("foodPlant");
-       /// <summary>
-       /// 粮食的总产量
-       /// </summary>
-        public float FoodWeight
+        public string Name
         {
             get;
             set;
         }
+        public FarmLand(string name)
+        {
+            this.Name = name;
+        }
+
+        public FarmLand()
+        {
+            InitFarm();
+        }
+
+        public FastList<PlantSpecies> InitFarm()
+        {
+            farm.Add(new PlantSpecies("Wheat"));//小麦
+            farm.Add(new PlantSpecies("Rice"));//水稻
+            return farm;
+        }
+        FastList<PlantSpecies> farm = new FastList<PlantSpecies>();
         /// <summary>
         /// 土壤的等级
         /// </summary>
@@ -30,6 +44,9 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+      
+
+      
         /// <summary>
         /// 单位的产量
         /// </summary>
@@ -38,7 +55,7 @@ namespace Code2015.BalanceSystem
             get
             {
                 switch (soilGrade)
-                { 
+                {
                     case SoilGrade.fine:
                         return 1000;
                     case SoilGrade.medium:
@@ -49,22 +66,6 @@ namespace Code2015.BalanceSystem
                 }
                 return 0;
             }
-        }
-        /// <summary>
-        /// 得到粮食的总产量
-        /// </summary>
-        /// <returns></returns>
-        public float GetFoodWeight()
-        {
-            return this.FoodWeight= UnitProduct * foofPlant.Amount;
-        }
-        /// <summary>
-        /// 获得粮食固碳量
-        /// </summary>
-        /// <returns></returns>
-        public override float GetCarbonWeight()
-        {
-            return foofPlant.Amount * (UnitProduct + 200);
         }
        
     }

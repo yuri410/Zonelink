@@ -9,45 +9,55 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示动物物种
     /// </summary>
-    class AnimalSpecies : CreationSpecies
+    public class AnimalSpecies : CreationSpecies
     {
-        /// <summary>
-        ///  动物尸体、粪便使土壤肥沃的速度，与动物的数目成正比
-        /// </summary>
-        public float FertilisingSpeed
-        {
-            get;
-            set;
-        }
-
 
         public string Name
         {
             get;
             set;
         }
+
         public AnimalSpecies(string name)
         {
             Name = name;
         }
-
-        public float Amount
+        public float CarbonWeight
+        {
+            get { return MakeCarbonSpeed * Amount; }
+            set { CarbonWeight = value; }
+        }
+        /// <summary>
+        /// 制造C的速度，不同动物不一样
+        /// </summary>
+        public float MakeCarbonSpeed
         {
             get;
             set;
         }
 
-        //得到使土壤肥沃的速度
-        public void SetFertilisingSpeed(float fertiliseSpeed)
+        public float SetMakeCarbonSpeed(float speed)
         {
-            this.FertilisingSpeed = fertiliseSpeed;
+            return this.MakeCarbonSpeed = speed;
+        }
+        /// <summary>
+        ///  动物尸体、粪便使土壤肥沃的速度
+        /// </summary>     
+        public float FertilisingSpeed
+        {
+            get;
+            set;
+        }
+        public float SetFertilisingSpeed(float fertilisingspeed)
+        {
+            return this.FertilisingSpeed = fertilisingspeed;
         }
 
-        //得到各种动物产生CO2的数量
-        public float ProduceGgas(float amount, float speed)
+        public override float GetCarbonWeght()
         {
-            return amount * speed;
+            throw new NotImplementedException();
         }
+
 
     }
 }

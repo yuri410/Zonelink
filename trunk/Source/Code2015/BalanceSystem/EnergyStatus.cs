@@ -7,7 +7,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    class EnergyStatus : IUpdatable
+   public  class EnergyStatus : IUpdatable
     {
         
 
