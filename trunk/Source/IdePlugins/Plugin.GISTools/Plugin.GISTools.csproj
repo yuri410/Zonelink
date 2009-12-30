@@ -58,6 +58,7 @@
     <Compile Include="TDmp32To12Converter.cs" />
     <Compile Include="TDmp32To16Converter.cs" />
     <Compile Include="TDmp32To8Converter.cs" />
+    <Compile Include="TDmpBlur.cs" />
     <Compile Include="TDmpLodGen.cs" />
     <Compile Include="TDmpMerger.cs" />
     <Compile Include="TDmpResizer.cs" />

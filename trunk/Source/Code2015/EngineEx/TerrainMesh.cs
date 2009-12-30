@@ -25,26 +25,36 @@ namespace Code2015.EngineEx
         struct TerrainVertex
         {
             public Vector3 Position;
-            public float u;
-            public float v;
-            public uint Normal;
+            public Half u;
+            public Half v;
+            //public Half nx;
+            //public Half ny;
+            //public Half nz;
+            //public Half dummy;
+            //public uint Normal;
 
             static VertexElement[] elements;
             static int size = sizeof(TerrainVertex);
             static TerrainVertex()
             {
-                elements = new VertexElement[3];
+                elements = new VertexElement[2];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
                 elements[1] = new VertexElement(elements[0].Size,
-                    VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
-                elements[2] = new VertexElement(elements[1].Offset + elements[1].Size, 
-                    VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 1);
+                    VertexElementFormat.HalfVector2, VertexElementUsage.TextureCoordinate, 0);
+                //elements[2] = new VertexElement(elements[1].Offset + elements[1].Size,
+                //    VertexElementFormat.HalfVector4, VertexElementUsage.TextureCoordinate, 1);
             }
 
-            public void SetNormal(float x, float y, float z)
-            {
-                Normal = ColorValue.PackValue(x, y, z, 1);
-            }
+            //public void SetNormal(float x, float y, float z)
+            //{
+            //    nx = new Half(x);
+            //    ny = new Half(y);
+            //    nz = new Half(z);
+            //    //Normal = ColorValue.PackValue(
+            //    //    0.5f * (x + 1), 
+            //    //    0.5f * (y + 1), 
+            //    //    0.5f * (z + 1), 1);
+            //}
 
             public static VertexElement[] Elements
             {
@@ -216,8 +226,8 @@ namespace Code2015.EngineEx
         /// <param name="span">边所占的度数</param>
         void UpdateTransformation(float radtc, float radtl, float terrSize, float span)
         {
-            float rad10 = MathEx.Degree2Radian(span);
-            float rad5 = MathEx.Degree2Radian(span * 0.5f);
+            float rad10 = span;
+            float rad5 = span * 0.5f;
             topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
             bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
             heightLen = PlanetEarth.GetTileHeight(rad10);
@@ -249,6 +259,71 @@ namespace Code2015.EngineEx
             BoundingSphere.Radius = terrSize * MathEx.Root2;
         }
 
+        public static Vector3[] Resize(Vector3[] inp, int width, int height, int tw, int th)
+        {
+            Vector3[] result = new Vector3[tw * th];
+            float wzoom = width / (float)tw;
+            float hzoom = height / (float)th;
+
+            Vector3[] buffer = new Vector3[16];
+            float[] afu = new float[4];
+            float[] afv = new float[4];
+
+            for (int i = 0; i < th; i++)
+            {
+                float srcy = (i + 0.5f) * hzoom - 0.5f;
+                int y0 = (int)srcy; if (y0 > srcy) --y0;
+
+                for (int j = 0; j < tw; j++)
+                {
+                    float srcx = (j + 0.5f) * wzoom - 0.5f;
+
+                    int x0 = (int)srcx; if (x0 > srcx) --x0;
+
+                    float fv = srcx - x0;
+                    float fu = srcy - y0;
+
+                    for (int ii = 0; ii < 4; ii++)
+                    {
+                        for (int jj = 0; jj < 4; jj++)
+                        {
+                            int x = x0 + jj - 1;
+                            int y = y0 + ii - 1;
+
+                            if (x < 0) x = 0;
+                            if (y < 0) y = 0;
+                            if (x >= width) x = width - 1;
+                            if (y >= height) y = height - 1;
+
+                            buffer[ii * 4 + jj] = inp[y * width + x];
+                        }
+                    }
+
+                    afu[0] = MathEx.Sinc(1 + fu);
+                    afu[1] = MathEx.Sinc(fu);
+                    afu[2] = MathEx.Sinc(1 - fu);
+                    afu[3] = MathEx.Sinc(2 - fu);
+                    afv[0] = MathEx.Sinc(1 + fv);
+                    afv[1] = MathEx.Sinc(fv);
+                    afv[2] = MathEx.Sinc(1 - fv);
+                    afv[3] = MathEx.Sinc(2 - fv);
+
+                    Vector3 s = Vector3.Zero;
+                    for (int ii = 0; ii < 4; ii++)
+                    {
+                        Vector3 a = Vector3.Zero;
+                        for (int jj = 0; jj < 4; jj++)
+                        {
+                            a += afu[jj] * buffer[ii * 4 + jj];
+                        }
+                        s += a * afv[ii];
+                    }
+
+                    result[i * th + j] = s;
+                }
+            }
+            return result;
+        }
 
         #region Resource实现
         public override int GetSize()
@@ -337,7 +412,7 @@ namespace Code2015.EngineEx
                     // 计算海拔高度
                     float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
-                    if (height > 0)
+                    if (height > -TerrainMeshManager.ZeroLevel)
                     {
                         height = (height + TerrainMeshManager.ZeroLevel) * TerrainMeshManager.PostHeightScale;
                     }
@@ -352,35 +427,52 @@ namespace Code2015.EngineEx
                     normal.Normalize();
                     vtxArray[index].Position = pos + normal * (height + delta);
 
+                    //normal = Vector3.Normalize(worldPos);
+                    //vtxArray[index].SetNormal(normal.X, normal.Y, normal.Z);
+
                     float curCol = radtc + j * cellAngle;
                     float curLat = radSpan + radtl - i * cellAngle;
-                    //PlanetEarth.GetCoord(worldPos, out curCol, out curLat);
 
-                    vtxArray[index].u = 0.5f * curCol / MathEx.PIf;
-                    vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
+                    curCol += MathEx.PIf;
+                    curLat += MathEx.Degree2Radian(5);
 
+                    vtxArray[index].u = new Half(0.5f * curCol / MathEx.PIf);
+                    vtxArray[index].v = new Half((-curLat + MathEx.PiOver2) / MathEx.PIf);
                 }
             }
             #endregion
 
-            #region 计算顶点法向量
-            for (int i = 0; i < terrEdgeSize - 1; i++)
-            {
-                for (int j = 0; j < terrEdgeSize - 1; j++)
-                {
-                    int idx = i * terrEdgeSize + j;
+            //#region 计算顶点法向量
+            //Vector3[] normalBuffer = new Vector3[terrEdgeLen * terrEdgeLen];
 
-                    Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
-                    Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
+            //for (int i = 0; i < terrEdgeLen; i++)
+            //{
+            //    for (int j = 0; j < terrEdgeLen; j++)
+            //    {
+            //        int idx = i * terrEdgeSize + j;
 
-                    Vector3 n;
-                    Vector3.Cross(ref u, ref v, out n);
-                    vtxArray[idx].SetNormal(n.X, n.Y, n.Z);
+            //        Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
+            //        Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
 
-                }
-            }
+            //        Vector3 n;
+            //        Vector3.Cross(ref u, ref v, out n);
+            //        n.Normalize();
 
-            #endregion
+            //        normalBuffer[i * terrEdgeLen + j] = n;
+            //    }
+            //}
+
+            //#endregion
+
+            //Vector3[] resizedNrm = Resize(normalBuffer, terrEdgeLen, terrEdgeLen, terrEdgeSize, terrEdgeSize);
+            //for (int i = 0; i < terrEdgeSize; i++)
+            //{
+            //    for (int j = 0; j < terrEdgeSize; j++)
+            //    {
+            //        vtxArray[i * terrEdgeSize + j].SetNormal(resizedNrm[i].X, resizedNrm[i].Y, resizedNrm[i].Z);
+            //    }
+            //}
+
             #endregion
 
             if (isBlockTerrain)

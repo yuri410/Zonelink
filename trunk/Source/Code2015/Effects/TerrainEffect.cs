@@ -102,16 +102,38 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
+            vtxShader.SetValue("world", ref op.Transformation);
 
-            //ShaderSamplerState state = new ShaderSamplerState();
-            //state.AddressU = TextureAddressMode.Mirror;
-            //state.AddressV = TextureAddressMode.Mirror;
-            //state.AddressW = TextureAddressMode.Mirror;
-            //state.MinFilter = TextureFilter.Linear;
-            //state.MagFilter = TextureFilter.Linear;
-            //state.MipFilter = TextureFilter.Linear;
-            //pixShader.SetSamplerState("texDif", ref state);
+            ShaderSamplerState state = new ShaderSamplerState();
+            state.AddressU = TextureAddressMode.Wrap;
+            state.AddressV = TextureAddressMode.Wrap;
+            state.AddressW = TextureAddressMode.Wrap;
+            state.MinFilter = TextureFilter.Linear;
+            state.MagFilter = TextureFilter.Linear;
+            state.MipFilter = TextureFilter.Linear;
+            pixShader.SetSamplerState("texDif", ref state);
             pixShader.SetTexture("texDif", mat.GetTexture(0));
+
+            //TerrainTexture tex = TerrainMaterialLibrary.Instance.GetTexture("Grass0027_13");
+            //pixShader.SetTexture("texD1", tex.Texture);
+            //Vector4 color = TerrainMaterialLibrary.Instance.GetColor("Grass0027_13").ToVector4();
+            ////pixShader.SetValue("d1Color", ref color);
+
+            //tex = TerrainMaterialLibrary.Instance.GetTexture("RockLayered0023_2");
+            //pixShader.SetTexture("texD2", tex.Texture);
+            //color = TerrainMaterialLibrary.Instance.GetColor("RockLayered0023_2").ToVector4();
+            ////pixShader.SetValue("d2Color", ref color);
+
+            //tex = TerrainMaterialLibrary.Instance.GetTexture("Sand0068_2");
+            //pixShader.SetTexture("texD3", tex.Texture);
+            //color = TerrainMaterialLibrary.Instance.GetColor("Sand0068_2").ToVector4();
+            ////pixShader.SetValue("d3Color", ref color);
+
+            //tex = TerrainMaterialLibrary.Instance.GetTexture("Snow0041_5");
+            //pixShader.SetTexture("texD4", tex.Texture);
+            //color = TerrainMaterialLibrary.Instance.GetColor("Snow0041_5").ToVector4();
+            ////pixShader.SetValue("d4Color", ref color);
+
         }
 
         public override void SetupShadowPass(Material mat, ref RenderOperation op)
