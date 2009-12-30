@@ -108,9 +108,11 @@ namespace Code2015.Effects
             state.AddressU = TextureAddressMode.Wrap;
             state.AddressV = TextureAddressMode.Wrap;
             state.AddressW = TextureAddressMode.Wrap;
-            state.MinFilter = TextureFilter.Linear;
-            state.MagFilter = TextureFilter.Linear;
-            state.MipFilter = TextureFilter.Linear;
+            state.MinFilter = TextureFilter.Anisotropic;
+            state.MagFilter = TextureFilter.Anisotropic;
+            state.MipFilter = TextureFilter.Anisotropic;
+            state.MaxAnisotropy = 8;
+            state.MipMapLODBias = -1;
 
             pixShader.SetSamplerState("texDif", ref state);
             pixShader.SetTexture("texDif", mat.GetTexture(0));
