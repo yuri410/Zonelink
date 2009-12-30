@@ -29,7 +29,7 @@ namespace Code2015.EngineEx
         protected struct Entry
         {
             public ResourceHandle<TerrainTexture> Map;
-            public ColorValue Color;
+            public Color4F Color;
             public Color4F Ambient;
             public Color4F Diffuse;
             public Color4F Specular;
@@ -70,9 +70,10 @@ namespace Code2015.EngineEx
 
                 ResourceHandle<TerrainTexture> texture = TerrainTextureManager.Instance.CreateInstance(renderSystem, fl);
                 entry.Map = texture;
-                entry.Color = new ColorValue((uint)matSect.GetColorRGBInt("DiffuseMapColor"));
+                float[] v = matSect.GetSingleArray("DiffuseMapColor");
+                entry.Color = new Color4F((int)v[0], (int)v[1], (int)v[2]);
 
-                float[] v = matSect.GetSingleArray("Ambient");
+                v = matSect.GetSingleArray("Ambient");
                 entry.Ambient = new Color4F(v[0], v[1], v[2], v[3]);
 
                 v = matSect.GetSingleArray("Diffuse");
@@ -112,7 +113,10 @@ namespace Code2015.EngineEx
         {
             return detailedMaps[name].Specular;
         }
-
+        public Color4F GetColor(string name) 
+        {
+            return detailedMaps[name].Color;
+        }
         public ResourceHandle<TerrainTexture> GetTexture(string name)
         {
             return detailedMaps[name].Map;

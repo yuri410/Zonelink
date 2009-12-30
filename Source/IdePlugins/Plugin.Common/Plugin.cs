@@ -10,6 +10,7 @@ namespace Plugin.Common
     class Plugin : IPlugin
     {
         TextureConverter tex2dConv;
+        IndexMapMixer idxMapMixer;
 
         #region IPlugin 成员
 
@@ -36,12 +37,18 @@ namespace Plugin.Common
             {
                 tex2dConv = new TextureConverter();
             }
+            if (idxMapMixer == null) 
+            {
+                idxMapMixer = new IndexMapMixer();
+            }
             ConverterManager.Instance.Register(tex2dConv);
+            ConverterManager.Instance.Register(idxMapMixer);
         }
 
         public void Unload()
         {
             ConverterManager.Instance.Unregister(tex2dConv);
+            ConverterManager.Instance.Unregister(idxMapMixer);
         }
 
         #endregion
