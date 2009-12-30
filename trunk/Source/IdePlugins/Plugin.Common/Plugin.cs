@@ -11,6 +11,7 @@ namespace Plugin.Common
     {
         TextureConverter tex2dConv;
         IndexMapMixer idxMapMixer;
+        IndexMapMixer4 idxMapMixer4;
 
         #region IPlugin 成员
 
@@ -41,14 +42,20 @@ namespace Plugin.Common
             {
                 idxMapMixer = new IndexMapMixer();
             }
+            if (idxMapMixer4 == null) 
+            {
+                idxMapMixer4 = new IndexMapMixer4();
+            }
             ConverterManager.Instance.Register(tex2dConv);
             ConverterManager.Instance.Register(idxMapMixer);
+            ConverterManager.Instance.Register(idxMapMixer4);
         }
 
         public void Unload()
         {
             ConverterManager.Instance.Unregister(tex2dConv);
             ConverterManager.Instance.Unregister(idxMapMixer);
+            ConverterManager.Instance.Unregister(idxMapMixer4);
         }
 
         #endregion

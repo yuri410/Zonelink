@@ -111,28 +111,28 @@ namespace Code2015.Effects
             state.MinFilter = TextureFilter.Linear;
             state.MagFilter = TextureFilter.Linear;
             state.MipFilter = TextureFilter.Linear;
+
             pixShader.SetSamplerState("texDif", ref state);
             pixShader.SetTexture("texDif", mat.GetTexture(0));
 
-            //TerrainTexture tex = TerrainMaterialLibrary.Instance.GetTexture("Grass0027_13");
-            //pixShader.SetTexture("texD1", tex.Texture);
-            //Vector4 color = TerrainMaterialLibrary.Instance.GetColor("Grass0027_13").ToVector4();
-            ////pixShader.SetValue("d1Color", ref color);
 
-            //tex = TerrainMaterialLibrary.Instance.GetTexture("RockLayered0023_2");
-            //pixShader.SetTexture("texD2", tex.Texture);
-            //color = TerrainMaterialLibrary.Instance.GetColor("RockLayered0023_2").ToVector4();
-            ////pixShader.SetValue("d2Color", ref color);
+            pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
+            pixShader.SetSamplerState("texColor", ref state);
 
-            //tex = TerrainMaterialLibrary.Instance.GetTexture("Sand0068_2");
-            //pixShader.SetTexture("texD3", tex.Texture);
-            //color = TerrainMaterialLibrary.Instance.GetColor("Sand0068_2").ToVector4();
-            ////pixShader.SetValue("d3Color", ref color);
 
-            //tex = TerrainMaterialLibrary.Instance.GetTexture("Snow0041_5");
-            //pixShader.SetTexture("texD4", tex.Texture);
-            //color = TerrainMaterialLibrary.Instance.GetColor("Snow0041_5").ToVector4();
-            ////pixShader.SetValue("d4Color", ref color);
+            TerrainTexture tex;
+            tex = TerrainMaterialLibrary.Instance.GetTexture("Snow0041_5");
+            pixShader.SetTextureDirect(0, tex.Texture);
+            pixShader.SetSamplerStateDirect(0, ref state);
+            tex = TerrainMaterialLibrary.Instance.GetTexture("Grass0027_13");
+            pixShader.SetTextureDirect(1, tex.Texture);
+            pixShader.SetSamplerStateDirect(1, ref state);
+            tex = TerrainMaterialLibrary.Instance.GetTexture("Sand0068_2");
+            pixShader.SetTextureDirect(2, tex.Texture);
+            pixShader.SetSamplerStateDirect(2, ref state);
+            tex = TerrainMaterialLibrary.Instance.GetTexture("RockLayered0023_2");
+            pixShader.SetTextureDirect(3, tex.Texture);
+            pixShader.SetSamplerStateDirect(3, ref state);
 
         }
 
