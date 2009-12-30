@@ -21,6 +21,7 @@ namespace Plugin.GISTools
 
         TDmpMerger dmpMerger;
         TDmpResizer dmpResizer;
+        TDmpBlur dmpBlur;
 
         public void Load()
         {
@@ -37,7 +38,9 @@ namespace Plugin.GISTools
                 tdmp32to16 = new TDmp32To16Converter();
             }
             if (tdmp32to12 == null)
+            {
                 tdmp32to12 = new TDmp32To12Converter();
+            }
             if (tdmplod16 == null) 
             {
                 tdmplod16 = new TDmpLodGen();
@@ -58,6 +61,10 @@ namespace Plugin.GISTools
             {
                 dmpResizer = new TDmpResizer();
             }
+            if (dmpBlur == null)
+            {
+                dmpBlur = new TDmpBlur();
+            }
             ConverterManager.Instance.Register(tdmplod16);
             ConverterManager.Instance.Register(demConverter);
             ConverterManager.Instance.Register(tdmp32to8);
@@ -66,6 +73,7 @@ namespace Plugin.GISTools
             ConverterManager.Instance.Register(imgRmg);
             ConverterManager.Instance.Register(dmpMerger);
             ConverterManager.Instance.Register(dmpResizer);
+            ConverterManager.Instance.Register(dmpBlur);
             ConverterManager.Instance.Register(tdmp32to12);
         }
 
@@ -80,6 +88,7 @@ namespace Plugin.GISTools
             ConverterManager.Instance.Unregister(dmpMerger);
             ConverterManager.Instance.Unregister(dmpResizer);
             ConverterManager.Instance.Unregister(tdmp32to12);
+            ConverterManager.Instance.Unregister(dmpBlur);
         }
 
         public string Name
