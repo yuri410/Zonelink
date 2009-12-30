@@ -52,6 +52,12 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
+        public ResourceHandle<Texture> GlobalColorTexture
+        {
+            get;
+            private set;
+        }
+
         public void LoadTextureSet(FileLocation configLoc)
         {
             Configuration config = ConfigurationManager.Instance.CreateInstance(configLoc);
@@ -87,8 +93,10 @@ namespace Code2015.EngineEx
                 detailedMaps.Add(s, entry);
             }
 
-            FileLocation fl2 = FileSystem.Instance.Locate("planetClr.tex", GameFileLocs.TerrainTexture);
+            FileLocation fl2 = FileSystem.Instance.Locate("index.tex", GameFileLocs.TerrainTexture);
             GlobalIndexTexture = TextureManager.Instance.CreateInstance(fl2);
+            fl2 = FileSystem.Instance.Locate("planetClr.tex", GameFileLocs.TerrainTexture);
+            GlobalColorTexture = TextureManager.Instance.CreateInstance(fl2);
 
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 
