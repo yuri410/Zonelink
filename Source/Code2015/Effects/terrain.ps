@@ -32,10 +32,11 @@ PSOutput main(PSInput ip)
 		if (index[i]>0.01)
 		{
 			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2);
+			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2*16.5);
 		}
 	}
 	
-
-    o.Color = color * tex2D(texColor, ip.TexCoord1);// * max( 0.3, ndl );
+	
+    o.Color = (color * 0.5)*0.5 +0.5 * tex2D(texColor, ip.TexCoord1);// * max( 0.3, ndl );
     return o;
 }
