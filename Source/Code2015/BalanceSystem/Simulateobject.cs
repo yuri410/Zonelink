@@ -6,7 +6,7 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    public class Simulateobject
+    public class Simulateobject:IUpdatable
     {     
         /// <summary>
         /// CO2的改变量
@@ -17,6 +17,7 @@ namespace Code2015.BalanceSystem
         {
             return this.CarbonWeight;
         }
+
         public void Update(GameTime time)
         { }
     }

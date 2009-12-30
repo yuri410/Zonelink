@@ -7,25 +7,30 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    class CreationSpecies : IUpdatable
+    public abstract class CreationSpecies : IUpdatable
     {
-      
+
         /// <summary>
         /// 代表生物的数目
         /// </summary>
-        public float Strength
+        public float Amount
         {
             get;
             set;
         }
-        public float CarbonGasWeight
+        public float SetAmount(float amount)
+        {
+            return this.Amount = amount;
+        }
+        public float CarbonWeight
         {
             get;
             set;
         }
-        
+
+        public abstract float GetCarbonWeght();
+
         public void Update(GameTime time)
         { }
     }
-
 }

@@ -5,7 +5,7 @@ using System.Text;
 
 namespace Code2015.BalanceSystem
 {
-    public class Player
+    public class Player:IUpdatable
     {
         public string Name
         {
@@ -20,12 +20,17 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
+        /// <summary>
+        /// 玩家控制的区域
+        /// </summary>
         public object OwnedRegion
         {
             get;
             set;
         }
-
+        /// <summary>
+        /// 玩家的积分
+        /// </summary>
         public int OwnedGrades
         {
             get;
@@ -37,5 +42,14 @@ namespace Code2015.BalanceSystem
         }
 
         SimulateRegion simulateRegion;
+
+        #region IUpdatable 成员
+
+        public void Update(Apoc3D.GameTime time)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
     }
 }

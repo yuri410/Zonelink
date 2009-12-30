@@ -2,21 +2,45 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    class Forest:Simulateobject
+   public  class Forest:NaturalResource
     {
-        
-        PlantSpecies Tree = new PlantSpecies("Tree");
-        PlantSpecies Grass = new PlantSpecies("Grass");
-        AnimalSpecies LargeAnimal = new AnimalSpecies("LargeAnimal");
-        AnimalSpecies LittleAnimal = new AnimalSpecies("LittleAnimal");
-        public override float GetCarbonWeight()
+       
+        FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
+        FastList<AnimalSpecies> animals = new FastList<AnimalSpecies>();
+
+        public Forest()
         {
-            float OutAnimal = LargeAnimal.Amount * 300+ LittleAnimal.Amount * 100;
-            float InPlant = Tree.Amount * 500 + Grass.Amount * 50;
-            return CarbonWeight = InPlant - OutAnimal;
+            InitAnimals();
+            InitPlants();
+        }
+        
+        public FastList<PlantSpecies> InitPlants()
+        {
+            plants.Add(new PlantSpecies("Trees"));
+            plants.Add(new PlantSpecies("Grass"));
+            plants[0].SetAmount(10000);
+            plants[1].SetAmount(100000);
+            return plants;
+            }
+
+        public FastList<AnimalSpecies> InitAnimals()
+        {
+            animals.Add(new AnimalSpecies("LargeAnimal"));
+            animals.Add(new AnimalSpecies("LittleAnimal"));
+
+            animals[0].SetAmount(1000);
+            animals[1].SetAmount(5000);
+            return animals;
+        }
+       
+        
+        public TypeofResource GetTypeofSource()
+        {
+            return TypeofResource.LPEnergy;
         }
 
 

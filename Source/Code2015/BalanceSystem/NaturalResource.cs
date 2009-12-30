@@ -6,42 +6,62 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    ///铁和铜
-    enum SourceType { Iron,Copper}
-    class NaturalResource : Simulateobject
+    public enum TypeofResource { LPEnergy, HPEnergy };
+    public class NaturalResource : Simulateobject
     {
         /// <summary>
-        /// 自然界总的资源,包括铁，铝等其他矿产等
+        /// 生产速度，黑色不可再生生产速度为0
         /// </summary>
-        public float TotalAmount = 10000;
-       
-        public float ConsumeSpeed
+        public float ProductSpeed
         {
             get
+            { return ProductSpeed; }
+
+            set
             {
-                switch (NatSourceType)
-                { 
-                    case SourceType.Iron:
-                        return 10;
-                    case SourceType.Copper:
-                        return 4;
-                       
-                }
-                return 0;
-               
+                if (NatureSourceType == TypeofResource.HPEnergy)
+                    ProductSpeed = 0;
             }
         }
+
+        public virtual float SetProductSpeed(float speed)
+        {
+            return this.ProductSpeed = speed;
+        }
         /// <summary>
-        /// 资源类型
+        /// 消耗速度
         /// </summary>
-        public SourceType NatSourceType
+        public float ConsumeSpeed
         {
             get;
-           private  set;
+            set;
         }
-       
+        public virtual float SetConsumeSpeed(float speed)
+        {
+            return this.SourceAmount = speed;
+        }
+        /// <summary>
+        /// 资源的数量
+        /// </summary>
+        public float SourceAmount
+        {
+            get;
+            set;
+        }
+
+        public void SetSourceAmount(float amount)
+        {
+            this.SourceAmount = amount;
+        }
+        /// <summary>
+        /// 类型
+        /// </summary>
+        public TypeofResource NatureSourceType
+        {
+            get;
+            private set;
+        }
 
 
-     
     }
 }

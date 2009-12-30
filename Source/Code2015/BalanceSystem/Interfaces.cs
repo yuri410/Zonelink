@@ -6,10 +6,10 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    interface IUpdatable
+    public interface IUpdatable
     {
         void Update(GameTime time);
     }
 
-    
+
 }

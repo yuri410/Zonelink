@@ -7,53 +7,51 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    class LocalEcoSystem : IUpdatable
+    public class LocalEcoSystem : IUpdatable
     {
-        private float age, humidity, fertility, desertification;
 
-        private bool balanced;
         /// <summary>
-        /// 局部生态系统的存在时间
+        /// 生态系统存在时间
         /// </summary>
         public float Age
         {
-            get { return age; }
-            set { age = value; }
+            get;
+            set;
         }
         /// <summary>
         /// 局部生态系统湿度调整系数
         /// </summary>
         public float Humidity
         {
-            get { return humidity; }
-            set { humidity = value; }
+            get;
+            set;
         }
         /// <summary>
         /// 动物使土壤肥沃程度
         /// </summary>
         public float Fertility
         {
-            get { return fertility; }
-            set { fertility = value; }
+            get;
+            set;
         }
         /// <summary>
         /// 沙漠化调整系数
         /// </summary>
         public float Desertification
         {
-            get { return desertification; }
-            set { desertification = value; }
+            get;
+            set;
         }
         /// <summary>
         ///局部生态系统是否平衡
         /// </summary>
         public bool Balanced
         {
-            get { return balanced; }
-            set { balanced = value; }
+            get;
+            set;
         }
 
-        public float CarbonChange
+        public float CarbonWeght
         {
             get;
             set;
@@ -63,144 +61,113 @@ namespace Code2015.BalanceSystem
         ///分别有树木，灌木，草
         /// </summary>
         FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
+        FastList<AnimalSpecies> animals = new FastList<AnimalSpecies>();
+        /// <summary>
+        /// 初始化植物
+        /// </summary>
 
-        //得到所有植物的数目
-        public float GetPlantsAmount(FastList<PlantSpecies> plants)
+        public LocalEcoSystem()
         {
-            float plantsAmount = 0.0f;
-            for (int i = 0; i < plants.Count; i++)
-            {
-                plantsAmount += ((PlantSpecies)plants[i]).Strength;
-            }
-            return plantsAmount;
+            InitAnimals();
+            InitPlants();
         }
-
-        public void SetFactorPlant()
+        public FastList<PlantSpecies> InitPlants()
         {
             plants.Add(new PlantSpecies("Trees"));
-            plants.Add(new PlantSpecies("Bushes"));
+            plants.Add(new PlantSpecies("Bush"));
             plants.Add(new PlantSpecies("Grass"));
-            plants[0].SetPlantFactor(300, 1.0f, 1.0f);
-            plants[1].SetPlantFactor(100, 0.8f, 0.8f);
-            plants[2].SetPlantFactor(70, 0.6f, 0.7f);
-            float plantsAmount = 0.0f;
-            plantsAmount = GetPlantsAmount(plants);
-            float humi = 0, desert = 0;
-            for (int i = 0; i < plants.Count; i++)
-            {
-                humi += plants[i].HumidityAdjust * plants[i].Strength;
-                desert += plants[i].DesertificationAdjust * plants[i].Strength;
-            }
-            this.Humidity = humi;
-            this.Desertification = desert;
+
+            plants[0].Amount = 10000;
+            plants[1].Amount = 30000;
+            plants[2].Amount = 50000;
+
+            plants[0].SetCTransSpeed(1000);
+            plants[1].SetCTransSpeed(400);
+            plants[2].SetCTransSpeed(100);
+
+            plants[0].SetPlantAdjust(plants[0], 1, 1);
+            plants[1].SetPlantAdjust(plants[1], 0.5f, 0.5f);
+            plants[2].SetPlantAdjust(plants[2], 0.3f, 0.3f);
+
+            return plants;
         }
-
-
-        /// <summary>
-        /// 动物分别有昆虫，小型动物，大型动物
-        /// </summary>
-        FastList<AnimalSpecies> animals = new FastList<AnimalSpecies>();
-
-        //得到动物的总数目
-        public float GetAnimalAmount(FastList<AnimalSpecies> animals)
-        {
-            float animalAmount = 0.0f;
-            for (int i = 0; i < animals.Count; i++)
-            {
-                animalAmount += ((AnimalSpecies)animals[i]).Strength;
-            }
-            return animalAmount;
-        }
-        //得到动物的影响因素
-        public void SetFactorAnimal()
+        public FastList<AnimalSpecies> InitAnimals()
         {
             animals.Add(new AnimalSpecies("LargeAnimal"));
             animals.Add(new AnimalSpecies("LittleAnimal"));
             animals.Add(new AnimalSpecies("Insect"));
-            float fertiliseSpeed = 0;
+
+            animals[0].Amount = 5000;
+            animals[1].Amount = 10000;
+            animals[2].Amount = 100000;
+
             animals[0].SetFertilisingSpeed(100);
-            animals[1].SetFertilisingSpeed(40);
-            animals[2].SetFertilisingSpeed(1);
+            animals[1].SetFertilisingSpeed(80);
+            animals[2].SetFertilisingSpeed(10);
+
+            animals[0].SetMakeCarbonSpeed(500);
+            animals[1].SetMakeCarbonSpeed(200);
+            animals[2].SetMakeCarbonSpeed(50);
+            return animals;
+        }
+        /// <summary>
+        /// 得到该区域的湿度调节和沙漠化调节系数
+        /// </summary>
+        public void GetAdjustPlant()
+        {
+           
+            float totalamount = 0;
+            float totalhumidity = 0;           
+            float totaldesertify = 0;
+            for (int i = 0; i < plants.Count; i++)
+            {
+                totalamount += plants[i].Amount;
+                totalhumidity += plants[i].Amount * plants[i].HumidityAdjust;
+                totaldesertify += plants[i].Amount * plants[i].DesertificationAdjust;                
+            }
+            this.Humidity = totalhumidity / totalamount;
+            this.Desertification = totaldesertify / totalamount;
+        }
+
+        /// <summary>
+        /// 得到该区域的使土壤肥沃的速度
+        /// </summary>
+        /// <returns></returns>
+        public float GetFerlisingSpeed()
+        {
+            float speed = 0;
+            float total = 0;
+            float totalamount = 0;
             for (int i = 0; i < animals.Count; i++)
             {
-                fertiliseSpeed += animals[i].Strength * animals[i].FertilisingSpeed;
+                total += animals[i].Amount * animals[i].FertilisingSpeed;
+                totalamount += animals[i].Amount;
+                speed = total / totalamount;
             }
 
-            this.Fertility = fertiliseSpeed;
+            return this.Fertility = speed;
         }
         /// <summary>
-        /// 获得改变的CO2的数量
+        /// 得到本地生态系统的C增量
         /// </summary>
-        public void GetCarbonWeight()
+        /// <returns></returns>
+        public float GetLSCarbon()
         {
-            float plantIn = 0, animalOut = 0;
+            float carbonweight = 0;
+            float PlantIN=0;
+            float AnimalOUT=0;
+
             for (int i = 0; i < plants.Count; i++)
             {
-                plantIn += plants[i].Strength * plants[i].CarbonTransformSpeed;
+                PlantIN += plants[i].CarbonTransformSpeed * plants[i].Amount;
             }
-            animalOut = animals[0].ProduceGgas(animals[0].Strength, 200) + animals[1].ProduceGgas(animals[1].Strength, 80) + animals[2].ProduceGgas(animals[2].Strength, 20);
 
-            this.CarbonChange = plantIn - animalOut;
-
-
-        }
-
-        /// <summary>
-        /// 获得动物的种类
-        /// </summary>
-        /// <param name="creations"></param>
-        /// <returns></returns>
-        public int KindOfCreations(FastList<AnimalSpecies> creations)
-        {
-            int kind = 0;
-            for (int i = 0; i < creations.Count; i++)
+            for (int i = 0; i < animals.Count; i++)
             {
-                if (creations[i].Strength == 0)
-                {
-                    creations.RemoveAt(i);
-                }
+                AnimalOUT += animals[i].MakeCarbonSpeed * animals[i].Amount;
             }
-            kind = creations.Count;
-            return kind;
-        }
-
-
-        /// <summary>
-        /// 获得植物的种类
-        /// </summary>
-        /// <param name="creations"></param>
-        /// <returns></returns>
-        public int KindOfCreations(FastList<PlantSpecies> plants)
-        {
-            int kind = 0;
-            for (int i = 0; i < plants.Count; i++)
-            {
-                if (plants[i].Strength == 0)
-                {
-                    plants.RemoveAt(i);
-                }
-            }
-            kind = plants.Count;
-            return kind;
-        }
-        public bool IsBalanced(LocalEcoSystem local)
-        {
-            bool balanced = true;
-            if ((local.KindOfCreations(animals) >= 3) && (local.KindOfCreations(plants) >= 3))
-            {
-                if (local.CarbonChange > 20)
-                {
-                    balanced = true;
-                    
-                }
-
-            }
-            else
-            {
-                balanced = false;
-            }
-            return balanced;
-            
+            carbonweight = PlantIN - AnimalOUT;
+            return CarbonWeght = carbonweight;
 
         }
         public void Update(GameTime time)
@@ -208,7 +175,7 @@ namespace Code2015.BalanceSystem
 
         }
 
-       
+
 
 
     }

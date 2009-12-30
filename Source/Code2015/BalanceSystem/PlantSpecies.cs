@@ -7,44 +7,8 @@ using Apoc3D.Collections;
 namespace Code2015.BalanceSystem
 {
 
-    class PlantSpecies : CreationSpecies
+    public  class PlantSpecies : CreationSpecies
     {
-        private float carbonTransformSpeed;
-        private float humidityAdjust;
-        private float desertificationAdjust;
-
-        /// <summary>
-        ///  光合作用固化碳的速度
-        /// </summary>
-        public float CarbonTransformSpeed
-        {
-            get { return carbonTransformSpeed; }
-            set { carbonTransformSpeed = value; }
-        }
-        /// <summary>
-        ///  局部生态环境湿度调整系数
-        /// </summary>
-        public float HumidityAdjust
-        {
-            get { return humidityAdjust; }
-            set { humidityAdjust = value; }
-        }
-        /// <summary>
-        ///  局部生态环境沙漠化调整系数
-        /// </summary>
-        public float DesertificationAdjust
-        {
-            get { return desertificationAdjust; }
-            set { desertificationAdjust = value; }
-        }
-        /// <summary>
-        /// 植物的数目
-        /// </summary>
-        public float Amount
-        {
-            get;
-            set;
-        }
         public string Name
         {
             get;
@@ -55,13 +19,56 @@ namespace Code2015.BalanceSystem
             Name = name;
         }
         
-        //设置不同植物的固碳速度，生态环境湿度调整系数，沙漠化调整系数
-        public void SetPlantFactor(float plantCSpeed, float plantHumidity, float plantDesert)
+        /// <summary>
+        ///  植物固碳的速度
+        /// </summary>
+        public float CarbonTransformSpeed
         {
-            this.CarbonTransformSpeed = plantCSpeed;
-            this.HumidityAdjust = plantHumidity;
-            this.DesertificationAdjust = plantDesert;
+            get;
+            set;
         }
+        public float SetCTransSpeed(float speed)
+        {
+           return  this.CarbonTransformSpeed = speed;
+        }
+        /// <summary>
+        /// 植物固碳量
+        /// </summary>
+        public float CarbonWeight
+        {
+            get { return CarbonTransformSpeed * Amount; }
+            set { CarbonWeight = value; }
+        }
+        /// <summary>
+        ///  局部生态环境湿度调整系数
+        /// </summary>
+        public float HumidityAdjust
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        ///  局部生态环境沙漠化调整系数
+        /// </summary>
+        public float DesertificationAdjust
+        {
+            get;
+            set;
+        }
+       
+        
+        //生态环境湿度调整系数，沙漠化调整系数
+        public void SetPlantAdjust(PlantSpecies plant, float humidityAdjust, float desertificationAdjust)
+        {
+            plant.HumidityAdjust = humidityAdjust;
+            plant.DesertificationAdjust = desertificationAdjust;
+        }
+
+        public override float GetCarbonWeght()
+        {
+            throw new NotImplementedException();
+        }
+
 
 
     }
