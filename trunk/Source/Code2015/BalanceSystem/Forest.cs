@@ -3,21 +3,22 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D.Collections;
+using Apoc3D;
+
 
 namespace Code2015.BalanceSystem
 {
-   public  class Forest:NaturalResource
+    public class Forest : NaturalResource
     {
-       
+
         FastList<PlantSpecies> plants = new FastList<PlantSpecies>();
         FastList<AnimalSpecies> animals = new FastList<AnimalSpecies>();
 
         public Forest()
         {
-            InitAnimals();
-            InitPlants();
+
         }
-        
+
         public FastList<PlantSpecies> InitPlants()
         {
             plants.Add(new PlantSpecies("Trees"));
@@ -25,7 +26,7 @@ namespace Code2015.BalanceSystem
             plants[0].SetAmount(10000);
             plants[1].SetAmount(100000);
             return plants;
-            }
+        }
 
         public FastList<AnimalSpecies> InitAnimals()
         {
@@ -36,11 +37,16 @@ namespace Code2015.BalanceSystem
             animals[1].SetAmount(5000);
             return animals;
         }
-       
-        
+
+
         public TypeofResource GetTypeofSource()
         {
             return TypeofResource.LPEnergy;
+        }
+
+        public override void Update(GameTime time)
+        {
+            
         }
 
 

@@ -20,23 +20,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        /// <summary>
-        /// 得到油田的类型
-        /// </summary>
-        public TypeofResource OilFieldType
-        {
-            get
-            {
-                return OilFieldType;
-            }
-            set
-            {
-                OilFieldType = TypeofResource.HPEnergy;
-            }
-        }
-        /// <summary>
-        /// 得到剩余的石油量
-        /// </summary>
+        
        
         public float GetRemainedWeight(GameTime time1,GameTime time2)
         {

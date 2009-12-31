@@ -62,6 +62,11 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public override void Update(GameTime time)
+        {
+            
+        }
+       
 
     }
 }

@@ -7,7 +7,7 @@ using Apoc3D.Collections;
 namespace Code2015.BalanceSystem
 {
 
-    public  class PlantSpecies : CreationSpecies
+    public class PlantSpecies : CreationSpecies
     {
         public string Name
         {
@@ -18,7 +18,7 @@ namespace Code2015.BalanceSystem
         {
             Name = name;
         }
-        
+
         /// <summary>
         ///  植物固碳的速度
         /// </summary>
@@ -29,12 +29,12 @@ namespace Code2015.BalanceSystem
         }
         public float SetCTransSpeed(float speed)
         {
-           return  this.CarbonTransformSpeed = speed;
+            return this.CarbonTransformSpeed = speed;
         }
         /// <summary>
         /// 植物固碳量
         /// </summary>
-        public float CarbonWeight
+        new public float CarbonWeight
         {
             get { return CarbonTransformSpeed * Amount; }
             set { CarbonWeight = value; }
@@ -55,8 +55,8 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-       
-        
+
+
         //生态环境湿度调整系数，沙漠化调整系数
         public void SetPlantAdjust(PlantSpecies plant, float humidityAdjust, float desertificationAdjust)
         {

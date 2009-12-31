@@ -22,7 +22,7 @@ namespace Code2015.BalanceSystem
         {
             Name = name;
         }
-        public float CarbonWeight
+       new  public float CarbonWeight
         {
             get { return MakeCarbonSpeed * Amount; }
             set { CarbonWeight = value; }
