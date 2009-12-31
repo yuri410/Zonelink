@@ -48,7 +48,7 @@ namespace Code2015.BalanceSystem
             this.Border = border;
         }
 
-        public void Update(GameTime time)
+        public  void Update(GameTime time)
         { }
     }
 }

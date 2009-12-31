@@ -89,9 +89,8 @@
     <Compile Include="ActionSystem\CycleJet.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
-    <Compile Include="BalanceSystem\CityPluginFactory.cs">
-      <SubType>Code</SubType>
-    </Compile>
+    <Compile Include="BalanceSystem\CityPlugin.cs" />
+    <Compile Include="BalanceSystem\CityPluginFactory.cs" />
     <Compile Include="BalanceSystem\FarmLand.cs">
       <SubType>Code</SubType>
     </Compile>

@@ -18,7 +18,7 @@ namespace Code2015.BalanceSystem
             return this.CarbonWeight;
         }
 
-        public void Update(GameTime time)
+        public virtual void Update(GameTime time)
         { }
     }
 }

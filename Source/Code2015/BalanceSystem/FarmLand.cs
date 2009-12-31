@@ -10,7 +10,11 @@ namespace Code2015.BalanceSystem
     /// 农场土壤的等级
     /// </summary>
     public enum SoilGrade { fine, medium, bad };
-
+    
+    /// <summary>
+    /// 农作物的类
+    /// </summary>
+   
     public class FarmLand : NaturalResource
     {
 
@@ -29,13 +33,14 @@ namespace Code2015.BalanceSystem
             InitFarm();
         }
 
+        FastList<PlantSpecies> farm = new FastList<PlantSpecies>();
         public FastList<PlantSpecies> InitFarm()
         {
             farm.Add(new PlantSpecies("Wheat"));//小麦
             farm.Add(new PlantSpecies("Rice"));//水稻
             return farm;
         }
-        FastList<PlantSpecies> farm = new FastList<PlantSpecies>();
+      
         /// <summary>
         /// 土壤的等级
         /// </summary>
