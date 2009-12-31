@@ -365,6 +365,8 @@ namespace Code2015.EngineEx
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
             terrEdgeSize = data.Width;
+            data.XSpan *= 2;
+            data.YSpan *= 2;
 
             float radSpan = MathEx.Degree2Radian(data.XSpan);
 
@@ -412,10 +414,10 @@ namespace Code2015.EngineEx
                     // 计算海拔高度
                     float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
 
-                    if (height > -TerrainMeshManager.ZeroLevel)
-                    {
-                        height = (height + TerrainMeshManager.ZeroLevel) * TerrainMeshManager.PostHeightScale;
-                    }
+                    //if (height > -TerrainMeshManager.ZeroLevel)
+                    //{
+                    height = (height + TerrainMeshManager.ZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    //}
 
                     Vector3 worldPos;
                     Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);

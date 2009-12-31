@@ -210,7 +210,7 @@ namespace Plugin.GISTools
                             dataBlocks[8] == null ? null : dataBlocks[8].Data, width, height);
 
                         #region 高斯模糊
-                        int brushSize = 5;
+                        int brushSize = 65;
 
                         float[] weights = MathEx.ComputeGuassFilter1D((float)Math.Sqrt(0.4 * brushSize), brushSize);
 
