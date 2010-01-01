@@ -32,39 +32,71 @@ namespace Code2015.BalanceSystem
         [SLGValueAttribute()]
         const int LargePluginCount = 4;
 
-        private string name;
-        private float population, development, food, disease;
+        public City()
+        {
+            GetProHPSpeed();
+            GetProLPSpeed();
+        }
+        public City(UrbanSize size)
+        {
+            this.Size = size;
+            GetProHPSpeed();
+            GetProLPSpeed();
+        }
+        public City(string name)
+        {
+            this.Name = name;
+            GetProHPSpeed();
+            GetProLPSpeed();
+        }
 
         /// <summary>
         ///  表示城市的附加设施
         /// </summary>
-        FastList<CityPlugin> plugins = new FastList<CityPlugin>();
+       FastList<CityPlugin> plugins = new FastList<CityPlugin>();
 
+       
+        #region  属性
         public string Name
         {
-            get { return name; }
-            set { name = value; }
+            get;
+            set;
         }
         public float Development
         {
-            get { return development; }
-            set { development = value; }
+            get;
+            set;
         }
         public float Population
         {
-            get { return population; }
-            set { population = value; }
+            get;
+            set;
         }
         public float FoodCost
         {
-            get { return food; }
-            set { food = value; }
+            get;
+            set;
         }
         public float Disease
         {
-            get { return disease; }
-            set { disease = value; }
+            get;
+            set;
         }
+       /// <summary>
+       /// 城市自身的消耗高能和低能的速度，为负值，表示消耗
+       /// </summary>
+        public float ProduceHPSpeed
+        {
+            get;
+            set;
+        }
+
+        public float ProduceLPSpeed
+        {
+            get;
+            set;
+        }
+        #endregion
 
         public UrbanSize Size
         {
@@ -92,51 +124,90 @@ namespace Code2015.BalanceSystem
             }
         }
 
-       /// <summary>
-       ///获得用户所选择的添加附加物，用于可以和界面进行交互
-       /// </summary>
-       /// <returns></returns>
-        public FastList<CityPlugin> ChoosedCityPlugin()
-        { 
-            FastList<CityPlugin> choosedplugins=new FastList<CityPlugin>();
-            CityPluginFactory factory=new CityPluginFactory();
-            choosedplugins.Add(factory.MakeCollege());
-            //得到用户选择添加的附加物
-            return choosedplugins;
-        }
-        public void NotifyAdded(City city)
+
+        public void Add(CityPlugin plugin)
         {
-            city.plugins.Add(ChoosedCityPlugin());
-           
+            plugins.Add(plugin);
+            GetProLPSpeed();
+            GetProHPSpeed();
+            plugin.NotifyAdded(this);
         }
 
-        public void NotifyRemoved(City city)
+        public void Remove(CityPlugin plugin) 
         {
-            for (int i = 0; i < ChoosedCityPlugin().Count; i++)
+            plugins.Remove(plugin);
+            GetProLPSpeed();
+            GetProHPSpeed();
+            plugin.NotifyRemoved(this);
+        }
+       /// <summary>
+       /// 得到城市添加或移除CityPlugin低能的消耗速度
+       /// </summary>
+        public void GetProLPSpeed()
+        {
+            float pluginspeed = 0;
+            switch (Size)
+            { 
+                case UrbanSize.Large:
+                    this.ProduceHPSpeed = -100;
+                    this.ProduceLPSpeed = -100;
+                    break;
+                case UrbanSize.Normal:
+                    this.ProduceHPSpeed = -80;
+                    this.ProduceLPSpeed = -80;
+                    break;
+                case UrbanSize.Town:
+                    this.ProduceHPSpeed = -50;
+                    this.ProduceLPSpeed = -50;
+                    break;
+            }
+           
+            if (plugins.Count != 0)
             {
-                if (city.plugins[i].Name == ChoosedCityPlugin()[i].Name)
+                for (int i = 0; i < plugins.Count; i++)
                 {
-                    city.plugins.RemoveAt(i);
+                    pluginspeed += plugins[i].ProduceLPSpeed;   
                 }
             }
-                
+            this.ProduceLPSpeed += pluginspeed;
+        }
+       /// <summary>
+        /// 得到城市添加或移除CityPlugin高能的消耗速度
+       /// </summary>
+        public void GetProHPSpeed()
+        {
+            float pluginspeed = 0;
+            switch (Size)
+            {
+                case UrbanSize.Large:
+                    this.ProduceHPSpeed = -100;
+                    this.ProduceLPSpeed = -100;
+                    break;
+                case UrbanSize.Normal:
+                    this.ProduceHPSpeed = -80;
+                    this.ProduceLPSpeed = -80;
+                    break;
+                case UrbanSize.Town:
+                    this.ProduceHPSpeed = -50;
+                    this.ProduceLPSpeed = -50;
+                    break;
+            }
+           
+            if (plugins.Count != 0)
+            {
+                for (int i = 0; i < plugins.Count; i++)
+                {
+                    pluginspeed += plugins[i].ProduceHLSpeed;
+                }
+
+                this.ProduceHPSpeed += pluginspeed;
+            }
            
         }
 
-        public void Out()
-        {
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                Console.WriteLine(plugins[i].Name);
-            }
-        }
         public void Update(GameTime time)
         {
           
         }
-
-        
-
-      
     }
 }

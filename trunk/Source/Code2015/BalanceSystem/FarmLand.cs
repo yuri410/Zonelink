@@ -3,21 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D.Collections;
+using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-    /// <summary>
-    /// 农场土壤的等级
-    /// </summary>
-    public enum SoilGrade { fine, medium, bad };
-    
+  
     /// <summary>
     /// 农作物的类
     /// </summary>
-   
+    public enum KindofPlant { Wheat,Rice,Corn,Bean,Peanut}
     public class FarmLand : NaturalResource
     {
-
+        [SLGValueAttribute()]
+        const float HarvestNeedTime = 5;
+        
         public string Name
         {
             get;
@@ -25,53 +24,53 @@ namespace Code2015.BalanceSystem
         }
         public FarmLand(string name)
         {
+          
             this.Name = name;
         }
-
-        public FarmLand()
-        {
-            InitFarm();
-        }
-
-        FastList<PlantSpecies> farm = new FastList<PlantSpecies>();
-        public FastList<PlantSpecies> InitFarm()
-        {
-            farm.Add(new PlantSpecies("Wheat"));//小麦
-            farm.Add(new PlantSpecies("Rice"));//水稻
-            return farm;
-        }
-      
+        
         /// <summary>
-        /// 土壤的等级
+        /// 农场种植的农作物
         /// </summary>
-        public SoilGrade soilGrade
+        public FastList<PlantSpecies> PlantsOfFarm
         {
             get;
-            private set;
+            set;
         }
-      
-
-      
         /// <summary>
-        /// 单位的产量
+        /// 从用户获得的要种植的农作物
         /// </summary>
-        public float UnitProduct
+        /// <param name="plantsoffarm"></param>
+        public void GetPlantsOfFarm(FastList<PlantSpecies> plantsoffarm)
         {
-            get
-            {
-                switch (soilGrade)
-                {
-                    case SoilGrade.fine:
-                        return 1000;
-                    case SoilGrade.medium:
-                        return 700;
-                    case SoilGrade.bad:
-                        return 300;
-
-                }
-                return 0;
-            }
+            this.PlantsOfFarm = plantsoffarm;
         }
+
+
+        public float GetHarvestTime()
+        {
+            return HarvestNeedTime;
+        }
+
+        public string SetPlantOfFarm(string name)
+        {
+            FarmLand farm = new FarmLand(name);
+            return farm.Name;
+        }
+
        
+        public FastList<PlantSpecies> InitFarm()
+        {
+            FastList<PlantSpecies> farms = new FastList<PlantSpecies>();
+            farms.Add(new PlantSpecies("Wheat"));//小麦
+            farms.Add(new PlantSpecies("Rice"));//水稻
+            return farms;
+        }
+
+
+       
+      
+      
+
+     
     }
 }

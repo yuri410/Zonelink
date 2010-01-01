@@ -14,42 +14,25 @@ namespace TestCode2015
     {
         static void Main(string[] args)
         {
-            TestFeildProperty.UseField();
-            TestFeildProperty.UseProperty();
+            City city = new City(UrbanSize.Town);
+            
+            Console.WriteLine("{0}   {1}", city.ProduceHPSpeed, city.ProduceLPSpeed);
+            //-100,-100
 
-            Forest forest = new Forest();
-            float amount = 0;
-            FastList<AnimalSpecies> animals = forest.InitAnimals();
-            for (int i = 0; i < animals.Count; i++)
-            {
-                amount += animals[i].Amount;
-            }
-            Console.WriteLine(amount);
-            Console.WriteLine(forest.GetTypeofSource());
+            CityPluginFactory f=new CityPluginFactory();
+            CityPlugin plugin = f.MakeEducationAgent();
+            city.Add(plugin);
+            Console.WriteLine("{0}   {1}", city.ProduceHPSpeed, city.ProduceLPSpeed);
+            //-110,-110
 
+            city.Remove(plugin);
+            Console.WriteLine("{0}   {1}", city.ProduceHPSpeed, city.ProduceLPSpeed);
+            //-100,-100
 
-            OilField oil = new OilField();
-            Console.WriteLine(oil.ConsumeSpeed);
-            Console.WriteLine(oil.NatureSourceType);
-
-           // Console.WriteLine(oil.OilFieldType);
-
-            Console.WriteLine(oil.SourceAmount);
-
-            CityPluginFactory factory = new CityPluginFactory();
-           CityPlugin plugin= factory.MakeCollege();
-            Console.WriteLine(plugin.CostMoney);
-
-
-            City city = new City();
-            FastList< CityPlugin> plugins= city.ChoosedCityPlugin();
-            city.NotifyAdded(city);
-            city.Out();
-            city.NotifyRemoved(city);
-            GameTime time = new GameTime();
-           
-
-           city.Out();
+            CityPlugin  plugin1 = f.MakeOilRefinary();
+            city.Add(plugin1);
+            Console.WriteLine("{0}   {1}", city.ProduceHPSpeed, city.ProduceLPSpeed);
+            //0,-100
                 Console.ReadLine();
         }
        

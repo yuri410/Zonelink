@@ -94,6 +94,7 @@
     <Compile Include="BalanceSystem\FarmLand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BalanceSystem\Mission.cs" />
     <Compile Include="BalanceSystem\Simulateobject.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CreationSpecies.cs" />

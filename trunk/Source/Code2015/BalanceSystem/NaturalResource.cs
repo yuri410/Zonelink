@@ -3,31 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    public enum TypeofResource { LPEnergy, HPEnergy };
+   
     public class NaturalResource : Simulateobject
     {
-        /// <summary>
-        /// 生产速度，黑色不可再生生产速度为0
-        /// </summary>
-        public float ProductSpeed
-        {
-            get
-            { return ProductSpeed; }
-
-            set
-            {
-                if (NatureSourceType == TypeofResource.HPEnergy)
-                    ProductSpeed = 0;
-            }
-        }
-
-        public virtual float SetProductSpeed(float speed)
-        {
-            return this.ProductSpeed = speed;
-        }
         /// <summary>
         /// 消耗速度
         /// </summary>
@@ -36,35 +18,57 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public virtual float SetConsumeSpeed(float speed)
+        /// <summary>
+        /// 生产速度
+        /// </summary>
+        public float ProduceSpeed
         {
-            return this.SourceAmount = speed;
+            get;
+            set;
         }
         /// <summary>
-        /// 资源的数量
+        /// 初始值
         /// </summary>
-        public float SourceAmount
+        public float InitAmount
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 剩余值
+        /// </summary>
+        public float RemainedAmount
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 低能数量
+        /// </summary>
+        public float LPAmount
+        {
+            get;
+            set;
+        }
+        /// <summary>
+        /// 高能数量
+        /// </summary>
+        public float HPAmount
         {
             get;
             set;
         }
 
-        public void SetSourceAmount(float amount)
-        {
-            this.SourceAmount = amount;
-        }
-        /// <summary>
-        /// 类型
-        /// </summary>
-        public TypeofResource NatureSourceType
-        {
-            get;
-            private set;
-        }
+       
 
+        public virtual void SetProduceSpeed(float speed)
+        {
+            this.ProduceSpeed = speed;
+        }
         public override void Update(GameTime time)
         {
-            
+            OilField oil = new OilField();
+            this.HPAmount = oil.InitAmount;
         }
        
 
