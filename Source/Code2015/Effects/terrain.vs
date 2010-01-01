@@ -21,7 +21,7 @@ VSOutput main(VSInput ip)
 
     o.Position = mul(ip.Position, mvp);
     o.TexCoord1 = ip.TexCoord1;
-    o.TexCoord2 = float2( ip.Position.x / 20, ip.Position.z / 20);
+    o.TexCoord2 = float2( ip.Position.x / 70, ip.Position.z / 70);
     
     ip.Normal = 2 * (ip.Normal - float4(0.5,0.5,0.5, 1));
     ip.Normal.w = 0;

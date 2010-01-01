@@ -31,30 +31,34 @@ namespace Code2015.EngineEx
             //public Half ny;
             //public Half nz;
             //public Half dummy;
-            //public uint Normal;
+            public int Normal;
 
             static VertexElement[] elements;
             static int size = sizeof(TerrainVertex);
             static TerrainVertex()
             {
-                elements = new VertexElement[2];
+                elements = new VertexElement[3];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
                 elements[1] = new VertexElement(elements[0].Size,
                     VertexElementFormat.HalfVector2, VertexElementUsage.TextureCoordinate, 0);
+                elements[2] = new VertexElement(elements[1].Size + elements[1].Offset,
+                    VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 1);
+
                 //elements[2] = new VertexElement(elements[1].Offset + elements[1].Size,
                 //    VertexElementFormat.HalfVector4, VertexElementUsage.TextureCoordinate, 1);
             }
 
-            //public void SetNormal(float x, float y, float z)
-            //{
-            //    nx = new Half(x);
-            //    ny = new Half(y);
-            //    nz = new Half(z);
-            //    //Normal = ColorValue.PackValue(
-            //    //    0.5f * (x + 1), 
-            //    //    0.5f * (y + 1), 
-            //    //    0.5f * (z + 1), 1);
-            //}
+            public void SetNormal(ref Vector3 n)
+            {
+                //nx = new Half(x);
+                //ny = new Half(y);
+                //nz = new Half(z);
+
+                Normal = MathEx.Vector2ARGB(ref n); //ColorValue.PackValue(
+                    //0.5f * (x + 1),
+                    //0.5f * (y + 1),
+                    //0.5f * (z + 1), 1);
+            }
 
             public static VertexElement[] Elements
             {
@@ -412,12 +416,12 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.ZeroLevel;
+                    float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
 
-                    //if (height > -TerrainMeshManager.ZeroLevel)
-                    //{
-                    height = (height + TerrainMeshManager.ZeroLevel) * TerrainMeshManager.PostHeightScale;
-                    //}
+                    if (height > -TerrainMeshManager.PostZeroLevel)
+                    {
+                        height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    }
 
                     Vector3 worldPos;
                     Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
@@ -444,36 +448,36 @@ namespace Code2015.EngineEx
             }
             #endregion
 
-            //#region 计算顶点法向量
-            //Vector3[] normalBuffer = new Vector3[terrEdgeLen * terrEdgeLen];
+            #region 计算顶点法向量
+            Vector3[] normalBuffer = new Vector3[terrEdgeLen * terrEdgeLen];
 
-            //for (int i = 0; i < terrEdgeLen; i++)
-            //{
-            //    for (int j = 0; j < terrEdgeLen; j++)
-            //    {
-            //        int idx = i * terrEdgeSize + j;
+            for (int i = 0; i < terrEdgeLen; i++)
+            {
+                for (int j = 0; j < terrEdgeLen; j++)
+                {
+                    int idx = i * terrEdgeSize + j;
 
-            //        Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
-            //        Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
+                    Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
+                    Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
 
-            //        Vector3 n;
-            //        Vector3.Cross(ref u, ref v, out n);
-            //        n.Normalize();
+                    Vector3 n;
+                    Vector3.Cross(ref u, ref v, out n);
+                    n.Normalize();
 
-            //        normalBuffer[i * terrEdgeLen + j] = n;
-            //    }
-            //}
+                    normalBuffer[i * terrEdgeLen + j] = n;
+                }
+            }
 
-            //#endregion
+            #endregion
 
-            //Vector3[] resizedNrm = Resize(normalBuffer, terrEdgeLen, terrEdgeLen, terrEdgeSize, terrEdgeSize);
-            //for (int i = 0; i < terrEdgeSize; i++)
-            //{
-            //    for (int j = 0; j < terrEdgeSize; j++)
-            //    {
-            //        vtxArray[i * terrEdgeSize + j].SetNormal(resizedNrm[i].X, resizedNrm[i].Y, resizedNrm[i].Z);
-            //    }
-            //}
+            Vector3[] resizedNrm = Resize(normalBuffer, terrEdgeLen, terrEdgeLen, terrEdgeSize, terrEdgeSize);
+            for (int i = 0; i < terrEdgeSize; i++)
+            {
+                for (int j = 0; j < terrEdgeSize; j++)
+                {
+                    vtxArray[i * terrEdgeSize + j].SetNormal(ref resizedNrm[i]);
+                }
+            }
 
             #endregion
 

@@ -24,10 +24,10 @@ namespace Code2015.World
         ///  1级LOD地形
         /// </summary>
         ResourceHandle<TerrainMesh> terrain1;
-        /// <summary>
-        ///  2级LOD地形
-        /// </summary>
-        ResourceHandle<TerrainMesh> terrain2;
+        ///// <summary>
+        /////  2级LOD地形
+        ///// </summary>
+        //ResourceHandle<TerrainMesh> terrain2;
         //ResourceHandle<TerrainMesh> terrain3;
 
         ResourceHandle<TerrainMesh> activeTerrain;
@@ -41,14 +41,15 @@ namespace Code2015.World
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
-            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
-            terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            terrain2.Touch();
+            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
+            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            terrain1.Touch();
+            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
+            //terrain2.Touch();
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
-            Transformation = terrain2.GetWeakResource().Transformation;
-            BoundingSphere = terrain2.GetWeakResource().BoundingSphere;
+            Transformation = terrain1.GetWeakResource().Transformation;
+            BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -70,6 +71,7 @@ namespace Code2015.World
             switch (level)
             {
                 case 0:
+                case 1:
                     if (terrain.State == ResourceState.Loaded)
                     {
                         ActiveTerrain = terrain;
@@ -79,7 +81,8 @@ namespace Code2015.World
                         terrain.Touch();
                     }
                     break;
-                case 1:
+                case 2:
+                case 3:
                     if (terrain1.State == ResourceState.Loaded)
                     {
                         ActiveTerrain = terrain1;
@@ -87,17 +90,6 @@ namespace Code2015.World
                     else
                     {
                         terrain1.Touch();
-                    }
-                    break;
-                case 2:
-                case 3:
-                    if (terrain2.State == ResourceState.Loaded)
-                    {
-                        ActiveTerrain = terrain2;
-                    }
-                    else
-                    {
-                        terrain2.Touch();
                     }
                     break;
                 default:

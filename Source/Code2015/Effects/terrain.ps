@@ -5,7 +5,7 @@ sampler2D texDet[4];
 sampler2D texColor;
 
 struct PSInput
-{
+{kk
     float2 TexCoord1 : TEXCOORD0; 
     float2 TexCoord2 : TEXCOORD1; 
     float3 Normal : TEXCOORD2;
@@ -32,11 +32,10 @@ PSOutput main(PSInput ip)
 		if (index[i]>0.01)
 		{
 			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2);
-			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2*16.5);
+			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2*7);
 		}
 	}
 	
-	
-    o.Color = (color * 0.5)*0.5 +0.5 * tex2D(texColor, ip.TexCoord1);// * max( 0.3, ndl );
+    o.Color = color * (0.5 * tex2D(texColor, ip.TexCoord1)) * max( 0.3, ndl );
     return o;
 }

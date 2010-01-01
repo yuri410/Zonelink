@@ -70,8 +70,8 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            //PlanetEarth earth = new PlanetEarth(renderSys);
-            //sm.SceneManager.AddObjectToScene(earth);
+            PlanetEarth earth = new PlanetEarth(renderSys);
+            sm.SceneManager.AddObjectToScene(earth);
 
             OceanWater water = new OceanWater(renderSys);
             sm.SceneManager.AddObjectToScene(water);
@@ -83,7 +83,7 @@ namespace Code2015
             //camera.Position = new Vector3(PlanetEarth.PlanetRadius, 0, 0);
 
             camera.NearPlane = 1;
-            camera.FarPlane = 15000;
+            camera.FarPlane = 6000;
             //camera.MoveSpeed = 50;
         }
 
