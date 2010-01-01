@@ -205,7 +205,7 @@ namespace Code2015.World
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
-            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.ZeroLevel, ColTileCount, LatTileCount, mats);
+            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.PostZeroLevel, ColTileCount, LatTileCount, mats);
 
             base.ModelL0 = earthSphere;
 

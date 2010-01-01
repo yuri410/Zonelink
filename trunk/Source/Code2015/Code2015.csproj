@@ -251,5 +251,7 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
+    <PreBuildEvent>chdir $(ProjectDir)
+CompileShader.bat</PreBuildEvent>
   </PropertyGroup>
 </Project>

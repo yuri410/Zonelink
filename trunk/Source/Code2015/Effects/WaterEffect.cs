@@ -31,7 +31,7 @@ namespace Code2015.Effects
 
         public override Effect CreateInstance()
         {
-            return new TerrainEffect(renderSystem);
+            return new WaterEffect(renderSystem);
         }
 
         public override void DestroyInstance(Effect fx)
