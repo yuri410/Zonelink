@@ -110,6 +110,7 @@
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
+    <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
@@ -129,9 +130,11 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="World\Atmosphere.cs" />
     <Compile Include="World\Border.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\PlanetEarth.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -218,6 +221,16 @@
     </None>
     <None Include="Effects\terrain.ps" />
     <None Include="Effects\terrain.vs" />
+    <None Include="Effects\water.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effects\water.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effects\water.ps">
+    </None>
+    <None Include="Effects\water.vs">
+    </None>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

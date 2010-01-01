@@ -53,6 +53,7 @@ namespace Code2015
 
             EffectManager.Initialize(renderSys);
             EffectManager.Instance.RegisterModelEffectType(TerrainEffectFactory.Name, new TerrainEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(WaterEffectFactory.Name, new WaterEffectFactory(renderSys));
 
             EffectManager.Instance.LoadEffects();
 
@@ -69,8 +70,12 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            PlanetEarth earth = new PlanetEarth(renderSys);
-            sm.SceneManager.AddObjectToScene(earth);
+            //PlanetEarth earth = new PlanetEarth(renderSys);
+            //sm.SceneManager.AddObjectToScene(earth);
+
+            OceanWater water = new OceanWater(renderSys);
+            sm.SceneManager.AddObjectToScene(water);
+
 
             renderer = new SceneRenderer(renderSys, sm);
             camera = new FpsCamera(1);
