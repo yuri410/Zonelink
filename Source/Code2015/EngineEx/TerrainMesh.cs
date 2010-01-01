@@ -418,12 +418,12 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
+                    float height = 0;// data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
 
-                    if (height > -TerrainMeshManager.PostZeroLevel)
-                    {
-                        height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
-                    }
+                    //if (height > -TerrainMeshManager.PostZeroLevel)
+                    //{
+                    //    height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    //}
 
                     Vector3 worldPos;
                     Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
