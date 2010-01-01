@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
@@ -11,36 +12,42 @@ namespace Code2015.BalanceSystem
     {
         [SLGValueAttribute()]
         const float OilWeight = 100000;
-
-        /// <summary>
-        /// 剩余的量
-        /// </summary>
-        public float RemainedOilWeight
+        new public float InitAmount
         {
             get;
             set;
         }
-        
-       
-        public float GetRemainedWeight(GameTime time1,GameTime time2)
-        {
-            return RemainedOilWeight = SourceAmount -(time1.ElapsedGameTime-time2.ElapsedGameTime)* ConsumeSpeed;
-        }
-        /// <summary>
-        /// 开采石油也要产生C
-        /// </summary>
-        /// <returns></returns>
-        public override float GetCarbonWeight()
-        {
-            return (SourceAmount - RemainedOilWeight) * 200;
-        }
 
+       
         public OilField()
         {
-            SetSourceAmount(OilWeight);
-            SetConsumeSpeed(10);
+            this.InitAmount = OilWeight;
         }
 
+        public void GetConsumeSpeed(FastList<CityPlugin> plugins)
+        {
+            CityPluginFactory factory = new CityPluginFactory();
+            CityPlugin oilrefinary = factory.MakeOilRefinary();
+            int num=0;
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                if (plugins[i].Name == "OilRefinary")
+                {
+                    num++;
+                }
+            }
+            this.ConsumeSpeed = num * oilrefinary.ProduceHLSpeed * 1.5f;
+        }
+
+        public override void Update(GameTime time)
+        {
+            this.RemainedAmount = this.InitAmount;
+            this.RemainedAmount -= time.ElapsedGameTime * this.ConsumeSpeed;
+            base.HPAmount = this.RemainedAmount;
+        }
+     
+
+      
 
        
 

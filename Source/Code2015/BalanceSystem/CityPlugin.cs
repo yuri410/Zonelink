@@ -19,11 +19,8 @@ namespace Code2015.BalanceSystem
             this.Name = name;
         }
 
-        public string GetCityPluginName()
-        {
-            return this.Name;
-        }
 
+        #region  属性
         /// <summary>
         /// 开始建造一个所需费用
         /// </summary>
@@ -41,9 +38,9 @@ namespace Code2015.BalanceSystem
             set;
         }
         /// <summary>
-        /// 高能产生的速度
+        /// 高能产生的速度,速度为正表示产生能量，为负值表示消耗能量
         /// </summary>
-        public float HighPowerSpeed
+        public float ProduceHLSpeed
         {
             get;
             set;
@@ -51,36 +48,30 @@ namespace Code2015.BalanceSystem
         /// <summary>
         /// 低能产生的速度
         /// </summary>
-        public float LowPower
+        public float ProduceLPSpeed
         {
             get;
             set;
         }
         /// <summary>
-        /// 产生的C
+        /// 产生的C，为正值表示释放C，为负值表示吸收碳
         /// </summary>
         public float CarbonWeight
         {
             get;
             set;
         }
-        /// <summary>
-        /// 消耗的能量
-        /// </summary>
-        public float ConsumePower
-        {
-            get;
-            set;
-        }       
+        #endregion
+
         public void NotifyAdded(City city)
         {
-           city.NotifyAdded(city);   
-        }
-        public void NotifyRemoved(City city)
-        { 
-            
+           
         }
 
+        public void NotifyRemoved(City city)
+        {
+
+        }
 
 
     }

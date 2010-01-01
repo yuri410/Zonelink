@@ -7,35 +7,35 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-   public  class EnergyStatus : IUpdatable
-    {
-        
 
-        private float currentHPEnergy, currentLPEnergy, remainingLPEnergy, renmainingHPEnergy;
+   public  class EnergyStatus : IUpdatable
+   {
+       [SLGValueAttribute()]
+       const float InitHPEnergy = 10000;
+       const float InitLPEnergy = 10000;
+
         public float CurrentHPEnergy
         {
-            get { return currentHPEnergy; }
-            set { currentHPEnergy = value; }
+            get;
+            set;
         }
         public float CurrentLPEnergy
         {
-            get { return currentLPEnergy; }
-            set { currentLPEnergy = value; }
+            get;
+            set;
         }
         public float RenmainingHPEnergy
         {
-            get { return renmainingHPEnergy; }
-            set { renmainingHPEnergy = value; }
+            get;
+            set;
         }
         public float RenmainingLPEnergy
         {
-            get { return remainingLPEnergy; }
-            set { remainingLPEnergy = value; }
+            get;
+            set;
         }
 
-
-
-        
+     
         public void Update(GameTime time)
         { }
 
