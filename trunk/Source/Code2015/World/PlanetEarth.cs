@@ -23,8 +23,8 @@ namespace Code2015.World
         [Obsolete()]
         const int MaxInstance = 25;
 
-        const int ColTileCount = 36;
-        const int LatTileCount = 12;
+        public const int ColTileCount = 36;
+        public const int LatTileCount = 12;
 
         #region 工具
         /// <summary>
@@ -202,10 +202,10 @@ namespace Code2015.World
             mats[0] = new Material[1];
             mats[0][0] = new Material(renderSys);
             
-            mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
+            //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
-            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.ZeroLevel, 2 * ColTileCount, 2 * LatTileCount, mats);
+            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.ZeroLevel, ColTileCount, LatTileCount, mats);
 
             base.ModelL0 = earthSphere;
 
