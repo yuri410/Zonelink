@@ -112,7 +112,7 @@ namespace Code2015.Effects
             state.MagFilter = TextureFilter.Anisotropic;
             state.MipFilter = TextureFilter.Anisotropic;
             state.MaxAnisotropy = 8;
-            state.MipMapLODBias = -1;
+            //state.MipMapLODBias = -2;
 
             pixShader.SetSamplerState("texDif", ref state);
             pixShader.SetTexture("texDif", mat.GetTexture(0));
