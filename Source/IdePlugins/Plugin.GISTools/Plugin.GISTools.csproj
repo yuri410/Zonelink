@@ -61,6 +61,7 @@
     <Compile Include="TDmpBlur.cs" />
     <Compile Include="TDmpLodGen.cs" />
     <Compile Include="TDmpMerger.cs" />
+    <Compile Include="TDmpNormalMapper.cs" />
     <Compile Include="TDmpResizer.cs" />
     <Compile Include="TextureColorCalculator.cs" />
   </ItemGroup>

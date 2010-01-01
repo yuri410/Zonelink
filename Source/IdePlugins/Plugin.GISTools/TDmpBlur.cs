@@ -296,8 +296,8 @@ namespace Plugin.GISTools
             }
         }
 
-
-        void OutPng(float [] data, int width, int height, string file)
+        
+        public static void OutPng(float[] data, int width, int height, string file)
         {
             Bitmap bmp = new Bitmap(width, height, PixelFormat.Format32bppArgb);
             BitmapData bmpData = bmp.LockBits(new System.Drawing.Rectangle(0, 0, width, height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);

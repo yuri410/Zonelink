@@ -238,6 +238,7 @@ namespace Code2015.EngineEx
             if (!sharedIBCache.TryGetValue(terrEdgeSize, out result ))
             {
                 result = new SharedBlockIndexData(renderSystem, terrEdgeSize);
+                sharedIBCache.Add(terrEdgeSize, result);
             }
             return result;
         }
@@ -251,12 +252,12 @@ namespace Code2015.EngineEx
                     {
                         loaded = true;
                         renderSystem = rs;
-                        SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 1025);
-                        SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 257);
-                        SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 65);
-                        sharedIBCache.Add(1025, sharedIdxBuffer1025);
-                        sharedIBCache.Add(257, sharedIdxBuffer257);
-                        sharedIBCache.Add(65, sharedIdxBuffer65);
+                        SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 513);
+                        SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 129);
+                        SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 33);
+                        sharedIBCache.Add(513, sharedIdxBuffer1025);
+                        sharedIBCache.Add(129, sharedIdxBuffer257);
+                        sharedIBCache.Add(33, sharedIdxBuffer65);
                     }
                 }
             }
