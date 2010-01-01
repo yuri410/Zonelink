@@ -12,7 +12,7 @@ namespace Plugin.GISTools
 {
     class TDmpResizer : ConverterBase
     {
-        const int ResizeSize = 1025;
+        const int ResizeSize = 513;
 
         public override void ShowDialog(object sender, EventArgs e)
         {
@@ -40,7 +40,6 @@ namespace Plugin.GISTools
                 pd.Dispose();
             }
         }
-
 
         public override void Convert(ResourceLocation source, ResourceLocation dest)
         {

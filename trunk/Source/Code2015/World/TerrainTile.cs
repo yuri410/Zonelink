@@ -41,10 +41,10 @@ namespace Code2015.World
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
-            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
+            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
             terrain1.Touch();
-            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
+            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
             //terrain2.Touch();
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
@@ -92,6 +92,17 @@ namespace Code2015.World
                         terrain1.Touch();
                     }
                     break;
+                 
+                    //if (terrain2.State == ResourceState.Loaded)
+                    //{
+                    //    ActiveTerrain = terrain2;
+                    //}
+                    //else
+                    //{
+                    //    terrain2.Touch();
+                    //}
+                    //break;
+                
                 default:
                     ActiveTerrain = null;
                     break;
@@ -103,9 +114,12 @@ namespace Code2015.World
 
                 if (tm.State == ResourceState.Loaded)
                 {
-                    Transformation = tm.Transformation;
-                    RequiresUpdate = true;
-                    BoundingSphere = tm.BoundingSphere;
+                    if (Transformation != tm.Transformation)
+                    {
+                        Transformation = tm.Transformation;
+                        RequiresUpdate = true;
+                        BoundingSphere = tm.BoundingSphere;
+                    }
                 }
 
                 ActiveTerrain.Resource.PrepareVisibleObjects(cam, level);
@@ -130,11 +144,11 @@ namespace Code2015.World
             {
                 terrain.Dispose();
                 terrain1.Dispose();
-                terrain2.Dispose();
+                //terrain2.Dispose();
             }
             terrain = null;
             terrain1 = null;
-            terrain2 = null;
+            //terrain2 = null;
         }
     }
 }

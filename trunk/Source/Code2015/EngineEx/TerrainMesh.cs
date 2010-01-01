@@ -216,7 +216,7 @@ namespace Code2015.EngineEx
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-            terrEdgeSize = 1025;
+            terrEdgeSize = 513 ;
 
             UpdateTransformation(radtc, radtl, terrEdgeSize, MathEx.Degree2Radian(10));
         }
@@ -257,7 +257,7 @@ namespace Code2015.EngineEx
             Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
 
             Vector3 position = PlanetEarth.GetInnerPosition(poscol, poslat, rad10);
-            Transformation = b1 * scaling * facing * Matrix.Translation(position);
+            Transformation = b1 *scaling* facing * Matrix.Translation(position);
 
             BoundingSphere.Center = position;
             BoundingSphere.Radius = terrSize * MathEx.Root2;
@@ -400,6 +400,8 @@ namespace Code2015.EngineEx
 
             float cellAngle = radSpan / (float)terrEdgeLen;
             #region 计算顶点坐标
+            float latScale = 1;// heightLen / (float)terrEdgeLen;
+
             // i为经度方向
             for (int i = 0; i < terrEdgeSize; i++)
             {
@@ -412,7 +414,7 @@ namespace Code2015.EngineEx
                 {
                     Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
                                     0,
-                                    i * TerrainMeshManager.TerrainScale);
+                                    i * TerrainMeshManager.TerrainScale * latScale);
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
@@ -448,36 +450,36 @@ namespace Code2015.EngineEx
             }
             #endregion
 
-            #region 计算顶点法向量
-            Vector3[] normalBuffer = new Vector3[terrEdgeLen * terrEdgeLen];
+            //#region 计算顶点法向量
+            //Vector3[] normalBuffer = new Vector3[terrEdgeLen * terrEdgeLen];
 
-            for (int i = 0; i < terrEdgeLen; i++)
-            {
-                for (int j = 0; j < terrEdgeLen; j++)
-                {
-                    int idx = i * terrEdgeSize + j;
+            //for (int i = 0; i < terrEdgeLen; i++)
+            //{
+            //    for (int j = 0; j < terrEdgeLen; j++)
+            //    {
+            //        int idx = i * terrEdgeSize + j;
 
-                    Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
-                    Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
+            //        Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
+            //        Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
 
-                    Vector3 n;
-                    Vector3.Cross(ref u, ref v, out n);
-                    n.Normalize();
+            //        Vector3 n;
+            //        Vector3.Cross(ref u, ref v, out n);
+            //        n.Normalize();
 
-                    normalBuffer[i * terrEdgeLen + j] = n;
-                }
-            }
+            //        normalBuffer[i * terrEdgeLen + j] = n;
+            //    }
+            //}
 
-            #endregion
+            //#endregion
 
-            Vector3[] resizedNrm = Resize(normalBuffer, terrEdgeLen, terrEdgeLen, terrEdgeSize, terrEdgeSize);
-            for (int i = 0; i < terrEdgeSize; i++)
-            {
-                for (int j = 0; j < terrEdgeSize; j++)
-                {
-                    vtxArray[i * terrEdgeSize + j].SetNormal(ref resizedNrm[i]);
-                }
-            }
+            //Vector3[] resizedNrm = Resize(normalBuffer, terrEdgeLen, terrEdgeLen, terrEdgeSize, terrEdgeSize);
+            //for (int i = 0; i < terrEdgeSize; i++)
+            //{
+            //    for (int j = 0; j < terrEdgeSize; j++)
+            //    {
+            //        vtxArray[i * terrEdgeSize + j].SetNormal(ref resizedNrm[i]);
+            //    }
+            //}
 
             #endregion
 
@@ -503,6 +505,8 @@ namespace Code2015.EngineEx
             }
             else
             {
+                indexBuffer = new IndexBuffer[1];
+
                 #region 索引数据
                 this.blockEdgeCount = 1;
                 this.blockCount = 1;
