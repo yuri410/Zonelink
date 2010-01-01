@@ -115,10 +115,10 @@ namespace Plugin.GISTools
             const int thgt = 513;
 
             const float HeightScale = 30;
-            
-                TDMPIO src = new TDMPIO();
-                src.Load(source);
-            
+
+            TDMPIO src = new TDMPIO();
+            src.Load(source);
+
             float[] data = TDmpLodGen.Resize(src.Data, src.Width, src.Height, twid + 1, thgt + 1);
             int width = twid;
             int height = thgt;
