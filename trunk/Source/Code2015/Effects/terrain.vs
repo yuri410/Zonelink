@@ -34,7 +34,7 @@ VSOutput main(VSInput ip)
     o.DetailCoord /= terrSize;
 
 	float3 center = (float3)mul(float4(0, 0, 0, 1), invWorld);
-	o.ModNormal = ip.Position - center;
+	o.ModNormal = (float3)ip.Position - center;
 	
 	// lerp(left, right, o.DetailCoord.x) + lerp(top, bottom, o.DetailCoord.y);
 	
