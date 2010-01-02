@@ -11,66 +11,71 @@ namespace Code2015.BalanceSystem
       
     public class Forest : NaturalResource
     {
-        /// <summary>
-        /// 森林的初始数目，固碳速度
-        /// </summary>
         [SLGValueAttribute()]
-        const float ForestAmount = 10000;
-        const float AbsorbCarbonSpeed = 1000;
-        public Forest()
-        {
-            this.InitAmount = ForestAmount;
-        }
+        const float INITForestAmount = 100000;
+        const float ABSORBCarbonSpeed = 1000;
 
-        public Forest(string name)
+        public float AbsorbCarbonSpeed
         {
-            this.Name = name;
-            this.InitAmount = ForestAmount;
+            get;
+            set;
         }
-
-        public float AbsorbCspeed
+        public Forest(FastList<City> cities)
         {
-            get
-            {
-                return AbsorbCarbonSpeed;
-            }
-            set
-            {
-                value = AbsorbCarbonSpeed;
-            }
-       
-        }
-        /// <summary>
-        /// 森林被消耗的速度
-        /// </summary>
-        public void GetConsumeSpeed(FastList<City> cities)
-        {
-            float woodconsumespeed = 0;
-            for (int i = 0; i < cities.Count; i++)
-            {
-                woodconsumespeed += cities[i].ProduceLPSpeed * 1.5f;
-            }
-            this.ConsumeSpeed = woodconsumespeed;
-            
-        }
-     
-            
-        /// <summary>
-        /// 可以重写生产的速度
-        /// </summary>
-        /// <param name="speed"></param>
-        public override void SetProduceSpeed(float speed)
-        {
+            GetConsumSpeed(cities);
+            this.InitAmount = INITForestAmount;
+            this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
             this.ProduceSpeed = 100;
         }
-
-        public override void Update(GameTime time)
+        public Forest()
         {
-            this.InitAmount -= time.ElapsedGameTime.Days * (this.ConsumeSpeed - this.ProduceSpeed);
-            this.RemainedAmount = this.InitAmount;
-            this.CarbonWeight += -(this.AbsorbCspeed * this.RemainedAmount);
+            this.InitAmount = INITForestAmount;
+            this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
+            this.ProduceSpeed = 100;
+        }
+        /// <summary>
+        /// 玩家用于设置森林的再生速度
+        /// </summary>
+        /// <param name="speed"></param>
+        public override void GetProduceSpeed(float speed)
+        {
+            base.GetProduceSpeed(speed);
         }
 
-
+        /// <summary>
+        /// 得到森林消耗的速度
+        /// </summary>
+        /// <param name="cities"></param>
+        public void GetConsumSpeed(FastList<City> cities)
+        {
+            float totalspeed = 0;
+            if (cities.Count != 0)
+            {
+                for (int i = 0; i < cities.Count; i++)
+                {
+                    FastList<CityPlugin> plugins = cities[i].GetPlugins();
+                    if (cities[i].GetPlugins().Count != 0)
+                    {  
+                        for (int j = 0; j < plugins.Count; j++)
+                        {
+                            totalspeed += plugins[i].ProduceLPSpeed * 1.5f;//工厂中只有木材工厂才消耗森林
+                        }
+                    }
+                }
+                this.ConsumeSpeed += totalspeed;
+            }
+            else
+            {
+                this.ConsumeSpeed = 0;
+            }
+        }
+        public override void Update(GameTime time)
+        {
+            base.Update(time);
+            this.RemainedAmount = this.InitAmount;
+            this.RemainedAmount += (this.ProduceSpeed - this.ConsumeSpeed) * time.ElapsedGameTime.Days;
+            this.CarbonWeight = -(this.AbsorbCarbonSpeed * this.RemainedAmount);//负值表示吸收，正值表示产生
+        }
+     
     }
 }

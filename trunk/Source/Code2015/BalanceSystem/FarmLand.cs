@@ -13,31 +13,30 @@ namespace Code2015.BalanceSystem
     public class FarmLand : NaturalResource
     {
         [SLGValueAttribute()]
-        const float InitFoodAmount = 10000;
+        const float InitFoodAmount = 100000;
         const float AbsorbCarbonSpeed = 1000;
-       
+
+        FastList<PlantSpecies> FoodPlants;
         public FarmLand()
         {
+            FoodPlants = new FastList<PlantSpecies>();
             this.InitAmount = InitFoodAmount;
+            this.AbsorbCspeed = AbsorbCarbonSpeed;
         }
 
         public FarmLand(string name)
         {
+            FoodPlants = new FastList<PlantSpecies>();
             this.Name = name;
             this.InitAmount = InitFoodAmount ;
+            this.AbsorbCspeed = AbsorbCarbonSpeed;
         }
 
-        FastList<PlantSpecies> FoodPlants = new FastList<PlantSpecies>();
+        
         public float AbsorbCspeed
         {
-            get
-            {
-                return AbsorbCarbonSpeed;
-            }
-            set
-            {
-                AbsorbCspeed = AbsorbCarbonSpeed;
-            }
+            get;
+            set;
         }
         /// <summary>
         /// 土壤等级
@@ -67,7 +66,7 @@ namespace Code2015.BalanceSystem
             }
         }
         /// <summary>
-        /// 得到用户选择的农作物
+        /// 得以得到用户选择的农作物
         /// </summary>
         /// <returns></returns>
         public PlantSpecies GetUserCplant()

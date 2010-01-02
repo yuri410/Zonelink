@@ -19,11 +19,12 @@ namespace Code2015.BalanceSystem
             set;
         }
 
-        NaturalResource naturalresource = new NaturalResource();
-        City city = new City();
+        NaturalResource naturalresource;
+        City city; 
         public Simulateobject()
         {
-            
+            //naturalresource= new NaturalResource();
+            //city=new City();
         }
         public virtual float GetCarbonWeight()
         {
@@ -33,6 +34,7 @@ namespace Code2015.BalanceSystem
         public virtual void Update(GameTime time)
         {
             naturalresource.Update(time);
+            city.Update(time);
             this.CarbonWeight += (naturalresource.CarbonWeight+city.CarbonWeight);
         }
     }

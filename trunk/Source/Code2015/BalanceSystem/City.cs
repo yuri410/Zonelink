@@ -195,8 +195,8 @@ namespace Code2015.BalanceSystem
         }
      
         public override void Update(GameTime time)
-        {
-            this.CarbonWeight = this.CarbonSpeed * time.ElapsedGameTime.Days;
+        {         
+                this.CarbonWeight += this.CarbonSpeed * time.ElapsedGameTime.Days;
         }
     }
 }

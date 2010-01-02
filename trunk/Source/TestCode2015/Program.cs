@@ -14,7 +14,10 @@ namespace TestCode2015
     {
         static void Main(string[] args)
         {
-           
+          
+
+            GameTime time = new GameTime(100, 1, new TimeSpan(10, 10, 10, 10), new TimeSpan(1, 1, 1, 1));
+
                 Console.ReadLine();
         }
        
