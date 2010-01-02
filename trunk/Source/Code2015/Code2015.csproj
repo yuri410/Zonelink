@@ -110,11 +110,13 @@
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
+    <Compile Include="Effects\SkyboxEffect.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
+    <Compile Include="EngineEx\SkyBox.cs" />
     <Compile Include="EngineEx\TerrainMesh.cs" />
     <Compile Include="EngineEx\TerrainMeshManager.cs" />
     <Compile Include="EngineEx\TerrainTexture.cs" />
@@ -228,6 +230,8 @@
     </None>
     <None Include="Effects\water.vs">
     </None>
+    <None Include="Effects\skybox.ps" />
+    <None Include="Effects\skybox.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
