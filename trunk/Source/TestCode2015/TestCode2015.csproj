@@ -61,10 +61,6 @@
       <Project>{726180A4-EE3E-478D-A5F9-985F56393AA7}</Project>
       <Name>Apoc3D.Graphics</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\..\apoc3d\Source\Apoc3D.Ide\Apoc3D.Ide.csproj">
-      <Project>{AA72D449-B468-4698-A28D-926E2225FC5A}</Project>
-      <Name>Apoc3D.Ide</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Code2015\Code2015.csproj">
       <Project>{9CCB378A-849F-4578-BAE9-DAA749B63FAD}</Project>
       <Name>Code2015</Name>

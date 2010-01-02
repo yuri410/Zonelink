@@ -12,45 +12,51 @@ namespace Code2015.BalanceSystem
     {
         [SLGValueAttribute()]
         const float OilWeight = 100000;
-        new public float InitAmount
-        {
-            get;
-            set;
-        }
-
-       
+        const float EmitCarbonSpeed = 50;
         public OilField()
         {
             this.InitAmount = OilWeight;
         }
 
+        public float EmitCspeed
+        {
+            get { return EmitCarbonSpeed; }
+            set { EmitCspeed = EmitCarbonSpeed; }
+        }
+        public OilField(string name)
+        {
+            this.Name = name;
+            this.InitAmount = OilWeight;
+        }
+        /// <summary>
+        /// 得到区域内部石油的消耗速度
+        /// </summary>
+        /// <param name="cities"></param>
+        public void GetConsumeSpeed(FastList<City> cities)
+        {
+            float oilconsumespeed = 0;
+            for (int i = 0; i < cities.Count; i++)
+            {
+                oilconsumespeed += cities[i].ProduceLPSpeed * 1.5f;
+            }
+            this.ConsumeSpeed = oilconsumespeed;
+
+        }
+        /// <summary>
+        /// 石油的产生速度为0
+        /// </summary>
+        /// <param name="plugins"></param>
         public void GetConsumeSpeed(FastList<CityPlugin> plugins)
         {
-            CityPluginFactory factory = new CityPluginFactory();
-            CityPlugin oilrefinary = factory.MakeOilRefinary();
-            int num=0;
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                if (plugins[i].Name == "OilRefinary")
-                {
-                    num++;
-                }
-            }
-            this.ConsumeSpeed = num * oilrefinary.ProduceHLSpeed * 1.5f;
+            this.ProduceSpeed = 0;
         }
 
         public override void Update(GameTime time)
         {
             this.RemainedAmount = this.InitAmount;
-            this.RemainedAmount -= time.ElapsedGameTime * this.ConsumeSpeed;
-            base.HPAmount = this.RemainedAmount;
+            this.RemainedAmount -= time.ElapsedGameTime.Days * this.ConsumeSpeed;
+            this.CarbonWeight += this.EmitCspeed * this.RemainedAmount;
         }
-     
-
-      
-
-       
-
 
     }
 }

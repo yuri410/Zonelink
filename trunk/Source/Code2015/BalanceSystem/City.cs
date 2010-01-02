@@ -7,8 +7,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-   
-   
+  
 
    /// <summary>
     ///  表示城市的大小
@@ -23,7 +22,7 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示一座城市
     /// </summary>
-   public  class City : IUpdatable
+   public  class City : Simulateobject,IUpdatable
     {
         [SLGValueAttribute()]
         const int TownPluginCount = 1;
@@ -34,20 +33,17 @@ namespace Code2015.BalanceSystem
 
         public City()
         {
-            GetProHPSpeed();
-            GetProLPSpeed();
+            InitialCity();
         }
         public City(UrbanSize size)
         {
             this.Size = size;
-            GetProHPSpeed();
-            GetProLPSpeed();
+            InitialCity();
         }
         public City(string name)
         {
             this.Name = name;
-            GetProHPSpeed();
-            GetProLPSpeed();
+            InitialCity();
         }
 
         /// <summary>
@@ -72,7 +68,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public float FoodCost
+        public float FoodCostSpeed
         {
             get;
             set;
@@ -123,91 +119,84 @@ namespace Code2015.BalanceSystem
                 return 0;
             }
         }
-
-
+        
         public void Add(CityPlugin plugin)
         {
             plugins.Add(plugin);
-            GetProLPSpeed();
-            GetProHPSpeed();
+            InitialCity();
             plugin.NotifyAdded(this);
         }
 
         public void Remove(CityPlugin plugin) 
         {
             plugins.Remove(plugin);
-            GetProLPSpeed();
-            GetProHPSpeed();
+            InitialCity();
             plugin.NotifyRemoved(this);
         }
        /// <summary>
-       /// 得到城市添加或移除CityPlugin低能的消耗速度
+       ///  初始化城市的属性设置
        /// </summary>
-        public void GetProLPSpeed()
+        public void InitialCity()
         {
-            float pluginspeed = 0;
+            float pluginLPspeed = 0;
+            float pluginHPspeed = 0;
+            float FoodCostSpeed = 0;
             switch (Size)
-            { 
+            {
                 case UrbanSize.Large:
-                    this.ProduceHPSpeed = -100;
-                    this.ProduceLPSpeed = -100;
-                    break;
+                    
+                        this.ProduceHPSpeed = -100;
+                        this.ProduceLPSpeed = -100;
+                        this.Population = 100000;
+                        this.FoodCostSpeed = 50;
+                        this.CarbonSpeed = 500;
+                        break;
                 case UrbanSize.Normal:
-                    this.ProduceHPSpeed = -80;
-                    this.ProduceLPSpeed = -80;
-                    break;
+                        this.ProduceHPSpeed = -80;
+                        this.ProduceLPSpeed = -80;
+                        this.Population = 50000;
+                        this.FoodCostSpeed = 30;
+                        this.CarbonSpeed = 300;
+                        break;
                 case UrbanSize.Town:
-                    this.ProduceHPSpeed = -50;
-                    this.ProduceLPSpeed = -50;
-                    break;
+                        this.ProduceHPSpeed = -50;
+                        this.ProduceLPSpeed = -50;
+                        this.Population = 20000;
+                        this.FoodCostSpeed = 10;
+                        this.CarbonSpeed = 100;
+                        break;
             }
-           
             if (plugins.Count != 0)
             {
                 for (int i = 0; i < plugins.Count; i++)
                 {
-                    pluginspeed += plugins[i].ProduceLPSpeed;   
+                    pluginHPspeed += plugins[i].ProduceHLSpeed;
+                    pluginLPspeed += plugins[i].ProduceLPSpeed;
+                    if (plugins[i].Name == "BioEnergyFactory")
+                        FoodCostSpeed += plugins[i].ProduceHLSpeed * 1.5f;
                 }
+                this.ProduceHPSpeed += pluginHPspeed;
+                this.ProduceLPSpeed += pluginLPspeed;
+                this.FoodCostSpeed += FoodCostSpeed;
             }
-            this.ProduceLPSpeed += pluginspeed;
         }
        /// <summary>
-        /// 得到城市添加或移除CityPlugin高能的消耗速度
+       /// 得到当前城市拥有的Plugins
        /// </summary>
-        public void GetProHPSpeed()
+       /// <returns></returns>
+        public FastList<CityPlugin> GetPlugins()
         {
-            float pluginspeed = 0;
-            switch (Size)
-            {
-                case UrbanSize.Large:
-                    this.ProduceHPSpeed = -100;
-                    this.ProduceLPSpeed = -100;
-                    break;
-                case UrbanSize.Normal:
-                    this.ProduceHPSpeed = -80;
-                    this.ProduceLPSpeed = -80;
-                    break;
-                case UrbanSize.Town:
-                    this.ProduceHPSpeed = -50;
-                    this.ProduceLPSpeed = -50;
-                    break;
-            }
-           
             if (plugins.Count != 0)
-            {
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    pluginspeed += plugins[i].ProduceHLSpeed;
-                }
 
-                this.ProduceHPSpeed += pluginspeed;
-            }
-           
+                return plugins;
+            else
+                return new FastList<CityPlugin>();
+            
         }
-
-        public void Update(GameTime time)
+     
+        public override void Update(GameTime time)
         {
-          
+            this.CarbonWeight = this.CarbonSpeed * time.ElapsedGameTime.Days;
         }
     }
 }
