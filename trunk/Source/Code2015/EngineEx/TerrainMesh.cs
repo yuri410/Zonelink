@@ -25,13 +25,13 @@ namespace Code2015.EngineEx
         struct TerrainVertex
         {
             public Vector3 Position;
-            public Half u;
-            public Half v;
+            public float u;
+            public float v;
             //public Half nx;
             //public Half ny;
             //public Half nz;
             //public Half dummy;
-            public int Normal;
+            public float Index;
 
             static VertexElement[] elements;
             static int size = sizeof(TerrainVertex);
@@ -40,9 +40,9 @@ namespace Code2015.EngineEx
                 elements = new VertexElement[3];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
                 elements[1] = new VertexElement(elements[0].Size,
-                    VertexElementFormat.HalfVector2, VertexElementUsage.TextureCoordinate, 0);
+                    VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
                 elements[2] = new VertexElement(elements[1].Size + elements[1].Offset,
-                    VertexElementFormat.Color, VertexElementUsage.TextureCoordinate, 1);
+                    VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 1);
 
                 //elements[2] = new VertexElement(elements[1].Offset + elements[1].Size,
                 //    VertexElementFormat.HalfVector4, VertexElementUsage.TextureCoordinate, 1);
@@ -54,7 +54,7 @@ namespace Code2015.EngineEx
                 //ny = new Half(y);
                 //nz = new Half(z);
 
-                Normal = MathEx.Vector2ARGB(ref n); //ColorValue.PackValue(
+                Index = MathEx.Vector2ARGB(ref n); //ColorValue.PackValue(
                     //0.5f * (x + 1),
                     //0.5f * (y + 1),
                     //0.5f * (z + 1), 1);
@@ -72,6 +72,8 @@ namespace Code2015.EngineEx
         }
 
         FileLocation resLoc;
+        FileLocation nrmMapLoc;
+        Texture normalMap;
 
         /// <summary>
         ///  地形一条边上的顶点数
@@ -182,6 +184,10 @@ namespace Code2015.EngineEx
             get { return tileLat; }
         }
 
+        public int TerrainSize
+        {
+            get { return terrEdgeSize; }
+        }
 
         public static string GetHashString(int x, int y, int lod)
         {
@@ -196,6 +202,9 @@ namespace Code2015.EngineEx
 
             resLoc = FileSystem.Instance.TryLocate(
                 "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
+            nrmMapLoc = FileSystem.Instance.TryLocate(
+                "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TextureData.Extension, GameFileLocs.Terrain);
+
             dataLevel = lod;
             renderSystem = rs;
             factory = rs.ObjectFactory;
@@ -209,15 +218,27 @@ namespace Code2015.EngineEx
             //material.Specular = terrData.MaterialSpecular;
             //material.Power = terrData.MaterialPower;
             material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-            material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffectFactory.Name));
-
+           
             tileCol = x * 5 - 185;
             tileLat = 50 - y * 5;
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-            terrEdgeSize = 513 ;
-
+            switch (lod)
+            {
+                case 0:
+                    terrEdgeSize = 513;
+                    break;
+                case 1:
+                    terrEdgeSize = 129;
+                    break;
+                case 2:
+                    terrEdgeSize = 33;
+                    break;
+                default:
+                    terrEdgeSize = 513;
+                    break;
+            }
             UpdateTransformation(radtc, radtl, terrEdgeSize, MathEx.Degree2Radian(10));
         }
 
@@ -254,7 +275,8 @@ namespace Code2015.EngineEx
 
             facing.Forward = -v;// PlanetEarth.GetTangentY(poscol, poslat);            
 
-            Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
+            Matrix scaling = Matrix.Scaling(1.00383f, 1, heightLen / terrSize);
+            //Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
 
             Vector3 position = PlanetEarth.GetInnerPosition(poscol, poslat, rad10);
             Transformation = b1 *scaling* facing * Matrix.Translation(position);
@@ -263,72 +285,7 @@ namespace Code2015.EngineEx
             BoundingSphere.Radius = terrSize * MathEx.Root2;
         }
 
-        public static Vector3[] Resize(Vector3[] inp, int width, int height, int tw, int th)
-        {
-            Vector3[] result = new Vector3[tw * th];
-            float wzoom = width / (float)tw;
-            float hzoom = height / (float)th;
-
-            Vector3[] buffer = new Vector3[16];
-            float[] afu = new float[4];
-            float[] afv = new float[4];
-
-            for (int i = 0; i < th; i++)
-            {
-                float srcy = (i + 0.5f) * hzoom - 0.5f;
-                int y0 = (int)srcy; if (y0 > srcy) --y0;
-
-                for (int j = 0; j < tw; j++)
-                {
-                    float srcx = (j + 0.5f) * wzoom - 0.5f;
-
-                    int x0 = (int)srcx; if (x0 > srcx) --x0;
-
-                    float fv = srcx - x0;
-                    float fu = srcy - y0;
-
-                    for (int ii = 0; ii < 4; ii++)
-                    {
-                        for (int jj = 0; jj < 4; jj++)
-                        {
-                            int x = x0 + jj - 1;
-                            int y = y0 + ii - 1;
-
-                            if (x < 0) x = 0;
-                            if (y < 0) y = 0;
-                            if (x >= width) x = width - 1;
-                            if (y >= height) y = height - 1;
-
-                            buffer[ii * 4 + jj] = inp[y * width + x];
-                        }
-                    }
-
-                    afu[0] = MathEx.Sinc(1 + fu);
-                    afu[1] = MathEx.Sinc(fu);
-                    afu[2] = MathEx.Sinc(1 - fu);
-                    afu[3] = MathEx.Sinc(2 - fu);
-                    afv[0] = MathEx.Sinc(1 + fv);
-                    afv[1] = MathEx.Sinc(fv);
-                    afv[2] = MathEx.Sinc(1 - fv);
-                    afv[3] = MathEx.Sinc(2 - fv);
-
-                    Vector3 s = Vector3.Zero;
-                    for (int ii = 0; ii < 4; ii++)
-                    {
-                        Vector3 a = Vector3.Zero;
-                        for (int jj = 0; jj < 4; jj++)
-                        {
-                            a += afu[jj] * buffer[ii * 4 + jj];
-                        }
-                        s += a * afv[ii];
-                    }
-
-                    result[i * th + j] = s;
-                }
-            }
-            return result;
-        }
-
+        
         #region Resource实现
         public override int GetSize()
         {
@@ -351,6 +308,11 @@ namespace Code2015.EngineEx
                         break;
                 }
             }
+            if (nrmMapLoc != null)
+            {
+                if (normalMap != null)
+                    size += normalMap.ContentSize;
+            }
 
             return size;
         }
@@ -359,6 +321,13 @@ namespace Code2015.EngineEx
         {
             if (resLoc == null)
                 return;
+
+            if (nrmMapLoc != null)
+            {
+                normalMap = TextureManager.Instance.CreateInstanceUnmanaged(nrmMapLoc);
+
+                material.SetTexture(1, new ResourceHandle<Texture>(normalMap));
+            }
 
             // 读取地形数据
             TDMPIO data = new TDMPIO();
@@ -380,6 +349,20 @@ namespace Code2015.EngineEx
             int terrEdgeLen = terrEdgeSize - 1;
             isBlockTerrain = terrEdgeSize >= TerrainBlockSize;
 
+            switch (terrEdgeSize)
+            {
+                case 33:
+                    material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect33Factory.Name));
+                    break;
+                case 129:
+                    material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect129Factory.Name));
+                    break;
+                case 513:
+                default:
+                    material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect513Factory.Name));
+                    break;
+            }
+
             #region 顶点数据
 
             vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
@@ -389,11 +372,7 @@ namespace Code2015.EngineEx
             TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
             #region 计算局部坐标系下的地心坐标
-            //float beta = 0.5f * (MathEx.PIf - radSpan);
-
-            //Vector3 localEarthCenter = new Vector3(terrEdgeLen * 0.5f, 0, terrEdgeLen * 0.5f);
-            //localEarthCenter.Y = -(float)Math.Sin(beta) * PlanetRadius;
-
+            
             Matrix invTrans = Matrix.Invert(Transformation);
             Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
             #endregion
@@ -418,12 +397,12 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = 0;// data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
+                    float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
 
-                    //if (height > -TerrainMeshManager.PostZeroLevel)
-                    //{
-                    //    height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
-                    //}
+                    if (height > -TerrainMeshManager.PostZeroLevel)
+                    {
+                        height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    }
 
                     Vector3 worldPos;
                     Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
@@ -437,49 +416,18 @@ namespace Code2015.EngineEx
 
                     //normal = Vector3.Normalize(worldPos);
                     //vtxArray[index].SetNormal(normal.X, normal.Y, normal.Z);
-
+                    vtxArray[index].Index = index;
                     float curCol = radtc + j * cellAngle;
                     float curLat = radSpan + radtl - i * cellAngle;
 
                     curCol += MathEx.PIf;
                     curLat += MathEx.Degree2Radian(5);
 
-                    vtxArray[index].u = new Half(0.5f * curCol / MathEx.PIf);
-                    vtxArray[index].v = new Half((-curLat + MathEx.PiOver2) / MathEx.PIf);
+                    vtxArray[index].u = 0.5f * curCol / MathEx.PIf;
+                    vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
                 }
             }
             #endregion
-
-            //#region 计算顶点法向量
-            //Vector3[] normalBuffer = new Vector3[terrEdgeLen * terrEdgeLen];
-
-            //for (int i = 0; i < terrEdgeLen; i++)
-            //{
-            //    for (int j = 0; j < terrEdgeLen; j++)
-            //    {
-            //        int idx = i * terrEdgeSize + j;
-
-            //        Vector3 u = vtxArray[idx].Position - vtxArray[i * terrEdgeSize + j + 1].Position;
-            //        Vector3 v = vtxArray[idx].Position - vtxArray[(i + 1) * terrEdgeSize + j].Position;
-
-            //        Vector3 n;
-            //        Vector3.Cross(ref u, ref v, out n);
-            //        n.Normalize();
-
-            //        normalBuffer[i * terrEdgeLen + j] = n;
-            //    }
-            //}
-
-            //#endregion
-
-            //Vector3[] resizedNrm = Resize(normalBuffer, terrEdgeLen, terrEdgeLen, terrEdgeSize, terrEdgeSize);
-            //for (int i = 0; i < terrEdgeSize; i++)
-            //{
-            //    for (int j = 0; j < terrEdgeSize; j++)
-            //    {
-            //        vtxArray[i * terrEdgeSize + j].SetNormal(ref resizedNrm[i]);
-            //    }
-            //}
 
             #endregion
 
@@ -580,6 +528,11 @@ namespace Code2015.EngineEx
             {
                 vtxDecl.Dispose();
                 vtxDecl = null;
+            }
+            if (normalMap != null)
+            {
+                normalMap.Dispose();
+                normalMap = null;
             }
             indexBuffer = null;
             if (rootNode != null)
