@@ -16,7 +16,7 @@ namespace Code2015.Graphics
     /// <summary>
     ///  定义一个天空盒
     /// </summary>
-    public class SkyBox : SceneObject, IConfigurable, IDisposable
+    public class SkyBox : SceneObject, IDisposable
     {
         struct SkyVertex
         {

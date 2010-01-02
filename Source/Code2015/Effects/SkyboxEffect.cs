@@ -86,7 +86,6 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-
         }
 
         public override void SetupShadowPass(Material mat, ref RenderOperation op)
@@ -95,6 +94,8 @@ namespace Code2015.Effects
 
         protected override void Dispose(bool disposing)
         {
+            vtxShader.Dispose();
+            pixShader.Dispose();
         }
     }
 }
