@@ -7,70 +7,132 @@ using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-  
-    /// <summary>
-    /// 农作物的类
-    /// </summary>
-    public enum KindofPlant { Wheat,Rice,Corn,Bean,Peanut}
+
+    public enum Grade { Bad, Medium, Fine };
+   
     public class FarmLand : NaturalResource
     {
         [SLGValueAttribute()]
-        const float HarvestNeedTime = 5;
-        
-        public string Name
+        const float InitFoodAmount = 10000;
+        const float AbsorbCarbonSpeed = 1000;
+       
+        public FarmLand()
         {
-            get;
-            set;
+            this.InitAmount = InitFoodAmount;
         }
+
         public FarmLand(string name)
         {
-          
             this.Name = name;
+            this.InitAmount = InitFoodAmount ;
         }
-        
+
+        FastList<PlantSpecies> FoodPlants = new FastList<PlantSpecies>();
+        public float AbsorbCspeed
+        {
+            get
+            {
+                return AbsorbCarbonSpeed;
+            }
+            set
+            {
+                AbsorbCspeed = AbsorbCarbonSpeed;
+            }
+        }
         /// <summary>
-        /// 农场种植的农作物
+        /// 土壤等级
         /// </summary>
-        public FastList<PlantSpecies> PlantsOfFarm
+        public Grade GradeOfSoil
         {
             get;
-            set;
+            private set;
         }
         /// <summary>
-        /// 从用户获得的要种植的农作物
+        /// 每天产量
         /// </summary>
-        /// <param name="plantsoffarm"></param>
-        public void GetPlantsOfFarm(FastList<PlantSpecies> plantsoffarm)
+        public float ProduceFoodSpeed
         {
-            this.PlantsOfFarm = plantsoffarm;
+            get
+            {
+                switch (GradeOfSoil)
+                {
+                    case Grade.Fine:
+                        return 1000;
+                    case Grade.Medium:
+                        return 800;
+                    case Grade.Bad:
+                        return 400;
+                }
+                return 0;
+            }
+        }
+        /// <summary>
+        /// 得到用户选择的农作物
+        /// </summary>
+        /// <returns></returns>
+        public PlantSpecies GetUserCplant()
+        { 
+            PlantSpecies plant=new PlantSpecies();
+            return plant;
+        }
+        /// <summary>
+        /// 得到土壤等级
+        /// </summary>
+        public void GetGradeofSoil()
+        {
+            PlantSpecies foodplant = GetUserCplant();
+            if (Add(foodplant))
+            {
+                if (FoodPlants.Count == 0)
+                {
+                    this.GradeOfSoil = Grade.Fine;
+                }
+                else if (FoodPlants.Count > 0 && (GradeOfSoil > 0))
+                {
+                    int i = FoodPlants.Count;
+                    if (FoodPlants[i - 1].Name == foodplant.Name)
+                    {
+                        int grade = (int)GradeOfSoil;
+                        GradeOfSoil = (Grade)(grade - 1);
+                    }
+
+                }
+            }
+        }
+        /// <summary>
+        /// 得到所有城市消耗的粮食速度，包括工厂消耗和城市本身消耗
+        /// </summary>
+        /// <param name="cyties"></param>
+        public void GetConsumeSpeed(FastList<City> cyties)
+        {
+            float totalspeed = 0;
+            for (int i = 0; i < cyties.Count; i++)
+            {
+                totalspeed += cyties[i].FoodCostSpeed;
+            }
+            this.ConsumeSpeed = totalspeed;
+        }
+
+        public bool Add(PlantSpecies foodplant)
+        {
+            FoodPlants.Add(foodplant);
+            GetGradeofSoil();
+            return true;
+        }
+
+        public void Remove(PlantSpecies foodplant)
+        {
+            FoodPlants.Remove(foodplant);
+        }
+
+        public override void Update(GameTime time)
+        {
+            GetGradeofSoil();
+            this.InitAmount = InitFoodAmount;
+            this.InitAmount += (ConsumeSpeed - ProduceFoodSpeed) * time.ElapsedGameTime.Days;
+            this.CarbonWeight += -(this.InitAmount * this.AbsorbCspeed);
         }
 
 
-        public float GetHarvestTime()
-        {
-            return HarvestNeedTime;
-        }
-
-        public string SetPlantOfFarm(string name)
-        {
-            FarmLand farm = new FarmLand(name);
-            return farm.Name;
-        }
-
-       
-        public FastList<PlantSpecies> InitFarm()
-        {
-            FastList<PlantSpecies> farms = new FastList<PlantSpecies>();
-            farms.Add(new PlantSpecies("Wheat"));//小麦
-            farms.Add(new PlantSpecies("Rice"));//水稻
-            return farms;
-        }
-
-
-       
-      
-      
-
-     
     }
 }

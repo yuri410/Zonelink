@@ -18,7 +18,8 @@ namespace Code2015.BalanceSystem
         {
             this.Name = name;
         }
-
+        public CityPlugin()
+        { }
 
         #region  属性
         /// <summary>

@@ -14,6 +14,8 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
+        public PlantSpecies()
+        { }
         public PlantSpecies(string name)
         {
             Name = name;
