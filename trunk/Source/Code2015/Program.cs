@@ -27,8 +27,8 @@ namespace Code2015
             pm.BackBufferWidth = Properties.Settings.Default.ScreenWidth;
             pm.BackBufferHeight = Properties.Settings.Default.ScreenHeight;
             pm.IsWindowed = Properties.Settings.Default.IsWindowed;
-            pm.DepthFormat = DepthFormat.Depth24Stencil8;
-
+            pm.DepthFormat = DepthFormat.Depth32;
+            
 
             RenderControl ctrl = devContent.Create(pm);
 
