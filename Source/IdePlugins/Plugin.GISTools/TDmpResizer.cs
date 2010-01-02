@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
+using System.Windows.Forms;
+using Apoc3D.Graphics;
+using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
 using Apoc3D.Vfs;
-using Apoc3D.Ide;
-using System.Windows.Forms;
-using System.IO;
-using Apoc3D.Graphics;
 
 namespace Plugin.GISTools
 {

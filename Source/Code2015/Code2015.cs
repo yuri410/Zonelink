@@ -52,7 +52,9 @@ namespace Code2015
             ConfigurationManager.Instance.Register(new ConfigurationIniFormat());
 
             EffectManager.Initialize(renderSys);
-            EffectManager.Instance.RegisterModelEffectType(TerrainEffectFactory.Name, new TerrainEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(TerrainEffect513Factory.Name, new TerrainEffect513Factory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(TerrainEffect129Factory.Name, new TerrainEffect129Factory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(TerrainEffect33Factory.Name, new TerrainEffect33Factory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(WaterEffectFactory.Name, new WaterEffectFactory(renderSys));
 
             EffectManager.Instance.LoadEffects();

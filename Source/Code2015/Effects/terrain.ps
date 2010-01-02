@@ -1,14 +1,16 @@
 
-sampler2D texDif;
-
 sampler2D texDet[4];
-sampler2D texColor;
+sampler2D texDif : register(s4);
+sampler2D texColor : register(s5);
+sampler2D texNrm : register(s6);
 
 struct PSInput
 {
-    float2 TexCoord1 : TEXCOORD0; 
-    float2 TexCoord2 : TEXCOORD1; 
-    float3 Normal : TEXCOORD2;
+    float2 GlobeCoord : TEXCOORD0; 
+    float2 DetailCoord : TEXCOORD1; 
+	float3 ModNormal : TEXCOORD2;
+
+    float3 LightDir : TEXCOORD3;
 };
 
 struct PSOutput
@@ -19,10 +21,17 @@ struct PSOutput
 PSOutput main(PSInput ip)
 {
     PSOutput o;
-    float3 lightDir = float3(1,0,0);
-    float ndl = dot(ip.Normal, lightDir);
+    float3 lightDir = ip.LightDir;
+    
+    float3 N = 2 * (float3)tex2D(texNrm, ip.DetailCoord) - 1;
+    N.y *= 0.5;
+    
+    N += ip.ModNormal;
+    N = normalize(N);
+    
+    float ndl = max(0, dot(N, lightDir));
 	
-	float4 index = tex2D(texDif, ip.TexCoord1);
+	float4 index = tex2D(texDif, ip.GlobeCoord);
 	
 	float4 color = 0;
 	
@@ -31,11 +40,11 @@ PSOutput main(PSInput ip)
 	{
 		if (index[i]>0.01)
 		{
-			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2);
-			color += (index[i]) * tex2D(texDet[i], ip.TexCoord2*7);
+			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord);
+			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord*7);
 		}
 	}
 	
-    o.Color = color * (0.5 * tex2D(texColor, ip.TexCoord1)) * max( 0.3, ndl );
+    o.Color = ndl * ((color * 0.5) * tex2D(texColor, ip.GlobeCoord));
     return o;
 }

@@ -10,9 +10,9 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    public class TerrainEffectFactory : EffectFactory
+    public class TerrainEffect513Factory : EffectFactory
     {
-        static readonly string typeName = "Terrain";
+        static readonly string typeName = "Terrain513";
 
 
         public static string Name
@@ -20,23 +20,97 @@ namespace Code2015.Effects
             get { return typeName; }
         }
 
-
-
         RenderSystem renderSystem;
 
-        public TerrainEffectFactory(RenderSystem rs)
+        public TerrainEffect513Factory(RenderSystem rs)
         {
             renderSystem = rs;
         }
 
         public override Effect CreateInstance()
         {
-            return new TerrainEffect(renderSystem);
+            return new TerrainEffect513(renderSystem);
         }
 
         public override void DestroyInstance(Effect fx)
         {
             fx.Dispose();
+        }
+    }
+    public class TerrainEffect129Factory : EffectFactory
+    {
+        static readonly string typeName = "Terrain129";
+
+
+        public static string Name
+        {
+            get { return typeName; }
+        }
+
+        RenderSystem renderSystem;
+
+        public TerrainEffect129Factory(RenderSystem rs)
+        {
+            renderSystem = rs;
+        }
+
+        public override Effect CreateInstance()
+        {
+            return new TerrainEffect129(renderSystem);
+        }
+
+        public override void DestroyInstance(Effect fx)
+        {
+            fx.Dispose();
+        }
+    }
+    public class TerrainEffect33Factory : EffectFactory
+    {
+        static readonly string typeName = "Terrain33";
+
+
+        public static string Name
+        {
+            get { return typeName; }
+        }
+
+        RenderSystem renderSystem;
+
+        public TerrainEffect33Factory(RenderSystem rs)
+        {
+            renderSystem = rs;
+        }
+
+        public override Effect CreateInstance()
+        {
+            return new TerrainEffect33(renderSystem);
+        }
+
+        public override void DestroyInstance(Effect fx)
+        {
+            fx.Dispose();
+        }
+    }
+
+    class TerrainEffect513 : TerrainEffect
+    {
+        public TerrainEffect513(RenderSystem renderSystem)
+            : base(renderSystem, 513)
+        {
+        }
+    }
+    class TerrainEffect129 : TerrainEffect
+    {
+        public TerrainEffect129(RenderSystem renderSystem)
+            : base(renderSystem, 129)
+        {
+        }
+    }
+    class TerrainEffect33 : TerrainEffect
+    {
+        public TerrainEffect33(RenderSystem renderSystem)
+            : base(renderSystem, 33)
+        {
         }
     }
 
@@ -47,10 +121,12 @@ namespace Code2015.Effects
 
         PixelShader pixShader;
         VertexShader vtxShader;
+        int terrSize;
 
-        public TerrainEffect(RenderSystem renderSystem)
-            : base(false, TerrainEffectFactory.Name)
+        public TerrainEffect(RenderSystem renderSystem, int ts)
+            : base(false, TerrainEffect513Factory.Name)
         {
+            this.terrSize = ts;
             this.renderSystem = renderSystem;
 
             FileLocation fl = FileSystem.Instance.Locate("terrain.cvs", GameFileLocs.Effect);
@@ -66,6 +142,7 @@ namespace Code2015.Effects
         {
             renderSystem.BindShader(vtxShader);
             renderSystem.BindShader(pixShader);
+            vtxShader.SetValue("terrSize", (float)terrSize);
 
             return 1;
         }
@@ -102,7 +179,10 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
+
+            Matrix invWorld;
+            Matrix.Invert(ref op.Transformation, out invWorld);
+            vtxShader.SetValue("invWorld", ref invWorld);
 
             ShaderSamplerState state = new ShaderSamplerState();
             state.AddressU = TextureAddressMode.Wrap;
@@ -116,7 +196,6 @@ namespace Code2015.Effects
 
             pixShader.SetSamplerState("texDif", ref state);
             pixShader.SetTexture("texDif", mat.GetTexture(0));
-
 
             pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
             pixShader.SetSamplerState("texColor", ref state);
@@ -135,6 +214,13 @@ namespace Code2015.Effects
             tex = TerrainMaterialLibrary.Instance.GetTexture("RockLayered0023_2");
             pixShader.SetTextureDirect(3, tex.Texture);
             pixShader.SetSamplerStateDirect(3, ref state);
+
+
+            state.AddressU = TextureAddressMode.Clamp;
+            state.AddressV = TextureAddressMode.Clamp;
+            state.AddressW = TextureAddressMode.Clamp;
+            pixShader.SetSamplerState("texNrm", ref state);
+            pixShader.SetTexture("texNrm", mat.GetTexture(1));
 
         }
 
