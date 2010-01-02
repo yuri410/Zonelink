@@ -1,12 +1,12 @@
 ﻿using System;
-using Apoc3D.Graphics;
 using Apoc3D.Core;
-using Apoc3D.Vfs;
+using Apoc3D.Graphics;
 using Apoc3D.Media;
+using Apoc3D.Vfs;
 using Microsoft.Xna.Framework.Storage;
 using X = Microsoft.Xna.Framework;
-using XN = Microsoft.Xna.Framework.Net;
 using XGS = Microsoft.Xna.Framework.GamerServices;
+using XN = Microsoft.Xna.Framework.Net;
 
 namespace Code2015
 {
