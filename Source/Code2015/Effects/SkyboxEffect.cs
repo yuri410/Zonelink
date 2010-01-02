@@ -4,16 +4,13 @@ using System.Linq;
 using System.Text;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
-using Apoc3D.Vfs;
-using Code2015.EngineEx;
 using Apoc3D.MathLib;
 
 namespace Code2015.Effects
 {
-    public class WaterEffectFactory : EffectFactory
+    public class SkyboxEffectFactory : EffectFactory
     {
-        static readonly string typeName = "Water";
-
+        static readonly string typeName = "Skybox";
 
         public static string Name
         {
@@ -21,10 +18,9 @@ namespace Code2015.Effects
         }
 
 
-
         RenderSystem renderSystem;
 
-        public WaterEffectFactory(RenderSystem rs)
+        public SkyboxEffectFactory(RenderSystem rs)
         {
             renderSystem = rs;
         }
@@ -40,23 +36,17 @@ namespace Code2015.Effects
         }
     }
 
-    class WaterEffect : Effect
+    class SkyboxEffect : Effect
     {
         RenderSystem renderSystem;
 
         PixelShader pixShader;
         VertexShader vtxShader;
 
-        public WaterEffect(RenderSystem renderSystem)
-            : base(false, WaterEffectFactory.Name)
+        public SkyboxEffect(RenderSystem renderSystem)
+            : base(false, SkyboxEffectFactory.Name)
         {
             this.renderSystem = renderSystem;
-
-            FileLocation fl = FileSystem.Instance.Locate("water.cvs", GameFileLocs.Effect);
-            vtxShader = LoadVertexShader(renderSystem, fl);
-
-            fl = FileSystem.Instance.Locate("water.cps", GameFileLocs.Effect);
-            pixShader = LoadPixelShader(renderSystem, fl);
         }
 
         protected override int begin()
@@ -79,33 +69,32 @@ namespace Code2015.Effects
 
         public override void EndPass()
         {
+
         }
 
         public override void BeginShadowPass()
         {
-            throw new NotImplementedException();
         }
 
         public override void EndShadowPass()
         {
-            throw new NotImplementedException();
         }
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
+            pixShader.SetTexture("texColor", mat.GetTexture(0));
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
+
         }
 
         public override void SetupShadowPass(Material mat, ref RenderOperation op)
         {
-            throw new NotImplementedException();
         }
 
         protected override void Dispose(bool disposing)
         {
-
         }
     }
 }

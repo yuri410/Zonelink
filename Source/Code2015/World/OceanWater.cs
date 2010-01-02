@@ -32,7 +32,7 @@ namespace Code2015.World
 
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-
+            
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
             oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel * 0.5f, 4 * PlanetEarth.ColTileCount, 4 * PlanetEarth.LatTileCount, mats);
 
