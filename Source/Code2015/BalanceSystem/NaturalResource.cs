@@ -11,12 +11,11 @@ namespace Code2015.BalanceSystem
     public class NaturalResource : Simulateobject
     {
 
-        FastList<NaturalResource> naturalresource = new FastList<NaturalResource>();
+     
+      
         public NaturalResource()
         {
-            naturalresource.Add(new FarmLand());
-            naturalresource.Add(new OilField());
-            naturalresource.Add(new Forest());
+          
         }
         public string Name
         {
@@ -78,22 +77,14 @@ namespace Code2015.BalanceSystem
         /// 留以作为玩家花费金钱或时间来使生产速度加速用
         /// </summary>
         /// <param name="speed"></param>
-        public virtual void SetProduceSpeed(float speed)
+        public virtual void GetProduceSpeed(float speed)
         {
             this.ProduceSpeed = speed;
         }
 
         public override void Update(GameTime time)
         {
-            ((FarmLand)naturalresource[0]).Update(time);
-            ((OilField)naturalresource[1]).Update(time);
-            ((Forest)naturalresource[2]).Update(time);
-            float totalcarbonweight = 0;
-            for (int i = 0; i < naturalresource.Count; i++)
-            {
-                totalcarbonweight += naturalresource[i].CarbonWeight;   
-            }
-            this.CarbonWeight = totalcarbonweight;
+            
         }
        
 

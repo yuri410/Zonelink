@@ -11,35 +11,67 @@ namespace Code2015.BalanceSystem
     public class OilField : NaturalResource
     {
         [SLGValueAttribute()]
-        const float OilWeight = 100000;
-        const float EmitCarbonSpeed = 50;
+        const float OILWeight = 100000;
+        const float EMITCarbonSpeed = 10;
+
+
         public OilField()
         {
-            this.InitAmount = OilWeight;
+            this.InitAmount = OILWeight;
+            this.EmitCspeed = EMITCarbonSpeed;
         }
 
+        public OilField(FastList<City> cities)
+        {
+            GetConsumeSpeed(cities);
+            this.InitAmount = OILWeight;
+            this.EmitCspeed = EMITCarbonSpeed;      
+        }
+      
         public float EmitCspeed
         {
-            get { return EmitCarbonSpeed; }
-            set { EmitCspeed = EmitCarbonSpeed; }
+            get;
+            set;
         }
         public OilField(string name)
         {
             this.Name = name;
-            this.InitAmount = OilWeight;
+            this.InitAmount = OILWeight;
+            this.EmitCspeed = EMITCarbonSpeed;
         }
         /// <summary>
-        /// 得到区域内部石油的消耗速度
+        /// 得到石油的消耗速度
         /// </summary>
         /// <param name="cities"></param>
         public void GetConsumeSpeed(FastList<City> cities)
         {
             float oilconsumespeed = 0;
-            for (int i = 0; i < cities.Count; i++)
+            if (cities.Count != 0)
             {
-                oilconsumespeed += cities[i].ProduceLPSpeed * 1.5f;
+                this.ConsumeSpeed = 10;
+                FastList<CityPlugin> plugins = new FastList<CityPlugin>();
+                for (int i = 0; i < cities.Count; i++)
+                {
+                    plugins = cities[i].GetPlugins();
+                    if (plugins.Count != 0)
+                    {
+                        for (int j = 0; j < plugins.Count; j++)
+                        {
+                            if (plugins[j].Name == "OilRefinary")
+                            {
+                                oilconsumespeed += plugins[j].ProduceHLSpeed * 1.5f;
+                            }
+                        }
+
+                    }
+                }
+                this.ConsumeSpeed += oilconsumespeed;
             }
-            this.ConsumeSpeed = oilconsumespeed;
+
+            else
+            {
+                this.ConsumeSpeed = 10;
+            }
 
         }
         /// <summary>
@@ -55,7 +87,7 @@ namespace Code2015.BalanceSystem
         {
             this.RemainedAmount = this.InitAmount;
             this.RemainedAmount -= time.ElapsedGameTime.Days * this.ConsumeSpeed;
-            this.CarbonWeight += this.EmitCspeed * this.RemainedAmount;
+            this.CarbonWeight += this.EmitCspeed * this.RemainedAmount;//油田本身也要释放C
         }
 
     }
