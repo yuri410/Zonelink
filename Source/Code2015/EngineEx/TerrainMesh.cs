@@ -399,7 +399,7 @@ namespace Code2015.EngineEx
                     // 计算海拔高度
                     float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
 
-                    if (height > -TerrainMeshManager.PostZeroLevel)
+                    if (height > -TerrainMeshManager.PostZeroLevel+1)
                     {
                         height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
                     }
