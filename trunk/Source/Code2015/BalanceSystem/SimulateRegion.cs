@@ -13,7 +13,7 @@ namespace Code2015.BalanceSystem
     public class SimulateRegion : IUpdatable
     {
         FastList<LocalEcoSystem> localEcoSystem = new FastList<LocalEcoSystem>();
-        FastList<Simulateobject> simulateObject = new FastList<Simulateobject>();
+        FastList<SimulateObject> simulateObject = new FastList<SimulateObject>();
         EnergyStatus energyStatus;
         SocietyStatus societyStatus;
 
@@ -42,13 +42,15 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
-        public SimulateRegion(Player owner, object border) 
+        public SimulateRegion(Player owner, object border)
         {
             this.Owner = owner;
             this.Border = border;
         }
 
-        public  void Update(GameTime time)
+        public void Update(GameTime time)
         { }
+
+
     }
 }

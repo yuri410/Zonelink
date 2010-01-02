@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
@@ -25,46 +26,64 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeOilRefinary()
         {
             CityPlugin oilRefinary = new CityPlugin("OilRefinary");
-            oilRefinary.CostMoney = 100;
-            oilRefinary.ImproveCost = 100;
-            oilRefinary.ProduceHLSpeed = 100;
-            oilRefinary.ProduceLPSpeed = 0;
-            oilRefinary.CarbonWeight = 500;
-            
+
+            ConfigurationSection sect = new IniSection("OilRefinary");
+            sect.Add("Cost", "1000");
+            sect.Add("UpgradeCost", "100");
+            sect.Add("HPProductionSpeed", "100");
+            sect.Add("LPProductionSpeed", "0");
+            sect.Add("CarbonProduceSpeed", "500");
+            sect.Add("FoodCostSpeed", "0");
+
+            oilRefinary.Parse(sect);
+
             return oilRefinary;
         }
         public CityPlugin MakeWoodFactory()
         {
             CityPlugin woodfactory = new CityPlugin("WoodFactory");
-            woodfactory.CostMoney = 50;
-            woodfactory.ImproveCost = 50;
-            woodfactory.ProduceHLSpeed = 0;
-            woodfactory.ProduceLPSpeed = 50;
-            woodfactory.CarbonWeight = 100;
            
+            ConfigurationSection sect = new IniSection("WoodFactory");
+            sect.Add("Cost", "500");
+            sect.Add("UpgradeCost", "700");
+            sect.Add("HPProductionSpeed", "0");
+            sect.Add("LPProductionSpeed", "50");
+            sect.Add("CarbonProduceSpeed", "100");
+            sect.Add("FoodCostSpeed", "0");
+
+            woodfactory.Parse(sect);
+
             return woodfactory;
         }
       
         public CityPlugin MakeBioEnergeFactory()
         {
             CityPlugin biofactory = new CityPlugin("BioEnergyFactory");
-            biofactory.CostMoney = 400;
-            biofactory.ImproveCost = 400;
-            biofactory.ProduceHLSpeed = 1000;
-            biofactory.ProduceLPSpeed = 0;
-            biofactory.CarbonWeight = 0;
-          
+
+            ConfigurationSection sect = new IniSection("BioEnergyFactory");
+            sect.Add("Cost", "2000");
+            sect.Add("UpgradeCost", "2500");
+            sect.Add("HPProductionSpeed", "75");
+            sect.Add("LPProductionSpeed", "75");
+            sect.Add("CarbonProduceSpeed", "0");
+            sect.Add("FoodCostSpeed", "-200");
+
             return biofactory;
         }
 
         public CityPlugin MakeHospital()
         {
             CityPlugin hospital = new CityPlugin("Hospital");
-            hospital.CostMoney = 100;
-            hospital.ImproveCost = 100;
-            hospital.ProduceHLSpeed = -20;
-            hospital.ProduceLPSpeed =-20;
-            hospital.CarbonWeight = 50;
+
+            ConfigurationSection sect = new IniSection("Hospital");
+            sect.Add("Cost", "1000");
+            sect.Add("UpgradeCost", "1000");
+            sect.Add("HPProductionSpeed", "-30");
+            sect.Add("LPProductionSpeed", "-30");
+            sect.Add("CarbonProduceSpeed", "50");
+            sect.Add("FoodCostSpeed", "-50");
+
+            hospital.Parse(sect);
            
             return hospital;
         }
@@ -72,11 +91,15 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeEducationAgent()
         {
             CityPlugin EducationAgent = new CityPlugin("EducationAgent");
-            EducationAgent.CostMoney = 100;
-            EducationAgent.ImproveCost = 50;
-            EducationAgent.ProduceHLSpeed = -10;
-            EducationAgent.ProduceLPSpeed = -10;
-            EducationAgent.CarbonWeight = 10;
+
+            ConfigurationSection sect = new IniSection("EducationAgent");
+            sect.Add("Cost", "1000");
+            sect.Add("UpgradeCost", "500");
+            sect.Add("HPProductionSpeed", "-15");
+            sect.Add("LPProductionSpeed", "-15");
+            sect.Add("CarbonProduceSpeed", "50");
+            sect.Add("FoodCostSpeed", "-50");
+
 
             return EducationAgent;
 

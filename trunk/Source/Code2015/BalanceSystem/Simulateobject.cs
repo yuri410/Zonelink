@@ -7,35 +7,64 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-    public class Simulateobject:IUpdatable
-    {     
+    public class SimulateObject : IUpdatable
+    {
+        /// <summary>
+        /// 经度
+        /// </summary>
+        public float Col
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        /// 纬度
+        /// </summary>
+        public float Lat
+        {
+            get;
+            private set;
+        }
+
+
+
         /// <summary>
         /// CO2的改变量
         /// </summary>
-        public float CarbonWeight=0.0f;
-        public float CarbonSpeed
+        protected float CarbonChange
         {
             get;
             set;
         }
+        public float CarbonProduceSpeed
+        {
+            get;
+            protected set;
+        }
+        public float GetCarbonChange()
+        {
+            float r = CarbonChange;
+            CarbonChange = 0;
+            return r;
+        }
 
-        NaturalResource naturalresource;
-        City city; 
-        public Simulateobject()
+
+
+        //NaturalResource naturalresource;
+        //City city;
+
+        public SimulateObject()
         {
             //naturalresource= new NaturalResource();
             //city=new City();
         }
-        public virtual float GetCarbonWeight()
-        {
-            return this.CarbonWeight;
-        }
+
 
         public virtual void Update(GameTime time)
         {
-            naturalresource.Update(time);
-            city.Update(time);
-            this.CarbonWeight += (naturalresource.CarbonWeight+city.CarbonWeight);
+            //naturalresource.Update(time);
+            //city.Update(time);
+            //this.CarbonWeight += (naturalresource.CarbonWeight + city.CarbonWeight);
         }
     }
 }

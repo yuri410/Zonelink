@@ -8,7 +8,7 @@ using Apoc3D.Collections;
 namespace Code2015.BalanceSystem
 {
    
-    public class NaturalResource : Simulateobject
+    public class NaturalResource : SimulateObject
     {
 
      
