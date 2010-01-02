@@ -105,7 +105,7 @@
     <Compile Include="BalanceSystem\OilField.cs" />
     <Compile Include="BalanceSystem\PlantSpecies.cs" />
     <Compile Include="BalanceSystem\Player.cs" />
-    <Compile Include="BalanceSystem\Simulateobject.cs">
+    <Compile Include="BalanceSystem\SimulateObject.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BalanceSystem\SimulateRegion.cs" />

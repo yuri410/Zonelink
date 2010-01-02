@@ -58,7 +58,7 @@ namespace Code2015.BalanceSystem
                     {  
                         for (int j = 0; j < plugins.Count; j++)
                         {
-                            totalspeed += plugins[i].ProduceLPSpeed * 1.5f;//工厂中只有木材工厂才消耗森林
+                            totalspeed += plugins[i].LPProductionSpeed * 1.5f;//工厂中只有木材工厂才消耗森林
                         }
                     }
                 }
@@ -74,7 +74,7 @@ namespace Code2015.BalanceSystem
             base.Update(time);
             this.RemainedAmount = this.InitAmount;
             this.RemainedAmount += (this.ProduceSpeed - this.ConsumeSpeed) * time.ElapsedGameTime.Days;
-            this.CarbonWeight = -(this.AbsorbCarbonSpeed * this.RemainedAmount);//负值表示吸收，正值表示产生
+            this.CarbonChange = -(this.AbsorbCarbonSpeed * this.RemainedAmount);//负值表示吸收，正值表示产生
         }
      
     }

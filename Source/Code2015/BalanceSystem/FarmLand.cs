@@ -129,7 +129,7 @@ namespace Code2015.BalanceSystem
             GetGradeofSoil();
             this.InitAmount = InitFoodAmount;
             this.InitAmount += (ConsumeSpeed - ProduceFoodSpeed) * time.ElapsedGameTime.Days;
-            this.CarbonWeight += -(this.InitAmount * this.AbsorbCspeed);
+            this.CarbonChange += -(this.InitAmount * this.AbsorbCspeed);
         }
 
 

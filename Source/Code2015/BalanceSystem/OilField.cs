@@ -59,7 +59,7 @@ namespace Code2015.BalanceSystem
                         {
                             if (plugins[j].Name == "OilRefinary")
                             {
-                                oilconsumespeed += plugins[j].ProduceHLSpeed * 1.5f;
+                                oilconsumespeed += plugins[j].HPProductionSpeed * 1.5f;
                             }
                         }
 
@@ -87,7 +87,7 @@ namespace Code2015.BalanceSystem
         {
             this.RemainedAmount = this.InitAmount;
             this.RemainedAmount -= time.ElapsedGameTime.Days * this.ConsumeSpeed;
-            this.CarbonWeight += this.EmitCspeed * this.RemainedAmount;//油田本身也要释放C
+            this.CarbonChange += this.EmitCspeed * this.RemainedAmount;//油田本身也要释放C
         }
 
     }
