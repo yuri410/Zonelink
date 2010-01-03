@@ -26,8 +26,6 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
-
-
         /// <summary>
         /// CO2的改变量
         /// </summary>
@@ -47,24 +45,65 @@ namespace Code2015.BalanceSystem
             CarbonChange = 0;
             return r;
         }
+        /// <summary>
+        /// 高能
+        /// </summary>
+        public float InitHPAmount
+        {
+            get;
+            set;
+        }
+         public float RemainingHPAmount
+        {
+            get;
+            set;
+        }
+        public float ConsumeHPSpeed
+        {
+            get;
+            set;
+        }
+        public float ProduceHPSpeed
+        {
+            get;
+            set;
+        }
+       
+        /// <summary>
+        /// 低能
+        /// </summary>
+        public float InitLPAmount
+        {
+            get;
+            set;
+        }
+        public float RemainingAmount
+        {
+            get;
+            set;
+        }
+        public float ConsumeLPSpeed
+        {
+            get;
+            set;
+        }
+        public float ProduceLPSpeed
+        {
+            get;
+            set;
+        }
 
-
-
-        //NaturalResource naturalresource;
-        //City city;
 
         public SimulateObject()
         {
-            //naturalresource= new NaturalResource();
-            //city=new City();
+
         }
 
 
         public virtual void Update(GameTime time)
         {
-            //naturalresource.Update(time);
-            //city.Update(time);
-            //this.CarbonWeight += (naturalresource.CarbonWeight + city.CarbonWeight);
+            float hours=time.ElapsedGameTime.Hours;
+            this.CarbonChange = this.CarbonProduceSpeed * hours;
         }
     }
 }

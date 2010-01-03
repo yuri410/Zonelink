@@ -61,6 +61,12 @@ namespace Code2015.BalanceSystem
             get;
             protected set;
         }
+        public virtual float GetUpgradeCost()
+        {
+            UpgradeCost = Cost * 0.5f;
+            float upgradecost = UpgradeCost;         
+            return UpgradeCost = 0;
+        }
 
         public float Radius
         {

@@ -13,31 +13,29 @@ namespace Code2015.BalanceSystem
     public class FarmLand : NaturalResource
     {
         [SLGValueAttribute()]
-        const float InitFoodAmount = 100000;
-        const float AbsorbCarbonSpeed = 1000;
-
-        FastList<PlantSpecies> FoodPlants;
+        const float INITFoodAmount = 100000;
+        const float ABSORBCarbonSpeed = 1000;
+       
+        FastList<PlantSpecies> FoodPlants=new FastList<PlantSpecies>();
         public FarmLand()
         {
             FoodPlants = new FastList<PlantSpecies>();
-            this.InitAmount = InitFoodAmount;
-            this.AbsorbCspeed = AbsorbCarbonSpeed;
+            this.InitSourceAmount = INITFoodAmount;
+            this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
         }
 
-        public FarmLand(string name)
-        {
-            FoodPlants = new FastList<PlantSpecies>();
-            this.Name = name;
-            this.InitAmount = InitFoodAmount ;
-            this.AbsorbCspeed = AbsorbCarbonSpeed;
-        }
-
-        
-        public float AbsorbCspeed
+        public float AbsorbCarbonSpeed
         {
             get;
             set;
         }
+        public float GetCarbonChange()
+        {
+            float change = this.CarbonChange;
+            CarbonChange = 0;
+            return change;
+        }
+
         /// <summary>
         /// 土壤等级
         /// </summary>
@@ -109,7 +107,7 @@ namespace Code2015.BalanceSystem
             {
                 totalspeed += cyties[i].FoodCostSpeed;
             }
-            this.ConsumeSpeed = totalspeed;
+            this.SourceConsumeSpeed = totalspeed;
         }
 
         public bool Add(PlantSpecies foodplant)
@@ -124,12 +122,17 @@ namespace Code2015.BalanceSystem
             FoodPlants.Remove(foodplant);
         }
 
+        public PlantSpecies this[int i]
+        {
+            get { return FoodPlants[i]; }
+        }
         public override void Update(GameTime time)
         {
+            float hours = time.ElapsedGameTime.Hours;
             GetGradeofSoil();
-            this.InitAmount = InitFoodAmount;
-            this.InitAmount += (ConsumeSpeed - ProduceFoodSpeed) * time.ElapsedGameTime.Days;
-            this.CarbonChange += -(this.InitAmount * this.AbsorbCspeed);
+            this.InitSourceAmount = INITFoodAmount;
+            this.RemainingAmount += (SourceConsumeSpeed - ProduceFoodSpeed) * time.ElapsedGameTime.Days;
+            this.CarbonChange += -(this.InitSourceAmount * this.AbsorbCarbonSpeed);
         }
 
 
