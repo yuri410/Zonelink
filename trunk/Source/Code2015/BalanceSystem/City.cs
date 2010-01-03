@@ -75,10 +75,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-
-
-
-        protected float HPChange
+       protected float HPChange
         {
             get;
             set;

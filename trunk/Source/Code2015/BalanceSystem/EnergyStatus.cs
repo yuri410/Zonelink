@@ -14,6 +14,7 @@ namespace Code2015.BalanceSystem
        const float InitHPEnergy = 10000;
        const float InitLPEnergy = 10000;
 
+       NaturalResource naturalresource;
         public float CurrentHPEnergy
         {
             get;
@@ -24,20 +25,32 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public float RenmainingHPEnergy
+        public float RemainingHPEnergy
         {
             get;
             set;
         }
-        public float RenmainingLPEnergy
+        public float RemainingLPEnergy
         {
             get;
             set;
         }
 
-     
+        public EnergyStatus()
+        {
+            naturalresource = new NaturalResource();
+            this.CurrentHPEnergy = InitHPEnergy;
+            this.CurrentLPEnergy = InitLPEnergy;
+            this.RemainingHPEnergy = CurrentHPEnergy;
+            this.RemainingLPEnergy = CurrentLPEnergy;
+        }
+
+
         public void Update(GameTime time)
-        { }
+        {
+            this.RemainingHPEnergy -= naturalresource.SourceProduceSpeed;
+            
+        }
 
     }
 }

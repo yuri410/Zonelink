@@ -10,9 +10,7 @@ namespace Code2015.BalanceSystem
    
     public class NaturalResource : SimulateObject
     {
-
-     
-      
+   
         public NaturalResource()
         {
           
@@ -24,53 +22,38 @@ namespace Code2015.BalanceSystem
 
         }
         /// <summary>
-        /// 消耗速度
+        /// 资源消耗速度
         /// </summary>
-        public float ConsumeSpeed
+        public float SourceConsumeSpeed
         {
             get;
             set;
         }
         /// <summary>
-        /// 生产速度
+        /// 资源生产速度
         /// </summary>
-        public float ProduceSpeed
+        public float SourceProduceSpeed
         {
             get;
             set;
         }
         /// <summary>
-        /// 初始值
+        /// 资源初始值
         /// </summary>
-        public float InitAmount
+        public float InitSourceAmount
         {
             get;
             set;
         }
         /// <summary>
-        /// 剩余值
+        /// 资源剩余值
         /// </summary>
-        public float RemainedAmount
+        public float RemainingSourceAmount
         {
             get;
             set;
         }
-        /// <summary>
-        /// 低能数量
-        /// </summary>
-        public float LPAmount
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 高能数量
-        /// </summary>
-        public float HPAmount
-        {
-            get;
-            set;
-        }
+      
 
        
         /// <summary>
@@ -79,7 +62,7 @@ namespace Code2015.BalanceSystem
         /// <param name="speed"></param>
         public virtual void GetProduceSpeed(float speed)
         {
-            this.ProduceSpeed = speed;
+            this.SourceProduceSpeed = speed;
         }
 
         public override void Update(GameTime time)

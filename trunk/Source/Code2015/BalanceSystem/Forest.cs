@@ -14,27 +14,23 @@ namespace Code2015.BalanceSystem
         [SLGValueAttribute()]
         const float INITForestAmount = 100000;
         const float ABSORBCarbonSpeed = 1000;
+        const float TRANStoEnergySpeed = 100;
 
         public float AbsorbCarbonSpeed
         {
             get;
             set;
         }
-        public Forest(FastList<City> cities)
-        {
-            GetConsumSpeed(cities);
-            this.InitAmount = INITForestAmount;
-            this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
-            this.ProduceSpeed = 100;
-        }
+
         public Forest()
         {
-            this.InitAmount = INITForestAmount;
+            this.InitSourceAmount = INITForestAmount;
             this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
-            this.ProduceSpeed = 100;
+            this.SourceProduceSpeed = 100;
+            this.SourceConsumeSpeed = TRANStoEnergySpeed;
         }
         /// <summary>
-        /// 玩家用于设置森林的再生速度
+        /// 暂时设置森林的再生速度为定值，玩家用于设置森林的再生速度
         /// </summary>
         /// <param name="speed"></param>
         public override void GetProduceSpeed(float speed)
@@ -42,39 +38,27 @@ namespace Code2015.BalanceSystem
             base.GetProduceSpeed(speed);
         }
 
-        /// <summary>
-        /// 得到森林消耗的速度
-        /// </summary>
-        /// <param name="cities"></param>
-        public void GetConsumSpeed(FastList<City> cities)
+        public float GetCarbonChange()
         {
-            float totalspeed = 0;
-            if (cities.Count != 0)
-            {
-                for (int i = 0; i < cities.Count; i++)
-                {
-                    FastList<CityPlugin> plugins = cities[i].GetPlugins();
-                    if (cities[i].GetPlugins().Count != 0)
-                    {  
-                        for (int j = 0; j < plugins.Count; j++)
-                        {
-                            totalspeed += plugins[i].LPProductionSpeed * 1.5f;//工厂中只有木材工厂才消耗森林
-                        }
-                    }
-                }
-                this.ConsumeSpeed += totalspeed;
-            }
-            else
-            {
-                this.ConsumeSpeed = 0;
-            }
+            float change = this.CarbonChange;
+            this.CarbonChange = 0;
+            return change;
+        }
+
+        public float TransToLPAmount
+        {
+            get;
+            set;
         }
         public override void Update(GameTime time)
         {
-            base.Update(time);
-            this.RemainedAmount = this.InitAmount;
-            this.RemainedAmount += (this.ProduceSpeed - this.ConsumeSpeed) * time.ElapsedGameTime.Days;
-            this.CarbonChange = -(this.AbsorbCarbonSpeed * this.RemainedAmount);//负值表示吸收，正值表示产生
+            //base.Update(time);
+            float hours = time.ElapsedGameTime.Hours;
+            this.RemainingSourceAmount = this.InitSourceAmount;//开始时初始值等于剩余值。
+            this.RemainingSourceAmount += (this.SourceProduceSpeed - this.SourceConsumeSpeed) * hours;
+            this.TransToLPAmount = this.SourceConsumeSpeed * hours;
+            this.CarbonChange += -(this.AbsorbCarbonSpeed) * this.RemainingSourceAmount*hours;//负值表示吸收，正值表示产生
+
         }
      
     }
