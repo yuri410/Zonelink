@@ -29,12 +29,12 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public float GetCarbonChange()
-        {
-            float change = this.CarbonChange;
-            CarbonChange = 0;
-            return change;
-        }
+        //public float GetCarbonChange()
+        //{
+        //    float change = this.CarbonChange;
+        //    CarbonChange = 0;
+        //    return change;
+        //}
 
         /// <summary>
         /// 土壤等级
