@@ -13,7 +13,9 @@ namespace Code2015.BalanceSystem
     {
         [SLGValueAttribute()]
         const float INITForestAmount = 100000;
+        [SLGValueAttribute()]
         const float ABSORBCarbonSpeed = 1000;
+        [SLGValueAttribute()]
         const float TRANStoEnergySpeed = 100;
 
         public float AbsorbCarbonSpeed
@@ -38,12 +40,12 @@ namespace Code2015.BalanceSystem
             base.GetProduceSpeed(speed);
         }
 
-        public float GetCarbonChange()
-        {
-            float change = this.CarbonChange;
-            this.CarbonChange = 0;
-            return change;
-        }
+        //public float GetCarbonChange()
+        //{
+        //    float change = this.CarbonChange;
+        //    this.CarbonChange = 0;
+        //    return change;
+        //}
 
         public float TransToLPAmount
         {

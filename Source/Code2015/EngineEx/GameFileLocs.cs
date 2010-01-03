@@ -57,7 +57,7 @@ namespace Code2015.EngineEx
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("terraintexture");
+            pts[0].AddPath("terraintexture.lpk");
             TerrainTexture = new FileLocateRule(pts);
         }
     }

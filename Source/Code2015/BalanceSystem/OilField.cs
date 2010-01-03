@@ -27,23 +27,23 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public string Name
-        {
-            get;
-            set;
-        }
+        //public string Name
+        //{
+        //    get;
+        //    set;
+        //}
         public float TransToHPAmount
         {
             get;
             set;
         }
 
-        public float GetCarbonChange()
-        {
-            float change = this.CarbonChange;
-            CarbonChange = 0;
-            return change;
-        }
+        //public float GetCarbonChange()
+        //{
+        //    float change = this.CarbonChange;
+        //    CarbonChange = 0;
+        //    return change;
+        //}
         /// <summary>
         /// 用于设置油田固定转化为高能的速度
         /// </summary>
