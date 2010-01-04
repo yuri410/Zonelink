@@ -128,6 +128,7 @@
     <Compile Include="EngineEx\TerrainMaterialLibrary.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Game.cs" />
     <Compile Include="LevelSystem\Mission.cs" />
     <Compile Include="LevelSystem\Task.cs" />
     <Compile Include="Player.cs" />
