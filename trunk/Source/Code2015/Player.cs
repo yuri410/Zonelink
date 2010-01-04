@@ -19,7 +19,9 @@ namespace Code2015
 
         public string Name
         {
-            
+            get;
+            set;
+
         }
     }
 }
