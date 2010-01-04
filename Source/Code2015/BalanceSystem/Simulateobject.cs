@@ -12,7 +12,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         /// 经度
         /// </summary>
-        public float Col
+        public float Long
         {
             get;
             private set;
@@ -53,7 +53,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-         public float RemainingHPAmount
+        public float RemainingHPAmount
         {
             get;
             set;
@@ -63,8 +63,8 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-      
-       
+
+
         /// <summary>
         /// 低能
         /// </summary>
@@ -83,7 +83,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-       
+
 
         public SimulateObject()
         {
@@ -93,7 +93,7 @@ namespace Code2015.BalanceSystem
 
         public virtual void Update(GameTime time)
         {
-            float hours=time.ElapsedGameTime.Hours;
+            float hours = time.ElapsedGameTime.Hours;
             this.CarbonChange = this.CarbonProduceSpeed * hours;
         }
     }

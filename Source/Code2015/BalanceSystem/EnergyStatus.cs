@@ -11,10 +11,18 @@ namespace Code2015.BalanceSystem
 
     public class EnergyStatus : IConfigurable, IUpdatable
     {
-        [SLGValueAttribute()]
+        [SLGValue()]
         const float InitHPEnergy = 10000;
-        [SLGValueAttribute()]
+        [SLGValue()]
         const float InitLPEnergy = 10000;
+
+        [SLGValue()]
+        const float HPLowThreshold = 300;
+        [SLGValue()]
+        const float LPLowThreshold = 300;
+        [SLGValue()]
+        const float FoodLowThreshold = 300;
+
 
         FastList<City> cities;
 
@@ -31,6 +39,27 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+        public float CurrentFood
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///  获取一个布尔值，表示当前已储备的高能资源量是否过低
+        /// </summary>
+        public bool IsHPLow
+        {
+            get { return CurrentHPEnergy < HPLowThreshold; }
+        }
+        public bool IsLPLow
+        {
+            get { return CurrentLPEnergy < LPLowThreshold; }
+        }
+        public bool IsFoodLow
+        {
+            get { return CurrentFood < FoodLowThreshold; }
+        }
 
         /// <summary>
         ///  自然环境中，剩余未开发不可再生资源可转化为的能量
@@ -45,6 +74,8 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+
+
 
 
         /// <summary>
@@ -78,6 +109,37 @@ namespace Code2015.BalanceSystem
             float r = CurrentHPEnergy;
             CurrentHPEnergy = 0;
             return r;
+        }
+
+        /// <summary>
+        ///  申请获得食物
+        /// </summary>
+        /// <param name="amount"></param>
+        /// <returns>实际申请到的食物量</returns>
+        public float ApplyFood(float amount) 
+        {
+            if (CurrentFood >= amount)
+            {
+                CurrentFood -= amount;
+                return amount;
+            }
+            float r = CurrentFood;
+            CurrentFood = 0;
+            return r;
+        }
+
+
+        public void CommitLPEnergy(float amount)
+        {
+            CurrentLPEnergy += amount;
+        }
+        public void CommitHPEnergy(float amount)
+        {
+            CurrentHPEnergy += amount;
+        }
+        public void CommitFood(float amount)
+        {
+            CurrentFood += amount;
         }
 
         public EnergyStatus()
