@@ -128,8 +128,9 @@
     <Compile Include="EngineEx\TerrainMaterialLibrary.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="LevelSystem\Level.cs" />
+    <Compile Include="LevelSystem\Mission.cs" />
     <Compile Include="LevelSystem\Task.cs" />
+    <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -137,6 +138,7 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
+    <Compile Include="Score.cs" />
     <Compile Include="World\Atmosphere.cs" />
     <Compile Include="World\Border.cs">
       <SubType>Code</SubType>
