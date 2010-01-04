@@ -7,11 +7,6 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-
-
-    /// <summary>
-    ///  表示城市的大小
-    /// </summary>
     public enum UrbanSize
     {
         Town,
@@ -49,7 +44,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  表示城市的附加设施
         /// </summary>
-        FastList<CityPlugin> plugins = new FastList<CityPlugin>();
+        FastList<CityPlugin> plugins;
 
 
 
@@ -69,13 +64,25 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-
         public float Disease
         {
             get;
             set;
         }
-       protected float HPChange
+        /// <summary>
+        /// 城市所需的能量阈值
+        /// </summary>
+        public float LimitedHPEnergy
+        {
+            get;
+            set;
+        }
+        public float LimitedLPEnergy
+        {
+            get;
+            set;
+        }
+        protected float HPChange
         {
             get;
             set;
@@ -108,7 +115,6 @@ namespace Code2015.BalanceSystem
             LPChange = 0;
             return r;
         }
-
         protected float FoodChange
         {
             get;
@@ -125,52 +131,19 @@ namespace Code2015.BalanceSystem
             FoodChange = 0;
             return r;
         }
-
-
-        /// <summary>
-        ///  
-        /// </summary>
-        public float PluginHPProductionSpeed
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        public float PluginLPProductionSpeed
-        {
-            get;
-            set;
-        }
-        /// <summary>
-        ///  
-        /// </summary>
-        public float PluginFoodCostSpeed
-        {
-            get;
-            set;
-        }
-
-
+      
 
         /// <summary>
-        ///  城市自身的消耗高能和低能的速度，为负值，表示消耗
+        ///  城市自身的产生高能和低能的速度，初始为负值，表示消耗
         /// </summary>
         public float ProduceHPSpeed
         {
             get { return PluginHPProductionSpeed + SelfHPProductionSpeed; }
         }
-        /// <summary>
-        /// 
-        /// </summary>
         public float ProduceLPSpeed
         {
             get { return PluginLPProductionSpeed + SelfLPProductionSpeed; }
         }
-        /// <summary>
-        ///  
-        /// </summary>
         public float FoodCostSpeed
         {
             get { return SelfFoodCostSpeed + PluginFoodCostSpeed; }
@@ -218,15 +191,40 @@ namespace Code2015.BalanceSystem
         }
 
         /// <summary>
+        /// 若有Plugin，获取Plugin的消耗速度
+        /// </summary>
+        public float PluginHPProductionSpeed
+        {
+            get;
+            set;
+        }
+
+        public float PluginLPProductionSpeed
+        {
+            get;
+            set;
+        }
+        public float PluginFoodCostSpeed
+        {
+            get;
+            set;
+        }
+        public float PluginCarbonProduceSpeed
+        {
+            get;
+            set;
+        }
+        /// <summary>
         ///  更新城市的属性设置
         /// </summary>
         public void UpdateCity()
         {
-
+            plugins = new FastList<CityPlugin>();
             switch (Size)
             {
                 case UrbanSize.Large:
-
+                    this.LimitedHPEnergy = 5000;
+                    this.LimitedLPEnergy = 5000;
                     this.SelfHPProductionSpeed = -100;
                     this.SelfLPProductionSpeed = -100;
                     this.Population = 100000;
@@ -234,6 +232,8 @@ namespace Code2015.BalanceSystem
                     this.CarbonProduceSpeed = 500;
                     break;
                 case UrbanSize.Normal:
+                    this.LimitedHPEnergy = 3000;
+                    this.LimitedLPEnergy = 3000;
                     this.SelfHPProductionSpeed = -80;
                     this.SelfLPProductionSpeed = -80;
                     this.Population = 50000;
@@ -241,6 +241,8 @@ namespace Code2015.BalanceSystem
                     this.CarbonProduceSpeed = 300;
                     break;
                 case UrbanSize.Town:
+                    this.LimitedHPEnergy = 2000;
+                    this.LimitedLPEnergy = 2000;
                     this.SelfHPProductionSpeed = -50;
                     this.SelfLPProductionSpeed = -50;
                     this.Population = 20000;
@@ -252,16 +254,33 @@ namespace Code2015.BalanceSystem
             PluginFoodCostSpeed = 0;
             PluginHPProductionSpeed = 0;
             PluginLPProductionSpeed = 0;
-
+            PluginCarbonProduceSpeed = 0;
             for (int i = 0; i < plugins.Count; i++)
             {
                 CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
                 PluginFoodCostSpeed += plugins[i].FoodCostSpeed;
                 PluginHPProductionSpeed += plugins[i].HPProductionSpeed;
                 PluginLPProductionSpeed += plugins[i].LPProductionSpeed;
+                PluginCarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
             }
         }
-
+        /// <summary>
+        /// 高能由石油厂和生态工厂产生
+        /// </summary>
+        /// <returns></returns>
+        public float GetPluginHPProductionSpeed()
+        {
+            return PluginHPProductionSpeed-PluginFoodCostSpeed;//获得由炼油厂产生的高能速度
+        }
+        public float GetPluginLPProductionSpeed()
+        {
+            return PluginLPProductionSpeed;
+        }
+        public float GetPluginFoodCostSpeed()
+        {
+            return PluginFoodCostSpeed;//获得由生态工厂产生的高能速度
+        }
+       
 
         public int PluginCount
         {
@@ -282,16 +301,9 @@ namespace Code2015.BalanceSystem
             this.HPChange += ProduceHPSpeed * hours;
             this.LPChange += ProduceLPSpeed * hours;
 
-            this.CarbonChange += CarbonProduceSpeed * hours;
+            this.CarbonChange += (CarbonProduceSpeed +PluginCarbonProduceSpeed)* hours;
             this.FoodChange += FoodCostSpeed * hours;
-
-
-
-            // 计算发展度
-
-
-
-
+                    // 计算发展度
         }
     }
 }

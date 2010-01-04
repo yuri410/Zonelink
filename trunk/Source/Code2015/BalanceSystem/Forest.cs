@@ -15,8 +15,6 @@ namespace Code2015.BalanceSystem
         const float INITForestAmount = 100000;
         [SLGValueAttribute()]
         const float ABSORBCarbonSpeed = 1000;
-        [SLGValueAttribute()]
-        const float TRANStoEnergySpeed = 100;
 
         public float AbsorbCarbonSpeed
         {
@@ -29,7 +27,7 @@ namespace Code2015.BalanceSystem
             this.InitSourceAmount = INITForestAmount;
             this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
             this.SourceProduceSpeed = 100;
-            this.SourceConsumeSpeed = TRANStoEnergySpeed;
+            
         }
         /// <summary>
         /// 暂时设置森林的再生速度为定值，玩家用于设置森林的再生速度
@@ -40,25 +38,21 @@ namespace Code2015.BalanceSystem
             base.GetProduceSpeed(speed);
         }
 
-        //public float GetCarbonChange()
-        //{
-        //    float change = this.CarbonChange;
-        //    this.CarbonChange = 0;
-        //    return change;
-        //}
-
-        public float TransToLPAmount
+        public void GetSourceConsumeSpeed()
         {
-            get;
-            set;
+            float consumespeed = 0;
+            for (int i = 0; i < this.CityCount; i++)
+            {
+                consumespeed += this[i].GetPluginLPProductionSpeed();
+            }
+            this.ConsumeLPSpeed = consumespeed * 1.5f;
         }
         public override void Update(GameTime time)
         {
-            //base.Update(time);
-            float hours = time.ElapsedGameTime.Hours;
+       
+            float hours = (float)time.ElapsedGameTime.Hours;
             this.RemainingSourceAmount = this.InitSourceAmount;//开始时初始值等于剩余值。
             this.RemainingSourceAmount += (this.SourceProduceSpeed - this.SourceConsumeSpeed) * hours;
-            this.TransToLPAmount = this.SourceConsumeSpeed * hours;
             this.CarbonChange += -(this.AbsorbCarbonSpeed) * this.RemainingSourceAmount*hours;//负值表示吸收，正值表示产生
 
         }

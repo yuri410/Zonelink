@@ -23,8 +23,6 @@ namespace Code2015.BalanceSystem
         public CityPlugin()
         { }
 
-
-
         #region IConfigurable 成员
 
         public void Parse(ConfigurationSection sect)
@@ -110,7 +108,6 @@ namespace Code2015.BalanceSystem
         public void NotifyAdded(City city)
         {
             parent = city;
-
 
         }
 

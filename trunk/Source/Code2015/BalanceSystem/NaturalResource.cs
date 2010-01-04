@@ -10,10 +10,21 @@ namespace Code2015.BalanceSystem
    
     public class NaturalResource : SimulateObject
     {
-   
+
+        FastList<City> cities;
         public NaturalResource()
         {
-          
+            cities = new FastList<City>();
+        }
+
+        public City this[int i]
+        {
+            get { return cities[i]; }
+        }
+
+        public int CityCount
+        {
+            get { return cities.Count; }
         }
         public string Name
         {
@@ -30,7 +41,7 @@ namespace Code2015.BalanceSystem
             set;
         }
         /// <summary>
-        /// 资源生产速度
+        /// 资源再生产速度
         /// </summary>
         public float SourceProduceSpeed
         {
@@ -57,7 +68,7 @@ namespace Code2015.BalanceSystem
 
        
         /// <summary>
-        /// 留以作为玩家花费金钱或时间来使生产速度加速用
+        /// 留以作为玩家花费金钱或时间来使再生产速度加速用
         /// </summary>
         /// <param name="speed"></param>
         public virtual void GetProduceSpeed(float speed)
