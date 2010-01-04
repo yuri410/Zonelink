@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using XF=Microsoft.Xna.Framework;
+using XF = Microsoft.Xna.Framework;
 
 namespace Code2015.LevelSystem
 {
