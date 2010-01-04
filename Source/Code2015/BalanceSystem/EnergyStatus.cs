@@ -8,13 +8,13 @@ using Apoc3D.Collections;
 namespace Code2015.BalanceSystem
 {
 
-   public  class EnergyStatus : IUpdatable
-   {
-       [SLGValueAttribute()]
-       const float InitHPEnergy = 10000;
-       const float InitLPEnergy = 10000;
+    public class EnergyStatus : IUpdatable
+    {
+        [SLGValueAttribute()]
+        const float InitHPEnergy = 10000;
+        const float InitLPEnergy = 10000;
 
-       NaturalResource naturalresource;
+        FastList<City> cities;
         public float CurrentHPEnergy
         {
             get;
@@ -38,18 +38,20 @@ namespace Code2015.BalanceSystem
 
         public EnergyStatus()
         {
-            naturalresource = new NaturalResource();
+            cities = new FastList<City>();
             this.CurrentHPEnergy = InitHPEnergy;
             this.CurrentLPEnergy = InitLPEnergy;
             this.RemainingHPEnergy = CurrentHPEnergy;
             this.RemainingLPEnergy = CurrentLPEnergy;
         }
 
-
+       
         public void Update(GameTime time)
         {
-            this.RemainingHPEnergy -= naturalresource.SourceProduceSpeed;
-            
+            for (int i = 0; i < cities.Count; i++)
+            { 
+                
+            }
         }
 
     }

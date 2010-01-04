@@ -63,11 +63,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        //public float ProduceHPSpeed
-        //{
-        //    get;
-        //    set;
-        //}
+      
        
         /// <summary>
         /// 低能
@@ -87,12 +83,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        //public float ProduceLPSpeed
-        //{
-        //    get;
-        //    set;
-        //}
-
+       
 
         public SimulateObject()
         {

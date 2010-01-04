@@ -13,12 +13,11 @@ namespace Code2015.BalanceSystem
         [SLGValueAttribute()]
         const float OILWeight = 100000;//油田含油量的初始值
         const float EMITCarbonSpeed = 10;//油田释放的C值
-        const float TRANStoHPSpeed = 100;//油田固定转化为高能的速度
 
+       
         public OilField()
-        {
-            this.InitSourceAmount = OILWeight;
-            this.SourceConsumeSpeed = TRANStoHPSpeed;
+        {    
+            this.InitSourceAmount = OILWeight;      
             this.EmitCarbonSpeed = EMITCarbonSpeed;
         }
 
@@ -27,37 +26,31 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        //public string Name
-        //{
-        //    get;
-        //    set;
-        //}
+     
         public float TransToHPAmount
         {
             get;
             set;
         }
 
-        //public float GetCarbonChange()
-        //{
-        //    float change = this.CarbonChange;
-        //    CarbonChange = 0;
-        //    return change;
-        //}
-        /// <summary>
-        /// 用于设置油田固定转化为高能的速度
-        /// </summary>
-        public void SetTransSpeed()
-        { 
-            
+        public void GetOilConsumeSpeed()
+        {
+            float consumespeed = 0;
+            for (int i = 0; i < this.CityCount;i++)
+            {
+                consumespeed += this[i].GetPluginHPProductionSpeed();
+            }
+            this.ConsumeHPSpeed = consumespeed * 1.5f;//资源消耗的速度是能源生产速度的1.5倍
         }
+        
         public override void Update(GameTime time)
         {
-            float hours=time.ElapsedGameTime.Hours;
+         
+            float hours=(float)time.ElapsedGameTime.Hours;
             this.RemainingSourceAmount = this.InitSourceAmount;
             this.RemainingSourceAmount+=(this.SourceProduceSpeed-this.SourceConsumeSpeed)*hours;
             this.CarbonChange += this.EmitCarbonSpeed * this.RemainingSourceAmount*hours;//油田本身也要释放C
-            this.TransToHPAmount = this.SourceConsumeSpeed * hours;
+          
         }
 
     }
