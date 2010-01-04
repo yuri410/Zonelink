@@ -89,14 +89,12 @@
     <Compile Include="ActionSystem\CycleJet.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
-    <Compile Include="BalanceSystem\City.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="BalanceSystem\CityPlugin.cs" />
     <Compile Include="BalanceSystem\CityPluginFactory.cs" />
     <Compile Include="BalanceSystem\FarmLand.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CreationSpecies.cs" />
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\EnergyStatus.cs" />
@@ -247,6 +245,9 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Configs\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
