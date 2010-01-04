@@ -154,7 +154,7 @@
     <Content Include="BalanceSystem\计划.jpg" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
-    <Content Include="GUI\NeedtoDo.txt" />
+    <Content Include="GUI\TODOs.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

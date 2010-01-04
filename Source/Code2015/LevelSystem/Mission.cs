@@ -6,9 +6,9 @@ using Apoc3D.Vfs;
 
 namespace Code2015.LevelSystem
 {
-    class Level
+    class Mission
     {
-        public Level(ResourceLocation rl)
+        public Mission(ResourceLocation rl)
         {
 
         }
