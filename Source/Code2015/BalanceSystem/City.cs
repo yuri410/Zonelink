@@ -9,9 +9,9 @@ namespace Code2015.BalanceSystem
 {
     public enum UrbanSize
     {
-        Town,
-        Normal,
-        Large
+        Small = 0,
+        Normal = 1,
+        Large = 2
     }
 
     /// <summary>
@@ -25,6 +25,41 @@ namespace Code2015.BalanceSystem
         const int NormalPluginCount = 3;
         [SLGValueAttribute()]
         const int LargePluginCount = 4;
+
+        #region 能源流通速度
+        [SLGValueAttribute()]
+        const int SmallCityHPTranportSpeed = 30;
+        [SLGValueAttribute()]
+        const int MediumCityHPTranportSpeed = 50;
+        [SLGValueAttribute()]
+        const int LargeCityHPTranportSpeed = 100;
+
+        [SLGValueAttribute()]
+        const int SmallCityLPTranportSpeed = 15;
+        [SLGValueAttribute()]
+        const int MediumCityLPTranportSpeed = 25;
+        [SLGValueAttribute()]
+        const int LargeCityLPTranportSpeed = 50;
+        #endregion
+
+        #region 能源使用速度
+        [SLGValueAttribute()]
+        const int SmallCityLPSpeed = -30;
+        [SLGValueAttribute()]
+        const int MediumCityLPSpeed = -50;
+        [SLGValueAttribute()]
+        const int LargeCityLPSpeed = -100;
+
+        [SLGValueAttribute()]
+        const int SmallCityHPSpeed = -30;
+        [SLGValueAttribute()]
+        const int MediumCityHPSpeed = -50;
+        [SLGValueAttribute()]
+        const int LargeCityHPSpeed = -100;
+        #endregion
+
+        static readonly int[] LPSpeed = { SmallCityLPSpeed, MediumCityLPSpeed, LargeCityLPSpeed };
+        static readonly int[] HPSpeed = { SmallCityHPSpeed, MediumCityHPSpeed, LargeCityHPSpeed };
 
         public City()
         {
@@ -61,8 +96,18 @@ namespace Code2015.BalanceSystem
         }
         public float Population
         {
-            get;
-            set;
+            get
+            {
+                switch (Size)
+                {
+                    case UrbanSize.Small:
+                        return 20000;
+                    case UrbanSize.Normal:
+                        return 500000;
+                    case UrbanSize.Large:
+                        return 3000000;
+                }
+            }
         }
         public float Disease
         {
@@ -82,15 +127,18 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
+
+
         protected float HPChange
         {
             get;
             set;
         }
+
+
         public float SelfHPProductionSpeed
         {
-            get;
-            protected set;
+            get { return HPSpeed[(int)Size]; }
         }
         public float GetHPChange()
         {
@@ -106,8 +154,7 @@ namespace Code2015.BalanceSystem
         }
         public float SelfLPProductionSpeed
         {
-            get;
-            protected set;
+            get { return LPSpeed[(int)Size]; }
         }
         public float GetLPChange()
         {
@@ -115,6 +162,7 @@ namespace Code2015.BalanceSystem
             LPChange = 0;
             return r;
         }
+
         protected float FoodChange
         {
             get;
@@ -165,7 +213,7 @@ namespace Code2015.BalanceSystem
             {
                 switch (Size)
                 {
-                    case UrbanSize.Town:
+                    case UrbanSize.Small:
                         return TownPluginCount;
                     case UrbanSize.Normal:
                         return NormalPluginCount;
@@ -214,6 +262,10 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
+
+
+
+
         /// <summary>
         ///  更新城市的属性设置
         /// </summary>
@@ -225,27 +277,18 @@ namespace Code2015.BalanceSystem
                 case UrbanSize.Large:
                     this.LimitedHPEnergy = 5000;
                     this.LimitedLPEnergy = 5000;
-                    this.SelfHPProductionSpeed = -100;
-                    this.SelfLPProductionSpeed = -100;
-                    this.Population = 100000;
                     this.SelfFoodCostSpeed = 50;
                     this.CarbonProduceSpeed = 500;
                     break;
                 case UrbanSize.Normal:
                     this.LimitedHPEnergy = 3000;
                     this.LimitedLPEnergy = 3000;
-                    this.SelfHPProductionSpeed = -80;
-                    this.SelfLPProductionSpeed = -80;
-                    this.Population = 50000;
                     this.SelfFoodCostSpeed = 30;
                     this.CarbonProduceSpeed = 300;
                     break;
-                case UrbanSize.Town:
+                case UrbanSize.Small:
                     this.LimitedHPEnergy = 2000;
                     this.LimitedLPEnergy = 2000;
-                    this.SelfHPProductionSpeed = -50;
-                    this.SelfLPProductionSpeed = -50;
-                    this.Population = 20000;
                     this.SelfFoodCostSpeed = 10;
                     this.CarbonProduceSpeed = 100;
                     break;
@@ -264,6 +307,7 @@ namespace Code2015.BalanceSystem
                 PluginCarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
             }
         }
+
         /// <summary>
         /// 高能由石油厂和生态工厂产生
         /// </summary>
@@ -296,7 +340,6 @@ namespace Code2015.BalanceSystem
         public override void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
-
 
             this.HPChange += ProduceHPSpeed * hours;
             this.LPChange += ProduceLPSpeed * hours;
