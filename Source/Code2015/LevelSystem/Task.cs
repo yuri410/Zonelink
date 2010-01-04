@@ -13,7 +13,7 @@ namespace Code2015.LevelSystem
 
     enum TaskType
     {
-        EmergencyFlood
+        FloodDisaster
 
     }
 
