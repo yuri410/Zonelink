@@ -48,19 +48,19 @@ namespace Code2015.BalanceSystem
             }
             this.SourceConsumeSpeed = consumespeed;
         }
-       
 
-        //public bool Add(PlantSpecies foodplant)
-        //{
-        //    FoodPlants.Add(foodplant);
-           
-        //    return true;
-        //}
 
-        //public void Remove(PlantSpecies foodplant)
-        //{
-        //    FoodPlants.Remove(foodplant);
-        //}
+        public bool Add(PlantSpecies foodplant)
+        {
+            FoodPlants.Add(foodplant);
+
+            return true;
+        }
+
+        public void Remove(PlantSpecies foodplant)
+        {
+            FoodPlants.Remove(foodplant);
+        }
 
         
         public override void Update(GameTime time)

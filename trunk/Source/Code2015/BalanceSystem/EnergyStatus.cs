@@ -2,13 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Apoc3D;
-using Apoc3D.Collections;
 using Apoc3D.Config;
+using Apoc3D.Collections;
+using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
-
     public class EnergyStatus : IConfigurable, IUpdatable
     {
         [SLGValue()]
@@ -121,7 +120,7 @@ namespace Code2015.BalanceSystem
         /// </summary>
         /// <param name="amount"></param>
         /// <returns>实际申请到的食物量</returns>
-        public float ApplyFood(float amount) 
+        public float ApplyFood(float amount)
         {
             if (CurrentFood >= amount)
             {
@@ -158,7 +157,7 @@ namespace Code2015.BalanceSystem
             Region = region;
         }
 
-       
+
         public void Update(GameTime time)
         {
             // TODO：统计
@@ -173,5 +172,6 @@ namespace Code2015.BalanceSystem
         }
 
         #endregion
+
     }
 }
