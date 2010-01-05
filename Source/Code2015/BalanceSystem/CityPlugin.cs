@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Config;
+using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
     public class CityPlugin : IConfigurable
     {
         City parent;
+        FastList<NaturalResource> resource = new FastList<NaturalResource>();
 
         public string Name
         {

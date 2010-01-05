@@ -154,10 +154,7 @@ namespace Code2015.BalanceSystem
        
         public void Update(GameTime time)
         {
-            for (int i = 0; i < cities.Count; i++)
-            { 
-                
-            }
+
         }
 
 

@@ -6,7 +6,7 @@ using XF = Microsoft.Xna.Framework;
 
 namespace Code2015.LevelSystem
 {
-    class TaskManager 
+    class TaskManager
     {
 
     }
@@ -21,7 +21,7 @@ namespace Code2015.LevelSystem
     {
         Dictionary<XF.PlayerIndex, float> points;
 
-        public Task() 
+        public Task()
         {
             points = new Dictionary<XF.PlayerIndex, float>(5);
 
@@ -43,7 +43,7 @@ namespace Code2015.LevelSystem
         }
 
 
-        
+
 
         public string Name
         {
