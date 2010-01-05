@@ -208,17 +208,28 @@ namespace Code2015.BalanceSystem
 
         #region  属性
 
-        
+        public float LocalHP
+        {
+            get { return localHp.Current; }
+        }
+        public float LocalLP
+        {
+            get { return localLp.Current; }
+        }
+        public float LocalFood
+        {
+            get { return localFood.Current; }
+        }
 
         public string Name
         {
             get;
-            set;
+            private set;
         }
         public float Development
         {
             get;
-            set;
+            private set;
         }
         public float Population
         {
