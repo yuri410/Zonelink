@@ -160,7 +160,9 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float LargeRefPop = 20000;
 
-
+        /// <summary>
+        ///  发展增量的偏移值。无任何附加条件下的发展量。
+        /// </summary>
         [SLGValue]
         const float DevBias = -10;
 
@@ -502,7 +504,7 @@ namespace Code2015.BalanceSystem
             // 计算发展度
             float hpnewDev = DevBias;
 
-            #region
+            #region 消耗资源计算发展度
             if (hpChange > 0)
             {
                 float act = localHp.Commit(hpChange);
@@ -541,7 +543,7 @@ namespace Code2015.BalanceSystem
             float lpnewDev = 0;
             if (hpChange > 0)
             {
-                float act = localLp.Apply(lpChange);
+                float act = localLp.Commit(lpChange);
 
                 if (act < lpChange)
                 {
@@ -576,21 +578,38 @@ namespace Code2015.BalanceSystem
             #endregion
 
 
-            float actFood = localFood.Apply(foodChange);
-
-            float foodLack = actFood - foodChange;
-            if (foodLack < 0)
+            float foodLack = 0;
+            if (foodChange > 0)
             {
-                if (Disease < float.Epsilon)
+                // 如果有疾病，那么先将食物用于控制疾病
+                if (Disease > 0)
                 {
-                    Disease = 1;
+                    Disease -= foodChange * 0.1f;
+                }
+                else
+                {
+                    float actFood = localFood.Commit(foodChange);
+                    if (actFood < foodChange)
+                    {
+                        energyStat.CommitHPEnergy(Math.Min(foodChange - actFood, FoodTransportSpeed * hours));
+                    }
                 }
             }
             else
             {
-                Disease -= foodLack * 0.1f;
+                float actFood = localFood.Apply(-foodChange);
+                // 计算疾病发生情况
+                foodLack = actFood + foodChange;
+                if (foodLack < 0)
+                {
+                    if (Disease < float.Epsilon)
+                    {
+                        Disease = 1;
+                    }
+                }
             }
 
+            // 疾病发展传播计算
             if (Disease > 0)
             {
                 Disease += Disease * 0.01f;
@@ -600,7 +619,7 @@ namespace Code2015.BalanceSystem
                 Disease = 0;
             }
 
-
+            // 计算人口变化情况
             float popChange = 0;
             if (Disease > 0)
             {
@@ -617,11 +636,17 @@ namespace Code2015.BalanceSystem
             float popDevAdj = Population <= RefPopulation ?
                 (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
 
-            Development += popDevAdj * (lpnewDev * 0.5f + hpnewDev) + foodLack;
+            float devIncr = popDevAdj * (lpnewDev * 0.5f + hpnewDev);
+            Development += devIncr + foodLack;
             if (Development < 0)
             {
                 Development = 0;
             }
+            if (devIncr > 0)
+            {
+                Population += devIncr * 0.01f;
+            }
+
         }
     }
 }
