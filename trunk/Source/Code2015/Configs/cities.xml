@@ -308,5 +308,73 @@
     <Population>71</Population>
   </Kryvyi>
   
+  <!--罗马尼亚-->
+  <Craiova>
+    <Name>Craiova</Name>
+    <Longitude>23.794327</Longitude>
+    <Latitude>44.318936</Latitude>
+    <Size>Small</Size>
+    <Population>29</Population>
+  </Craiova>
+
+  <Bucuresti>
+    <Name>Bucharest</Name>
+    <Longitude>26.109009</Longitude>
+    <Latitude>44.425934</Latitude>
+    <Size>Medium</Size>
+    <Population>194</Population>
+  </Bucuresti>
+
+  <!--西班牙-->
+  <Valladolid>
+    <Name>Valladolid</Name>
+    <Longitude>-4.731503</Longitude>
+    <Latitude>41.652265</Latitude>
+    <Size>Small</Size>
+    <Population>31</Population>
+  </Valladolid>
+
+  <Madrid>
+    <Name>Madrid</Name>
+    <Longitude>-3.702736</Longitude>
+    <Latitude>40.418724</Latitude>
+    <Size>Large</Size>
+    <Population>321</Population>
+  </Madrid>
+
+  <Valencia>
+    <Name>Valencia</Name>
+    <Longitude>-0.374908</Longitude>
+    <Latitude>39.468005</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Valencia>
+  
+  <!--意大利-->
+  <Milano>
+    <Name>Milan</Name>
+    <Longitude>9.186287</Longitude>
+    <Latitude>45.462539</Latitude>
+    <Size>Medium</Size>
+    <Population>130</Population>
+  </Milano>
+
+  <!--阿尔及利亚-->
+  <Alger>
+    <Name>Alger</Name>
+    <Longitude>3.048878</Longitude>
+    <Latitude>36.738609</Latitude>
+    <Size>Medium</Size>
+    <Population>151</Population>
+  </Alger>
+
+  <BeniAbbes>
+    <Name>Beni Abbes</Name>
+    <Longitude>-2.169456</Longitude>
+    <Latitude>30.134439</Latitude>
+    <Size>Small</Size>
+    <Population>1</Population>
+  </BeniAbbes>
+  
   
 </Cities>
