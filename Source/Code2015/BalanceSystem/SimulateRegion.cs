@@ -17,6 +17,11 @@ namespace Code2015.BalanceSystem
         EnergyStatus energyStatus;
         SocietyStatus societyStatus;
 
+        public EnergyStatus EnergyStatus
+        {
+            get { return energyStatus; }
+        }
+
         /// <summary>
         ///  模拟区域的面积
         /// </summary>
