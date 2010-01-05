@@ -12,7 +12,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         /// 经度
         /// </summary>
-        public float Long
+        public float Longitude
         {
             get;
             private set;
@@ -20,7 +20,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         /// 纬度
         /// </summary>
-        public float Lat
+        public float Latitude
         {
             get;
             private set;

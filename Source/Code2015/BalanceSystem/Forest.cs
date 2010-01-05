@@ -5,7 +5,6 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 
-
 namespace Code2015.BalanceSystem
 {
       
