@@ -5,10 +5,11 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
+using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-    public class CityPlugin : IConfigurable
+    public class CityPlugin : IConfigurable, IUpdatable
     {
         City parent;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
@@ -37,6 +38,7 @@ namespace Code2015.BalanceSystem
             LPProductionSpeed = sect.GetSingle("LPProductionSpeed");
             CarbonProduceSpeed = sect.GetSingle("CarbonProduceSpeed");
             FoodCostSpeed = sect.GetSingle("FoodCostSpeed");
+            GatherRadius = sect.GetSingle("GatherRadius");
 
         }
 
@@ -64,17 +66,17 @@ namespace Code2015.BalanceSystem
         public virtual float GetUpgradeCost()
         {
             UpgradeCost = Cost * 0.5f;
-            float upgradecost = UpgradeCost;         
+            float upgradecost = UpgradeCost;
             return UpgradeCost = 0;
         }
 
-        public float Radius
+        public float GatherRadius
         {
             get;
             protected set;
         }
 
-            
+
 
         /// <summary>
         /// 高能产生的速度,速度为正表示产生能量，为负值表示消耗能量
@@ -109,7 +111,26 @@ namespace Code2015.BalanceSystem
 
         void FindResources()
         {
+            SimulateRegion region = parent.Region;
 
+            Vector2 myPos = new Vector2(parent.Lat, parent.Long);
+            for (int i = 0; i < region.Count; i++)
+            {
+                if (!object.ReferenceEquals(region[i], parent))
+                {
+                    NaturalResource res = region[i] as NaturalResource;
+                    if (res != null)
+                    {
+                        Vector2 pos = new Vector2(res.Lat, res.Long);
+                        float dist = Vector2.Distance(pos, myPos);
+
+                        if (dist < GatherRadius)
+                        {
+                            resource.Add(res);
+                        }
+                    }
+                }
+            }
         }
 
         public void NotifyAdded(City city)
@@ -126,10 +147,17 @@ namespace Code2015.BalanceSystem
         public void NotifyRemoved(City city)
         {
             parent = null;
-
-
         }
 
 
+
+        #region IUpdatable 成员
+
+        public void Update(GameTime time)
+        {
+            // 采集资源
+        }
+
+        #endregion
     }
 }

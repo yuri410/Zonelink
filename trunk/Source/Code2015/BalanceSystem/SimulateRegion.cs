@@ -42,6 +42,14 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public int Count
+        {
+            get { return simulateObject.Count; }
+        }
+        public SimulateObject this[int i]
+        {
+            get { return simulateObject[i]; }
+        }
 
         public void Add(SimulateObject obj)
         {
