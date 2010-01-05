@@ -11,7 +11,39 @@ struct PSOutput
 
 PSOutput main(PSInput ip)
 {
+	const float kShine = 128.0;
+	const float kDistortion = 0.015;
+	const float kRefraction = 0.029;
+
     PSOutput o;
+	
+	/*
+	float4 distOffset = tex2D(dudvMap, normCoords.xy) * kDistortion;
+	float4 dudvColor = tex2D(dudvMap, vec2(refrCoords + distOffset));
+	dudvColor = normalize(dudvColor * 2.0 - 1.0) * kRefraction;
+
+	float4 normalVector = tex2D(normalMap, float2(refrCoords + distOffset));
+	normalVector = normalVector * 2.0 - 1.0;
+	normalVector.a = 0.0;
+
+	float4 lightReflection = normalize( reflect(-lightTangetSpace, normalVector) );
+	
+	float4 projCoord = viewCoords / viewCoords.w;
+	projCoord = (projCoord + 1.0) * 0.5;
+	projCoord += dudvColor;
+	projCoord = clamp(projCoord, 0.001, 0.999);
+	
+
+	float4 reflectionColor  = tex2D(reflection, projCoord.xy);
+	float fn = dot(normalize(vDir), float3(0.0,1.0,0.0));
+	fn = 1.0-clamp(fn/0.779, 0.0, 1.0);
+	const float e = 2.71828;
+	float fogfactor = (density * viewCoords.z);
+	fogfactor *= fogfactor;
+	fogfactor = clamp(pow(e, -fogfactor), 0.0, 1.0);
+	float4 FinalColor = float4(0.9 * reflectionColor.xyz, fn);
+	gl_FragColor = mix(fogcolor,FinalColor,fogfactor); 
+	*/
 	
     o.Color = 1;
     return o;
