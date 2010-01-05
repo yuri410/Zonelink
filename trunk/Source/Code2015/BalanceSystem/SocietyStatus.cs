@@ -16,13 +16,13 @@ namespace Code2015.BalanceSystem
 
         public float Development
         {
-            get;
+            get { throw new NotImplementedException(); }
         }
 
 
         public float Population
         {
-            get;
+            get { throw new NotImplementedException(); }
         }
 
         public void Update(GameTime time)
