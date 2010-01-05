@@ -464,7 +464,7 @@ namespace Code2015.BalanceSystem
             float hpChange = ProduceHPSpeed * hours;
             float lpChange = ProduceLPSpeed * hours;
 
-            float foodChange = FoodCostSpeed * hours;
+            float foodChange = -FoodCostSpeed * hours;
 
             #region 补缺储备
             {
