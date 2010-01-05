@@ -669,8 +669,7 @@ namespace Code2015.BalanceSystem
 
         public void Parse(ConfigurationSection sect)
         {
-            Longitude = sect.GetSingle("Longitude");
-            Latitude = sect.GetSingle("Latitude");
+            base.Parse(sect);
             Name = sect.GetString("Name", string.Empty);
             Population = sect.GetSingle("Population");
             Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", string.Empty));

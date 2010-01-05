@@ -4,10 +4,11 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
+using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
-    public class SimulateObject : IUpdatable
+    public class SimulateObject :IConfigurable, IUpdatable
     {
         /// <summary>
         /// 经度
@@ -100,5 +101,16 @@ namespace Code2015.BalanceSystem
             float hours = time.ElapsedGameTime.Hours;
             this.CarbonChange = this.CarbonProduceSpeed * hours;
         }
+
+        #region IConfigurable 成员
+
+        public void Parse(ConfigurationSection sect)
+        {
+            Longitude = sect.GetSingle("Longitude");
+            Latitude = sect.GetSingle("Latitude");
+
+        }
+
+        #endregion
     }
 }
