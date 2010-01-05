@@ -155,7 +155,13 @@
   <ItemGroup>
     <Content Include="BalanceSystem\BalanceSystemInfo.txt" />
     <Content Include="BalanceSystem\计划.jpg" />
-    <None Include="Configs\cityPlugins.xml">
+    <None Include="Configs\resources.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\action.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\cityplugins.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Game.ico" />

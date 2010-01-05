@@ -113,7 +113,7 @@ namespace Code2015.BalanceSystem
         {
             SimulateRegion region = parent.Region;
 
-            Vector2 myPos = new Vector2(parent.Lat, parent.Long);
+            Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
             for (int i = 0; i < region.Count; i++)
             {
                 if (!object.ReferenceEquals(region[i], parent))
@@ -121,7 +121,7 @@ namespace Code2015.BalanceSystem
                     NaturalResource res = region[i] as NaturalResource;
                     if (res != null)
                     {
-                        Vector2 pos = new Vector2(res.Lat, res.Long);
+                        Vector2 pos = new Vector2(res.Latitude, res.Longitude);
                         float dist = Vector2.Distance(pos, myPos);
 
                         if (dist < GatherRadius)
