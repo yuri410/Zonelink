@@ -25,10 +25,11 @@ namespace TestCode2015
             sect.Add("Name", "HUST");
             sect.Add("Longitude", "0");
             sect.Add("Latitude", "0");
-            sect.Add("Population", "10");
+            sect.Add("Population", "1000");
             sect.Add("Size", UrbanSize.Small.ToString());
 
             city.Parse(sect);
+            city.UpdateCity();
 
             region.Add(city);
 
@@ -64,7 +65,7 @@ namespace TestCode2015
                 GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
                 region.Update(gt);
 
-                Thread.Sleep(100);
+                Thread.Sleep(10);
             }
         }
     }
