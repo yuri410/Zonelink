@@ -65,6 +65,9 @@ namespace Code2015.BalanceSystem
         {
             this.Owner = owner;
             this.Border = border;
+
+            energyStatus = new EnergyStatus(this);
+            societyStatus = new SocietyStatus(this);
         }
 
         public void Update(GameTime time)

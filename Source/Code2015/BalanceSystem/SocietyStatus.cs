@@ -9,22 +9,25 @@ namespace Code2015.BalanceSystem
 {
     public class SocietyStatus : IUpdatable
     {
+        public SocietyStatus(SimulateRegion region)
+        {
 
+        }
 
         public float Development
         {
             get;
-            set;
         }
 
 
         public float Population
         {
             get;
-            set;
         }
 
         public void Update(GameTime time)
-        { }
+        {
+        
+        }
     }
 }
