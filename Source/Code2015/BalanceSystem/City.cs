@@ -154,6 +154,14 @@ namespace Code2015.BalanceSystem
         const float LargeDevMult = 0.1f;
 
         [SLGValue]
+        const float SmallRefPop = 20000;
+        [SLGValue]
+        const float MediumRefPop = 20000;
+        [SLGValue]
+        const float LargeRefPop = 20000;
+
+
+        [SLGValue]
         const float DevBias = -10;
 
         static readonly float[] DevMult = { SmallDevMult, MediumDevMult, LargeDevMult };
@@ -209,24 +217,35 @@ namespace Code2015.BalanceSystem
         {
             get;
             private set;
-            //{
-            //    switch (Size)
-            //    {
-            //        case UrbanSize.Small:
-            //            return 20000;
-            //        case UrbanSize.Normal:
-            //            return 500000;
-            //        case UrbanSize.Large:
-            //            return 3000000;
-            //    }
-            //    return 0;
-            //}
         }
         public float Disease
         {
             get;
             set;
         }
+
+        /// <summary>
+        ///  获取在当前城市规模下的参考人口（标准人口）
+        /// </summary>
+        public float RefPopulation
+        {
+            get
+            {
+                {
+                    switch (Size)
+                    {
+                        case UrbanSize.Small:
+                            return 20000;
+                        case UrbanSize.Normal:
+                            return 500000;
+                        case UrbanSize.Large:
+                            return 3000000;
+                    }
+                    return 0;
+                }
+            }
+        }
+
 
         public float DevelopmentMult
         {
@@ -300,8 +319,6 @@ namespace Code2015.BalanceSystem
         }
 
         #endregion
-
-
 
         #endregion
 
@@ -485,7 +502,7 @@ namespace Code2015.BalanceSystem
             // 计算发展度
             float hpnewDev = DevBias;
 
-            #region 
+            #region
             if (hpChange > 0)
             {
                 float act = localHp.Commit(hpChange);
@@ -596,8 +613,11 @@ namespace Code2015.BalanceSystem
                 Population = 0;
             }
 
-            // TODO：对数（人口参照）作为发展的调整值
-            Development += lpnewDev * 0.5f + hpnewDev + foodLack;
+
+            float popDevAdj = Population <= RefPopulation ?
+                (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+
+            Development += popDevAdj * (lpnewDev * 0.5f + hpnewDev) + foodLack;
             if (Development < 0)
             {
                 Development = 0;
