@@ -14,10 +14,11 @@ namespace Code2015.BalanceSystem
         const float OILWeight = 100000;//油田含油量的初始值
         const float EMITCarbonSpeed = 10;//油田释放的C值
 
-       
-        public OilField()
-        {    
-            this.InitSourceAmount = OILWeight;      
+
+        public OilField(SimulateRegion region)
+            : base(region)
+        {
+            this.InitSourceAmount = OILWeight;
             this.EmitCarbonSpeed = EMITCarbonSpeed;
         }
 

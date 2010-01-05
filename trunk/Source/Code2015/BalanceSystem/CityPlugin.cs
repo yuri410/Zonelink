@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Config;
 using Apoc3D.Collections;
+using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
@@ -107,15 +107,27 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+        void FindResources()
+        {
+
+        }
+
         public void NotifyAdded(City city)
         {
+            if (city != null)
+            {
+                throw new InvalidOperationException();
+            }
             parent = city;
 
+            FindResources();
         }
 
         public void NotifyRemoved(City city)
         {
             parent = null;
+
+
         }
 
 

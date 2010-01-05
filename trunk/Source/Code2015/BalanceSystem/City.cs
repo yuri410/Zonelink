@@ -175,6 +175,7 @@ namespace Code2015.BalanceSystem
         static readonly float[] FoodTSpeed = { SmallFoodTranportSpeed, MediumFoodTranportSpeed, LargeFoodTranportSpeed };
 
         public City(EnergyStatus energyStat)
+            : base(energyStat.Region)
         {
             this.energyStat = energyStat;
             localLp = new ResourceType(SmallMaxLPStorage, float.MaxValue);
@@ -205,6 +206,9 @@ namespace Code2015.BalanceSystem
         ResourceType localFood;
 
         #region  属性
+
+        
+
         public string Name
         {
             get;
