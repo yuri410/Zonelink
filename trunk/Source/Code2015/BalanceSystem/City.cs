@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
+using Apoc3D.Config;
 using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
@@ -66,14 +67,14 @@ namespace Code2015.BalanceSystem
     public enum UrbanSize
     {
         Small = 0,
-        Normal = 1,
+        Medium = 1,
         Large = 2
     }
 
     /// <summary>
     ///  表示一座城市
     /// </summary>
-    public class City : SimulateObject, IUpdatable
+    public class City : SimulateObject, IConfigurable, IUpdatable
     {
         [SLGValue]
         const int TownPluginCount = 1;
@@ -242,7 +243,7 @@ namespace Code2015.BalanceSystem
                     {
                         case UrbanSize.Small:
                             return 20000;
-                        case UrbanSize.Normal:
+                        case UrbanSize.Medium:
                             return 500000;
                         case UrbanSize.Large:
                             return 3000000;
@@ -345,7 +346,7 @@ namespace Code2015.BalanceSystem
                 {
                     case UrbanSize.Small:
                         return TownPluginCount;
-                    case UrbanSize.Normal:
+                    case UrbanSize.Medium:
                         return NormalPluginCount;
                     case UrbanSize.Large:
                         return LargePluginCount;
@@ -384,7 +385,7 @@ namespace Code2015.BalanceSystem
                     localHp.MaxLimit = LargeMaxHPStorage;
                     localFood.MaxLimit = LargeMaxFoodStorage;
                     break;
-                case UrbanSize.Normal:
+                case UrbanSize.Medium:
                     this.SelfFoodCostSpeed = 30;
                     this.CarbonProduceSpeed = 300;
                     localLp.MaxLimit = MediumMaxLPStorage;
@@ -652,5 +653,18 @@ namespace Code2015.BalanceSystem
             }
 
         }
+
+        #region IConfigurable 成员
+
+        public void Parse(ConfigurationSection sect)
+        {
+            Longitude = sect.GetSingle("Longitude");
+            Latitude = sect.GetSingle("Latitude");
+            Name = sect.GetString("Name", string.Empty);
+            Population = sect.GetSingle("Population");
+            Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", string.Empty));
+        }
+
+        #endregion
     }
 }
