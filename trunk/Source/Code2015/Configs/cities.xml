@@ -92,8 +92,8 @@
 
   <Mumbai>
     <Name>Mumbai</Name>
-    <Longitude></Longitude>
-    <Latitude></Latitude>
+    <Longitude>72.8561</Longitude>
+    <Latitude>19.0175</Latitude>
     <Size>Large</Size>
     <Population>1400</Population>
   </Mumbai>
@@ -103,7 +103,7 @@
     <Longitude>79.08886</Longitude>
     <Latitude>21.153517</Latitude>
     <Size>Medium</Size>
-    
+    <Population>242</Population>
   </Nagpur>
 
   <!--缅甸-->
@@ -112,8 +112,201 @@
     <Longitude>96.0993</Longitude>
     <Latitude>21.992556</Latitude>
     <Size>Medium</Size>
-    
+    <Population>130</Population>
   </Mandalay>
+  
+  <!--澳大利亚-->
+  <Melbourne>
+    <Name>Melbourne</Name>
+    <Longitude>144.970093</Longitude>
+    <Latitude>-37.818463</Latitude>
+    <Size>Large</Size>
+    <Population></Population>
+  </Melbourne>
+
+  <Albany>
+    <Name>Albany</Name>
+    <Longitude>145.775</Longitude>
+    <Latitude>-16.925278</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Albany>
+
+  <Caims>
+    <Name>Caims</Name>
+    <Longitude>117.878838</Longitude>
+    <Latitude>-35.005534</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Caims>
+
+  <AliceSprings>
+    <Name>Alice Springs</Name>
+    <Longitude>133.879995</Longitude>
+    <Latitude>-23.700808</Latitude>
+    <Size>Small</Size>
+    <Population>2</Population>
+  </AliceSprings>
+  
+  <!--阿富汗-->
+  <Qandahar>
+    <Name>Kandahar</Name>
+    <Longitude>65.721588</Longitude>
+    <Latitude>31.617866</Latitude>
+    <Size>Small</Size>
+    <Population>46</Population>
+  </Qandahar>
+  
+  <!--俄罗斯-->
+  <Moscow>
+    <Name>Moscow</Name>
+    <Longitude>37.617188</Longitude>
+    <Latitude>55.748758</Latitude>
+    <Size>Large</Size>
+    <Population>1052</Population>
+  </Moscow>
+
+  <Novosibirsk>
+    <Name>Novosibirsk</Name>
+    <Longitude>82.92326</Longitude>
+    <Latitude>55.024086</Latitude>
+    <Size>Small</Size>
+    <Population>142</Population>
+  </Novosibirsk>
+
+  <Irkutsk>
+    <Name>Irkutsk</Name>
+    <Longitude>104.308319</Longitude>
+    <Latitude>52.27383</Latitude>
+    <Size>Small</Size>
+    <Population>59</Population>
+  </Irkutsk>
+
+  <Komsomolsk-on-Amur>
+    <Name>Komsomolsk-on-Amur</Name>
+    <Longitude>136.995392</Longitude>
+    <Latitude>50.549217</Latitude>
+    <Size>Medium</Size>
+    <Population>27</Population>
+  </Komsomolsk-on-Amur>
+  
+  <!--孟加拉国-->
+  <Dhaka>
+    <Name>Dhaka</Name>
+    <Longitude>90.391388</Longitude>
+    <Latitude>23.772149</Latitude>
+    <Size>Medium</Size>
+    <Population>700</Population>
+  </Dhaka>
+  
+  <!--哈萨克斯坦-->
+  <Suzak>
+    <Name>Suzak</Name>
+    <Longitude>68.466282</Longitude>
+    <Latitude>44.140272</Latitude>
+    <Size>Small</Size>
+  </Suzak>
+
+  <Tashkent>
+    <Name>Tashkent</Name>
+    <Longitude>69.257813</Longitude>
+    <Latitude>41.309277</Latitude>
+    <Size>Medium</Size>
+    <Population>218</Population>
+  </Tashkent>
+
+  <!--乌兹别克斯坦-->
+  <Balkanabat>
+    <Name>Balkanabat</Name>
+    <Longitude>54.37593</Longitude>
+    <Latitude>39.504537</Latitude>
+    <Size>Small</Size>
+    <Population>8</Population>
+  </Balkanabat>
+
+  <!--法国-->
+  <Paris>
+    <Name>Paris</Name>
+    <Longitude>2.35083</Longitude>
+    <Latitude>48.8567</Latitude>
+    <Size>Large</Size>
+    <Population>1176</Population>
+  </Paris>
+
+  <Toulouse>
+    <Name>Toulouse</Name>
+    <Longitude>1.441612</Longitude>
+    <Latitude>43.601279</Latitude>
+    <Size>Medium</Size>
+    <Population>1102</Population>
+  </Toulouse>
+
+  <Angers>
+    <Name>Angers</Name>
+    <Longitude>-0.5476</Longitude>
+    <Latitude>47.466049</Latitude>
+    <Size>Large</Size>
+    <Population>Small</Population>
+  </Angers>
+  
+  <!--德国-->
+  <Berlin>
+    <Name>Berlin</Name>
+    <Longitude>13.4095</Longitude>
+    <Latitude>52.520399</Latitude>
+    <Size>Large</Size>
+    <Population>343</Population>
+  </Berlin>
+
+  <Hannover>
+    <Name>Hanover</Name>
+    <Longitude>9.730453</Longitude>
+    <Latitude>52.382515</Latitude>
+    <Size>Medium</Size>
+    <Population>52</Population>
+  </Hannover>
+
+  <Ulm>
+    <Name>Ulm</Name>
+    <Longitude>9.990349</Longitude>
+    <Latitude>48.397297</Latitude>
+    <Size>Small</Size>
+    <Population>12</Population>
+  </Ulm>
+  
+  <!--波兰-->
+  <Warszawa>
+    <Name>Warsaw</Name>
+    <Longitude>21.055298</Longitude>
+    <Latitude>52.223593</Latitude>
+    <Size>Large</Size>
+    <Population>171</Population>
+  </Warszawa>
+
+  <Torun>
+    <Name>Torun</Name>
+    <Longitude>18.608952</Longitude>
+    <Latitude>53.009929</Latitude>
+    <Size>Small</Size>
+    <Population>20</Population>
+  </Torun>
+
+  <!--乌克兰-->
+  <Kyiv>
+    <Name>Kiev</Name>
+    <Longitude>30.531006</Longitude>
+    <Latitude>50.447011</Latitude>
+    <Size>Medium</Size>
+    <Population>281</Population>
+  </Kyiv>
+
+  <Kryvyi>
+    <Name>Kryvyi Rih</Name>
+    <Longitude>33.397236</Longitude>
+    <Latitude>47.897355</Latitude>
+    <Size>Small</Size>
+    <Population>71</Population>
+  </Kryvyi>
   
   
 </Cities>
