@@ -152,11 +152,11 @@ namespace Code2015.BalanceSystem
         const float LargeDevMult = 0.1f;
 
         [SLGValue]
-        const float SmallRefPop = 20000;
+        const float SmallRefPop = 20;
         [SLGValue]
-        const float MediumRefPop = 20000;
+        const float MediumRefPop = 400;
         [SLGValue]
-        const float LargeRefPop = 20000;
+        const float LargeRefPop = 1000;
 
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
@@ -253,11 +253,11 @@ namespace Code2015.BalanceSystem
                     switch (Size)
                     {
                         case UrbanSize.Small:
-                            return 20000;
+                            return SmallRefPop;
                         case UrbanSize.Medium:
-                            return 500000;
+                            return MediumRefPop;
                         case UrbanSize.Large:
-                            return 3000000;
+                            return LargeRefPop;
                     }
                     return 0;
                 }
@@ -456,9 +456,12 @@ namespace Code2015.BalanceSystem
 
         public override void Update(GameTime time)
         {
-            base.Update(time);
+            SelfFoodCostSpeed = Population * 0.05f;
+
+            //CarbonProduceSpeed = Population * 0.02f + 
+
             float hours = (float)time.ElapsedGameTime.TotalHours;
-            this.CarbonChange += PluginCarbonProduceSpeed * hours;
+            //this.CarbonChange += PluginCarbonProduceSpeed * hours;
 
 
             float hpChange = ProduceHPSpeed * hours;
@@ -620,7 +623,7 @@ namespace Code2015.BalanceSystem
                 {
                     if (Disease < float.Epsilon)
                     {
-                        Disease = 1;
+                        Disease = 0.01f;
                     }
                 }
             }
@@ -628,7 +631,7 @@ namespace Code2015.BalanceSystem
             // 疾病发展传播计算
             if (Disease > 0)
             {
-                Disease += Disease * Population * 0.001f;
+                Disease += Disease * (float)Math.Log(Population, 100) * 0.001f;
             }
             else
             {
@@ -652,10 +655,14 @@ namespace Code2015.BalanceSystem
             float popDevAdj = 0;
             if (Population > 0)
             {
-                popDevAdj = Population <= RefPopulation ?
-                    (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+                if (Population < 2 * RefPopulation)
+                {
+                    popDevAdj = Population <= RefPopulation ?
+                        (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+                }
+                else { popDevAdj = -1000; }
             }
-
+#warning sign check
             float devIncr = popDevAdj * (lpnewDev * 0.5f + hpnewDev);
             Development += devIncr + foodLack;
             if (Development < 0)
@@ -666,6 +673,7 @@ namespace Code2015.BalanceSystem
             {
                 Population += devIncr * 0.01f;
             }
+            base.Update(time);
 
         }
 
