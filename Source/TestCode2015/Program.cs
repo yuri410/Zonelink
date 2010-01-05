@@ -42,15 +42,26 @@ namespace TestCode2015
                 Console.Write(" Current LP Storage   ");
                 Console.WriteLine(region.EnergyStatus.CurrentLPEnergy);
 
-                Console.WriteLine("Energy Status:");
-                Console.Write(" Current Food Storage   ");
-                Console.WriteLine(region.EnergyStatus.CurrentFood);
-                Console.Write(" Current HP Storage   ");
-                Console.WriteLine(region.EnergyStatus.CurrentHPEnergy);
-                Console.Write(" Current LP Storage   ");
-                Console.WriteLine(region.EnergyStatus.CurrentLPEnergy);
+                Console.WriteLine("City Status:");
+                Console.Write(" Development   ");
+                Console.WriteLine(city.Development);
+                Console.Write(" Population   ");
+                Console.WriteLine(city.Population);
+                Console.Write(" Disease   ");
+                Console.WriteLine(city.Disease);
+                Console.Write(" Size   ");
+                Console.WriteLine(city.Size);
+                Console.Write(" Local HP   ");
+                Console.WriteLine(city.LocalHP);
+                Console.Write(" Local LP   ");
+                Console.WriteLine(city.LocalLP);
+                Console.Write(" Local Food   ");
+                Console.WriteLine(city.LocalFood);
+
+                Console.WriteLine("-------------------------------------------------------");
 
 
+               
 
                 Thread.Sleep(100);
             }
