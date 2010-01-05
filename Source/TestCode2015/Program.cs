@@ -30,9 +30,11 @@ namespace TestCode2015
 
             city.Parse(sect);
 
+            region.Add(city);
+
+            float c = 0;
             while (true)
             {
-
                 Console.Clear();
                 Console.WriteLine("Energy Status:");
                 Console.Write(" Current Food Storage   ");
@@ -55,7 +57,9 @@ namespace TestCode2015
                 Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHP, city.LocalLP, city.LocalFood);
                 Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city.ProduceHPSpeed, city.ProduceLPSpeed, city.FoodCostSpeed);
 
+                c += city.GetCarbonChange();
 
+                Console.WriteLine("World Carbon {0}", c);
 
                 GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
                 region.Update(gt);

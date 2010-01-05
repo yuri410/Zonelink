@@ -628,7 +628,7 @@ namespace Code2015.BalanceSystem
             // 疾病发展传播计算
             if (Disease > 0)
             {
-                Disease += Disease * 0.01f;
+                Disease += Disease * Population * 0.001f;
             }
             else
             {
@@ -649,8 +649,12 @@ namespace Code2015.BalanceSystem
             }
 
 
-            float popDevAdj = Population <= RefPopulation ?
-                (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+            float popDevAdj = 0;
+            if (Population > 0)
+            {
+                popDevAdj = Population <= RefPopulation ?
+                    (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+            }
 
             float devIncr = popDevAdj * (lpnewDev * 0.5f + hpnewDev);
             Development += devIncr + foodLack;
@@ -667,7 +671,7 @@ namespace Code2015.BalanceSystem
 
         #region IConfigurable 成员
 
-        public void Parse(ConfigurationSection sect)
+        public override void Parse(ConfigurationSection sect)
         {
             base.Parse(sect);
             Name = sect.GetString("Name", string.Empty);
