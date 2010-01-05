@@ -12,7 +12,8 @@ namespace Code2015.BalanceSystem
     {
 
         FastList<City> cities;
-        public NaturalResource()
+        public NaturalResource(SimulateRegion region)
+            : base(region)
         {
             cities = new FastList<City>();
         }

@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Apoc3D.Collections;
 using Apoc3D;
+using Apoc3D.Collections;
 
 
 namespace Code2015.BalanceSystem
@@ -22,13 +22,15 @@ namespace Code2015.BalanceSystem
             set;
         }
 
-        public Forest()
+        public Forest(SimulateRegion region)
+            : base(region)
         {
             this.InitSourceAmount = INITForestAmount;
             this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
             this.SourceProduceSpeed = 100;
-            
+
         }
+
         /// <summary>
         /// 暂时设置森林的再生速度为定值，玩家用于设置森林的再生速度
         /// </summary>

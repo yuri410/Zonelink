@@ -84,10 +84,14 @@ namespace Code2015.BalanceSystem
             set;
         }
 
-
-        public SimulateObject()
+        public SimulateRegion Region
         {
-
+            get;
+            private set;
+        }
+        public SimulateObject(SimulateRegion region)
+        {
+            Region = region;
         }
 
 

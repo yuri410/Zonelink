@@ -26,6 +26,11 @@ namespace Code2015.BalanceSystem
 
         FastList<City> cities;
 
+        public SimulateRegion Region
+        {
+            get;
+            private set;
+        }
         /// <summary>
         ///  当前已储备的能量
         /// </summary>
@@ -142,19 +147,20 @@ namespace Code2015.BalanceSystem
             CurrentFood += amount;
         }
 
-        public EnergyStatus()
+        public EnergyStatus(SimulateRegion region)
         {
             cities = new FastList<City>();
             this.CurrentHPEnergy = InitHPEnergy;
             this.CurrentLPEnergy = InitLPEnergy;
             //this.RemainingHPEnergy = CurrentHPEnergy;
             //this.RemainingLPEnergy = CurrentLPEnergy;
+            Region = region;
         }
 
        
         public void Update(GameTime time)
         {
-
+            // TODO：统计
         }
 
 
