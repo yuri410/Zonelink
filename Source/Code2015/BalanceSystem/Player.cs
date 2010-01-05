@@ -36,9 +36,9 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public string SetPlayerName(string name)
+        public Player(string name)
         {
-            return this.Name = name;
+            this.Name = name;
         }
 
         SimulateRegion simulateRegion;

@@ -7,6 +7,7 @@ using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
 
+
 namespace Code2015.BalanceSystem
 {
     class ResourceType
@@ -70,10 +71,6 @@ namespace Code2015.BalanceSystem
         Medium = 1,
         Large = 2
     }
-
-    /// <summary>
-    ///  表示一座城市
-    /// </summary>
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
         [SLGValue]
@@ -208,6 +205,7 @@ namespace Code2015.BalanceSystem
 
         #region  属性
 
+
         public float LocalHP
         {
             get { return localHp.Current; }
@@ -220,6 +218,8 @@ namespace Code2015.BalanceSystem
         {
             get { return localFood.Current; }
         }
+
+
 
         public string Name
         {

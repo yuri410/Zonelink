@@ -16,7 +16,7 @@ namespace TestCode2015
     {
         public static void Test()
         {
-            Player player = new Player();
+            Player player = new Player("");
             SimulateRegion region = new SimulateRegion(player, null);
 
             City city = new City(region.EnergyStatus);
@@ -73,8 +73,6 @@ namespace TestCode2015
     {
         static void Main(string[] args)
         {
-            GameTime time = new GameTime(100, 1, new TimeSpan(10, 10, 10, 10), new TimeSpan(1, 1, 1, 1));
-
             Console.ReadLine();
 
             CityTester.Test();
