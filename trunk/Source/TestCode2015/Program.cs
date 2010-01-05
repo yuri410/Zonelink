@@ -32,8 +32,8 @@ namespace TestCode2015
 
             while (true)
             {
-                GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
 
+                Console.Clear();
                 Console.WriteLine("Energy Status:");
                 Console.Write(" Current Food Storage   ");
                 Console.WriteLine(region.EnergyStatus.CurrentFood);
@@ -51,17 +51,14 @@ namespace TestCode2015
                 Console.WriteLine(city.Disease);
                 Console.Write(" Size   ");
                 Console.WriteLine(city.Size);
-                Console.Write(" Local HP   ");
-                Console.WriteLine(city.LocalHP);
-                Console.Write(" Local LP   ");
-                Console.WriteLine(city.LocalLP);
-                Console.Write(" Local Food   ");
-                Console.WriteLine(city.LocalFood);
 
-                Console.WriteLine("-------------------------------------------------------");
+                Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHP, city.LocalLP, city.LocalFood);
+                Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city.ProduceHPSpeed, city.ProduceLPSpeed, city.FoodCostSpeed);
 
 
-               
+
+                GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
+                region.Update(gt);
 
                 Thread.Sleep(100);
             }
@@ -76,7 +73,8 @@ namespace TestCode2015
 
             Console.ReadLine();
 
-
+            CityTester.Test();
+            Console.ReadLine();
         }
 
     }
