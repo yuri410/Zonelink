@@ -104,7 +104,7 @@ namespace Code2015.BalanceSystem
 
         #region IConfigurable 成员
 
-        public void Parse(ConfigurationSection sect)
+        public virtual void Parse(ConfigurationSection sect)
         {
             Longitude = sect.GetSingle("Longitude");
             Latitude = sect.GetSingle("Latitude");
