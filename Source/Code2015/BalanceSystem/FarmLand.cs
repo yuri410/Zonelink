@@ -14,12 +14,14 @@ namespace Code2015.BalanceSystem
     {
         [SLGValueAttribute()]
         const float INITFoodAmount = 100000;
+        [SLGValue]
         const float ABSORBCarbonSpeed = 1000;
+        [SLGValue]
         const float SOURCEProduceSpeed = 500;
 
         FastList<PlantSpecies> FoodPlants;
         public FarmLand(SimulateRegion region)
-            : base(region)
+            : base(region, NaturalResourceType.Food)
         {
             FoodPlants = new FastList<PlantSpecies>();
             this.InitSourceAmount = INITFoodAmount;

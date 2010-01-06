@@ -22,7 +22,7 @@ namespace Code2015.BalanceSystem
         }
 
         public Forest(SimulateRegion region)
-            : base(region)
+            : base(region, NaturalResourceType.Wood)
         {
             this.InitSourceAmount = INITForestAmount;
             this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;

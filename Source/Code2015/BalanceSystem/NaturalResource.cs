@@ -59,7 +59,7 @@ namespace Code2015.BalanceSystem
 
         public float Exploit(float amount)
         {
-
+            throw new NotImplementedException();
         }
 
 

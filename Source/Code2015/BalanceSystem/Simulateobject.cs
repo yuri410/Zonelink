@@ -47,44 +47,44 @@ namespace Code2015.BalanceSystem
             return r;
         }
 
-        ///// <summary>
-        ///// 高能
-        ///// </summary>
-        //public float InitHPAmount
-        //{
-        //    get;
-        //    set;
-        //}
-        //public float RemainingHPAmount
-        //{
-        //    get;
-        //    set;
-        //}
-        //public float ConsumeHPSpeed
-        //{
-        //    get;
-        //    set;
-        //}
+        /// <summary>
+        /// 高能
+        /// </summary>
+        public float InitHPAmount
+        {
+            get;
+            set;
+        }
+        public float RemainingHPAmount
+        {
+            get;
+            set;
+        }
+        public float ConsumeHPSpeed
+        {
+            get;
+            set;
+        }
 
 
-        ///// <summary>
-        ///// 低能
-        ///// </summary>
-        //public float InitLPAmount
-        //{
-        //    get;
-        //    set;
-        //}
-        //public float RemainingAmount
-        //{
-        //    get;
-        //    set;
-        //}
-        //public float ConsumeLPSpeed
-        //{
-        //    get;
-        //    set;
-        //}
+        /// <summary>
+        /// 低能
+        /// </summary>
+        public float InitLPAmount
+        {
+            get;
+            set;
+        }
+        public float RemainingAmount
+        {
+            get;
+            set;
+        }
+        public float ConsumeLPSpeed
+        {
+            get;
+            set;
+        }
              
         public SimulateRegion Region
         {
