@@ -229,7 +229,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="BalanceSystem\EnergyStatus1.cs" />
     <None Include="CompileShader.bat" />
     <None Include="Configs\cities.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
