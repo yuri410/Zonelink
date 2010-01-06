@@ -78,6 +78,24 @@ namespace Code2015.BalanceSystem
 
 
 
+        ///// <summary>
+        /////  输入资源充足时的高能生产速度
+        ///// </summary>
+        //public float FullHPProductionSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
+        ///// <summary>
+        /////  输入资源充足时的高能生产速度
+        ///// </summary>
+        //public float FullLPProductionSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
+
+        
         /// <summary>
         /// 高能产生的速度,速度为正表示产生能量，为负值表示消耗能量
         /// </summary>
@@ -156,11 +174,40 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
+            float hours = (float)time.ElapsedGameTime.TotalHours;
             // 采集资源
 
             int index = Randomizer.GetRandomInt(resource.Count);
 
-            
+
+            float hpResource = HPProductionSpeed * hours;
+            float lpResource = LPProductionSpeed * hours;
+
+            int tries = 0;
+            while (tries < resource.Count)
+            {
+                NaturalResource res = resource[index % resource.Count];
+
+                if (hpResource > 0)
+                {
+                    if (res.Type == NaturalResourceType.Oil)
+                    {
+
+                        hpResource = 0;
+                    }
+                }
+                if (lpResource > 0) 
+                {
+                    if (res.Type == NaturalResourceType.Wood)
+                    {
+
+                        lpResource = 0;
+                    }
+                }
+
+                index++;
+                tries++;
+            }
         }
 
         #endregion

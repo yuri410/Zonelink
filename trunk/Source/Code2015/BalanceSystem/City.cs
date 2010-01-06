@@ -469,6 +469,7 @@ namespace Code2015.BalanceSystem
 
             float foodChange = -FoodCostSpeed * hours;
 
+#warning TODO: 分开计算
             #region 补缺储备
             {
                 float requirement = localLp.MaxLimit - localLp.Current;
