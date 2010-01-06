@@ -601,36 +601,40 @@ namespace Code2015.BalanceSystem
 
 
             float foodLack = 0;
-            if (foodChange > 0)
-            {
-                //this.CarbonChange += CarbonMult * foodLack;
+            //if (foodChange > 0)
+            //{
+            //    //this.CarbonChange += CarbonMult * foodLack;
 
-                // 如果有疾病，那么先将食物用于控制疾病
-                if (Disease > 0)
-                {
-                    Disease -= foodChange * 0.1f;
-                }
-                else
-                {
-                    float actFood = localFood.Commit(foodChange);
-                    if (actFood < foodChange)
-                    {
-                        energyStat.CommitHPEnergy(Math.Min(foodChange - actFood, FoodTransportSpeed * hours));
-                    }
-                }
-            }
-            else
+            //    // 如果有疾病，那么先将食物用于控制疾病
+            //    if (Disease > 0)
+            //    {
+            //        Disease -= foodChange;
+            //    }
+            //    else
+            //    {
+            //        float actFood = localFood.Commit(foodChange);
+            //        if (actFood < foodChange)
+            //        {
+            //            energyStat.CommitHPEnergy(Math.Min(foodChange - actFood, FoodTransportSpeed * hours));
+            //        }
+            //    }
+            //}
+            //else
             {
                 float actFood = localFood.Apply(-foodChange);
                 // 计算疾病发生情况
                 foodLack = actFood + foodChange;
-                
+
                 if (foodLack < 0)
                 {
                     if (Disease < float.Epsilon)
                     {
                         Disease = 0.01f;
                     }
+                }
+                else
+                {
+                    Disease -= actFood;
                 }
 
                 //this.CarbonChange += CarbonMult * foodLack;
@@ -663,30 +667,30 @@ namespace Code2015.BalanceSystem
 
             float devIncr = (lpnewDev * 0.5f + hpnewDev);
 
-            float popDevAdj = 0;
+            float popDevAdj = 1;
             if (Population > 0)
             {
-                if (Population < 2 * RefPopulation)
-                {
-                    popDevAdj = Population <= RefPopulation ?
-                        (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+                //if (Population < 2 * RefPopulation)
+                //{
+                //    popDevAdj = Population <= RefPopulation ?
+                //        (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
 
-                    if (devIncr < 0)
-                    {
-                        if (popDevAdj < 0)
-                        {
-                            popDevAdj = -popDevAdj;
-                        }
-                    }
+                //    if (devIncr < 0)
+                //    {
+                //        if (popDevAdj < 0)
+                //        {
+                //            popDevAdj = -popDevAdj;
+                //        }
+                //    }
 
-                    //devIncr = devIncr < 0 ? 1000 : -1000;
-                    devIncr *= popDevAdj;
-                }
-                else
-                {
-                    popDevAdj = devIncr < 0 ? 1000 : -1000;
-                    devIncr *= popDevAdj;
-                }
+                //    //devIncr = devIncr < 0 ? 1000 : -1000;
+                //    devIncr *= popDevAdj;
+                //}
+                //else
+                //{
+                //    popDevAdj = devIncr < 0 ? 1000 : -1000;
+                //    devIncr *= popDevAdj;
+                //}
             }
 
             Development += devIncr + foodLack;
@@ -696,7 +700,7 @@ namespace Code2015.BalanceSystem
             }
             if (devIncr > 0)
             {
-                Population += devIncr * 0.01f;
+                Population += (devIncr + foodLack) * 0.01f;
             }
 
         }
