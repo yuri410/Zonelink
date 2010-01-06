@@ -390,25 +390,19 @@ namespace Code2015.BalanceSystem
             switch (Size)
             {
                 case UrbanSize.Large:
-                    this.SelfFoodCostSpeed = 50;
-                    //this.CarbonProduceSpeed = 500;
                     localLp.MaxLimit = LargeMaxLPStorage;
                     localHp.MaxLimit = LargeMaxHPStorage;
                     localFood.MaxLimit = LargeMaxFoodStorage;
                     break;
                 case UrbanSize.Medium:
-                    this.SelfFoodCostSpeed = 30;
-                    //this.CarbonProduceSpeed = 300;
                     localLp.MaxLimit = MediumMaxLPStorage;
                     localHp.MaxLimit = MediumMaxHPStorage;
                     localFood.MaxLimit = MediumMaxFoodStorage;
                     break;
                 case UrbanSize.Small:
-                    this.SelfFoodCostSpeed = 10;
                     localLp.MaxLimit = SmallMaxLPStorage;
                     localHp.MaxLimit = SmallMaxHPStorage;
                     localFood.MaxLimit = SmallMaxFoodStorage;
-                    //this.CarbonProduceSpeed = 100;
                     break;
             }
 
@@ -461,6 +455,9 @@ namespace Code2015.BalanceSystem
             SelfFoodCostSpeed = Population * 0.05f;
 
             base.Update(time);
+
+            UpdateCity();
+
 
             //CarbonProduceSpeed = SelfFoodCostSpeed * 0.1f;
 

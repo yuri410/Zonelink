@@ -7,15 +7,24 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-   
-    public class NaturalResource : SimulateObject
+    public enum NaturalResourceType
     {
+        None,
+        Wood,
+        Food,
+        Oil
+    }
 
+    public abstract class NaturalResource : SimulateObject
+    {
+        [Obsolete ()]
         FastList<City> cities;
-        public NaturalResource(SimulateRegion region)
+        protected NaturalResource(SimulateRegion region, NaturalResourceType type)
             : base(region)
         {
             cities = new FastList<City>();
+
+            Type = type;
         }
 
         public City this[int i]
@@ -33,6 +42,28 @@ namespace Code2015.BalanceSystem
             set;
 
         }
+
+        public NaturalResourceType Type
+        {
+            get;
+            private set;
+        }
+
+        public float CurrentAmount
+        {
+            get;
+            protected set;
+        }
+
+
+
+        public float Exploit(float amount)
+        {
+
+        }
+
+
+
         /// <summary>
         /// 资源消耗速度
         /// </summary>
@@ -57,6 +88,8 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
+
+
         /// <summary>
         /// 资源剩余值
         /// </summary>
