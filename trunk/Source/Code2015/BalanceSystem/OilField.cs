@@ -16,7 +16,7 @@ namespace Code2015.BalanceSystem
 
 
         public OilField(SimulateRegion region)
-            : base(region)
+            : base(region, NaturalResourceType.Oil)
         {
             this.InitSourceAmount = OILWeight;
             this.EmitCarbonSpeed = EMITCarbonSpeed;
