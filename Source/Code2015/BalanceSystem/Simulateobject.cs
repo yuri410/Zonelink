@@ -107,7 +107,7 @@ namespace Code2015.BalanceSystem
     
         public virtual void Parse(ConfigurationSection sect)
         {
-            Longitude = sect.GetSingle("Longtitude");
+            Longitude = sect.GetSingle("Longitude");
             Latitude = sect.GetSingle("Latitude");
         }
         #endregion

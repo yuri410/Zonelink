@@ -158,6 +158,12 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float LargeRefPop = 1000;
 
+
+
+
+        FastList<NaturalResource> farms = new FastList<NaturalResource>();
+
+
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
@@ -448,6 +454,20 @@ namespace Code2015.BalanceSystem
             get { return plugins[i]; }
         }
 
+
+
+
+        const float SmallCityPointThreshold = 10000;
+        const float MediumCityPointThreshold = 100000;
+        //const float LargeCityPointThreshold = 1000000;
+
+
+        static float GetCityPoints(float dev, float pop)
+        {
+            return dev * pop;
+        }
+
+
         public override void Update(GameTime time)
         {
             const float CarbonMult = 0.1f;
@@ -457,6 +477,30 @@ namespace Code2015.BalanceSystem
             base.Update(time);
 
             UpdateCity();
+
+            float points = GetCityPoints(Development, Population);
+
+            if (points < MediumCityPointThreshold)
+            {
+                if (points < SmallCityPointThreshold)
+                {
+                    Size = UrbanSize.Small;
+                }
+                else
+                {
+                    Size = UrbanSize.Medium;
+                }
+            }
+            else
+            {
+                Size = UrbanSize.Large;
+            }
+
+
+            for (int i = 0; i < plugins.Count; i++) 
+            {
+                plugins[i].Update(time);
+            }
 
 
             //CarbonProduceSpeed = SelfFoodCostSpeed * 0.1f;
