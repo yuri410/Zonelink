@@ -147,6 +147,7 @@ namespace Code2015.BalanceSystem
         public void NotifyRemoved(City city)
         {
             parent = null;
+            resource.Clear();
         }
 
 
@@ -156,6 +157,10 @@ namespace Code2015.BalanceSystem
         public void Update(GameTime time)
         {
             // 采集资源
+
+            int index = Randomizer.GetRandomInt(resource.Count);
+
+            
         }
 
         #endregion
