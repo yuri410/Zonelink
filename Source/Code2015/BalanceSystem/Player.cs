@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 
 namespace Code2015.BalanceSystem
 {
@@ -45,7 +46,7 @@ namespace Code2015.BalanceSystem
 
         #region IUpdatable 成员
 
-        public void Update(Apoc3D.GameTime time)
+        public void Update(GameTime time)
         {
             throw new NotImplementedException();
         }

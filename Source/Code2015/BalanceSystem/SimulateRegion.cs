@@ -61,11 +61,12 @@ namespace Code2015.BalanceSystem
             simulateObject.Add(obj);
         }
 
+       
         public void Remove(SimulateObject obj)
         {
             simulateObject.Remove(obj);
         }
-
+       
         public SimulateRegion(Player owner, object border)
         {
             this.Owner = owner;
@@ -77,16 +78,14 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
-            for (int i = 0; i < simulateObject.Count; i++) 
+            for (int i = 0; i < simulateObject.Count; i++)
             {
                 simulateObject[i].Update(time);
             }
-
             for (int i = 0; i < localEcoSystem.Count; i++)
             {
                 localEcoSystem[i].Update(time);
             }
-
             societyStatus.Update(time);
             energyStatus.Update(time);
         }
