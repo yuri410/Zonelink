@@ -15,10 +15,13 @@ namespace Code2015.BalanceSystem
         Oil
     }
 
+
     public abstract class NaturalResource : SimulateObject
     {
-        [Obsolete ()]
+        [Obsolete()]
         FastList<City> cities;
+
+
         protected NaturalResource(SimulateRegion region, NaturalResourceType type)
             : base(region)
         {
@@ -26,12 +29,12 @@ namespace Code2015.BalanceSystem
 
             Type = type;
         }
-
+     
         public City this[int i]
         {
             get { return cities[i]; }
         }
-
+      
         public int CityCount
         {
             get { return cities.Count; }
@@ -56,7 +59,12 @@ namespace Code2015.BalanceSystem
         }
 
 
-
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="amount">申请值</param>
+        /// <returns></returns>
+       
         public float Exploit(float amount)
         {
             throw new NotImplementedException();
@@ -98,9 +106,9 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-      
 
-       
+
+
         /// <summary>
         /// 留以作为玩家花费金钱或时间来使再生产速度加速用
         /// </summary>
