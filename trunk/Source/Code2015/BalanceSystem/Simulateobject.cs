@@ -84,33 +84,31 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-
+             
         public SimulateRegion Region
         {
             get;
             private set;
         }
+
         public SimulateObject(SimulateRegion region)
         {
             Region = region;
         }
-
-
+       
         public virtual void Update(GameTime time)
         {
-            float hours = time.ElapsedGameTime.Hours;
+            float hours = (float)time.ElapsedGameTime.Hours;
             this.CarbonChange = this.CarbonProduceSpeed * hours;
         }
-
         #region IConfigurable 成员
 
+    
         public virtual void Parse(ConfigurationSection sect)
         {
-            Longitude = sect.GetSingle("Longitude");
+            Longitude = sect.GetSingle("Longtitude");
             Latitude = sect.GetSingle("Latitude");
-
         }
-
         #endregion
     }
 }
