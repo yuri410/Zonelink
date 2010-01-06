@@ -7,9 +7,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
-
-    public enum Grade { Bad, Medium, Fine };
-   
+ 
     public class FarmLand : NaturalResource
     {
         [SLGValueAttribute()]
@@ -28,18 +26,13 @@ namespace Code2015.BalanceSystem
             this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
             this.SourceProduceSpeed = SOURCEProduceSpeed;
         }
-
+      
         public float AbsorbCarbonSpeed
         {
             get;
             set;
         }     
-        public Grade GradeOfSoil
-        {
-            get;
-            private set;
-        }
-        
+      
 
         public void GetConsumeSpeed()
         {

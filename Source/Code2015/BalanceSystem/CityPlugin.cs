@@ -184,7 +184,8 @@ namespace Code2015.BalanceSystem
             float lpResource = LPProductionSpeed * hours;
 
             int tries = 0;
-            while (tries < resource.Count)
+            bool finished = false;
+            while (tries < resource.Count && !finished)
             {
                 NaturalResource res = resource[index % resource.Count];
 
@@ -192,11 +193,11 @@ namespace Code2015.BalanceSystem
                 {
                     if (res.Type == NaturalResourceType.Oil)
                     {
-
+                        //采集资源
                         hpResource = 0;
                     }
                 }
-                if (lpResource > 0) 
+                if (lpResource > 0)
                 {
                     if (res.Type == NaturalResourceType.Wood)
                     {
