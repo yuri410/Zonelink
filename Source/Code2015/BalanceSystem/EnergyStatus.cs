@@ -11,9 +11,9 @@ namespace Code2015.BalanceSystem
     public class EnergyStatus : IConfigurable, IUpdatable
     {
         [SLGValue()]
-        const float InitHPEnergy = 10000;
+        const float InitHPEnergy = 1000000;
         [SLGValue()]
-        const float InitLPEnergy = 10000;
+        const float InitLPEnergy = 1000000;
 
         [SLGValue()]
         const float HPLowThreshold = 300;
@@ -151,7 +151,7 @@ namespace Code2015.BalanceSystem
             cities = new FastList<City>();
             this.CurrentHPEnergy = InitHPEnergy;
             this.CurrentLPEnergy = InitLPEnergy;
-            this.CurrentFood = 10000;
+            this.CurrentFood = 1000000;
             //this.RemainingHPEnergy = CurrentHPEnergy;
             //this.RemainingLPEnergy = CurrentLPEnergy;
             Region = region;

@@ -391,14 +391,14 @@ namespace Code2015.BalanceSystem
             {
                 case UrbanSize.Large:
                     this.SelfFoodCostSpeed = 50;
-                    this.CarbonProduceSpeed = 500;
+                    //this.CarbonProduceSpeed = 500;
                     localLp.MaxLimit = LargeMaxLPStorage;
                     localHp.MaxLimit = LargeMaxHPStorage;
                     localFood.MaxLimit = LargeMaxFoodStorage;
                     break;
                 case UrbanSize.Medium:
                     this.SelfFoodCostSpeed = 30;
-                    this.CarbonProduceSpeed = 300;
+                    //this.CarbonProduceSpeed = 300;
                     localLp.MaxLimit = MediumMaxLPStorage;
                     localHp.MaxLimit = MediumMaxHPStorage;
                     localFood.MaxLimit = MediumMaxFoodStorage;
@@ -408,7 +408,7 @@ namespace Code2015.BalanceSystem
                     localLp.MaxLimit = SmallMaxLPStorage;
                     localHp.MaxLimit = SmallMaxHPStorage;
                     localFood.MaxLimit = SmallMaxFoodStorage;
-                    this.CarbonProduceSpeed = 100;
+                    //this.CarbonProduceSpeed = 100;
                     break;
             }
 
@@ -456,12 +456,15 @@ namespace Code2015.BalanceSystem
 
         public override void Update(GameTime time)
         {
+            const float CarbonMult = 0.1f;
+
             SelfFoodCostSpeed = Population * 0.05f;
 
-            //CarbonProduceSpeed = Population * 0.02f + 
+            base.Update(time);
+
+            //CarbonProduceSpeed = SelfFoodCostSpeed * 0.1f;
 
             float hours = (float)time.ElapsedGameTime.TotalHours;
-            //this.CarbonChange += PluginCarbonProduceSpeed * hours;
 
 
             float hpChange = ProduceHPSpeed * hours;
@@ -600,6 +603,8 @@ namespace Code2015.BalanceSystem
             float foodLack = 0;
             if (foodChange > 0)
             {
+                //this.CarbonChange += CarbonMult * foodLack;
+
                 // 如果有疾病，那么先将食物用于控制疾病
                 if (Disease > 0)
                 {
@@ -619,6 +624,7 @@ namespace Code2015.BalanceSystem
                 float actFood = localFood.Apply(-foodChange);
                 // 计算疾病发生情况
                 foodLack = actFood + foodChange;
+                
                 if (foodLack < 0)
                 {
                     if (Disease < float.Epsilon)
@@ -626,7 +632,11 @@ namespace Code2015.BalanceSystem
                         Disease = 0.01f;
                     }
                 }
+
+                //this.CarbonChange += CarbonMult * foodLack;
             }
+
+            this.CarbonChange += Math.Max(0, CarbonMult * (lpnewDev / DevelopmentMult + hpnewDev / DevelopmentMult));
 
             // 疾病发展传播计算
             if (Disease > 0)
@@ -651,6 +661,7 @@ namespace Code2015.BalanceSystem
                 Population = 0;
             }
 
+            float devIncr = (lpnewDev * 0.5f + hpnewDev);
 
             float popDevAdj = 0;
             if (Population > 0)
@@ -659,11 +670,25 @@ namespace Code2015.BalanceSystem
                 {
                     popDevAdj = Population <= RefPopulation ?
                         (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+
+                    if (devIncr < 0)
+                    {
+                        if (popDevAdj < 0)
+                        {
+                            popDevAdj = -popDevAdj;
+                        }
+                    }
+
+                    //devIncr = devIncr < 0 ? 1000 : -1000;
+                    devIncr *= popDevAdj;
                 }
-                else { popDevAdj = -1000; }
+                else
+                {
+                    popDevAdj = devIncr < 0 ? 1000 : -1000;
+                    devIncr *= popDevAdj;
+                }
             }
-#warning sign check
-            float devIncr = popDevAdj * (lpnewDev * 0.5f + hpnewDev);
+
             Development += devIncr + foodLack;
             if (Development < 0)
             {
@@ -673,7 +698,6 @@ namespace Code2015.BalanceSystem
             {
                 Population += devIncr * 0.01f;
             }
-            base.Update(time);
 
         }
 
