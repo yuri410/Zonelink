@@ -28,13 +28,14 @@ namespace Code2015.BalanceSystem
         }
 
         /// <summary>
-        /// CO2的改变量
+        ///  碳元素的改变量，该值仅由CarbonProduceSpeed决定
         /// </summary>
-        protected float CarbonChange
-        {
-            get;
-            set;
-        }
+        float carbonChange;
+        
+
+        /// <summary>
+        ///  碳元素的排放速度
+        /// </summary>
         public float CarbonProduceSpeed
         {
             get;
@@ -42,8 +43,8 @@ namespace Code2015.BalanceSystem
         }
         public float GetCarbonChange()
         {
-            float r = CarbonChange;
-            CarbonChange = 0;
+            float r = carbonChange;
+            carbonChange = 0;
             return r;
         }
 
@@ -99,10 +100,14 @@ namespace Code2015.BalanceSystem
             Region = region;
         }
        
+        /// <summary>
+        ///  派生类先更新
+        /// </summary>
+        /// <param name="time"></param>
         public virtual void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.Hours;
-            this.CarbonChange = this.CarbonProduceSpeed * hours;
+            this.carbonChange = this.CarbonProduceSpeed * hours;
         }
         #region IConfigurable 成员
 

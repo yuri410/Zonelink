@@ -221,7 +221,7 @@ namespace Code2015.BalanceSystem
         {
             this.energyStat = energyStat;
             localLp = new ResourceStorage(SmallMaxLPStorage, float.MaxValue);
-            localHp = new ResourceStorage(SmallMaxHPStorage, float.MaxValue);
+            localHr = new ResourceStorage(SmallMaxHPStorage, float.MaxValue);
             localFood = new ResourceStorage(SmallMaxFoodStorage, float.MaxValue);
             UpgradeUpdate();
         }
@@ -244,7 +244,7 @@ namespace Code2015.BalanceSystem
         FastList<CityPlugin> plugins = new FastList<CityPlugin>();
 
         ResourceStorage localLp;
-        ResourceStorage localHp;
+        ResourceStorage localHr;
         ResourceStorage localFood;
 
         UrbanSize size;
@@ -257,7 +257,7 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public float LocalHP
         {
-            get { return localHp.Current; }
+            get { return localHr.Current; }
         }
 
         /// <summary>
@@ -498,18 +498,18 @@ namespace Code2015.BalanceSystem
             {
                 case UrbanSize.Large:
                     localLp.MaxLimit = LargeMaxLPStorage;
-                    localHp.MaxLimit = LargeMaxHPStorage;
+                    localHr.MaxLimit = LargeMaxHPStorage;
                     localFood.MaxLimit = LargeMaxFoodStorage;
                     break;
                 case UrbanSize.Medium:
 
                     localLp.MaxLimit = MediumMaxLPStorage;
-                    localHp.MaxLimit = MediumMaxHPStorage;
+                    localHr.MaxLimit = MediumMaxHPStorage;
                     localFood.MaxLimit = MediumMaxFoodStorage;
                     break;
                 case UrbanSize.Small:
                     localLp.MaxLimit = SmallMaxLPStorage;
-                    localHp.MaxLimit = SmallMaxHPStorage;
+                    localHr.MaxLimit = SmallMaxHPStorage;
                     localFood.MaxLimit = SmallMaxFoodStorage;
                     break;
             }
@@ -571,10 +571,9 @@ namespace Code2015.BalanceSystem
 
         public override void Update(GameTime time)
         {
+            CarbonProduceSpeed = 0;
+
             SelfFoodCostSpeed = Population * 0.05f;
-
-            //CarbonProduceSpeed = Population * 0.02f + 
-
 
             #region 城市自动级别调整
             float points = GetCityPoints(Development, Population);
@@ -601,37 +600,197 @@ namespace Code2015.BalanceSystem
                 plugins[i].Update(time);
             }
 
-
-            //CarbonProduceSpeed = SelfFoodCostSpeed * 0.1f;
-
-
             float hours = (float)time.ElapsedGameTime.TotalHours;
-            //this.CarbonChange += PluginCarbonProduceSpeed * hours;
+
+            #region 补缺储备，物流
+            {
+                float requirement = localLp.MaxLimit - localLp.Current;
+
+                if (requirement > 0)
+                {
+                    bool passed = true;
+                    if (energyStat.IsLPLow)
+                        passed ^= Randomizer.GetRandomBool();
+                    if (passed)
+                    {
+                        float applyAmount = Math.Min(requirement * hours, LPTransportSpeed * hours);
+                        applyAmount = energyStat.ApplyLPEnergy(applyAmount);
+                        localLp.Commit(applyAmount);
+                    }
+                }
+            }
+            {
+                float requirement = localHr.MaxLimit - localHr.Current;
+
+                if (requirement > 0)
+                {
+                    bool passed = true;
+                    if (energyStat.IsHPLow)
+                        passed ^= Randomizer.GetRandomBool();
+                    if (passed)
+                    {
+                        float applyAmount = Math.Min(requirement * hours, HPTransportSpeed * hours);
+                        applyAmount = energyStat.ApplyHPEnergy(applyAmount);
+                        localHr.Commit(applyAmount);
+                    }
+                }
+            }
+            {
+                float requirement = localFood.MaxLimit - localFood.Current;
+
+                if (requirement > 0)
+                {
+                    bool passed = true;
+                    if (energyStat.IsFoodLow)
+                        passed ^= Randomizer.GetRandomBool();
+                    if (passed)
+                    {
+                        float applyAmount = Math.Min(requirement * hours, FoodTransportSpeed * hours);
+                        applyAmount = energyStat.ApplyFood(applyAmount);
+                        localFood.Commit(applyAmount);
+                    }
+                }
+            }
+            #endregion
 
             {
+                float hrDev = 0;
+                float lrDev = 0;
+               
+
                 // 严禁使用旧的模式，属性泛滥
 
                 #region 资源消耗计算
-                // 计算自身
-
-                // 高能资源消耗量
-                float hrChange = SelfHPProductionSpeed * hours;
-
-                // 低能资源消耗量
-                float lrChange = SelfLPProductionSpeed * hours;
-
-
-
-
 
                 // 计算插件
                 for (int i = 0; i < plugins.Count; i++)
                 {
+                    // 先处理食物，因为他可能是原料
+                    #region 食物
 
+                    float foodChange = -plugins[i].FoodCostSpeed * hours;
+
+                    if (foodChange < 0)
+                    {
+
+                    }
+
+                    #endregion
+
+
+                    #region 高能资源
+                    // 高能资源消耗量
+                    float hrChange = plugins[i].HPProductionSpeed * hours;
+                    // 实际高能资源使用量
+                    float actHrChange;
+
+                    if (hrChange < 0) // 如果是使用了资源
+                    {
+                        actHrChange = localHr.Apply(-hrChange);
+                    }
+                    else
+                    {
+                        actHrChange = localHr.Commit(hrChange);
+
+                        if (actHrChange < hrChange)
+                        {
+                            energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, HPTransportSpeed * hours));
+                        }
+                    }
+
+                    hrDev += actHrChange * DevelopmentMult;
+
+                    #endregion
+
+                    #region 低能资源
+
+                    // 低能资源消耗量
+                    float lrChange = plugins[i].LPProductionSpeed * hours;
+                    // 实际低能资源使用量
+                    float actLrChange;
+                    if (lrChange < 0) // 如果是使用了资源
+                    {
+                        actLrChange = localHr.Apply(-lrChange);
+                    }
+                    else
+                    {
+                        actLrChange = localHr.Commit(lrChange);
+
+                        if (actLrChange < lrChange)
+                        {
+                            energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, LPTransportSpeed * hours));
+                        }
+                    }
+
+                    lrDev += actLrChange * DevelopmentMult;
+
+                    #endregion
+
+
+
+
+                    CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
                 }
 
+
+
+                // 计算自身
+                {
+                    // 高能资源消耗量
+                    float hrChange = SelfHPProductionSpeed * hours;
+                    float actHrChange;
+
+                    if (hrChange < 0) // 如果是使用了资源
+                    {
+                        actHrChange = localHr.Apply(-hrChange);
+                    }
+                    else
+                    {
+                        actHrChange = localHr.Commit(hrChange);
+
+                        if (actHrChange < hrChange)
+                        {
+                            energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, HPTransportSpeed * hours));
+                        }
+                    }
+
+
+                    // 低能资源消耗量
+                    float lrChange = SelfLPProductionSpeed * hours;
+                    // 实际低能资源使用量
+                    float actLrChange;
+                    if (lrChange < 0) // 如果是使用了资源
+                    {
+                        actLrChange = localHr.Apply(-lrChange);
+                    }
+                    else
+                    {
+                        actLrChange = localHr.Commit(lrChange);
+
+                        if (actLrChange < lrChange)
+                        {
+                            energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, LPTransportSpeed * hours));
+                        }
+                    }
+
+                    lrDev += actLrChange * DevelopmentMult;
+
+
+
+                    float foodChange = (-SelfFoodCostSpeed + SelfFoodGatheringSpeed) * hours;
+
+                    // 食物 碳排量计算
+                    CarbonProduceSpeed += SelfFoodCostSpeed * Carbon.FoodUsing;
+                }
                 #endregion
+
+
+
+                float hpnewDev = DevBias;
+
             }
+
+
 
             {
                 float hpChange = ProduceHPSpeed * hours;
@@ -641,132 +800,11 @@ namespace Code2015.BalanceSystem
 
 #warning TODO: 分开计算
 #warning ISSUE: 发展倒退过快
-                #region 补缺储备
-                {
-                    float requirement = localLp.MaxLimit - localLp.Current;
-
-                    if (requirement > 0)
-                    {
-                        bool passed = true;
-                        if (energyStat.IsLPLow)
-                            passed ^= Randomizer.GetRandomBool();
-                        if (passed)
-                        {
-                            float applyAmount = Math.Min(requirement * hours, LPTransportSpeed * hours);
-                            applyAmount = energyStat.ApplyLPEnergy(applyAmount);
-                            localLp.Commit(applyAmount);
-                        }
-                    }
-                }
-                {
-                    float requirement = localHp.MaxLimit - localHp.Current;
-
-                    if (requirement > 0)
-                    {
-                        bool passed = true;
-                        if (energyStat.IsHPLow)
-                            passed ^= Randomizer.GetRandomBool();
-                        if (passed)
-                        {
-                            float applyAmount = Math.Min(requirement * hours, HPTransportSpeed * hours);
-                            applyAmount = energyStat.ApplyHPEnergy(applyAmount);
-                            localHp.Commit(applyAmount);
-                        }
-                    }
-                }
-                {
-                    float requirement = localFood.MaxLimit - localFood.Current;
-
-                    if (requirement > 0)
-                    {
-                        bool passed = true;
-                        if (energyStat.IsFoodLow)
-                            passed ^= Randomizer.GetRandomBool();
-                        if (passed)
-                        {
-                            float applyAmount = Math.Min(requirement * hours, FoodTransportSpeed * hours);
-                            applyAmount = energyStat.ApplyFood(applyAmount);
-                            localFood.Commit(applyAmount);
-                        }
-                    }
-                }
-                #endregion
+                
 
                 // 计算发展度
-                float hpnewDev = DevBias;
+                
 
-                #region 消耗资源计算发展度
-                if (hpChange > 0)
-                {
-                    float act = localHp.Commit(hpChange);
-
-                    if (act < hpChange)
-                    {
-                        energyStat.CommitHPEnergy(Math.Min(hpChange - act, HPTransportSpeed * hours));
-                    }
-                    for (int i = 0; i < plugins.Count; i++)
-                    {
-                        if (plugins[i].HPProductionSpeed < 0)
-                        {
-                            hpnewDev -= plugins[i].HPProductionSpeed * hours * DevelopmentMult;
-                        }
-                    }
-                    if (SelfHPProductionSpeed < 0)
-                        hpnewDev -= SelfHPProductionSpeed * hours * DevelopmentMult;
-                }
-                else
-                {
-                    float act = localHp.Apply(-hpChange);
-
-                    for (int i = 0; i < plugins.Count; i++)
-                    {
-                        if (plugins[i].HPProductionSpeed < 0)
-                        {
-                            hpnewDev -= plugins[i].HPProductionSpeed * hours * DevelopmentMult;
-                        }
-                    }
-                    if (SelfHPProductionSpeed < 0)
-                        hpnewDev -= SelfHPProductionSpeed * hours * DevelopmentMult;
-
-                    hpnewDev += (act + hpChange) * DevelopmentMult;
-                }
-
-                float lpnewDev = 0;
-                if (hpChange > 0)
-                {
-                    float act = localLp.Commit(lpChange);
-
-                    if (act < lpChange)
-                    {
-                        energyStat.CommitHPEnergy(Math.Min(hpChange - act, LPTransportSpeed * hours));
-                    }
-                    for (int i = 0; i < plugins.Count; i++)
-                    {
-                        if (plugins[i].LPProductionSpeed < 0)
-                        {
-                            lpnewDev -= plugins[i].LPProductionSpeed * hours * DevelopmentMult;
-                        }
-                    }
-                    if (SelfLPProductionSpeed < 0)
-                        lpnewDev -= SelfLPProductionSpeed * hours * DevelopmentMult;
-                }
-                else
-                {
-                    float act = localLp.Apply(-lpChange);
-
-                    for (int i = 0; i < plugins.Count; i++)
-                    {
-                        if (plugins[i].LPProductionSpeed < 0)
-                        {
-                            lpnewDev -= plugins[i].LPProductionSpeed * hours * DevelopmentMult;
-                        }
-                    }
-                    if (SelfLPProductionSpeed < 0)
-                        lpnewDev -= SelfLPProductionSpeed * hours * DevelopmentMult;
-
-                    lpnewDev += (act + lpChange) * DevelopmentMult;
-                }
-                #endregion
 
 
                 float foodLack = 0;
@@ -878,9 +916,9 @@ namespace Code2015.BalanceSystem
                 {
                     Population += (devIncr + foodLack) * 0.01f;
                 }
-                base.Update(time);
 
             }
+            base.Update(time);
         }
         #region IConfigurable 成员
 
