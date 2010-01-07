@@ -40,9 +40,6 @@ namespace Code2015.BalanceSystem
         public override void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.Hours;
-            this.RemainingSourceAmount = this.InitSourceAmount;//开始时初始值等于剩余值。
-            this.RemainingSourceAmount += (this.SourceProduceSpeed - this.SourceConsumeSpeed) * hours;
-            this.CarbonProduceSpeed += -(this.AbsorbCarbonSpeed) * this.RemainingSourceAmount * hours;//负值表示吸收，正值表示产生
         }
 
     }
