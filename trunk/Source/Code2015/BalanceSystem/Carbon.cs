@@ -15,5 +15,6 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public const float FoodUsing = 0.5f;
 
+        
     }
 }
