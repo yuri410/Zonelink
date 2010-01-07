@@ -25,14 +25,14 @@ namespace Code2015.BalanceSystem
         }
         public CityPlugin()
         { }
-       
+
         #region IConfigurable 成员
 
         public void Parse(ConfigurationSection sect)
         {
 
             Cost = sect.GetSingle("Cost");
-            UpgradeCost = sect.GetSingle("UpgradeCost");
+            UpgradeCostBase = sect.GetSingle("UpgradeCost");
 
             HPProductionSpeed = sect.GetSingle("HPProductionSpeed");
             LPProductionSpeed = sect.GetSingle("LPProductionSpeed");
@@ -41,7 +41,7 @@ namespace Code2015.BalanceSystem
             GatherRadius = sect.GetSingle("GatherRadius");
 
         }
-      
+
 
         #endregion
 
@@ -55,20 +55,19 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
-#warning 不同的升级费用
         /// <summary>
         /// 升级所需费用
         /// </summary>
-        public float UpgradeCost
+        public float UpgradeCostBase
         {
             get;
             protected set;
         }
         public virtual float GetUpgradeCost()
         {
-            UpgradeCost = Cost * 0.5f;
-            float upgradecost = UpgradeCost;
-            return UpgradeCost = 0;
+            UpgradeCostBase = Cost * 0.5f;
+            float upgradecost = UpgradeCostBase;
+            return UpgradeCostBase = 0;
         }
 
         public float GatherRadius
@@ -76,7 +75,21 @@ namespace Code2015.BalanceSystem
             get;
             protected set;
         }
-
+        public float HRCostSpeed
+        {
+            get;
+            private set;
+        }
+        public float LRCostSpeed
+        {
+            get;
+            private set;
+        }
+        public float FoodCostSpeed
+        {
+            get;
+            protected set;
+        }
 
 
         /// <summary>
@@ -95,8 +108,12 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+        public float FullCarbonProduceSpeed
+        {
+            get;
+            private set;
+        }
 
-        
         /// <summary>
         /// 高能产生的速度,速度为正表示产生能量，为负值表示消耗能量
         /// </summary>
@@ -114,18 +131,13 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
+      
         public float CarbonProduceSpeed
         {
             get;
             protected set;
         }
 
-
-        public float FoodCostSpeed
-        {
-            get;
-            protected set;
-        }
 
         #endregion
 
@@ -153,7 +165,7 @@ namespace Code2015.BalanceSystem
             }
         }
 
-     
+
         public void NotifyAdded(City city)
         {
             if (city != null)
@@ -174,7 +186,7 @@ namespace Code2015.BalanceSystem
 
 
         #region IUpdatable 成员
-       
+
         public void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
@@ -182,12 +194,15 @@ namespace Code2015.BalanceSystem
 
             int index = Randomizer.GetRandomInt(resource.Count);
 
-
-            float hpResource = HPProductionSpeed * hours*1.5f;
-            float lpResource = LPProductionSpeed * hours*1.5f;
+            float food = FoodCostSpeed * hours;
+            float hpResource = HRCostSpeed * hours;
+            float lpResource = LRCostSpeed * hours;
 
             int tries = 0;
             bool finished = false;
+            CarbonProduceSpeed = 0;
+
+            int collTypeCount = 0;
             while (tries < resource.Count && !finished)
             {
                 NaturalResource res = resource[index % resource.Count];
@@ -197,23 +212,53 @@ namespace Code2015.BalanceSystem
                     if (res.Type == NaturalResourceType.Oil)
                     {
                         //采集资源
-                        parent.RemainingHPAmount= res.Exploit(hpResource)/1.5f;
-                        hpResource = 0;        
+
+                        float act = res.Exploit(hpResource);
+                        float ratio = act / hpResource;
+                        HPProductionSpeed = FullHPProductionSpeed * ratio;
+                        CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
+                        hpResource = 0;
+                        collTypeCount++;
                     }
                 }
                 if (lpResource > 0)
                 {
                     if (res.Type == NaturalResourceType.Wood)
                     {
-                       parent.RemainingLPAmount= res.Exploit(lpResource)/1.5f;
+                        float act = res.Exploit(lpResource);
+                        float ratio = act / lpResource;
+                        LPProductionSpeed = FullLPProductionSpeed * ratio;
+                        CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
                         lpResource = 0;
+                        collTypeCount++;
                     }
                 }
-
+               
                 index++;
                 tries++;
-               
+
             }
+
+           
+            if (food > 0)
+            {
+                float act = parent.LocalFood.Apply(-food);
+
+                float ratio = act / food;
+
+                if (!finished)
+                {
+                    HPProductionSpeed = FullHPProductionSpeed;
+                    LPProductionSpeed = FullLPProductionSpeed;
+                }
+                HPProductionSpeed = HPProductionSpeed * ratio;
+                LPProductionSpeed = LPProductionSpeed * ratio;
+                CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
+                collTypeCount++;
+            }
+
+            if (collTypeCount > 0) 
+                CarbonProduceSpeed /= collTypeCount;
         }
 
         #endregion
