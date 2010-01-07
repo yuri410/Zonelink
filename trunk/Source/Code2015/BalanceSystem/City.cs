@@ -236,6 +236,8 @@ namespace Code2015.BalanceSystem
         ResourceStorage localHp;
         ResourceStorage localFood;
 
+        UrbanSize size;
+
         #region  属性
 
 
@@ -412,8 +414,6 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
-        UrbanSize size;
-
         /// <summary>
         ///  获取城市的大小
         /// </summary>
@@ -424,6 +424,7 @@ namespace Code2015.BalanceSystem
             {
                 if (value != size)
                 {
+                    size = value;
                     UpgradeUpdate();
                 }
             }
