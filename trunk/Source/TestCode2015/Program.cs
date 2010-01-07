@@ -32,6 +32,8 @@ namespace TestCode2015
 
             region.Add(city);
 
+            OilField oil = new OilField(region);
+            Forest forest = new Forest(region);
             float c = 0;
             while (true)
             {
