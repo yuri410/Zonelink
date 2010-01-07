@@ -65,7 +65,7 @@ namespace TestCode2015
                 GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
                 region.Update(gt);
 
-                Thread.Sleep(10);
+                Thread.Sleep(100);
             }
         }
     }

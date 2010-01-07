@@ -25,8 +25,6 @@ namespace Code2015.BalanceSystem
         protected NaturalResource(SimulateRegion region, NaturalResourceType type)
             : base(region)
         {
-          
-
             Type = type;
         }
         
@@ -62,9 +60,11 @@ namespace Code2015.BalanceSystem
                 return amount;
             }
 
+
             float r = CurrentAmount;
             CurrentAmount = 0;
             return r;
+
         }
 
 
