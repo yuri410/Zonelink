@@ -52,7 +52,7 @@ namespace Code2015.BalanceSystem
         {
             float hours = (float)time.ElapsedGameTime.Hours;       
             this.InitSourceAmount = INITFoodAmount;
-            this.RemainingAmount += (SourceConsumeSpeed - SourceProduceSpeed) * hours;
+            this.RemainingLPAmount += (SourceConsumeSpeed - SourceProduceSpeed) * hours;
             this.CarbonChange += -(this.InitSourceAmount * this.AbsorbCarbonSpeed*hours);
         }
 

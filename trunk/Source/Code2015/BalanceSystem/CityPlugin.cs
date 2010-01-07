@@ -181,8 +181,8 @@ namespace Code2015.BalanceSystem
             int index = Randomizer.GetRandomInt(resource.Count);
 
 
-            float hpResource = HPProductionSpeed * hours;
-            float lpResource = LPProductionSpeed * hours;
+            float hpResource = HPProductionSpeed * hours*1.5f;
+            float lpResource = LPProductionSpeed * hours*1.5f;
 
             int tries = 0;
             bool finished = false;
@@ -195,20 +195,16 @@ namespace Code2015.BalanceSystem
                     if (res.Type == NaturalResourceType.Oil)
                     {
                         //采集资源
-                        hpResource = 0;
-                        hpResource = parent.RemainingHPAmount - parent.InitHPAmount;
-                        res.Exploit(Math.Abs(hpResource));
-                        finished = false;
+                        parent.RemainingHPAmount= res.Exploit(hpResource)/1.5f;
+                        hpResource = 0;        
                     }
                 }
                 if (lpResource > 0)
                 {
                     if (res.Type == NaturalResourceType.Wood)
                     {
+                       parent.RemainingLPAmount= res.Exploit(lpResource)/1.5f;
                         lpResource = 0;
-                        lpResource = parent.RemainingHPAmount - parent.RemainingHPAmount;
-                        res.Exploit(Math.Abs(lpResource));
-                        finished = true;
                     }
                 }
 

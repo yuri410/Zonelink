@@ -76,7 +76,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-        public float RemainingAmount
+        public float RemainingLPAmount
         {
             get;
             set;
