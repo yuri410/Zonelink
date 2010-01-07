@@ -120,6 +120,7 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
+
         public float FoodCostSpeed
         {
             get;

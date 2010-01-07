@@ -48,7 +48,10 @@ namespace Code2015.BalanceSystem
         
         public override void Update(GameTime time)
         {
-           
+            float hours = (float)time.ElapsedGameTime.Hours;       
+            this.InitSourceAmount = INITFoodAmount;
+            this.RemainingLPAmount += (SourceConsumeSpeed - SourceProduceSpeed) * hours;
+            this.CarbonProduceSpeed += -(this.InitSourceAmount * this.AbsorbCarbonSpeed);
         }
 
 
