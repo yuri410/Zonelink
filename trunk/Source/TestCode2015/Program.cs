@@ -29,7 +29,6 @@ namespace TestCode2015
             sect.Add("Size", UrbanSize.Small.ToString());
 
             city.Parse(sect);
-            city.UpdateCity();
 
             region.Add(city);
 

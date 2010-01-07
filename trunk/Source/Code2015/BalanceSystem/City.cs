@@ -212,7 +212,7 @@ namespace Code2015.BalanceSystem
             localLp = new ResourceStorage(SmallMaxLPStorage, float.MaxValue);
             localHp = new ResourceStorage(SmallMaxHPStorage, float.MaxValue);
             localFood = new ResourceStorage(SmallMaxFoodStorage, float.MaxValue);
-            UpdateCity();
+            UpgradeUpdate();
         }
         public City(EnergyStatus energyStat, UrbanSize size)
             : this(energyStat)
@@ -412,13 +412,21 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+        UrbanSize size;
+
         /// <summary>
         ///  获取城市的大小
         /// </summary>
         public UrbanSize Size
         {
-            get;
-            private set;
+            get { return size; }
+            private set
+            {
+                if (value != size)
+                {
+                    UpgradeUpdate();
+                }
+            }
         }
 
         /// <summary>
@@ -448,7 +456,6 @@ namespace Code2015.BalanceSystem
         public void Add(CityPlugin plugin)
         {
             plugins.Add(plugin);
-            UpdateCity();
             plugin.NotifyAdded(this);
         }
 
@@ -459,15 +466,14 @@ namespace Code2015.BalanceSystem
         public void Remove(CityPlugin plugin)
         {
             plugins.Remove(plugin);
-            UpdateCity();
             plugin.NotifyRemoved(this);
         }
 
 
         /// <summary>
-        ///  更新城市的属性设置
+        ///  更新城市 所有与等级相关的属性
         /// </summary>
-        public void UpdateCity()
+        void UpgradeUpdate()
         {
             //plugins = new FastList<CityPlugin>();
             switch (Size)
@@ -505,7 +511,7 @@ namespace Code2015.BalanceSystem
         }
 
         #region unk
-      
+
         #endregion
 
         /// <summary>
@@ -552,7 +558,6 @@ namespace Code2015.BalanceSystem
             //CarbonProduceSpeed = Population * 0.02f + 
 
 
-            UpdateCity();
 
             float points = GetCityPoints(Development, Population);
 
@@ -867,6 +872,8 @@ namespace Code2015.BalanceSystem
             Name = sect.GetString("Name", string.Empty);
             Population = sect.GetSingle("Population");
             Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", string.Empty));
+
+            UpgradeUpdate();
         }
 
         #endregion
