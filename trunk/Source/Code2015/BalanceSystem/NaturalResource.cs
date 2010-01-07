@@ -53,18 +53,18 @@ namespace Code2015.BalanceSystem
         /// </summary>
         /// <param name="amount">申请值</param>
         /// <returns></returns>
-       
+
         public float Exploit(float amount)
         {
             if (amount < CurrentAmount)
             {
-                CurrentAmount = CurrentAmount - amount;
+                CurrentAmount -= amount;
                 return amount;
             }
-            else
-            {
-                return CurrentAmount;
-            }
+
+            float r = CurrentAmount;
+            CurrentAmount = 0;
+            return r;
         }
 
 
