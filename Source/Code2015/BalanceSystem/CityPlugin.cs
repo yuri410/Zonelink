@@ -25,7 +25,7 @@ namespace Code2015.BalanceSystem
         }
         public CityPlugin()
         { }
-
+       
         #region IConfigurable 成员
 
         public void Parse(ConfigurationSection sect)
@@ -87,7 +87,7 @@ namespace Code2015.BalanceSystem
         //    private set;
         //}
         ///// <summary>
-        /////  输入资源充足时的高能生产速度
+        /////  输入资源充足时的低能生产速度
         ///// </summary>
         //public float FullLPProductionSpeed
         //{
@@ -151,6 +151,7 @@ namespace Code2015.BalanceSystem
             }
         }
 
+     
         public void NotifyAdded(City city)
         {
             if (city != null)
