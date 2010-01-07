@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
+using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
@@ -14,7 +15,7 @@ namespace Code2015.BalanceSystem
         const float INITForestAmount = 100000;
         [SLGValueAttribute()]
         const float ABSORBCarbonSpeed = 1000;
-
+       
         public float AbsorbCarbonSpeed
         {
             get;
@@ -39,7 +40,11 @@ namespace Code2015.BalanceSystem
             base.GetProduceSpeed(speed);
         }
 
-      
+        public override void Parse(ConfigurationSection sect)
+        {
+            base.Parse(sect);
+            
+        }
         public override void Update(GameTime time)
         {
        
