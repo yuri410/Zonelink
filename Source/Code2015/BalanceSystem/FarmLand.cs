@@ -22,9 +22,7 @@ namespace Code2015.BalanceSystem
             : base(region, NaturalResourceType.Food)
         {
             FoodPlants = new FastList<PlantSpecies>();
-            this.InitSourceAmount = INITFoodAmount;
-            this.AbsorbCarbonSpeed = ABSORBCarbonSpeed;
-            this.SourceProduceSpeed = SOURCEProduceSpeed;
+           
         }
       
         public float AbsorbCarbonSpeed
@@ -50,10 +48,7 @@ namespace Code2015.BalanceSystem
         
         public override void Update(GameTime time)
         {
-            float hours = (float)time.ElapsedGameTime.Hours;       
-            this.InitSourceAmount = INITFoodAmount;
-            this.RemainingLPAmount += (SourceConsumeSpeed - SourceProduceSpeed) * hours;
-            this.CarbonChange += -(this.InitSourceAmount * this.AbsorbCarbonSpeed*hours);
+           
         }
 
 

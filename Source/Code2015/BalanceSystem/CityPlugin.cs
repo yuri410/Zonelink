@@ -41,6 +41,7 @@ namespace Code2015.BalanceSystem
             GatherRadius = sect.GetSingle("GatherRadius");
 
         }
+      
 
         #endregion
 
