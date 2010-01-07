@@ -239,14 +239,25 @@ namespace Code2015.BalanceSystem
         #region  属性
 
 
+        /// <summary>
+        ///  获取城市已存储（已缓存）的高能资源数量
+        /// </summary>
         public float LocalHP
         {
             get { return localHp.Current; }
         }
+
+        /// <summary>
+        ///  获取城市已存储（已缓存）的低能资源数量
+        /// </summary>
         public float LocalLP
         {
             get { return localLp.Current; }
         }
+
+        /// <summary>
+        ///  获取城市已存储（已缓存）的食物数量
+        /// </summary>
         public float LocalFood
         {
             get { return localFood.Current; }
@@ -341,23 +352,33 @@ namespace Code2015.BalanceSystem
         }
 
         /// <summary>
-        /// 若有Plugin，获取Plugin的消耗速度
+        ///  若有Plugin，获取Plugin的对高能资源的消耗速度
         /// </summary>
         public float PluginHPProductionSpeed
         {
             get;
             private set;
         }
+        /// <summary>
+        ///   若有Plugin，获取Plugin的对低能资源的消耗速度
+        /// </summary>
         public float PluginLPProductionSpeed
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  若有Plugin，获取Plugin的对食物的消耗速度
+        /// </summary>
         public float PluginFoodCostSpeed
         {
             get;
             private set;
         }
+
+        /// <summary>
+        ///   若有Plugin，获取Plugin的碳排放速度
+        /// </summary>
         public float PluginCarbonProduceSpeed
         {
             get;
@@ -384,6 +405,9 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+        /// <summary>
+        ///  获取城市的大小
+        /// </summary>
         public UrbanSize Size
         {
             get;
@@ -410,6 +434,10 @@ namespace Code2015.BalanceSystem
             }
         }
 
+        /// <summary>
+        ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
+        /// </summary>
+        /// <param name="plugin"></param>
         public void Add(CityPlugin plugin)
         {
             plugins.Add(plugin);
@@ -417,6 +445,10 @@ namespace Code2015.BalanceSystem
             plugin.NotifyAdded(this);
         }
 
+        /// <summary>
+        ///  从当前城市中删除一个<see cref="CityPlugin"/>，会用CityPlugin.NotifyRemoved告知CityPlugin被删除了
+        /// </summary>
+        /// <param name="plugin"></param>
         public void Remove(CityPlugin plugin)
         {
             plugins.Remove(plugin);
@@ -482,12 +514,19 @@ namespace Code2015.BalanceSystem
             return PluginFoodCostSpeed;//获得由生态工厂产生的高能速度
         }
 
-
+        /// <summary>
+        ///  获取这个城市的Plugin数量
+        /// </summary>
         public int PluginCount
         {
             get { return plugins.Count; }
         }
 
+        /// <summary>
+        ///  通过索引获取城市的Plugin
+        /// </summary>
+        /// <param name="i">在容器中的索引</param>
+        /// <returns></returns>
         public CityPlugin this[int i]
         {
             get { return plugins[i]; }
@@ -500,7 +539,12 @@ namespace Code2015.BalanceSystem
         const float MediumCityPointThreshold = 100000;
         //const float LargeCityPointThreshold = 1000000;
 
-
+        /// <summary>
+        ///  计算城市的分数，用于评估城市的等级
+        /// </summary>
+        /// <param name="dev"></param>
+        /// <param name="pop"></param>
+        /// <returns></returns>
         static float GetCityPoints(float dev, float pop)
         {
             return dev * pop;
