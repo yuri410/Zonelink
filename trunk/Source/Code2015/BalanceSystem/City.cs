@@ -497,22 +497,24 @@ namespace Code2015.BalanceSystem
             }
         }
 
-        /// <summary>
-        /// 高能由石油厂和生态工厂产生
-        /// </summary>
-        /// <returns></returns>
-        public float GetPluginHPProductionSpeed()
-        {
-            return PluginHPProductionSpeed - PluginFoodCostSpeed;//获得由炼油厂产生的高能速度
-        }
-        public float GetPluginLPProductionSpeed()
-        {
-            return PluginLPProductionSpeed;
-        }
-        public float GetPluginFoodCostSpeed()
-        {
-            return PluginFoodCostSpeed;//获得由生态工厂产生的高能速度
-        }
+        #region unk
+        ///// <summary>
+        ///// 高能由石油厂和生态工厂产生
+        ///// </summary>
+        ///// <returns></returns>
+        //public float GetPluginHPProductionSpeed()
+        //{
+        //    return PluginHPProductionSpeed - PluginFoodCostSpeed;//获得由炼油厂产生的高能速度
+        //}
+        //public float GetPluginLPProductionSpeed()
+        //{
+        //    return PluginLPProductionSpeed;
+        //}
+        //public float GetPluginFoodCostSpeed()
+        //{
+        //    return PluginFoodCostSpeed;//获得由生态工厂产生的高能速度
+        //}
+        #endregion
 
         /// <summary>
         ///  获取这个城市的Plugin数量
