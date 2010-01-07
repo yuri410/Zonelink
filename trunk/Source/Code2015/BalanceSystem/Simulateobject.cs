@@ -47,6 +47,7 @@ namespace Code2015.BalanceSystem
             return r;
         }
 
+        #region unk
         /// <summary>
         /// 高能
         /// </summary>
@@ -85,7 +86,8 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }
-             
+        #endregion
+
         public SimulateRegion Region
         {
             get;
