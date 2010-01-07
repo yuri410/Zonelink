@@ -230,7 +230,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  表示城市的附加设施
         /// </summary>
-        FastList<CityPlugin> plugins;
+        FastList<CityPlugin> plugins = new FastList<CityPlugin>();
 
         ResourceStorage localLp;
         ResourceStorage localHp;
@@ -354,6 +354,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  若有Plugin，获取Plugin的对高能资源的消耗速度
         /// </summary>
+        [Obsolete()]
         public float PluginHPProductionSpeed
         {
             get;
@@ -362,6 +363,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///   若有Plugin，获取Plugin的对低能资源的消耗速度
         /// </summary>
+        [Obsolete()]
         public float PluginLPProductionSpeed
         {
             get;
@@ -370,6 +372,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  若有Plugin，获取Plugin的对食物的消耗速度
         /// </summary>
+        [Obsolete()]
         public float PluginFoodCostSpeed
         {
             get;
@@ -379,6 +382,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///   若有Plugin，获取Plugin的碳排放速度
         /// </summary>
+        [Obsolete()]
         public float PluginCarbonProduceSpeed
         {
             get;
@@ -388,14 +392,17 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  城市自身的产生高能和低能的速度，初始为负值，表示消耗
         /// </summary>
+        [Obsolete()]
         public float ProduceHPSpeed
         {
             get { return PluginHPProductionSpeed + SelfHPProductionSpeed; }
         }
+        [Obsolete()]
         public float ProduceLPSpeed
         {
             get { return PluginLPProductionSpeed + SelfLPProductionSpeed; }
         }
+        [Obsolete()]
         public float FoodCostSpeed
         {
             get { return SelfFoodCostSpeed + PluginFoodCostSpeed; }
@@ -462,7 +469,7 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public void UpdateCity()
         {
-            plugins = new FastList<CityPlugin>();
+            //plugins = new FastList<CityPlugin>();
             switch (Size)
             {
                 case UrbanSize.Large:
@@ -483,18 +490,18 @@ namespace Code2015.BalanceSystem
                     break;
             }
 
-            PluginFoodCostSpeed = 0;
-            PluginHPProductionSpeed = 0;
-            PluginLPProductionSpeed = 0;
-            PluginCarbonProduceSpeed = 0;
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
-                PluginFoodCostSpeed += plugins[i].FoodCostSpeed;
-                PluginHPProductionSpeed += plugins[i].HPProductionSpeed;
-                PluginLPProductionSpeed += plugins[i].LPProductionSpeed;
-                PluginCarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
-            }
+            //PluginFoodCostSpeed = 0;
+            //PluginHPProductionSpeed = 0;
+            //PluginLPProductionSpeed = 0;
+            //PluginCarbonProduceSpeed = 0;
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
+            //    PluginFoodCostSpeed += plugins[i].FoodCostSpeed;
+            //    PluginHPProductionSpeed += plugins[i].HPProductionSpeed;
+            //    PluginLPProductionSpeed += plugins[i].LPProductionSpeed;
+            //    PluginCarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
+            //}
         }
 
         #region unk
@@ -566,7 +573,7 @@ namespace Code2015.BalanceSystem
             }
 
 
-            for (int i = 0; i < plugins.Count; i++) 
+            for (int i = 0; i < plugins.Count; i++)
             {
                 plugins[i].Update(time);
             }
@@ -578,255 +585,280 @@ namespace Code2015.BalanceSystem
             float hours = (float)time.ElapsedGameTime.TotalHours;
             //this.CarbonChange += PluginCarbonProduceSpeed * hours;
 
+            {
+                // 严禁使用旧的模式，属性泛滥
 
-            float hpChange = ProduceHPSpeed * hours;
-            float lpChange = ProduceLPSpeed * hours;
+                #region 资源消耗计算
+                // 计算自身
 
-            float foodChange = -FoodCostSpeed * hours;
+                // 高能资源消耗量
+                float hrChange = SelfHPProductionSpeed * hours;
+
+                // 低能资源消耗量
+                float lrChange = SelfLPProductionSpeed * hours;
+
+
+
+
+
+                // 计算插件
+                for (int i = 0; i < plugins.Count; i++)
+                {
+
+                }
+
+                #endregion
+            }
+
+            {
+                float hpChange = ProduceHPSpeed * hours;
+                float lpChange = ProduceLPSpeed * hours;
+
+                float foodChange = -FoodCostSpeed * hours;
 
 #warning TODO: 分开计算
 #warning ISSUE: 发展倒退过快
-            #region 补缺储备
-            {
-                float requirement = localLp.MaxLimit - localLp.Current;
-
-                if (requirement > 0)
+                #region 补缺储备
                 {
-                    bool passed = true;
-                    if (energyStat.IsLPLow)
-                        passed ^= Randomizer.GetRandomBool();
-                    if (passed)
+                    float requirement = localLp.MaxLimit - localLp.Current;
+
+                    if (requirement > 0)
                     {
-                        float applyAmount = Math.Min(requirement * hours, LPTransportSpeed * hours);
-                        applyAmount = energyStat.ApplyLPEnergy(applyAmount);
-                        localLp.Commit(applyAmount);
+                        bool passed = true;
+                        if (energyStat.IsLPLow)
+                            passed ^= Randomizer.GetRandomBool();
+                        if (passed)
+                        {
+                            float applyAmount = Math.Min(requirement * hours, LPTransportSpeed * hours);
+                            applyAmount = energyStat.ApplyLPEnergy(applyAmount);
+                            localLp.Commit(applyAmount);
+                        }
                     }
                 }
-            }
-            {
-                float requirement = localHp.MaxLimit - localHp.Current;
-
-                if (requirement > 0)
                 {
-                    bool passed = true;
-                    if (energyStat.IsHPLow)
-                        passed ^= Randomizer.GetRandomBool();
-                    if (passed)
+                    float requirement = localHp.MaxLimit - localHp.Current;
+
+                    if (requirement > 0)
                     {
-                        float applyAmount = Math.Min(requirement * hours, HPTransportSpeed * hours);
-                        applyAmount = energyStat.ApplyHPEnergy(applyAmount);
-                        localHp.Commit(applyAmount);
+                        bool passed = true;
+                        if (energyStat.IsHPLow)
+                            passed ^= Randomizer.GetRandomBool();
+                        if (passed)
+                        {
+                            float applyAmount = Math.Min(requirement * hours, HPTransportSpeed * hours);
+                            applyAmount = energyStat.ApplyHPEnergy(applyAmount);
+                            localHp.Commit(applyAmount);
+                        }
                     }
                 }
-            }
-            {
-                float requirement = localFood.MaxLimit - localFood.Current;
-
-                if (requirement > 0)
                 {
-                    bool passed = true;
-                    if (energyStat.IsFoodLow)
-                        passed ^= Randomizer.GetRandomBool();
-                    if (passed)
+                    float requirement = localFood.MaxLimit - localFood.Current;
+
+                    if (requirement > 0)
                     {
-                        float applyAmount = Math.Min(requirement * hours, FoodTransportSpeed * hours);
-                        applyAmount = energyStat.ApplyFood(applyAmount);
-                        localFood.Commit(applyAmount);
+                        bool passed = true;
+                        if (energyStat.IsFoodLow)
+                            passed ^= Randomizer.GetRandomBool();
+                        if (passed)
+                        {
+                            float applyAmount = Math.Min(requirement * hours, FoodTransportSpeed * hours);
+                            applyAmount = energyStat.ApplyFood(applyAmount);
+                            localFood.Commit(applyAmount);
+                        }
                     }
                 }
-            }
-            #endregion
+                #endregion
 
-            // 计算发展度
-            float hpnewDev = DevBias;
+                // 计算发展度
+                float hpnewDev = DevBias;
 
-            #region 消耗资源计算发展度
-            if (hpChange > 0)
-            {
-                float act = localHp.Commit(hpChange);
-
-                if (act < hpChange)
+                #region 消耗资源计算发展度
+                if (hpChange > 0)
                 {
-                    energyStat.CommitHPEnergy(Math.Min(hpChange - act, HPTransportSpeed * hours));
-                }
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    if (plugins[i].HPProductionSpeed < 0)
+                    float act = localHp.Commit(hpChange);
+
+                    if (act < hpChange)
                     {
-                        hpnewDev -= plugins[i].HPProductionSpeed * hours * DevelopmentMult;
+                        energyStat.CommitHPEnergy(Math.Min(hpChange - act, HPTransportSpeed * hours));
                     }
-                }
-                if (SelfHPProductionSpeed < 0)
-                    hpnewDev -= SelfHPProductionSpeed * hours * DevelopmentMult;
-            }
-            else
-            {
-                float act = localHp.Apply(-hpChange);
-
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    if (plugins[i].HPProductionSpeed < 0)
+                    for (int i = 0; i < plugins.Count; i++)
                     {
-                        hpnewDev -= plugins[i].HPProductionSpeed * hours * DevelopmentMult;
+                        if (plugins[i].HPProductionSpeed < 0)
+                        {
+                            hpnewDev -= plugins[i].HPProductionSpeed * hours * DevelopmentMult;
+                        }
                     }
+                    if (SelfHPProductionSpeed < 0)
+                        hpnewDev -= SelfHPProductionSpeed * hours * DevelopmentMult;
                 }
-                if (SelfHPProductionSpeed < 0)
-                    hpnewDev -= SelfHPProductionSpeed * hours * DevelopmentMult;
-
-                hpnewDev += (act + hpChange) * DevelopmentMult;
-            }
-
-            float lpnewDev = 0;
-            if (hpChange > 0)
-            {
-                float act = localLp.Commit(lpChange);
-
-                if (act < lpChange)
-                {
-                    energyStat.CommitHPEnergy(Math.Min(hpChange - act, LPTransportSpeed * hours));
-                }
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    if (plugins[i].LPProductionSpeed < 0)
-                    {
-                        lpnewDev -= plugins[i].LPProductionSpeed * hours * DevelopmentMult;
-                    }
-                }
-                if (SelfLPProductionSpeed < 0)
-                    lpnewDev -= SelfLPProductionSpeed * hours * DevelopmentMult;
-            }
-            else
-            {
-                float act = localLp.Apply(-lpChange);
-
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    if (plugins[i].LPProductionSpeed < 0)
-                    {
-                        lpnewDev -= plugins[i].LPProductionSpeed * hours * DevelopmentMult;
-                    }
-                }
-                if (SelfLPProductionSpeed < 0)
-                    lpnewDev -= SelfLPProductionSpeed * hours * DevelopmentMult;
-
-                lpnewDev += (act + lpChange) * DevelopmentMult;
-            }
-            #endregion
-
-
-            float foodLack = 0;
-
-
-            //if (foodChange > 0)
-            //{
-            //    //this.CarbonChange += CarbonMult * foodLack;
-
-
-            //    // 如果有疾病，那么先将食物用于控制疾病
-            //    if (Disease > 0)
-            //    {
-            //        Disease -= foodChange;
-            //    }
-            //    else
-            //    {
-            //        float actFood = localFood.Commit(foodChange);
-            //        if (actFood < foodChange)
-            //        {
-            //            energyStat.CommitHPEnergy(Math.Min(foodChange - actFood, FoodTransportSpeed * hours));
-            //        }
-            //    }
-            //}
-            //else
-            {
-                float actFood = localFood.Apply(-foodChange);
-                // 计算疾病发生情况
-                foodLack = actFood + foodChange;
-
-
-                if (foodLack < 0)
-                {
-                    if (Disease < float.Epsilon)
-                    {
-                        Disease = 0.01f;
-                    }
-                }
-
-
                 else
                 {
-                    Disease -= actFood;
+                    float act = localHp.Apply(-hpChange);
+
+                    for (int i = 0; i < plugins.Count; i++)
+                    {
+                        if (plugins[i].HPProductionSpeed < 0)
+                        {
+                            hpnewDev -= plugins[i].HPProductionSpeed * hours * DevelopmentMult;
+                        }
+                    }
+                    if (SelfHPProductionSpeed < 0)
+                        hpnewDev -= SelfHPProductionSpeed * hours * DevelopmentMult;
+
+                    hpnewDev += (act + hpChange) * DevelopmentMult;
                 }
 
-                //this.CarbonChange += CarbonMult * foodLack;
-            }
+                float lpnewDev = 0;
+                if (hpChange > 0)
+                {
+                    float act = localLp.Commit(lpChange);
 
-            // 疾病发展传播计算
-            if (Disease > 0)
-            {
-                Disease += Disease * (float)Math.Log(Population, 100) * 0.001f;
-            }
-            else
-            {
-                Disease = 0;
-            }
+                    if (act < lpChange)
+                    {
+                        energyStat.CommitHPEnergy(Math.Min(hpChange - act, LPTransportSpeed * hours));
+                    }
+                    for (int i = 0; i < plugins.Count; i++)
+                    {
+                        if (plugins[i].LPProductionSpeed < 0)
+                        {
+                            lpnewDev -= plugins[i].LPProductionSpeed * hours * DevelopmentMult;
+                        }
+                    }
+                    if (SelfLPProductionSpeed < 0)
+                        lpnewDev -= SelfLPProductionSpeed * hours * DevelopmentMult;
+                }
+                else
+                {
+                    float act = localLp.Apply(-lpChange);
 
-            // 计算人口变化情况
-            float popChange = 0;
-            if (Disease > 0)
-            {
-                popChange -= Disease * 0.1f;
-            }
-            Population += popChange;
+                    for (int i = 0; i < plugins.Count; i++)
+                    {
+                        if (plugins[i].LPProductionSpeed < 0)
+                        {
+                            lpnewDev -= plugins[i].LPProductionSpeed * hours * DevelopmentMult;
+                        }
+                    }
+                    if (SelfLPProductionSpeed < 0)
+                        lpnewDev -= SelfLPProductionSpeed * hours * DevelopmentMult;
 
-            if (Population < 0)
-            {
-                Population = 0;
-            }
+                    lpnewDev += (act + lpChange) * DevelopmentMult;
+                }
+                #endregion
 
 
-            float popDevAdj = 1;
-            if (Population > 0)
-            {
-                //if (Population < 2 * RefPopulation)
+                float foodLack = 0;
+
+
+                //if (foodChange > 0)
                 //{
-                //    popDevAdj = Population <= RefPopulation ?
-                //        (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+                //    //this.CarbonChange += CarbonMult * foodLack;
 
 
-                //    if (devIncr < 0)
+                //    // 如果有疾病，那么先将食物用于控制疾病
+                //    if (Disease > 0)
                 //    {
-                //        if (popDevAdj < 0)
+                //        Disease -= foodChange;
+                //    }
+                //    else
+                //    {
+                //        float actFood = localFood.Commit(foodChange);
+                //        if (actFood < foodChange)
                 //        {
-                //            popDevAdj = -popDevAdj;
+                //            energyStat.CommitHPEnergy(Math.Min(foodChange - actFood, FoodTransportSpeed * hours));
                 //        }
                 //    }
-
-                //    //devIncr = devIncr < 0 ? 1000 : -1000;
-                //    devIncr *= popDevAdj;
                 //}
                 //else
-                //{
-                //    popDevAdj = devIncr < 0 ? 1000 : -1000;
-                //    devIncr *= popDevAdj;
-                //}
+                {
+                    float actFood = localFood.Apply(-foodChange);
+                    // 计算疾病发生情况
+                    foodLack = actFood + foodChange;
 
 
-            }
+                    if (foodLack < 0)
+                    {
+                        if (Disease < float.Epsilon)
+                        {
+                            Disease = 0.01f;
+                        }
+                    }
+
+
+                    else
+                    {
+                        Disease -= actFood;
+                    }
+
+                    //this.CarbonChange += CarbonMult * foodLack;
+                }
+
+                // 疾病发展传播计算
+                if (Disease > 0)
+                {
+                    Disease += Disease * (float)Math.Log(Population, 100) * 0.001f;
+                }
+                else
+                {
+                    Disease = 0;
+                }
+
+                // 计算人口变化情况
+                float popChange = 0;
+                if (Disease > 0)
+                {
+                    popChange -= Disease * 0.1f;
+                }
+                Population += popChange;
+
+                if (Population < 0)
+                {
+                    Population = 0;
+                }
+
+
+                float popDevAdj = 1;
+                if (Population > 0)
+                {
+                    //if (Population < 2 * RefPopulation)
+                    //{
+                    //    popDevAdj = Population <= RefPopulation ?
+                    //        (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
+
+
+                    //    if (devIncr < 0)
+                    //    {
+                    //        if (popDevAdj < 0)
+                    //        {
+                    //            popDevAdj = -popDevAdj;
+                    //        }
+                    //    }
+
+                    //    //devIncr = devIncr < 0 ? 1000 : -1000;
+                    //    devIncr *= popDevAdj;
+                    //}
+                    //else
+                    //{
+                    //    popDevAdj = devIncr < 0 ? 1000 : -1000;
+                    //    devIncr *= popDevAdj;
+                    //}
+
+
+                }
 #warning sign check
-            float devIncr = popDevAdj * (lpnewDev * 0.5f + hpnewDev);
-            Development += devIncr + foodLack;
-            if (Development < 0)
-            {
-                Development = 0;
-            }
-            if (devIncr > 0)
-            {
-                Population += (devIncr + foodLack) * 0.01f;
-            }
-            base.Update(time);
+                float devIncr = popDevAdj * (lpnewDev * 0.5f + hpnewDev);
+                Development += devIncr + foodLack;
+                if (Development < 0)
+                {
+                    Development = 0;
+                }
+                if (devIncr > 0)
+                {
+                    Population += (devIncr + foodLack) * 0.01f;
+                }
+                base.Update(time);
 
+            }
         }
-
         #region IConfigurable 成员
 
         public override void Parse(ConfigurationSection sect)
