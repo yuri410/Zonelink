@@ -101,7 +101,7 @@ namespace Code2015.BalanceSystem
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
         [SLGValue]
-        const int TownPluginCount = 1;
+        const int SmallPluginCount = 1;
         [SLGValue]
         const int NormalPluginCount = 3;
         [SLGValue]
@@ -171,21 +171,30 @@ namespace Code2015.BalanceSystem
         const int LargeMaxFoodStorage = 3000;
         #endregion
 
+        #region 发展比
         [SLGValue]
         const float SmallDevMult = 1;
         [SLGValue]
-        const float MediumDevMult = 0.33f;
+        const float MediumDevMult = 0.25f;
         [SLGValue]
-        const float LargeDevMult = 0.1f;
+        const float LargeDevMult = 0.05f;
+        #endregion
 
+        #region 参考人口
         [SLGValue]
         const float SmallRefPop = 20;
         [SLGValue]
         const float MediumRefPop = 400;
         [SLGValue]
         const float LargeRefPop = 1000;
+        #endregion
 
-
+        [SLGValue]
+        const int SmallFoodCollectSpeed = 10;
+        [SLGValue]
+        const int MediumFoodCollectSpeed = 20;
+        [SLGValue]
+        const int LargeFoodCollectSpeed = 50;
 
 
         FastList<NaturalResource> farms = new FastList<NaturalResource>();
@@ -204,6 +213,8 @@ namespace Code2015.BalanceSystem
         static readonly float[] LPTSpeed = { SmallCityLPTranportSpeed, MediumCityLPTranportSpeed, LargeCityLPTranportSpeed };
         static readonly float[] HPTSpeed = { SmallCityHPTranportSpeed, MediumCityHPTranportSpeed, LargeCityHPTranportSpeed };
         static readonly float[] FoodTSpeed = { SmallFoodTranportSpeed, MediumFoodTranportSpeed, LargeFoodTranportSpeed };
+
+        static readonly float[] FoodCollSpeed = { SmallFoodCollectSpeed, MediumFoodCollectSpeed, LargeFoodCollectSpeed };
 
         public City(EnergyStatus energyStat)
             : base(energyStat.Region)
@@ -352,6 +363,12 @@ namespace Code2015.BalanceSystem
             get;
             protected set;
         }
+        public float SelfFoodGatheringSpeed
+        {
+            get { return FoodCollSpeed[(int)Size]; }
+        }
+
+#warning 全部用方法，不用属性
 
         /// <summary>
         ///  若有Plugin，获取Plugin的对高能资源的消耗速度
@@ -440,7 +457,7 @@ namespace Code2015.BalanceSystem
                 switch (Size)
                 {
                     case UrbanSize.Small:
-                        return TownPluginCount;
+                        return SmallPluginCount;
                     case UrbanSize.Medium:
                         return NormalPluginCount;
                     case UrbanSize.Large:
@@ -559,7 +576,7 @@ namespace Code2015.BalanceSystem
             //CarbonProduceSpeed = Population * 0.02f + 
 
 
-
+            #region 城市自动级别调整
             float points = GetCityPoints(Development, Population);
 
             if (points < MediumCityPointThreshold)
@@ -577,7 +594,7 @@ namespace Code2015.BalanceSystem
             {
                 Size = UrbanSize.Large;
             }
-
+            #endregion
 
             for (int i = 0; i < plugins.Count; i++)
             {
