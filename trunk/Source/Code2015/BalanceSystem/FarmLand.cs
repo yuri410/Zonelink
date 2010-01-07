@@ -32,17 +32,7 @@ namespace Code2015.BalanceSystem
             get;
             set;
         }     
-      
-
-        public void GetConsumeSpeed()
-        {
-            float consumespeed = 0;
-            for (int i = 0; i < this.CityCount; i++)
-            {
-                consumespeed += (this[i].GetPluginFoodCostSpeed() + this[i].FoodCostSpeed);
-            }
-            this.SourceConsumeSpeed = consumespeed;
-        }
+     
 
 
         public bool Add(PlantSpecies foodplant)

@@ -23,11 +23,12 @@ namespace Code2015.BalanceSystem
             Name = name;
         }
 
-        public float CarbonWeight
+     
+        public void GetCarbonWeight()
         {
-            get { return MakeCarbonSpeed * Amount; }
-            set { CarbonWeight = value; }
+            this.CarbonWeight = MakeCarbonSpeed * Amount;
         }
+
         /// <summary>
         /// 制造C的速度，不同动物不一样
         /// </summary>

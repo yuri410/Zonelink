@@ -18,27 +18,16 @@ namespace Code2015.BalanceSystem
 
     public abstract class NaturalResource : SimulateObject
     {
-        [Obsolete()]
-        FastList<City> cities;
-
-
+       
         protected NaturalResource(SimulateRegion region, NaturalResourceType type)
             : base(region)
         {
-            cities = new FastList<City>();
+          
 
             Type = type;
         }
      
-        public City this[int i]
-        {
-            get { return cities[i]; }
-        }
       
-        public int CityCount
-        {
-            get { return cities.Count; }
-        }
         public string Name
         {
             get;
@@ -67,7 +56,15 @@ namespace Code2015.BalanceSystem
        
         public float Exploit(float amount)
         {
-            throw new NotImplementedException();
+            if (amount < CurrentAmount)
+            {
+                CurrentAmount = CurrentAmount - amount;
+                return amount;
+            }
+            else
+            {
+                return CurrentAmount;
+            }
         }
 
 

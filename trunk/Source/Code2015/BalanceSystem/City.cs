@@ -35,7 +35,7 @@ namespace Code2015.BalanceSystem
 
 
         /// <summary>
-        ///  申请获得资源
+        ///  申请获得能源
         /// </summary>
         /// <param name="amount"></param>
         /// <returns>实际申请到的能源量</returns>
@@ -64,6 +64,7 @@ namespace Code2015.BalanceSystem
             return amount;
         }
     }
+
 
     public enum UrbanSize
     {
