@@ -27,13 +27,7 @@ namespace Code2015.BalanceSystem
             Type = type;
         }
      
-      
-        public string Name
-        {
-            get;
-            set;
 
-        }
 
         public NaturalResourceType Type
         {
