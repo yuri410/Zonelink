@@ -7,26 +7,35 @@ using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
 
-
 namespace Code2015.BalanceSystem
 {
-    class ResourceType
+    /// <summary>
+    ///  表示一种资源的存储器。
+    ///  可以储存一定量的资源。并且从这批资源中申请获得一定数量，以及将一定数量的资源存储进来
+    /// </summary>
+    class ResourceStorage
     {
         float amount;
         float limit;
 
-        public ResourceType(float a, float limit)
+        public ResourceStorage(float a, float limit)
         {
             this.amount = a;
             this.limit = limit;
         }
 
+        /// <summary>
+        ///  获取或设置当前资源数量
+        /// </summary>
         public float Current
         {
             get { return amount; }
             private set { amount = value; }
         }
 
+        /// <summary>
+        ///  获取或设置资源存储量的上限
+        /// </summary>
         public float MaxLimit
         {
             get { return limit; }
@@ -37,7 +46,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  申请获得能源
         /// </summary>
-        /// <param name="amount"></param>
+        /// <param name="amount">要求的能源量</param>
         /// <returns>实际申请到的能源量</returns>
         public float Apply(float amount)
         {
@@ -51,6 +60,11 @@ namespace Code2015.BalanceSystem
             return r;
         }
 
+        /// <summary>
+        ///  将过剩资源提交，存储起来
+        /// </summary>
+        /// <param name="amount">提交的数量</param>
+        /// <returns>实际接受提交的数量</returns>
         public float Commit(float amount)
         {
             float r = Current + amount;
@@ -65,13 +79,25 @@ namespace Code2015.BalanceSystem
         }
     }
 
-
+    /// <summary>
+    ///  表示城市的大小
+    /// </summary>
     public enum UrbanSize
     {
+        /// <summary>
+        ///  小城
+        /// </summary>
         Small = 0,
+        /// <summary>
+        ///  中型城市
+        /// </summary>
         Medium = 1,
+        /// <summary>
+        ///  大型城市
+        /// </summary>
         Large = 2
     }
+
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
         [SLGValue]
@@ -183,9 +209,9 @@ namespace Code2015.BalanceSystem
             : base(energyStat.Region)
         {
             this.energyStat = energyStat;
-            localLp = new ResourceType(SmallMaxLPStorage, float.MaxValue);
-            localHp = new ResourceType(SmallMaxHPStorage, float.MaxValue);
-            localFood = new ResourceType(SmallMaxFoodStorage, float.MaxValue);
+            localLp = new ResourceStorage(SmallMaxLPStorage, float.MaxValue);
+            localHp = new ResourceStorage(SmallMaxHPStorage, float.MaxValue);
+            localFood = new ResourceStorage(SmallMaxFoodStorage, float.MaxValue);
             UpdateCity();
         }
         public City(EnergyStatus energyStat, UrbanSize size)
@@ -206,9 +232,9 @@ namespace Code2015.BalanceSystem
         /// </summary>
         FastList<CityPlugin> plugins;
 
-        ResourceType localLp;
-        ResourceType localHp;
-        ResourceType localFood;
+        ResourceStorage localLp;
+        ResourceStorage localHp;
+        ResourceStorage localFood;
 
         #region  属性
 
@@ -227,26 +253,37 @@ namespace Code2015.BalanceSystem
         }
 
 
-
+        /// <summary>
+        ///  获取城市的名称
+        /// </summary>
         public string Name
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取城市的发展度
+        /// </summary>
         public float Development
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取城市的人口数量
+        /// </summary>
         public float Population
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取城市的疾病因数
+        /// </summary>
         public float Disease
         {
             get;
-            set;
+            private set;
         }
 
         /// <summary>
