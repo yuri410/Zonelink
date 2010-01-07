@@ -172,7 +172,7 @@ namespace Code2015.BalanceSystem
 
 
         #region IUpdatable 成员
-
+       
         public void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
@@ -196,19 +196,25 @@ namespace Code2015.BalanceSystem
                     {
                         //采集资源
                         hpResource = 0;
+                        hpResource = parent.RemainingHPAmount - parent.InitHPAmount;
+                        res.Exploit(Math.Abs(hpResource));
+                        finished = false;
                     }
                 }
                 if (lpResource > 0)
                 {
                     if (res.Type == NaturalResourceType.Wood)
                     {
-
                         lpResource = 0;
+                        lpResource = parent.RemainingHPAmount - parent.RemainingHPAmount;
+                        res.Exploit(Math.Abs(lpResource));
+                        finished = true;
                     }
                 }
 
                 index++;
                 tries++;
+               
             }
         }
 

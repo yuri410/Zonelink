@@ -39,15 +39,7 @@ namespace Code2015.BalanceSystem
             base.GetProduceSpeed(speed);
         }
 
-        public void GetSourceConsumeSpeed()
-        {
-            float consumespeed = 0;
-            for (int i = 0; i < this.CityCount; i++)
-            {
-                consumespeed += this[i].GetPluginLPProductionSpeed();
-            }
-            this.ConsumeLPSpeed = consumespeed * 1.5f;
-        }
+      
         public override void Update(GameTime time)
         {
        

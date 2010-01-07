@@ -28,29 +28,13 @@ namespace Code2015.BalanceSystem
             set;
         }
      
-        public float TransToHPAmount
-        {
-            get;
-            set;
-        }
 
-        public void GetOilConsumeSpeed()
-        {
-            float consumespeed = 0;
-            for (int i = 0; i < this.CityCount;i++)
-            {
-                consumespeed += this[i].GetPluginHPProductionSpeed();
-            }
-            this.ConsumeHPSpeed = consumespeed * 1.5f;//资源消耗的速度是能源生产速度的1.5倍
-        }
+      
         
         public override void Update(GameTime time)
         {
          
-            float hours=(float)time.ElapsedGameTime.Hours;
-            this.RemainingSourceAmount = this.InitSourceAmount;
-            this.RemainingSourceAmount+=(this.SourceProduceSpeed-this.SourceConsumeSpeed)*hours;
-            this.CarbonChange += this.EmitCarbonSpeed * this.RemainingSourceAmount*hours;//油田本身也要释放C
+           
           
         }
 
