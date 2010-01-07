@@ -78,22 +78,22 @@ namespace Code2015.BalanceSystem
 
 
 
-        ///// <summary>
-        /////  输入资源充足时的高能生产速度
-        ///// </summary>
-        //public float FullHPProductionSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
-        ///// <summary>
-        /////  输入资源充足时的低能生产速度
-        ///// </summary>
-        //public float FullLPProductionSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
+        /// <summary>
+        ///  输入资源充足时的高能生产速度
+        /// </summary>
+        public float FullHPProductionSpeed
+        {
+            get;
+            private set;
+        }
+        /// <summary>
+        ///  输入资源充足时的低能生产速度
+        /// </summary>
+        public float FullLPProductionSpeed
+        {
+            get;
+            private set;
+        }
 
         
         /// <summary>
