@@ -7,6 +7,9 @@ using Apoc3D.Collections;
 
 namespace Code2015.BalanceSystem
 {
+    /// <summary>
+    ///  表示自然资源的类型
+    /// </summary>
     public enum NaturalResourceType
     {
         None,
@@ -26,15 +29,19 @@ namespace Code2015.BalanceSystem
 
             Type = type;
         }
-     
-
-
+        
+        /// <summary>
+        ///  获取自然资源的类型
+        /// </summary>
         public NaturalResourceType Type
         {
             get;
             private set;
         }
 
+        /// <summary>
+        ///  获取当前自然资源
+        /// </summary>
         public float CurrentAmount
         {
             get;
@@ -43,11 +50,10 @@ namespace Code2015.BalanceSystem
 
 
         /// <summary>
-        /// 
+        ///  开采一定数量的自然资源
         /// </summary>
         /// <param name="amount">申请值</param>
-        /// <returns></returns>
-
+        /// <returns>实际得到的</returns>
         public float Exploit(float amount)
         {
             if (amount < CurrentAmount)
@@ -62,7 +68,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-
+        #region Unk
         /// <summary>
         /// 资源消耗速度
         /// </summary>
@@ -99,7 +105,6 @@ namespace Code2015.BalanceSystem
         }
 
 
-
         /// <summary>
         /// 留以作为玩家花费金钱或时间来使再生产速度加速用
         /// </summary>
@@ -108,6 +113,8 @@ namespace Code2015.BalanceSystem
         {
             this.SourceProduceSpeed = speed;
         }
+
+        #endregion
 
         public override void Update(GameTime time)
         {
