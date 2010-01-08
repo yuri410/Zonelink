@@ -15,13 +15,14 @@ namespace Code2015.BalanceSystem
         /// 木材工厂产生低能，无高能，炼油厂和生态工厂产能为高能
         /// 
         /// </summary>
+       
         public CityPluginFactory()
         { }
-      
+        CityPluginType type;
         public CityPlugin MakeOilRefinary()
         {
-            CityPlugin oilRefinary = new CityPlugin("OilRefinary");
-
+            //CityPlugin oilRefinary = new CityPlugin("OilRefinary");
+            CityPlugin oilRefinary = new CityPlugin(type);
             ConfigurationSection sect = new IniSection("OilRefinary");
             sect.Add("Cost", "1000");
             sect.Add("UpgradeCost", "100");
@@ -36,8 +37,8 @@ namespace Code2015.BalanceSystem
         }
         public CityPlugin MakeWoodFactory()
         {
-            CityPlugin woodfactory = new CityPlugin("WoodFactory");
-           
+            //CityPlugin woodfactory = new CityPlugin("WoodFactory");
+            CityPlugin woodfactory = new CityPlugin(type);
             ConfigurationSection sect = new IniSection("WoodFactory");
             sect.Add("Cost", "500");
             sect.Add("UpgradeCost", "700");
@@ -53,8 +54,8 @@ namespace Code2015.BalanceSystem
       
         public CityPlugin MakeBioEnergeFactory()
         {
-            CityPlugin biofactory = new CityPlugin("BioEnergyFactory");
-
+            //CityPlugin biofactory = new CityPlugin("BioEnergyFactory");
+            CityPlugin biofactory = new CityPlugin(type);
             ConfigurationSection sect = new IniSection("BioEnergyFactory");
             sect.Add("Cost", "2000");
             sect.Add("UpgradeCost", "2500");
@@ -63,12 +64,14 @@ namespace Code2015.BalanceSystem
             sect.Add("CarbonProduceSpeed", "0");
             sect.Add("FoodCostSpeed", "-200");
 
+            biofactory.Parse(sect);
             return biofactory;
         }
 
         public CityPlugin MakeHospital()
         {
-            CityPlugin hospital = new CityPlugin("Hospital");
+            //CityPlugin hospital = new CityPlugin("Hospital");
+            CityPlugin hospital = new CityPlugin(type);
 
             ConfigurationSection sect = new IniSection("Hospital");
             sect.Add("Cost", "1000");
@@ -85,7 +88,8 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeEducationAgent()
         {
-            CityPlugin EducationAgent = new CityPlugin("EducationAgent");
+            //CityPlugin EducationAgent = new CityPlugin("EducationAgent");
+            CityPlugin EducationAgent = new CityPlugin(type);
 
             ConfigurationSection sect = new IniSection("EducationAgent");
             sect.Add("Cost", "1000");
@@ -95,7 +99,7 @@ namespace Code2015.BalanceSystem
             sect.Add("CarbonProduceSpeed", "50");
             sect.Add("FoodCostSpeed", "-50");
 
-
+            EducationAgent.Parse(sect);
             return EducationAgent;
 
         }

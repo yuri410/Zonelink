@@ -203,9 +203,6 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
-
-
-
         public float GetSelfFoodCostSpeedFull()
         {
             return Population * 0.05f;

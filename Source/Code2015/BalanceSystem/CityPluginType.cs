@@ -63,7 +63,10 @@ namespace Code2015.BalanceSystem
 
         public float GetUpgradeCost(int level)
         {
-
+            UpgradeCostBase = level * Cost;
+            float upgradecost = UpgradeCostBase;
+            UpgradeCostBase = 0;
+            return upgradecost;
         }
 
         //public virtual float GetUpgradeCost()

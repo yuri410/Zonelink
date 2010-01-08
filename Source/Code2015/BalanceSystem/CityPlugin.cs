@@ -14,10 +14,11 @@ namespace Code2015.BalanceSystem
         City parent;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
 
-      
 
+        CityPluginType type;
         public CityPlugin(CityPluginType type)
         {
+            this.Name = type.TypeName;
         }
 
 
@@ -123,27 +124,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-        public float UpgradeCost()
-        {
-            if (this.Name == "OilRefinary")
-                return 100;
-            else if (this.Name == "WoodFactory")
-            {
-                return 700;
-            }
-            else if (this.Name == "BioEnergyFactory")
-            {
-                return 2500;
-            }
-            else if (this.Name == "Hospital")
-            {
-                return 1000;
-            }
-            else
-            {
-                return 500;
-            }
-        }
+     
 
         #region IUpdatable 成员
 
@@ -181,8 +162,8 @@ namespace Code2015.BalanceSystem
                             float act = res.Exploit(hpResource);
                             float speed = act / hours;
 
-                            HRPSpeed = speed * HRPConvRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
+                            HRPSpeed = speed * type.HRPConvRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - type.HRPConvRate);
                             hpResource = 0;
                         }
                     }
@@ -193,8 +174,8 @@ namespace Code2015.BalanceSystem
                             float act = res.Exploit(lpResource);
                             float speed = act / hours;
 
-                            LRPSpeed = speed * LRPConvRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
+                            LRPSpeed = speed * type.LRPConvRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - type.LRPConvRate);
                             lpResource = 0;
                         }
                     }
@@ -211,19 +192,17 @@ namespace Code2015.BalanceSystem
 
                 float speed = act / hours;
 
-                HRPSpeed = speed * FoodConvRate;
-                CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
+                HRPSpeed = speed * type.FoodConvRate;
+                CarbonProduceSpeed += Math.Max(0, 1 - type.FoodConvRate) * speed;
             }
             #endregion
 
             #region 处理消耗资源
 
             // 高能资源消耗量
-<<<<<<< .mine
-            float hrChange = HRCSpeedFull * hours;
-=======
+
             float hrChange = type.HRCSpeed * hours;
->>>>>>> .r253
+
 
             if (hrChange > float.Epsilon ||
                 hrChange < -float.Epsilon)
@@ -234,11 +213,9 @@ namespace Code2015.BalanceSystem
             }
 
             // 低能资源消耗量
-<<<<<<< .mine
-            float lrChange = LRCSpeedFull * hours;
-=======
+
             float lrChange = type.LRCSpeed * hours;
->>>>>>> .r253
+
 
             if (lrChange > float.Epsilon ||
                 lrChange < -float.Epsilon)
