@@ -274,9 +274,6 @@ namespace Code2015.BalanceSystem
                 CarbonProduceSpeed += Math.Max(0, 1 - FoodConvertionRate) * speed;
             }
 
-
-
-
         }
 
         #endregion
