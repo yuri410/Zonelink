@@ -767,12 +767,15 @@ namespace Code2015.BalanceSystem
 
                 float foodSpeedFull = GetSelfFoodCostSpeedFull();
 
-                // 食物 碳排量计算
-                CarbonProduceSpeed += foodSpeedFull * Carbon.FoodUsing;
 
                 float foodChange = (-foodSpeedFull + SelfFoodGatheringSpeed) * hours;
 
                 float actFood = localFood.Apply(-foodChange);
+
+
+                // 食物 碳排量计算
+                CarbonProduceSpeed += foodSpeedFull * actFood / -foodChange;
+
                 // 计算疾病发生情况
                 foodLack = actFood + foodChange;
 

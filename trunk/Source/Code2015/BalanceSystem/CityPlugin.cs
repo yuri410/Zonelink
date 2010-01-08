@@ -32,11 +32,14 @@ namespace Code2015.BalanceSystem
         {
 
             Cost = sect.GetSingle("Cost");
-            UpgradeCostBase = sect.GetSingle("UpgradeCost");
+            UpgradeCostBase = sect.GetSingle("UpgradeCostBase");
 
-            HPProductionSpeed = sect.GetSingle("HPProductionSpeed");
-            LPProductionSpeed = sect.GetSingle("LPProductionSpeed");
-            CarbonProduceSpeed = sect.GetSingle("CarbonProduceSpeed");
+            FullHPProductionSpeed = sect.GetSingle("FullHPProductionSpeed");
+            FullLPProductionSpeed = sect.GetSingle("FullLPProductionSpeed");
+            FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
+
+            HRCostSpeed = sect.GetSingle("HRCostSpeed");
+            LRCostSpeed = sect.GetSingle("LRCostSpeed");
             FoodCostSpeed = sect.GetSingle("FoodCostSpeed");
             GatherRadius = sect.GetSingle("GatherRadius");
 
@@ -201,42 +204,48 @@ namespace Code2015.BalanceSystem
             int tries = 0;
             bool finished = false;
             CarbonProduceSpeed = 0;
-
+             
             int collTypeCount = 0;
-            while (tries < resource.Count && !finished)
+
+            if (hpResource > float.Epsilon ||
+                lpResource > float.Epsilon)
             {
-                NaturalResource res = resource[index % resource.Count];
-
-                if (hpResource > 0)
+                while (tries < resource.Count && !finished)
                 {
-                    if (res.Type == NaturalResourceType.Oil)
-                    {
-                        //采集资源
+                    NaturalResource res = resource[index % resource.Count];
 
-                        float act = res.Exploit(hpResource);
-                        float ratio = act / hpResource;
-                        HPProductionSpeed = FullHPProductionSpeed * ratio;
-                        CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
-                        hpResource = 0;
-                        collTypeCount++;
-                    }
-                }
-                if (lpResource > 0)
-                {
-                    if (res.Type == NaturalResourceType.Wood)
+                    if (hpResource > 0)
                     {
-                        float act = res.Exploit(lpResource);
-                        float ratio = act / lpResource;
-                        LPProductionSpeed = FullLPProductionSpeed * ratio;
-                        CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
-                        lpResource = 0;
-                        collTypeCount++;
-                    }
-                }
-               
-                index++;
-                tries++;
+                        if (res.Type == NaturalResourceType.Oil)
+                        {
+                            //采集资源
 
+                            float act = res.Exploit(hpResource);
+                            float ratio = act / hpResource;
+                            HPProductionSpeed = FullHPProductionSpeed * ratio;
+                            CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
+                            hpResource = 0;
+                            collTypeCount++;
+                        }
+                    }
+                    if (lpResource > 0)
+                    {
+                        if (res.Type == NaturalResourceType.Wood)
+                        {
+                            float act = res.Exploit(lpResource);
+                            float ratio = act / lpResource;
+                            LPProductionSpeed = FullLPProductionSpeed * ratio;
+                            CarbonProduceSpeed += FullCarbonProduceSpeed * ratio;
+                            lpResource = 0;
+                            collTypeCount++;
+                        }
+                    }
+
+
+                    index++;
+                    tries++;
+
+                }
             }
 
            
