@@ -489,6 +489,7 @@ namespace Code2015.BalanceSystem
                     hrChange < -float.Epsilon)
                 {
                     float actHrChange = localHr.Apply(-hrChange);
+                    SelfHRCRatio = actHrChange / hrChange;
                     hrDev += actHrChange * CityGrade.GetDevelopmentMult(Size);
                 }
 
@@ -498,18 +499,21 @@ namespace Code2015.BalanceSystem
                     lrChange < -float.Epsilon)
                 {
                     float actLrChange = localLr.Apply(-lrChange);
+                    SelfLRCRatio = actLrChange / lrChange;
                     lrDev += actLrChange * CityGrade.GetDevelopmentMult(Size);
                 }
 
                 float foodSpeedFull = GetSelfFoodCostSpeedFull();
 
+#warning 实现采集食物
                 float foodChange = (-foodSpeedFull + CityGrade.GetSelfFoodGatheringSpeed(Size)) * hours;
 
                 float actFood = localFood.Apply(-foodChange);
 
+                SelfFoodCostRatio = actFood / -foodChange;
 
                 // 食物 碳排量计算
-                CarbonProduceSpeed += foodSpeedFull * actFood / -foodChange;
+                CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
 
                 // 计算疾病发生情况
                 foodLack = actFood + foodChange;
