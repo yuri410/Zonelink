@@ -58,6 +58,7 @@ namespace TestCode2015
 
                 Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHR.Current, city.LocalLR.Current, city.LocalFood.Current);
                 Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city.GetSelfHRCSpeed(), city.GetSelfLRCSpeed(), city.GetSelfFoodCostSpeed());
+                Console.WriteLine(" Ratio  H[{0:P}] L[{1:P}] F[{2:P}]", city.SelfHRCRatio, city.SelfLRCRatio, city.SelfFoodCostRatio);
 
                 c += city.GetCarbonChange();
 

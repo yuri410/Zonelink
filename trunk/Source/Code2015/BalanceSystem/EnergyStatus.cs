@@ -151,7 +151,7 @@ namespace Code2015.BalanceSystem
             cities = new FastList<City>();
             this.CurrentHPEnergy = InitHPEnergy;
             this.CurrentLPEnergy = InitLPEnergy;
-            this.CurrentFood = 1000000;
+            this.CurrentFood = 10000;
             //this.RemainingHPEnergy = CurrentHPEnergy;
             //this.RemainingLPEnergy = CurrentLPEnergy;
             Region = region;
