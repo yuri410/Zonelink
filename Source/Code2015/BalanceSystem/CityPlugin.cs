@@ -239,7 +239,6 @@ namespace Code2015.BalanceSystem
 
                             float act = res.Exploit(hpResource);
                             float speed = act / hours;
-                            //float baseValue = FullHRPSpeed * ratio;
 
                             HRPSpeed = speed * HRConvertionRate;
                             CarbonProduceSpeed += speed * Math.Max(0, 1 - HRConvertionRate);
