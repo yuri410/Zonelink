@@ -19,6 +19,7 @@ namespace Code2015.BalanceSystem
         public CityPlugin(CityPluginType type)
         {
             this.Name = type.TypeName;
+            this.type = type;
         }
 
 
