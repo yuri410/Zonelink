@@ -587,7 +587,7 @@ namespace Code2015.BalanceSystem
         ///  
         /// </summary>
         /// <returns>发展度</returns>
-        float ProcessHRChange(float hrChange, float hours)
+        float ProcessHRChange(float hrChange, float hours, out float perc)
         {
             // 实际高能资源使用量
             float actHrChange;
@@ -605,6 +605,7 @@ namespace Code2015.BalanceSystem
                     energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, HPTransportSpeed * hours));
                 }
             }
+            perc = actHrChange / hrChange;
             return actHrChange * DevelopmentMult;
         }
         /// <summary>
@@ -613,7 +614,7 @@ namespace Code2015.BalanceSystem
         /// <param name="lrChange"></param>
         /// <param name="hours"></param>
         /// <returns>发展度</returns>
-        float ProcessLRChange(float lrChange, float hours)
+        float ProcessLRChange(float lrChange, float hours, out float perc)
         {
             // 实际低能资源使用量
             float actLrChange;
@@ -630,7 +631,7 @@ namespace Code2015.BalanceSystem
                     energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, LPTransportSpeed * hours));
                 }
             }
-
+            perc = actLrChange / lrChange;
             return actLrChange * DevelopmentMult;
         }
 
@@ -728,15 +729,23 @@ namespace Code2015.BalanceSystem
             for (int i = 0; i < plugins.Count; i++)
             {
                 // 高能资源消耗量
-                float hrChange = plugins[i].HPProductionSpeed * hours;
+                float hrChange = plugins[i].HRPSpeed * hours;
 
                 if (hrChange > float.Epsilon ||
                     hrChange < -float.Epsilon)
-                    hrDev += ProcessHRChange(hrChange, hours);
+                {
+                    float perc;
+                    hrDev += ProcessHRChange(hrChange, hours, out perc);
 
+                    // 耗用
+                    if (hrChange < 0)
+                    {
+
+                    }
+                }
 
                 // 低能资源消耗量
-                float lrChange = plugins[i].LPProductionSpeed * hours;
+                float lrChange = plugins[i].LRPSpeed * hours;
 
                 if (lrChange > float.Epsilon ||
                     lrChange < -float.Epsilon)
