@@ -56,7 +56,7 @@ namespace TestCode2015
                 Console.Write(" Size   ");
                 Console.WriteLine(city.Size);
 
-                Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHP, city.LocalLP, city.LocalFood);
+                Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHR, city.LocalLR, city.LocalFood);
                 Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city.ProduceHPSpeed, city.ProduceLPSpeed, city.FoodCostSpeed);
 
                 c += city.GetCarbonChange();
