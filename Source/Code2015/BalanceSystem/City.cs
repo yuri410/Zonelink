@@ -259,7 +259,7 @@ namespace Code2015.BalanceSystem
         ///  计算在当前供应率的情况下，使用LR的速度
         /// </summary>
         /// <returns></returns>
-        public float GetSelfLPCSpeed()
+        public float GetSelfLRCSpeed()
         {
             return CityGrade.GetSelfLRCSpeed(Size) * SelfLRCRatio;
         }
