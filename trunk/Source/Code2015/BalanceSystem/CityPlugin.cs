@@ -9,101 +9,24 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-
-    //public enum CityPluginType { }
     public class CityPlugin : IConfigurable, IUpdatable
     {
         City parent;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
+
+      
+
+        public CityPlugin(CityPluginType type)
+        { }
+
+
+        #region  属性
 
         public string Name
         {
             get;
             protected set;
         }
-        public CityPlugin(string name)
-        {
-            this.Name = name;
-        }
-        public CityPlugin()
-        { }
-
-        //#region IConfigurable 成员
-
-        //public void Parse(ConfigurationSection sect)
-        //{
-
-        //    Cost = sect.GetSingle("Cost");
-        //    UpgradeCostBase = sect.GetSingle("UpgradeCostBase");
-
-        //    //FullHRPSpeed = sect.GetSingle("FullHPProductionSpeed");
-        //    //FullLRPSpeed = sect.GetSingle("FullLPProductionSpeed");
-        //    //FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
-
-        //    //NaturalHRCSpeed = sect.GetSingle("HRCostSpeed");
-        //    //NaturalLRCSpeed = sect.GetSingle("LRCostSpeed");
-        //    FoodCostSpeed = sect.GetSingle("FoodCostSpeed");
-        //    GatherRadius = sect.GetSingle("GatherRadius");
-
-        //}
-
-
-        //#endregion
-
-        #region  属性
-        /// <summary>
-        /// 开始建造一个所需费用
-        /// </summary>
-        public float Cost
-        {
-            get;
-            protected set;
-        }
-
-        /// <summary>
-        /// 升级所需费用
-        /// </summary>
-        public float UpgradeCostBase
-        {
-            get;
-            protected set;
-        }
-        public virtual float GetUpgradeCost()
-        {
-            UpgradeCostBase = Cost * 0.5f;
-            float upgradecost = UpgradeCostBase;
-            return UpgradeCostBase = 0;
-        }
-
-        public float GatherRadius
-        {
-            get;
-            protected set;
-        }
-
-        /// <summary>
-        ///  获取在资源充足的条件下，高能资源消耗的速度
-        /// </summary>
-        public float HRCSpeedFull
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        ///  获取在资源充足的条件下，低能资源消耗的速度
-        /// </summary>
-        public float LRCSpeedFull
-        {
-            get;
-            private set;
-        }
-
-        public float FoodCostSpeed
-        {
-            get;
-            protected set;
-        }
-
         /// <summary>
         ///  获取在当前状况下，高能资源消耗的速度
         /// </summary>
@@ -122,25 +45,6 @@ namespace Code2015.BalanceSystem
         }
 
 
-
-
-        public float HRPConvRate
-        {
-            get;
-            private set;
-        }
-
-        public float LRPConvRate
-        {
-            get;
-            private set;
-        }
-
-        public float FoodConvRate
-        {
-            get;
-            private set;
-        }
 
         /// <summary>
         ///  获取在当前状况下，高能资源产生的速度
