@@ -35,9 +35,9 @@ namespace Code2015.BalanceSystem
             Cost = sect.GetSingle("Cost");
             UpgradeCostBase = sect.GetSingle("UpgradeCostBase");
 
-            FullHRPSpeed = sect.GetSingle("FullHPProductionSpeed");
-            FullLRPSpeed = sect.GetSingle("FullLPProductionSpeed");
-            FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
+            //FullHRPSpeed = sect.GetSingle("FullHPProductionSpeed");
+            //FullLRPSpeed = sect.GetSingle("FullLPProductionSpeed");
+            //FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
 
             NaturalHRCSpeed = sect.GetSingle("HRCostSpeed");
             NaturalLRCSpeed = sect.GetSingle("LRCostSpeed");
@@ -95,47 +95,64 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
-        public float HRConvertionRate
-        {
-            get;
-            private set;
-        }
-        public float LRConvertionRate
-        {
-            get;
-            private set;
-        }
-        public float FoodConvertionRate
-        {
-            get;
-            private set;
-        }
-
-
+        /// <summary>
+        ///  获取在资源充足的条件下，高能资源消耗的速度
+        /// </summary>
         public float HRCSpeedFull
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取在资源充足的条件下，低能资源消耗的速度
+        /// </summary>
         public float LRCSpeedFull
         {
             get;
             private set;
         }
 
+
+        /// <summary>
+        ///  获取在当前状况下，高能资源消耗的速度
+        /// </summary>
         public float HRCSpeed
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取在当期情况下，低能资源消耗的速度
+        /// </summary>
         public float LRCSpeed
         {
             get;
             private set;
         }
 
+
+
+
+        public float HRPConvRate
+        {
+            get;
+            private set;
+        }
+
+        public float LRPConvRate
+        {
+            get;
+            private set;
+        }
+
+        public float FoodConvRate
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
-        ///  在当前状况下的高能产生的速度
+        ///  获取在当前状况下，高能资源产生的速度
         /// </summary>
         public float HRPSpeed
         {
@@ -143,7 +160,7 @@ namespace Code2015.BalanceSystem
             protected set;
         }
         /// <summary>
-        ///  在当前状况下的低能产生的速度
+        ///  获取在当前状况下，低能资源产生的速度
         /// </summary>
         public float LRPSpeed
         {
@@ -152,7 +169,7 @@ namespace Code2015.BalanceSystem
         }
 
         /// <summary>
-        ///  在当前状况下的碳排放速度
+        ///  获取在当前状况下的自身总碳排放量
         /// </summary>
         public float CarbonProduceSpeed
         {
@@ -223,7 +240,7 @@ namespace Code2015.BalanceSystem
             int tries = 0;
             bool finished = false;
             CarbonProduceSpeed = 0;
-             
+
 
             if (hpResource > float.Epsilon ||
                 lpResource > float.Epsilon)
@@ -241,8 +258,8 @@ namespace Code2015.BalanceSystem
                             float act = res.Exploit(hpResource);
                             float speed = act / hours;
 
-                            HRPSpeed = speed * HRConvertionRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - HRConvertionRate);
+                            HRPSpeed = speed * HRPConvRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
                             hpResource = 0;
                         }
                     }
@@ -253,8 +270,8 @@ namespace Code2015.BalanceSystem
                             float act = res.Exploit(lpResource);
                             float speed = act / hours;
 
-                            LRPSpeed = speed * LRConvertionRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - LRConvertionRate);
+                            LRPSpeed = speed * LRPConvRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
                             lpResource = 0;
                         }
                     }
@@ -271,22 +288,36 @@ namespace Code2015.BalanceSystem
 
                 float speed = act / hours;
 
-                HRPSpeed = speed * FoodConvertionRate;
-                CarbonProduceSpeed += Math.Max(0, 1 - FoodConvertionRate) * speed;
+                HRPSpeed = speed * FoodConvRate;
+                CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
             }
             #endregion
 
-
             #region 处理消耗资源
 
-            float hrChange = HRCSpeed * hours;
+            // 高能资源消耗量
+            float hrChange = HRCSpeedFull * hours;
 
             if (hrChange > float.Epsilon ||
                 hrChange < -float.Epsilon)
             {
-                //hrDev += ProcessHRChange(hrChange, hours);
+                float actHrChange = parent.LocalHR.Apply(-hrChange);
+
+                HRCSpeed = actHrChange / hours;
             }
 
+            // 低能资源消耗量
+            float lrChange = LRCSpeedFull * hours;
+
+            if (lrChange > float.Epsilon ||
+                lrChange < -float.Epsilon)
+            {
+                float actLrChange = parent.LocalLR.Apply(-lrChange);
+
+                LRCSpeed = actLrChange / hours;
+            }
+
+            CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
             #endregion
         }
 

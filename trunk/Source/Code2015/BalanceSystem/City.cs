@@ -256,7 +256,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  获取城市已存储（已缓存）的高能资源
         /// </summary>
-        public ResourceStorage LocalHP
+        public ResourceStorage LocalHR
         {
             get { return localHr; }
         }
@@ -264,7 +264,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  获取城市已存储（已缓存）的低能资源
         /// </summary>
-        public ResourceStorage LocalLP
+        public ResourceStorage LocalLR
         {
             get { return localLp; }
         }
@@ -525,58 +525,6 @@ namespace Code2015.BalanceSystem
             return dev * pop;
         }
 
-        /// <summary>
-        ///  
-        /// </summary>
-        /// <returns>发展度</returns>
-        float ProcessHRC(float hrChange, float hours)
-        {
-            // 实际高能资源使用量
-            float actHrChange;
-
-            if (hrChange < 0) // 如果是使用了资源
-            {
-                actHrChange = localHr.Apply(-hrChange);
-            }
-            else
-            {
-                actHrChange = localHr.Commit(hrChange);
-
-                if (actHrChange < hrChange)
-                {
-                    energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, HPTransportSpeed * hours));
-                }
-            }
-            //perc = actHrChange / hrChange;
-            return actHrChange * DevelopmentMult;
-        }
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="lrChange"></param>
-        /// <param name="hours"></param>
-        /// <returns>发展度</returns>
-        float ProcessLRC(float lrChange, float hours)
-        {
-            // 实际低能资源使用量
-            float actLrChange;
-            if (lrChange < 0) // 如果是使用了资源
-            {
-                actLrChange = localHr.Apply(-lrChange);
-            }
-            else
-            {
-                actLrChange = localHr.Commit(lrChange);
-
-                if (actLrChange < lrChange)
-                {
-                    energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, LPTransportSpeed * hours));
-                }
-            }
-            //perc = actLrChange / lrChange;
-            return actLrChange * DevelopmentMult;
-        }
-
         public override void Update(GameTime time)
         {
             CarbonProduceSpeed = 0;
@@ -667,26 +615,37 @@ namespace Code2015.BalanceSystem
             // 严禁使用旧的模式，属性泛滥
             #region 资源消耗计算
 
-            //// 计算插件
-            //for (int i = 0; i < plugins.Count; i++)
-            //{
-            //    // 高能资源消耗量
-            //    float hrChange = plugins[i].HRPSpeed * hours;
-
-            //    if (hrChange > float.Epsilon ||
-            //        hrChange < -float.Epsilon)                                   
-            //        hrDev += ProcessHRChange(hrChange, hours);
+            // 计算插件
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                // 高能资源消耗量
+                float hrChange = plugins[i].HRCSpeed * hours;
+                hrDev += hrChange * DevelopmentMult;
                 
+                // 低能资源消耗量
+                float lrChange = plugins[i].LRCSpeed * hours;
+                lrDev += lrDev * DevelopmentMult;
 
-            //    // 低能资源消耗量
-            //    float lrChange = plugins[i].LRPSpeed * hours;
 
-            //    if (lrChange > float.Epsilon ||
-            //        lrChange < -float.Epsilon)
-            //        lrDev += ProcessLRChange(lrChange, hours);
+                hrChange = plugins[i].HRPSpeed * hours;
+                float actHrChange = localHr.Commit(hrChange);
 
-            //    CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
-            //}
+                if (actHrChange < hrChange)
+                {
+                    energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, HPTransportSpeed * hours));
+                }
+
+                lrChange = plugins[i].LRPSpeed * hours;
+                float actLrChange = localLp.Commit(lrChange);
+
+                if (actLrChange < lrChange)
+                {
+                    energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, LPTransportSpeed * hours));
+                }
+
+
+                CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
+            }
 
 
             float foodLack = 0;
@@ -696,20 +655,21 @@ namespace Code2015.BalanceSystem
                 float hrChange = GetSelfHRCSpeedFull() * hours;
                 if (hrChange > float.Epsilon ||
                     hrChange < -float.Epsilon)
-                    hrDev += ProcessHRC(hrChange, hours);
-
-
-
+                {
+                    float actHrChange = localHr.Apply(-hrChange);
+                    hrDev += actHrChange * DevelopmentMult;
+                }
+               
                 // 低能资源消耗量
                 float lrChange = GetSelfLRCSpeedFull() * hours;
-
                 if (lrChange > float.Epsilon ||
                     lrChange < -float.Epsilon)
-                    lrDev += ProcessLRChange(lrChange, hours);
-
-
+                {
+                    float actLrChange = localLp.Apply(-lrChange);
+                    lrDev += actLrChange * DevelopmentMult;
+                }
+               
                 float foodSpeedFull = GetSelfFoodCostSpeedFull();
-
 
                 float foodChange = (-foodSpeedFull + SelfFoodGatheringSpeed) * hours;
 
