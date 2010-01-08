@@ -17,7 +17,7 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public CityPluginFactory()
         { }
-
+      
         public CityPlugin MakeOilRefinary()
         {
             CityPlugin oilRefinary = new CityPlugin("OilRefinary");

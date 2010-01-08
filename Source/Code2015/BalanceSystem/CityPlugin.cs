@@ -9,26 +9,25 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-    public class CityPlugin : IUpdatable
+    public class CityPlugin : IConfigurable, IUpdatable
     {
         City parent;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
-        CityPluginType type;
+
+      
 
         public CityPlugin(CityPluginType type)
         {
-            this.type = type;
         }
 
 
-        #region 属性
+        #region  属性
 
         public string Name
         {
             get;
             protected set;
         }
-
         /// <summary>
         ///  获取在当前状况下，高能资源消耗的速度
         /// </summary>
@@ -76,7 +75,11 @@ namespace Code2015.BalanceSystem
 
 
         #endregion
-
+        public float GatherRadius
+        {
+            get;
+            set;
+        }
         void FindResources()
         {
             SimulateRegion region = parent.Region;
@@ -92,7 +95,7 @@ namespace Code2015.BalanceSystem
                         Vector2 pos = new Vector2(res.Latitude, res.Longitude);
                         float dist = Vector2.Distance(pos, myPos);
 
-                        if (dist < type.GatherRadius)
+                        if (dist < GatherRadius)
                         {
                             resource.Add(res);
                         }
@@ -120,6 +123,27 @@ namespace Code2015.BalanceSystem
         }
 
 
+        public float UpgradeCost()
+        {
+            if (this.Name == "OilRefinary")
+                return 100;
+            else if (this.Name == "WoodFactory")
+            {
+                return 700;
+            }
+            else if (this.Name == "BioEnergyFactory")
+            {
+                return 2500;
+            }
+            else if (this.Name == "Hospital")
+            {
+                return 1000;
+            }
+            else
+            {
+                return 500;
+            }
+        }
 
         #region IUpdatable 成员
 
@@ -130,6 +154,8 @@ namespace Code2015.BalanceSystem
             #region 处理采集自然资源
             int index = Randomizer.GetRandomInt(resource.Count);
 
+
+     
             float food = type.FoodCostSpeed * hours;
             float hpResource = type.HRCSpeed * hours;
             float lpResource = type.LRCSpeed * hours;
@@ -155,8 +181,8 @@ namespace Code2015.BalanceSystem
                             float act = res.Exploit(hpResource);
                             float speed = act / hours;
 
-                            HRPSpeed = speed * type.HRPConvRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - type.HRPConvRate);
+                            HRPSpeed = speed * HRPConvRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
                             hpResource = 0;
                         }
                     }
@@ -167,8 +193,8 @@ namespace Code2015.BalanceSystem
                             float act = res.Exploit(lpResource);
                             float speed = act / hours;
 
-                            LRPSpeed = speed * type.LRPConvRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - type.LRPConvRate);
+                            LRPSpeed = speed * LRPConvRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
                             lpResource = 0;
                         }
                     }
@@ -185,15 +211,19 @@ namespace Code2015.BalanceSystem
 
                 float speed = act / hours;
 
-                HRPSpeed = speed * type.FoodConvRate;
-                CarbonProduceSpeed += Math.Max(0, 1 - type.FoodConvRate) * speed;
+                HRPSpeed = speed * FoodConvRate;
+                CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
             }
             #endregion
 
             #region 处理消耗资源
 
             // 高能资源消耗量
+<<<<<<< .mine
+            float hrChange = HRCSpeedFull * hours;
+=======
             float hrChange = type.HRCSpeed * hours;
+>>>>>>> .r253
 
             if (hrChange > float.Epsilon ||
                 hrChange < -float.Epsilon)
@@ -204,7 +234,11 @@ namespace Code2015.BalanceSystem
             }
 
             // 低能资源消耗量
+<<<<<<< .mine
+            float lrChange = LRCSpeedFull * hours;
+=======
             float lrChange = type.LRCSpeed * hours;
+>>>>>>> .r253
 
             if (lrChange > float.Epsilon ||
                 lrChange < -float.Epsilon)
@@ -216,6 +250,15 @@ namespace Code2015.BalanceSystem
 
             CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
             #endregion
+        }
+
+        #endregion
+
+        #region IConfigurable 成员
+
+        public void Parse(ConfigurationSection sect)
+        {
+            throw new NotImplementedException();
         }
 
         #endregion
