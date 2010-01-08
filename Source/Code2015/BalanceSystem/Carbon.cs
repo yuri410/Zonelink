@@ -10,10 +10,10 @@ namespace Code2015.BalanceSystem
     /// </summary>
     static class Carbon
     {
-        /// <summary>
-        ///  通用食物转化效率
-        /// </summary>
-        public const float FoodUsing = 0.5f;
+        ///// <summary>
+        /////  通用食物转化效率
+        ///// </summary>
+        //public const float FoodUsing = 0.5f;
 
         
     }
