@@ -9,21 +9,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-    class CityPluginType : IConfigurable
-    {
 
-        #region IConfigurable 成员
-
-        public void Parse(ConfigurationSection sect)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
-
-
-
-    }
     //public enum CityPluginType { }
     public class CityPlugin : IConfigurable, IUpdatable
     {
