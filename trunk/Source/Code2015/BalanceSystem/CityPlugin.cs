@@ -9,6 +9,21 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
+    class CityPluginType : IConfigurable
+    {
+
+        #region IConfigurable 成员
+
+        public void Parse(ConfigurationSection sect)
+        {
+            throw new NotImplementedException();
+        }
+
+        #endregion
+
+
+
+    }
     //public enum CityPluginType { }
     public class CityPlugin : IConfigurable, IUpdatable
     {
@@ -27,27 +42,27 @@ namespace Code2015.BalanceSystem
         public CityPlugin()
         { }
 
-        #region IConfigurable 成员
+        //#region IConfigurable 成员
 
-        public void Parse(ConfigurationSection sect)
-        {
+        //public void Parse(ConfigurationSection sect)
+        //{
 
-            Cost = sect.GetSingle("Cost");
-            UpgradeCostBase = sect.GetSingle("UpgradeCostBase");
+        //    Cost = sect.GetSingle("Cost");
+        //    UpgradeCostBase = sect.GetSingle("UpgradeCostBase");
 
-            //FullHRPSpeed = sect.GetSingle("FullHPProductionSpeed");
-            //FullLRPSpeed = sect.GetSingle("FullLPProductionSpeed");
-            //FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
+        //    //FullHRPSpeed = sect.GetSingle("FullHPProductionSpeed");
+        //    //FullLRPSpeed = sect.GetSingle("FullLPProductionSpeed");
+        //    //FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
 
-            //NaturalHRCSpeed = sect.GetSingle("HRCostSpeed");
-            //NaturalLRCSpeed = sect.GetSingle("LRCostSpeed");
-            FoodCostSpeed = sect.GetSingle("FoodCostSpeed");
-            GatherRadius = sect.GetSingle("GatherRadius");
+        //    //NaturalHRCSpeed = sect.GetSingle("HRCostSpeed");
+        //    //NaturalLRCSpeed = sect.GetSingle("LRCostSpeed");
+        //    FoodCostSpeed = sect.GetSingle("FoodCostSpeed");
+        //    GatherRadius = sect.GetSingle("GatherRadius");
 
-        }
+        //}
 
 
-        #endregion
+        //#endregion
 
         #region  属性
         /// <summary>
