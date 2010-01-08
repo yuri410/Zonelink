@@ -13,6 +13,7 @@ namespace Code2015.BalanceSystem
     ///  表示一种资源的存储器。
     ///  可以储存一定量的资源。并且从这批资源中申请获得一定数量，以及将一定数量的资源存储进来
     /// </summary>
+    /// <remarks>生产有限，使用无限</remarks>
     public class ResourceStorage
     {
         float amount;
@@ -354,22 +355,22 @@ namespace Code2015.BalanceSystem
         {
             return Population * 0.05f;
         }
-        public float GetSelfHRPSpeedFull()
+        public float GetSelfHRCSpeedFull()
         {
             return HPSpeed[(int)Size];
         }
-        public float GetSelfLRPSpeedFull()
+        public float GetSelfLRCSpeedFull()
         {
             return LPSpeed[(int)Size];
         }
 
 
-        public float SelfHRPRatio
+        public float SelfHRCRatio
         {
             get;
             private set;
         }
-        public float SelfLRPRatio
+        public float SelfLRCRatio
         {
             get;
             private set;
@@ -384,13 +385,13 @@ namespace Code2015.BalanceSystem
         {
             return GetSelfFoodCostSpeedFull() * SelfFoodCostRatio;
         }
-        public float GetSelfHPRSpeed()
+        public float GetSelfHPCSpeed()
         {
-            return GetSelfHRPSpeedFull() * SelfHRPRatio;
+            return GetSelfHRCSpeedFull() * SelfHRCRatio;
         }
-        public float GetSelfLPRSpeed()
+        public float GetSelfLPCSpeed()
         {
-            return GetSelfHRPSpeedFull() * SelfLRPRatio;
+            return GetSelfHRCSpeedFull() * SelfLRCRatio;
         }
 
 
@@ -528,7 +529,7 @@ namespace Code2015.BalanceSystem
         ///  
         /// </summary>
         /// <returns>发展度</returns>
-        float ProcessHRChange(float hrChange, float hours)
+        float ProcessHRC(float hrChange, float hours)
         {
             // 实际高能资源使用量
             float actHrChange;
@@ -555,7 +556,7 @@ namespace Code2015.BalanceSystem
         /// <param name="lrChange"></param>
         /// <param name="hours"></param>
         /// <returns>发展度</returns>
-        float ProcessLRChange(float lrChange, float hours)
+        float ProcessLRC(float lrChange, float hours)
         {
             // 实际低能资源使用量
             float actLrChange;
@@ -666,41 +667,41 @@ namespace Code2015.BalanceSystem
             // 严禁使用旧的模式，属性泛滥
             #region 资源消耗计算
 
-            // 计算插件
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                // 高能资源消耗量
-                float hrChange = plugins[i].HRPSpeed * hours;
+            //// 计算插件
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    // 高能资源消耗量
+            //    float hrChange = plugins[i].HRPSpeed * hours;
 
-                if (hrChange > float.Epsilon ||
-                    hrChange < -float.Epsilon)                                   
-                    hrDev += ProcessHRChange(hrChange, hours);
+            //    if (hrChange > float.Epsilon ||
+            //        hrChange < -float.Epsilon)                                   
+            //        hrDev += ProcessHRChange(hrChange, hours);
                 
 
-                // 低能资源消耗量
-                float lrChange = plugins[i].LRPSpeed * hours;
+            //    // 低能资源消耗量
+            //    float lrChange = plugins[i].LRPSpeed * hours;
 
-                if (lrChange > float.Epsilon ||
-                    lrChange < -float.Epsilon)
-                    lrDev += ProcessLRChange(lrChange, hours);
+            //    if (lrChange > float.Epsilon ||
+            //        lrChange < -float.Epsilon)
+            //        lrDev += ProcessLRChange(lrChange, hours);
 
-                CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
-            }
+            //    CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
+            //}
 
 
             float foodLack = 0;
             // 计算自身
             {
                 // 高能资源消耗量
-                float hrChange = GetSelfHRPSpeedFull() * hours;
+                float hrChange = GetSelfHRCSpeedFull() * hours;
                 if (hrChange > float.Epsilon ||
                     hrChange < -float.Epsilon)
-                    hrDev += ProcessHRChange(hrChange, hours);
+                    hrDev += ProcessHRC(hrChange, hours);
 
 
 
                 // 低能资源消耗量
-                float lrChange = GetSelfLRPSpeedFull() * hours;
+                float lrChange = GetSelfLRCSpeedFull() * hours;
 
                 if (lrChange > float.Epsilon ||
                     lrChange < -float.Epsilon)
