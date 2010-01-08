@@ -34,7 +34,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  获取在资源充足的条件下，高能资源消耗的速度
         /// </summary>
-        public float HRCSpeedFull
+        public float HRCSpeed
         {
             get;
             private set;
@@ -42,7 +42,7 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  获取在资源充足的条件下，低能资源消耗的速度
         /// </summary>
-        public float LRCSpeedFull
+        public float LRCSpeed
         {
             get;
             private set;

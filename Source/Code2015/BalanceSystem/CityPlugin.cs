@@ -131,8 +131,8 @@ namespace Code2015.BalanceSystem
             int index = Randomizer.GetRandomInt(resource.Count);
 
             float food = type.FoodCostSpeed * hours;
-            float hpResource = type.HRCSpeedFull * hours;
-            float lpResource = type.LRCSpeedFull * hours;
+            float hpResource = type.HRCSpeed * hours;
+            float lpResource = type.LRCSpeed * hours;
 
             int tries = 0;
             bool finished = false;
@@ -193,7 +193,7 @@ namespace Code2015.BalanceSystem
             #region 处理消耗资源
 
             // 高能资源消耗量
-            float hrChange = type.HRCSpeedFull * hours;
+            float hrChange = type.HRCSpeed * hours;
 
             if (hrChange > float.Epsilon ||
                 hrChange < -float.Epsilon)
@@ -204,7 +204,7 @@ namespace Code2015.BalanceSystem
             }
 
             // 低能资源消耗量
-            float lrChange = type.LRCSpeedFull * hours;
+            float lrChange = type.LRCSpeed * hours;
 
             if (lrChange > float.Epsilon ||
                 lrChange < -float.Epsilon)

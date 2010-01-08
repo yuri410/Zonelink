@@ -171,13 +171,19 @@ namespace Code2015.BalanceSystem
         }
 
 
-        public float GetSelfHRCSpeedFull()
+        public float SelfHRCSpeed
         {
-            return HPSpeed[(int)Grade];
+            get
+            {
+                return HPSpeed[(int)Grade];
+            }
         }
-        public float GetSelfLRCSpeedFull()
+        public float SelfLRCSpeed
         {
-            return LPSpeed[(int)Grade];
+            get
+            {
+                return LPSpeed[(int)Grade];
+            }
         }
 
 

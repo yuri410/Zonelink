@@ -239,10 +239,10 @@ namespace Code2015.BalanceSystem
         }
         public float GetSelfLPCSpeed()
         {
-            return GetSelfHRCSpeedFull() * SelfLRCRatio;
+            return currentGrade.SelfLRCSpeed * SelfLRCRatio;
         }
 
-        public bool CanAddMorePlugins 
+        public bool CanAddPlugins
         {
             get { return plugins.Count < currentGrade.MaxPlugins; }
         }
@@ -277,8 +277,15 @@ namespace Code2015.BalanceSystem
         /// <param name="plugin"></param>
         public void Add(CityPlugin plugin)
         {
-            plugins.Add(plugin);
-            plugin.NotifyAdded(this);
+            if (CanAddPlugins)
+            {
+                plugins.Add(plugin);
+                plugin.NotifyAdded(this);
+            }
+            else
+            {
+                throw new InvalidOperationException();
+            }
         }
 
         /// <summary>
@@ -449,7 +456,7 @@ namespace Code2015.BalanceSystem
                 // 高能资源消耗量
                 float hrChange = plugins[i].HRCSpeed * hours;
                 hrDev += hrChange * DevelopmentMult;
-                
+
                 // 低能资源消耗量
                 float lrChange = plugins[i].LRCSpeed * hours;
                 lrDev += lrDev * DevelopmentMult;
@@ -487,7 +494,7 @@ namespace Code2015.BalanceSystem
                     float actHrChange = localHr.Apply(-hrChange);
                     hrDev += actHrChange * DevelopmentMult;
                 }
-               
+
                 // 低能资源消耗量
                 float lrChange = GetSelfLRCSpeedFull() * hours;
                 if (lrChange > float.Epsilon ||
@@ -496,7 +503,7 @@ namespace Code2015.BalanceSystem
                     float actLrChange = localLp.Apply(-lrChange);
                     lrDev += actLrChange * DevelopmentMult;
                 }
-               
+
                 float foodSpeedFull = GetSelfFoodCostSpeedFull();
 
                 float foodChange = (-foodSpeedFull + SelfFoodGatheringSpeed) * hours;
