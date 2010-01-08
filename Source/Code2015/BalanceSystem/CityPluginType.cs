@@ -89,7 +89,11 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
-
+        public string TypeName
+        {
+            get;
+            private set;
+        }
 
         #region IConfigurable 成员
 
