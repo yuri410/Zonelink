@@ -101,105 +101,7 @@ namespace Code2015.BalanceSystem
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
-        [SLGValue]
-        const int SmallPluginCount = 1;
-        [SLGValue]
-        const int NormalPluginCount = 3;
-        [SLGValue]
-        const int LargePluginCount = 4;
-
-        #region 能源流通速度
-        [SLGValueAttribute()]
-        const float SmallCityHPTranportSpeed = 30;
-        [SLGValueAttribute()]
-        const float MediumCityHPTranportSpeed = 50;
-        [SLGValueAttribute()]
-        const float LargeCityHPTranportSpeed = 100;
-
-        [SLGValueAttribute()]
-        const float SmallCityLPTranportSpeed = 15;
-        [SLGValueAttribute()]
-        const float MediumCityLPTranportSpeed = 25;
-        [SLGValueAttribute()]
-        const float LargeCityLPTranportSpeed = 50;
-
-        [SLGValue]
-        const float SmallFoodTranportSpeed = 20;
-        [SLGValue]
-        const float MediumFoodTranportSpeed = 30;
-        [SLGValue]
-        const float LargeFoodTranportSpeed = 50;
-
-        #endregion
-
-        #region 能源使用速度
-        [SLGValueAttribute()]
-        const float SmallCityLPSpeed = -30;
-        [SLGValueAttribute()]
-        const float MediumCityLPSpeed = -50;
-        [SLGValueAttribute()]
-        const float LargeCityLPSpeed = -100;
-
-        [SLGValueAttribute()]
-        const float SmallCityHPSpeed = -30;
-        [SLGValueAttribute()]
-        const float MediumCityHPSpeed = -50;
-        [SLGValueAttribute()]
-        const float LargeCityHPSpeed = -100;
-
-        #endregion
-
-        #region 存储 最大量
-        [SLGValue]
-        const int SmallMaxLPStorage = 100;
-        [SLGValue]
-        const int MediumMaxLPStorage = 1000;
-        [SLGValue]
-        const int LargeMaxLPStorage = 3000;
-
-        [SLGValue]
-        const int SmallMaxHPStorage = 100;
-        [SLGValue]
-        const int MediumMaxHPStorage = 1000;
-        [SLGValue]
-        const int LargeMaxHPStorage = 3000;
-
-        [SLGValue]
-        const int SmallMaxFoodStorage = 100;
-        [SLGValue]
-        const int MediumMaxFoodStorage = 1000;
-        [SLGValue]
-        const int LargeMaxFoodStorage = 3000;
-        #endregion
-
-        #region 发展比
-        [SLGValue]
-        const float SmallDevMult = 1;
-        [SLGValue]
-        const float MediumDevMult = 0.25f;
-        [SLGValue]
-        const float LargeDevMult = 0.05f;
-        #endregion
-
-        #region 参考人口
-        [SLGValue]
-        const float SmallRefPop = 20;
-        [SLGValue]
-        const float MediumRefPop = 400;
-        [SLGValue]
-        const float LargeRefPop = 1000;
-        #endregion
-
-        [SLGValue]
-        const int SmallFoodCollectSpeed = 10;
-        [SLGValue]
-        const int MediumFoodCollectSpeed = 20;
-        [SLGValue]
-        const int LargeFoodCollectSpeed = 50;
-
-
         FastList<NaturalResource> farms = new FastList<NaturalResource>();
-
 
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
@@ -207,23 +109,14 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float DevBias = -3;
 
-        static readonly float[] DevMult = { SmallDevMult, MediumDevMult, LargeDevMult };
-        static readonly float[] LPSpeed = { SmallCityLPSpeed, MediumCityLPSpeed, LargeCityLPSpeed };
-        static readonly float[] HPSpeed = { SmallCityHPSpeed, MediumCityHPSpeed, LargeCityHPSpeed };
-
-        static readonly float[] LPTSpeed = { SmallCityLPTranportSpeed, MediumCityLPTranportSpeed, LargeCityLPTranportSpeed };
-        static readonly float[] HPTSpeed = { SmallCityHPTranportSpeed, MediumCityHPTranportSpeed, LargeCityHPTranportSpeed };
-        static readonly float[] FoodTSpeed = { SmallFoodTranportSpeed, MediumFoodTranportSpeed, LargeFoodTranportSpeed };
-
-        static readonly float[] FoodCollSpeed = { SmallFoodCollectSpeed, MediumFoodCollectSpeed, LargeFoodCollectSpeed };
 
         public City(EnergyStatus energyStat)
             : base(energyStat.Region)
         {
             this.energyStat = energyStat;
-            localLp = new ResourceStorage(SmallMaxLPStorage, float.MaxValue);
-            localHr = new ResourceStorage(SmallMaxHPStorage, float.MaxValue);
-            localFood = new ResourceStorage(SmallMaxFoodStorage, float.MaxValue);
+            localLp = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
+            localHr = new ResourceStorage(CityGrade.SmallMaxHPStorage, float.MaxValue);
+            localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
             UpgradeUpdate();
         }
         public City(EnergyStatus energyStat, UrbanSize size)
@@ -248,7 +141,7 @@ namespace Code2015.BalanceSystem
         ResourceStorage localHr;
         ResourceStorage localFood;
 
-        UrbanSize size;
+        CityGrade currentGrade;
 
         #region  属性
 
@@ -311,57 +204,12 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
-        /// <summary>
-        ///  获取在当前城市规模下的参考人口（标准人口）
-        /// </summary>
-        public float RefPopulation
-        {
-            get
-            {
-                switch (Size)
-                {
-                    case UrbanSize.Small:
-                        return SmallRefPop;
-                    case UrbanSize.Medium:
-                        return MediumRefPop;
-                    case UrbanSize.Large:
-                        return LargeRefPop;
-                }
-                return 0;
-            }
-        }
-
-
-        public float DevelopmentMult
-        {
-            get { return DevMult[(int)Size]; }
-        }
-        public float HPTransportSpeed
-        {
-            get { return HPTSpeed[(int)Size]; }
-        }
-        public float LPTransportSpeed
-        {
-            get { return LPTSpeed[(int)Size]; }
-        }
-        public float FoodTransportSpeed
-        {
-            get { return FoodTSpeed[(int)Size]; }
-        }
 
 
 
         public float GetSelfFoodCostSpeedFull()
         {
             return Population * 0.05f;
-        }
-        public float GetSelfHRCSpeedFull()
-        {
-            return HPSpeed[(int)Size];
-        }
-        public float GetSelfLRCSpeedFull()
-        {
-            return LPSpeed[(int)Size];
         }
 
 
@@ -394,14 +242,13 @@ namespace Code2015.BalanceSystem
             return GetSelfHRCSpeedFull() * SelfLRCRatio;
         }
 
+        public bool CanAddMorePlugins 
+        {
+            get { return plugins.Count < currentGrade.MaxPlugins; }
+        }
 
         #region 产出/投入
 
-
-        public float SelfFoodGatheringSpeed
-        {
-            get { return FoodCollSpeed[(int)Size]; }
-        }
 
         #endregion
 
@@ -412,36 +259,17 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public UrbanSize Size
         {
-            get { return size; }
+            get { return currentGrade.Grade; }
             private set
             {
-                if (value != size)
+                if (value != currentGrade.Grade)
                 {
-                    size = value;
+                    currentGrade.Grade = value;
                     UpgradeUpdate();
                 }
             }
         }
 
-        /// <summary>
-        ///  获取目前城市最多可以添加的附加设施数量
-        /// </summary>
-        public int MaxPlugins
-        {
-            get
-            {
-                switch (Size)
-                {
-                    case UrbanSize.Small:
-                        return SmallPluginCount;
-                    case UrbanSize.Medium:
-                        return NormalPluginCount;
-                    case UrbanSize.Large:
-                        return LargePluginCount;
-                }
-                return 0;
-            }
-        }
 
         /// <summary>
         ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
@@ -472,20 +300,20 @@ namespace Code2015.BalanceSystem
             switch (Size)
             {
                 case UrbanSize.Large:
-                    localLp.MaxLimit = LargeMaxLPStorage;
-                    localHr.MaxLimit = LargeMaxHPStorage;
-                    localFood.MaxLimit = LargeMaxFoodStorage;
+                    localLp.MaxLimit = CityGrade.LargeMaxLPStorage;
+                    localHr.MaxLimit = CityGrade.LargeMaxHPStorage;
+                    localFood.MaxLimit = CityGrade.LargeMaxFoodStorage;
                     break;
                 case UrbanSize.Medium:
 
-                    localLp.MaxLimit = MediumMaxLPStorage;
-                    localHr.MaxLimit = MediumMaxHPStorage;
-                    localFood.MaxLimit = MediumMaxFoodStorage;
+                    localLp.MaxLimit = CityGrade.MediumMaxLPStorage;
+                    localHr.MaxLimit = CityGrade.MediumMaxHPStorage;
+                    localFood.MaxLimit = CityGrade.MediumMaxFoodStorage;
                     break;
                 case UrbanSize.Small:
-                    localLp.MaxLimit = SmallMaxLPStorage;
-                    localHr.MaxLimit = SmallMaxHPStorage;
-                    localFood.MaxLimit = SmallMaxFoodStorage;
+                    localLp.MaxLimit = CityGrade.SmallMaxLPStorage;
+                    localHr.MaxLimit = CityGrade.SmallMaxHPStorage;
+                    localFood.MaxLimit = CityGrade.SmallMaxFoodStorage;
                     break;
             }
         }
