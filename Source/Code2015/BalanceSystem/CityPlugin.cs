@@ -39,8 +39,8 @@ namespace Code2015.BalanceSystem
             //FullLRPSpeed = sect.GetSingle("FullLPProductionSpeed");
             //FullCarbonProduceSpeed = sect.GetSingle("FullCarbonProduceSpeed");
 
-            NaturalHRCSpeed = sect.GetSingle("HRCostSpeed");
-            NaturalLRCSpeed = sect.GetSingle("LRCostSpeed");
+            //NaturalHRCSpeed = sect.GetSingle("HRCostSpeed");
+            //NaturalLRCSpeed = sect.GetSingle("LRCostSpeed");
             FoodCostSpeed = sect.GetSingle("FoodCostSpeed");
             GatherRadius = sect.GetSingle("GatherRadius");
 
@@ -79,21 +79,6 @@ namespace Code2015.BalanceSystem
             get;
             protected set;
         }
-        public float NaturalHRCSpeed
-        {
-            get;
-            private set;
-        }
-        public float NaturalLRCSpeed
-        {
-            get;
-            private set;
-        }
-        public float FoodCostSpeed
-        {
-            get;
-            protected set;
-        }
 
         /// <summary>
         ///  获取在资源充足的条件下，高能资源消耗的速度
@@ -112,6 +97,11 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public float FoodCostSpeed
+        {
+            get;
+            protected set;
+        }
 
         /// <summary>
         ///  获取在当前状况下，高能资源消耗的速度
@@ -234,8 +224,8 @@ namespace Code2015.BalanceSystem
             int index = Randomizer.GetRandomInt(resource.Count);
 
             float food = FoodCostSpeed * hours;
-            float hpResource = NaturalHRCSpeed * hours;
-            float lpResource = NaturalLRCSpeed * hours;
+            float hpResource = HRCSpeedFull * hours;
+            float lpResource = LRCSpeedFull * hours;
 
             int tries = 0;
             bool finished = false;
