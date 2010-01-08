@@ -89,7 +89,6 @@
     <Compile Include="ActionSystem\CycleJet.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
-    <Compile Include="BalanceSystem\Carbon.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CityGrade.cs" />
     <Compile Include="BalanceSystem\CityPlugin.cs" />
