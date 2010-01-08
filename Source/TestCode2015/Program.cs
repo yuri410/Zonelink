@@ -32,8 +32,8 @@ namespace TestCode2015
 
             region.Add(city);
 
-            OilField oil = new OilField(region);
-            Forest forest = new Forest(region);
+            //OilField oil = new OilField(region);
+            //Forest forest = new Forest(region);
             float c = 0;
             while (true)
             {
@@ -56,8 +56,8 @@ namespace TestCode2015
                 Console.Write(" Size   ");
                 Console.WriteLine(city.Size);
 
-                //Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHR, city.LocalLR, city.LocalFood);
-                //Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city.ProduceHPSpeed, city.ProduceLPSpeed, city.FoodCostSpeed);
+                Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city.LocalHR.Current, city.LocalLR.Current, city.LocalFood.Current);
+                Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city.GetSelfHPCSpeed(), city.GetSelfLPCSpeed(), city.GetSelfFoodCostSpeed());
 
                 c += city.GetCarbonChange();
 
