@@ -96,22 +96,22 @@ namespace Code2015.BalanceSystem
         }
 
 
-        /// <summary>
-        ///  输入资源充足时的高能生产速度
-        /// </summary>
-        public float FullHRPSpeed
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        ///  输入资源充足时的低能生产速度
-        /// </summary>
-        public float FullLRPSpeed
-        {
-            get;
-            private set;
-        }
+        ///// <summary>
+        /////  输入资源充足时的高能生产速度
+        ///// </summary>
+        //public float FullHRPSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
+        ///// <summary>
+        /////  输入资源充足时的低能生产速度
+        ///// </summary>
+        //public float FullLRPSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
 
         public float HRConvertionRate
         {
@@ -238,11 +238,11 @@ namespace Code2015.BalanceSystem
                             //采集资源
 
                             float act = res.Exploit(hpResource);
-                            float ratio = act / hpResource;
-                            float baseValue = FullHRPSpeed * ratio;
+                            float speed = act / hours;
+                            //float baseValue = FullHRPSpeed * ratio;
 
-                            HRPSpeed = baseValue * HRConvertionRate;
-                            CarbonProduceSpeed += baseValue * Math.Max(0, 1 - HRConvertionRate);
+                            HRPSpeed = speed * HRConvertionRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - HRConvertionRate);
                             hpResource = 0;
                         }
                     }
@@ -251,11 +251,10 @@ namespace Code2015.BalanceSystem
                         if (res.Type == NaturalResourceType.Wood)
                         {
                             float act = res.Exploit(lpResource);
-                            float ratio = act / lpResource;
-                            float baseValue = FullLRPSpeed * ratio;
+                            float speed = act / hours;
 
-                            LRPSpeed = baseValue * LRConvertionRate;
-                            CarbonProduceSpeed += baseValue * Math.Max(0, 1 - LRConvertionRate);
+                            LRPSpeed = speed * LRConvertionRate;
+                            CarbonProduceSpeed += speed * Math.Max(0, 1 - LRConvertionRate);
                             lpResource = 0;
                         }
                     }
@@ -270,24 +269,15 @@ namespace Code2015.BalanceSystem
             {
                 float act = parent.LocalFood.Apply(-food);
 
-                float ratio = act / food;
+                float speed = act / hours;
 
-                float baseValue = FullHRPSpeed * ratio;
-
-                HRPSpeed = baseValue * FoodConvertionRate;
-                CarbonProduceSpeed += Math.Max(0, 1 - FoodConvertionRate) * baseValue;
+                HRPSpeed = speed * FoodConvertionRate;
+                CarbonProduceSpeed += Math.Max(0, 1 - FoodConvertionRate) * speed;
             }
 
 
 
-            if (FullHRPSpeed < 0)
-            {
 
-            }
-            if (FullLRPSpeed < 0)
-            {
-
-            }
         }
 
         #endregion
