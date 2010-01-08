@@ -402,65 +402,6 @@ namespace Code2015.BalanceSystem
             get { return FoodCollSpeed[(int)Size]; }
         }
 
-        //#warning 全部用方法，不用属性
-
-        ///// <summary>
-        /////  若有Plugin，获取Plugin的对高能资源的消耗速度
-        ///// </summary>
-        //[Obsolete()]
-        //public float PluginHPProductionSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
-        ///// <summary>
-        /////   若有Plugin，获取Plugin的对低能资源的消耗速度
-        ///// </summary>
-        //[Obsolete()]
-        //public float PluginLPProductionSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
-        ///// <summary>
-        /////  若有Plugin，获取Plugin的对食物的消耗速度
-        ///// </summary>
-        //[Obsolete()]
-        //public float PluginFoodCostSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        ///// <summary>
-        /////   若有Plugin，获取Plugin的碳排放速度
-        ///// </summary>
-        //[Obsolete()]
-        //public float PluginCarbonProduceSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        ///// <summary>
-        /////  城市自身的产生高能和低能的速度，初始为负值，表示消耗
-        ///// </summary>
-        //[Obsolete()]
-        //public float ProduceHPSpeed
-        //{
-        //    get { return PluginHPProductionSpeed + FullSelfHRPSpeed; }
-        //}
-        //[Obsolete()]
-        //public float ProduceLPSpeed
-        //{
-        //    get { return PluginLPProductionSpeed + FullSelfLRPSpeed; }
-        //}
-        //[Obsolete()]
-        //public float FoodCostSpeed
-        //{
-        //    get { return FullSelfFoodCostSpeed + PluginFoodCostSpeed; }
-        //}
-
         #endregion
 
         #endregion
@@ -587,7 +528,7 @@ namespace Code2015.BalanceSystem
         ///  
         /// </summary>
         /// <returns>发展度</returns>
-        float ProcessHRChange(float hrChange, float hours, out float perc)
+        float ProcessHRChange(float hrChange, float hours)
         {
             // 实际高能资源使用量
             float actHrChange;
@@ -605,7 +546,7 @@ namespace Code2015.BalanceSystem
                     energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, HPTransportSpeed * hours));
                 }
             }
-            perc = actHrChange / hrChange;
+            //perc = actHrChange / hrChange;
             return actHrChange * DevelopmentMult;
         }
         /// <summary>
@@ -614,7 +555,7 @@ namespace Code2015.BalanceSystem
         /// <param name="lrChange"></param>
         /// <param name="hours"></param>
         /// <returns>发展度</returns>
-        float ProcessLRChange(float lrChange, float hours, out float perc)
+        float ProcessLRChange(float lrChange, float hours)
         {
             // 实际低能资源使用量
             float actLrChange;
@@ -631,7 +572,7 @@ namespace Code2015.BalanceSystem
                     energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, LPTransportSpeed * hours));
                 }
             }
-            perc = actLrChange / lrChange;
+            //perc = actLrChange / lrChange;
             return actLrChange * DevelopmentMult;
         }
 
@@ -732,17 +673,9 @@ namespace Code2015.BalanceSystem
                 float hrChange = plugins[i].HRPSpeed * hours;
 
                 if (hrChange > float.Epsilon ||
-                    hrChange < -float.Epsilon)
-                {
-                    float perc;
-                    hrDev += ProcessHRChange(hrChange, hours, out perc);
-
-                    // 耗用
-                    if (hrChange < 0)
-                    {
-
-                    }
-                }
+                    hrChange < -float.Epsilon)                                   
+                    hrDev += ProcessHRChange(hrChange, hours);
+                
 
                 // 低能资源消耗量
                 float lrChange = plugins[i].LRPSpeed * hours;
