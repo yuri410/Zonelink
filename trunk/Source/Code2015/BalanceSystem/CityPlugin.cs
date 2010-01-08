@@ -9,7 +9,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-    public class CityPlugin : IConfigurable, IUpdatable
+    public class CityPlugin : IUpdatable
     {
         City parent;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
@@ -92,7 +92,7 @@ namespace Code2015.BalanceSystem
                         Vector2 pos = new Vector2(res.Latitude, res.Longitude);
                         float dist = Vector2.Distance(pos, myPos);
 
-                        if (dist < GatherRadius)
+                        if (dist < type.GatherRadius)
                         {
                             resource.Add(res);
                         }
