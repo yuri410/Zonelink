@@ -13,7 +13,12 @@ namespace Code2015.BalanceSystem
     ///  表示一种资源的存储器。
     ///  可以储存一定量的资源。并且从这批资源中申请获得一定数量，以及将一定数量的资源存储进来
     /// </summary>
-    /// <remarks>生产有限，使用无限</remarks>
+    /// <remarks>
+    ///  生产有限，使用无限
+    ///  
+    ///  生产限制为能源转化率
+    ///  使用限制使用“上限”实现
+    /// </remarks>
     public class ResourceStorage
     {
         float amount;
@@ -208,36 +213,60 @@ namespace Code2015.BalanceSystem
             return Population * 0.05f;
         }
 
-
+        /// <summary>
+        ///  获取一个浮点数，反应使用HR时，相应HR的供应率
+        /// </summary>
         public float SelfHRCRatio
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取一个浮点数，反应使用LR时，相应LR的供应率
+        /// </summary>
         public float SelfLRCRatio
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  获取一个浮点数，反应使用食物时，相应食物的供应率
+        /// </summary>
         public float SelfFoodCostRatio
         {
             get;
             private set;
         }
 
+        /// <summary>
+        ///  计算在当前供应率的情况下，使用食物的速度
+        /// </summary>
+        /// <returns></returns>
         public float GetSelfFoodCostSpeed()
         {
             return GetSelfFoodCostSpeedFull() * SelfFoodCostRatio;
         }
-        public float GetSelfHPCSpeed()
+
+        /// <summary>
+        ///  计算在当前供应率的情况下，使用HR的速度
+        /// </summary>
+        /// <returns></returns>
+        public float GetSelfHRCSpeed()
         {
             return CityGrade.GetSelfHRCSpeed(Size) * SelfHRCRatio;
         }
+        /// <summary>
+        ///  计算在当前供应率的情况下，使用LR的速度
+        /// </summary>
+        /// <returns></returns>
         public float GetSelfLPCSpeed()
         {
             return CityGrade.GetSelfLRCSpeed(Size) * SelfLRCRatio;
         }
 
+        /// <summary>
+        ///  获取是否可以添加Plugin
+        /// </summary>
         public bool CanAddPlugins
         {
             get { return plugins.Count < CityGrade.GetMaxPlugins(Size); }
