@@ -518,7 +518,7 @@ namespace Code2015.BalanceSystem
                     hrChange < -float.Epsilon)
                 {
                     float actHrChange = localHr.Apply(-hrChange);
-                    SelfHRCRatio = actHrChange / hrChange;
+                    SelfHRCRatio = -actHrChange / hrChange;
                     hrDev += actHrChange * CityGrade.GetDevelopmentMult(Size);
                 }
 
@@ -528,7 +528,7 @@ namespace Code2015.BalanceSystem
                     lrChange < -float.Epsilon)
                 {
                     float actLrChange = localLr.Apply(-lrChange);
-                    SelfLRCRatio = actLrChange / lrChange;
+                    SelfLRCRatio = -actLrChange / lrChange;
                     lrDev += actLrChange * CityGrade.GetDevelopmentMult(Size);
                 }
 
