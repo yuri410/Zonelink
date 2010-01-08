@@ -114,7 +114,7 @@ namespace Code2015.BalanceSystem
             : base(energyStat.Region)
         {
             this.energyStat = energyStat;
-            localLp = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
+            localLr = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
             localHr = new ResourceStorage(CityGrade.SmallMaxHPStorage, float.MaxValue);
             localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
             UpgradeUpdate();
@@ -137,7 +137,7 @@ namespace Code2015.BalanceSystem
         /// </summary>
         FastList<CityPlugin> plugins = new FastList<CityPlugin>();
 
-        ResourceStorage localLp;
+        ResourceStorage localLr;
         ResourceStorage localHr;
         ResourceStorage localFood;
         UrbanSize size;
@@ -158,7 +158,7 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public ResourceStorage LocalLR
         {
-            get { return localLp; }
+            get { return localLr; }
         }
 
         /// <summary>
@@ -306,18 +306,18 @@ namespace Code2015.BalanceSystem
             switch (Size)
             {
                 case UrbanSize.Large:
-                    localLp.MaxLimit = CityGrade.LargeMaxLPStorage;
+                    localLr.MaxLimit = CityGrade.LargeMaxLPStorage;
                     localHr.MaxLimit = CityGrade.LargeMaxHPStorage;
                     localFood.MaxLimit = CityGrade.LargeMaxFoodStorage;
                     break;
                 case UrbanSize.Medium:
 
-                    localLp.MaxLimit = CityGrade.MediumMaxLPStorage;
+                    localLr.MaxLimit = CityGrade.MediumMaxLPStorage;
                     localHr.MaxLimit = CityGrade.MediumMaxHPStorage;
                     localFood.MaxLimit = CityGrade.MediumMaxFoodStorage;
                     break;
                 case UrbanSize.Small:
-                    localLp.MaxLimit = CityGrade.SmallMaxLPStorage;
+                    localLr.MaxLimit = CityGrade.SmallMaxLPStorage;
                     localHr.MaxLimit = CityGrade.SmallMaxHPStorage;
                     localFood.MaxLimit = CityGrade.SmallMaxFoodStorage;
                     break;
@@ -394,7 +394,7 @@ namespace Code2015.BalanceSystem
 
             #region 补缺储备，物流
             {
-                float requirement = localLp.MaxLimit - localLp.Current;
+                float requirement = localLr.MaxLimit - localLr.Current;
 
                 if (requirement > 0)
                 {
@@ -405,7 +405,7 @@ namespace Code2015.BalanceSystem
                     {
                         float applyAmount = Math.Min(requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
                         applyAmount = energyStat.ApplyLPEnergy(applyAmount);
-                        localLp.Commit(applyAmount);
+                        localLr.Commit(applyAmount);
                     }
                 }
             }
@@ -471,7 +471,7 @@ namespace Code2015.BalanceSystem
                 }
 
                 lrChange = plugins[i].LRPSpeed * hours;
-                float actLrChange = localLp.Commit(lrChange);
+                float actLrChange = localLr.Commit(lrChange);
 
                 if (actLrChange < lrChange)
                 {
@@ -500,7 +500,7 @@ namespace Code2015.BalanceSystem
                 if (lrChange > float.Epsilon ||
                     lrChange < -float.Epsilon)
                 {
-                    float actLrChange = localLp.Apply(-lrChange);
+                    float actLrChange = localLr.Apply(-lrChange);
                     lrDev += actLrChange * CityGrade.GetDevelopmentMult(Size);
                 }
 
