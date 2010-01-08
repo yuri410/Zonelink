@@ -90,6 +90,7 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\AnimalSpecies.cs" />
     <Compile Include="BalanceSystem\City.cs" />
+    <Compile Include="BalanceSystem\CityGrade.cs" />
     <Compile Include="BalanceSystem\CityPlugin.cs" />
     <Compile Include="BalanceSystem\CityPluginFactory.cs" />
     <Compile Include="BalanceSystem\CityPluginType.cs" />
