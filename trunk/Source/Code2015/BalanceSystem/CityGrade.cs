@@ -6,10 +6,7 @@ using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
-    /// <summary>
-    ///  表示一个城市的等级
-    /// </summary>
-    public class CityGrade : IConfigurable
+    public static class CityGrade
     {
         [SLGValue]
         public const int SmallPluginCount = 1;
@@ -121,100 +118,82 @@ namespace Code2015.BalanceSystem
 
 
 
-
-        public UrbanSize Grade
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         ///  获取在当前城市规模下的参考人口（标准人口）
         /// </summary>
-        public float RefPopulation
+        public static float GetRefPopulation(UrbanSize grade)
         {
-            get
+            switch (grade)
             {
-                switch (Grade)
-                {
-                    case UrbanSize.Small:
-                        return SmallRefPop;
-                    case UrbanSize.Medium:
-                        return MediumRefPop;
-                    case UrbanSize.Large:
-                        return LargeRefPop;
-                }
-                return 0;
+                case UrbanSize.Small:
+                    return SmallRefPop;
+                case UrbanSize.Medium:
+                    return MediumRefPop;
+                case UrbanSize.Large:
+                    return LargeRefPop;
             }
+            return 0;
+        }
+        public static float GetDevelopmentMult(UrbanSize grade)
+        {
+            return DevMult[(int)grade];
         }
 
 
-        public float DevelopmentMult
+        public static float GetHPTransportSpeed(UrbanSize grade)
         {
-            get { return DevMult[(int)Grade]; }
+            return HPTSpeed[(int)grade];
         }
-        public float HPTransportSpeed
+        public static float GetLPTransportSpeed(UrbanSize grade)
         {
-            get { return HPTSpeed[(int)Grade]; }
+            return LPTSpeed[(int)grade];
         }
-        public float LPTransportSpeed
+        public static float GetFoodTransportSpeed(UrbanSize grade)
         {
-            get { return LPTSpeed[(int)Grade]; }
+            return FoodTSpeed[(int)grade];
         }
-        public float FoodTransportSpeed
+        public static float GetSelfFoodGatheringSpeed(UrbanSize grade)
         {
-            get { return FoodTSpeed[(int)Grade]; }
-        }
-        public float SelfFoodGatheringSpeed
-        {
-            get { return FoodCollSpeed[(int)Grade]; }
+            return FoodCollSpeed[(int)grade];
         }
 
-
-        public float SelfHRCSpeed
+        /// <summary>
+        ///  资源充足条件下，消耗高能资源的速度
+        /// </summary>
+        /// <param name="grade"></param>
+        /// <returns></returns>
+        public static float GetSelfHRCSpeed(UrbanSize grade)
         {
-            get
-            {
-                return HPSpeed[(int)Grade];
-            }
+            return HPSpeed[(int)grade];
         }
-        public float SelfLRCSpeed
+
+        /// <summary>
+        ///  资源充足条件下，消耗低能资源的速度
+        /// </summary>
+        /// <param name="grade"></param>
+        /// <returns></returns>
+        public static float GetSelfLRCSpeed(UrbanSize grade)
         {
-            get
-            {
-                return LPSpeed[(int)Grade];
-            }
+            return LPSpeed[(int)grade];
         }
 
 
         /// <summary>
         ///  获取目前城市最多可以添加的附加设施数量
         /// </summary>
-        public int MaxPlugins
+        public static int GetMaxPlugins(UrbanSize grade)
         {
-            get
+            switch (grade)
             {
-                switch (Grade)
-                {
-                    case UrbanSize.Small:
-                        return SmallPluginCount;
-                    case UrbanSize.Medium:
-                        return NormalPluginCount;
-                    case UrbanSize.Large:
-                        return LargePluginCount;
-                }
-                return 0;
+                case UrbanSize.Small:
+                    return SmallPluginCount;
+                case UrbanSize.Medium:
+                    return NormalPluginCount;
+                case UrbanSize.Large:
+                    return LargePluginCount;
             }
+            return 0;
         }
-
-
-        #region IConfigurable 成员
-
-        public void Parse(ConfigurationSection sect)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
+
 }
