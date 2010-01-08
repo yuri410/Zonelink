@@ -60,6 +60,12 @@ namespace Code2015.BalanceSystem
             get;
             protected set;
         }
+
+        public float GetUpgradeCost(int level)
+        {
+
+        }
+
         //public virtual float GetUpgradeCost()
         //{
         //    UpgradeCostBase = Cost * 0.5f;
@@ -89,9 +95,11 @@ namespace Code2015.BalanceSystem
 
         public void Parse(ConfigurationSection sect)
         {
-            throw new NotImplementedException();
+            Cost = sect.GetSingle("Cost");
+            
         }
 
         #endregion
+
     }
 }
