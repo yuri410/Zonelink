@@ -50,7 +50,7 @@ namespace Code2015
         public void Load()
         {
             ConfigurationManager.Initialize();
-            ConfigurationManager.Instance.Register(new ConfigurationIniFormat());
+            ConfigurationManager.Instance.Register(new IniConfigurationFormat());
 
             EffectManager.Initialize(renderSys);
             EffectManager.Instance.RegisterModelEffectType(TerrainEffect513Factory.Name, new TerrainEffect513Factory(renderSys));
