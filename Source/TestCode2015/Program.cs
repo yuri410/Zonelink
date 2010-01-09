@@ -71,6 +71,18 @@ namespace TestCode2015
             }
         }
     }
+    class XmlTester
+    {
+        public static void Test()
+        {
+            ConfigurationManager.Initialize();
+            ConfigurationManager.Instance.Register(new XmlConfigurationFormat());
+
+            Configuration conf = ConfigurationManager.Instance.CreateInstance(@"E:\Documents\ic10gd\Source\Code2015\Configs\cities.xml");
+
+            Console.WriteLine(conf.Count);
+        }
+    }
 
     class Program
     {
@@ -78,7 +90,7 @@ namespace TestCode2015
         {
             Console.ReadLine();
 
-            CityTester.Test();
+            XmlTester.Test();
             Console.ReadLine();
         }
 
