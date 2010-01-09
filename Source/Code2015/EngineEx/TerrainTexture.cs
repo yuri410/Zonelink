@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Apoc3D.Graphics;
 using Apoc3D.Core;
+using Apoc3D.Graphics;
 using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
@@ -34,6 +34,7 @@ namespace Code2015.EngineEx
         protected override void unload()
         {
             texture.Dispose();
+            texture = null;
         }
 
 
