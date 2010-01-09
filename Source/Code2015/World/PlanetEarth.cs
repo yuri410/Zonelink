@@ -197,11 +197,12 @@ namespace Code2015.World
                     terrainTiles[index++] = new TerrainTile(renderSys, i, j);
                 }
             }
+           
 
             Material[][] mats = new Material[1][];
             mats[0] = new Material[1];
             mats[0][0] = new Material(renderSys);
-            
+
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect513Factory.Name));

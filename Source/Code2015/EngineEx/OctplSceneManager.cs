@@ -75,7 +75,7 @@ namespace Code2015.EngineEx
                         Vector3.Subtract(ref obj.BoundingSphere.Center, ref camPos, out dir);
 
 
-                        if (Vector3.Dot(ref dir, ref center2) <= 0)
+                        //if (Vector3.Dot(ref dir, ref center2) <= 0)
                         {
                             int level = GetLevel(ref obj.BoundingSphere, ref camPos);
 

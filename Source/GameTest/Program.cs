@@ -72,6 +72,15 @@ namespace GameTest
                     Console.WriteLine();
             }
         }
+        static void PlanetPosition()
+        {
+            for (int i = 0; i < 90; i++)
+            {
+                float deg =  MathEx.Degree2Radian(i);
+
+                Console.WriteLine("degree {0}: {1}", i, PlanetEarth.GetPosition(1, deg));
+            }
+        }
 
         static void Main(string[] args)
         {
@@ -85,7 +94,7 @@ namespace GameTest
 
             //Console.WriteLine(PlanetEarth.GetPosition(0, rad10));
             //TestIl();
-            Vec2Ang();
+            PlanetPosition();
             Console.ReadKey();
         }
     }
