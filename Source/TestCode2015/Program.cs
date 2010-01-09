@@ -75,12 +75,12 @@ namespace TestCode2015
     {
         public static void Test()
         {
-            ConfigurationManager.Initialize();
-            ConfigurationManager.Instance.Register(new XmlConfigurationFormat());
+            //ConfigurationManager.Initialize();
+            //ConfigurationManager.Instance.Register(new XmlConfigurationFormat());
 
-            Configuration conf = ConfigurationManager.Instance.CreateInstance(@"E:\Documents\ic10gd\Source\Code2015\Configs\cities.xml");
+            //Configuration conf = ConfigurationManager.Instance.CreateInstance(@"E:\Documents\ic10gd\Source\Code2015\Configs\cities.xml");
 
-            Console.WriteLine(conf.Count);
+            //Console.WriteLine(conf.Count);
         }
     }
 
