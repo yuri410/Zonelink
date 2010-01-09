@@ -11,26 +11,7 @@ using Code2015.Effects;
 using Code2015.EngineEx;
 
 namespace Code2015.World
-{
-    class OceanWaterTile : SceneObject
-    {
-
-        public override RenderOperation[] GetRenderOperation()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update(GameTime dt)
-        {
-            throw new NotImplementedException();
-        }
-
-        public override bool IsSerializable
-        {
-            get { throw new NotImplementedException(); }
-        }
-    }
-    
+{   
     class OceanWater : StaticModelObject
     {
         RenderSystem renderSys;

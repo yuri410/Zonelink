@@ -147,6 +147,8 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\OceanWater.cs" />
+    <Compile Include="World\OceanWaterData.cs" />
+    <Compile Include="World\OceanWaterTile.cs" />
     <Compile Include="World\PlanetEarth.cs">
       <SubType>Code</SubType>
     </Compile>
