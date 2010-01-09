@@ -118,7 +118,11 @@ namespace Code2015.World
                     {
                         Transformation = tm.Transformation;
                         RequiresUpdate = true;
+                    }
+                    if (BoundingSphere != tm.BoundingSphere)
+                    {
                         BoundingSphere = tm.BoundingSphere;
+                        RequiresUpdate = true;
                     }
                 }
 
