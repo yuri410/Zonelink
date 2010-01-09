@@ -84,8 +84,7 @@ namespace Code2015.EngineEx
             int terrEdgeLen = terrEdgeSize - 1;
 
             int blockEdgeLen = TerrainBlockSize - 1;
-            //this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
-            //this.blockCount = MathEx.Sqr(blockEdgeCount);
+
             indexBuffer = new IndexBuffer[LocalLodCount];
             levelLengths = new int[LocalLodCount];
             cellSpan = new int[LocalLodCount];
@@ -99,7 +98,7 @@ namespace Code2015.EngineEx
                 int cellLength = blockEdgeLen / levelLength;
 
 
-                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.25f) / (float)(k + 1);
+                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.4f) / (float)(k + 1);
                 lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
 
                 cellSpan[k] = cellLength;
