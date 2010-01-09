@@ -260,7 +260,7 @@ namespace Code2015.EngineEx
             //Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
 
             Vector3 position = PlanetEarth.GetInnerPosition(poscol, poslat, rad10);
-            Transformation = b1 *scaling* facing * Matrix.Translation(position);
+            Transformation = b1 * scaling * facing * Matrix.Translation(position);
 
             BoundingSphere.Center = position;
             BoundingSphere.Radius = terrSize * MathEx.Root2;
@@ -366,13 +366,16 @@ namespace Code2015.EngineEx
             for (int i = 0; i < terrEdgeSize; i++)
             {
                 float lerp = i / (float)(terrEdgeLen);
-                float colCellWidth = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeLen;
-                float colOfs = (1 - colCellWidth) * terrEdgeLen * 0.5f;
+                float colCellScale = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeLen;
+                float colOfs = (1 - colCellScale) * terrEdgeLen * 0.5f;
+
+                Matrix scaling = Matrix.Scaling(colCellScale, 1, 1);
+                scaling *= Matrix.Translation(colOfs, 0, 0);
 
                 // j为纬度方向
                 for (int j = 0; j < terrEdgeSize; j++)
                 {
-                    Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale * colCellWidth + colOfs,
+                    Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale,// * colCellScale + colOfs,
                                     0,
                                     i * TerrainMeshManager.TerrainScale * latScale);
                     int index = i * terrEdgeSize + j;
@@ -395,8 +398,9 @@ namespace Code2015.EngineEx
                     normal.Normalize();
                     vtxArray[index].Position = pos + normal * (height + delta);
 
-                    //normal = Vector3.Normalize(worldPos);
-                    //vtxArray[index].SetNormal(normal.X, normal.Y, normal.Z);
+                    Vector3.TransformSimple(ref vtxArray[index].Position, ref scaling, out vtxArray[index].Position);
+
+
                     vtxArray[index].Index = index;
                     float curCol = radtc + j * cellAngle;
                     float curLat = radSpan + radtl - i * cellAngle;
