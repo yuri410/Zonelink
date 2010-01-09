@@ -81,8 +81,7 @@
     <Population>94.2</Population>
   </Ulaanbaatar>
 
-  <!--印度-->
-  <NewDelhi>
+  <NewDelhi Nation="印度">
     <Name>New Delhi</Name>
     <Longitude>71.225</Longitude>
     <Latitude>28.635278</Latitude>
@@ -106,8 +105,7 @@
     <Population>242</Population>
   </Nagpur>
 
-  <!--缅甸-->
-  <Mandalay>
+  <Mandalay Nation="缅甸">
     <Name>Mandalay</Name>
     <Longitude>96.0993</Longitude>
     <Latitude>21.992556</Latitude>
@@ -115,8 +113,7 @@
     <Population>130</Population>
   </Mandalay>
   
-  <!--澳大利亚-->
-  <Melbourne>
+  <Melbourne Nation="澳大利亚">
     <Name>Melbourne</Name>
     <Longitude>144.970093</Longitude>
     <Latitude>-37.818463</Latitude>
@@ -148,8 +145,7 @@
     <Population>2</Population>
   </AliceSprings>
   
-  <!--阿富汗-->
-  <Qandahar>
+  <Qandahar Nation="阿富汗">
     <Name>Kandahar</Name>
     <Longitude>65.721588</Longitude>
     <Latitude>31.617866</Latitude>
@@ -157,8 +153,7 @@
     <Population>46</Population>
   </Qandahar>
   
-  <!--俄罗斯-->
-  <Moscow>
+  <Moscow Nation="俄罗斯">
     <Name>Moscow</Name>
     <Longitude>37.617188</Longitude>
     <Latitude>55.748758</Latitude>
@@ -190,8 +185,7 @@
     <Population>27</Population>
   </Komsomolsk-on-Amur>
   
-  <!--孟加拉国-->
-  <Dhaka>
+  <Dhaka Nation="孟加拉国">
     <Name>Dhaka</Name>
     <Longitude>90.391388</Longitude>
     <Latitude>23.772149</Latitude>
@@ -199,8 +193,7 @@
     <Population>700</Population>
   </Dhaka>
   
-  <!--哈萨克斯坦-->
-  <Suzak>
+  <Suzak Nation="哈萨克斯坦">
     <Name>Suzak</Name>
     <Longitude>68.466282</Longitude>
     <Latitude>44.140272</Latitude>
@@ -215,8 +208,7 @@
     <Population>218</Population>
   </Tashkent>
 
-  <!--乌兹别克斯坦-->
-  <Balkanabat>
+  <Balkanabat Nation="乌兹别克斯坦">
     <Name>Balkanabat</Name>
     <Longitude>54.37593</Longitude>
     <Latitude>39.504537</Latitude>
@@ -224,8 +216,7 @@
     <Population>8</Population>
   </Balkanabat>
 
-  <!--法国-->
-  <Paris>
+  <Paris Nation="法国">
     <Name>Paris</Name>
     <Longitude>2.35083</Longitude>
     <Latitude>48.8567</Latitude>
@@ -249,8 +240,7 @@
     <Population>Small</Population>
   </Angers>
   
-  <!--德国-->
-  <Berlin>
+  <Berlin Nation="德国">
     <Name>Berlin</Name>
     <Longitude>13.4095</Longitude>
     <Latitude>52.520399</Latitude>
@@ -274,8 +264,7 @@
     <Population>12</Population>
   </Ulm>
   
-  <!--波兰-->
-  <Warszawa>
+  <Warszawa Nation="波兰">
     <Name>Warsaw</Name>
     <Longitude>21.055298</Longitude>
     <Latitude>52.223593</Latitude>
@@ -291,8 +280,7 @@
     <Population>20</Population>
   </Torun>
 
-  <!--乌克兰-->
-  <Kyiv>
+  <Kyiv Nation="乌克兰">
     <Name>Kiev</Name>
     <Longitude>30.531006</Longitude>
     <Latitude>50.447011</Latitude>
@@ -308,8 +296,7 @@
     <Population>71</Population>
   </Kryvyi>
   
-  <!--罗马尼亚-->
-  <Craiova>
+  <Craiova Nation="罗马尼亚">
     <Name>Craiova</Name>
     <Longitude>23.794327</Longitude>
     <Latitude>44.318936</Latitude>
@@ -325,8 +312,7 @@
     <Population>194</Population>
   </Bucuresti>
 
-  <!--西班牙-->
-  <Valladolid>
+  <Valladolid Nation="西班牙">
     <Name>Valladolid</Name>
     <Longitude>-4.731503</Longitude>
     <Latitude>41.652265</Latitude>
@@ -350,8 +336,7 @@
     <Population></Population>
   </Valencia>
   
-  <!--意大利-->
-  <Milano>
+  <Milano Nation="意大利">
     <Name>Milan</Name>
     <Longitude>9.186287</Longitude>
     <Latitude>45.462539</Latitude>
@@ -359,8 +344,7 @@
     <Population>130</Population>
   </Milano>
 
-  <!--阿尔及利亚-->
-  <Alger>
+  <Alger Nation="阿尔及利亚">
     <Name>Alger</Name>
     <Longitude>3.048878</Longitude>
     <Latitude>36.738609</Latitude>
