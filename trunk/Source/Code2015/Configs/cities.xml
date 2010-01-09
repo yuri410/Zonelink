@@ -2,147 +2,147 @@
 
 <Cities>
   <Peking>
-    <Name>Municipality of Beijing</Name>
-    <Longitude>116.408056</Longitude>
-    <Latitude>39.904444</Latitude>
-    <Size>Large</Size>
-    <Population>1695</Population>
+    <Name Value="Municipality of Beijing"/>
+    <Longitude Value="116.408056"/>
+    <Latitude Value="39.904444"/>
+    <Size Value="Large"/>
+    <Population Value="1695"/>
   </Peking>
-
+  
   <Daqing>
-    <Name>Daqing</Name>
-    <Longitude>125.120373</Longitude>
-    <Latitude>46.588597</Latitude>
-    <Size>Small</Size>
-    <Population>270</Population>
+    <Name Value="Daqing"/>
+    <Longitude Value="125.120373"/>
+    <Latitude Value="46.588597"/>
+    <Size Value="Small"/>
+    <Population Value="270"/>
   </Daqing>
 
   <Wuhan>
-    <Name>Wuhan</Name>
-    <Longitude>144.305</Longitude>
-    <Latitude>30.5097222</Latitude>
-    <Size>Medium</Size>
-    <Population>970</Population>
+    <Name Value="Wuhan"/>
+    <Longitude Value="144.305"/>
+    <Latitude Value="30.5097222"/>
+    <Size Value="Medium"/>
+    <Population Value="970"/>
   </Wuhan>
 
   <Shanghai>
-    <Name>Shanghai</Name>
-    <Longitude>121.47278</Longitude>
-    <Latitude>31.23056</Latitude>
-    <Size>Large</Size>
-    <Population>1888</Population>
+    <Name Value="Shanghai"/>
+    <Longitude Value="121.47278"/>
+    <Latitude Value="31.23056"/>
+    <Size Value="Large"/>
+    <Population Value="1888"/>
   </Shanghai>
 
   <Guangzhou>
-    <Name>Canton</Name>
-    <Longitude>131.2641</Longitude>
-    <Latitude>23.1289</Latitude>
-    <Size>Medium</Size>
-    <Population>935</Population>
+    <Name Value="Canton"/>
+    <Longitude Value="131.2641"/>
+    <Latitude Value="23.1289"/>
+    <Size Value="Medium"/>
+    <Population Value="935"/>
   </Guangzhou>
 
   <Chengdu>
-    <Name>Chengdu</Name>
-    <Longitude>104.065</Longitude>
-    <Latitude>30.6586</Latitude>
-    <Size>Medium</Size>
-    <Population>1125</Population>
+    <Name Value="Chengdu"/>
+    <Longitude Value="104.065"/>
+    <Latitude Value="30.6586"/>
+    <Size Value="Medium"/>
+    <Population Value="1125"/>
   </Chengdu>
 
   <Urumuqi>
-    <Name>Urumuqi</Name>
-    <Longitude>87.61722</Longitude>
-    <Latitude>43.82556</Latitude>
-    <Size>Medium</Size>
-    <Population>235</Population>
+    <Name Value="Urumuqi"/>
+    <Longitude Value="87.61722"/>
+    <Latitude Value="43.82556"/>
+    <Size Value="Medium"/>
+    <Population Value="235"/>
   </Urumuqi>
 
   <JiayYuguan>
-    <Name>Jiayuguan</Name>
-    <Longitude>98.262577</Longitude>
-    <Latitude>39.769624</Latitude>
-    <Size>Small</Size>
-    <Population>13.8</Population>
+    <Name Value="Jiayuguan"/>
+    <Longitude Value="98.262577"/>
+    <Latitude Value="39.769624"/>
+    <Size Value="Small"/>
+    <Population Value="13.8"/>
   </JiayYuguan>
 
   <Geermu>
-    <Name>Ge'ermu</Name>
-    <Longitude>94.904709</Longitude>
-    <Latitude>36.414099</Latitude>
-    <Size>Small</Size>
-    <Population>17.5</Population>
+    <Name Value="Ge'ermu"/>
+    <Longitude Value="94.904709"/>
+    <Latitude Value="36.414099"/>
+    <Size Value="Small"/>
+    <Population Value="17.5"/>
   </Geermu>
 
   <Ulaanbaatar>
-    <Name>Ulan Bator</Name>
-    <Longitude>106.908989</Longitude>
-    <Latitude>47.920944</Latitude>
-    <Size>Medium</Size>
-    <Population>94.2</Population>
+    <Name Value="Ulan Bator"/>
+    <Longitude Value="106.908989"/>
+    <Latitude Value="47.920944"/>
+    <Size Value="Medium"/>
+    <Population Value="94.2"/>
   </Ulaanbaatar>
 
   <NewDelhi Nation="印度">
-    <Name>New Delhi</Name>
-    <Longitude>71.225</Longitude>
-    <Latitude>28.635278</Latitude>
-    <Size>Medium</Size>
-    <Population>900</Population>
+    <Name Value="New Delhi"/>
+    <Longitude Value="71.225"/>
+    <Latitude Value="28.635278"/>
+    <Size Value="Medium"/>
+    <Population Value="900"/>
   </NewDelhi>
 
   <Mumbai>
-    <Name>Mumbai</Name>
-    <Longitude>72.8561</Longitude>
-    <Latitude>19.0175</Latitude>
-    <Size>Large</Size>
-    <Population>1400</Population>
+    <Name Value="Mumbai"/>
+    <Longitude Value="72.8561"/>
+    <Latitude Value="19.0175"/>
+    <Size Value="Large"/>
+    <Population Value="1400"/>
   </Mumbai>
 
   <Nagpur>
-    <Name>Nagpur</Name>
-    <Longitude>79.08886</Longitude>
-    <Latitude>21.153517</Latitude>
-    <Size>Medium</Size>
-    <Population>242</Population>
+    <Name Value="Nagpur"/>
+    <Longitude Value="79.08886"/>
+    <Latitude Value="21.153517"/>
+    <Size Value="Medium"/>
+    <Population Value="242"/>
   </Nagpur>
 
   <Mandalay Nation="缅甸">
-    <Name>Mandalay</Name>
-    <Longitude>96.0993</Longitude>
-    <Latitude>21.992556</Latitude>
-    <Size>Medium</Size>
-    <Population>130</Population>
+    <Name Value="Mandalay"/>
+    <Longitude Value="96.0993"/>
+    <Latitude Value="21.992556"/>
+    <Size Value="Medium"/>
+    <Population Value="130"/>
   </Mandalay>
   
   <Melbourne Nation="澳大利亚">
-    <Name>Melbourne</Name>
-    <Longitude>144.970093</Longitude>
-    <Latitude>-37.818463</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
+    <Name Value="Melbourne"/>
+    <Longitude Value="144.970093"/>
+    <Latitude Value="-37.818463"/>
+    <Size Value="Large"/>
+    <Population Value=""/>
   </Melbourne>
 
   <Albany>
-    <Name>Albany</Name>
-    <Longitude>145.775</Longitude>
-    <Latitude>-16.925278</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
+    <Name Value="Albany"/>
+    <Longitude Value="145.775"/>
+    <Latitude Value="-16.925278"/>
+    <Size Value="Medium"/>
+    <Population Value=""/>
   </Albany>
 
   <Caims>
-    <Name>Caims</Name>
-    <Longitude>117.878838</Longitude>
-    <Latitude>-35.005534</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
+    <Name Value="Caims"/>
+    <Longitude Value="117.878838"/>
+    <Latitude Value="-35.005534"/>
+    <Size Value="Medium"/>
+    <Population Value=""/>
   </Caims>
 
   <AliceSprings>
-    <Name>Alice Springs</Name>
-    <Longitude>133.879995</Longitude>
-    <Latitude>-23.700808</Latitude>
-    <Size>Small</Size>
-    <Population>2</Population>
+    <Name Value="Alice Springs"/>
+    <Longitude Value="133.879995"/>
+    <Latitude Value="-23.700808"/>
+    <Size Value="Small"/>
+    <Population Value="2"/>
   </AliceSprings>
   
   <Qandahar Nation="阿富汗">
