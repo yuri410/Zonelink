@@ -11,7 +11,7 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.Effects;
 
-namespace Code2015.Graphics
+namespace Code2015.EngineEx
 {
     /// <summary>
     ///  定义一个天空盒
