@@ -2,158 +2,163 @@
 
 <Cities>
   <Peking>
-    <Name Value="Municipality of Beijing"/>
-    <Longitude Value="116.408056"/>
-    <Latitude Value="39.904444"/>
-    <Size Value="Large"/>
-    <Population Value="1695"/>
+    <Name>Municipality of Beijing</Name>
+    <Longitude>116.408056</Longitude>
+    <Latitude>39.904444</Latitude>
+    <Size>Large</Size>
+    <Population>1695</Population>
   </Peking>
-  
+
   <Daqing>
-    <Name Value="Daqing"/>
-    <Longitude Value="125.120373"/>
-    <Latitude Value="46.588597"/>
-    <Size Value="Small"/>
-    <Population Value="270"/>
+    <Name>Daqing</Name>
+    <Longitude>125.120373</Longitude>
+    <Latitude>46.588597</Latitude>
+    <Size>Small</Size>
+    <Population>270</Population>
   </Daqing>
 
   <Wuhan>
-    <Name Value="Wuhan"/>
-    <Longitude Value="144.305"/>
-    <Latitude Value="30.5097222"/>
-    <Size Value="Medium"/>
-    <Population Value="970"/>
+    <Name>Wuhan</Name>
+    <Longitude>144.305</Longitude>
+    <Latitude>30.5097222</Latitude>
+    <Size>Medium</Size>
+    <Population>970</Population>
   </Wuhan>
 
   <Shanghai>
-    <Name Value="Shanghai"/>
-    <Longitude Value="121.47278"/>
-    <Latitude Value="31.23056"/>
-    <Size Value="Large"/>
-    <Population Value="1888"/>
+    <Name>Shanghai</Name>
+    <Longitude>121.47278</Longitude>
+    <Latitude>31.23056</Latitude>
+    <Size>Large</Size>
+    <Population>1888</Population>
   </Shanghai>
 
   <Guangzhou>
-    <Name Value="Canton"/>
-    <Longitude Value="131.2641"/>
-    <Latitude Value="23.1289"/>
-    <Size Value="Medium"/>
-    <Population Value="935"/>
+    <Name>Canton</Name>
+    <Longitude>131.2641</Longitude>
+    <Latitude>23.1289</Latitude>
+    <Size>Medium</Size>
+    <Population>935</Population>
   </Guangzhou>
 
   <Chengdu>
-    <Name Value="Chengdu"/>
-    <Longitude Value="104.065"/>
-    <Latitude Value="30.6586"/>
-    <Size Value="Medium"/>
-    <Population Value="1125"/>
+    <Name>Chengdu</Name>
+    <Longitude>104.065</Longitude>
+    <Latitude>30.6586</Latitude>
+    <Size>Medium</Size>
+    <Population>1125</Population>
   </Chengdu>
 
   <Urumuqi>
-    <Name Value="Urumuqi"/>
-    <Longitude Value="87.61722"/>
-    <Latitude Value="43.82556"/>
-    <Size Value="Medium"/>
-    <Population Value="235"/>
+    <Name>Urumuqi</Name>
+    <Longitude>87.61722</Longitude>
+    <Latitude>43.82556</Latitude>
+    <Size>Medium</Size>
+    <Population>235</Population>
   </Urumuqi>
 
   <JiayYuguan>
-    <Name Value="Jiayuguan"/>
-    <Longitude Value="98.262577"/>
-    <Latitude Value="39.769624"/>
-    <Size Value="Small"/>
-    <Population Value="13.8"/>
+    <Name>Jiayuguan</Name>
+    <Longitude>98.262577</Longitude>
+    <Latitude>39.769624</Latitude>
+    <Size>Small</Size>
+    <Population>13.8</Population>
   </JiayYuguan>
 
   <Geermu>
-    <Name Value="Ge'ermu"/>
-    <Longitude Value="94.904709"/>
-    <Latitude Value="36.414099"/>
-    <Size Value="Small"/>
-    <Population Value="17.5"/>
+    <Name>Ge'ermu</Name>
+    <Longitude>94.904709</Longitude>
+    <Latitude>36.414099</Latitude>
+    <Size>Small</Size>
+    <Population>17.5</Population>
   </Geermu>
 
   <Ulaanbaatar>
-    <Name Value="Ulan Bator"/>
-    <Longitude Value="106.908989"/>
-    <Latitude Value="47.920944"/>
-    <Size Value="Medium"/>
-    <Population Value="94.2"/>
+    <Name>Ulan Bator</Name>
+    <Longitude>106.908989</Longitude>
+    <Latitude>47.920944</Latitude>
+    <Size>Medium</Size>
+    <Population>94.2</Population>
   </Ulaanbaatar>
 
-  <NewDelhi Nation="印度">
-    <Name Value="New Delhi"/>
-    <Longitude Value="71.225"/>
-    <Latitude Value="28.635278"/>
-    <Size Value="Medium"/>
-    <Population Value="900"/>
+  <!--印度-->
+  <NewDelhi>
+    <Name>New Delhi</Name>
+    <Longitude>71.225</Longitude>
+    <Latitude>28.635278</Latitude>
+    <Size>Medium</Size>
+    <Population>900</Population>
   </NewDelhi>
 
   <Mumbai>
-    <Name Value="Mumbai"/>
-    <Longitude Value="72.8561"/>
-    <Latitude Value="19.0175"/>
-    <Size Value="Large"/>
-    <Population Value="1400"/>
+    <Name>Mumbai</Name>
+    <Longitude>72.8561</Longitude>
+    <Latitude>19.0175</Latitude>
+    <Size>Large</Size>
+    <Population>1400</Population>
   </Mumbai>
 
   <Nagpur>
-    <Name Value="Nagpur"/>
-    <Longitude Value="79.08886"/>
-    <Latitude Value="21.153517"/>
-    <Size Value="Medium"/>
-    <Population Value="242"/>
+    <Name>Nagpur</Name>
+    <Longitude>79.08886</Longitude>
+    <Latitude>21.153517</Latitude>
+    <Size>Medium</Size>
+    <Population>242</Population>
   </Nagpur>
 
-  <Mandalay Nation="缅甸">
-    <Name Value="Mandalay"/>
-    <Longitude Value="96.0993"/>
-    <Latitude Value="21.992556"/>
-    <Size Value="Medium"/>
-    <Population Value="130"/>
+  <!--缅甸-->
+  <Mandalay>
+    <Name>Mandalay</Name>
+    <Longitude>96.0993</Longitude>
+    <Latitude>21.992556</Latitude>
+    <Size>Medium</Size>
+    <Population>130</Population>
   </Mandalay>
-  
-  <Melbourne Nation="澳大利亚">
-    <Name Value="Melbourne"/>
-    <Longitude Value="144.970093"/>
-    <Latitude Value="-37.818463"/>
-    <Size Value="Large"/>
-    <Population Value=""/>
+
+  <!--澳大利亚-->
+  <Melbourne>
+    <Name>Melbourne</Name>
+    <Longitude>144.970093</Longitude>
+    <Latitude>-37.818463</Latitude>
+    <Size>Large</Size>
+    <Population></Population>
   </Melbourne>
 
   <Albany>
-    <Name Value="Albany"/>
-    <Longitude Value="145.775"/>
-    <Latitude Value="-16.925278"/>
-    <Size Value="Medium"/>
-    <Population Value=""/>
+    <Name>Albany</Name>
+    <Longitude>145.775</Longitude>
+    <Latitude>-16.925278</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
   </Albany>
 
   <Caims>
-    <Name Value="Caims"/>
-    <Longitude Value="117.878838"/>
-    <Latitude Value="-35.005534"/>
-    <Size Value="Medium"/>
-    <Population Value=""/>
+    <Name>Caims</Name>
+    <Longitude>117.878838</Longitude>
+    <Latitude>-35.005534</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
   </Caims>
 
   <AliceSprings>
-    <Name Value="Alice Springs"/>
-    <Longitude Value="133.879995"/>
-    <Latitude Value="-23.700808"/>
-    <Size Value="Small"/>
-    <Population Value="2"/>
+    <Name>Alice Springs</Name>
+    <Longitude>133.879995</Longitude>
+    <Latitude>-23.700808</Latitude>
+    <Size>Small</Size>
+    <Population>2</Population>
   </AliceSprings>
-  
-  <Qandahar Nation="阿富汗">
+
+  <!--阿富汗-->
+  <Qandahar>
     <Name>Kandahar</Name>
     <Longitude>65.721588</Longitude>
     <Latitude>31.617866</Latitude>
     <Size>Small</Size>
     <Population>46</Population>
   </Qandahar>
-  
-  <Moscow Nation="俄罗斯">
+
+  <!--俄罗斯-->
+  <Moscow>
     <Name>Moscow</Name>
     <Longitude>37.617188</Longitude>
     <Latitude>55.748758</Latitude>
@@ -184,16 +189,18 @@
     <Size>Medium</Size>
     <Population>27</Population>
   </Komsomolsk-on-Amur>
-  
-  <Dhaka Nation="孟加拉国">
+
+  <!--孟加拉国-->
+  <Dhaka>
     <Name>Dhaka</Name>
     <Longitude>90.391388</Longitude>
     <Latitude>23.772149</Latitude>
     <Size>Medium</Size>
     <Population>700</Population>
   </Dhaka>
-  
-  <Suzak Nation="哈萨克斯坦">
+
+  <!--哈萨克斯坦-->
+  <Suzak>
     <Name>Suzak</Name>
     <Longitude>68.466282</Longitude>
     <Latitude>44.140272</Latitude>
@@ -208,7 +215,8 @@
     <Population>218</Population>
   </Tashkent>
 
-  <Balkanabat Nation="乌兹别克斯坦">
+  <!--乌兹别克斯坦-->
+  <Balkanabat>
     <Name>Balkanabat</Name>
     <Longitude>54.37593</Longitude>
     <Latitude>39.504537</Latitude>
@@ -216,7 +224,8 @@
     <Population>8</Population>
   </Balkanabat>
 
-  <Paris Nation="法国">
+  <!--法国-->
+  <Paris>
     <Name>Paris</Name>
     <Longitude>2.35083</Longitude>
     <Latitude>48.8567</Latitude>
@@ -239,8 +248,9 @@
     <Size>Large</Size>
     <Population>Small</Population>
   </Angers>
-  
-  <Berlin Nation="德国">
+
+  <!--德国-->
+  <Berlin>
     <Name>Berlin</Name>
     <Longitude>13.4095</Longitude>
     <Latitude>52.520399</Latitude>
@@ -263,8 +273,9 @@
     <Size>Small</Size>
     <Population>12</Population>
   </Ulm>
-  
-  <Warszawa Nation="波兰">
+
+  <!--波兰-->
+  <Warszawa>
     <Name>Warsaw</Name>
     <Longitude>21.055298</Longitude>
     <Latitude>52.223593</Latitude>
@@ -280,7 +291,8 @@
     <Population>20</Population>
   </Torun>
 
-  <Kyiv Nation="乌克兰">
+  <!--乌克兰-->
+  <Kyiv>
     <Name>Kiev</Name>
     <Longitude>30.531006</Longitude>
     <Latitude>50.447011</Latitude>
@@ -295,8 +307,9 @@
     <Size>Small</Size>
     <Population>71</Population>
   </Kryvyi>
-  
-  <Craiova Nation="罗马尼亚">
+
+  <!--罗马尼亚-->
+  <Craiova>
     <Name>Craiova</Name>
     <Longitude>23.794327</Longitude>
     <Latitude>44.318936</Latitude>
@@ -312,7 +325,8 @@
     <Population>194</Population>
   </Bucuresti>
 
-  <Valladolid Nation="西班牙">
+  <!--西班牙-->
+  <Valladolid>
     <Name>Valladolid</Name>
     <Longitude>-4.731503</Longitude>
     <Latitude>41.652265</Latitude>
@@ -335,8 +349,9 @@
     <Size>Medium</Size>
     <Population></Population>
   </Valencia>
-  
-  <Milano Nation="意大利">
+
+  <!--意大利-->
+  <Milano>
     <Name>Milan</Name>
     <Longitude>9.186287</Longitude>
     <Latitude>45.462539</Latitude>
@@ -344,7 +359,8 @@
     <Population>130</Population>
   </Milano>
 
-  <Alger Nation="阿尔及利亚">
+  <!--阿尔及利亚-->
+  <Alger>
     <Name>Alger</Name>
     <Longitude>3.048878</Longitude>
     <Latitude>36.738609</Latitude>
@@ -359,6 +375,6 @@
     <Size>Small</Size>
     <Population>1</Population>
   </BeniAbbes>
-  
-  
+
+
 </Cities>
