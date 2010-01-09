@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.Graphics.Geometry;
@@ -11,6 +12,25 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
+    class OceanWaterTile : SceneObject
+    {
+
+        public override RenderOperation[] GetRenderOperation()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update(GameTime dt)
+        {
+            throw new NotImplementedException();
+        }
+
+        public override bool IsSerializable
+        {
+            get { throw new NotImplementedException(); }
+        }
+    }
+    
     class OceanWater : StaticModelObject
     {
         RenderSystem renderSys;
