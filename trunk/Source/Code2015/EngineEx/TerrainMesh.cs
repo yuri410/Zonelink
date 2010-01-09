@@ -27,10 +27,6 @@ namespace Code2015.EngineEx
             public Vector3 Position;
             public float u;
             public float v;
-            //public Half nx;
-            //public Half ny;
-            //public Half nz;
-            //public Half dummy;
             public float Index;
 
             static VertexElement[] elements;
@@ -43,21 +39,6 @@ namespace Code2015.EngineEx
                     VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
                 elements[2] = new VertexElement(elements[1].Size + elements[1].Offset,
                     VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 1);
-
-                //elements[2] = new VertexElement(elements[1].Offset + elements[1].Size,
-                //    VertexElementFormat.HalfVector4, VertexElementUsage.TextureCoordinate, 1);
-            }
-
-            public void SetNormal(ref Vector3 n)
-            {
-                //nx = new Half(x);
-                //ny = new Half(y);
-                //nz = new Half(z);
-
-                Index = MathEx.Vector2ARGB(ref n); //ColorValue.PackValue(
-                    //0.5f * (x + 1),
-                    //0.5f * (y + 1),
-                    //0.5f * (z + 1), 1);
             }
 
             public static VertexElement[] Elements
