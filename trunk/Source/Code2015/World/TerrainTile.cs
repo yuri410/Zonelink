@@ -50,7 +50,26 @@ namespace Code2015.World
 
             Transformation = terrain1.GetWeakResource().Transformation;
             BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
+
+            terrain.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
+            terrain1.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
         }
+
+
+        void TerrainMesh_ObjectSpaceChanged(Matrix mat, BoundingSphere bs)
+        {
+            if (Transformation != mat)
+            {
+                Transformation = mat;
+                RequiresUpdate = true;
+            }
+            if (BoundingSphere != bs)
+            {
+                BoundingSphere = bs;
+                RequiresUpdate = true;
+            }
+        }
+
 
         public override RenderOperation[] GetRenderOperation()
         {
@@ -126,7 +145,7 @@ namespace Code2015.World
                     }
                 }
 
-                ActiveTerrain.Resource.PrepareVisibleObjects(cam, level);
+                tm.PrepareVisibleObjects(cam, level);
             }
         }
 
@@ -146,6 +165,9 @@ namespace Code2015.World
 
             if (disposing)
             {
+                terrain.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
+                terrain1.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
+
                 terrain.Dispose();
                 terrain1.Dispose();
                 //terrain2.Dispose();
