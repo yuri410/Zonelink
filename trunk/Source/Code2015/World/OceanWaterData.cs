@@ -6,6 +6,11 @@ using Apoc3D.Graphics;
 
 namespace Code2015.World
 {
+    class OceanWaterDataManager
+    {
+
+    }
+
     class OceanWaterData
     {
         VertexBuffer vertexBuffer;
@@ -16,7 +21,7 @@ namespace Code2015.World
         VertexDeclaration vtxDecl;
 
 
-        public OceanWaterData(RenderSystem rs, int size)
+        public OceanWaterData(RenderSystem rs, int size, float lat)
         {
             this.Size = size;
 
@@ -24,8 +29,17 @@ namespace Code2015.World
 
             ObjectFactory fac = rs.ObjectFactory;
 
+
+            vtxDecl = fac.CreateVertexDeclaration(WaterVertex.Elements);
+
+
             int vertexCount = size * size;
+
             vertexBuffer = fac.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.Static);
+
+
+
+
         }
 
         public int Size
