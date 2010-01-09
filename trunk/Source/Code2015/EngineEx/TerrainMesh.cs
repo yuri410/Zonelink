@@ -605,7 +605,6 @@ namespace Code2015.EngineEx
                                 for (int i = 0; i < node.Children.Length; i++)
                                 {
                                     c = node.Children[i].BoundingVolume.Center;
-                                    //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                                     if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
                                     {
@@ -618,7 +617,6 @@ namespace Code2015.EngineEx
                                 if (node.Block != null)
                                 {
                                     c = node.BoundingVolume.Center;
-                                    //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                                     if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
                                     {
