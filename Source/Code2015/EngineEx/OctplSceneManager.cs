@@ -69,13 +69,13 @@ namespace Code2015.EngineEx
                         SceneObject obj = objs.Elements[i];
                         dir = obj.BoundingSphere.Center;
                         dir.Normalize();
-                        Vector3.Multiply(ref dir, node.BoundingSphere.Radius, out dir);
-                        Vector3.Add(ref obj.BoundingSphere.Center, ref dir, out center2);
 
-                        Vector3.Subtract(ref obj.BoundingSphere.Center, ref camPos, out dir);
+                        Vector3.Multiply(ref dir, obj.BoundingSphere.Radius, out dir);
+                        Vector3.Subtract(ref obj.BoundingSphere.Center, ref dir, out center2);
 
+                        Vector3.Subtract(ref center2, ref camPos, out dir);
 
-                        //if (Vector3.Dot(ref dir, ref center2) <= 0)
+                        if (Vector3.Dot(ref dir, ref center2) <= 0)
                         {
                             int level = GetLevel(ref obj.BoundingSphere, ref camPos);
 

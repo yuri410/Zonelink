@@ -15,6 +15,8 @@ using Code2015.World;
 
 namespace Code2015.EngineEx
 {
+    delegate void ObjectSpaceChangedHandler(Matrix matrix, BoundingSphere sphere);
+
     unsafe class TerrainMesh : Resource, IRenderable
     {
         public const int TerrainBlockSize = 33;
@@ -133,20 +135,6 @@ namespace Code2015.EngineEx
         /// </summary>
         GeomentryData defGeometryData;
 
-
-        /// <summary>
-        ///  地形的上边（纬度较高的边）的长度
-        /// </summary>
-        float topLen;
-        /// <summary>
-        ///  地形的下边（纬度较低的边）的长度
-        /// </summary>
-        float bottomLen;
-        /// <summary>
-        ///  地形的侧边（沿经度方向）的长度
-        /// </summary>
-        float heightLen;
-
         float tileCol;
         float tileLat;
 
@@ -170,10 +158,15 @@ namespace Code2015.EngineEx
             get { return terrEdgeSize; }
         }
 
+
+        public event ObjectSpaceChangedHandler ObjectSpaceChanged;
+        
         public static string GetHashString(int x, int y, int lod)
         {
             return "TM" + x.ToString("D2") + y.ToString("D2") + lod.ToString("D1");
         }
+
+
 
         public TerrainMesh(RenderSystem rs, int x, int y, int lod)
             : base(TerrainMeshManager.Instance, GetHashString(x, y, lod))
@@ -227,52 +220,11 @@ namespace Code2015.EngineEx
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl + rad5);
                 BoundingSphere.Radius = terrEdgeSize * MathEx.Root2;
+
+                if (ObjectSpaceChanged != null)
+                    ObjectSpaceChanged(Transformation, BoundingSphere);
             }
-            //UpdateTransformation(radtc, radtl, terrEdgeSize, MathEx.Degree2Radian(10));
         }
-
-        ///// <summary>
-        /////  计算该地形的变换矩阵
-        ///// </summary>
-        ///// <param name="radtc">经度</param>
-        ///// <param name="radtl">纬度</param>
-        ///// <param name="terrSize">原始地形大小</param>
-        ///// <param name="span">边所占的度数</param>
-        //void UpdateTransformation(float radtc, float radtl, float terrSize, float span)
-        //{
-        //    float rad10 = span;
-        //    float rad5 = span * 0.5f;
-        //    topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
-        //    bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
-        //    heightLen = PlanetEarth.GetTileHeight(rad10);
-
-        //    float poscol = radtc + rad5;
-        //    float poslat = radtl + rad5;
-
-        //    terrSize--;
-        //    float hs = terrSize * 0.5f;
-        //    Matrix b1 = Matrix.Translation(-hs, 0, -hs);
-        //    Matrix facing = Matrix.Identity;
-        //    facing.Up = PlanetEarth.GetNormal(poscol, poslat);
-
-        //    Vector3 v = Vector3.Cross(Vector3.UnitY, facing.Up);
-        //    v.Normalize();
-        //    facing.Right = v;// PlanetEarth.GetTangentX(poscol, poslat);
-
-        //    v = Vector3.Cross(facing.Right, facing.Up);
-        //    v.Normalize();
-
-        //    facing.Forward = -v;// PlanetEarth.GetTangentY(poscol, poslat);            
-
-        //    //Matrix scaling = Matrix.Scaling(1.00383f, 1, heightLen / terrSize);
-        //    //Matrix scaling = Matrix.Scaling(1, 1, heightLen / terrSize);
-
-        //    Vector3 position = PlanetEarth.GetInnerPosition(poscol, poslat, rad10);
-        //    Transformation = b1 * facing * Matrix.Translation(position);
-
-        //    BoundingSphere.Center = position;
-        //    BoundingSphere.Radius = terrSize * MathEx.Root2;
-        //}
 
         #region Resource实现
         public override int GetSize()
@@ -331,8 +283,6 @@ namespace Code2015.EngineEx
 
             float radSpan = MathEx.Degree2Radian(data.XSpan);
 
-            //UpdateTransformation(radtc, radtl, terrEdgeSize, radSpan);
-
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
             isBlockTerrain = terrEdgeSize >= TerrainBlockSize;
@@ -359,42 +309,17 @@ namespace Code2015.EngineEx
 
             TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
-            #region 计算局部坐标系下的地心坐标
-            //float beta = 0.5f * (MathEx.PIf - radSpan);
-
-            //Vector3 localEarthCenter = new Vector3(terrEdgeLen * 0.5f, 0, terrEdgeLen * 0.5f);
-            //localEarthCenter.Y = -(float)Math.Sin(beta) * PlanetRadius;
-
-            //Matrix invTrans = Matrix.Invert(Transformation);
-            //Vector3 localEarthCenter = Vector3.TransformSimple(Vector3.Zero, invTrans);
-            #endregion
 
             float cellAngle = radSpan / (float)terrEdgeLen;
             #region 计算顶点坐标
-            //float latScale = 1;// heightLen / (float)terrEdgeLen;
 
-            // i为经度方向
+            // i为纬度方向
             for (int i = 0; i < terrEdgeSize; i++)
             {
-                //float lerp = i / (float)(terrEdgeLen);
-                //float colCellScale = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)terrEdgeLen;
-                //float colOfs = (1 - colCellScale) * terrEdgeLen * 0.5f;
-
-                //Matrix scaling = Matrix.Scaling(colCellScale, 1, 1);
-                //scaling *= Matrix.Translation(colOfs, 0, 0);
-
-                // j为纬度方向
+                // j为经度方向
                 for (int j = 0; j < terrEdgeSize; j++)
                 {
                     Vector3 pos = PlanetEarth.GetPosition(radtc + j * cellAngle, radtl - i * cellAngle);
-                    //pos = Vector3.TransformSimple(pos, invTrans);
-
-                    //float tmp = pos.X;
-                    //pos.X = pos.Z;
-                    //pos.Z = tmp;
-                    //Vector3 pos = new Vector3(j * TerrainMeshManager.TerrainScale,// * colCellScale + colOfs,
-                    //                0,
-                    //                i * TerrainMeshManager.TerrainScale * latScale);
 
                     int index = i * terrEdgeSize + j;
 
@@ -406,18 +331,10 @@ namespace Code2015.EngineEx
                         height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
                     }
 
-                    //Vector3 worldPos;
-                    //Vector3.TransformSimple(ref pos, ref Transformation, out worldPos);
-
-                    //// 计算曲面偏移量
-                    //float delta = PlanetRadius - worldPos.Length();
-
                     Vector3 normal = pos;
                     normal.Normalize();
                     vtxArray[index].Position = pos + normal * height;
 
-                    //Vector3.TransformSimple(ref vtxArray[index].Position, ref scaling, out vtxArray[index].Position);
-                  
 
                     vtxArray[index].Index = index;
                     float curCol = radtc + j * cellAngle;
@@ -646,6 +563,8 @@ namespace Code2015.EngineEx
 
             BoundingSphere = rootNode.BoundingVolume;
             BoundingSphere.Center = Vector3.TransformSimple(rootNode.BoundingVolume.Center, Transformation);
+            if (ObjectSpaceChanged != null)
+                ObjectSpaceChanged(Transformation, BoundingSphere);
         }
 
         /// <summary>
@@ -665,16 +584,11 @@ namespace Code2015.EngineEx
                 if (isBlockTerrain)
                 {
                     #region 分块地形的可见性测试
-                    //Matrix invTrans;
-                    //Matrix.Invert(ref Transformation, out invTrans);
 
-                    //Frustum frus = cam.Frustum.Transform(invTrans);
                     Frustum frus = cam.Frustum;
-                    //Vector3 camPos = Vector3.TransformSimple(cam.Position, invTrans);
                     Vector3 camPos = cam.Position;
 
                     Vector3 c = rootNode.BoundingVolume.Center;
-                    //Vector3.TransformSimple(ref c, ref Transformation, out c);
 
                     if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
                     {

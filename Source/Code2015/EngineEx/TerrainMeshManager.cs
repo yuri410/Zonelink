@@ -98,7 +98,7 @@ namespace Code2015.EngineEx
                 int cellLength = blockEdgeLen / levelLength;
 
 
-                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.4f) / (float)(k + 1);
+                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.75f) / (float)(k + 1);
                 lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
 
                 cellSpan[k] = cellLength;
