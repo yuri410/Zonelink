@@ -36,9 +36,7 @@ VSOutput main(VSInput ip)
 	float3 center = (float3)mul(float4(0, 0, 0, 1), invWorld);
 	o.ModNormal = (float3)ip.Position - center;
 	
-	// lerp(left, right, o.DetailCoord.x) + lerp(top, bottom, o.DetailCoord.y);
-	
-	o.ModNormal.y *=0.67;
+	//o.ModNormal.y *=0.67;
 	o.ModNormal = normalize(o.ModNormal);
 	
 	o.LightDir = (float3)mul(float4(0.707, 0.707, 0, 0), invWorld);
