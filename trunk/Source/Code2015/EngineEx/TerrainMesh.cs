@@ -648,7 +648,7 @@ namespace Code2015.EngineEx
                                         op.Geomentry.VertexCount = levelVertexCount[lodLevel];
 
                                         op.Transformation = Matrix.Identity;
-
+                                        op.Priority = RenderPriority.Second;
                                         opBuffer.Add(op);
                                     }
                                 }
@@ -666,7 +666,7 @@ namespace Code2015.EngineEx
                     op.Geomentry = defGeometryData;
 
                     op.Transformation = Matrix.Identity;
-
+                    op.Priority = RenderPriority.Second;
                     opBuffer.Add(op);
                 }
             }
