@@ -68,7 +68,6 @@ namespace Code2015.World
         public static float GetTileHeight(float span)
         {
             return (float)(2 * PlanetRadius * Math.Sin(span * 0.5));
-            // (float)Math.Sqrt(2 * PlanetRadius * PlanetRadius - 2 * PlanetRadius * PlanetRadius * (float)Math.Cos(span));
         }
 
         /// <summary>
