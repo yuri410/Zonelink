@@ -38,7 +38,7 @@ namespace Code2015.World
 
     class OceanWaterTile : SceneObject
     {
-        VertexBuffer vertices;
+
         RenderSystem renderSystem;
 
         RenderOperation[] opBuf = new RenderOperation[1];
@@ -63,7 +63,7 @@ namespace Code2015.World
 
         public override bool IsSerializable
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
     }
 }

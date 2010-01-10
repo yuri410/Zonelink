@@ -57,6 +57,7 @@ namespace Code2015.World
                     int index = i * size + j;
 
                     vtxArray[index].Position = pos;
+                    vtxArray[index].Index = index;
                 }
             }
             vertexBuffer.SetData<WaterVertex>(vtxArray);
