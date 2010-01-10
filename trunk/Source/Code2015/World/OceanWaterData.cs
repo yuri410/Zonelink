@@ -34,6 +34,7 @@ namespace Code2015.World
         public OceanWaterDataManager(RenderSystem rs)
         {
             renderSystem = rs;
+            dataTable = new Dictionary<HashNode, OceanWaterData>();
         }
 
 

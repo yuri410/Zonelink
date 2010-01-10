@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
-using Apoc3D.Scene;
 using Apoc3D.MathLib;
+using Apoc3D.Scene;
 
 namespace Code2015.World
 {
@@ -50,18 +50,31 @@ namespace Code2015.World
         RenderOperation[] opBuf0 = new RenderOperation[1];
         RenderOperation[] opBuf1 = new RenderOperation[1];
 
+        float tileCol;
+        float tileLat;
 
-        public OceanWaterTile(RenderSystem rs, OceanWaterDataManager manager, int col, int lat)
+
+        public OceanWaterTile(RenderSystem rs, OceanWaterDataManager manager, int @long, int lat)
             : base(false)
         {
             renderSystem = rs;
 
-            data0 = manager.GetData(Lod0Size, lat);
-            data1 = manager.GetData(Lod1Size, lat);
+            PlanetEarth.TileCoord2Coord(@long, lat, out tileCol, out tileLat);
+
+            data0 = manager.GetData(Lod0Size, tileLat);
+            data1 = manager.GetData(Lod1Size, tileLat);
 
             opBuf0[0].Geomentry = data0.GeoData;
             opBuf1[0].Geomentry = data1.GeoData;
-            
+
+            float radtc = MathEx.Degree2Radian(tileCol);
+            float radtl = MathEx.Degree2Radian(tileLat);
+            float rad5 = MathEx.Degree2Radian(5);
+
+            BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
+            BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);
+
+            Transformation = Matrix.RotationY(radtc);
         }
 
         public override RenderOperation[] GetRenderOperation(int level)
