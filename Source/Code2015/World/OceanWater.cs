@@ -41,6 +41,16 @@ namespace Code2015.World
 
             BoundingSphere.Radius = PlanetEarth.PlanetRadius;
         }
+
+        public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
+        {
+            base.OnAddedToScene(sender, sceneMgr);
+        }
+        public override void OnRemovedFromScene(object sender, SceneManagerBase sceneMgr)
+        {
+            base.OnRemovedFromScene(sender, sceneMgr);
+        }
+
         public override RenderOperation[] GetRenderOperation()
         {
             return base.GetRenderOperation();
