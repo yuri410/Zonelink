@@ -32,6 +32,7 @@ namespace Code2015.World
             Material[][] mats = new Material[1][];
             mats[0] = new Material[1];
             mats[0][0] = new Material(renderSys);
+            mats[0][0].IsTransparent = true;
 
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
