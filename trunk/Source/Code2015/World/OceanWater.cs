@@ -51,7 +51,7 @@ namespace Code2015.World
                 }
             }
 
-            oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel * 0.5f, 
+            oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel, 
                 PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
 
             base.ModelL0 = oceanSphere;
