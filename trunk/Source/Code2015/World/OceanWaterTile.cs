@@ -40,7 +40,7 @@ namespace Code2015.World
 
     class OceanWaterTile : SceneObject
     {
-        const int Lod0Size = 32;
+        const int Lod0Size = 24;
         const int Lod1Size = 8;
 
 
@@ -49,12 +49,12 @@ namespace Code2015.World
 
         RenderSystem renderSystem;
 
-        RenderOperation[] opBuf0 = new RenderOperation[1];
-        RenderOperation[] opBuf1 = new RenderOperation[1];
+        RenderOperation[] opBuf = new RenderOperation[1];
 
         float tileCol;
         float tileLat;
 
+        Material material;
 
         public OceanWaterTile(RenderSystem rs, OceanWaterDataManager manager, int @long, int lat)
             : base(false)
@@ -63,23 +63,19 @@ namespace Code2015.World
 
             PlanetEarth.TileCoord2Coord(@long, lat, out tileCol, out tileLat);
 
-            Material mat = new Material(rs);
-            mat.SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
+            material = new Material(rs);
+            material.SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
 
 
 
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);
 
-            opBuf0[0].Geomentry = data0.GeoData;
-            opBuf1[0].Geomentry = data1.GeoData;
-            opBuf0[0].Material = mat;
-            opBuf1[0].Material = mat;
-
+         
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-            float rad5 = MathEx.Degree2Radian(PlanetEarth.DefaultTileSpan * 0.5f);
+            float rad5 = PlanetEarth.DefaultTileSpan * 0.5f;
 
             BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
             BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);
@@ -92,9 +88,17 @@ namespace Code2015.World
             switch (level)
             {
                 case 0:
-                    return opBuf0;
+                    opBuf[0].Geomentry = data0.GeoData;
+                    opBuf[0].Material = material;
+                    opBuf[0].Transformation = Matrix.Identity;
+
+                    return opBuf;
                 case 1:
-                    return opBuf1;
+                    opBuf[0].Geomentry = data1.GeoData;
+                    opBuf[0].Material = material;
+                    opBuf[0].Transformation = Matrix.Identity;
+                    
+                    return opBuf;
                 default:
                     return null;
             }

@@ -17,6 +17,7 @@ namespace Code2015.World
         RenderSystem renderSys;
         Sphere oceanSphere;
         OceanWaterTile[] waterTiles;
+        OceanWaterDataManager dataMgr;
 
         public override bool IsSerializable
         {
@@ -36,6 +37,20 @@ namespace Code2015.World
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
             
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
+
+            dataMgr = new OceanWaterDataManager(rs);
+
+
+            waterTiles = new OceanWaterTile[PlanetEarth.ColTileCount * PlanetEarth.LatTileCount];
+
+            for (int i = 1, index = 0; i < PlanetEarth.ColTileCount * 2; i += 2)
+            {
+                for (int j = 1; j < PlanetEarth.LatTileCount * 2; j += 2)
+                {
+                    waterTiles[index++] = new OceanWaterTile(rs, dataMgr, i, j);
+                }
+            }
+
             oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel * 0.5f, 
                 PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
 
