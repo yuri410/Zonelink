@@ -31,7 +31,6 @@ namespace Code2015.World
 
             ObjectFactory fac = rs.ObjectFactory;
 
-
             vtxDecl = fac.CreateVertexDeclaration(WaterVertex.Elements);
 
             int len = size - 1;
@@ -41,10 +40,6 @@ namespace Code2015.World
 
             float rad10 = MathEx.Degree2Radian(10);
             float radtl = MathEx.Degree2Radian(lat);
-            //float topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
-            //float bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
-            //float heightLen = PlanetEarth.GetTileHeight(rad10);
-
 
             #region 顶点数据
             WaterVertex[] vtxArray = new WaterVertex[vertexCount];
