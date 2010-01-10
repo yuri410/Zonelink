@@ -323,11 +323,17 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = data.Data[index] * TerrainMeshManager.HeightScale - TerrainMeshManager.PostZeroLevel;
+                    float height = data.Data[index] * TerrainMeshManager.HeightScale;
 
-                    if (height > -TerrainMeshManager.PostZeroLevel + 1)
+                    if (height > 20)
                     {
-                        height = (height + TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
+                        height *= TerrainMeshManager.PostHeightScale;
+                    }
+                    else
+                    {
+                        height -= 20;
+                        if (height < -20)
+                            height = -20;
                     }
 
                     Vector3 normal = pos;
