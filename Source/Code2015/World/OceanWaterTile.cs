@@ -67,7 +67,7 @@ namespace Code2015.World
             material.SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
             material.IsTransparent = true;
             material.ZWriteEnabled = false;
-            material.ZEnabled = false;
+            material.ZEnabled = true;
 
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);
@@ -92,13 +92,13 @@ namespace Code2015.World
                     opBuf[0].Geomentry = data0.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
-
+                    opBuf[0].Priority = RenderPriority.Third;
                     return opBuf;
                 case 1:
                     opBuf[0].Geomentry = data1.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
-                    
+                    opBuf[0].Priority = RenderPriority.Third;
                     return opBuf;
                 default:
                     return null;

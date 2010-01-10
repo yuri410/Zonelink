@@ -108,6 +108,8 @@ namespace Code2015.EngineEx
 
             opList = new RenderOperation[1];
             opList[0].Transformation = Matrix.Identity;
+            opList[0].Priority = RenderPriority.Second;
+
             opList[0].Material = new Material(renderSystem);
             opList[0].Material.ZEnabled = false;
             opList[0].Material.ZWriteEnabled = false;
