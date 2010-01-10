@@ -16,6 +16,7 @@ namespace Code2015.World
     {
         RenderSystem renderSys;
         Sphere oceanSphere;
+        OceanWaterTile[] waterTiles;
 
         public override bool IsSerializable
         {
@@ -47,11 +48,18 @@ namespace Code2015.World
         {
             base.OnAddedToScene(sender, sceneMgr);
 
-
+            for (int i = 0; i < waterTiles.Length; i++)
+            {
+                sceneMgr.AddObjectToScene(waterTiles[i]);
+            }
         }
         public override void OnRemovedFromScene(object sender, SceneManagerBase sceneMgr)
         {
             base.OnRemovedFromScene(sender, sceneMgr);
+            for (int i = 0; i < waterTiles.Length; i++)
+            {
+                sceneMgr.RemoveObjectFromScene(waterTiles[i]);
+            }
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -61,6 +69,13 @@ namespace Code2015.World
         public override RenderOperation[] GetRenderOperation(int level)
         {
             return base.GetRenderOperation(level);
+        }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+
+            waterTiles = null;
         }
     }
 }

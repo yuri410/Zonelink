@@ -4,8 +4,10 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
+using Code2015.Effects;
 
 namespace Code2015.World
 {
@@ -61,15 +63,23 @@ namespace Code2015.World
 
             PlanetEarth.TileCoord2Coord(@long, lat, out tileCol, out tileLat);
 
+            Material mat = new Material(rs);
+            mat.SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
+
+
+
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);
 
             opBuf0[0].Geomentry = data0.GeoData;
             opBuf1[0].Geomentry = data1.GeoData;
+            opBuf0[0].Material = mat;
+            opBuf1[0].Material = mat;
+
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-            float rad5 = MathEx.Degree2Radian(5);
+            float rad5 = MathEx.Degree2Radian(PlanetEarth.DefaultTileSpan * 0.5f);
 
             BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
             BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);

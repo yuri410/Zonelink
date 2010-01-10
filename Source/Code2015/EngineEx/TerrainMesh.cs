@@ -215,7 +215,7 @@ namespace Code2015.EngineEx
             {
                 float radtc = MathEx.Degree2Radian(tileCol);
                 float radtl = MathEx.Degree2Radian(tileLat);
-                float rad5 = MathEx.Degree2Radian(5);
+                float rad5 = MathEx.Degree2Radian(PlanetEarth.DefaultTileSpan * 0.5f);
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
                 BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);
@@ -271,8 +271,8 @@ namespace Code2015.EngineEx
             // 读取地形数据
             TDMPIO data = new TDMPIO();
             data.Load(resLoc);
-            tileCol = (float)Math.Round(data.Xllcorner);
-            tileLat = (float)Math.Round(data.Yllcorner);
+            tileCol = data.Xllcorner;// (float)Math.Round(data.Xllcorner);
+            tileLat = data.Yllcorner;// (float)Math.Round(data.Yllcorner);
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
