@@ -96,6 +96,14 @@ namespace Code2015.World
             float ir = (float)(PlanetRadius * Math.Cos(0.5 * span));
             return n * ir;
         }
+
+        /// <summary>
+        ///  角度为角度制
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="col"></param>
+        /// <param name="lat"></param>
         public static void TileCoord2Coord(float x, float y, out float col, out float lat)
         {
             col = x * 5 - 185;
