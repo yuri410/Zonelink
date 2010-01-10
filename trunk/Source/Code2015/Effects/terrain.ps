@@ -9,8 +9,6 @@ struct PSInput
     float2 GlobeCoord : TEXCOORD0; 
     float2 DetailCoord : TEXCOORD1; 
 	float3 ModNormal : TEXCOORD2;
-
-    float3 LightDir : TEXCOORD3;
 };
 
 struct PSOutput
@@ -21,7 +19,7 @@ struct PSOutput
 PSOutput main(PSInput ip)
 {
     PSOutput o;
-    float3 lightDir = ip.LightDir;
+    float3 lightDir = float3(1,0,0);
     
     float3 N = 2 * (float3)tex2D(texNrm, ip.DetailCoord) - 1;
     N.y *= 0.5;

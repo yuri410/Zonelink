@@ -180,9 +180,9 @@ namespace Code2015.Effects
 
             vtxShader.SetValue("mvp", ref mvp);
 
-            Matrix invWorld;
-            Matrix.Invert(ref op.Transformation, out invWorld);
-            vtxShader.SetValue("invWorld", ref invWorld);
+            //Matrix invWorld;
+            //Matrix.Invert(ref op.Transformation, out invWorld);
+            //vtxShader.SetValue("invWorld", ref invWorld);
 
             ShaderSamplerState state = new ShaderSamplerState();
             state.AddressU = TextureAddressMode.Wrap;
