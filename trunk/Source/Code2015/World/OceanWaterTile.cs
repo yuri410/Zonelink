@@ -66,7 +66,8 @@ namespace Code2015.World
             material = new Material(rs);
             material.SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
             material.IsTransparent = true;
-
+            material.ZWriteEnabled = false;
+            material.ZEnabled = false;
 
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);

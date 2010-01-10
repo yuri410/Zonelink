@@ -29,15 +29,15 @@ namespace Code2015.World
         {
             renderSys = rs;
 
-            Material[][] mats = new Material[1][];
-            mats[0] = new Material[1];
-            mats[0][0] = new Material(renderSys);
-            mats[0][0].IsTransparent = true;
+            //Material[][] mats = new Material[1][];
+            //mats[0] = new Material[1];
+            //mats[0][0] = new Material(renderSys);
+            //mats[0][0].IsTransparent = true;
 
-            //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-            //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
+            ////mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
+            ////mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
             
-            mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
+            //mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
 
             dataMgr = new OceanWaterDataManager(rs);
 
@@ -52,10 +52,10 @@ namespace Code2015.World
                 }
             }
 
-            oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel, 
-                PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
+            //oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel, 
+            //    PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
 
-            base.ModelL0 = oceanSphere;
+            //base.ModelL0 = oceanSphere;
 
             BoundingSphere.Radius = PlanetEarth.PlanetRadius;
         }
@@ -80,11 +80,11 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            return base.GetRenderOperation();
+            return null; // base.GetRenderOperation();
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            return base.GetRenderOperation(level);
+            return null;// base.GetRenderOperation(level);
         }
 
         protected override void Dispose(bool disposing)
