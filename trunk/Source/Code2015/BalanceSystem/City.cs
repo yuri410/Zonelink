@@ -106,7 +106,7 @@ namespace Code2015.BalanceSystem
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
-        FastList<NaturalResource> farms = new FastList<NaturalResource>();
+        //FastList<NaturalResource> farms = new FastList<NaturalResource>();
 
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
@@ -114,6 +114,16 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float DevBias = -3;
 
+        EnergyStatus energyStat;
+        /// <summary>
+        ///  表示城市的附加设施
+        /// </summary>
+        FastList<CityPlugin> plugins = new FastList<CityPlugin>();
+
+        ResourceStorage localLr;
+        ResourceStorage localHr;
+        ResourceStorage localFood;
+        UrbanSize size;
 
         public City(EnergyStatus energyStat)
             : base(energyStat.Region)
@@ -136,16 +146,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-        EnergyStatus energyStat;
-        /// <summary>
-        ///  表示城市的附加设施
-        /// </summary>
-        FastList<CityPlugin> plugins = new FastList<CityPlugin>();
-
-        ResourceStorage localLr;
-        ResourceStorage localHr;
-        ResourceStorage localFood;
-        UrbanSize size;
+       
 
         #region  属性
 

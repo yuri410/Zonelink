@@ -26,7 +26,7 @@ namespace TestCode2015
             sect.Add("Longitude", "0");
             sect.Add("Latitude", "0");
             sect.Add("Population", "1000");
-            sect.Add("Size", UrbanSize.Small.ToString());
+            sect.Add("Size", UrbanSize.Large.ToString());
 
             city.Parse(sect);
 
