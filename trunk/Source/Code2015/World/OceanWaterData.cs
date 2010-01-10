@@ -66,6 +66,7 @@ namespace Code2015.World
             int indexCount = MathEx.Sqr(len) * 2 * 3;
 
             int[] indexArray = new int[indexCount];
+            indexBuffer = fac.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
 
             for (int i = 0, index = 0; i < len; i++)
             {
