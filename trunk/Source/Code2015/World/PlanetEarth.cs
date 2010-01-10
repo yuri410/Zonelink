@@ -17,14 +17,11 @@ namespace Code2015.World
     /// </summary>
     public class PlanetEarth : StaticModelObject
     {
-        /// <summary>
-        /// ？？？
-        /// </summary>
-        [Obsolete()]
-        const int MaxInstance = 25;
-
         public const int ColTileCount = 36;
         public const int LatTileCount = 12;
+
+
+        public const float DefaultTileSpan = MathEx.PIf * 10 / 180;
 
         #region 工具
         /// <summary>
