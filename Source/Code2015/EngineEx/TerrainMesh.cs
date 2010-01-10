@@ -218,8 +218,8 @@ namespace Code2015.EngineEx
                 float radtl = MathEx.Degree2Radian(tileLat);
                 float rad5 = MathEx.Degree2Radian(5);
 
-                BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl + rad5);
-                BoundingSphere.Radius = terrEdgeSize * MathEx.Root2;
+                BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
+                BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);// terrEdgeSize * MathEx.Root2;
 
                 if (ObjectSpaceChanged != null)
                     ObjectSpaceChanged(Transformation, BoundingSphere);

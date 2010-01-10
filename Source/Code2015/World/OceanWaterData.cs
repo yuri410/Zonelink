@@ -10,7 +10,43 @@ namespace Code2015.World
 {
     class OceanWaterDataManager
     {
+        struct HashNode
+        {
+            public int Size;
+            public float Latitude;
 
+            public HashNode(int size, float lat)
+            {
+                Size = size;
+                Latitude = lat;
+            }
+
+            public override int GetHashCode()
+            {
+                return base.GetHashCode();
+            }
+        }
+
+        Dictionary<HashNode, OceanWaterData> dataTable;
+
+        RenderSystem renderSystem;
+
+        public OceanWaterDataManager(RenderSystem rs)
+        {
+            renderSystem = rs;
+        }
+
+
+        public OceanWaterData GetData(int size, float lat)
+        {
+            HashNode node = new HashNode(size, lat);
+            OceanWaterData result;
+            if (!dataTable.TryGetValue(node, out result))
+            {
+                result = new OceanWaterData(renderSystem, size, lat);
+            }
+            return result;
+        }
     }
 
     class OceanWaterData
