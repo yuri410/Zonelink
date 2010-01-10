@@ -41,33 +41,71 @@ namespace Code2015.World
 
             float rad10 = MathEx.Degree2Radian(10);
             float radtl = MathEx.Degree2Radian(lat);
-            float topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
-            float bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
-            float heightLen = PlanetEarth.GetTileHeight(rad10);
+            //float topLen = PlanetEarth.GetTileWidth(radtl + rad10, rad10);
+            //float bottomLen = PlanetEarth.GetTileWidth(radtl, rad10);
+            //float heightLen = PlanetEarth.GetTileHeight(rad10);
 
-            Matrix scalingY = Matrix.Scaling(1, 1, heightLen / (float)len);
 
+            #region 顶点数据
             WaterVertex[] vtxArray = new WaterVertex[vertexCount];
+
+            float cellAngle = rad10 / (float)len;
 
             // i为经度方向
             for (int i = 0; i < size; i++)
             {
-                float lerp = i / (float)(size);
-                float colCellScale = MathEx.LinearInterpose(topLen, bottomLen, lerp) / (float)len;
-                float colOfs = (1 - colCellScale) * len * 0.5f;
-
-                Matrix scalingX = Matrix.Scaling(colCellScale, 1, 1);
-                scalingX *= Matrix.Translation(colOfs, 0, 0);
-
                 // j为纬度方向
                 for (int j = 0; j < size; j++)
                 {
-                    Vector3 pos = new Vector3(
-                                 j * TerrainMeshManager.TerrainScale,// * colCellScale + colOfs,
-                                 0,
-                                 i * TerrainMeshManager.TerrainScale);
+                    Vector3 pos = PlanetEarth.GetPosition(j * cellAngle, radtl - i * cellAngle);
+
+                    int index = i * size + j;
+
+                    vtxArray[index].Position = pos;
                 }
             }
+            vertexBuffer.SetData<WaterVertex>(vtxArray);
+            #endregion
+
+            #region 索引数据
+            int indexCount = MathEx.Sqr(len) * 2 * 3;
+
+            int[] indexArray = new int[indexCount];
+
+            for (int i = 0, index = 0; i < len; i++)
+            {
+                for (int j = 0; j < len; j++)
+                {
+                    int x = i;
+                    int y = j;
+
+                    indexArray[index++] = y * size + x;
+                    indexArray[index++] = y * size + (x + 1);
+                    indexArray[index++] = (y + 1) * size + (x + 1);
+
+                    indexArray[index++] = y * size + x;
+                    indexArray[index++] = (y + 1) * size + (x + 1);
+                    indexArray[index++] = (y + 1) * size + x;
+                }
+            }
+            indexBuffer.SetData<int>(indexArray);
+            #endregion
+
+            #region 构造GeomentryData
+            geoData = new GeomentryData(null);
+            geoData.VertexDeclaration = vtxDecl;
+
+            geoData.VertexSize = WaterVertex.Size;
+            geoData.VertexBuffer = vertexBuffer;
+            geoData.IndexBuffer = indexBuffer;
+            geoData.PrimCount = MathEx.Sqr(len) * 2;
+            geoData.VertexCount = MathEx.Sqr(size);
+
+            geoData.PrimitiveType = RenderPrimitiveType.TriangleList;
+
+            geoData.BaseVertex = 0;
+
+            #endregion
         }
 
         public int Size
