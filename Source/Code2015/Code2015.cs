@@ -73,8 +73,8 @@ namespace Code2015
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
 
-            //PlanetEarth earth = new PlanetEarth(renderSys);
-            //sm.SceneManager.AddObjectToScene(earth);
+            PlanetEarth earth = new PlanetEarth(renderSys);
+            sm.SceneManager.AddObjectToScene(earth);
 
             OceanWater water = new OceanWater(renderSys);
             sm.SceneManager.AddObjectToScene(water);

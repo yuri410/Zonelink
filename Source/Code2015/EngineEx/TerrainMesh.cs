@@ -215,7 +215,7 @@ namespace Code2015.EngineEx
             {
                 float radtc = MathEx.Degree2Radian(tileCol);
                 float radtl = MathEx.Degree2Radian(tileLat);
-                float rad5 = MathEx.Degree2Radian(PlanetEarth.DefaultTileSpan * 0.5f);
+                float rad5 = PlanetEarth.DefaultTileSpan * 0.5f;
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
                 BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);

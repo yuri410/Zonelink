@@ -45,6 +45,7 @@ namespace Code2015.World
             if (!dataTable.TryGetValue(node, out result))
             {
                 result = new OceanWaterData(renderSystem, size, lat);
+                dataTable.Add(node, result);
             }
             return result;
         }
@@ -75,7 +76,7 @@ namespace Code2015.World
 
             vertexBuffer = fac.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.Static);
 
-            float rad10 = MathEx.Degree2Radian(10);
+            float rad10 = PlanetEarth.DefaultTileSpan;
             float radtl = MathEx.Degree2Radian(lat);
 
             #region 顶点数据
