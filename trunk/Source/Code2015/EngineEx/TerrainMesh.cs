@@ -193,8 +193,7 @@ namespace Code2015.EngineEx
             //material.Power = terrData.MaterialPower;
             material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
-            tileCol = x * 5 - 185;
-            tileLat = 50 - y * 5;
+            PlanetEarth.TileCoord2Coord(x, y, out tileCol, out tileLat);
 
             switch (lod)
             {
@@ -219,7 +218,7 @@ namespace Code2015.EngineEx
                 float rad5 = MathEx.Degree2Radian(5);
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
-                BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);// terrEdgeSize * MathEx.Root2;
+                BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);
 
                 if (ObjectSpaceChanged != null)
                     ObjectSpaceChanged(Transformation, BoundingSphere);
