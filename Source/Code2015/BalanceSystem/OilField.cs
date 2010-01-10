@@ -33,8 +33,6 @@ namespace Code2015.BalanceSystem
         public override void Update(GameTime time)
         {
          
-           
-          
         }
 
     }
