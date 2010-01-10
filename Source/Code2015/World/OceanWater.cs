@@ -35,7 +35,8 @@ namespace Code2015.World
             //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
             
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
-            oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel * 0.5f, PlanetEarth.ColTileCount, PlanetEarth.LatTileCount, mats);
+            oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel * 0.5f, 
+                PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
 
             base.ModelL0 = oceanSphere;
 
@@ -45,6 +46,8 @@ namespace Code2015.World
         public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
         {
             base.OnAddedToScene(sender, sceneMgr);
+
+
         }
         public override void OnRemovedFromScene(object sender, SceneManagerBase sceneMgr)
         {
