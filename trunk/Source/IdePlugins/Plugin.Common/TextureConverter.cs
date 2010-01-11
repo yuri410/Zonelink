@@ -166,6 +166,7 @@ namespace Plugin.Common
             texData.ContentSize = 0;
             texData.Format = ConvertFormat(ilFormat, dataType, bytePP);
 
+          
             if (cubeFlags)
                 texData.Type = TextureType.CubeTexture;
             else 
@@ -176,6 +177,14 @@ namespace Plugin.Common
             {
                 texData.Format = ConvertFormat(dxtFormat, 0, 0);
             }
+            //else
+            //{
+            //    if (texData.Format == ImagePixelFormat.A8B8G8R8)
+            //    {
+            //        Ilu.iluSwapColours();
+            //        texData.Format = ImagePixelFormat.A8R8G8B8;
+            //    }
+            //}
 
             for (int i = 0; i < mipCount; i++)
             {
@@ -217,13 +226,23 @@ namespace Plugin.Common
                             Il.ilActiveMipmap(i);
                         }
 
-                        IntPtr ptr = Il.ilGetData();
-
-                        fixed (byte* dst = &buffer[offset])
+                        if (texData.Format == ImagePixelFormat.A8B8G8R8)
                         {
-                            Memory.Copy(ptr.ToPointer(), dst, imageSize);
+                            fixed (byte* dst = &buffer[offset])
+                            {
+                                Il.ilCopyPixels(0, 0, 0, texData.Levels[i].Width, texData.Levels[i].Height,
+                                    texData.Levels[i].Depth, Il.IL_BGRA, Il.IL_UNSIGNED_BYTE, new IntPtr(dst));
+                            }
                         }
+                        else
+                        {
+                            IntPtr ptr = Il.ilGetData();
+                            fixed (byte* dst = &buffer[offset])
+                            {
+                                Memory.Copy(ptr.ToPointer(), dst, imageSize);
+                            }
 
+                        }
                     }
 
                     texData.ContentSize += imageSize;
@@ -232,6 +251,10 @@ namespace Plugin.Common
             }
             Il.ilDeleteImage(image);
 
+            if (texData.Format == ImagePixelFormat.A8B8G8R8)
+            {
+                texData.Format = ImagePixelFormat.A8R8G8B8;
+            }
             texData.Save(dest.GetStream);
 
         }

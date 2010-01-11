@@ -33,6 +33,7 @@ namespace Plugin.Common
         public void Load()
         {
             Il.ilInit();
+            Ilu.iluInit();
 
             if (tex2dConv == null)
             {
