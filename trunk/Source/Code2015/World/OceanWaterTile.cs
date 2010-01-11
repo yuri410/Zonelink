@@ -42,10 +42,12 @@ namespace Code2015.World
     {
         const int Lod0Size = 24;
         const int Lod1Size = 8;
+        const int Lod2Size = 4;
 
 
         OceanWaterData data0;
         OceanWaterData data1;
+        OceanWaterData data2;
 
         RenderSystem renderSystem;
 
@@ -71,7 +73,7 @@ namespace Code2015.World
 
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);
-
+            data2 = manager.GetData(Lod2Size, tileLat);
          
 
             float radtc = MathEx.Degree2Radian(tileCol);
@@ -101,7 +103,11 @@ namespace Code2015.World
                     opBuf[0].Priority = RenderPriority.Third;
                     return opBuf;
                 default:
-                    return null;
+                    opBuf[0].Geomentry = data2.GeoData;
+                    opBuf[0].Material = material;
+                    opBuf[0].Transformation = Matrix.Identity;
+                    opBuf[0].Priority = RenderPriority.Third;
+                    return opBuf;
             }
         }
         public override RenderOperation[] GetRenderOperation()

@@ -325,15 +325,15 @@ namespace Code2015.EngineEx
                     // 计算海拔高度
                     float height = data.Data[index] * TerrainMeshManager.HeightScale;
 
-                    if (height > 20)
+                    if (height > 30)
                     {
                         height *= TerrainMeshManager.PostHeightScale;
                     }
                     else
                     {
-                        height -= 20;
-                        if (height < -20)
-                            height = -20;
+                        height -= 30;
+                        if (height < -30)
+                            height = -30;
                     }
 
                     Vector3 normal = pos;
