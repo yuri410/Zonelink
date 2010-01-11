@@ -1,0 +1,22 @@
+#define PlanetRadius 6371
+
+#define seaLevel 15
+#define waterEnd -10
+
+float GetWaterDepth(float3 wpos)
+{
+    float height = length(wpos) - PlanetRadius;
+    
+    if (height <seaLevel)
+    {
+		return saturate((waterEnd-(height-seaLevel)) / (seaLevel-waterEnd));
+    }
+    return 0;
+}
+
+
+float4 GetColor(float4 color, float w)
+{
+	float4 fogColor = float4(0,0,0,1);//float4(0, 0.211, 0.341, 1);
+	return lerp(color, fogColor, w);
+}

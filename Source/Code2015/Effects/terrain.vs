@@ -18,7 +18,7 @@ struct VSOutput
     float2 DetailCoord : TEXCOORD1;
     
     float3 ModNormal : TEXCOORD2;
-    float WaterFogWeight : TEXCOORD4;
+    float3 WorldPosition : TEXCOORD4;
 };
 
 VSOutput main(VSInput ip)
@@ -29,7 +29,7 @@ VSOutput main(VSInput ip)
     
     float4 wpos = mul(ip.Position, world);
     
-	o.WaterFogWeight = GetWaterDepth(ip.Position, world);
+	o.WorldPosition = (float3)mul(ip.Position, world);
     
     o.GlobeCoord = ip.GlobeCoord;
     
