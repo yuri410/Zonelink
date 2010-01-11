@@ -74,7 +74,7 @@ namespace Code2015.World
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);
             data2 = manager.GetData(Lod2Size, tileLat);
-         
+
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);

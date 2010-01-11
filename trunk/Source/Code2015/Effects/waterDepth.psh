@@ -1,6 +1,6 @@
 #define PlanetRadius 6371
 
-#define waterBegin 5
+#define waterBegin 20
 #define waterEnd -15
 
 float GetWaterDepth(float3 wpos)
@@ -18,5 +18,5 @@ float GetWaterDepth(float3 wpos)
 float4 GetColor(float4 color, float w)
 {
 	float4 fogColor = float4(0,0,0,1);//float4(0, 0.211, 0.341, 1);
-	return lerp(color, fogColor, w);
+	return lerp(color, fogColor, 1 / exp(1-w));
 }
