@@ -1,7 +1,12 @@
+sampler2D dudvMap : register(s0);
+sampler2D normalMap : register(s1);
+
+float4x4 world : register(c0);
+
 
 struct PSInput
 {
-    float2 TexCoord1 : TEXCOORD0; 
+    float2 NormalCoord : TEXCOORD0;
 };
 
 struct PSOutput
@@ -17,15 +22,15 @@ PSOutput main(PSInput ip)
 
     PSOutput o;
 	
-	/*
-	float4 distOffset = tex2D(dudvMap, normCoords.xy) * kDistortion;
-	float4 dudvColor = tex2D(dudvMap, vec2(refrCoords + distOffset));
+	float2 refrCoords = ip.NormalCoord;
+	float2 distOffset = (float2)tex2D(dudvMap, ip.NormalCoord) * kDistortion;
+	float4 dudvColor = tex2D(dudvMap, refrCoords + distOffset);
 	dudvColor = normalize(dudvColor * 2.0 - 1.0) * kRefraction;
 
-	float4 normalVector = tex2D(normalMap, float2(refrCoords + distOffset));
+	float3 normalVector = (float3)tex2D(normalMap, refrCoords + distOffset);
 	normalVector = normalVector * 2.0 - 1.0;
-	normalVector.a = 0.0;
 
+	/*
 	float4 lightReflection = normalize( reflect(-lightTangetSpace, normalVector) );
 	
 	float4 projCoord = viewCoords / viewCoords.w;
@@ -45,6 +50,9 @@ PSOutput main(PSInput ip)
 	gl_FragColor = mix(fogcolor,FinalColor,fogfactor); 
 	*/
 	
-    o.Color = float4(0, 0.211, 0.341, 0.25);// 1;
+	
+	float ndl = max(0, dot(normalVector, float3(0,1,0)));
+		
+    o.Color = float4( ndl * float3(0, 0.211, 0.341), 0.25);// 1;
     return o;
 }

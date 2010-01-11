@@ -84,6 +84,7 @@ namespace Code2015.World
 
             float cellAngle = rad10 / (float)len;
 
+            float invSize = 1 / (float)size;
             // i为经度方向
             for (int i = 0; i < size; i++)
             {
@@ -97,7 +98,7 @@ namespace Code2015.World
                     int index = i * size + j;
 
                     vtxArray[index].Position = pos;
-                    vtxArray[index].Index = index;
+                    vtxArray[index].NormalCoord = new Vector2(i * invSize, j * invSize); // = index;
                 }
             }
             vertexBuffer.SetData<WaterVertex>(vtxArray);

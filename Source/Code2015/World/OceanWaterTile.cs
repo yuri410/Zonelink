@@ -8,6 +8,9 @@ using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.Effects;
+using Apoc3D.Core;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
 
 namespace Code2015.World
 {
@@ -15,11 +18,11 @@ namespace Code2015.World
     {
         public Vector3 Position;
 
-        public float Index;
+        public Vector2 NormalCoord;
 
         public static int Size
         {
-            get { return Vector3.SizeInBytes + sizeof(float); }
+            get { return Vector3.SizeInBytes + Vector2.SizeInBytes; }
         }
 
         static readonly VertexElement[] elements;
@@ -28,7 +31,7 @@ namespace Code2015.World
         {
             elements = new VertexElement[2];
             elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-            elements[1] = new VertexElement(elements[0].Size, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0);
+            elements[1] = new VertexElement(elements[0].Size, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
 
         }
 
@@ -66,6 +69,15 @@ namespace Code2015.World
             PlanetEarth.TileCoord2Coord(@long, lat, out tileCol, out tileLat);
 
             material = new Material(rs);
+
+            FileLocation fl = FileSystem.Instance.Locate("WaterNormal.tex", GameFileLocs.Nature);
+            ResourceHandle<Texture> map = TextureManager.Instance.CreateInstance(fl);
+            material.SetTexture(1, map);
+
+            fl = FileSystem.Instance.Locate("WaterDudv.tex", GameFileLocs.Nature);
+            map = TextureManager.Instance.CreateInstance(fl);
+            material.SetTexture(0, map);
+
             material.SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
             material.IsTransparent = true;
             material.ZWriteEnabled = false;
