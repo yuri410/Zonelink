@@ -1,3 +1,4 @@
+#include "waterDepth.vsh"
 
 float4x4 mvp : register(c0);
 //float4x4 invWorld : register(c4);
@@ -17,6 +18,7 @@ struct VSOutput
     float2 DetailCoord : TEXCOORD1;
     
     float3 ModNormal : TEXCOORD2;
+    float WaterFogWeight : TEXCOORD4;
 };
 
 VSOutput main(VSInput ip)
@@ -24,7 +26,11 @@ VSOutput main(VSInput ip)
     VSOutput o;
 
     o.Position = mul(ip.Position, mvp);
-        
+    
+    float4 wpos = mul(ip.Position, world);
+    
+	o.WaterFogWeight = GetWaterDepth(ip.Position, world);
+    
     o.GlobeCoord = ip.GlobeCoord;
     
     o.DetailCoord.y = trunc(ip.Index/terrSize);
