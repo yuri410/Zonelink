@@ -40,8 +40,8 @@ PSOutput main(PSInput ip)
 	{
 		if (index[i]>0.01)
 		{
-			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord);
-			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord*7);
+			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord*3);
+			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord*21);
 		}
 	}
 	
