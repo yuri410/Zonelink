@@ -182,7 +182,7 @@ namespace Code2015.Effects
 
             //Matrix invWorld;
             //Matrix.Invert(ref op.Transformation, out invWorld);
-            //vtxShader.SetValue("invWorld", ref invWorld);
+            vtxShader.SetValue("world", ref op.Transformation);
 
             ShaderSamplerState state = new ShaderSamplerState();
             state.AddressU = TextureAddressMode.Wrap;

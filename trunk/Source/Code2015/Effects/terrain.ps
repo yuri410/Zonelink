@@ -1,3 +1,4 @@
+#include "waterDepth.psh"
 
 sampler2D texDet[4];
 sampler2D texDif : register(s4);
@@ -9,6 +10,7 @@ struct PSInput
     float2 GlobeCoord : TEXCOORD0; 
     float2 DetailCoord : TEXCOORD1; 
 	float3 ModNormal : TEXCOORD2;
+    float3 WorldPosition : TEXCOORD4;
 };
 
 struct PSOutput
@@ -44,5 +46,6 @@ PSOutput main(PSInput ip)
 	}
 	
     o.Color = ndl * ((color * 0.5) * tex2D(texColor, ip.GlobeCoord));
+    o.Color = GetColor(o.Color, GetWaterDepth(ip.WorldPosition));
     return o;
 }
