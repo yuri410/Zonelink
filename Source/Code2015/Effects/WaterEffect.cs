@@ -96,6 +96,10 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
+
+            pixShader.SetTexture("dudvMap", mat.GetTexture(0));
+            pixShader.SetTexture("normalMap", mat.GetTexture(1));
+
         }
 
         public override void SetupShadowPass(Material mat, ref RenderOperation op)
