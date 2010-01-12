@@ -101,7 +101,7 @@ namespace Code2015.Effects
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
 
-            move += 0.00005f;
+            move += 0.000033f;
             while (move > 1)
                 move--;
 
