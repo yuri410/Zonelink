@@ -2,7 +2,7 @@ sampler2D dudvMap : register(s0);
 sampler2D normalMap : register(s1);
 
 float4x4 world : register(c0);
-
+float move : register(c4);
 
 struct PSInput
 {
@@ -22,7 +22,7 @@ PSOutput main(PSInput ip)
 
     PSOutput o;
 	
-	float2 refrCoords = ip.NormalCoord;
+	float2 refrCoords = ip.NormalCoord-move;
 	float2 distOffset = (float2)tex2D(dudvMap, ip.NormalCoord) * kDistortion;
 	float4 dudvColor = tex2D(dudvMap, refrCoords + distOffset);
 	dudvColor = normalize(dudvColor * 2.0 - 1.0) * kRefraction;

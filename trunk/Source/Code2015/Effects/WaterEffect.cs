@@ -46,6 +46,7 @@ namespace Code2015.Effects
 
         PixelShader pixShader;
         VertexShader vtxShader;
+        float move;
 
         public WaterEffect(RenderSystem renderSystem)
             : base(false, WaterEffectFactory.Name)
@@ -100,6 +101,11 @@ namespace Code2015.Effects
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
 
+            move += 0.00005f;
+            while (move > 1)
+                move--;
+
+            pixShader.SetValue("move", move);
         }
 
         public override void SetupShadowPass(Material mat, ref RenderOperation op)
