@@ -3,13 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
-using Code2015.Effects;
-using Apoc3D.Core;
 using Apoc3D.Vfs;
+using Code2015.Effects;
 using Code2015.EngineEx;
 
 namespace Code2015.World
@@ -107,18 +107,24 @@ namespace Code2015.World
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
                     opBuf[0].Priority = RenderPriority.Third;
+                    if (opBuf[0].Geomentry.Sender == null)
+                        opBuf[0].Geomentry.SetSender(this);
                     return opBuf;
                 case 1:
                     opBuf[0].Geomentry = data1.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
                     opBuf[0].Priority = RenderPriority.Third;
+                    if (opBuf[0].Geomentry.Sender == null)
+                        opBuf[0].Geomentry.SetSender(this);
                     return opBuf;
                 default:
                     opBuf[0].Geomentry = data2.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
                     opBuf[0].Priority = RenderPriority.Third;
+                    if (opBuf[0].Geomentry.Sender == null)
+                        opBuf[0].Geomentry.SetSender(this);
                     return opBuf;
             }
         }
