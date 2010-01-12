@@ -38,8 +38,6 @@ VSOutput main(VSInput ip)
     o.DetailCoord /= terrSize;
 
 	o.ModNormal = (float3)ip.Position;
-	
-	//o.ModNormal.y *=0.67;
 	o.ModNormal = normalize(o.ModNormal);
 	
     return o;
