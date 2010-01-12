@@ -48,11 +48,11 @@ namespace Plugin.Common
             switch (format)
             {
                 case Il.IL_BGR:
-                    switch (elementType) 
+                    switch (elementType)
                     {
                         case Il.IL_BYTE:
                         case Il.IL_UNSIGNED_BYTE:
-                            if (bpp ==4)
+                            if (bpp == 4)
                                 return ImagePixelFormat.X8R8G8B8;
                             return ImagePixelFormat.R8G8B8;
                     }
@@ -77,7 +77,7 @@ namespace Plugin.Common
                     switch (elementType)
                     {
                         case Il.IL_BYTE:
-                        case Il.IL_UNSIGNED_BYTE :
+                        case Il.IL_UNSIGNED_BYTE:
                             return ImagePixelFormat.Luminance8;
                         case Il.IL_SHORT:
                         case Il.IL_UNSIGNED_SHORT:
