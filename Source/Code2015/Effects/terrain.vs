@@ -17,8 +17,8 @@ struct VSOutput
     float2 GlobeCoord : TEXCOORD0;
     float2 DetailCoord : TEXCOORD1;
     
-    float3 ModNormal : TEXCOORD2;
-    float3 WorldPosition : TEXCOORD4;
+	float3 TangentSpaceLDir : TEXCOORD6;
+    float WaterDepth : TEXCOORD7;
 };
 
 VSOutput main(VSInput ip)
@@ -29,16 +29,32 @@ VSOutput main(VSInput ip)
     
     float4 wpos = mul(ip.Position, world);
     
-	o.WorldPosition = (float3)mul(ip.Position, world);
+	o.WaterDepth = GetWaterDepth((float3)mul(ip.Position, world));
     
     o.GlobeCoord = ip.GlobeCoord;
     
     o.DetailCoord.y = trunc(ip.Index/terrSize);
     o.DetailCoord.x = fmod(ip.Index, terrSize);
     o.DetailCoord /= terrSize;
-
-	o.ModNormal = (float3)ip.Position;
-	o.ModNormal = normalize(o.ModNormal);
+    
+    float3 normal = (float3)ip.Position;
+	normal = normalize(normal);
 	
+	float3 biNormal = cross(float3(0,1,0), normal);
+	biNormal = normalize(biNormal);
+	float3 tangent = cross(normal, biNormal);
+    
+    float4x4 tanTrans;
+    tanTrans[0] = float4(tangent, 0);
+    tanTrans[1] = float4(biNormal, 0);
+    tanTrans[2] = float4(normal, 0);
+    tanTrans[3] = float4(0,0,0,1);
+    tanTrans = transpose(tanTrans);
+    
+    
+    
+	float3 lightDir = float3(1,0,0);
+    o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
+    
     return o;
 }

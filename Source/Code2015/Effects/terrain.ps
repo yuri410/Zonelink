@@ -9,8 +9,9 @@ struct PSInput
 {
     float2 GlobeCoord : TEXCOORD0; 
     float2 DetailCoord : TEXCOORD1; 
-	float3 ModNormal : TEXCOORD2;
-    float3 WorldPosition : TEXCOORD4;
+    
+	float3 TangentSpaceLDir : TEXCOORD6;
+    float WaterDepth : TEXCOORD7;
 };
 
 struct PSOutput
@@ -21,15 +22,15 @@ struct PSOutput
 PSOutput main(PSInput ip)
 {
     PSOutput o;
-    float3 lightDir = float3(1,0,0);
     
     float3 N = 2 * (float3)tex2D(texNrm, ip.DetailCoord) - 1;
-    N.y *= 0.5;
     
-    N += ip.ModNormal;
-    N = normalize(N);
-    
-    float ndl = max(0, dot(N, lightDir));
+    // 地形法线贴图要转换为切线空间的
+	float tmp = N.z;
+	N.z = N.y;
+	N.y = tmp;
+  
+    float ndl = max(0, dot(N, ip.TangentSpaceLDir));
 	
 	float4 index = tex2D(texDif, ip.GlobeCoord);
 	
@@ -46,6 +47,6 @@ PSOutput main(PSInput ip)
 	}
 	
     o.Color = ndl * ((color * 0.5) * tex2D(texColor, ip.GlobeCoord));
-    o.Color = GetColor(o.Color, GetWaterDepth(ip.WorldPosition));
+    o.Color = GetColor(o.Color, ip.WaterDepth);
     return o;
 }
