@@ -1,13 +1,14 @@
 sampler2D dudvMap : register(s0);
 sampler2D normalMap : register(s1);
+sampler2D reflectionMap : register(s2);
 
-float4x4 world : register(c0);
 float move : register(c4);
 
 struct PSInput
 {
     float2 NormalCoord : TEXCOORD0;
-	float3 ModNormal : TEXCOORD1;
+    
+    float3 TangentSpaceLDir : TEXCOORD6;
 };
 
 struct PSOutput
@@ -23,14 +24,15 @@ PSOutput main(PSInput ip)
 
     PSOutput o;
 	
-	float2 refrCoords = ip.NormalCoord-move;
+	float2 refrCoords = ip.NormalCoord - move;
 	float2 distOffset = (float2)tex2D(dudvMap, ip.NormalCoord) * kDistortion;
 	float4 dudvColor = tex2D(dudvMap, refrCoords + distOffset);
 	dudvColor = normalize(dudvColor * 2.0 - 1.0) * kRefraction;
 
 	float3 normalVector = (float3)tex2D(normalMap, refrCoords + distOffset);
 	normalVector = normalVector * 2.0 - 1.0;
-
+	
+	
 	/*
 	float4 lightReflection = normalize( reflect(-lightTangetSpace, normalVector) );
 	
@@ -39,7 +41,6 @@ PSOutput main(PSInput ip)
 	projCoord += dudvColor;
 	projCoord = clamp(projCoord, 0.001, 0.999);
 	
-
 	float4 reflectionColor  = tex2D(reflection, projCoord.xy);
 	float fn = dot(normalize(vDir), float3(0.0,1.0,0.0));
 	fn = 1.0-clamp(fn/0.779, 0.0, 1.0);
@@ -50,15 +51,9 @@ PSOutput main(PSInput ip)
 	float4 FinalColor = float4(0.9 * reflectionColor.xyz, fn);
 	gl_FragColor = mix(fogcolor,FinalColor,fogfactor); 
 	*/
-	
-	
-    normalVector += ip.ModNormal * 4;
-    normalVector = normalize(normalVector);
     
-    normalVector = mul(normalVector, world);
-    
-	float ndl = max(0, dot(normalVector, float3(1,0,0)));
+	float ndl = max(0, dot(normalVector, ip.TangentSpaceLDir));
 	
-    o.Color = ndl * float4(0, 0.211, 0.341, ndl * 0.5);// 1;
+    o.Color = ndl * float4(0, 0.211, 0.341, 0.5 * ndl);
     return o;
 }

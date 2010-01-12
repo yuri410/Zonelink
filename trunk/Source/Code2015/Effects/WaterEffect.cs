@@ -100,7 +100,7 @@ namespace Code2015.Effects
 
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
-            pixShader.SetValue("world", ref op.Transformation);
+            vtxShader.SetValue("world", ref op.Transformation);
 
             move += 0.000033f;
             while (move > 1)
