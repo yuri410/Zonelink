@@ -50,9 +50,7 @@ VSOutput main(VSInput ip)
     tanTrans[2] = float4(normal, 0);
     tanTrans[3] = float4(0,0,0,1);
     tanTrans = transpose(tanTrans);
-    
-    
-    
+        
 	float3 lightDir = float3(1,0,0);
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
     
