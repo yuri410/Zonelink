@@ -86,20 +86,20 @@ namespace Code2015
             Viewport vp = renderSys.Viewport;
             reflectionRt = renderSys.ObjectFactory.CreateRenderTarget(vp.Width, vp.Height, ImagePixelFormat.X8R8G8B8);
 
-            reflectionCamera = new ReflectionCamera(camera);
-            reflectionCamera.RenderTarget = reflectionRt;
-            WaterEffect.Reflection = reflectionRt;
 
-            renderer.RegisterCamera(reflectionCamera);
 
 
 
             camera = new FpsCamera(1);
             camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
-
             camera.NearPlane = 10;
             camera.FarPlane = 6000;
 
+            reflectionCamera = new ReflectionCamera(camera);
+            reflectionCamera.RenderTarget = reflectionRt;
+            WaterEffect.Reflection = reflectionRt;
+
+            renderer.RegisterCamera(reflectionCamera);
             renderer.RegisterCamera(camera);
 
 
@@ -134,11 +134,11 @@ namespace Code2015
                 camera.MoveFront();
             }
 
-            if (state.IsKeyDown(XI.Keys.D))
+            if (state.IsKeyDown(XI.Keys.A))
             {
                 camera.MoveLeft();
             }
-            if (state.IsKeyDown(XI.Keys.A))
+            if (state.IsKeyDown(XI.Keys.D))
             {
                 camera.MoveRight();
             }
@@ -165,11 +165,11 @@ namespace Code2015
                 camera.MoveDown();
             }
 
-            if (state.IsKeyDown(XI.Keys.Left))
+            if (state.IsKeyDown(XI.Keys.Right))
             {
                 camera.TurnRight();
             }
-            if (state.IsKeyDown(XI.Keys.Right))
+            if (state.IsKeyDown(XI.Keys.Left))
             {
                 camera.TurnLeft();
             }
@@ -181,8 +181,6 @@ namespace Code2015
             {
                 camera.TurnDown();
             }
-
-            camera.Update(time);
 
             renderer.Update(time);
         }
