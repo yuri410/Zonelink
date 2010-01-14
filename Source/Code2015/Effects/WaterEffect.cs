@@ -42,6 +42,12 @@ namespace Code2015.Effects
 
     class WaterEffect : Effect
     {
+        public static RenderTarget Reflection
+        {
+            get;
+            set;
+        }
+
         RenderSystem renderSystem;
 
         PixelShader pixShader;
@@ -103,6 +109,10 @@ namespace Code2015.Effects
 
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
+            if (Reflection != null)
+            {
+                pixShader.SetTexture("reflectionMap", Reflection.GetColorBufferTexture());
+            }
 
             move += 0.000033f;
             while (move > 1)
