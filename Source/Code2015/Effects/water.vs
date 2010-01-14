@@ -1,5 +1,6 @@
 float4x4 mvp : register(c0);
 float4x4 world : register(c4);
+float3 viewPos : register(c8);
 
 struct VSInput
 {
@@ -10,6 +11,8 @@ struct VSOutput
 {
     float4 Position : POSITION0;
     float2 NormalCoord : TEXCOORD0;
+    
+    float3 TangentSpaceVDir : TEXCOORD5;
     float3 TangentSpaceLDir : TEXCOORD6;
 };
 
@@ -20,8 +23,8 @@ VSOutput main(VSInput ip)
     o.Position = mul(ip.Position, mvp);
     o.NormalCoord = ip.NormalCoord * 5;
     
-    float3 normal = (float3)mul(ip.Position, world);
-	normal = normalize(normal);
+    float3 wpos = (float3)mul(ip.Position, world);
+	float3 normal = normalize(wpos);
 	
 	
 	float3 biNormal = cross(float3(0,1,0), normal);
@@ -37,6 +40,7 @@ VSOutput main(VSInput ip)
     
     
 	float3 lightDir = float3(1,0,0);
+    o.TangentSpaceVDir = (float3)mul(float4(normalize(wpos-viewPos),0), tanTrans);
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
     
     return o;
