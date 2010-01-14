@@ -96,11 +96,13 @@ namespace Code2015.Effects
         {
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
+            Vector3 vpos = EffectParams.CurrentCamera.Position;
             vtxShader.SetValue("mvp", ref mvp);
+            vtxShader.SetValue("world", ref op.Transformation);
+            vtxShader.SetValue("viewPos", ref vpos);
 
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
-            vtxShader.SetValue("world", ref op.Transformation);
 
             move += 0.000033f;
             while (move > 1)

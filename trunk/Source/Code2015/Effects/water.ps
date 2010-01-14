@@ -8,6 +8,7 @@ struct PSInput
 {
     float2 NormalCoord : TEXCOORD0;
     
+    float3 TangentSpaceVDir : TEXCOORD5;
     float3 TangentSpaceLDir : TEXCOORD6;
 };
 
@@ -32,18 +33,21 @@ PSOutput main(PSInput ip)
 	float3 normalVector = (float3)tex2D(normalMap, refrCoords + distOffset);
 	normalVector = normalVector * 2.0 - 1.0;
 	
-	
+	float3 lightReflection = reflect(ip.TangentSpaceLDir, normalVector) ;
+	float specular = pow(max(0, dot(lightReflection, ip.TangentSpaceVDir)), 25);
+
+
 	/*
-	float4 lightReflection = normalize( reflect(-lightTangetSpace, normalVector) );
-	
 	float4 projCoord = viewCoords / viewCoords.w;
 	projCoord = (projCoord + 1.0) * 0.5;
 	projCoord += dudvColor;
 	projCoord = clamp(projCoord, 0.001, 0.999);
 	
-	float4 reflectionColor  = tex2D(reflection, projCoord.xy);
 	float fn = dot(normalize(vDir), float3(0.0,1.0,0.0));
 	fn = 1.0-clamp(fn/0.779, 0.0, 1.0);
+
+	
+	float4 reflectionColor  = tex2D(reflection, projCoord.xy);
 	const float e = 2.71828;
 	float fogfactor = (density * viewCoords.z);
 	fogfactor *= fogfactor;
@@ -54,6 +58,6 @@ PSOutput main(PSInput ip)
     
 	float ndl = max(0, dot(normalVector, ip.TangentSpaceLDir));
 	
-    o.Color = ndl * float4(0, 0.211, 0.341, 0.5 * ndl);
+    o.Color = ndl * float4(0, 0.211, 0.341, 0.5 * ndl + specular) + specular;
     return o;
 }
