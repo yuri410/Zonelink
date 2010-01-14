@@ -35,7 +35,6 @@ namespace Code2015.EngineEx
         {
             Matrix view = srcCamera.ViewMatrix;
             Vector3 viewPos = srcCamera.Position;
-            //float len = viewPos.Length();
 
             Vector3 normal = viewPos;
             normal.Normalize();
@@ -43,22 +42,20 @@ namespace Code2015.EngineEx
             Plane plane = new Plane(normal * (PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel), normal);
             Matrix reflection = Matrix.Reflection(plane);
 
+            position = Vector3.TransformSimple(viewPos, reflection);
 
-            viewMatrix = view * reflection;
+            front = Vector3.TransformNormal(srcCamera.Front, reflection);
+            top = Vector3.TransformNormal(srcCamera.Top, reflection);
+            right = Vector3.TransformNormal(srcCamera.Right, reflection);
 
 
-            position = Vector3.TransformSimple(viewPos, reflection); //normal * (2 * PlanetEarth.PlanetRadius - len);
-            orientation = Quaternion.RotationMatrix(view * reflection);
+            viewMatrix = Matrix.LookAtRH(position, position + front, top);
+
+            orientation = Quaternion.RotationMatrix(viewMatrix);
 
             frustum.View = viewMatrix;
             frustum.Projection = srcCamera.ProjectionMatrix;
             frustum.Update();
-
-
-
-            front = MathEx.GetMatrixFront(ref viewMatrix);
-            top = MathEx.GetMatrixUp(ref viewMatrix);
-            right = MathEx.GetMatrixRight(ref viewMatrix);
 
         }
 
@@ -109,17 +106,17 @@ namespace Code2015.EngineEx
 
         public Vector3 Front
         {
-            get { throw new NotImplementedException(); }
+            get { return front; }
         }
 
         public Vector3 Top
         {
-            get { throw new NotImplementedException(); }
+            get { return top; }
         }
 
         public Vector3 Right
         {
-            get { throw new NotImplementedException(); }
+            get {  return right; }
         }
 
         public RenderTarget RenderTarget
