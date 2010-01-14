@@ -11,7 +11,7 @@ struct VSOutput
 {
     float4 Position : POSITION0;
     float2 NormalCoord : TEXCOORD0;
-    
+    float4 Position2 : TEXCOORD4;
     float3 TangentSpaceVDir : TEXCOORD5;
     float3 TangentSpaceLDir : TEXCOORD6;
 };
@@ -22,6 +22,7 @@ VSOutput main(VSInput ip)
 
     o.Position = mul(ip.Position, mvp);
     o.NormalCoord = ip.NormalCoord * 5;
+    o.Position2 = o.Position;
     
     float3 wpos = (float3)mul(ip.Position, world);
 	float3 normal = normalize(wpos);

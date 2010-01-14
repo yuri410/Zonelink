@@ -7,6 +7,7 @@ using Apoc3D.Config;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
+using Apoc3D.Media;
 using Apoc3D.Vfs;
 using Code2015.Effects;
 using Code2015.EngineEx;
@@ -27,7 +28,9 @@ namespace Code2015
 
         List<TerrainTile> terrList = new List<TerrainTile>();
         FpsCamera camera;
+        ReflectionCamera reflectionCamera;
         SceneRenderer renderer;
+        RenderTarget reflectionRt;
 
         public Code2015(RenderSystem rs)
         {
@@ -68,10 +71,39 @@ namespace Code2015
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
 
 
+
+
+
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
             sm.UseShadow = false;
             sm.PostRenderer = new DefaultPostRenderer();
+
+
+
+
+            renderer = new SceneRenderer(renderSys, sm);
+            Viewport vp = renderSys.Viewport;
+            reflectionRt = renderSys.ObjectFactory.CreateRenderTarget(vp.Width, vp.Height, ImagePixelFormat.X8R8G8B8);
+
+            reflectionCamera = new ReflectionCamera(camera);
+            reflectionCamera.RenderTarget = reflectionRt;
+            WaterEffect.Reflection = reflectionRt;
+
+            renderer.RegisterCamera(reflectionCamera);
+
+
+
+            camera = new FpsCamera(1);
+            camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
+
+            camera.NearPlane = 10;
+            camera.FarPlane = 6000;
+
+            renderer.RegisterCamera(camera);
+
+
+
 
             PlanetEarth earth = new PlanetEarth(renderSys);
             sm.SceneManager.AddObjectToScene(earth);
@@ -79,14 +111,6 @@ namespace Code2015
             OceanWater water = new OceanWater(renderSys);
             sm.SceneManager.AddObjectToScene(water);
 
-
-            renderer = new SceneRenderer(renderSys, sm);
-            camera = new FpsCamera(1);
-            renderer.RegisterCamera(camera);
-            camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
-
-            camera.NearPlane = 10;
-            camera.FarPlane = 6000;
             //camera.MoveSpeed = 50;
         }
 
@@ -168,6 +192,7 @@ namespace Code2015
         /// </summary>
         public void Draw()
         {
+            
             renderer.RenderScene();
         }
 

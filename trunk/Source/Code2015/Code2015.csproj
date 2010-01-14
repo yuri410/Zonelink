@@ -120,6 +120,7 @@
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
+    <Compile Include="EngineEx\ReflectionCamera.cs" />
     <Compile Include="EngineEx\SkyBox.cs">
       <SubType>Code</SubType>
     </Compile>
