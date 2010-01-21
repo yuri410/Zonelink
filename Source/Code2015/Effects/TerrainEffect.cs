@@ -164,15 +164,15 @@ namespace Code2015.Effects
 
         }
 
-        public override void BeginShadowPass()
-        {
-            throw new NotImplementedException();
-        }
+        //public override void BeginShadowPass()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public override void EndShadowPass()
-        {
-            throw new NotImplementedException();
-        }
+        //public override void EndShadowPass()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
@@ -182,7 +182,9 @@ namespace Code2015.Effects
 
             //Matrix invWorld;
             //Matrix.Invert(ref op.Transformation, out invWorld);
+            Vector3 vpos = EffectParams.CurrentCamera.Position;
             vtxShader.SetValue("world", ref op.Transformation);
+            vtxShader.SetValue("viewPos", ref vpos);
 
             ShaderSamplerState state = new ShaderSamplerState();
             state.AddressU = TextureAddressMode.Wrap;
@@ -224,10 +226,10 @@ namespace Code2015.Effects
 
         }
 
-        public override void SetupShadowPass(Material mat, ref RenderOperation op)
-        {
-            throw new NotImplementedException();
-        }
+        //public override void SetupShadowPass(Material mat, ref RenderOperation op)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         protected override void Dispose(bool disposing)
         {

@@ -72,13 +72,13 @@ namespace Code2015.Effects
 
         }
 
-        public override void BeginShadowPass()
-        {
-        }
+        //public override void BeginShadowPass()
+        //{
+        //}
 
-        public override void EndShadowPass()
-        {
-        }
+        //public override void EndShadowPass()
+        //{
+        //}
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
@@ -88,9 +88,9 @@ namespace Code2015.Effects
             vtxShader.SetValue("mvp", ref mvp);
         }
 
-        public override void SetupShadowPass(Material mat, ref RenderOperation op)
-        {
-        }
+        //public override void SetupShadowPass(Material mat, ref RenderOperation op)
+        //{
+        //}
 
         protected override void Dispose(bool disposing)
         {

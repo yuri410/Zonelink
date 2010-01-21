@@ -11,7 +11,7 @@ struct PSInput
     float2 DetailCoord : TEXCOORD1; 
     
 	float3 TangentSpaceLDir : TEXCOORD6;
-    float WaterDepth : TEXCOORD7;
+    float2 WaterDepth_Blend : TEXCOORD7;
 };
 
 struct PSOutput
@@ -27,9 +27,10 @@ PSOutput main(PSInput ip)
     
     // 地形法线贴图要转换为切线空间的
 	float tmp = N.z;
-	N.z = N.y;
+	N.z = N.y * 0.55;
 	N.y = tmp;
-  
+    N = normalize(N);
+    
     float ndl = max(0, dot(N, ip.TangentSpaceLDir));
 	
 	float4 index = tex2D(texDif, ip.GlobeCoord);
@@ -46,7 +47,8 @@ PSOutput main(PSInput ip)
 		}
 	}
 	
-    o.Color = ndl * ((color * 0.5) * tex2D(texColor, ip.GlobeCoord));
-    o.Color = GetColor(o.Color, ip.WaterDepth);
+    o.Color = ndl * lerp(color , tex2D(texColor, ip.GlobeCoord), ip.WaterDepth_Blend.y);
+    
+    o.Color = GetColor(o.Color, ip.WaterDepth_Blend.x);
     return o;
 }

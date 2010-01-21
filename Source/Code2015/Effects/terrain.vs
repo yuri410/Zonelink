@@ -4,6 +4,7 @@ float4x4 mvp : register(c0);
 //float4x4 invWorld : register(c4);
 float terrSize : register(c8);
 float4x4 world : register(c9);
+float3 viewPos : register(c14);
 
 struct VSInput
 {
@@ -18,7 +19,7 @@ struct VSOutput
     float2 DetailCoord : TEXCOORD1;
     
 	float3 TangentSpaceLDir : TEXCOORD6;
-    float WaterDepth : TEXCOORD7;
+    float2 WaterDepth_Blend : TEXCOORD7;
 };
 
 VSOutput main(VSInput ip)
@@ -29,7 +30,8 @@ VSOutput main(VSInput ip)
     
     float4 wpos = mul(ip.Position, world);
     
-	o.WaterDepth = GetWaterDepth((float3)mul(ip.Position, world));
+	o.WaterDepth_Blend.x = GetWaterDepth((float3)mul(ip.Position, world));
+	o.WaterDepth_Blend.y = clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
     
     o.GlobeCoord = ip.GlobeCoord;
     
