@@ -88,15 +88,15 @@ namespace Code2015.Effects
         {
         }
 
-        public override void BeginShadowPass()
-        {
-            throw new NotImplementedException();
-        }
+        //public override void BeginShadowPass()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
-        public override void EndShadowPass()
-        {
-            throw new NotImplementedException();
-        }
+        //public override void EndShadowPass()
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
@@ -121,10 +121,10 @@ namespace Code2015.Effects
             pixShader.SetValue("move", move);
         }
 
-        public override void SetupShadowPass(Material mat, ref RenderOperation op)
-        {
-            throw new NotImplementedException();
-        }
+        //public override void SetupShadowPass(Material mat, ref RenderOperation op)
+        //{
+        //    throw new NotImplementedException();
+        //}
 
         protected override void Dispose(bool disposing)
         {

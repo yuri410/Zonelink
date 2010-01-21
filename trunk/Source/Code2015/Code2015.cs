@@ -83,8 +83,8 @@ namespace Code2015
 
 
             renderer = new SceneRenderer(renderSys, sm);
-            Viewport vp = renderSys.Viewport;
-            reflectionRt = renderSys.ObjectFactory.CreateRenderTarget(vp.Width, vp.Height, ImagePixelFormat.X8R8G8B8);
+            //Viewport vp = renderSys.Viewport;
+            //reflectionRt = renderSys.ObjectFactory.CreateRenderTarget(vp.Width, vp.Height, ImagePixelFormat.X8R8G8B8);
 
 
 
@@ -94,12 +94,12 @@ namespace Code2015
             camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
             camera.NearPlane = 10;
             camera.FarPlane = 6000;
+            camera.Mode = RenderMode.Final;
+            //reflectionCamera = new ReflectionCamera(camera);
+            //reflectionCamera.RenderTarget = reflectionRt;
+            //WaterEffect.Reflection = reflectionRt;
 
-            reflectionCamera = new ReflectionCamera(camera);
-            reflectionCamera.RenderTarget = reflectionRt;
-            WaterEffect.Reflection = reflectionRt;
-
-            renderer.RegisterCamera(reflectionCamera);
+            //renderer.RegisterCamera(reflectionCamera);
             renderer.RegisterCamera(camera);
 
 

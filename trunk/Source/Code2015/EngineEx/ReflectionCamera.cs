@@ -126,5 +126,12 @@ namespace Code2015.EngineEx
         }
 
         #endregion
+
+
+        public RenderMode Mode
+        {
+            get { return RenderMode.Simple; }
+        }
+
     }
 }
