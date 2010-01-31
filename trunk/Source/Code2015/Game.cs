@@ -9,7 +9,29 @@ namespace Code2015
 
     class GameCreationParameters 
     {
+        public Player Player1
+        {
+            get;
+            set;
+        }
 
+        public Player Player2
+        {
+            get;
+            set;
+        }
+
+        public Player Player3
+        {
+            get;
+            set;
+        }
+
+        public Player Player4
+        {
+            get;
+            set;
+        }
     }
 
     /// <summary>
@@ -60,7 +82,7 @@ namespace Code2015
         }
         public void Update(GameTime time)
         {
-
+            
         }
     }
 
