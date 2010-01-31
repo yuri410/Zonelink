@@ -12,7 +12,7 @@ namespace Code2015.BalanceSystem
     /// </summary>
     public class SimulateRegion : IUpdatable
     {
-        FastList<LocalEcoSystem> localEcoSystem = new FastList<LocalEcoSystem>();
+
         FastList<SimulateObject> simulateObject = new FastList<SimulateObject>();
         EnergyStatus energyStatus;
         SocietyStatus societyStatus;
@@ -82,10 +82,7 @@ namespace Code2015.BalanceSystem
             {
                 simulateObject[i].Update(time);
             }
-            for (int i = 0; i < localEcoSystem.Count; i++)
-            {
-                localEcoSystem[i].Update(time);
-            }
+
             societyStatus.Update(time);
             energyStatus.Update(time);
         }
