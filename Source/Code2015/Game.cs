@@ -5,6 +5,7 @@ using System.Text;
 using Apoc3D;
 using System.Threading;
 using Apoc3D.Graphics;
+using Code2015.EngineEx;
 
 namespace Code2015
 {
@@ -85,7 +86,9 @@ namespace Code2015
         {
 
             // wait sync
-            TextureManager.Instance;
+            TerrainMeshManager.Instance.WaitForIdle();
+            ModelManager.Instance.WaitForIdle();
+            TextureManager.Instance.WaitForIdle();
         }
         void Unload()
         {
