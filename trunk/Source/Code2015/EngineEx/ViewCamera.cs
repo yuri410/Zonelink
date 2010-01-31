@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.MathLib;
+using Code2015.World;
 
 namespace Code2015.EngineEx
 {
@@ -16,30 +17,42 @@ namespace Code2015.EngineEx
         protected float dMoveSpeed = 2.5f;
         protected float dTurnSpeed = MathEx.PIf / 45;
 
+        float longitude;
+        float latitude;
+
+        float rotation;
+        float yaw;
+
         public RtsCamera(float fovy, float aspect)
             : base(aspect)
         {
             OrthoZoom = 65;
             isPerspective = fovy < 175 && fovy > 5;
             FieldOfView = fovy;
-            ResetView();
 
-            Update();
+
+
+            Update(null);
+        }
+
+        void UpdateView()
+        {
+            position = PlanetEarth.GetPosition(longitude, latitude);
+
+            Vector3 axis = position;
+            axis.Normalize();
+
+            orientation = Quaternion.RotationAxis(axis, rotation) * Quaternion.RotationAxis(Vector3.UnitX, yaw);
+
         }
 
         public override void ResetView()
         {
             isPerspective = FieldOfView < 175 && FieldOfView > 5;
-            if (isPerspective)
-            {
-                orientation = Quaternion.RotationAxis(new Vector3(0, 1, 0), -MathEx.PIf / 4);
-                orientation *= Quaternion.RotationAxis(new Vector3(1, 0, 0), MathEx.PIf / 4);
-            }
-            else
-            {
-                orientation = Quaternion.RotationAxis(new Vector3(0, 1, 0), -MathEx.PIf / 4);
-                orientation *= Quaternion.RotationAxis(new Vector3(1, 0, 0), MathEx.PIf / 6);
-            }
+
+            yaw = MathEx.PIf / 4;
+
+            UpdateView();
         }
 
         public override void GetSubareaProjection(ref RectangleF rect, out Matrix mat)
@@ -60,7 +73,6 @@ namespace Code2015.EngineEx
 
             if (isPerspective)
             {
-                //fFrustum.proj = Matrix.PerspectiveFovRH(MathEx.Angle2Radian(FieldOfView), AspectRatio, NearPlane, FarPlane);
                 base.UpdateProjection();
             }
             else
@@ -73,9 +85,9 @@ namespace Code2015.EngineEx
             }
         }
 
-        public override void Update()
+        public override void Update(GameTime time)
         {
-            position.Y = height;
+            UpdateView();
             if (isProjDirty)
             {
                 UpdateProjection();
@@ -114,7 +126,7 @@ namespace Code2015.EngineEx
             {
                 if (value >= 30 && value < 105)
                 {
-                    orientation *= Quaternion.RotationAxis(new Vector3(1, 0, 0), MathEx.Degree2Radian(value - height));
+                    yaw = MathEx.Degree2Radian(value - height);
 
                     height = value;
                 }
@@ -127,47 +139,34 @@ namespace Code2015.EngineEx
 
         public void MoveFront()
         {
-            Vector3 f = front;
-            f.Y = 0;
-            f.Normalize();
-            position += f * dMoveSpeed;
+            longitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            latitude += (float)Math.Cos(rotation) * dMoveSpeed;
         }
         public void MoveBack()
         {
-            Vector3 f = front;
-            f.Y = 0;
-            f.Normalize();
-            position -= f * dMoveSpeed;
+            longitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            latitude += (float)Math.Cos(rotation) * dMoveSpeed;
         }
 
-        public void TurnLeft()
-        {
-            Quaternion iq = orientation;
-            iq.Conjugate();
-            Vector3 top = Vector3.TransformSimple(Vector3.UnitY, iq);
-
-            orientation *= Quaternion.RotationAxis(top, -dTurnSpeed);
-
-            orientation.Normalize();
-        }
-        public void TurnRight()
-        {
-            Quaternion iq = orientation;
-            iq.Conjugate();
-
-            Vector3 top = Vector3.TransformSimple(Vector3.UnitY, iq);
-
-            orientation *= Quaternion.RotationAxis(top, dTurnSpeed);
-            orientation.Normalize();
-        }
         public void MoveLeft()
         {
-            position -= right * dMoveSpeed;
+            longitude -= (float)Math.Cos(rotation) * dMoveSpeed;
+            latitude -= (float)Math.Sin(rotation) * dMoveSpeed;
         }
         public void MoveRight()
         {
-            position += right * dMoveSpeed;
+            longitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            latitude += (float)Math.Sin(rotation) * dMoveSpeed;
         }
+        public void TurnLeft()
+        {
+            rotation -= dTurnSpeed;
+        }
+        public void TurnRight()
+        {
+            rotation += dTurnSpeed;
+        }
+
 
     }
 
