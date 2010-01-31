@@ -6,12 +6,14 @@ using Apoc3D.Scene;
 using Apoc3D.Graphics;
 using Apoc3D;
 using Code2015.BalanceSystem;
+using System.Globalization;
 
 namespace Code2015.World
 {
     class CityObject : SceneObject
     {
         City city;
+
 
         public CityObject(City city)
             : base(false)

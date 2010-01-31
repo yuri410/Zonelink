@@ -106,8 +106,6 @@ namespace Code2015.BalanceSystem
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
-        //FastList<NaturalResource> farms = new FastList<NaturalResource>();
-
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
@@ -144,9 +142,6 @@ namespace Code2015.BalanceSystem
         {
             this.Name = name;
         }
-
-
-       
 
         #region  属性
 
@@ -278,7 +273,6 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
-        #endregion
 
         /// <summary>
         ///  获取城市的大小
@@ -296,6 +290,8 @@ namespace Code2015.BalanceSystem
             }
         }
 
+
+        #endregion
 
         /// <summary>
         ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
