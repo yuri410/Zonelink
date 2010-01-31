@@ -42,6 +42,9 @@ namespace Code2015
         object syncHelper = new object();
 
         GameCreationParameters parameters;
+
+        GameScene scene;
+
         bool isLoaded;
 
         public bool IsLoaded
@@ -78,7 +81,10 @@ namespace Code2015
 
         public void Render()
         {
-
+            if (IsLoaded)
+            {
+                scene.RenderScene();
+            }
         }
         public void Update(GameTime time)
         {
