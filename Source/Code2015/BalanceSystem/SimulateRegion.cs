@@ -30,14 +30,14 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        /// <summary>
-        /// 模拟区域的边界
-        /// </summary>
-        public Object Border
-        {
-            get;
-            private set;
-        }
+        ///// <summary>
+        ///// 模拟区域的边界
+        ///// </summary>
+        //public Object Border
+        //{
+        //    get;
+        //    private set;
+        //}
         /// <summary>
         /// 模拟区域所属玩家
         /// </summary>
@@ -67,10 +67,9 @@ namespace Code2015.BalanceSystem
             simulateObject.Remove(obj);
         }
        
-        public SimulateRegion(Player owner, object border)
+        public SimulateRegion(Player owner)
         {
             this.Owner = owner;
-            this.Border = border;
 
             energyStatus = new EnergyStatus(this);
             societyStatus = new SocietyStatus(this);

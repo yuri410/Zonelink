@@ -17,12 +17,12 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float SOURCEProduceSpeed = 500;
 
-        FastList<PlantSpecies> foodPlants;
+        //FastList<PlantSpecies> foodPlants;
         public FarmLand(SimulateRegion region)
             : base(region, NaturalResourceType.Food)
         {
-            foodPlants = new FastList<PlantSpecies>();
-           
+            //foodPlants = new FastList<PlantSpecies>();
+
         }
       
         public float AbsorbCarbonSpeed
@@ -33,17 +33,17 @@ namespace Code2015.BalanceSystem
      
 
 
-        public bool Add(PlantSpecies foodplant)
-        {
-            foodPlants.Add(foodplant);
+        //public bool Add(PlantSpecies foodplant)
+        //{
+        //    foodPlants.Add(foodplant);
 
-            return true;
-        }
+        //    return true;
+        //}
 
-        public void Remove(PlantSpecies foodplant)
-        {
-            foodPlants.Remove(foodplant);
-        }
+        //public void Remove(PlantSpecies foodplant)
+        //{
+        //    foodPlants.Remove(foodplant);
+        //}
 
         
         public override void Update(GameTime time)

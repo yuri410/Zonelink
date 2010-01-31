@@ -6,7 +6,7 @@ using XFGS = Microsoft.Xna.Framework.GamerServices;
 
 namespace Code2015
 {
-    class Player
+    public class Player
     {
         XFGS.Gamer gamer;
 

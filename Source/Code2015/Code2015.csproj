@@ -113,7 +113,8 @@
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
-    <Compile Include="World\Forest.cs" />
+    <Compile Include="World\CityObject.cs" />
+    <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
     <Compile Include="EngineEx\ReflectionCamera.cs" />
@@ -141,12 +142,10 @@
     </Compile>
     <Compile Include="Score.cs" />
     <Compile Include="World\Atmosphere.cs" />
-    <Compile Include="World\Border.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
     <Compile Include="World\OceanWaterTile.cs" />
+    <Compile Include="World\OilFieldObject.cs" />
     <Compile Include="World\PlanetEarth.cs">
       <SubType>Code</SubType>
     </Compile>
