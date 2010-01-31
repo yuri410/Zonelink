@@ -85,6 +85,9 @@ namespace Code2015
         void Load()
         {
 
+
+
+
             // wait sync
             TerrainMeshManager.Instance.WaitForIdle();
             ModelManager.Instance.WaitForIdle();
