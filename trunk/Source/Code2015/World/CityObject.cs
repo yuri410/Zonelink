@@ -13,6 +13,11 @@ namespace Code2015.World
     {
         City city;
 
+        public CityObject(City city)
+            : base(false)
+        {
+            this.city = city;
+        }
 
         public override RenderOperation[] GetRenderOperation()
         {

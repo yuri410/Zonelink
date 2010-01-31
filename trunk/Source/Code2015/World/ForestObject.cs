@@ -18,9 +18,15 @@ namespace Code2015.World
             public Model Model;
         }
 
-        Forest parent;
+        Forest forest;
 
         RenderOperation[] opBuffer;
+
+        public ForestObject(Forest forest)
+            : base(false)
+        {
+            this.forest = forest;
+        }
 
         public override RenderOperation[] GetRenderOperation()
         {
