@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
+using System.Threading;
+using Apoc3D.Graphics;
 
 namespace Code2015
 {
@@ -44,8 +46,9 @@ namespace Code2015
         GameCreationParameters parameters;
 
         GameScene scene;
-
+        
         bool isLoaded;
+        Thread loadingWorker;
 
         public bool IsLoaded
         {
@@ -68,11 +71,21 @@ namespace Code2015
         public Game(GameCreationParameters gcp)
         {
             parameters = gcp;
+
+            loadingWorker = new Thread(Load);
+            loadingWorker.Name = "Game Loader";
+        }
+
+        public void StartLoading()
+        {
+            loadingWorker.Start();
         }
 
         void Load()
         {
 
+            // wait sync
+            TextureManager.Instance;
         }
         void Unload()
         {
