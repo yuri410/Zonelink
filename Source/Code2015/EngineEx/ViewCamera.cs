@@ -147,7 +147,7 @@ namespace Code2015.EngineEx
             Vector3 top = Vector3.TransformSimple(Vector3.UnitY, iq);
 
             orientation *= Quaternion.RotationAxis(top, -dTurnSpeed);
-            //qOri *= Quaternion.FromAngleAxis(dTurnSpeed, new Vector(0, -1, 0));
+
             orientation.Normalize();
         }
         public void TurnRight()
