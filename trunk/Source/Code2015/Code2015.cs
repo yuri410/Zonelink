@@ -27,7 +27,7 @@ namespace Code2015
         RenderSystem renderSys;
 
         List<TerrainTile> terrList = new List<TerrainTile>();
-        FpsCamera camera;
+        RtsCamera camera;
         ReflectionCamera reflectionCamera;
         SceneRenderer renderer;
         RenderTarget reflectionRt;
@@ -90,8 +90,8 @@ namespace Code2015
 
 
 
-            camera = new FpsCamera(1);
-            camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
+            camera = new RtsCamera(65, 1);
+            //camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
             camera.NearPlane = 10;
             camera.FarPlane = 6000;
             camera.Mode = RenderMode.Final;
@@ -147,22 +147,22 @@ namespace Code2015
                 camera.MoveBack();
             }
 
-            if (state.IsKeyDown(XI.Keys.LeftShift))
-            {
-                camera.MoveSpeed = 50;
-            }
-            else
-            {
-                camera.MoveSpeed = 2;
-            }
+            //if (state.IsKeyDown(XI.Keys.LeftShift))
+            //{
+            //    camera.MoveSpeed = 50;
+            //}
+            //else
+            //{
+            //    camera.MoveSpeed = 2;
+            //}
 
             if (state.IsKeyDown(XI.Keys.Space))
             {
-                camera.MoveUp();
+                camera.Height++;
             }
             if (state.IsKeyDown(XI.Keys.LeftControl))
             {
-                camera.MoveDown();
+                camera.Height--;
             }
 
             if (state.IsKeyDown(XI.Keys.Right))
@@ -175,11 +175,10 @@ namespace Code2015
             }
             if (state.IsKeyDown(XI.Keys.Up))
             {
-                camera.TurnUp();
+                
             }
             if (state.IsKeyDown(XI.Keys.Down))
             {
-                camera.TurnDown();
             }
 
             renderer.Update(time);

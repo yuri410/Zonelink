@@ -14,7 +14,7 @@ namespace Code2015.EngineEx
         float height = 60;
         float orthoZoom;
 
-        protected float dMoveSpeed = 2.5f;
+        protected float dMoveSpeed = MathEx.PIf / 180;
         protected float dTurnSpeed = MathEx.PIf / 45;
 
         float longitude;
@@ -42,7 +42,7 @@ namespace Code2015.EngineEx
             Vector3 axis = position;
             axis.Normalize();
 
-            orientation = Quaternion.RotationAxis(axis, rotation) * Quaternion.RotationAxis(Vector3.UnitX, yaw);
+            orientation = Quaternion.RotationAxis(axis, rotation);// *Quaternion.RotationAxis(Vector3.UnitX, yaw);
 
         }
 
