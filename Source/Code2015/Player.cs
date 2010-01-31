@@ -13,7 +13,6 @@ namespace Code2015
         public Player(XFGS.Gamer gm)
         {
             this.gamer = gm;
-
             
         }
 

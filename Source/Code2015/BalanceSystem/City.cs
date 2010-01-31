@@ -6,6 +6,7 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
+using System.Globalization;
 
 namespace Code2015.BalanceSystem
 {
@@ -122,6 +123,10 @@ namespace Code2015.BalanceSystem
         ResourceStorage localHr;
         ResourceStorage localFood;
         UrbanSize size;
+
+        RegionInfo regionInfo;
+
+
 
         public City(EnergyStatus energyStat)
             : base(energyStat.Region)
