@@ -11,7 +11,7 @@ namespace Code2015.EngineEx
     public class RtsCamera : Camera
     {
         bool isPerspective;
-        float height = 60;
+        float height;
         float orthoZoom;
 
         protected float dMoveSpeed = MathEx.PIf / 180;
@@ -23,13 +23,15 @@ namespace Code2015.EngineEx
         float rotation;
         float yaw;
 
+        
+
         public RtsCamera(float fovy, float aspect)
             : base(aspect)
         {
             OrthoZoom = 65;
             isPerspective = fovy < 175 && fovy > 5;
             FieldOfView = fovy;
-
+            Height = 60;
 
 
             Update(null);
@@ -42,8 +44,22 @@ namespace Code2015.EngineEx
             Vector3 axis = position;
             axis.Normalize();
 
-            orientation = Quaternion.RotationAxis(axis, rotation);// *Quaternion.RotationAxis(Vector3.UnitX, yaw);
+            Vector3 r = Vector3.Cross(axis, Vector3.UnitY);
+            r.Normalize();
 
+            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(r, yaw));
+
+            Matrix viewTrans = Matrix.LookAtRH(position + axis * height * 20, position,
+                Vector3.TransformSimple(Vector3.UnitY, Quaternion.RotationAxis(axis, rotation)));
+
+
+
+            Frustum.View = viewTrans;
+            Frustum.Update();
+
+            front = viewTrans.Forward;
+            top = viewTrans.Up;
+            right = viewTrans.Right;
         }
 
         public override void ResetView()
@@ -93,16 +109,6 @@ namespace Code2015.EngineEx
                 UpdateProjection();
             }
 
-            Matrix viewTrans;
-            Matrix.RotationQuaternion(ref orientation, out viewTrans);
-
-            viewTrans = Matrix.Translation(-position) * viewTrans;
-            Frustum.View = viewTrans;
-            Frustum.Update();
-
-            front = viewTrans.Forward;
-            top = viewTrans.Up;
-            right = viewTrans.Right;
 
         }
 
@@ -124,9 +130,9 @@ namespace Code2015.EngineEx
             }
             set
             {
-                if (value >= 30 && value < 105)
+                if (value >= 30 && value < 90)
                 {
-                    yaw = MathEx.Degree2Radian(value - height);
+                    yaw = MathEx.Degree2Radian(height) - MathEx.PiOver2;
 
                     height = value;
                 }
@@ -139,24 +145,29 @@ namespace Code2015.EngineEx
 
         public void MoveFront()
         {
-            longitude += (float)Math.Sin(rotation) * dMoveSpeed;
-            latitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            latitude += 0.01f;
+            //longitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            //latitude += (float)Math.Cos(rotation) * dMoveSpeed;
         }
         public void MoveBack()
         {
-            longitude += (float)Math.Sin(rotation) * dMoveSpeed;
-            latitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            latitude -= 0.01f;
+
+            //longitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            //latitude += (float)Math.Cos(rotation) * dMoveSpeed;
         }
 
         public void MoveLeft()
         {
-            longitude -= (float)Math.Cos(rotation) * dMoveSpeed;
-            latitude -= (float)Math.Sin(rotation) * dMoveSpeed;
+            longitude -= 0.01f;
+            //longitude -= (float)Math.Cos(rotation) * dMoveSpeed;
+            //latitude -= (float)Math.Sin(rotation) * dMoveSpeed;
         }
         public void MoveRight()
         {
-            longitude += (float)Math.Cos(rotation) * dMoveSpeed;
-            latitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            longitude += 0.01f;
+            //longitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            //latitude += (float)Math.Sin(rotation) * dMoveSpeed;
         }
         public void TurnLeft()
         {
