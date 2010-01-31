@@ -113,6 +113,7 @@
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
+    <Compile Include="EngineEx\ViewCamera.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="World\CityObject.cs" />
     <Compile Include="World\ForestObject.cs" />
