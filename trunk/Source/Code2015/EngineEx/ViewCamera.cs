@@ -34,39 +34,41 @@ namespace Code2015.EngineEx
             Height = 60;
 
 
-            Update(null);
+            ResetView();
         }
 
         void UpdateView()
         {
-            position = PlanetEarth.GetPosition(longitude, latitude);
+            Vector3 target = PlanetEarth.GetPosition(longitude, latitude);
 
-            Vector3 axis = position;
+            Vector3 axis = target;
             axis.Normalize();
+            Vector3 rotAxis = axis;
 
-            Vector3 r = Vector3.Cross(axis, Vector3.UnitY);
-            r.Normalize();
+            Vector3 yawAxis = Vector3.Cross(axis, Vector3.UnitY);
+            yawAxis.Normalize();
 
-            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(r, yaw));
+            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw) * Quaternion.RotationAxis(rotAxis, rotation));
 
-            Matrix viewTrans = Matrix.LookAtRH(position + axis * height * 20, position,
-                Vector3.TransformSimple(Vector3.UnitY, Quaternion.RotationAxis(axis, rotation)));
-
-
+            position = target + axis * height * 20;
+            Matrix viewTrans = Matrix.LookAtRH(position, target,
+                Vector3.TransformSimple(Vector3.UnitY, Quaternion.RotationAxis(rotAxis, rotation)));
 
             Frustum.View = viewTrans;
             Frustum.Update();
 
+
             front = viewTrans.Forward;
             top = viewTrans.Up;
             right = viewTrans.Right;
+
+
+            Quaternion.RotationMatrix(ref viewTrans, out orientation);
         }
 
         public override void ResetView()
         {
             isPerspective = FieldOfView < 175 && FieldOfView > 5;
-
-            yaw = MathEx.PIf / 4;
 
             UpdateView();
         }
@@ -145,29 +147,24 @@ namespace Code2015.EngineEx
 
         public void MoveFront()
         {
-            latitude += 0.01f;
-            //longitude += (float)Math.Sin(rotation) * dMoveSpeed;
-            //latitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            longitude -= (float)Math.Sin(rotation) * dMoveSpeed;
+            latitude += (float)Math.Cos(rotation) * dMoveSpeed;
         }
         public void MoveBack()
         {
-            latitude -= 0.01f;
-
-            //longitude += (float)Math.Sin(rotation) * dMoveSpeed;
-            //latitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            longitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            latitude -= (float)Math.Cos(rotation) * dMoveSpeed;
         }
 
         public void MoveLeft()
         {
-            longitude -= 0.01f;
-            //longitude -= (float)Math.Cos(rotation) * dMoveSpeed;
-            //latitude -= (float)Math.Sin(rotation) * dMoveSpeed;
+            longitude -= (float)Math.Cos(rotation) * dMoveSpeed;
+            latitude -= (float)Math.Sin(rotation) * dMoveSpeed;
         }
         public void MoveRight()
         {
-            longitude += 0.01f;
-            //longitude += (float)Math.Cos(rotation) * dMoveSpeed;
-            //latitude += (float)Math.Sin(rotation) * dMoveSpeed;
+            longitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            latitude += (float)Math.Sin(rotation) * dMoveSpeed;
         }
         public void TurnLeft()
         {
