@@ -636,8 +636,7 @@ namespace Code2015.EngineEx
 
                                         for (int lod = 0; lod < LocalLodCount; lod++)
                                         {
-                                            //if (dist <= lodLevelThreshold[LocalLodCount - lod - 1])
-                                            if (dist <= lodLevelThreshold[lod])
+                                            if (dist <= lodLevelThreshold[LocalLodCount - lod - 1])
                                             {
                                                 lodLevel = lod;
                                                 break;

@@ -95,6 +95,31 @@ namespace Code2015.EngineEx
             levelPrimConut = new int[LocalLodCount];
             levelVertexCount = new int[LocalLodCount];
 
+            //switch (terrEdgeSize)
+            //{
+            //    case 33:
+            //        lodLevelThreshold[0] = MathEx.Sqr(500);
+            //        lodLevelThreshold[1] = MathEx.Sqr(1000);
+            //        lodLevelThreshold[2] = MathEx.Sqr(1500);
+            //        lodLevelThreshold[3] = MathEx.Sqr(2000);
+            //        break;
+            //    case 129:
+            //        lodLevelThreshold[0] = MathEx.Sqr(250);
+            //        lodLevelThreshold[1] = MathEx.Sqr(500);
+            //        lodLevelThreshold[2] = MathEx.Sqr(750);
+            //        lodLevelThreshold[3] = MathEx.Sqr(1000);
+            //        break;
+            //    case 513:
+            //        lodLevelThreshold[0] = MathEx.Sqr(100);
+            //        lodLevelThreshold[1] = MathEx.Sqr(200);
+            //        lodLevelThreshold[2] = MathEx.Sqr(333);
+            //        lodLevelThreshold[3] = MathEx.Sqr(500);
+
+            //        break;
+            //    default:
+            //        throw new InvalidOperationException();
+            //}
+
             for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
             {
                 int cellLength = blockEdgeLen / levelLength;
