@@ -19,15 +19,15 @@ namespace Code2015.World
         /// <summary>
         ///  0级LOD地形
         /// </summary>
-        ResourceHandle<TerrainMesh> terrain;
+        ResourceHandle<TerrainMesh> terrain0;
         /// <summary>
         ///  1级LOD地形
         /// </summary>
         ResourceHandle<TerrainMesh> terrain1;
-        ///// <summary>
-        /////  2级LOD地形
-        ///// </summary>
-        //ResourceHandle<TerrainMesh> terrain2;
+        /// <summary>
+        ///  2级LOD地形
+        /// </summary>
+        ResourceHandle<TerrainMesh> terrain2;
         //ResourceHandle<TerrainMesh> terrain3;
 
         ResourceHandle<TerrainMesh> activeTerrain;
@@ -41,17 +41,16 @@ namespace Code2015.World
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
+            terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
             terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
-            terrain1.Touch();
-            //terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            //terrain2.Touch();
+            terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+            terrain2.Touch();
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
             Transformation = terrain1.GetWeakResource().Transformation;
             BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
 
-            terrain.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
+            terrain0.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
             terrain1.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
         }
 
@@ -90,38 +89,35 @@ namespace Code2015.World
             switch (level)
             {
                 case 0:
-                case 1:
-                    if (terrain.State == ResourceState.Loaded)
-                    {
-                        ActiveTerrain = terrain;
-                    }
-                    else
-                    {
-                        terrain.Touch();
-                    }
-                    break;
-                case 2:
-                case 3:
-                    if (terrain1.State == ResourceState.Loaded)
-                    {
-                        ActiveTerrain = terrain1;
-                    }
-                    else
-                    {
-                        terrain1.Touch();
-                    }
-                    break;
-                 
-                    //if (terrain2.State == ResourceState.Loaded)
+                    //if (terrain0.State == ResourceState.Loaded)
                     //{
-                    //    ActiveTerrain = terrain2;
+                    //    ActiveTerrain = terrain0;
                     //}
                     //else
                     //{
-                    //    terrain2.Touch();
+                    //    terrain0.Touch();
                     //}
                     //break;
-                
+                case 1:
+                    //if (terrain1.State == ResourceState.Loaded)
+                    //{
+                    //    ActiveTerrain = terrain1;
+                    //}
+                    //else
+                    //{
+                    //    terrain1.Touch();
+                    //}
+                    //break;
+                case 2:
+                    if (terrain2.State == ResourceState.Loaded)
+                    {
+                        ActiveTerrain = terrain2;
+                    }
+                    else
+                    {
+                        terrain2.Touch();
+                    }
+                    break;
                 default:
                     ActiveTerrain = null;
                     break;
@@ -165,14 +161,14 @@ namespace Code2015.World
 
             if (disposing)
             {
-                terrain.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
+                terrain0.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
                 terrain1.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
 
-                terrain.Dispose();
+                terrain0.Dispose();
                 terrain1.Dispose();
                 //terrain2.Dispose();
             }
-            terrain = null;
+            terrain0 = null;
             terrain1 = null;
             //terrain2 = null;
         }

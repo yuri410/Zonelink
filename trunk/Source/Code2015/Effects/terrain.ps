@@ -47,7 +47,7 @@ PSOutput main(PSInput ip)
 		}
 	}
 	
-    o.Color = ndl * lerp(color , tex2D(texColor, ip.GlobeCoord), ip.WaterDepth_Blend.y);
+    o.Color = ndl * 0.01 + lerp(color , tex2D(texColor, ip.GlobeCoord), ip.WaterDepth_Blend.y);
     
     o.Color = GetColor(o.Color, ip.WaterDepth_Blend.x);
     return o;

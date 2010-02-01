@@ -33,6 +33,11 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
+        public static FileLocateRule Texture
+        {
+            get;
+            private set;
+        }
         public static FileLocateRule Config
         {
             get;
@@ -69,6 +74,12 @@ namespace Code2015.EngineEx
             pts[0] = new LocateCheckPoint();
             pts[0].AddPath("nature.lpk");
             Nature = new FileLocateRule(pts);
+
+            pts = new LocateCheckPoint[1];
+            pts[0] = new LocateCheckPoint();
+            pts[0].AddPath("texture.lpk");
+            Texture = new FileLocateRule(pts);
+
         }
     }
 }

@@ -35,8 +35,9 @@ VSOutput main(VSInput ip)
     
     o.GlobeCoord = ip.GlobeCoord;
     
-    o.DetailCoord.y = trunc(ip.Index/terrSize);
-    o.DetailCoord.x = fmod(ip.Index, terrSize);
+    
+    o.DetailCoord.y = trunc((ip.Index+0.5) / (terrSize));
+    o.DetailCoord.x = fmod(ip.Index+0.5, terrSize);
     o.DetailCoord /= terrSize;
     
     float3 normal = (float3)ip.Position;
