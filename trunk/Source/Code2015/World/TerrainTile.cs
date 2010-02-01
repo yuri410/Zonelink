@@ -89,25 +89,25 @@ namespace Code2015.World
             switch (level)
             {
                 case 0:
-                    //if (terrain0.State == ResourceState.Loaded)
-                    //{
-                    //    ActiveTerrain = terrain0;
-                    //}
-                    //else
-                    //{
-                    //    terrain0.Touch();
-                    //}
-                    //break;
+                    if (terrain0.State == ResourceState.Loaded)
+                    {
+                        ActiveTerrain = terrain0;
+                    }
+                    else
+                    {
+                        terrain0.Touch();
+                    }
+                    break;
                 case 1:
-                    //if (terrain1.State == ResourceState.Loaded)
-                    //{
-                    //    ActiveTerrain = terrain1;
-                    //}
-                    //else
-                    //{
-                    //    terrain1.Touch();
-                    //}
-                    //break;
+                    if (terrain1.State == ResourceState.Loaded)
+                    {
+                        ActiveTerrain = terrain1;
+                    }
+                    else
+                    {
+                        terrain1.Touch();
+                    }
+                    break;
                 case 2:
                     if (terrain2.State == ResourceState.Loaded)
                     {
