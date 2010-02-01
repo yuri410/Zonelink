@@ -26,6 +26,8 @@ namespace Code2015
     {
         RenderSystem renderSys;
 
+        Game currentGame;
+
         List<TerrainTile> terrList = new List<TerrainTile>();
         RtsCamera camera;
         ReflectionCamera reflectionCamera;
