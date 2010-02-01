@@ -68,6 +68,8 @@ namespace Code2015
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);
 
+            //TextureManager.Instance.Redirect = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
+
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
 
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);

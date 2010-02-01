@@ -17,6 +17,8 @@ namespace Code2015.EngineEx
     /// <remarks>如果必要的话可以将共享地形索引数据做成Resource管理</remarks>
     class SharedBlockIndexData : IDisposable
     {
+        const float MaxTerrainSize = 513;
+
         IndexBuffer[] indexBuffer;
 
         /// <summary>
@@ -98,7 +100,7 @@ namespace Code2015.EngineEx
                 int cellLength = blockEdgeLen / levelLength;
 
 
-                lodLevelThreshold[k] = (terrEdgeSize * MathEx.Root2 * 0.75f) / (float)(k + 1);
+                lodLevelThreshold[k] = (MaxTerrainSize / (float)terrEdgeSize) * (MaxTerrainSize * MathEx.Root2) / (float)(k + 1);
                 lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
 
                 cellSpan[k] = cellLength;
