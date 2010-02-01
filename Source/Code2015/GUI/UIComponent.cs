@@ -10,12 +10,12 @@ namespace Code2015.GUI
     {
 
 
-        public void Update(GameTime time)
+        public virtual void Update(GameTime time)
         {
 
         }
 
-        public void Render()
+        public virtual void Render()
         {
 
         }
