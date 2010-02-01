@@ -55,15 +55,15 @@ PSOutput main(PSInput ip)
     
     if (abs(ip.LODTest)<0.01)
     {
-		o.Color = ndl * float4(1,0,0,1);
+		o.Color += ndl * float4(0.5,0,0,0);
     }
     else if(abs(ip.LODTest - 1)<0.01)
     {
-		o.Color = ndl * float4(0,1,0,1);
+		o.Color += ndl * float4(0,0.5,0,0);
     }
     else if (abs(ip.LODTest - 2)<0.01)
     {
-		o.Color = ndl * float4(0,0,1,1);
+		o.Color += ndl * float4(0,0,0.5,0);
     }
     
     return o;
