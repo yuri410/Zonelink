@@ -9,7 +9,6 @@ using Code2015.EngineEx;
 
 namespace Code2015
 {
-
     class GameCreationParameters 
     {
         public Player Player1
