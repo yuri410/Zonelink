@@ -104,7 +104,7 @@ namespace Plugin.BitmapFontTools
                 }
                
                 bmp.UnlockBits(data);
-                bmp.Save(@"E:\Desktop\out\" + ((ushort)c).ToString() + ".png", ImageFormat.Png);
+                //bmp.Save(@"E:\Desktop\out\" + ((ushort)c).ToString() + ".png", ImageFormat.Png);
                 bmp.Dispose();
             }
             bw.Close();
