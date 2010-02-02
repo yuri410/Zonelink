@@ -14,7 +14,6 @@ using Code2015.EngineEx;
 using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
-using XI = Microsoft.Xna.Framework.Input;
 using XN = Microsoft.Xna.Framework.Net;
 
 namespace Code2015
@@ -27,15 +26,8 @@ namespace Code2015
         RenderSystem renderSys;
 
         Game currentGame;
-        Sprite sprite;
-        Font font;
 
-        List<TerrainTile> terrList = new List<TerrainTile>();
-        RtsCamera camera;
-        ReflectionCamera reflectionCamera;
-        SceneRenderer renderer;
-        RenderTarget reflectionRt;
-        
+
         public Code2015(RenderSystem rs)
         {
             this.renderSys = rs;
@@ -49,13 +41,6 @@ namespace Code2015
         /// </summary>
         public void Initialize()
         {
-        }
-
-        /// <summary>
-        ///  处理游戏初始加载资源工作
-        /// </summary>
-        public void Load()
-        {
             ConfigurationManager.Initialize();
             ConfigurationManager.Instance.Register(new IniConfigurationFormat());
 
@@ -65,62 +50,21 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(TerrainEffect33Factory.Name, new TerrainEffect33Factory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(WaterEffectFactory.Name, new WaterEffectFactory(renderSys));
 
-            EffectManager.Instance.LoadEffects();
-
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);
 
-            //TextureManager.Instance.Redirect = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
+        }
+
+        /// <summary>
+        ///  处理游戏初始加载资源工作
+        /// </summary>
+        public void Load()
+        {
+            EffectManager.Instance.LoadEffects();
 
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
 
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
-
-
-
-
-
-            SceneRendererParameter sm = new SceneRendererParameter();
-            sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
-            sm.UseShadow = false;
-            sm.PostRenderer = new DefaultPostRenderer();
-
-
-
-
-            renderer = new SceneRenderer(renderSys, sm);
-            //Viewport vp = renderSys.Viewport;
-            //reflectionRt = renderSys.ObjectFactory.CreateRenderTarget(vp.Width, vp.Height, ImagePixelFormat.X8R8G8B8);
-
-
-
-
-
-            camera = new RtsCamera(65, 1);
-            //camera.Position = new Vector3(0, 0, -PlanetEarth.PlanetRadius - 1500);
-            camera.NearPlane = 10;
-            camera.FarPlane = 6000;
-            camera.Mode = RenderMode.Final;
-            //reflectionCamera = new ReflectionCamera(camera);
-            //reflectionCamera.RenderTarget = reflectionRt;
-            //WaterEffect.Reflection = reflectionRt;
-
-            //renderer.RegisterCamera(reflectionCamera);
-            renderer.RegisterCamera(camera);
-
-
-
-
-            PlanetEarth earth = new PlanetEarth(renderSys);
-            sm.SceneManager.AddObjectToScene(earth);
-
-            OceanWater water = new OceanWater(renderSys);
-            sm.SceneManager.AddObjectToScene(water);
-
-            //camera.MoveSpeed = 50;
-
-            font = Font.FromResource(renderSys, FileSystem.Instance.Locate("def.fnt", GameFileLocs.UI), "def");
-            sprite = renderSys.ObjectFactory.CreateSprite();
 
         }
 
@@ -137,61 +81,7 @@ namespace Code2015
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-            XI.KeyboardState state = XI.Keyboard.GetState();
 
-            if (state.IsKeyDown(XI.Keys.W))
-            {
-                camera.MoveFront();
-            }
-
-            if (state.IsKeyDown(XI.Keys.A))
-            {
-                camera.MoveLeft();
-            }
-            if (state.IsKeyDown(XI.Keys.D))
-            {
-                camera.MoveRight();
-            }
-            if (state.IsKeyDown(XI.Keys.S))
-            {
-                camera.MoveBack();
-            }
-
-            //if (state.IsKeyDown(XI.Keys.LeftShift))
-            //{
-            //    camera.MoveSpeed = 50;
-            //}
-            //else
-            //{
-            //    camera.MoveSpeed = 2;
-            //}
-
-            if (state.IsKeyDown(XI.Keys.Space))
-            {
-                camera.Height++;
-            }
-            if (state.IsKeyDown(XI.Keys.LeftControl))
-            {
-                camera.Height--;
-            }
-
-            if (state.IsKeyDown(XI.Keys.Right))
-            {
-                camera.TurnRight();
-            }
-            if (state.IsKeyDown(XI.Keys.Left))
-            {
-                camera.TurnLeft();
-            }
-            if (state.IsKeyDown(XI.Keys.Up))
-            {
-                
-            }
-            if (state.IsKeyDown(XI.Keys.Down))
-            {
-            }
-
-            renderer.Update(time);
         }
 
         /// <summary>
