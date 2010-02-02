@@ -200,7 +200,7 @@ namespace Code2015
         public void Draw()
         {
             sprite.Begin();
-
+            font.DrawString(sprite, "test", 0, 0, 10, DrawTextFormat.Center, -1);
             sprite.End();
             //renderer.RenderScene();
         }

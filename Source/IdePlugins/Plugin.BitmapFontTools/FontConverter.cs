@@ -66,9 +66,10 @@ namespace Plugin.BitmapFontTools
             ContentBinaryWriter bw = new ContentBinaryWriter(dest);
             bw.Write(Id);
             bw.Write((int)0);
-            bw.Write(byte.MaxValue);
+            bw.Write((int)byte.MaxValue);
             bw.Write((int)origWidth);
             bw.Write((int)origHeight);
+            bw.Write(FontSize);
             
             for (char c = '\0'; c < 256; c++)
             {
@@ -89,6 +90,9 @@ namespace Plugin.BitmapFontTools
 
                 bw.Write((ushort)c);
                 bw.Write(size.Width);
+                bw.Write(size.Height);
+
+
                 for (int i = 0; i < origHeight; i++)
                 {
                     for (int j = 0; j < origWidth; j++)
