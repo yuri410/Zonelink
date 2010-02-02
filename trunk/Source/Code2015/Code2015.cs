@@ -201,7 +201,7 @@ namespace Code2015
         {
             renderSys.Clear(ClearFlags.DepthBuffer | ClearFlags.Target, ColorValue.Black, 1, 0);
             sprite.Begin();
-            font.DrawString(sprite, "test", 0, 0, 34, DrawTextFormat.Center, -1);
+            font.DrawString(sprite, "test", 0, 0, 14, DrawTextFormat.Center, -1);
             sprite.End();
             //renderer.RenderScene();
         }
