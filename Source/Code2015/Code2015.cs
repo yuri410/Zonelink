@@ -11,6 +11,7 @@ using Apoc3D.Media;
 using Apoc3D.Vfs;
 using Code2015.Effects;
 using Code2015.EngineEx;
+using Code2015.GUI;
 using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
@@ -26,7 +27,7 @@ namespace Code2015
         RenderSystem renderSys;
 
         Game currentGame;
-
+        GameUI gameUI;
 
         public Code2015(RenderSystem rs)
         {
@@ -53,6 +54,10 @@ namespace Code2015
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);
 
+
+            EffectManager.Instance.LoadEffects();
+            FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
+            TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
         }
 
         /// <summary>
@@ -60,12 +65,6 @@ namespace Code2015
         /// </summary>
         public void Load()
         {
-            EffectManager.Instance.LoadEffects();
-
-            FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
-
-            TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
-
         }
 
         /// <summary>
@@ -81,7 +80,14 @@ namespace Code2015
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-
+            if (currentGame != null)
+            {
+                currentGame.Update(time);
+            }
+            if (gameUI != null)
+            {
+                gameUI.Update(time);
+            }
         }
 
         /// <summary>
@@ -90,6 +96,15 @@ namespace Code2015
         public void Draw()
         {
             //renderSys.Clear(ClearFlags.DepthBuffer | ClearFlags.Target, ColorValue.Black, 1, 0);
+
+            if (currentGame != null) 
+            {
+                currentGame.Render();
+            }
+            if (gameUI != null)
+            {
+                gameUI.Render();
+            }
             //sprite.Begin();
             //font.DrawString(sprite, "test", 0, 0, 30, DrawTextFormat.Center, -1);
             //sprite.End();

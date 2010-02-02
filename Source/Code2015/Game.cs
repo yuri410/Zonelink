@@ -49,7 +49,6 @@ namespace Code2015
         GameScene scene;
         
         bool isLoaded;
-        Thread loadingWorker;
 
         public bool IsLoaded
         {
@@ -72,30 +71,6 @@ namespace Code2015
         public Game(GameCreationParameters gcp)
         {
             parameters = gcp;
-
-            loadingWorker = new Thread(Load);
-            loadingWorker.Name = "Game Loader";
-        }
-
-        public void StartLoading()
-        {
-            loadingWorker.Start();
-        }
-
-        void Load()
-        {
-
-
-
-
-            // wait sync
-            TerrainMeshManager.Instance.WaitForIdle();
-            ModelManager.Instance.WaitForIdle();
-            TextureManager.Instance.WaitForIdle();
-        }
-        void Unload()
-        {
-
         }
 
         public void Render()
@@ -107,7 +82,10 @@ namespace Code2015
         }
         public void Update(GameTime time)
         {
-            
+            if (!IsLoaded)
+            {
+                IsLoaded = TerrainMeshManager.Instance.IsIdle & ModelManager.Instance.IsIdle & TextureManager.Instance.IsIdle;                
+            }
         }
     }
 
