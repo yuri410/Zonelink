@@ -19,6 +19,13 @@ using XN = Microsoft.Xna.Framework.Net;
 
 namespace Code2015
 {
+    interface IGameComponent
+    {
+        void Render();
+        void Render(Sprite sprite);
+        void Update(GameTime time);
+    }
+
     /// <summary>
     ///  表示游戏。处理、分配各种操作例如渲染，逻辑等等。
     /// </summary>
@@ -26,13 +33,14 @@ namespace Code2015
     {
         RenderSystem renderSys;
 
-        Game currentGame;
-        GameUI gameUI;
+        List<IGameComponent> gameComps;
+
+        Sprite sprite;
 
         public Code2015(RenderSystem rs)
         {
             this.renderSys = rs;
-
+            this.gameComps = new List<IGameComponent>();
         }
 
         #region IRenderWindowHandler 成员
@@ -58,6 +66,7 @@ namespace Code2015
             EffectManager.Instance.LoadEffects();
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
+
         }
 
         /// <summary>
@@ -65,6 +74,10 @@ namespace Code2015
         /// </summary>
         public void Load()
         {
+            // streaming 结构，不在此加载资源
+
+            sprite = renderSys.ObjectFactory.CreateSprite();
+
         }
 
         /// <summary>
@@ -72,6 +85,8 @@ namespace Code2015
         /// </summary>
         public void Unload()
         {
+
+            sprite.Dispose();
         }
 
         /// <summary>
@@ -80,13 +95,9 @@ namespace Code2015
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-            if (currentGame != null)
+            for (int i = 0; i < gameComps.Count; i++) 
             {
-                currentGame.Update(time);
-            }
-            if (gameUI != null)
-            {
-                gameUI.Update(time);
+                gameComps[i].Update(time);
             }
         }
 
@@ -95,20 +106,17 @@ namespace Code2015
         /// </summary>
         public void Draw()
         {
-            //renderSys.Clear(ClearFlags.DepthBuffer | ClearFlags.Target, ColorValue.Black, 1, 0);
+            for (int i = 0; i < gameComps.Count; i++)
+            {
+                gameComps[i].Render();
+            }
 
-            if (currentGame != null) 
+            sprite.Begin();
+            for (int i = 0; i < gameComps.Count; i++)
             {
-                currentGame.Render();
+                gameComps[i].Render(sprite);
             }
-            if (gameUI != null)
-            {
-                gameUI.Render();
-            }
-            //sprite.Begin();
-            //font.DrawString(sprite, "test", 0, 0, 30, DrawTextFormat.Center, -1);
-            //sprite.End();
-            //renderer.RenderScene();
+            sprite.End();
         }
 
         #endregion

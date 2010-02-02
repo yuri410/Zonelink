@@ -2,8 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Apoc3D;
 using System.Threading;
+using Apoc3D;
 using Apoc3D.Graphics;
 using Code2015.EngineEx;
 
@@ -39,7 +39,7 @@ namespace Code2015
     /// <summary>
     ///  表示一场游戏
     /// </summary>
-    class Game
+    class Game : IGameComponent
     {
         object syncHelper = new object();
 
@@ -71,7 +71,10 @@ namespace Code2015
         {
             parameters = gcp;
         }
+        public void Render(Sprite sprite)
+        {
 
+        }
         public void Render()
         {
             if (IsLoaded)
