@@ -66,18 +66,22 @@ namespace Code2015
             EffectManager.Instance.LoadEffects();
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
+            sprite = renderSys.ObjectFactory.CreateSprite();
 
         }
 
+        public void Finalize()
+        {
+            sprite.Dispose();
+        }
+
+        #region unused
         /// <summary>
         ///  处理游戏初始加载资源工作
         /// </summary>
         public void Load()
         {
             // streaming 结构，不在此加载资源
-
-            sprite = renderSys.ObjectFactory.CreateSprite();
-
         }
 
         /// <summary>
@@ -86,8 +90,8 @@ namespace Code2015
         public void Unload()
         {
 
-            sprite.Dispose();
         }
+        #endregion
 
         /// <summary>
         ///  进行游戏逻辑帧中的处理
