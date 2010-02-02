@@ -27,13 +27,15 @@ namespace Code2015
         RenderSystem renderSys;
 
         Game currentGame;
+        Sprite sprite;
+        Font font;
 
         List<TerrainTile> terrList = new List<TerrainTile>();
         RtsCamera camera;
         ReflectionCamera reflectionCamera;
         SceneRenderer renderer;
         RenderTarget reflectionRt;
-
+        
         public Code2015(RenderSystem rs)
         {
             this.renderSys = rs;
@@ -116,6 +118,10 @@ namespace Code2015
             sm.SceneManager.AddObjectToScene(water);
 
             //camera.MoveSpeed = 50;
+
+            font = Font.FromResource(renderSys, FileSystem.Instance.Locate("def.fnt", GameFileLocs.UI), "def");
+            sprite = renderSys.ObjectFactory.CreateSprite();
+
         }
 
         /// <summary>
@@ -193,8 +199,10 @@ namespace Code2015
         /// </summary>
         public void Draw()
         {
-            
-            renderer.RenderScene();
+            sprite.Begin();
+
+            sprite.End();
+            //renderer.RenderScene();
         }
 
         #endregion

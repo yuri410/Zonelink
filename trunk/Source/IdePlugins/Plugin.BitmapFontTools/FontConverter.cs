@@ -17,7 +17,7 @@ namespace Plugin.BitmapFontTools
 
         public FontConverter() 
         {
-            FontSize = 10;
+            FontSize = 34;
         }
 
         public float FontSize
@@ -74,9 +74,12 @@ namespace Plugin.BitmapFontTools
             {
                 Bitmap bmp = new Bitmap(origWidth, origHeight);
                 System.Drawing.Graphics g = System.Drawing.Graphics.FromImage(bmp);
+                g.Clear(Color.Black);
 
                 Size size = TextRenderer.MeasureText(c.ToString(), font);
-                TextRenderer.DrawText(g, c.ToString(), font, Point.Empty, Color.White);
+                TextRenderer.DrawText(g, c.ToString(), font,
+                    new Rectangle(0, 0, origWidth, origHeight)
+                    , Color.White, Color.Black, TextFormatFlags.VerticalCenter | TextFormatFlags.HorizontalCenter);
 
                 g.Dispose();
 
@@ -84,7 +87,7 @@ namespace Plugin.BitmapFontTools
 
                 byte* src = (byte*)data.Scan0;
 
-                bw.Write(c);
+                bw.Write((ushort)c);
                 bw.Write(size.Width);
                 for (int i = 0; i < origHeight; i++)
                 {
@@ -101,6 +104,7 @@ namespace Plugin.BitmapFontTools
                 }
                
                 bmp.UnlockBits(data);
+                bmp.Save(@"E:\Desktop\out\" + ((ushort)c).ToString() + ".png", ImageFormat.Png);
                 bmp.Dispose();
             }
             bw.Close();
