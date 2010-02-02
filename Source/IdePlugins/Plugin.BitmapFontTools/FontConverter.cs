@@ -97,10 +97,10 @@ namespace Plugin.BitmapFontTools
                 {
                     for (int j = 0; j < origWidth; j++)
                     {
-                        src++;
                         byte red = *src++;
                         byte gr = *src++;
                         byte bl = *src++;
+                        src++;
 
                         float lum = (red * 0.3f + gr * 0.59f + bl * 0.11f);
                         bw.Write((byte)lum);
