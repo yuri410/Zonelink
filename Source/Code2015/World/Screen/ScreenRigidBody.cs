@@ -7,6 +7,38 @@ using Apoc3D.MathLib;
 
 namespace Code2015.World.Screen
 {
+    class ScreenPhysicsObject
+    {
+        float elasity;
+        float friction;
+
+        float linearDamp;
+        float angularDamp;
+
+        public float Elasity
+        {
+            get { return elasity; }
+            set { elasity = value; }
+        }
+
+        public float Friction
+        {
+            get { return friction; }
+            set { friction = value; }
+        }
+        public float LinearDamp 
+        {
+            get { return linearDamp; }
+            set { linearDamp = value; }
+        }
+
+        public float AngularDamp
+        {
+            get { return angularDamp; }
+            set { angularDamp = value; }
+        }
+    }
+
     class ScreenRigidBody
     {
         float orientation;
