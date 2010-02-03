@@ -94,7 +94,7 @@ namespace Code2015.World.Screen
             set { orientation = value; }
         }
 
-        public void Update(GameTime time)
+        public void Integrate(float dt)
         {
             float dt = time.ElapsedRealTime;
 
