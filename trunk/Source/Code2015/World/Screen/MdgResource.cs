@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Graphics;
-using Code2015.GUI;
-using Apoc3D.MathLib;
 using Apoc3D.Collections;
+using Apoc3D.Graphics;
+using Apoc3D.MathLib;
+using Code2015.GUI;
 
 namespace Code2015.World.Screen
 {
@@ -46,7 +46,8 @@ namespace Code2015.World.Screen
         /// <summary>
         ///  Develop a global partnership for development
         /// </summary>
-        Partnership = 7 << 28
+        Partnership = 7 << 28,
+        Count = 8
     }
 
     /// <summary>
@@ -172,8 +173,70 @@ namespace Code2015.World.Screen
     /// </summary>
     class MdgResourceManager
     {
-        FastList<MdgPiece>[] peices;
+        /// <summary>
+        ///  第一个索引为MdgType，第二个为bitmask，第三个为list index
+        /// </summary>
+        FastList<MdgPiece>[][] peices;
+        /// <summary>
+        ///  第一个索引为MdgType
+        /// </summary>
         FastList<MdgResource>[] balls;
+
+        public MdgResourceManager()
+        {
+            peices = new FastList<MdgPiece>[(int)MdgType.Count][];
+
+            balls = new FastList<MdgResource>[(int)MdgType.Count];
+
+            for (int i = 0; i < peices.Length; i++)
+            {
+                peices[i][0] = null;
+
+                // 1
+                peices[i][1] = new FastList<MdgPiece>();
+
+                // 2
+                peices[i][2] = new FastList<MdgPiece>();
+
+                // 4
+                peices[i][4] = new FastList<MdgPiece>();
+
+                // 1, 2
+                peices[i][3] = new FastList<MdgPiece>();
+
+                // 1, 4
+                peices[i][5] = new FastList<MdgPiece>();
+
+                // 2, 6
+                peices[i][6] = new FastList<MdgPiece>();
+
+                // 1,2,4
+                peices[i][7] = new FastList<MdgPiece>();
+
+
+                balls[i] = new FastList<MdgResource>();
+            }
+
+        }
+
+        public int GetPieceCount(MdgType type, int bitmask)
+        {
+            return peices[(int)type][bitmask].Count;
+        }
+        public MdgPiece GetPiece(MdgType type, int bitmask, int index)
+        {
+            return peices[(int)type][bitmask][index];
+        }
+
+        public int GetResourceCount(MdgType type)
+        {
+            return balls[(int)type].Count;
+        }
+        public MdgResource GetResource(MdgType type, int index)
+        {
+            return balls[(int)type][index];
+        }
+
 
         public void Update(GameTime time)
         {
