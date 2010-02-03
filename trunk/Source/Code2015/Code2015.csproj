@@ -151,6 +151,7 @@
     </Compile>
     <Compile Include="Score.cs" />
     <Compile Include="World\Atmosphere.cs" />
+    <Compile Include="World\Screen\MdgResource.cs" />
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
     <Compile Include="World\OceanWaterTile.cs" />
@@ -158,6 +159,9 @@
     <Compile Include="World\PlanetEarth.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="World\Screen\ScreenPhysicsWorld.cs" />
+    <Compile Include="World\Screen\ScreenRigidBody.cs" />
+    <Compile Include="World\Screen\ScreenStaticBody.cs" />
     <Compile Include="World\TerrainTile.cs">
       <SubType>Code</SubType>
     </Compile>
