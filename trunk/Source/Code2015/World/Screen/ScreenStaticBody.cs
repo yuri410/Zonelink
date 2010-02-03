@@ -9,6 +9,11 @@ namespace Code2015.World.Screen
     class ScreenStaticBody
     {
         Vector2[] path;
+        Vector2[] pathNormal;
 
+        public void SetShape(Vector2[] path)
+        {
+
+        }
     }
 }
