@@ -43,13 +43,35 @@ namespace Code2015.World.Screen
                 {
                     ScreenRigidBody bodyA = bodies[i];
                     ScreenRigidBody bodyB = bodies[j];
+                    Vector2 pa = bodyA.Position;
+                    Vector2 pb = bodyB.Position;
+                    float dist = Vector2.Distance(pa, pb);
 
-                    float dist = Vector2.Distance(bodyA.Position, bodyB.Position);
                     if (dist < bodyA.Radius + bodyB.Radius)
                     {
                         Vector2 n = bodyA.Position - bodyB.Position;
                         n.Normalize();
 
+                        Vector2 collPos = pa - bodyA.Radius * n;
+
+                        Vector2 ra = pa - collPos;
+                        Vector2 rb = pb - collPos;
+
+                        Vector2 wa = new Vector2(-bodyA.AngularVelocity * ra.Y, bodyA.AngularVelocity * ra.X);
+                        Vector2 wb = new Vector2(-bodyB.AngularVelocity * rb.Y, bodyB.AngularVelocity * rb.X);
+
+                        Vector2 va = bodyA.Velocity + wa;
+                        Vector2 vb = bodyB.Velocity + wb;
+
+                        float vrn = Vector2.Dot(va - vb, n);
+
+                        float ranCrs = MathEx.Vec2Cross(ra, n);
+                        float rbnCrs = MathEx.Vec2Cross(rb, n);
+
+                        float impluse = 1 /
+                            (1 / bodyA.Mass + 1 / bodyB.Mass +
+                             Vector2.Dot(new Vector2(-ranCrs * ra.Y, ranCrs * ra.X) / bodyA.Inertia, n) +
+                             Vector2.Dot(new Vector2(-rbnCrs * rb.Y, rbnCrs * rb.X) / bodyB.Inertia, n));
                     }
                 }
             }

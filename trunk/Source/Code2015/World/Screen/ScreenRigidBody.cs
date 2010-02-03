@@ -52,6 +52,11 @@ namespace Code2015.World.Screen
 
         float radius;
 
+        public float Inertia
+        {
+            get { return inertia; }
+        }
+
         public float Radius
         {
             get { return radius; }
