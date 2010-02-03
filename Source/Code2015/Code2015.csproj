@@ -122,6 +122,7 @@
     <Compile Include="GUI\UIComponent.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\UITextureManager.cs" />
     <Compile Include="World\CityObject.cs" />
     <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />

@@ -47,6 +47,8 @@ namespace Code2015.World.Screen
 
     class MdgPiece : UIComponent
     {
+        const float Radius = 10;
+
         ScreenRigidBody body;
 
         /// <summary>
@@ -58,9 +60,16 @@ namespace Code2015.World.Screen
 
         Texture image;
 
-        public MdgPiece(MdgType type, int piece)
+        public MdgPiece(MdgType type, int piece, Vector2 pos, float ori)
         {
-            
+            this.body = new ScreenRigidBody();
+            this.body.Orientation = ori;
+            this.body.Position = pos;
+
+            this.type = type;
+            this.bitMask = 1 << piece;
+
+            this.image = MdgResource.LoadImage(type);
         }
 
         public bool CheckMerge(MdgPiece other)
@@ -89,11 +98,48 @@ namespace Code2015.World.Screen
 
     class MdgResource : UIComponent
     {
+        public static Texture LoadImage(MdgType type)
+        {
+            switch (type)
+            {
+                case MdgType.ChildMortality:
+
+                    break;
+                case MdgType.Diseases:
+                    break;
+                case MdgType.Education:
+                    break;
+                case MdgType.Environment:
+                    break;
+                case MdgType.GenderEquality:
+                    break;
+                case MdgType.Hunger:
+                    break;
+                case MdgType.MaternalHealth:
+                    break;
+                case MdgType.Partnership:
+                    break;
+            } 
+            return null;
+        }
+
+        const float Radius = 50;
+
         ScreenRigidBody body;
 
         Texture image;
 
-        MdgType tpye;
+        MdgType type;
+
+        public MdgResource(MdgType type, Vector2 pos, float ori)
+        {
+            this.body = new ScreenRigidBody();
+            this.body.Orientation = ori;
+            this.body.Position = pos;
+
+            this.type = type;
+            this.image = LoadImage(type);
+        }
 
         public override void Render(Sprite sprite)
         {
