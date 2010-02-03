@@ -6,7 +6,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.World.Screen
 {
-    class ScreenStaticBody
+    class ScreenStaticBody : ScreenPhysicsObject
     {
         Vector2[] path;
         Vector2[] pathNormal;
