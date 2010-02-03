@@ -6,9 +6,13 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Code2015.GUI;
 using Apoc3D.MathLib;
+using Apoc3D.Collections;
 
 namespace Code2015.World.Screen
 {
+    /// <summary>
+    ///  联合国八大问题
+    /// </summary>
     enum MdgType
     {
         /// <summary>
@@ -45,6 +49,9 @@ namespace Code2015.World.Screen
         Partnership = 7 << 28
     }
 
+    /// <summary>
+    ///  表示一个MDG拼图碎片
+    /// </summary>
     class MdgPiece : UIComponent
     {
         const float Radius = 10;
@@ -96,6 +103,9 @@ namespace Code2015.World.Screen
         }
     }
 
+    /// <summary>
+    ///  表示一个拼好的MDG图标
+    /// </summary>
     class MdgResource : UIComponent
     {
         public static Texture LoadImage(MdgType type)
@@ -155,4 +165,21 @@ namespace Code2015.World.Screen
             
         }
     }
+
+    /// <summary>
+    ///  对拼图游戏中的各种物体的管理器
+    ///  记录这种物品的数量，并维护他们在物理引擎的“是否激活”状态
+    /// </summary>
+    class MdgResourceManager
+    {
+        FastList<MdgPiece>[] peices;
+        FastList<MdgResource>[] balls;
+
+        public void Update(GameTime time)
+        {
+
+        }
+
+    }
+
 }
