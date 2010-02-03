@@ -9,6 +9,9 @@ using Apoc3D.Vfs;
 
 namespace Code2015.GUI
 {
+    /// <summary>
+    ///  GUI纹理贴图管理器，所有GUI的纹理贴图应从此处创建
+    /// </summary>
     class UITextureManager
     {
         static UITextureManager singleton;
