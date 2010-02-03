@@ -86,6 +86,19 @@ namespace Code2015.BalanceSystem
         }
     }
 
+    public enum CultureId
+    {
+        Asia = 0,
+        Europe = 1,
+        India = 2,
+        Africa = 3,
+        Russia = 4,
+        American = 5,
+        Invariant = 6,
+        SouthAmerican = 7,
+        Count = 8
+    }
+
     /// <summary>
     ///  表示城市的大小
     /// </summary>
@@ -124,9 +137,7 @@ namespace Code2015.BalanceSystem
         ResourceStorage localFood;
         UrbanSize size;
 
-        RegionInfo regionInfo;
-
-
+        CultureId culture;
 
         public City(EnergyStatus energyStat)
             : base(energyStat.Region)

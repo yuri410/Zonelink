@@ -1,19 +1,53 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using System.Text;
-using Apoc3D.Scene;
-using Apoc3D.Graphics;
 using Apoc3D;
+using Apoc3D.Graphics;
+using Apoc3D.Scene;
 using Code2015.BalanceSystem;
-using System.Globalization;
 
 namespace Code2015.World
 {
+    struct CityStyle
+    {
+        public CultureId ID;
+
+        public Model[] Urban;
+        
+        public Model[] OilRefinary;
+        public Model[] WoodFactory;
+
+        public Model[] EducationOrgan;
+
+        public Model[] Hospital;
+    }
+
+    class CityStyleTable
+    {
+        CityStyle[] styles;
+
+        public CityStyleTable()
+        {
+            styles = new CityStyle[(int)CultureId.Count];
+
+            // initialize all
+
+
+        }
+
+        public CityStyle GetModel(CultureId culture)
+        {
+            return styles[(int)culture];
+        }
+    }
+
     class CityObject : SceneObject
     {
         City city;
 
+        SceneManagerBase sceMgr;
 
         public CityObject(City city)
             : base(false)
@@ -28,7 +62,13 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            throw new NotImplementedException();
+
+        }
+
+        public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
+        {
+            base.OnAddedToScene(sender, sceneMgr);
+            this.sceMgr = sceneMgr;
         }
 
         public override bool IsSerializable
