@@ -115,7 +115,11 @@
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
     <Compile Include="GameScene.cs" />
+    <Compile Include="GUI\InGameUI.cs" />
     <Compile Include="GUI\Menu.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\UIComponent.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="World\CityObject.cs" />

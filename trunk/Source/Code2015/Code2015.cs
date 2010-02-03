@@ -33,14 +33,29 @@ namespace Code2015
     {
         RenderSystem renderSys;
 
-        List<IGameComponent> gameComps;
+        Menu menu;
+        Game currentGame;
 
         Sprite sprite;
 
         public Code2015(RenderSystem rs)
         {
             this.renderSys = rs;
-            this.gameComps = new List<IGameComponent>();
+        }
+
+        public bool IsIngame 
+        {
+            get { return currentGame != null; }
+        }
+
+        public Game CurrentGame
+        {
+            get { return currentGame; }
+        }
+
+        public RenderSystem RenderSystem
+        {
+            get { return renderSys; }
         }
 
         #region IRenderWindowHandler 成员
@@ -62,17 +77,26 @@ namespace Code2015
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);
 
+            ModelManager.Initialize();
 
             EffectManager.Instance.LoadEffects();
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
             sprite = renderSys.ObjectFactory.CreateSprite();
 
+            menu = new Menu(this, renderSys);
+
         }
 
-        public void Finalize()
+        public void finalize()
         {
             sprite.Dispose();
+        }
+
+
+        public void StartNewGame(GameCreationParameters gcp)
+        {
+            currentGame = new Game(this, gcp);
         }
 
         #region unused
@@ -99,9 +123,14 @@ namespace Code2015
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
-            for (int i = 0; i < gameComps.Count; i++) 
+            if (menu != null)
             {
-                gameComps[i].Update(time);
+                menu.Update(time);
+            }
+
+            if (currentGame != null)
+            {
+                currentGame.Update(time);
             }
         }
 
@@ -110,16 +139,32 @@ namespace Code2015
         /// </summary>
         public void Draw()
         {
-            for (int i = 0; i < gameComps.Count; i++)
+            if (currentGame == null)
             {
-                gameComps[i].Render();
+                renderSys.Clear(ClearFlags.Target, ColorValue.DarkBlue, 1, 0);
             }
 
-            sprite.Begin();
-            for (int i = 0; i < gameComps.Count; i++)
+            if (currentGame != null)
             {
-                gameComps[i].Render(sprite);
+                currentGame.Render();
             }
+            if (menu != null)
+            {
+                menu.Render();
+            }
+
+
+            sprite.Begin();
+
+            if (currentGame != null)
+            {
+                currentGame.Render(sprite);
+            }
+            if (menu != null)
+            {
+                menu.Render(sprite);
+            }
+
             sprite.End();
         }
 

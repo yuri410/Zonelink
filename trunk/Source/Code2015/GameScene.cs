@@ -116,5 +116,9 @@ namespace Code2015
             renderer.RenderScene();
         }
 
+        public void ActivateVisibles()
+        {
+
+        }
     }
 }
