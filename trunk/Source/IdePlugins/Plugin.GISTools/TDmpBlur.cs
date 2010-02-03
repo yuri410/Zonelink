@@ -13,99 +13,100 @@ using System.Drawing.Imaging;
 
 namespace Plugin.GISTools
 {
-    class TDmpBlur : ConverterBase
+    public class DataGetter
     {
-        class DataGetter
+        float[][] data;
+
+        int unitWid, unitHgt;
+
+        public DataGetter(float[] d1, float[] d2, float[] d3,
+            float[] d4, float[] d5, float[] d6,
+            float[] d7, float[] d8, float[] d9, int uw, int uh)
         {
-            float[][] data;
+            this.unitHgt = uh;
+            this.unitWid = uw;
 
-            int unitWid, unitHgt;
-
-            public DataGetter(float[] d1, float[] d2, float[] d3,
-                float[] d4, float[] d5, float[] d6,
-                float[] d7, float[] d8, float[] d9, int uw, int uh)
-            {
-                this.unitHgt = uh;
-                this.unitWid = uw;
-
-                data = new float[9][];
-                data[0] = d1;
-                data[1] = d2;
-                data[2] = d3;
-                data[3] = d4;
-                data[4] = d5;
-                data[5] = d6;
-                data[6] = d7;
-                data[7] = d8;
-                data[8] = d9;
-            }
-
-            bool IsIn(int index, int x, int y, out Apoc3D.MathLib.Rectangle rect)
-            {
-                rect = GetRect(index);
-                return rect.Contains(x, y);
-            }
-            Apoc3D.MathLib.Rectangle GetRect(int index)
-            {
-                switch (index)
-                {
-                    case 0:
-                        return new Apoc3D.MathLib.Rectangle(0, 0,
-                            unitWid, unitHgt);
-                    case 1:
-                        return new Apoc3D.MathLib.Rectangle(unitWid, 0,
-                            unitWid, unitHgt);
-                    case 2:
-                        return new Apoc3D.MathLib.Rectangle(unitWid * 2, 0,
-                            unitWid, unitHgt);
-                    case 3:
-                        return new Apoc3D.MathLib.Rectangle(0, unitHgt,
-                            unitWid, unitHgt);
-                    case 4:
-                        return new Apoc3D.MathLib.Rectangle(unitWid, unitHgt,
-                            unitWid, unitHgt);
-                    case 5:
-                        return new Apoc3D.MathLib.Rectangle(unitWid * 2, unitHgt,
-                            unitWid, unitHgt);
-                    case 6:
-                        return new Apoc3D.MathLib.Rectangle(0, unitHgt * 2,
-                            unitWid, unitHgt);
-                    case 7:
-                        return new Apoc3D.MathLib.Rectangle(unitWid, unitHgt * 2,
-                            unitWid, unitHgt);
-                    case 8:
-                        return new Apoc3D.MathLib.Rectangle(unitWid * 2, unitHgt * 2,
-                            unitWid, unitHgt);
-
-                }
-                throw new ArgumentOutOfRangeException("index");
-            }
-
-            public float this[int y, int x]
-            {
-                get
-                {
-                    for (int i = 0; i < 9; i++)
-                    {
-                        Apoc3D.MathLib.Rectangle rect;
-                        if (IsIn(i, x, y, out rect))
-                        {
-                            if (data[i] == null)
-                                break;
-                            x -= rect.X;
-                            y -= rect.Y;
-
-                            return data[i][y * unitWid + x];
-                        }
-                    }
-                    return 0;
-
-                }
-            }
-
-            public float[] MainData { get { return data[4]; } set { data[4] = value; } }
+            data = new float[9][];
+            data[0] = d1;
+            data[1] = d2;
+            data[2] = d3;
+            data[3] = d4;
+            data[4] = d5;
+            data[5] = d6;
+            data[6] = d7;
+            data[7] = d8;
+            data[8] = d9;
         }
 
+        bool IsIn(int index, int x, int y, out Apoc3D.MathLib.Rectangle rect)
+        {
+            rect = GetRect(index);
+            return rect.Contains(x, y);
+        }
+        Apoc3D.MathLib.Rectangle GetRect(int index)
+        {
+            switch (index)
+            {
+                case 0:
+                    return new Apoc3D.MathLib.Rectangle(0, 0,
+                        unitWid, unitHgt);
+                case 1:
+                    return new Apoc3D.MathLib.Rectangle(unitWid, 0,
+                        unitWid, unitHgt);
+                case 2:
+                    return new Apoc3D.MathLib.Rectangle(unitWid * 2, 0,
+                        unitWid, unitHgt);
+                case 3:
+                    return new Apoc3D.MathLib.Rectangle(0, unitHgt,
+                        unitWid, unitHgt);
+                case 4:
+                    return new Apoc3D.MathLib.Rectangle(unitWid, unitHgt,
+                        unitWid, unitHgt);
+                case 5:
+                    return new Apoc3D.MathLib.Rectangle(unitWid * 2, unitHgt,
+                        unitWid, unitHgt);
+                case 6:
+                    return new Apoc3D.MathLib.Rectangle(0, unitHgt * 2,
+                        unitWid, unitHgt);
+                case 7:
+                    return new Apoc3D.MathLib.Rectangle(unitWid, unitHgt * 2,
+                        unitWid, unitHgt);
+                case 8:
+                    return new Apoc3D.MathLib.Rectangle(unitWid * 2, unitHgt * 2,
+                        unitWid, unitHgt);
+
+            }
+            throw new ArgumentOutOfRangeException("index");
+        }
+
+        public float this[int y, int x]
+        {
+            get
+            {
+                for (int i = 0; i < 9; i++)
+                {
+                    Apoc3D.MathLib.Rectangle rect;
+                    if (IsIn(i, x, y, out rect))
+                    {
+                        if (data[i] == null)
+                            break;
+                        x -= rect.X;
+                        y -= rect.Y;
+
+                        return data[i][y * unitWid + x];
+                    }
+                }
+                return 0;
+
+            }
+        }
+
+        public float[] MainData { get { return data[4]; } set { data[4] = value; } }
+    }
+
+    class TDmpBlur : ConverterBase
+    {
+        
         string srcDir;
         string dstDir;
 
