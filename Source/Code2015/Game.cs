@@ -54,6 +54,7 @@ namespace Code2015
         
 
         bool isLoaded;
+        int loadingCount = 100;
 
         public bool IsLoaded
         {
@@ -88,25 +89,22 @@ namespace Code2015
         }
         public void Render()
         {
-            if (IsLoaded)
-            {
-                scene.RenderScene();
-            }
-            else
-            {
-                scene.ActivateVisibles();
-            }
+            scene.RenderScene();
         }
         public void Update(GameTime time)
         {
+            scene.Update(time);
+
             if (!IsLoaded)
             {
-                IsLoaded = TerrainMeshManager.Instance.IsIdle & ModelManager.Instance.IsIdle & TextureManager.Instance.IsIdle;
-            }
-            else
-            {
-                scene.Update(time);
-                //throw new Exception();
+                bool newVal = TerrainMeshManager.Instance.IsIdle & ModelManager.Instance.IsIdle & TextureManager.Instance.IsIdle;
+                if (newVal)
+                {
+                    if (--loadingCount < 0)
+                    {
+                        IsLoaded = true;
+                    }
+                }
             }
         }
     }
