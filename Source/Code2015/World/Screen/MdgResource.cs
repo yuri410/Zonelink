@@ -58,6 +58,11 @@ namespace Code2015.World.Screen
 
         Texture image;
 
+        public MdgPiece(MdgType type, int piece)
+        {
+            
+        }
+
         public bool CheckMerge(MdgPiece other)
         {
             if (other.type == type)
@@ -69,7 +74,11 @@ namespace Code2015.World.Screen
 
         public override void Render(Sprite sprite)
         {
-
+            if (image != null)
+            {
+                sprite.SetTransform(Matrix.RotationZ(body.Orientation));
+                sprite.Draw(image, 0, 0, ColorValue.White);
+            }
         }
 
         public override void Update(GameTime time)
