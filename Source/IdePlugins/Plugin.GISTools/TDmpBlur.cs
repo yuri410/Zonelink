@@ -79,6 +79,21 @@ namespace Plugin.GISTools
             throw new ArgumentOutOfRangeException("index");
         }
 
+        public bool HasValue(int y, int x) 
+        {
+            for (int i = 0; i < 9; i++)
+            {
+                Apoc3D.MathLib.Rectangle rect;
+                if (IsIn(i, x, y, out rect))
+                {
+                    if (data[i] == null)
+                        return false;
+                    else
+                        return true;
+                }
+            }
+            return false;
+        }
         public float this[int y, int x]
         {
             get

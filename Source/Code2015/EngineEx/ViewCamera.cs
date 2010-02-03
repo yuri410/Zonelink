@@ -14,8 +14,8 @@ namespace Code2015.EngineEx
         float height;
         float orthoZoom;
 
-        protected float dMoveSpeed = MathEx.PIf / 180;
-        protected float dTurnSpeed = MathEx.PIf / 45;
+        protected float dMoveSpeed = 0.2f * MathEx.PIf / 180;
+        protected float dTurnSpeed = MathEx.PIf / 90;
 
         float longitude;
         float latitude;

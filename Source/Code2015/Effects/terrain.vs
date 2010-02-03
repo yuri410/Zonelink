@@ -21,7 +21,7 @@ struct VSOutput
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 WaterDepth_Blend : TEXCOORD7;
     
-    float LODTest:TEXCOORD5;
+    //float LODTest:TEXCOORD5;
 };
 
 VSOutput main(VSInput ip)
@@ -38,7 +38,7 @@ VSOutput main(VSInput ip)
     o.GlobeCoord = ip.GlobeCoord;
     
     
-    if (terrSize==33)
+    /*if (terrSize==33)
     {
 		o.LODTest = 2;
     }
@@ -49,7 +49,7 @@ VSOutput main(VSInput ip)
     else if (terrSize == 513)
     {
 		o.LODTest = 0;
-    }
+    }*/
     
     o.DetailCoord.y = trunc((ip.Index+0.5) / (terrSize));
     o.DetailCoord.x = fmod(ip.Index+0.5, terrSize);

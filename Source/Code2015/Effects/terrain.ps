@@ -13,7 +13,7 @@ struct PSInput
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 WaterDepth_Blend : TEXCOORD7;
     
-    float LODTest:TEXCOORD5;
+    //float LODTest:TEXCOORD5;
 };
 
 struct PSOutput
@@ -53,6 +53,7 @@ PSOutput main(PSInput ip)
     
     o.Color = GetColor(o.Color, ip.WaterDepth_Blend.x);
     
+    /*
     if (abs(ip.LODTest)<0.01)
     {
 		o.Color += ndl * float4(0.5,0,0,0);
@@ -65,6 +66,7 @@ PSOutput main(PSInput ip)
     {
 		o.Color += ndl * float4(0,0,0.5,0);
     }
+    */
     
     return o;
 }

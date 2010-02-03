@@ -18,7 +18,7 @@ namespace DataFixer
             {
                 for (int y = 1; y < 36; y += 2)
                 {
-                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
+                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_3" + ".tdmp");
 
                     if (File.Exists(file))
                     {
@@ -198,26 +198,26 @@ namespace DataFixer
                         {
                             for (int j = 0; j < width; j++)
                             {
-                                result.Data[i * width + j] = dg[i + width, j + height];
+                                result.Data[i * width + j] = dg[i + height, j + width];
                                 weightMap[i * width + j] = 1;
                             }
                         }
 
                         for (int i = 0; i < height; i++)
                         {
-                            result.Data[i * width] += dg[width - 1, i + height];
+                            result.Data[i * width] += dg[i + height, width - 1];
                             weightMap[i * width]++;
 
-                            result.Data[i * width + height - 1] += dg[2 * width, i + height];
+                            result.Data[i * width + height - 1] += dg[i + height, 2 * width];
                             weightMap[i * width + height - 1]++; 
                         }
 
                         for (int j = 0; j < width; j++)
                         {
-                            result.Data[j] += dg[j + width, height - 1];
+                            result.Data[j] += dg[height - 1, j + width];
                             weightMap[j]++;
 
-                            result.Data[width * (height - 1) + j] += dg[j + width, 2 * height];
+                            result.Data[width * (height - 1) + j] += dg[2 * height, j + width];
                             weightMap[width * (height - 1) + j]++;
                         }
 
@@ -236,7 +236,7 @@ namespace DataFixer
 
                         for (int i = 0; i < height; i++)
                         {
-                            for (int j = 0; j < height; j++)
+                            for (int j = 0; j < width; j++)
                             {
                                 int idx = i * width + j;
                                 result.Data[idx] /= (float)weightMap[idx];
@@ -253,25 +253,25 @@ namespace DataFixer
         static void Main(string[] args)
         {
             const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
-            //const string DstDir = @"E:\Desktop\out";
+            const string DstDir = @"E:\Desktop\out";
 
-            //Console.WriteLine("Terrain data fix");
+            Console.WriteLine("Terrain data fix");
 
-            //Console.WriteLine("Process Lod 0...");
-            //Convert(SrcDir, DstDir, "_0");
+            Console.WriteLine("Process Lod 0...");
+            Convert(SrcDir, DstDir, "_0");
 
-            //Console.WriteLine("Process Lod 1..");
-            //Convert(SrcDir, DstDir, "_1");
+            Console.WriteLine("Process Lod 1..");
+            Convert(SrcDir, DstDir, "_1");
 
-            //Console.WriteLine("Process Lod 2..");
-            //Convert(SrcDir, DstDir, "_2");
+            Console.WriteLine("Process Lod 2..");
+            Convert(SrcDir, DstDir, "_2");
 
-            //Console.WriteLine("Process Lod 3..");
-            //Convert(SrcDir, DstDir, "_3");
-            //Console.WriteLine("Done.");
-            //Console.ReadKey();
-            Scan2(SrcDir);
+            Console.WriteLine("Process Lod 3..");
+            Convert(SrcDir, DstDir, "_3");
+            Console.WriteLine("Done.");
             Console.ReadKey();
+            //Scan2(SrcDir);
+            //Console.ReadKey();
         }
     }
 }
