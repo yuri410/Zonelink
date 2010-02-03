@@ -209,16 +209,16 @@ namespace Code2015.World
             }
            
 
-            Material[][] mats = new Material[1][];
-            mats[0] = new Material[1];
-            mats[0][0] = new Material(renderSys);
+            //Material[][] mats = new Material[1][];
+            //mats[0] = new Material[1];
+            //mats[0][0] = new Material(renderSys);
 
-            //mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
+            ////mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
-            mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect513Factory.Name));
-            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.PostZeroLevel, ColTileCount, LatTileCount, mats);
+            //mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect513Factory.Name));
+            //earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.PostZeroLevel, ColTileCount, LatTileCount, mats);
 
-            base.ModelL0 = earthSphere;
+            //base.ModelL0 = earthSphere;
 
 
             BoundingSphere.Radius = PlanetRadius;
