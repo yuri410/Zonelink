@@ -96,8 +96,6 @@ namespace Code2015.World.Screen
 
         public void Integrate(float dt)
         {
-            float dt = time.ElapsedRealTime;
-
             orientation += angularVel * dt;
 
             position += velocity * dt;
