@@ -16,7 +16,6 @@ namespace Code2015.World
 
         }
 
-
         public override RenderOperation[] GetRenderOperation()
         {
             throw new NotImplementedException();

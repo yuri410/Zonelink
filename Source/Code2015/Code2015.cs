@@ -141,7 +141,7 @@ namespace Code2015
         {
             if (currentGame == null)
             {
-                renderSys.Clear(ClearFlags.Target, ColorValue.DarkBlue, 1, 0);
+                renderSys.Clear(ClearFlags.Target, ColorValue.Black, 1, 0);
             }
 
             if (currentGame != null)
