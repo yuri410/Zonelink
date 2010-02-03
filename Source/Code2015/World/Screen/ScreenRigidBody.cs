@@ -104,6 +104,9 @@ namespace Code2015.World.Screen
             orientation += angularVel * dt;
 
             position += velocity * dt;
+
+            velocity -= velocity * LinearDamp * dt;
+            angularVel -= angularVel * AngularDamp * dt;
         }
 
         public void ApplyImpulse(Vector2 im, Vector2 pos)
