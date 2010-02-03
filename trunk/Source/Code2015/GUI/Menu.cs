@@ -16,6 +16,8 @@ namespace Code2015.GUI
 
         Code2015 game;
 
+        float fps;
+
         public Menu(Code2015 game, RenderSystem rs)
         {
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.UI);
@@ -34,10 +36,13 @@ namespace Code2015.GUI
             {
                 font.DrawString(sprite, "Not Implemented\nPress Enter to start a new game", 0, 0, 34, DrawTextFormat.Center, -1);
             }
+            font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
         }
 
         public override void Update(GameTime time)
         {
+            fps = time.FramesPerSecond;
+
             if (!game.IsIngame)
             {
                 XI.KeyboardState state = XI.Keyboard.GetState();

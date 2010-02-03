@@ -187,7 +187,7 @@ namespace Code2015.World
         #endregion
 
         RenderSystem renderSys;
-        Sphere earthSphere;
+        //Sphere earthSphere;
 
 
         TerrainTile[] terrainTiles;
