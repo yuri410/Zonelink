@@ -5,14 +5,103 @@ using System.IO;
 using Apoc3D.Graphics;
 using Apoc3D.Ide;
 using Plugin.GISTools;
+using Apoc3D.MathLib;
 
 namespace DataFixer
 {
     class Program
     {
+        static void Scan2(string srcDir)
+        {
+           
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
+
+                    if (File.Exists(file))
+                    {
+                        TDMPIO d1 = new TDMPIO();
+                        d1.Load(new DevFileLocation(file));
+
+                        Point coord;
+                        coord.X = (int)Math.Truncate(d1.Xllcorner);
+                        coord.Y = (int)Math.Truncate(d1.Yllcorner);
+
+                        int col = x * 5 - 185;
+                        int lat = 50 - y * 5;
+
+                        if (col != coord.X || lat != coord.Y)
+                        {
+                            Console.WriteLine("Err: " + Path.GetFileNameWithoutExtension(file));
+                            d1.Xllcorner = col;
+                            d1.Yllcorner = lat;
+
+                            Stream stm = File.Open(file, FileMode.Open);
+                            stm.SetLength(0);
+                            d1.Save(stm);
+                        }
+
+                        
+                    }
+                }
+            }
+
+
+        }
+        static void Scan(string srcDir)
+        {
+            Dictionary<Point, List<string>> table = new Dictionary<Point, List<string>>(500);
+
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
+
+                    if (File.Exists(file))
+                    {
+                        TDMPIO d1 = new TDMPIO();
+                        d1.Load(new DevFileLocation(file));
+
+                        Point coord;
+                        coord.X = (int)Math.Truncate(d1.Xllcorner);
+                        coord.Y = (int)Math.Truncate(d1.Yllcorner);
+
+                        List<string> list;
+                        if (!table.TryGetValue(coord, out list))
+                        {
+                            list = new List<string>();
+                            table.Add(coord, list);
+                        }
+                        list.Add(file);
+                    }
+                }
+            }
+
+            Dictionary<Point, List<string>>.ValueCollection vals = table.Values;
+            foreach (List<string> lst in vals)
+            {
+                if (lst.Count > 1)
+                {
+                    Console.Write("Collision: ");
+                    for (int i = 0; i < lst.Count; i++)
+                    {
+                        Console.Write(Path.GetFileNameWithoutExtension(lst[i]));
+                        if (i < lst.Count - 1)
+                        {
+                            Console.Write(", ");
+                        }
+                    }
+                    Console.WriteLine();
+                }
+            }
+            Console.ReadKey();
+        }
         static void Convert(string srcDir, string dstDir, string suffix)
         {
-            for (int x = 1; x < 80; x += 2)
+            for (int x = 1; x < 72; x += 2)
             {
                 for (int y = 1; y < 36; y += 2)
                 {
@@ -101,7 +190,7 @@ namespace DataFixer
                         result.YSpan = dataBlocks[4].YSpan;
                         result.Xllcorner = dataBlocks[4].Xllcorner;
                         result.Yllcorner = dataBlocks[4].Yllcorner;
-                        result.Data = new float[result.Width * result.Height];
+                        result.Data = new float[width * height];
 
                         int[] weightMap = new int[width * height];
 
@@ -164,22 +253,25 @@ namespace DataFixer
         static void Main(string[] args)
         {
             const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
-            const string DstDir = @"E:\Desktop\out";
+            //const string DstDir = @"E:\Desktop\out";
 
-            Console.WriteLine("Terrain data fix");
+            //Console.WriteLine("Terrain data fix");
 
-            Console.WriteLine("Process Lod 0...");
-            Convert(SrcDir, DstDir, "_0");
+            //Console.WriteLine("Process Lod 0...");
+            //Convert(SrcDir, DstDir, "_0");
 
-            Console.WriteLine("Process Lod 1..");
-            Convert(SrcDir, DstDir, "_1");
+            //Console.WriteLine("Process Lod 1..");
+            //Convert(SrcDir, DstDir, "_1");
 
-            Console.WriteLine("Process Lod 2..");
-            Convert(SrcDir, DstDir, "_2");
+            //Console.WriteLine("Process Lod 2..");
+            //Convert(SrcDir, DstDir, "_2");
 
-            Console.WriteLine("Process Lod 3..");
-            Convert(SrcDir, DstDir, "_3");
-
+            //Console.WriteLine("Process Lod 3..");
+            //Convert(SrcDir, DstDir, "_3");
+            //Console.WriteLine("Done.");
+            //Console.ReadKey();
+            Scan2(SrcDir);
+            Console.ReadKey();
         }
     }
 }

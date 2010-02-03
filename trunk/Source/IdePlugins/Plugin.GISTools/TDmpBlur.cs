@@ -104,7 +104,7 @@ namespace Plugin.GISTools
         public float[] MainData { get { return data[4]; } set { data[4] = value; } }
     }
 
-    class TDmpBlur : ConverterBase
+    public class TDmpBlur : ConverterBase
     {
         
         string srcDir;
