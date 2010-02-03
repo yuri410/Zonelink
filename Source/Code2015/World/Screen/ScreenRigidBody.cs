@@ -39,7 +39,7 @@ namespace Code2015.World.Screen
         }
     }
 
-    class ScreenRigidBody
+    class ScreenRigidBody : ScreenPhysicsObject
     {
         float orientation;
 

@@ -68,10 +68,14 @@ namespace Code2015.World.Screen
                         float ranCrs = MathEx.Vec2Cross(ra, n);
                         float rbnCrs = MathEx.Vec2Cross(rb, n);
 
-                        float impluse = 1 /
+                        float elasity = bodyA.Elasity * bodyB.Elasity;
+
+                        float impluse = -2 * elasity * vrn /
                             (1 / bodyA.Mass + 1 / bodyB.Mass +
                              Vector2.Dot(new Vector2(-ranCrs * ra.Y, ranCrs * ra.X) / bodyA.Inertia, n) +
                              Vector2.Dot(new Vector2(-rbnCrs * rb.Y, rbnCrs * rb.X) / bodyB.Inertia, n));
+
+
                     }
                 }
             }
