@@ -7,6 +7,7 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Code2015.EngineEx;
 using Code2015.GUI;
+using Code2015.World;
 
 namespace Code2015
 {
@@ -48,6 +49,7 @@ namespace Code2015
 
         Code2015 game;
         InGameUI ingameUI;
+        GameState gameState;
 
         RenderSystem renderSys;
         GameScene scene;
@@ -79,6 +81,13 @@ namespace Code2015
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.parameters = gcp;
+
+
+            // 初始化GameState
+
+
+
+            // 初始化场景
             this.scene = new GameScene(renderSys);
             this.ingameUI = new InGameUI(game, this, scene);
         }

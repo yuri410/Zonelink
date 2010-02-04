@@ -34,7 +34,10 @@ namespace Code2015.World
 
             // initialize all
 
+            //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
+            //{
 
+            //}
         }
 
         public CityStyle GetModel(CultureId culture)

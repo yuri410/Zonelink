@@ -1,5 +1,48 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <Resources>
-  
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+  <Resource>
+    <Longitude></Longitude>
+    <Latitude></Latitude>
+    <Type></Type>
+    <Amount></Amount>
+  </Resource>
+
+
 </Resources>
