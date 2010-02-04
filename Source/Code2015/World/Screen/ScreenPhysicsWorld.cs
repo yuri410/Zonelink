@@ -15,7 +15,7 @@ namespace Code2015.World.Screen
     {
         FastList<ScreenRigidBody> bodies;
         FastList<ScreenStaticBody> statics;
-        FastList <ScreenRigidBody> sleepBodies;
+        FastList<ScreenRigidBody> sleepBodies;
 
         Rectangle bounds;
 
@@ -23,7 +23,7 @@ namespace Code2015.World.Screen
         {
             bodies = new FastList<ScreenRigidBody>();
             statics = new FastList<ScreenStaticBody>();
-             sleepBodies = new FastList<ScreenRigidBody> ();
+            sleepBodies = new FastList<ScreenRigidBody>();
         }
 
         /// <summary>
