@@ -116,18 +116,6 @@ namespace Code2015.World.Screen
 
                 segNormals[i] = dir;
             }
-
-            
-
-            //pathNormal[0] = segNormals[0];
-            //pathNormal[len - 1] = segNormals[len - 2];
-
-            //for (int i = 1; i < len - 1; i++)
-            //{
-            //    pathNormal[i] = 0.5f * (segNormals[i - 1] + segNormals[i]);
-            //}
-
-
         }
     }
 }

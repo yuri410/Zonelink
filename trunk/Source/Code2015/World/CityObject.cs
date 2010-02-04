@@ -52,10 +52,32 @@ namespace Code2015.World
 
         SceneManagerBase sceMgr;
 
+        int[] mapTable;
+
+
+
         public CityObject(City city)
             : base(false)
         {
             this.city = city;
+            this.mapTable = new int[360];
+
+            for (int i = 0; i < mapTable.Length; i++)
+            {
+                mapTable[i] = mapTable.Length - i;
+            }
+
+            city.PluginAdded += City_PluginAdded;
+            city.PluginRemoved += City_PluginRemoved;
+        }
+
+        void City_PluginAdded(City city, CityPlugin plugin)
+        {
+
+        }
+        void City_PluginRemoved(City city, CityPlugin plugin)
+        {
+
         }
 
         public override RenderOperation[] GetRenderOperation()
