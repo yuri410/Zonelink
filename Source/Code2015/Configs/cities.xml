@@ -391,6 +391,48 @@
     <Size>Small</Size>
     <Population></Population>
   </Hail>
+
+
+  <!--伊拉克-->
+  <Baghdad>
+    <Name>Baghdad</Name>
+    <Longitude>44.396439</Longitude>
+    <Latitude>33.313889</Latitude>
+    <Size>Large</Size>
+    <Population></Population>
+  </Baghdad>
+
+  <!--埃及-->
+  <Cario>
+    <Name>Cario</Name>
+    <Longitude>31.2494</Longitude>
+    <Latitude>30.064722</Latitude>
+    <Size>Large</Size>
+    <Population></Population>
+  </Cario>
+
+  <Aswan>
+    <Name>Aswan</Name>
+    <Longitude>32.90637</Longitude>
+    <Latitude>24.091291</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </Aswan>
   
-  
+  <!--利比亚-->
+  <EIGezira>
+    <Name>EI Gezira</Name>
+    <Longitude>21.088772</Longitude>
+    <Latitude>25.674021</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </EIGezira>
+
+  <Sabha>
+    <Name>Sabha</Name>
+    <Longitude>14.422388</Longitude>
+    <Latitude>27.039251</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </Sabha>
 </Cities>
