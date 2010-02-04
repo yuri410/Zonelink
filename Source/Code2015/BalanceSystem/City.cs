@@ -118,6 +118,9 @@ namespace Code2015.BalanceSystem
         Large = 2
     }
 
+
+    public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
+
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
         /// <summary>
@@ -309,6 +312,9 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+        public event CitypluginEventHandle PluginAdded;
+        public event CitypluginEventHandle PluginRemoved;
+
         /// <summary>
         ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
         /// </summary>
@@ -319,6 +325,11 @@ namespace Code2015.BalanceSystem
             {
                 plugins.Add(plugin);
                 plugin.NotifyAdded(this);
+
+                if (PluginAdded != null)
+                {
+                    PluginAdded(this, plugin);
+                }
             }
             else
             {
@@ -334,6 +345,11 @@ namespace Code2015.BalanceSystem
         {
             plugins.Remove(plugin);
             plugin.NotifyRemoved(this);
+
+            if (PluginRemoved != null)
+            {
+                PluginRemoved(this, plugin);
+            }
         }
 
 
