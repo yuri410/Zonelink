@@ -114,7 +114,15 @@ namespace Code2015.World.Screen
             {
                 for (int j = 0; j < statics.Count; j++)
                 {
+                    ScreenRigidBody bodyA = bodies[i];
+                    ScreenStaticBody bodyB = statics[j];
 
+                    Vector2 pa = bodyA.Position;
+
+                    if (bodyB.AABBTest(pa, bodyA.Radius))
+                    {
+
+                    }
                 }
             }
         }
