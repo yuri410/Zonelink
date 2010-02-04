@@ -84,15 +84,15 @@ namespace Code2015.World.Screen
 
 
                         Vector2 tang = new Vector2(-n.X, n.Y);
-                        ranCrs = MathEx.Vec2Cross(ra, tang);
-                        rbnCrs = MathEx.Vec2Cross(rb, tang);
-                        
+                        float ratCrs = MathEx.Vec2Cross(ra, tang);
+                        float rbtCrs = MathEx.Vec2Cross(rb, tang);
+
                         float vrt = Vector2.Dot(va - vb, tang);
 
                         float frictionMax = -vrt /
                             (1 / bodyA.Mass + 1 / bodyB.Mass +
-                             Vector2.Dot(new Vector2(-ranCrs * ra.Y, ranCrs * ra.X) / bodyA.Inertia, tang) +
-                             Vector2.Dot(new Vector2(-rbnCrs * rb.Y, rbnCrs * rb.X) / bodyB.Inertia, tang));
+                             Vector2.Dot(new Vector2(-ratCrs * ra.Y, ratCrs * ra.X) / bodyA.Inertia, tang) +
+                             Vector2.Dot(new Vector2(-rbtCrs * rb.Y, rbtCrs * rb.X) / bodyB.Inertia, tang));
 
                         float friction = impluse * bodyA.Friction * bodyB.Friction;
 
@@ -147,12 +147,12 @@ namespace Code2015.World.Screen
 
 
                             Vector2 tang = new Vector2(-n.X, n.Y);
-                            ranCrs = MathEx.Vec2Cross(ra, tang);
+                            float ratCrs = MathEx.Vec2Cross(ra, tang);
                             float vrt = Vector2.Dot(va, tang);
 
                             float frictionMax = -vrt /
-                                (1 / bodyA.Mass + 
-                                 Vector2.Dot(new Vector2(-ranCrs * ra.Y, ranCrs * ra.X) / bodyA.Inertia, tang));
+                                (1 / bodyA.Mass +
+                                 Vector2.Dot(new Vector2(-ratCrs * ra.Y, ratCrs * ra.X) / bodyA.Inertia, tang));
 
                             float friction = impluse * bodyA.Friction * bodyB.Friction;
 
@@ -200,6 +200,7 @@ namespace Code2015.World.Screen
                     bodies[i].Integrate(dt);
                 }
             }
+            Collision();
         }
 
     }
