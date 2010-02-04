@@ -55,7 +55,7 @@ namespace Code2015.World.Screen
     /// </summary>
     class MdgPiece : UIComponent
     {
-        const float Radius = 10;
+        const float Radius = 16;
 
         ScreenRigidBody body;
 
@@ -134,7 +134,7 @@ namespace Code2015.World.Screen
             return null;
         }
 
-        const float Radius = 50;
+        const float Radius = 32;
 
         ScreenRigidBody body;
 
