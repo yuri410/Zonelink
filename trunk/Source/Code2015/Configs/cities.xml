@@ -376,5 +376,21 @@
     <Population>1</Population>
   </BeniAbbes>
 
-
+  <!--沙特阿拉伯-->
+  <ArRiyad>
+    <Name>Ar Riyad</Name>
+    <Longitude>46.728973</Longitude>
+    <Latitude>24.673226</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </ArRiyad>
+  <Hail>
+    <Name>Hail</Name>
+    <Longitude>41.693802</Longitude>
+    <Latitude>27.520451</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </Hail>
+  
+  
 </Cities>

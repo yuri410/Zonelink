@@ -16,7 +16,7 @@ namespace Code2015.BalanceSystem
 
 
         public OilField(SimulateRegion region)
-            : base(region, NaturalResourceType.Oil)
+            : base(region, NaturalResourceType.Petro)
         {
            
         }
