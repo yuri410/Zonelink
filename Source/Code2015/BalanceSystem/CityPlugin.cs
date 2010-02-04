@@ -156,7 +156,7 @@ namespace Code2015.BalanceSystem
 
                     if (hpResource > 0)
                     {
-                        if (res.Type == NaturalResourceType.Oil)
+                        if (res.Type == NaturalResourceType.Petro)
                         {
                             //采集资源
 
