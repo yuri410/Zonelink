@@ -219,19 +219,9 @@ namespace Code2015.World
         {
             renderSys = rs;
 
-            terrainTiles = new TerrainTile[ColTileCount * LatTileCount];
-
-            for (int i = 1, index = 0; i < ColTileCount * 2; i += 2)
-            {
-                for (int j = 1; j < LatTileCount * 2; j += 2)
-                {
-                    terrainTiles[index++] = new TerrainTile(renderSys, i, j + LatTileStart);
-                }
-            }
-
             unsafe
             {
-                if (defaultNMap != null)
+                if (defaultNMap == null)
                 {
                     defaultNMap = TextureManager.Instance.CreateInstance(1, 1, 1, ImagePixelFormat.A8R8G8B8);
                     int* dst = (int*)defaultNMap.Lock(0, LockMode.None).Pointer;
@@ -242,7 +232,15 @@ namespace Code2015.World
                 }
             }
 
+            terrainTiles = new TerrainTile[ColTileCount * LatTileCount];
 
+            for (int i = 1, index = 0; i < ColTileCount * 2; i += 2)
+            {
+                for (int j = 1; j < LatTileCount * 2; j += 2)
+                {
+                    terrainTiles[index++] = new TerrainTile(renderSys, i, j + LatTileStart);
+                }
+            }
             //Material[][] mats = new Material[1][];
             //mats[0] = new Material[1];
             //mats[0][0] = new Material(renderSys);
