@@ -325,18 +325,19 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = (data.Data[index] - TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    float height = (data.Data[index] - TerrainMeshManager.PostZeroLevel + 45);
 
-                    //if (height > )
-                    //{
-                    //    height *= TerrainMeshManager.PostHeightScale;
-                    //}
-                    //else
-                    //{
-                    //    height -= 30;
-                    //    if (height < -30)
-                    //        height = -30;
-                    //}
+                    if (height > 0)
+                    {
+                        height = (height - 0) * TerrainMeshManager.PostHeightScale;
+                    }
+                    else
+                    {
+                        height *= TerrainMeshManager.PostHeightScale;
+                        height -= 10;
+                        //if (height < -30)
+                        //    height = -30;
+                    }
 
                     Vector3 normal = pos;
                     normal.Normalize();
@@ -348,7 +349,7 @@ namespace Code2015.EngineEx
                     float curLat = radSpan + radtl - i * cellAngle;
 
                     curCol += MathEx.PIf;
-                    curLat += MathEx.Degree2Radian(5);
+                    curLat -= MathEx.Degree2Radian(5);
 
                     vtxArray[index].u = 0.5f * curCol / MathEx.PIf;
                     vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
