@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.IO;
+using System.Text;
 using Apoc3D.Graphics;
 using Apoc3D.Ide;
-using Plugin.GISTools;
 using Apoc3D.MathLib;
+using Code2015.World;
+using Plugin.GISTools;
 
 namespace DataFixer
 {
@@ -198,27 +199,39 @@ namespace DataFixer
                         {
                             for (int j = 0; j < width; j++)
                             {
+
                                 result.Data[i * width + j] = dg[i + height, j + width];
                                 weightMap[i * width + j] = 1;
+
                             }
                         }
 
                         for (int i = 0; i < height; i++)
                         {
-                            result.Data[i * width] += dg[i + height, width - 1];
-                            weightMap[i * width]++;
-
-                            result.Data[i * width + height - 1] += dg[i + height, 2 * width];
-                            weightMap[i * width + height - 1]++; 
+                            if (dg.HasValue(i + height, width - 1))
+                            {
+                                result.Data[i * width] += dg[i + height, width - 1];
+                                weightMap[i * width]++;
+                            }
+                            if (dg.HasValue(i + height, 2 * width))
+                            {
+                                result.Data[i * width + height - 1] += dg[i + height, 2 * width];
+                                weightMap[i * width + height - 1]++;
+                            }
                         }
 
                         for (int j = 0; j < width; j++)
                         {
-                            result.Data[j] += dg[height - 1, j + width];
-                            weightMap[j]++;
-
-                            result.Data[width * (height - 1) + j] += dg[2 * height, j + width];
-                            weightMap[width * (height - 1) + j]++;
+                            if (dg.HasValue(height - 1, j + width))
+                            {
+                                result.Data[j] += dg[height - 1, j + width];
+                                weightMap[j]++;
+                            }
+                            if (dg.HasValue(2 * height, j + width))
+                            {
+                                result.Data[width * (height - 1) + j] += dg[2 * height, j + width];
+                                weightMap[width * (height - 1) + j]++;
+                            }
                         }
 
 
@@ -249,8 +262,7 @@ namespace DataFixer
                 }
             }
         }
-
-        static void Main(string[] args)
+        static void EdgeMix()
         {
             const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
             const string DstDir = @"E:\Desktop\out";
@@ -259,17 +271,167 @@ namespace DataFixer
 
             Console.WriteLine("Process Lod 0...");
             Convert(SrcDir, DstDir, "_0");
-
+            Console.WriteLine();
             Console.WriteLine("Process Lod 1..");
             Convert(SrcDir, DstDir, "_1");
-
+            Console.WriteLine();
             Console.WriteLine("Process Lod 2..");
             Convert(SrcDir, DstDir, "_2");
-
+            Console.WriteLine();
             Console.WriteLine("Process Lod 3..");
             Convert(SrcDir, DstDir, "_3");
+            Console.WriteLine();
             Console.WriteLine("Done.");
             Console.ReadKey();
+
+        }
+
+        static void SrtmBath(string srcDir, string bathy)
+        {
+            const string tmpDir = @"E:\Desktop\tmp\";
+
+            const int bathWidth = 18433;
+            const int bathHeight = 9217;
+            byte[] bathyData;
+
+            BinaryReader br = new BinaryReader(File.Open(bathy, FileMode.Open));
+            bathyData = br.ReadBytes(bathWidth * bathHeight);
+            br.Close();
+
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
+                    if (File.Exists(file))
+                    {
+                        string file2 = Path.Combine(tmpDir, "tile_" + x.ToString("D2") + "_" + (y + 6).ToString("D2") + "_0" + ".tdmp");
+                        File.Copy(file, file2);
+                    }
+                }
+            }
+
+
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+                    string file = Path.Combine(tmpDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
+
+                    int startX = (x - 1) * 256;
+                    int startY = (y - 1) * 256;// +1536;
+
+                    if (y > 3 && y < 33)
+                    {
+                        if (File.Exists(file))
+                        {
+                            TDMPIO d1 = new TDMPIO();
+                            d1.Load(new DevFileLocation(file));
+                            d1.XSpan *= 2;
+                            d1.YSpan *= 2;
+                            PlanetEarth.TileCoord2CoordNew(x, y, out d1.Xllcorner, out d1.Yllcorner);
+
+                            float[] data = d1.Data;
+
+                            for (int i = 0; i < d1.Height; i++)
+                            {
+                                for (int j = 0; j < d1.Width; j++)
+                                {
+                                    int idx = i * d1.Height + j;
+                                    data[idx] *= 5000;
+
+                                    data[idx] += 1500;
+                                    data[idx] -= (0xff - bathyData[(startY + i) * bathWidth + startX + j]) * (1500f / 256f);
+
+                                    //data[idx] /= 7000;
+                                }
+                            }
+
+                            Stream sout = File.Open(Path.Combine(@"E:\Desktop\out\", Path.GetFileNameWithoutExtension(file) + ".tdmp"), FileMode.OpenOrCreate);
+                            d1.Save(sout);
+
+
+
+
+                            for (int i = 0; i < d1.Height; i++)
+                            {
+                                for (int j = 0; j < d1.Width; j++)
+                                {
+                                    int idx = i * d1.Height + j;
+                                    data[idx] /= 7000;
+                                }
+                            }
+                            TDmpBlur.OutPng(data, d1.Width, d1.Height, Path.Combine(@"E:\Desktop\out\",
+                                Path.GetFileNameWithoutExtension(file) + ".png"));
+                        }
+                        else
+                        {
+                            TDMPIO d2 = new TDMPIO();
+                            d2.Width = 513;
+                            d2.Height = 513;
+                            d2.XSpan = 10;
+                            d2.YSpan = 10;
+                            d2.Bits = 16;
+
+                            PlanetEarth.TileCoord2CoordNew(x, y, out d2.Xllcorner, out d2.Yllcorner);
+
+                            d2.Data = new float[513 * 513];
+
+                            for (int i = 0; i < d2.Height; i++)
+                            {
+                                for (int j = 0; j < d2.Width; j++)
+                                {
+                                    int idx = i * d2.Height + j;
+
+                                    d2.Data[idx] = 1600;
+                                    d2.Data[idx] -= (0xff - bathyData[(startY + i) * bathWidth + startX + j]) * (1500f / 256f);
+                                }
+                            }
+
+                            Stream sout = File.Open(Path.Combine(@"E:\Desktop\out\", Path.GetFileNameWithoutExtension(file) + ".tdmp"), FileMode.OpenOrCreate);
+                            d2.Save(sout);
+
+
+
+                            for (int i = 0; i < d2.Height; i++)
+                            {
+                                for (int j = 0; j < d2.Width; j++)
+                                {
+                                    int idx = i * d2.Height + j;
+                                    d2.Data[idx] /= 7000;
+                                }
+                            }
+                            TDmpBlur.OutPng(d2.Data, d2.Width, d2.Height, Path.Combine(@"E:\Desktop\out\",
+                                Path.GetFileNameWithoutExtension(file) + ".png"));
+                        }
+                    }
+                }
+            }
+        }
+
+
+        static void Main(string[] args)
+        {
+            //const string srcDir = @"E:\Desktop\out";
+            //for (int x = 1; x < 72; x += 2)
+            //{
+            //    int y = 37;
+            //    //for (int y = 1; y < 36; y += 2)
+            //    {
+            //        string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + ".tdmp");
+            //        if (File.Exists(file))
+            //        {
+            //            string file2 = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + (y - 6).ToString("D2") + ".tdmp");
+            //            File.Move(file, file2);
+            //        }
+            //    }
+            //}
+
+            EdgeMix();
+
+            //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
+
+            //SrtmBath(SrcDir, @"E:\Desktop\bathy副本.raw");
             //Scan2(SrcDir);
             //Console.ReadKey();
         }
