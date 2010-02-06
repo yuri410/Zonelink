@@ -205,17 +205,17 @@ namespace Code2015.Effects
 
             TerrainTexture tex;
             tex = TerrainMaterialLibrary.Instance.GetTexture("Snow0041_5");
-            pixShader.SetTextureDirect(0, tex.Texture);
-            pixShader.SetSamplerStateDirect(0, ref state);
+            pixShader.SetTexture("texDet1", tex.Texture);
+            pixShader.SetSamplerState("texDet1", ref state);
             tex = TerrainMaterialLibrary.Instance.GetTexture("Grass0027_13");
-            pixShader.SetTextureDirect(1, tex.Texture);
-            pixShader.SetSamplerStateDirect(1, ref state);
+            pixShader.SetTexture("texDet2", tex.Texture);
+            pixShader.SetSamplerState("texDet2", ref state);
             tex = TerrainMaterialLibrary.Instance.GetTexture("Sand0068_2");
-            pixShader.SetTextureDirect(2, tex.Texture);
-            pixShader.SetSamplerStateDirect(2, ref state);
+            pixShader.SetTexture("texDet3", tex.Texture);
+            pixShader.SetSamplerState("texDet3", ref state);
             tex = TerrainMaterialLibrary.Instance.GetTexture("RockLayered0023_2");
-            pixShader.SetTextureDirect(3, tex.Texture);
-            pixShader.SetSamplerStateDirect(3, ref state);
+            pixShader.SetTexture("texDet4", tex.Texture);
+            pixShader.SetSamplerState("texDet4", ref state);
 
 
             state.AddressU = TextureAddressMode.Clamp;
@@ -223,7 +223,7 @@ namespace Code2015.Effects
             state.AddressW = TextureAddressMode.Clamp;
 
             pixShader.SetSamplerState("texNrm", ref state);
-            pixShader.SetTexture("texNrm", mat.GetTexture(1));
+            pixShader.SetTexture("texNrm", global::Code2015.World.PlanetEarth.DefaultNormalMap);// mat.GetTexture(1));
 
         }
 
