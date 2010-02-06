@@ -8,7 +8,6 @@ namespace Code2015.ParticleSystem
 {
     class ParticleEffect : IRenderable
     {
-        const int MaxPerBatchCount = 120;
 
         struct Vertex
         {
@@ -33,9 +32,38 @@ namespace Code2015.ParticleSystem
 
         }
 
-        VertexBuffer vertexBuffer;
+        class Batch : IRenderable
+        {
+            const int MaxPerBatchCount = 120;
+
+            VertexBuffer vertexBuffer;
+            Vector4[] transform;
+            ColorValue[] colors;
+            VertexDeclaration vertexDecl;
+
+            public Batch(RenderSystem rs, VertexDeclaration vtxDecl)
+            {
+                this.vertexDecl = vtxDecl;
+
+
+            }
+
+            #region IRenderable 成员
+
+            public RenderOperation[] GetRenderOperation()
+            {
+                throw new NotImplementedException();
+            }
+
+            public RenderOperation[] GetRenderOperation(int level)
+            {
+                throw new NotImplementedException();
+            }
+
+            #endregion
+        }
+
         VertexDeclaration vtxDecl;
-        Vector4 transform;
  
         public ParticleEffect(RenderSystem rs)
         {
