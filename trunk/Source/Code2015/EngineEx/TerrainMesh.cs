@@ -458,7 +458,7 @@ namespace Code2015.EngineEx
                 vtxDecl.Dispose();
                 vtxDecl = null;
             }
-            if (normalMap != null)
+            if (nrmMapLoc != null && normalMap != null)
             {
                 normalMap.Dispose();
                 normalMap = null;
