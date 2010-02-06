@@ -23,7 +23,7 @@ namespace Code2015.EngineEx
                     {
                         if (singleton == null)
                         {
-                            singleton = new TerrainTextureManager(1028576 * 20);
+                            singleton = new TerrainTextureManager(1048576 * 20);
                         }
                     }
                 }

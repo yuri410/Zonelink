@@ -223,7 +223,7 @@ namespace Code2015.Effects
             state.AddressW = TextureAddressMode.Clamp;
 
             pixShader.SetSamplerState("texNrm", ref state);
-            pixShader.SetTexture("texNrm", global::Code2015.World.PlanetEarth.DefaultNormalMap);// mat.GetTexture(1));
+            pixShader.SetTexture("texNrm", mat.GetTexture(1));
 
         }
 
