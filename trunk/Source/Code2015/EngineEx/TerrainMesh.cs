@@ -264,9 +264,13 @@ namespace Code2015.EngineEx
             if (nrmMapLoc != null)
             {
                 normalMap = TextureManager.Instance.CreateInstanceUnmanaged(nrmMapLoc);
-
-                material.SetTexture(1, new ResourceHandle<Texture>(normalMap));
             }
+            else
+            {
+                normalMap = PlanetEarth.DefaultNormalMap;
+            }
+            material.SetTexture(1, new ResourceHandle<Texture>(normalMap));
+
 
             // 读取地形数据
             TDMPIO data = new TDMPIO();

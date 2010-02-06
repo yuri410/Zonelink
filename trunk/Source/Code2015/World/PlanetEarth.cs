@@ -9,6 +9,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.Effects;
 using Code2015.EngineEx;
+using Apoc3D.Media;
 
 namespace Code2015.World
 {
@@ -18,10 +19,17 @@ namespace Code2015.World
     public class PlanetEarth : StaticModelObject
     {
         public const int ColTileCount = 36;
-        public const int LatTileCount = 12;
-
+        public const int LatTileCount = 14;
+        public const int LatTileStart = 4;
 
         public const float DefaultTileSpan = MathEx.PIf * 10 / 180;
+
+       static Texture defaultNMap;
+
+       public static Texture DefaultNormalMap 
+        {
+            get { return defaultNMap; }
+        }
 
         #region 工具
         /// <summary>
@@ -217,10 +225,23 @@ namespace Code2015.World
             {
                 for (int j = 1; j < LatTileCount * 2; j += 2)
                 {
-                    terrainTiles[index++] = new TerrainTile(renderSys, i, j);
+                    terrainTiles[index++] = new TerrainTile(renderSys, i, j + LatTileStart);
                 }
             }
-           
+
+            unsafe
+            {
+                if (defaultNMap != null)
+                {
+                    defaultNMap = TextureManager.Instance.CreateInstance(1, 1, 1, ImagePixelFormat.A8R8G8B8);
+                    int* dst = (int*)defaultNMap.Lock(0, LockMode.None).Pointer;
+
+                    *dst = 0xff;
+
+                    defaultNMap.Unlock(0);
+                }
+            }
+
 
             //Material[][] mats = new Material[1][];
             //mats[0] = new Material[1];

@@ -67,6 +67,6 @@ PSOutput main(PSInput ip)
 		o.Color += ndl * float4(0,0,0.5,0);
     }
     */
-    
+    o.Color = o.Color * 0.01 + ndl;
     return o;
 }

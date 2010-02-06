@@ -412,22 +412,22 @@ namespace DataFixer
 
         static void Main(string[] args)
         {
-            //const string srcDir = @"E:\Desktop\out";
-            //for (int x = 1; x < 72; x += 2)
-            //{
-            //    int y = 37;
-            //    //for (int y = 1; y < 36; y += 2)
-            //    {
-            //        string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + ".tdmp");
-            //        if (File.Exists(file))
-            //        {
-            //            string file2 = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + (y - 6).ToString("D2") + ".tdmp");
-            //            File.Move(file, file2);
-            //        }
-            //    }
-            //}
+            const string srcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrainNormal.lpk";
+            const string dstDir = @"E:\Desktop\out";
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_2.tex");
+                    if (File.Exists(file))
+                    {
+                        string file2 = Path.Combine(dstDir, "tile_" + x.ToString("D2") + "_" + (y + 6).ToString("D2") + "_2.tex");
+                        File.Copy(file, file2);
+                    }
+                }
+            }
 
-            EdgeMix();
+            //EdgeMix();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
 
