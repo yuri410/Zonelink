@@ -224,9 +224,9 @@ namespace Code2015.World
                 if (defaultNMap == null)
                 {
                     defaultNMap = TextureManager.Instance.CreateInstance(1, 1, 1, ImagePixelFormat.A8R8G8B8);
-                    int* dst = (int*)defaultNMap.Lock(0, LockMode.None).Pointer;
+                    uint* dst = (uint*)defaultNMap.Lock(0, LockMode.None).Pointer;
 
-                    *dst = 0xff00;
+                    *dst = 0xff80ff80;
 
                     defaultNMap.Unlock(0);
                 }
