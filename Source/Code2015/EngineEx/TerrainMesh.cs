@@ -193,7 +193,7 @@ namespace Code2015.EngineEx
             //material.Power = terrData.MaterialPower;
             material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
-            PlanetEarth.TileCoord2Coord(x, y, out tileCol, out tileLat);
+            PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);
 
             switch (lod)
             {
@@ -277,8 +277,8 @@ namespace Code2015.EngineEx
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
             terrEdgeSize = data.Width;
-            data.XSpan *= 2;
-            data.YSpan *= 2;
+            //data.XSpan *= 2;
+            //data.YSpan *= 2;
 
             float radSpan = MathEx.Degree2Radian(data.XSpan);
 
@@ -323,18 +323,18 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = data.Data[index] * TerrainMeshManager.HeightScale;
+                    float height = (data.Data[index] - TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
 
-                    if (height > 30)
-                    {
-                        height *= TerrainMeshManager.PostHeightScale;
-                    }
-                    else
-                    {
-                        height -= 30;
-                        if (height < -30)
-                            height = -30;
-                    }
+                    //if (height > )
+                    //{
+                    //    height *= TerrainMeshManager.PostHeightScale;
+                    //}
+                    //else
+                    //{
+                    //    height -= 30;
+                    //    if (height < -30)
+                    //        height = -30;
+                    //}
 
                     Vector3 normal = pos;
                     normal.Normalize();

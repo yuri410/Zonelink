@@ -282,5 +282,266 @@
     <Type>Petro</Type>
     <Amount></Amount>
   </Resource46>
-    
+
+  
+  <Resource47>
+    <Longitude>118.070068</Longitude>
+    <Latitude>26.32296</Latitude>
+    <Type>Wood</Type>
+    <Amount>100</Amount>
+  </Resource47>
+  <Resource48>
+    <Longitude>101.931152</Longitude>
+    <Latitude>30.581179</Latitude>
+    <Type>Wood</Type>
+    <Amount>40</Amount>
+  </Resource48>
+  <Resource49>
+    <Longitude>97.855225</Longitude>
+    <Latitude>26.42139</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource49>
+  <Resource49>
+    <Longitude>102.041016</Longitude>
+    <Latitude>20.653346</Latitude>
+    <Type>Wood</Type>
+    <Amount>100</Amount>
+  </Resource49>
+  <Resource50>
+    <Longitude>123.33252</Longitude>
+    <Latitude>51.275662</Latitude>
+    <Type>Wood</Type>
+    <Amount>70</Amount>
+  </Resource50>
+  <Resource51>
+    <Longitude>128.671875</Longitude>
+    <Latitude>42.843751</Latitude>
+    <Type>Wood</Type>
+    <Amount>80</Amount>
+  </Resource51>
+  <Resource52>
+    <Longitude>104.875488</Longitude>
+    <Latitude>54.444492</Latitude>
+    <Type>Wood</Type>
+    <Amount>200</Amount>
+  </Resource52>
+  <Resource53>
+    <Longitude>107.731934</Longitude>
+    <Latitude>33.92513</Latitude>
+    <Type>Wood</Type>
+    <Amount>50</Amount>
+  </Resource53>
+  <Resource54>
+    <Longitude>132.451172</Longitude>
+    <Latitude>53.592505</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource54>
+  <Resource55>
+    <Longitude>94.614258</Longitude>
+    <Latitude>54.72462</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource55>
+  <Resource56>
+    <Longitude>87.670898</Longitude>
+    <Latitude>52.536273</Latitude>
+    <Type>Wood</Type>
+    <Amount>90</Amount>
+  </Resource56>
+  <Resource57>
+    <Longitude>114.741211</Longitude>
+    <Latitude>0.439449</Latitude>
+    <Type>Wood</Type>
+    <Amount>90</Amount>
+  </Resource57>
+  <Resource58>
+    <Longitude>146.975098</Longitude>
+    <Latitude>-37.204082</Latitude>
+    <Type>Wood</Type>
+    <Amount>100</Amount>
+  </Resource58>
+  <Resource59>
+    <Longitude>141.416016</Longitude>
+    <Latitude>-5.965754</Latitude>
+    <Type>Wood</Type>
+    <Amount>90</Amount>
+  </Resource59>
+  <Resource60>
+    <Longitude>141.416016</Longitude>
+    <Latitude>-5.965754</Latitude>
+    <Type>Wood</Type>
+    <Amount>50</Amount>
+  </Resource60>
+  
+  <Resource61>
+    <Longitude>98.843994</Longitude>
+    <Latitude>2.591889</Latitude>
+    <Type>Wood</Type>
+    <Amount>70</Amount>
+  </Resource61>
+
+  <Resource62>
+    <Longitude>43.330078</Longitude>
+    <Latitude>42.326062</Latitude>
+    <Type>Wood</Type>
+    <Amount>100</Amount>
+  </Resource62>
+
+  <Resource63>
+    <Longitude>11.57959</Longitude>
+    <Latitude>47.092566</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource63>
+
+  <Resource64>
+    <Longitude>25.598145</Longitude>
+    <Latitude>45.912944</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource64>
+
+  <Resource65>
+    <Longitude>0.241699</Longitude>
+    <Latitude>43.036776</Latitude>
+    <Type>Wood</Type>
+    <Amount>60</Amount>
+  </Resource65>
+
+  <Resource66>
+    <Longitude>-5.998535</Longitude>
+    <Latitude>33.302986</Latitude>
+    <Type>Wood</Type>
+    <Amount>50</Amount>
+  </Resource66>
+
+  <Resource67>
+    <Longitude>24.697266</Longitude>
+    <Latitude>1.230374</Latitude>
+    <Type>Wood</Type>
+    <Amount>150</Amount>
+  </Resource67>
+
+  
+  <Resource68>
+    <Longitude>20.258789</Longitude>
+    <Latitude>-2.811371</Latitude>
+    <Type>Wood</Type>
+    <Amount>200</Amount>
+  </Resource68>
+
+  <Resource69>
+    <Longitude>13.535156</Longitude>
+    <Latitude>1.098565</Latitude>
+    <Type>Wood</Type>
+    <Amount>180</Amount>
+  </Resource69>
+
+  
+  <Resource70>
+    <Longitude>30.915527</Longitude>
+    <Latitude>-25.967922</Latitude>
+    <Type>Wood</Type>
+    <Amount>40</Amount>
+  </Resource70>
+
+  <Resource71>
+    <Longitude>-65.961914</Longitude>
+    <Latitude>3.864255</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource71>
+
+  <Resource72>
+    <Longitude>-74.003906</Longitude>
+    <Latitude>-3.337954</Latitude>
+    <Type>Wood</Type>
+    <Amount>220</Amount>
+  </Resource72>
+
+  <Resource73>
+    <Longitude>-69.829102</Longitude>
+    <Latitude>-9.449062</Latitude>
+    <Type>Wood</Type>
+    <Amount>180</Amount>
+  </Resource73>
+
+  <Resource74>
+    <Longitude>-64.379883</Longitude>
+    <Latitude>-2.899153</Latitude>
+    <Type>Wood</Type>
+    <Amount>110</Amount>
+  </Resource74>
+
+  <Resource75>
+    <Longitude>-57.524414</Longitude>
+    <Latitude>-9.362353</Latitude>
+    <Type>Wood</Type>
+    <Amount>100</Amount>
+  </Resource75>
+
+  <Resource76>
+    <Longitude>-90.483398</Longitude>
+    <Latitude>15.897942</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource76>
+
+  <Resource77>
+    <Longitude>-86.660156</Longitude>
+    <Latitude>32.435613</Latitude>
+    <Type>Wood</Type>
+    <Amount>160</Amount>
+  </Resource77>
+
+  <Resource78>
+    <Longitude>-124.145508</Longitude>
+    <Latitude>52.988337</Latitude>
+    <Type>Wood</Type>
+    <Amount>200</Amount>
+  </Resource78>
+  
+  <Resource79>
+    <Longitude>-118.78418</Longitude>
+    <Latitude>49.922935</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource79>
+  
+  <Resource80>
+    <Longitude>-66.31347</Longitude>
+    <Latitude>48.719961</Latitude>
+    <Type>Wood</Type>
+    <Amount>100</Amount>
+  </Resource80>
+  
+  <Resource81>
+    <Longitude>-76.574707</Longitude>
+    <Latitude>47.680183</Latitude>
+    <Type>Wood</Type>
+    <Amount>150</Amount>
+  </Resource81>
+  
+  <Resource82>
+    <Longitude>-73.564453</Longitude>
+    <Latitude>50.317408</Latitude>
+    <Type>Wood</Type>
+    <Amount>120</Amount>
+  </Resource82>
+  
+  <Resource83>
+    <Longitude>-83.935547</Longitude>
+    <Latitude>48.951366</Latitude>
+    <Type>Wood</Type>
+    <Amount>180</Amount>
+  </Resource83>
+  
+  <Resource84>
+    <Longitude>-89.736328</Longitude>
+    <Latitude>52.589701</Latitude>
+    <Type>Wood</Type>
+    <Amount>200</Amount>
+  </Resource84>
 </Resources>

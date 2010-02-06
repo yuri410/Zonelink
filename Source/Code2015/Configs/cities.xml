@@ -795,6 +795,161 @@
     <Population></Population>
   </Seattle>
   
-  <!--墨西哥-->
+  <!--Georgia-->
+  <Kutaisi>
+    <Name>Kutaisi</Name>
+    <Longitude>42.681885</Longitude>
+    <Latitude>42.277309</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Kutaisi>
+
   
+  <!--马来西亚-->
+  <Medan>
+    <Name>Medan</Name>
+    <Longitude>98.677311</Longitude>
+    <Latitude>3.583839</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+
+  </Medan>
+
+  <!--印度尼西亚-->
+  <KotaSamarinda>
+    <Name>Kota Samarinda</Name>
+    <Longitude>117.103271</Longitude>
+    <Latitude>-0.505365</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+
+  </KotaSamarinda>
+  
+  <!--Papua New Guinea-->
+  <Kowatasi>
+    <Name>Kowatasi</Name>
+    <Longitude>142.998047</Longitude>
+    <Latitude>-7.144499</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+
+  </Kowatasi>
+
+  <!--墨西哥-->
+  <Kowatasi>
+    <Name>Kowatasi</Name>
+    <Longitude>-96.14213</Longitude>
+    <Latitude>18.085322</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </Kowatasi>
+
+
+  <Maraba>
+    <Name>Maraba</Name>
+    <Longitude>-49.105968</Longitude>
+    <Latitude>-5.352838</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Maraba>
+
+  <Manaus>
+    <Name>Manaus</Name>
+    <Longitude>-60.010757</Longitude>
+    <Latitude>-3.08258</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Manaus>
+
+  <Sinop>
+    <Name>Sinop</Name>
+    <Longitude>-55.503359</Longitude>
+    <Latitude>-11.858699</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </Sinop>
+
+  <SaoPaulo>
+    <Name>São Paulo</Name>
+    <Longitude>-46.63765</Longitude>
+    <Latitude>-23.559581</Latitude>
+    <Size>Large</Size>
+    <Population></Population>
+  </SaoPaulo>
+
+  <Brasilia>
+    <Name>Brasilia</Name>
+    <Longitude>-47.969055</Longitude>
+    <Latitude>-15.826609</Latitude>
+    <Size>Medium</Size>
+    <Population>205</Population>
+
+  </Brasilia>
+  
+  <!--秘鲁-->
+  <Iquitos>
+    <Name>Iquitos</Name>
+    <Longitude>-73.255377</Longitude>
+    <Latitude>-3.754977</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+  </Iquitos>
+
+  <!--Venezuela-->
+  <Barinas>
+    <Name>Barinas</Name>
+    <Longitude>-70.227356</Longitude>
+    <Latitude>8.629903</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+  </Barinas>
+
+
+  <!--玻利维亚-->
+  <SantaCruz>
+    <Name>Santa Cruz de La Sierra</Name>
+    <Longitude>-63.179626</Longitude>
+    <Latitude>-17.784324</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+
+  </SantaCruz>
+
+  <!--Argentina-->
+  <BuenosAires>
+    <Name>BuenosAires</Name>
+    <Longitude>-58.495331</Longitude>
+    <Latitude>-34.675006</Latitude>
+    <Size>Large</Size>
+    <Population></Population>
+
+  </BuenosAires>
+
+  <Cordoba>
+    <Name>Cordoba</Name>
+    <Longitude>-64.188652</Longitude>
+    <Latitude>-31.406396</Latitude>
+    <Size>Medium</Size>
+    <Population></Population>
+
+  </Cordoba>
+
+  <SantaRosa>
+    <Name>Santa Rosa</Name>
+    <Longitude>-64.287529</Longitude>
+    <Latitude>-36.623794</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+
+  </SantaRosa>
+  
+  <!--智力-->
+  <LosAngles>
+    <Name>Los Angles</Name>
+    <Longitude>-72.351151</Longitude>
+    <Latitude>-37.471316</Latitude>
+    <Size>Small</Size>
+    <Population></Population>
+
+  </LosAngles>
 </Cities>

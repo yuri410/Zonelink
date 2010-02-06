@@ -6,6 +6,9 @@ using System.Text;
 using Apoc3D.MathLib;
 using Code2015.World;
 using DevIl;
+using System.Threading;
+using System.Drawing;
+using System.Drawing.Imaging;
 
 namespace GameTest
 {
@@ -82,8 +85,49 @@ namespace GameTest
             }
         }
 
-        static void Main(string[] args)
+        unsafe static void Main(string[] args)
         {
+            Bitmap bmp = new Bitmap(11601, 10801);
+            BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, 11601, 10801), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+            BinaryReader br = new BinaryReader(File.Open(@"E:\Desktop\gebco_bathy.21601x10801.bin", FileMode.Open));
+
+            byte* dst = (byte*)data.Scan0;
+
+            for (int i = 0; i < 11601 * 10801; i++)
+            {
+                br.ReadByte();
+                byte v = br.ReadByte();
+                *dst++ = 0xff;
+                *dst++ = v;
+                *dst++ = v;
+                *dst++ = v;
+
+                //Half h = new Half(br.ReadUInt16());
+
+                //float v = h.ToSingle();
+                //if (v < 0) v = -v;
+
+
+                //byte b = (byte)(byte.MaxValue * (v / short.MaxValue));
+
+                //*dst++ = b;
+                //*dst++ = b;
+                //*dst++ = b;
+                //Console.WriteLine(h);
+                //if (i % 10000 == 0)
+                //{
+                //    Thread.Sleep(1000);
+                //}
+            }
+
+            bmp.UnlockBits(data);
+
+            bmp.Save(@"E:\Desktop\sample.png", ImageFormat.Png);
+
+            br.Close();
+            bmp.Dispose();
+
             //float rad10 = MathEx.Degree2Radian(10);
             //Console.WriteLine(Vector3.Distance(PlanetEarth.GetPosition(rad10, 0), PlanetEarth.GetPosition(rad10, rad10)));
             //Console.WriteLine(Vector3.Distance(PlanetEarth.GetPosition(0, rad10), PlanetEarth.GetPosition(rad10, rad10)));
@@ -94,7 +138,7 @@ namespace GameTest
 
             //Console.WriteLine(PlanetEarth.GetPosition(0, rad10));
             //TestIl();
-            PlanetPosition();
+            //PlanetPosition();
             Console.ReadKey();
         }
     }

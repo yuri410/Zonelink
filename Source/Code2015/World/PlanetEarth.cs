@@ -93,6 +93,19 @@ namespace Code2015.World
             return n * ir;
         }
 
+        ///// <summary>
+        /////  角度为角度制
+        ///// </summary>
+        ///// <param name="x"></param>
+        ///// <param name="y"></param>
+        ///// <param name="col"></param>
+        ///// <param name="lat"></param>
+        //public static void TileCoord2Coord(float x, float y, out float col, out float lat)
+        //{
+        //    col = x * 5 - 185;
+        //    lat = 50 - y * 5;
+
+        //}
         /// <summary>
         ///  角度为角度制
         /// </summary>
@@ -100,10 +113,10 @@ namespace Code2015.World
         /// <param name="y"></param>
         /// <param name="col"></param>
         /// <param name="lat"></param>
-        public static void TileCoord2Coord(float x, float y, out float col, out float lat)
+        public static void TileCoord2CoordNew(float x, float y, out float col, out float lat)
         {
             col = x * 5 - 185;
-            lat = 50 - y * 5;
+            lat = 90 - y * 5;
 
         }
 

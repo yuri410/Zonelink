@@ -66,7 +66,7 @@ namespace Code2015.World
         {
             renderSystem = rs;
 
-            PlanetEarth.TileCoord2Coord(@long, lat, out tileCol, out tileLat);
+            PlanetEarth.TileCoord2CoordNew(@long, lat, out tileCol, out tileLat);
 
             material = new Material(rs);
 

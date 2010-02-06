@@ -7,6 +7,7 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.Scene;
 using Code2015.BalanceSystem;
+using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -48,19 +49,28 @@ namespace Code2015.World
 
     class CityObject : SceneObject
     {
+        struct PluginEntry
+        {
+            public CityPlugin plugin;
+            public int StartPosition;
+            public int Size;
+
+        }
+
         City city;
 
         SceneManagerBase sceMgr;
 
         int[] mapTable;
-
-
+        FastList<PluginEntry> plugins;
 
         public CityObject(City city)
             : base(false)
         {
             this.city = city;
             this.mapTable = new int[360];
+            this.plugins = new FastList<PluginEntry>();
+
 
             for (int i = 0; i < mapTable.Length; i++)
             {
