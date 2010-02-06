@@ -15,7 +15,7 @@ namespace Code2015.World
     class OceanWater : StaticModelObject
     {
         RenderSystem renderSys;
-        Sphere oceanSphere;
+        //Sphere oceanSphere;
         OceanWaterTile[] waterTiles;
         OceanWaterDataManager dataMgr;
 
@@ -48,7 +48,7 @@ namespace Code2015.World
             {
                 for (int j = 1; j < PlanetEarth.LatTileCount * 2; j += 2)
                 {
-                    waterTiles[index++] = new OceanWaterTile(rs, dataMgr, i, j);
+                    waterTiles[index++] = new OceanWaterTile(rs, dataMgr, i, j + PlanetEarth.LatTileStart);
                 }
             }
 
