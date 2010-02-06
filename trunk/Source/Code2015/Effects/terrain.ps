@@ -1,6 +1,10 @@
 #include "waterDepth.psh"
 
-sampler2D texDet[4];
+sampler2D texDet1 : register(s0);
+sampler2D texDet2 : register(s1);
+sampler2D texDet3 : register(s2);
+sampler2D texDet4 : register(s3);
+
 sampler2D texDif : register(s4);
 sampler2D texColor : register(s5);
 sampler2D texNrm : register(s6);
@@ -39,14 +43,25 @@ PSOutput main(PSInput ip)
 	
 	float4 color = 0;
 	
-	int i;
-	for (i=0;i<4;i++)
+	if (index[0]>0.01)
 	{
-		if (index[i]>0.01)
-		{
-			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord*3);
-			color += (index[i]) * tex2D(texDet[i], ip.DetailCoord*21);
-		}
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord*3);
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord*21);
+	}
+	if (index[1]>0.01)
+	{
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord*3);
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord*21);
+	}
+	if (index[2]>0.01)
+	{
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord*3);
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord*21);
+	}
+	if (index[3]>0.01)
+	{
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*3);
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*21);
 	}
 	
     o.Color = ndl * lerp(color , tex2D(texColor, ip.GlobeCoord), ip.WaterDepth_Blend.y);

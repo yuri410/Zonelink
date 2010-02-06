@@ -56,7 +56,7 @@ namespace Code2015.EngineEx
 
         FileLocation resLoc;
         FileLocation nrmMapLoc;
-        Texture normalMap;
+        ResourceHandle<Texture> normalMap;
 
         /// <summary>
         ///  地形一条边上的顶点数
@@ -250,7 +250,7 @@ namespace Code2015.EngineEx
             if (nrmMapLoc != null)
             {
                 if (normalMap != null)
-                    size += normalMap.ContentSize;
+                    size += normalMap.GetWeakResource().ContentSize;
             }
 
             return size;
@@ -263,13 +263,13 @@ namespace Code2015.EngineEx
 
             if (nrmMapLoc != null)
             {
-                normalMap = TextureManager.Instance.CreateInstanceUnmanaged(nrmMapLoc);
+                normalMap = TextureManager.Instance.CreateInstance(nrmMapLoc);
             }
             else
             {
-                normalMap = PlanetEarth.DefaultNormalMap;
+                normalMap = new ResourceHandle<Texture>(PlanetEarth.DefaultNormalMap, true);
             }
-            material.SetTexture(1, new ResourceHandle<Texture>(normalMap));
+            material.SetTexture(1, normalMap);
 
 
             // 读取地形数据
@@ -458,11 +458,11 @@ namespace Code2015.EngineEx
                 vtxDecl.Dispose();
                 vtxDecl = null;
             }
-            if (nrmMapLoc != null && normalMap != null)
-            {
-                normalMap.Dispose();
-                normalMap = null;
-            }
+            //if (nrmMapLoc != null && normalMap != null)
+            //{
+            //    normalMap.Dispose();
+            //    normalMap = null;
+            //}
             indexBuffer = null;
             if (rootNode != null)
             {

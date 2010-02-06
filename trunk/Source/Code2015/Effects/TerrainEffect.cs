@@ -221,6 +221,7 @@ namespace Code2015.Effects
             state.AddressU = TextureAddressMode.Clamp;
             state.AddressV = TextureAddressMode.Clamp;
             state.AddressW = TextureAddressMode.Clamp;
+
             pixShader.SetSamplerState("texNrm", ref state);
             pixShader.SetTexture("texNrm", mat.GetTexture(1));
 
