@@ -47,8 +47,8 @@ namespace Code2015
             PlanetEarth earth = new PlanetEarth(renderSys);
             sm.SceneManager.AddObjectToScene(earth);
 
-            //OceanWater water = new OceanWater(renderSys);
-            //sm.SceneManager.AddObjectToScene(water);
+            OceanWater water = new OceanWater(renderSys);
+            sm.SceneManager.AddObjectToScene(water);
 
         }
 

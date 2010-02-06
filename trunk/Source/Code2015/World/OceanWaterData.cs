@@ -93,7 +93,7 @@ namespace Code2015.World
                 {
                     Vector3 pos = PlanetEarth.GetPosition(j * cellAngle, radtl - i * cellAngle);
                     pos.Normalize();
-                    pos *= PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel;
+                    pos *= PlanetEarth.PlanetRadius;
 
                     int index = i * size + j;
 

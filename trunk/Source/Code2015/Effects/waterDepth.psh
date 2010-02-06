@@ -2,6 +2,6 @@
 
 float4 GetColor(float4 color, float w)
 {
-	float4 fogColor = float4(0,0,0,1);//float4(0, 0.211, 0.341, 1);
+	float4 fogColor = float4(0, 0.111, 0.141, 0.5);
 	return lerp(color, fogColor, 1 / exp(1-w));
 }
