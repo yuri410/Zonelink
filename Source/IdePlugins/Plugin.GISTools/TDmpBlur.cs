@@ -148,7 +148,7 @@ namespace Plugin.GISTools
         {
             for (int x = 1; x < 72; x += 2)
             {
-                for (int y = 1; y < 24; y += 2)
+                for (int y = 1; y < 36; y += 2)
                 {
                     int minX = x - 2;
                     int maxX = x + 2;
@@ -212,7 +212,6 @@ namespace Plugin.GISTools
                             }
                         }
 
-                        float[] databy = new float[width * height];
 
                         DataGetter dg = new DataGetter(
                             dataBlocks[0] == null ? null : dataBlocks[0].Data,
@@ -225,10 +224,99 @@ namespace Plugin.GISTools
                             dataBlocks[7] == null ? null : dataBlocks[7].Data,
                             dataBlocks[8] == null ? null : dataBlocks[8].Data, width, height);
 
+                        float[] original = dg.MainData;
+
+                        float[] sampleSrc = new float[original.Length];
+
+                        for (int i = 0; i < height; i++)
+                        {
+                            for (int j = 0; j < width; j++)
+                            {
+                                int idx = i * width + j;
+                                sampleSrc[idx] = original[idx];
+
+                                if (sampleSrc[idx] < 1600)
+                                    sampleSrc[idx] -= 600;
+                                else
+                                    sampleSrc[idx] += 1000;
+                            }
+                        }
+                        dg.MainData = sampleSrc;
+
+
+                        #region bath fix
+                        //float[] databy = new float[width * height];
+                        //int mid = 65 / 2;
+
+                        //for (int i = 0; i < height; i++)
+                        //{
+                        //    for (int j = 0; j < width; j++)
+                        //    {
+                        //        int idx = i * width + j;
+
+                        //        if (original[idx] < 1600)
+                        //        {
+                        //            float val = 0;
+                        //            for (int ii = 0; ii < 65; ii++)
+                        //            {
+                        //                float v = dg[i + ii - mid + width, j + height];
+                        //                if (v < 1600)
+                        //                {
+                        //                    v -= 400;
+                        //                }
+                        //                else
+                        //                {
+                        //                    v += 200;
+                        //                }
+
+                        //                val += v / (float)(65 * 65);
+
+                        //            }
+                        //            databy[idx] = MathEx.Clamp(0, 1600, val);
+                        //        }
+                        //        else { databy[idx] = original[idx]; }
+                        //    }
+                        //}
+
+                        //float[] databx = new float[width * height];
+                        //dg.MainData = databy;
+                        //for (int i = 0; i < height; i++)
+                        //{
+                        //    for (int j = 0; j < width; j++)
+                        //    {
+                        //        int idx = i * width + j;
+
+                        //        if (original[idx] < 1600)
+                        //        {
+                        //            float val = 0;
+                        //            for (int ii = 0; ii < 65; ii++)
+                        //            {
+                        //                float v = dg[i + width, j  + ii - mid + height];
+                        //                if (v < 1600)
+                        //                {
+                        //                    v -= 400;
+                        //                }
+                        //                else
+                        //                {
+                        //                    v += 200;
+                        //                }
+
+                        //                val += v / (float)(65 * 65);
+
+                        //            }
+                        //            databx[idx] = MathEx.Clamp(0, 1600, val);
+                        //        }
+                        //        else { databy[idx] = original[idx]; }
+                        //    }
+                        //}
+                        #endregion
+
                         #region 高斯模糊
                         int brushSize = 65;
 
-                        float[] weights = MathEx.ComputeGuassFilter1D((float)Math.Sqrt(0.7 * brushSize), brushSize);
+                        float[] databy = new float[width * height];
+
+                        float[] weights = MathEx.ComputeGuassFilter1D((float)Math.Sqrt(1 * brushSize), brushSize);
 
                         #region Normalize
                         float maxValue = 0;
@@ -256,17 +344,23 @@ namespace Plugin.GISTools
                         {
                             for (int j = 0; j < width; j++)
                             {
-                                float val = 0;
-                                for (int ii = 0; ii < brushSize; ii++)
+                                int idx = i * width + j;
+
+                                if (original[idx] < 1600)
                                 {
-                                    val += weights[ii] * dg[i + ii - mid + width, j + height];
+                                    float val = 0;
+                                    for (int ii = 0; ii < brushSize; ii++)
+                                    {
+                                        val += weights[ii] * dg[i + ii - mid + width, j + height];
+                                    }
+                                    databy[idx] = MathEx.Clamp(0, 1600, val);
                                 }
-                                databy[i * width + j] = val;
+                                else databy[idx] = original[idx];
                             }
                         }
                         #endregion
 
-                        float[] original = dg.MainData;
+
                         float[] databx = new float[width * height];
                         dg.MainData = databy;
 
@@ -275,12 +369,18 @@ namespace Plugin.GISTools
                         {
                             for (int j = 0; j < width; j++)
                             {
-                                float val = 0;
-                                for (int ii = 0; ii < brushSize; ii++)
+                                int idx = i * width + j;
+
+                                if (original[idx] < 1600)
                                 {
-                                    val += weights[ii] * dg[i + width, j + ii - mid + height];
+                                    float val = 0;
+                                    for (int ii = 0; ii < brushSize; ii++)
+                                    {
+                                        val += weights[ii] * dg[i + width, j + ii - mid + height];
+                                    }
+                                    databx[idx] = MathEx.Clamp(0, 1600, val);
                                 }
-                                databx[i * width + j] = val;
+                                else databx[idx] = original[idx];
                             }
                         }
                         #endregion
@@ -304,6 +404,15 @@ namespace Plugin.GISTools
                         result.Save(File.Open(fileName, FileMode.OpenOrCreate, FileAccess.Write));
 
                         #region 预览图
+                        for (int i = 0; i < height; i++)
+                        {
+                            for (int j = 0; j < width; j++)
+                            {
+                                int idx = i * width + j;
+                                original[idx] /= 7000;
+                                databx[idx] /= 7000;
+                            }
+                        }
                         OutPng(databx, width, height, fileNameImg);
                         OutPng(original, width, height, fileNameImg2);
                         #endregion
