@@ -409,23 +409,29 @@ namespace DataFixer
             }
         }
 
-
-        static void Main(string[] args)
+        static void ElevationBias(string srcDir)
         {
-            const string srcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrainNormal.lpk";
-            const string dstDir = @"E:\Desktop\out";
+            const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
+            const string OutDir = @"E:\Desktop\out";
             for (int x = 1; x < 72; x += 2)
             {
                 for (int y = 1; y < 36; y += 2)
                 {
-                    string file = Path.Combine(srcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_2.tex");
+                    string file = Path.Combine(SrcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
                     if (File.Exists(file))
                     {
-                        string file2 = Path.Combine(dstDir, "tile_" + x.ToString("D2") + "_" + (y + 6).ToString("D2") + "_2.tex");
-                        File.Copy(file, file2);
+                        TDMPIO d1 = new TDMPIO();
+                        d1.Load(new DevFileLocation(file));
+
+                        Stream sout = File.Open(Path.Combine(OutDir, Path.GetFileNameWithoutExtension(file) + ".tdmp"), FileMode.OpenOrCreate);
+                        d1.Save(sout);
                     }
                 }
             }
+        }
+        static void Main(string[] args)
+        {
+           
 
             //EdgeMix();
 
