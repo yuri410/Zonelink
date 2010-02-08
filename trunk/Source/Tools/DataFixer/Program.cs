@@ -467,10 +467,7 @@ namespace DataFixer
 
         static void Main(string[] args)
         {
-            DoubleSize();
-            //ElevationBias();
-
-            //EdgeMix();
+            EdgeMix();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
 
