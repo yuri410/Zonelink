@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Text;
 using System.Windows.Forms;
@@ -9,7 +10,6 @@ using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using System.Drawing.Imaging;
 
 namespace Plugin.GISTools
 {
@@ -226,22 +226,22 @@ namespace Plugin.GISTools
 
                         float[] original = dg.MainData;
 
-                        float[] sampleSrc = new float[original.Length];
+                        //float[] sampleSrc = new float[original.Length];
 
-                        for (int i = 0; i < height; i++)
-                        {
-                            for (int j = 0; j < width; j++)
-                            {
-                                int idx = i * width + j;
-                                sampleSrc[idx] = original[idx];
+                        //for (int i = 0; i < height; i++)
+                        //{
+                        //    for (int j = 0; j < width; j++)
+                        //    {
+                        //        int idx = i * width + j;
+                        //        sampleSrc[idx] = original[idx];
 
-                                if (sampleSrc[idx] < 1600)
-                                    sampleSrc[idx] -= 600;
-                                else
-                                    sampleSrc[idx] += 1000;
-                            }
-                        }
-                        dg.MainData = sampleSrc;
+                        //        if (sampleSrc[idx] < 1600)
+                        //            sampleSrc[idx] -= 600;
+                        //        else
+                        //            sampleSrc[idx] += 1000;
+                        //    }
+                        //}
+                        dg.MainData = original;
 
 
                         #region bath fix
