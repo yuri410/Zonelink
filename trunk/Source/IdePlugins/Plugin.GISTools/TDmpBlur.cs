@@ -144,6 +144,23 @@ namespace Plugin.GISTools
             }
         }
 
+        float[] BathymetrySlopSampleData(float [] src) 
+        {
+            return src;
+            //float[] sampleSrc4 = new float[src.Length];
+
+            //for (int i = 0; i < src.Length; i++)
+            //{
+            //    sampleSrc4[i] = src[i];
+
+            //    if (sampleSrc4[i] < 1600)
+            //        sampleSrc4[i] -= 600;
+            //    else
+            //        sampleSrc4[i] += 1000;
+            //}
+            //return sampleSrc4;
+        }
+
         void Convert()
         {
             for (int x = 1; x < 72; x += 2)
@@ -213,103 +230,29 @@ namespace Plugin.GISTools
                         }
 
 
+                        float[] original = dataBlocks[4].Data;
+
+                        float[] sampleSrc1 = dataBlocks[0] == null ? null : BathymetrySlopSampleData(dataBlocks[0].Data);
+                        float[] sampleSrc2 = dataBlocks[1] == null ? null : BathymetrySlopSampleData(dataBlocks[1].Data);
+                        float[] sampleSrc3 = dataBlocks[2] == null ? null : BathymetrySlopSampleData(dataBlocks[2].Data);
+                        float[] sampleSrc4 = dataBlocks[3] == null ? null : BathymetrySlopSampleData(dataBlocks[3].Data);
+                        float[] sampleSrc5 = dataBlocks[4] == null ? null : BathymetrySlopSampleData(dataBlocks[4].Data);
+                        float[] sampleSrc6 = dataBlocks[5] == null ? null : BathymetrySlopSampleData(dataBlocks[5].Data);
+                        float[] sampleSrc7 = dataBlocks[6] == null ? null : BathymetrySlopSampleData(dataBlocks[6].Data);
+                        float[] sampleSrc8 = dataBlocks[7] == null ? null : BathymetrySlopSampleData(dataBlocks[7].Data);
+                        float[] sampleSrc9 = dataBlocks[8] == null ? null : BathymetrySlopSampleData(dataBlocks[8].Data);
+
                         DataGetter dg = new DataGetter(
-                            dataBlocks[0] == null ? null : dataBlocks[0].Data,
-                            dataBlocks[1] == null ? null : dataBlocks[1].Data,
-                            dataBlocks[2] == null ? null : dataBlocks[2].Data,
-                            dataBlocks[3] == null ? null : dataBlocks[3].Data,
-                            dataBlocks[4] == null ? null : dataBlocks[4].Data,
-                            dataBlocks[5] == null ? null : dataBlocks[5].Data,
-                            dataBlocks[6] == null ? null : dataBlocks[6].Data,
-                            dataBlocks[7] == null ? null : dataBlocks[7].Data,
-                            dataBlocks[8] == null ? null : dataBlocks[8].Data, width, height);
+                            dataBlocks[0] == null ? null : sampleSrc1,
+                            dataBlocks[1] == null ? null : sampleSrc2,
+                            dataBlocks[2] == null ? null : sampleSrc3,
+                            dataBlocks[3] == null ? null : sampleSrc4,
+                            dataBlocks[4] == null ? null : sampleSrc5,
+                            dataBlocks[5] == null ? null : sampleSrc6,
+                            dataBlocks[6] == null ? null : sampleSrc7,
+                            dataBlocks[7] == null ? null : sampleSrc8,
+                            dataBlocks[8] == null ? null : sampleSrc9, width, height);
 
-                        float[] original = dg.MainData;
-
-                        //float[] sampleSrc = new float[original.Length];
-
-                        //for (int i = 0; i < height; i++)
-                        //{
-                        //    for (int j = 0; j < width; j++)
-                        //    {
-                        //        int idx = i * width + j;
-                        //        sampleSrc[idx] = original[idx];
-
-                        //        if (sampleSrc[idx] < 1600)
-                        //            sampleSrc[idx] -= 600;
-                        //        else
-                        //            sampleSrc[idx] += 1000;
-                        //    }
-                        //}
-                        dg.MainData = original;
-
-
-                        #region bath fix
-                        //float[] databy = new float[width * height];
-                        //int mid = 65 / 2;
-
-                        //for (int i = 0; i < height; i++)
-                        //{
-                        //    for (int j = 0; j < width; j++)
-                        //    {
-                        //        int idx = i * width + j;
-
-                        //        if (original[idx] < 1600)
-                        //        {
-                        //            float val = 0;
-                        //            for (int ii = 0; ii < 65; ii++)
-                        //            {
-                        //                float v = dg[i + ii - mid + width, j + height];
-                        //                if (v < 1600)
-                        //                {
-                        //                    v -= 400;
-                        //                }
-                        //                else
-                        //                {
-                        //                    v += 200;
-                        //                }
-
-                        //                val += v / (float)(65 * 65);
-
-                        //            }
-                        //            databy[idx] = MathEx.Clamp(0, 1600, val);
-                        //        }
-                        //        else { databy[idx] = original[idx]; }
-                        //    }
-                        //}
-
-                        //float[] databx = new float[width * height];
-                        //dg.MainData = databy;
-                        //for (int i = 0; i < height; i++)
-                        //{
-                        //    for (int j = 0; j < width; j++)
-                        //    {
-                        //        int idx = i * width + j;
-
-                        //        if (original[idx] < 1600)
-                        //        {
-                        //            float val = 0;
-                        //            for (int ii = 0; ii < 65; ii++)
-                        //            {
-                        //                float v = dg[i + width, j  + ii - mid + height];
-                        //                if (v < 1600)
-                        //                {
-                        //                    v -= 400;
-                        //                }
-                        //                else
-                        //                {
-                        //                    v += 200;
-                        //                }
-
-                        //                val += v / (float)(65 * 65);
-
-                        //            }
-                        //            databx[idx] = MathEx.Clamp(0, 1600, val);
-                        //        }
-                        //        else { databy[idx] = original[idx]; }
-                        //    }
-                        //}
-                        #endregion
 
                         #region 高斯模糊
                         int brushSize = 65;
@@ -393,7 +336,7 @@ namespace Plugin.GISTools
 
                         TDMPIO result = new TDMPIO();
                         result.Data = databx;
-                        result.Bits = 32;
+                        result.Bits = 16;
                         result.Height = height;
                         result.Width = width;
                         result.XSpan = dataBlocks[4].XSpan;

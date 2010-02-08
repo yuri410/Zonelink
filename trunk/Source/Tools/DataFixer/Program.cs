@@ -439,10 +439,35 @@ namespace DataFixer
             }
         }
 
+        static void DoubleSize()
+        {
+            const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
+            const string OutDir = @"E:\Desktop\out";
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+                    string file = Path.Combine(SrcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_3.tdmp");
+                    string file2 = Path.Combine(OutDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_3.tdmp");
+                    if (File.Exists(file))
+                    {
+                        TDMPIO d1 = new TDMPIO();
+                        d1.Load(new DevFileLocation(file));
+
+                        d1.XSpan *= 2;
+                        d1.YSpan *= 2;
+
+                        Stream sout = File.Open(file2, FileMode.OpenOrCreate);
+                        d1.Save(sout);
+                    }
+                }
+            }
+        }
 
 
         static void Main(string[] args)
         {
+            DoubleSize();
             //ElevationBias();
 
             //EdgeMix();
