@@ -19,7 +19,7 @@ struct VSOutput
     float2 DetailCoord : TEXCOORD1;
     
 	float3 TangentSpaceLDir : TEXCOORD6;
-    float2 WaterDepth_Blend : TEXCOORD7;
+    float2 Height_Blend : TEXCOORD7;
     
     //float LODTest:TEXCOORD5;
 };
@@ -32,8 +32,8 @@ VSOutput main(VSInput ip)
     
     float4 wpos = mul(ip.Position, world);
     
-	o.WaterDepth_Blend.x = GetWaterDepth((float3)mul(ip.Position, world));
-	o.WaterDepth_Blend.y = clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
+	o.Height_Blend.x = GetHeight((float3)mul(ip.Position, world));
+	o.Height_Blend.y = clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
     
     o.GlobeCoord = ip.GlobeCoord;
     
