@@ -10,6 +10,9 @@ using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
 {
+    /// <summary>
+    ///  表示游戏菜单
+    /// </summary>
     class Menu : UIComponent, IGameComponent
     {
         Font font;

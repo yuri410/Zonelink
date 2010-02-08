@@ -9,6 +9,9 @@ using Code2015.EngineEx;
 
 namespace Code2015.GUI
 {
+    /// <summary>
+    ///  表示游戏过程中的界面
+    /// </summary>
     class InGameUI : UIComponent
     {
         GameScene scene;
