@@ -1,16 +1,16 @@
 #define PlanetRadius 6371
 
-#define waterBegin 5
-//#define waterEnd -14
-#define waterEnd -17
+#define waterBegin 1
+#define waterEnd -18
 
 float GetWaterDepth(float3 wpos)
 {
-    float height = length(wpos) - PlanetRadius-10;
+    float height = length(wpos) - PlanetRadius;
     
     if (height < waterBegin)
     {
-		return saturate((waterEnd-(height-waterBegin)) / (waterBegin-waterEnd));
+		float v = saturate((waterEnd-(height-waterBegin)) / (waterBegin-waterEnd));
+		return sqrt(v);
     }
     return 0;
 }
