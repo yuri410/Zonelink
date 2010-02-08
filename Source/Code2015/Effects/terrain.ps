@@ -15,7 +15,7 @@ struct PSInput
     float2 DetailCoord : TEXCOORD1; 
     
 	float3 TangentSpaceLDir : TEXCOORD6;
-    float2 WaterDepth_Blend : TEXCOORD7;
+    float2 Height_Blend : TEXCOORD7;
     
     //float LODTest:TEXCOORD5;
 };
@@ -64,9 +64,9 @@ PSOutput main(PSInput ip)
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*21);
 	}
 	
-    o.Color = ndl * lerp(color , tex2D(texColor, ip.GlobeCoord), ip.WaterDepth_Blend.y);
+    o.Color = ndl * lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
     
-    o.Color = GetColor(o.Color, ip.WaterDepth_Blend.x);
+    o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
     /*
     if (abs(ip.LODTest)<0.01)
