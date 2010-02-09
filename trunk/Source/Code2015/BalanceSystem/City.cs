@@ -90,13 +90,11 @@ namespace Code2015.BalanceSystem
     {
         Asia = 0,
         Europe = 1,
-        India = 2,
-        Africa = 3,
-        Russia = 4,
-        American = 5,
-        Invariant = 6,
-        SouthAmerican = 7,
-        Count = 8
+        Africa = 2,
+        Russia = 3,
+        American = 4,
+        Invariant = 5,
+        Count = 6
     }
 
     /// <summary>
