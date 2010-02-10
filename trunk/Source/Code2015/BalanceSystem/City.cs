@@ -162,6 +162,10 @@ namespace Code2015.BalanceSystem
 
         #region  属性
 
+        public CultureId Culture 
+        {
+            get { return culture; }
+        }
 
         /// <summary>
         ///  获取城市已存储（已缓存）的高能资源

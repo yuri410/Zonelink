@@ -16,7 +16,7 @@ namespace Code2015.World
         public CultureId ID;
 
         public Model[] Urban;
-        
+
         public Model[] OilRefinary;
         public Model[] WoodFactory;
 
@@ -41,10 +41,19 @@ namespace Code2015.World
             //}
         }
 
-        public CityStyle GetModel(CultureId culture)
+        public CityStyle GetStyleSet(CultureId culture)
         {
             return styles[(int)culture];
         }
+    }
+
+
+    enum PluginPositionFlag
+    {
+        P1 = 1,
+        P2 = 1 << 1,
+        P3 = 1 << 2,
+        P4 = 1 << 3
     }
 
     class CityObject : SceneObject
@@ -52,34 +61,39 @@ namespace Code2015.World
         struct PluginEntry
         {
             public CityPlugin plugin;
-            public int StartPosition;
-            public int Size;
-
+            public PluginPositionFlag position;
         }
 
         City city;
+        CityStyle style;
 
         SceneManagerBase sceMgr;
 
-        int[] mapTable;
         FastList<PluginEntry> plugins;
 
-        public CityObject(City city)
+        PluginPositionFlag pluginFlags;
+
+        public CityObject(City city,CityStyleTable styleSet)
             : base(false)
         {
             this.city = city;
-            this.mapTable = new int[360];
             this.plugins = new FastList<PluginEntry>();
-
-
-            for (int i = 0; i < mapTable.Length; i++)
-            {
-                mapTable[i] = mapTable.Length - i;
-            }
+            this.style = styleSet.GetStyleSet(city.Culture);
 
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            base.Dispose(disposing);
+            if (disposing)
+            {
+                city.PluginAdded -= City_PluginAdded;
+                city.PluginRemoved -= City_PluginRemoved;
+            }
+        }
+        
 
         void City_PluginAdded(City city, CityPlugin plugin)
         {
