@@ -84,7 +84,7 @@ namespace Code2015
 
 
             // 初始化GameState
-
+            gameState = new GameState();
 
 
             // 初始化场景
@@ -114,6 +114,10 @@ namespace Code2015
                         IsLoaded = true;
                     }
                 }
+            }
+            else 
+            {
+                gameState.Update(time);
             }
         }
     }
