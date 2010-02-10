@@ -43,16 +43,21 @@ namespace Code2015.EngineEx
 
             Vector3 axis = target;
             axis.Normalize();
+
+            //float sign = latitude > 0 ? 1 : -1;
+            Vector3 up = Vector3.UnitY;
+
             Vector3 rotAxis = axis;
 
-            Vector3 yawAxis = Vector3.Cross(axis, Vector3.UnitY);
+            Vector3 yawAxis = Vector3.Cross(axis, up);
             yawAxis.Normalize();
 
-            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw) * Quaternion.RotationAxis(rotAxis, rotation));
+            Quaternion rotTrans = Quaternion.RotationAxis(rotAxis, rotation);
+            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw) * rotTrans);
 
             position = target + axis * height * 20;
             Matrix viewTrans = Matrix.LookAtRH(position, target,
-                Vector3.TransformSimple(Vector3.UnitY, Quaternion.RotationAxis(rotAxis, rotation)));
+                Vector3.TransformSimple(up, rotTrans));
 
             Frustum.View = viewTrans;
             Frustum.Update();
