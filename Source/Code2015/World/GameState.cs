@@ -7,6 +7,16 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.World
 {
+    class GameStateBuilder
+    {
+        public GameStateBuilder()
+        {
+
+        }
+
+
+    }
+
     class GameState
     {
         SimulateRegion slgSystem;
