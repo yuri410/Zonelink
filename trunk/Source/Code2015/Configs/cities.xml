@@ -836,13 +836,13 @@
   </Kowatasi>
 
   <!--墨西哥-->
-  <Kowatasi>
-    <Name>Kowatasi</Name>
+  <SanJuanBautistaTuxtepec>
+    <Name>San Juan Bautista Tuxtepec</Name>
     <Longitude>-96.14213</Longitude>
     <Latitude>18.085322</Latitude>
     <Size>Small</Size>
     <Population></Population>
-  </Kowatasi>
+  </SanJuanBautistaTuxtepec>
 
 
   <Maraba>

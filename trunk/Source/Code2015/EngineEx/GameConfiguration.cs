@@ -51,38 +51,37 @@ namespace Code2015.EngineEx
         public GameConfiguration(ResourceLocation fl)
             : base(fl.Name, EqualityComparer<string>.Default)
         {
-
             XmlTextReader xml = new XmlTextReader(fl.GetStream);
             xml.WhitespaceHandling = WhitespaceHandling.None;
 
-            //XmlSection parentSection = null;
             int depth = xml.Depth;
 
-            GameConfigurationSection currentSection;
+            GameConfigurationSection currentSection = null;
 
-            string name = string.Empty;
+            string currentAttrib = string.Empty;
+
             while (MoveToNextElement(xml))
             {
-                if (xml.Depth != depth)
+                switch (xml.NodeType)
                 {
-                    switch (depth)
-                    {
-                        case 0:
-                            currentSection = new GameConfigurationSection(xml.Name);
-                            break;
-                        case 1:
-                            
-                            break;
-                        case 2:
-                            //currentSection = new GameConfigurationSection(xml.ReadString());
-                            break;
-                        case 3:
-
-                            break;
-                    }
+                    case XmlNodeType.Element:
+                    case XmlNodeType.Text:
+                    case XmlNodeType.CDATA:
+                        switch (xml.Depth)
+                        {
+                            case 1:
+                                currentSection = new GameConfigurationSection(xml.Name);
+                                Add(xml.Name, currentSection);
+                                break;
+                            case 2:
+                                currentAttrib = xml.Name;
+                                break;
+                            case 3:
+                                currentSection.Add(currentAttrib, xml.ReadString());
+                                break;
+                        }
+                        break;
                 }
-                
-                depth = xml.Depth;
             }
 
             xml.Close();
