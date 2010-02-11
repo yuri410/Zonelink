@@ -9,6 +9,8 @@ using DevIl;
 using System.Threading;
 using System.Drawing;
 using System.Drawing.Imaging;
+using Apoc3D.Config;
+using Code2015.EngineEx;
 
 namespace GameTest
 {
@@ -85,7 +87,7 @@ namespace GameTest
             }
         }
 
-        unsafe static void Main(string[] args)
+        unsafe static void Main2(string[] args)
         {
             Bitmap bmp = new Bitmap(11601, 10801);
             BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, 11601, 10801), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
@@ -140,6 +142,15 @@ namespace GameTest
             //TestIl();
             //PlanetPosition();
             Console.ReadKey();
+        }
+
+        unsafe static void Main(string[] args)
+        {
+            ConfigurationManager.Initialize();
+            ConfigurationManager.Instance.Register(new GameConfigurationFormat());
+
+            ConfigurationManager.Instance.CreateInstance(@"");
+
         }
     }
 }
