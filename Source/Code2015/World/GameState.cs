@@ -7,6 +7,7 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Apoc3D.Collections;
+using Apoc3D.Graphics;
 
 namespace Code2015.World
 {
@@ -66,9 +67,12 @@ namespace Code2015.World
     {
         SimulationRegion slgSystem;
 
-        public GameState(GameStateBuilder srcState)
+        CityStyleTable cityStyles;
+
+        public GameState(RenderSystem rs, GameStateBuilder srcState)
         {
             slgSystem = srcState.SLGWorld;
+            cityStyles = new CityStyleTable(rs);
         }
 
         public void Update(GameTime time)
@@ -76,5 +80,10 @@ namespace Code2015.World
             slgSystem.Update(time);
         }
 
+
+        public SimulationRegion SLGWorld
+        {
+            get { return slgSystem; }
+        }
     }
 }
