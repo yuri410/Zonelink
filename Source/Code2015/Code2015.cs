@@ -67,6 +67,7 @@ namespace Code2015
         {
             ConfigurationManager.Initialize();
             ConfigurationManager.Instance.Register(new IniConfigurationFormat());
+            ConfigurationManager.Instance.Register(new GameConfigurationFormat());
 
             EffectManager.Initialize(renderSys);
             EffectManager.Instance.RegisterModelEffectType(TerrainEffect513Factory.Name, new TerrainEffect513Factory(renderSys));

@@ -22,14 +22,14 @@ namespace Code2015.BalanceSystem
             get { return energyStatus; }
         }
 
-        /// <summary>
-        /// 模拟区域所属玩家
-        /// </summary>
-        public Player Owner
-        {
-            get;
-            private set;
-        }
+        ///// <summary>
+        ///// 模拟区域所属玩家
+        ///// </summary>
+        //public Player Owner
+        //{
+        //    get;
+        //    private set;
+        //}
 
         public int Count
         {
@@ -51,10 +51,8 @@ namespace Code2015.BalanceSystem
             simulateObject.Remove(obj);
         }
        
-        public SimulationRegion(Player owner)
+        public SimulationRegion()
         {
-            this.Owner = owner;
-
             energyStatus = new EnergyStatus(this);
             societyStatus = new SocietyStatus(this);
         }
