@@ -48,13 +48,13 @@ namespace Code2015.BalanceSystem
             return r;
         }
 
-        public SimulateRegion Region
+        public SimulationRegion Region
         {
             get;
             private set;
         }
 
-        public SimulateObject(SimulateRegion region)
+        public SimulateObject(SimulationRegion region)
         {
             Region = region;
         }

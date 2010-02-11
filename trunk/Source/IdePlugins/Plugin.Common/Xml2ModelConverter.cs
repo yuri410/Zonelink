@@ -4,13 +4,13 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Xml;
+using Apoc3D.Collections;
+using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Converters;
 using Apoc3D.MathLib;
-using Apoc3D.Graphics;
-using Apoc3D.Collections;
 using Apoc3D.Vfs;
-using Apoc3D.Graphics.Animation;
 
 namespace Plugin.Common
 {
@@ -441,7 +441,7 @@ namespace Plugin.Common
                             break;
                         case "DiffuseMap":
                             string texFile = xml.ReadString();
-                            string texFileName = Path.GetFileName(texFile);
+                            string texFileName = Path.GetFileNameWithoutExtension(texFile) + ".tex";
                             mat.SetTextureFile(0, texFileName);
 
                             FileLocation fl = dest as FileLocation;
@@ -450,7 +450,9 @@ namespace Plugin.Common
                                 string dstTex = Path.Combine(Path.GetDirectoryName(fl.Path), texFileName);
                                 if (!File.Exists(dstTex) && File.Exists(texFile))
                                 {
-                                    File.Copy(Path.Combine(srcPath, texFile), dstTex, false);
+                                    TextureConverter conv = new TextureConverter();
+                                    conv.Convert(fl, new DevFileLocation(dstTex));
+                                    //File.Copy(Path.Combine(srcPath, texFile), dstTex, false);
                                 }
                             }
                             break;

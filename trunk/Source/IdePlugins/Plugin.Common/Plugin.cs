@@ -13,6 +13,8 @@ namespace Plugin.Common
         IndexMapMixer idxMapMixer;
         IndexMapMixer4 idxMapMixer4;
 
+        
+
         #region IPlugin 成员
 
         public Icon PluginIcon
