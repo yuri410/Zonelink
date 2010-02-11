@@ -91,7 +91,8 @@ namespace Code2015
 
 
             // 初始化场景
-            cityStyles = new CityStyleTable(renderSys);
+            this.scene = new GameScene(renderSys);
+            this.cityStyles = new CityStyleTable(renderSys);
 
             SimulationRegion slgSystem = gameState.SLGWorld;
             for (int i = 0; i < slgSystem.Count; i++)
@@ -103,11 +104,11 @@ namespace Code2015
                 {
                     CityObject cityObj = new CityObject(city, cityStyles);
 
-
+                    scene.Scene.AddObjectToScene(cityObj);
                 }
             }
 
-            this.scene = new GameScene(renderSys);
+          
             this.ingameUI = new InGameUI(game, this, scene);
         }
 
