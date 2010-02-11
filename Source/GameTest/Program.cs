@@ -149,7 +149,9 @@ namespace GameTest
             ConfigurationManager.Initialize();
             ConfigurationManager.Instance.Register(new GameConfigurationFormat());
 
-            ConfigurationManager.Instance.CreateInstance(@"");
+            Configuration config = ConfigurationManager.Instance.CreateInstance(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\Configs\cities.xml");
+
+            Console.WriteLine(config.Count);
 
         }
     }

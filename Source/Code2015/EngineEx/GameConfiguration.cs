@@ -53,6 +53,7 @@ namespace Code2015.EngineEx
         {
 
             XmlTextReader xml = new XmlTextReader(fl.GetStream);
+            xml.WhitespaceHandling = WhitespaceHandling.None;
 
             //XmlSection parentSection = null;
             int depth = xml.Depth;
@@ -62,12 +63,18 @@ namespace Code2015.EngineEx
             string name = string.Empty;
             while (MoveToNextElement(xml))
             {
-                if (xml.Depth > depth)
+                if (xml.Depth != depth)
                 {
                     switch (depth)
                     {
+                        case 0:
+                            currentSection = new GameConfigurationSection(xml.Name);
+                            break;
+                        case 1:
+                            
+                            break;
                         case 2:
-                            currentSection = new GameConfigurationSection(xml.ReadString());
+                            //currentSection = new GameConfigurationSection(xml.ReadString());
                             break;
                         case 3:
 
