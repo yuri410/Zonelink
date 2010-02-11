@@ -11,7 +11,7 @@ using Code2015.World;
 
 namespace Code2015
 {
-    class GameCreationParameters 
+    class GameCreationParameters
     {
         public Player Player1
         {
@@ -53,7 +53,7 @@ namespace Code2015
 
         RenderSystem renderSys;
         GameScene scene;
-        
+
 
         bool isLoaded;
         int loadingCount = 100;
@@ -115,7 +115,7 @@ namespace Code2015
                     }
                 }
             }
-            else 
+            else
             {
                 gameState.Update(time);
             }

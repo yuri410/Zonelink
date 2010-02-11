@@ -105,7 +105,7 @@
     <Compile Include="BalanceSystem\SimulateObject.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BalanceSystem\SimulateRegion.cs" />
+    <Compile Include="BalanceSystem\SimulationRegion.cs" />
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
