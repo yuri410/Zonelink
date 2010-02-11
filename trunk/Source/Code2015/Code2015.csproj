@@ -113,6 +113,7 @@
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
+    <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="GUI\InGameUI.cs" />
@@ -156,6 +157,7 @@
     </Compile>
     <Compile Include="Score.cs" />
     <Compile Include="World\Atmosphere.cs" />
+    <Compile Include="EngineEx\GameConfigurationSection.cs" />
     <Compile Include="World\GameState.cs" />
     <Compile Include="World\Screen\MdgResource.cs" />
     <Compile Include="World\OceanWater.cs" />
@@ -244,10 +246,6 @@
     <ProjectReference Include="..\..\..\apoc3d\Source\Apoc3D.RenderSystem.Xna\Apoc3D.RenderSystem.Xna.PC.csproj">
       <Project>{AE28499E-7D28-42AC-8CE6-4F93753342AD}</Project>
       <Name>Apoc3D.RenderSystem.Xna.PC</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\apoc3d\Source\JigLibX\JigLibX.csproj">
-      <Project>{7C3F7EE7-7E67-462B-80C8-588331703AE9}</Project>
-      <Name>JigLibX</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
