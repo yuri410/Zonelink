@@ -7,6 +7,7 @@ using Apoc3D.Graphics;
 using Code2015.EngineEx;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.Scene;
 
 namespace Code2015
 {
@@ -19,6 +20,11 @@ namespace Code2015
         ReflectionCamera reflectionCamera;
         SceneRenderer renderer;
         RenderTarget reflectionRt;
+
+        public SceneManagerBase Scene
+        {
+            get { return renderer.SceneManager; }
+        }
 
         public GameScene(RenderSystem rs)
         {

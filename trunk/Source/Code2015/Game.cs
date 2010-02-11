@@ -8,6 +8,7 @@ using Apoc3D.Graphics;
 using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015
 {
@@ -54,6 +55,7 @@ namespace Code2015
         RenderSystem renderSys;
         GameScene scene;
 
+        CityStyleTable cityStyles;
 
         bool isLoaded;
         int loadingCount = 100;
@@ -89,6 +91,22 @@ namespace Code2015
 
 
             // 初始化场景
+            cityStyles = new CityStyleTable(renderSys);
+
+            SimulationRegion slgSystem = gameState.SLGWorld;
+            for (int i = 0; i < slgSystem.Count; i++)
+            {
+                SimulateObject obj = slgSystem[i];
+                City city = obj as City;
+
+                if (city != null)
+                {
+                    CityObject cityObj = new CityObject(city, cityStyles);
+
+
+                }
+            }
+
             this.scene = new GameScene(renderSys);
             this.ingameUI = new InGameUI(game, this, scene);
         }
