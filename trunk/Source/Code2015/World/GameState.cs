@@ -67,12 +67,10 @@ namespace Code2015.World
     {
         SimulationRegion slgSystem;
 
-        CityStyleTable cityStyles;
 
-        public GameState(RenderSystem rs, GameStateBuilder srcState)
+        public GameState(GameStateBuilder srcState)
         {
             slgSystem = srcState.SLGWorld;
-            cityStyles = new CityStyleTable(rs);
         }
 
         public void Update(GameTime time)
