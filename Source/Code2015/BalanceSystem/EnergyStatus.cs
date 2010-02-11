@@ -25,7 +25,7 @@ namespace Code2015.BalanceSystem
 
         FastList<City> cities;
 
-        public SimulateRegion Region
+        public SimulationRegion Region
         {
             get;
             private set;
@@ -146,7 +146,7 @@ namespace Code2015.BalanceSystem
             CurrentFood += amount;
         }
 
-        public EnergyStatus(SimulateRegion region)
+        public EnergyStatus(SimulationRegion region)
         {
             cities = new FastList<City>();
             this.CurrentHPEnergy = InitHPEnergy;

@@ -84,7 +84,7 @@ namespace Code2015.BalanceSystem
         }
         void FindResources()
         {
-            SimulateRegion region = parent.Region;
+            SimulationRegion region = parent.Region;
 
             Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
             for (int i = 0; i < region.Count; i++)

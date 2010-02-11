@@ -15,7 +15,7 @@ namespace Code2015.BalanceSystem
         const float EMITCarbonSpeed = 10;//油田释放的C值
 
 
-        public OilField(SimulateRegion region)
+        public OilField(SimulationRegion region)
             : base(region, NaturalResourceType.Petro)
         {
            

@@ -18,7 +18,7 @@ namespace Code2015.BalanceSystem
         const float SOURCEProduceSpeed = 500;
 
         //FastList<PlantSpecies> foodPlants;
-        public FarmLand(SimulateRegion region)
+        public FarmLand(SimulationRegion region)
             : base(region, NaturalResourceType.Food)
         {
             //foodPlants = new FastList<PlantSpecies>();

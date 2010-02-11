@@ -22,7 +22,7 @@ namespace Code2015.BalanceSystem
     public abstract class NaturalResource : SimulateObject
     {
        
-        protected NaturalResource(SimulateRegion region, NaturalResourceType type)
+        protected NaturalResource(SimulationRegion region, NaturalResourceType type)
             : base(region)
         {
             Type = type;

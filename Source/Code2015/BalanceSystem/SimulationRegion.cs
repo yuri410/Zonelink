@@ -10,7 +10,7 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示一个区域
     /// </summary>
-    public class SimulateRegion : IUpdatable
+    public class SimulationRegion : IUpdatable
     {
 
         FastList<SimulateObject> simulateObject = new FastList<SimulateObject>();
@@ -22,22 +22,6 @@ namespace Code2015.BalanceSystem
             get { return energyStatus; }
         }
 
-        /// <summary>
-        ///  模拟区域的面积
-        /// </summary>
-        public float Area
-        {
-            get;
-            private set;
-        }
-        ///// <summary>
-        ///// 模拟区域的边界
-        ///// </summary>
-        //public Object Border
-        //{
-        //    get;
-        //    private set;
-        //}
         /// <summary>
         /// 模拟区域所属玩家
         /// </summary>
@@ -67,7 +51,7 @@ namespace Code2015.BalanceSystem
             simulateObject.Remove(obj);
         }
        
-        public SimulateRegion(Player owner)
+        public SimulationRegion(Player owner)
         {
             this.Owner = owner;
 

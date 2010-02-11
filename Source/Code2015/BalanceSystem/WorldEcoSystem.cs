@@ -35,7 +35,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-        SimulateRegion[] regions;
+        SimulationRegion[] regions;
 
         public float AccumulatedCarbon
         {

@@ -7,6 +7,9 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.World
 {
+    /// <summary>
+    ///  随机构建场景
+    /// </summary>
     class GameStateBuilder
     {
         public GameStateBuilder()
@@ -19,7 +22,7 @@ namespace Code2015.World
 
     class GameState
     {
-        SimulateRegion slgSystem;
+        SimulationRegion slgSystem;
 
         public GameState()
         {
