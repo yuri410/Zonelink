@@ -101,9 +101,9 @@ namespace Code2015.World.Screen
 
         public void Integrate(float dt)
         {
+            if (dt > 0.2f)
+                return;
             orientation += angularVel * dt;
-
-            velocity.Y -= 9.8f;
 
             position += velocity * dt;
 
@@ -116,7 +116,7 @@ namespace Code2015.World.Screen
             velocity += im / mass;
 
             Vector2 r = pos - position;
-            angularVel += MathEx.Vec2Cross(r, im) / inertia;
+            angularVel -= Vector2.Cross(r, im) / inertia;
         }
 
         public void AppluCentralImpulse(Vector2 im)

@@ -83,6 +83,8 @@ namespace Code2015.World.Screen
             this.body.Position = pos;
             this.body.Radius = 32;
             this.body.Mass = 1;
+            this.body.Elasity = 0.5f;
+            this.body.Friction = 0.5f;
             world.Add(body);
             
             this.type = type;
@@ -159,7 +161,7 @@ namespace Code2015.World.Screen
         {
             string suffix = string.Empty;
 
-            switch (bitmask) 
+            switch (bitmask)
             {
                 case 1:
                     suffix = "_1";
@@ -181,7 +183,7 @@ namespace Code2015.World.Screen
                     break;
             }
 
-            FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type).ToString() + suffix + ".tex", GameFileLocs.UI);
+            FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.UI);
             return UITextureManager.Instance.CreateInstance(fl);
         }
 
@@ -209,6 +211,8 @@ namespace Code2015.World.Screen
             this.body.Position = pos;
             this.body.Radius = 32;
             this.body.Mass = 1;
+            this.body.Elasity = 0.5f;
+            this.body.Friction = 0.5f;
 
             world.Add(body);
 
@@ -225,7 +229,7 @@ namespace Code2015.World.Screen
 
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
-                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
                 sprite.Draw(image, 0, 0, ColorValue.White);
             }
         }

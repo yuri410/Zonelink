@@ -23,6 +23,8 @@ namespace Code2015.GUI
 
             MdgResource res = new MdgResource(physWorld, MdgType.ChildMortality, new Vector2(300, 300), 1);
             resources.Add(res);
+            res = new MdgResource(physWorld, MdgType.Environment, new Vector2(600, 300), 0);
+            resources.Add(res);
         }
 
         public override void Render(Sprite sprite)
