@@ -58,7 +58,7 @@ namespace Code2015
         CityStyleTable cityStyles;
 
         bool isLoaded;
-        int loadingCount = 100;
+        int loadingCountDown = 100;
 
         public bool IsLoaded
         {
@@ -129,7 +129,7 @@ namespace Code2015
                 bool newVal = TerrainMeshManager.Instance.IsIdle & ModelManager.Instance.IsIdle & TextureManager.Instance.IsIdle;
                 if (newVal)
                 {
-                    if (--loadingCount < 0)
+                    if (--loadingCountDown < 0)
                     {
                         IsLoaded = true;
                     }

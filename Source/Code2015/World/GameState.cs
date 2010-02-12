@@ -29,7 +29,7 @@ namespace Code2015.World
         {
             SLGWorld = new SimulationRegion();
 
-            FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
+            FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
             
             GameConfiguration resCon = new GameConfiguration(fl);
             GameConfiguration.ValueCollection resVals = resCon.Values;
