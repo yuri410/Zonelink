@@ -71,7 +71,7 @@ namespace Code2015.World.Screen
         ScreenPhysicsWorld physicsWorld;
         MdgResourceManager manager;
 
-        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int piece, Vector2 pos, float ori)
+        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int bitMask, Vector2 pos, float ori)
         {
             this.manager = manager;
             this.physicsWorld = world;
@@ -82,7 +82,7 @@ namespace Code2015.World.Screen
             
             
             this.type = type;
-            this.bitMask = 1 << piece;
+            this.bitMask = bitMask;
 
             this.image = MdgResource.LoadImage(type);
         }
@@ -105,9 +105,17 @@ namespace Code2015.World.Screen
 
                 if (bit == 7)
                 {
-                    return new MdgResource(physicsWorld, type, body.Position, body.Orientation);
+                    MdgResource res =  new MdgResource(physicsWorld, type, body.Position, body.Orientation);
+
+                    manager.Remove(this);
+                    manager.Add(res);
+                    return res;
                 }
-                return new MdgPiece(manager, physicsWorld, type, bit, body.Position, body.Orientation);
+
+                MdgPiece piece = new MdgPiece(manager, physicsWorld, type, bit, body.Position, body.Orientation);
+                manager.Remove(this);
+                manager.Add(piece);
+                return piece;
             }
             return null;
         }
