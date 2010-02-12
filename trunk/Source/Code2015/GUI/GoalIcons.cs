@@ -12,7 +12,7 @@ namespace Code2015.GUI
 
         public GoalIcons() 
         {
-
+            resources = new MdgResourceManager();
         }
 
 

@@ -68,12 +68,19 @@ namespace Code2015.World.Screen
 
         Texture image;
 
-        public MdgPiece(MdgType type, int piece, Vector2 pos, float ori)
+        ScreenPhysicsWorld physicsWorld;
+        MdgResourceManager manager;
+
+        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int piece, Vector2 pos, float ori)
         {
+            this.manager = manager;
+            this.physicsWorld = world;
+
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
-
+            
+            
             this.type = type;
             this.bitMask = 1 << piece;
 
@@ -90,11 +97,26 @@ namespace Code2015.World.Screen
             get { return type; }
         }
 
+        public object Merge(MdgPiece other)
+        {
+            if (CheckMerge(other))
+            {
+                int bit = other.bitMask | bitMask;
+
+                if (bit == 7)
+                {
+                    return new MdgResource(physicsWorld, type, body.Position, body.Orientation);
+                }
+                return new MdgPiece(manager, physicsWorld, type, bit, body.Position, body.Orientation);
+            }
+            return null;
+        }
+
         public bool CheckMerge(MdgPiece other)
         {
             if (other.type == type)
             {
-                return (other.bitMask & bitMask) == (int)type && (other.bitMask & bitMask) == 0;
+                return (other.bitMask | bitMask) > bitMask && (other.bitMask & bitMask) == 0;
             }
             return false;
         }
@@ -151,6 +173,7 @@ namespace Code2015.World.Screen
         Texture image;
 
         MdgType type;
+        ScreenPhysicsWorld physicsWorld;
 
         public MdgType Type
         {
@@ -158,8 +181,10 @@ namespace Code2015.World.Screen
         }
 
 
-        public MdgResource(MdgType type, Vector2 pos, float ori)
+        public MdgResource(ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
+            this.physicsWorld = world;
+
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
