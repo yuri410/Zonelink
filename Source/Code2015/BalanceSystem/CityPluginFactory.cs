@@ -3,13 +3,20 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Apoc3D.Config;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
 
 namespace Code2015.BalanceSystem
 {
 
     public class CityPluginFactory
-    { 
-        CityPluginType type;
+    {
+        CityPluginType oilRefinaryType;
+        CityPluginType woodFactoryType;
+        CityPluginType bioFuelFactoryType;
+        CityPluginType hospitalType;
+        CityPluginType educationOrganType;
+
 
         /// <summary>
         /// 医院，教育机构，木材工厂，炼油厂产生的C为正值，生态工厂产生C为负值
@@ -18,12 +25,29 @@ namespace Code2015.BalanceSystem
         /// 
         /// </summary>
         public CityPluginFactory()
-        { }
+        {
+            FileLocation fl = FileSystem.Instance.Locate("cityplugins.xml", GameFileLocs.Config);
+
+            Configuration pluginConf = ConfigurationManager.Instance.CreateInstance(fl);
+
+            woodFactoryType = new CityPluginType();
+            oilRefinaryType = new CityPluginType();
+            bioFuelFactoryType = new CityPluginType();
+            hospitalType = new CityPluginType();
+            educationOrganType = new CityPluginType();
+
+            woodFactoryType.Parse(pluginConf["WoodFactory"]);
+            oilRefinaryType.Parse(pluginConf["OilRefinary"]);
+            bioFuelFactoryType.Parse(pluginConf["BioFuelFactory"]);
+            hospitalType.Parse(pluginConf["Hospital"]);
+            educationOrganType.Parse(pluginConf["EducationOrganization"]);
+
+        }
 
         public CityPlugin MakeOilRefinary()
         {
             //CityPlugin oilRefinary = new CityPlugin("OilRefinary");
-            CityPlugin oilRefinary = new CityPlugin(type);
+            CityPlugin oilRefinary = new CityPlugin(oilRefinaryType);
             ConfigurationSection sect = new IniSection("OilRefinary");
             sect.Add("Cost", "1000");
             sect.Add("UpgradeCost", "100");
@@ -39,7 +63,7 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeWoodFactory()
         {
             //CityPlugin woodfactory = new CityPlugin("WoodFactory");
-            CityPlugin woodfactory = new CityPlugin(type);
+            CityPlugin woodfactory = new CityPlugin(woodFactoryType);
             ConfigurationSection sect = new IniSection("WoodFactory");
             sect.Add("Cost", "500");
             sect.Add("UpgradeCost", "700");
@@ -56,7 +80,7 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeBioEnergeFactory()
         {
             //CityPlugin biofactory = new CityPlugin("BioEnergyFactory");
-            CityPlugin biofactory = new CityPlugin(type);
+            CityPlugin biofactory = new CityPlugin(bioFuelFactoryType);
             ConfigurationSection sect = new IniSection("BioEnergyFactory");
             sect.Add("Cost", "2000");
             sect.Add("UpgradeCost", "2500");
@@ -72,7 +96,7 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeHospital()
         {
             //CityPlugin hospital = new CityPlugin("Hospital");
-            CityPlugin hospital = new CityPlugin(type);
+            CityPlugin hospital = new CityPlugin(hospitalType);
 
             ConfigurationSection sect = new IniSection("Hospital");
             sect.Add("Cost", "1000");
@@ -90,7 +114,7 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeEducationAgent()
         {
             //CityPlugin EducationAgent = new CityPlugin("EducationAgent");
-            CityPlugin EducationAgent = new CityPlugin(type);
+            CityPlugin EducationAgent = new CityPlugin(educationOrganType);
 
             ConfigurationSection sect = new IniSection("EducationAgent");
             sect.Add("Cost", "1000");

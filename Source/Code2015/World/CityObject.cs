@@ -22,6 +22,7 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData>[] OilRefinary;
         public ResourceHandle<ModelData>[] WoodFactory;
+        public ResourceHandle<ModelData>[] BiofuelFactory;
 
         public ResourceHandle<ModelData>[] EducationOrgan;
 
@@ -47,6 +48,13 @@ namespace Code2015.World
         static readonly string MediumCityCenter_Inv = "medium_inv.mesh";
         static readonly string LargeCityCenter_Inv = "large_inv.mesh";
 
+        static readonly string OilRefinary_Inv = "oilref_inv.mesh";
+        static readonly string WoodFactory_Inv = "woofac_inv.mesh";
+        static readonly string BioFuelFactory_Inv = "biofac_inv.mesh";
+        static readonly string EducationOrgan_Inv = "eduorg_inv.mesh";
+        static readonly string Hospital_Inv = "hospital.mesh";
+
+
         CityStyleData[] styles;
 
         public CityStyleTable(RenderSystem rs)
@@ -63,6 +71,21 @@ namespace Code2015.World
             styles[0].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
             fl = FileSystem.Instance.Locate(LargeCityCenter_Inv, FileLocateRule.Model);
             styles[0].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(OilRefinary_Inv, FileLocateRule.Model);
+            styles[0].OilRefinary[0] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(WoodFactory_Inv, FileLocateRule.Model);
+            styles[0].WoodFactory[0] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, FileLocateRule.Model);
+            styles[0].BiofuelFactory[0] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, FileLocateRule.Model);
+            styles[0].EducationOrgan[0] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Hospital_Inv, FileLocateRule.Model);
+            styles[0].Hospital[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
 
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
@@ -199,6 +222,8 @@ namespace Code2015.World
                 }
             }
         }
+
+        
 
         public override RenderOperation[] GetRenderOperation()
         {
