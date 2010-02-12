@@ -201,6 +201,16 @@ namespace Code2015.World.Screen
             get { return type; }
         }
 
+        public bool HitTest(int x, int y)
+        {
+            Vector2 pos = body.Position;
+
+            float d = (float)Math.Sqrt(MathEx.Sqr(x - pos.X) + MathEx.Sqr(y - pos.Y));
+
+            return d <= Radius;
+        }
+
+
 
         public MdgResource(ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
@@ -209,7 +219,7 @@ namespace Code2015.World.Screen
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
-            this.body.Radius = 32;
+            this.body.Radius = Radius;
             this.body.Mass = 1;
             this.body.Elasity = 0.5f;
             this.body.Friction = 0.5f;
