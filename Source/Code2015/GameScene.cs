@@ -4,10 +4,10 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
-using Apoc3D.Scene;
 
 namespace Code2015
 {

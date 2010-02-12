@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Code2015.World.Screen;
-using Apoc3D.Graphics;
 using Apoc3D;
+using Apoc3D.Graphics;
+using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {
@@ -12,8 +12,12 @@ namespace Code2015.GUI
     {
         MdgResourceManager resources;
 
-        public GoalIcons() 
+        ScreenPhysicsWorld physWorld;
+
+
+        public GoalIcons(ScreenPhysicsWorld physWorld) 
         {
+            this.physWorld = physWorld;
             resources = new MdgResourceManager();
         }
 
@@ -43,7 +47,7 @@ namespace Code2015.GUI
         }
         public override void Update(GameTime time)
         {
-            resources.Update(time);
+            //resources.Update(time);
         }
     }
 }
