@@ -18,35 +18,35 @@ namespace Code2015.World.Screen
         /// <summary>
         ///  Eradicate extreme hunger and poverty
         /// </summary>
-        Hunger = 7,
+        Hunger = 0,
         /// <summary>
         ///  Achieve universal primary education
         /// </summary>
-        Education = 7 << 4,
+        Education = 1,
         /// <summary>
         ///  Promote gender equality and empower women
         /// </summary>
-        GenderEquality = 7 << 8,
+        GenderEquality = 2,
         /// <summary>
         ///  Reduce child mortality
         /// </summary>
-        ChildMortality = 7 << 12,
+        ChildMortality = 3,
         /// <summary>
         ///  Improve maternal health
         /// </summary>
-        MaternalHealth = 7 << 16,
+        MaternalHealth = 4,
         /// <summary>
         ///  Combat HIV/AIDS, malaria and other diseases
         /// </summary>
-        Diseases = 7 << 20,
+        Diseases = 5,
         /// <summary>
         ///  Ensure environmental sustainability
         /// </summary>
-        Environment = 7 << 24,
+        Environment = 6,
         /// <summary>
         ///  Develop a global partnership for development
         /// </summary>
-        Partnership = 7 << 28,
+        Partnership = 7,
         Count = 8
     }
 
@@ -78,6 +78,16 @@ namespace Code2015.World.Screen
             this.bitMask = 1 << piece;
 
             this.image = MdgResource.LoadImage(type);
+        }
+
+        public int BitMask
+        {
+            get { return bitMask; }
+        }
+
+        public MdgType Type 
+        {
+            get { return type; }
         }
 
         public bool CheckMerge(MdgPiece other)
@@ -142,6 +152,12 @@ namespace Code2015.World.Screen
 
         MdgType type;
 
+        public MdgType Type
+        {
+            get { return type; }
+        }
+
+
         public MdgResource(MdgType type, Vector2 pos, float ori)
         {
             this.body = new ScreenRigidBody();
@@ -176,7 +192,7 @@ namespace Code2015.World.Screen
         /// <summary>
         ///  第一个索引为MdgType，第二个为bitmask，第三个为list index
         /// </summary>
-        FastList<MdgPiece>[][] peices;
+        FastList<MdgPiece>[][] pieces;
         /// <summary>
         ///  第一个索引为MdgType
         /// </summary>
@@ -184,34 +200,34 @@ namespace Code2015.World.Screen
 
         public MdgResourceManager()
         {
-            peices = new FastList<MdgPiece>[(int)MdgType.Count][];
+            pieces = new FastList<MdgPiece>[(int)MdgType.Count][];
 
             balls = new FastList<MdgResource>[(int)MdgType.Count];
 
-            for (int i = 0; i < peices.Length; i++)
+            for (int i = 0; i < pieces.Length; i++)
             {
-                peices[i][0] = null;
+                pieces[i][0] = null;
 
                 // 1
-                peices[i][1] = new FastList<MdgPiece>();
+                pieces[i][1] = new FastList<MdgPiece>();
 
                 // 2
-                peices[i][2] = new FastList<MdgPiece>();
+                pieces[i][2] = new FastList<MdgPiece>();
 
                 // 4
-                peices[i][4] = new FastList<MdgPiece>();
+                pieces[i][4] = new FastList<MdgPiece>();
 
                 // 1, 2
-                peices[i][3] = new FastList<MdgPiece>();
+                pieces[i][3] = new FastList<MdgPiece>();
 
                 // 1, 4
-                peices[i][5] = new FastList<MdgPiece>();
+                pieces[i][5] = new FastList<MdgPiece>();
 
                 // 2, 6
-                peices[i][6] = new FastList<MdgPiece>();
+                pieces[i][6] = new FastList<MdgPiece>();
 
                 // 1,2,4
-                peices[i][7] = new FastList<MdgPiece>();
+                pieces[i][7] = new FastList<MdgPiece>();
 
 
                 balls[i] = new FastList<MdgResource>();
@@ -219,13 +235,31 @@ namespace Code2015.World.Screen
 
         }
 
+        public void Add(MdgPiece piece)
+        {
+            pieces[(int)piece.Type][piece.BitMask].Add(piece);
+        }
+        public void Add(MdgResource res)
+        {
+            balls[(int)res.Type].Add(res);
+        }
+        public void Remove(MdgPiece piece)
+        {
+            pieces[(int)piece.Type][piece.BitMask].Remove(piece);
+        }
+        public void Remove(MdgResource res)
+        {
+            balls[(int)res.Type].Remove(res);
+        }
+
+
         public int GetPieceCount(MdgType type, int bitmask)
         {
-            return peices[(int)type][bitmask].Count;
+            return pieces[(int)type][bitmask].Count;
         }
         public MdgPiece GetPiece(MdgType type, int bitmask, int index)
         {
-            return peices[(int)type][bitmask][index];
+            return pieces[(int)type][bitmask][index];
         }
 
         public int GetResourceCount(MdgType type)

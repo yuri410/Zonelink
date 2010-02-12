@@ -57,7 +57,7 @@ namespace Code2015.World
             }
 
 
-            fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
+            //fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
 
 
         }

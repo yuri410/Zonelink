@@ -116,6 +116,7 @@
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
     <Compile Include="GameScene.cs" />
+    <Compile Include="GUI\GoalIcons.cs" />
     <Compile Include="GUI\InGameUI.cs" />
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>
