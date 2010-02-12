@@ -143,32 +143,41 @@ namespace Code2015.World.Screen
                 Vector2 n = new Vector2();
                 Vector2 collPos = new Vector2();
                 float dist = pa.X - bounds.Left;
-                if (dist < bodyA.Radius) 
+                if (dist < bodyA.Radius)
                 {
                     n = new Vector2(1, 0);
-                    collPos = dist * n + pa;
+                    collPos = pa - dist * n;
                     passed = true;
                 }
-                dist = pa.Y- bounds.Top;
-                if (dist < bodyA.Radius)
+                if (!passed)
                 {
-                    n = new Vector2(0, 1);
-                    collPos = dist * n + pa; 
-                    passed = true;
+                    dist = pa.Y - bounds.Top;
+                    if (dist < bodyA.Radius)
+                    {
+                        n = new Vector2(0, 1);
+                        collPos = pa - dist * n;
+                        passed = true;
+                    }
                 }
-                dist = bounds.Right - pa.X;
-                if (dist < bodyA.Radius)
+                if (!passed)
                 {
-                    n = new Vector2(-1, 0);
-                    collPos = dist * n + pa;
-                    passed = true;
+                    dist = bounds.Right - pa.X;
+                    if (dist < bodyA.Radius)
+                    {
+                        n = new Vector2(-1, 0);
+                        collPos = pa - dist * n;
+                        passed = true;
+                    }
                 }
-                dist = bounds.Bottom - pa.Y;
-                if (dist < bodyA.Radius)
+                if (!passed)
                 {
-                    n = new Vector2(0, -1);
-                    collPos = dist * n + pa; 
-                    passed = true;
+                    dist = bounds.Bottom - pa.Y;
+                    if (dist < bodyA.Radius)
+                    {
+                        n = new Vector2(0, -1);
+                        collPos = pa - dist * n;
+                        passed = true;
+                    }
                 }
 
                 if (passed)
@@ -192,26 +201,26 @@ namespace Code2015.World.Screen
 
 
 
-                    Vector2 tang = new Vector2(-n.X, n.Y);
-                    float ratCrs = MathEx.Vec2Cross(ra, tang);
-                    float vrt = Vector2.Dot(va, tang);
+                    //Vector2 tang = new Vector2(-n.X, n.Y);
+                    //float ratCrs = MathEx.Vec2Cross(ra, tang);
+                    //float vrt = Vector2.Dot(va, tang);
 
-                    float frictionMax = -vrt /
-                        (1 / bodyA.Mass +
-                         Vector2.Dot(new Vector2(-ratCrs * ra.Y, ratCrs * ra.X) / bodyA.Inertia, tang));
+                    //float frictionMax = -vrt /
+                    //    (1 / bodyA.Mass +
+                    //     Vector2.Dot(new Vector2(-ratCrs * ra.Y, ratCrs * ra.X) / bodyA.Inertia, tang));
 
-                    float friction = impluse * bodyA.Friction;
+                    //float friction = impluse * bodyA.Friction;
 
-                    if (friction < frictionMax)
-                    {
-                        impulseVec = tang * friction;
-                    }
-                    else
-                    {
-                        impulseVec = tang * frictionMax;
-                    }
+                    //if (friction < frictionMax)
+                    //{
+                    //    impulseVec = tang * friction;
+                    //}
+                    //else
+                    //{
+                    //    impulseVec = tang * frictionMax;
+                    //}
 
-                    bodyA.ApplyImpulse(impulseVec, collPos);
+                    //bodyA.ApplyImpulse(impulseVec, collPos);
                 }
                 #endregion
 
