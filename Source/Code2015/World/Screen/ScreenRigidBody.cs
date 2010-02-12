@@ -103,6 +103,8 @@ namespace Code2015.World.Screen
         {
             orientation += angularVel * dt;
 
+            velocity.Y -= 9.8f;
+
             position += velocity * dt;
 
             velocity -= velocity * LinearDamp * dt;

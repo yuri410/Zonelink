@@ -81,7 +81,9 @@ namespace Code2015.World.Screen
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
-            
+            this.body.Radius = 32;
+            this.body.Mass = 1;
+            world.Add(body);
             
             this.type = type;
             this.bitMask = bitMask;
@@ -205,6 +207,10 @@ namespace Code2015.World.Screen
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
+            this.body.Radius = 32;
+            this.body.Mass = 1;
+
+            world.Add(body);
 
             this.type = type;
             this.image = LoadImage(type, 7);
@@ -215,7 +221,11 @@ namespace Code2015.World.Screen
             if (image != null)
             {
                 Vector2 pos = body.Position;
-                sprite.SetTransform(Matrix.RotationZ(body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+                float r = body.Radius;
+
+                sprite.SetTransform(
+                    Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
+                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
                 sprite.Draw(image, 0, 0, ColorValue.White);
             }
         }
