@@ -26,6 +26,24 @@ namespace Code2015.World.Screen
             sleepBodies = new FastList<ScreenRigidBody>();
         }
 
+        public void Add(ScreenRigidBody body)
+        {
+            bodies.Add(body);
+        }
+        public void Remove(ScreenRigidBody body)
+        {
+            bodies.Remove(body);
+        }
+
+        public void Add(ScreenStaticBody body)
+        {
+            statics.Add(body);
+        }
+        public void Remove(ScreenStaticBody body)
+        {
+            statics.Remove(body);
+        }
+
         /// <summary>
         ///  获取或设置模拟区域
         /// </summary>
