@@ -7,6 +7,8 @@ using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.GUI;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
 
 namespace Code2015.World.Screen
 {
@@ -84,7 +86,7 @@ namespace Code2015.World.Screen
             this.type = type;
             this.bitMask = bitMask;
 
-            this.image = MdgResource.LoadImage(type);
+            this.image = MdgResource.LoadImage(type, bitMask);
         }
 
         public int BitMask
@@ -108,12 +110,14 @@ namespace Code2015.World.Screen
                     MdgResource res =  new MdgResource(physicsWorld, type, body.Position, body.Orientation);
 
                     manager.Remove(this);
+                    manager.Remove(other);
                     manager.Add(res);
                     return res;
                 }
 
                 MdgPiece piece = new MdgPiece(manager, physicsWorld, type, bit, body.Position, body.Orientation);
                 manager.Remove(this);
+                manager.Remove(other); 
                 manager.Add(piece);
                 return piece;
             }
@@ -149,29 +153,34 @@ namespace Code2015.World.Screen
     /// </summary>
     class MdgResource : UIComponent
     {
-        public static Texture LoadImage(MdgType type)
+        public static Texture LoadImage(MdgType type, int bitmask)
         {
-            switch (type)
-            {
-                case MdgType.ChildMortality:
+            string suffix = string.Empty;
 
+            switch (bitmask) 
+            {
+                case 1:
+                    suffix = "_1";
                     break;
-                case MdgType.Diseases:
+                case 2:
+                    suffix = "_2";
                     break;
-                case MdgType.Education:
+                case 3:
+                    suffix = "_12";
                     break;
-                case MdgType.Environment:
+                case 4:
+                    suffix = "_3";
                     break;
-                case MdgType.GenderEquality:
+                case 5:
+                    suffix = "_31";
                     break;
-                case MdgType.Hunger:
+                case 6:
+                    suffix = "_23";
                     break;
-                case MdgType.MaternalHealth:
-                    break;
-                case MdgType.Partnership:
-                    break;
-            } 
-            return null;
+            }
+
+            FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type).ToString() + suffix + ".tex", GameFileLocs.UI);
+            return UITextureManager.Instance.CreateInstance(fl);
         }
 
         const float Radius = 32;
@@ -198,7 +207,7 @@ namespace Code2015.World.Screen
             this.body.Position = pos;
 
             this.type = type;
-            this.image = LoadImage(type);
+            this.image = LoadImage(type, 7);
         }
 
         public override void Render(Sprite sprite)
