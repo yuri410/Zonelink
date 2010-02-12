@@ -21,6 +21,8 @@ namespace Code2015.GUI
         Game parent;
         Font font;
 
+        GoalIcons icons;
+
         ScreenPhysicsWorld physWorld;
 
         public ScreenPhysicsWorld PhysicsWorld
@@ -38,6 +40,8 @@ namespace Code2015.GUI
             this.scene = scene;
             this.physWorld = new ScreenPhysicsWorld();
 
+            this.icons = new GoalIcons(physWorld);
+
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.UI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
         }
@@ -47,6 +51,10 @@ namespace Code2015.GUI
             if (!parent.IsLoaded)
             {
                 font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, -1);
+            }
+            else
+            {
+                icons.Render(sprite);
             }
         }
 
