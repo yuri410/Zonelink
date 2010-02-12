@@ -147,6 +147,7 @@ namespace Code2015.BalanceSystem
             localLr = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
             localHr = new ResourceStorage(CityGrade.SmallMaxHPStorage, float.MaxValue);
             localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
+            culture = CultureId.Asia;
             UpgradeUpdate();
         }
         public City(EnergyStatus energyStat, UrbanSize size)
