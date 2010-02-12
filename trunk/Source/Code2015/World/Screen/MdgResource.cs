@@ -142,10 +142,10 @@ namespace Code2015.World.Screen
             }
         }
 
-        public override void Update(GameTime time)
-        {
+        //public override void Update(GameTime time)
+        //{
 
-        }
+        //}
     }
 
     /// <summary>
@@ -219,10 +219,10 @@ namespace Code2015.World.Screen
             }
         }
 
-        public override void Update(GameTime time)
-        {
+        //public override void Update(GameTime time)
+        //{
             
-        }
+        //}
     }
 
     /// <summary>
@@ -313,11 +313,11 @@ namespace Code2015.World.Screen
             return balls[(int)type][index];
         }
 
-        
-        public void Update(GameTime time)
-        {
             
-        }
+            //public void Update(GameTime time)
+            //{
+                
+            //}
 
 
 
