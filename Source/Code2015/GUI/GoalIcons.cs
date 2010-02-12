@@ -4,8 +4,8 @@ using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
-using Code2015.World.Screen;
 using Apoc3D.MathLib;
+using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {
@@ -21,6 +21,7 @@ namespace Code2015.GUI
             this.physWorld = physWorld;
             resources = new MdgResourceManager();
 
+            // test
             MdgResource res = new MdgResource(physWorld, MdgType.ChildMortality, new Vector2(300, 300), 1);
             resources.Add(res);
             res = new MdgResource(physWorld, MdgType.Environment, new Vector2(600, 300), 0);
