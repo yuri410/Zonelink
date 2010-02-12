@@ -29,32 +29,32 @@ namespace Code2015.World
         {
             SLGWorld = new SimulationRegion();
 
-            //FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
-            
-            //GameConfiguration resCon = new GameConfiguration(fl);
-            //GameConfiguration.ValueCollection resVals = resCon.Values;
+            FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
 
-            //ExistTable<string> cityTable = new ExistTable<string>(MaxCities);
-            //FastList<City> cities = new FastList<City>(MaxCities);
+            GameConfiguration resCon = new GameConfiguration(fl);
+            GameConfiguration.ValueCollection resVals = resCon.Values;
 
-            //while (cities.Count < MinCities && cities.Count < MaxCities)
-            //{
-            //    foreach (GameConfigurationSection sect in resVals)
-            //    {
-            //        if (!cityTable.Exists(sect.Name))
-            //        {
-            //            bool flag = Randomizer.GetRandomBool();
+            ExistTable<string> cityTable = new ExistTable<string>(MaxCities);
+            FastList<City> cities = new FastList<City>(MaxCities);
 
-            //            if (flag)
-            //            {
-            //                City city = new City(SLGWorld.EnergyStatus);
-            //                city.Parse(sect);
-            //                cities.Add(city);
-            //                cityTable.Add(sect.Name);
-            //            }
-            //        }
-            //    }
-            //}
+            while (cities.Count < MinCities && cities.Count < MaxCities)
+            {
+                foreach (GameConfigurationSection sect in resVals)
+                {
+                    if (!cityTable.Exists(sect.Name))
+                    {
+                        bool flag = Randomizer.GetRandomBool();
+
+                        if (flag)
+                        {
+                            City city = new City(SLGWorld.EnergyStatus);
+                            city.Parse(sect);
+                            cities.Add(city);
+                            cityTable.Add(sect.Name);
+                        }
+                    }
+                }
+            }
 
         }
     }

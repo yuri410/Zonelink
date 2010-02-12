@@ -22,15 +22,6 @@ namespace Code2015.BalanceSystem
             get { return energyStatus; }
         }
 
-        ///// <summary>
-        ///// 模拟区域所属玩家
-        ///// </summary>
-        //public Player Owner
-        //{
-        //    get;
-        //    private set;
-        //}
-
         public int Count
         {
             get { return simulateObject.Count; }
