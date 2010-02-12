@@ -87,14 +87,62 @@ namespace Code2015.EngineEx
             xml.Close();
         }
 
-        public override Configuration Clone()
-        {
-            throw new NotImplementedException();
-        }
+        public GameConfiguration(string name, int cap)
+            : base(name, cap, EqualityComparer<string>.Default)
+        { }
 
+
+        /// <summary>
+        ///  见基类
+        /// </summary>
         public override void Merge(Configuration config)
         {
-            throw new NotImplementedException();
+            Configuration copy = config.Clone();
+
+            foreach (KeyValuePair<string, ConfigurationSection> e1 in copy)
+            {
+                ConfigurationSection sect;
+                if (!TryGetValue(e1.Key, out sect))
+                {
+                    Add(e1.Key, e1.Value);
+                }
+                else
+                {
+                    foreach (KeyValuePair<string, string> e2 in e1.Value)
+                    {
+                        if (sect.ContainsKey(e2.Key))
+                        {
+                            sect.Remove(e2.Key);
+                        }
+
+                        sect.Add(e2.Key, e2.Value);
+
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        ///  见基类
+        /// </summary>
+        public override Configuration Clone()
+        {
+            GameConfiguration ini = new GameConfiguration(base.Name, this.Count);
+
+            foreach (KeyValuePair<string, ConfigurationSection> e1 in this)
+            {
+                //Dictionary<string, string> newSectData = new Dictionary<string, string>(e1.Value.Count);
+                GameConfigurationSection newSect = new GameConfigurationSection(ini, e1.Key, e1.Value.Count);
+
+                foreach (KeyValuePair<string, string> e2 in e1.Value)
+                {
+                    newSect.Add(e2.Key, e2.Value);
+                }
+
+                ini.Add(e1.Key, newSect);
+            }
+
+            return ini;
         }
     }
 }
