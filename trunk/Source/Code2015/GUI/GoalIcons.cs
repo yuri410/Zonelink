@@ -6,6 +6,7 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.World.Screen;
+using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
 {
@@ -54,6 +55,28 @@ namespace Code2015.GUI
         }
         public override void Update(GameTime time)
         {
+            //XI.MouseState state = XI.Mouse.GetState();
+
+            //for (MdgType i = MdgType.Hunger; i < MdgType.Count; i++)
+            //{
+            //    int cnt = resources.GetResourceCount(i);
+            //    for (int j = 0; j < cnt; j++)
+            //    {
+            //        if (resources.GetResource(i, j).HitTest(state.X, state.Y))
+            //        {
+
+            //        }
+            //    }
+
+            //    for (int k = 1; k < 8; k++)
+            //    {
+            //        cnt = resources.GetPieceCount(i, k);
+            //        for (int j = 0; j < cnt; j++)
+            //        {
+            //          //resources.GetPiece(i, k, j)
+            //        }
+            //    }
+            //}
             //resources.Update(time);
         }
     }
