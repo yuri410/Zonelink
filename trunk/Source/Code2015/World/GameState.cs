@@ -29,36 +29,32 @@ namespace Code2015.World
         {
             SLGWorld = new SimulationRegion();
 
-            FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
+            //FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
             
-            GameConfiguration resCon = new GameConfiguration(fl);
-            GameConfiguration.ValueCollection resVals = resCon.Values;
+            //GameConfiguration resCon = new GameConfiguration(fl);
+            //GameConfiguration.ValueCollection resVals = resCon.Values;
 
-            ExistTable<string> cityTable = new ExistTable<string>(MaxCities);
-            FastList<City> cities = new FastList<City>(MaxCities);
+            //ExistTable<string> cityTable = new ExistTable<string>(MaxCities);
+            //FastList<City> cities = new FastList<City>(MaxCities);
 
-            while (cities.Count < MinCities && cities.Count < MaxCities)
-            {
-                foreach (GameConfigurationSection sect in resVals)
-                {
-                    if (!cityTable.Exists(sect.Name))
-                    {
-                        bool flag = Randomizer.GetRandomBool();
+            //while (cities.Count < MinCities && cities.Count < MaxCities)
+            //{
+            //    foreach (GameConfigurationSection sect in resVals)
+            //    {
+            //        if (!cityTable.Exists(sect.Name))
+            //        {
+            //            bool flag = Randomizer.GetRandomBool();
 
-                        if (flag)
-                        {
-                            City city = new City(SLGWorld.EnergyStatus);
-                            city.Parse(sect);
-                            cities.Add(city);
-                            cityTable.Add(sect.Name);
-                        }
-                    }
-                }
-            }
-
-
-            //fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
-
+            //            if (flag)
+            //            {
+            //                City city = new City(SLGWorld.EnergyStatus);
+            //                city.Parse(sect);
+            //                cities.Add(city);
+            //                cityTable.Add(sect.Name);
+            //            }
+            //        }
+            //    }
+            //}
 
         }
     }

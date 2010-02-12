@@ -214,7 +214,8 @@ namespace Code2015.World.Screen
         {
             if (image != null)
             {
-                sprite.SetTransform(Matrix.RotationZ(body.Orientation));
+                Vector2 pos = body.Position;
+                sprite.SetTransform(Matrix.RotationZ(body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
                 sprite.Draw(image, 0, 0, ColorValue.White);
             }
         }
@@ -248,6 +249,8 @@ namespace Code2015.World.Screen
 
             for (int i = 0; i < pieces.Length; i++)
             {
+                pieces[i] = new FastList<MdgPiece>[8];
+
                 pieces[i][0] = null;
 
                 // 1
