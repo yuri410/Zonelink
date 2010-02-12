@@ -6,19 +6,20 @@ using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
-   
-    public  class CityPluginFactory
-    {
+
+    public class CityPluginFactory
+    { 
+        CityPluginType type;
+
         /// <summary>
         /// 医院，教育机构，木材工厂，炼油厂产生的C为正值，生态工厂产生C为负值
         /// 医院，教育机构产能速度为负值，即是消耗能源，其他产能速度为正值。
         /// 木材工厂产生低能，无高能，炼油厂和生态工厂产能为高能
         /// 
         /// </summary>
-       
         public CityPluginFactory()
         { }
-        CityPluginType type;
+
         public CityPlugin MakeOilRefinary()
         {
             //CityPlugin oilRefinary = new CityPlugin("OilRefinary");
@@ -51,7 +52,7 @@ namespace Code2015.BalanceSystem
 
             return woodfactory;
         }
-      
+
         public CityPlugin MakeBioEnergeFactory()
         {
             //CityPlugin biofactory = new CityPlugin("BioEnergyFactory");
@@ -82,7 +83,7 @@ namespace Code2015.BalanceSystem
             sect.Add("FoodCostSpeed", "-50");
 
             hospital.Parse(sect);
-           
+
             return hospital;
         }
 
