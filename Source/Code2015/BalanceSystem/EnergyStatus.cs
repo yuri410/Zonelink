@@ -82,69 +82,69 @@ namespace Code2015.BalanceSystem
 
 
 
-        /// <summary>
-        ///  申请获得低能资源
-        /// </summary>
-        /// <param name="amount"></param>
-        /// <returns>实际申请到的能源量</returns>
-        public float ApplyLPEnergy(float amount)
-        {
-            if (CurrentLPEnergy >= amount)
-            {
-                CurrentLPEnergy -= amount;
-                return amount;
-            }
-            float r = CurrentLPEnergy;
-            CurrentLPEnergy = 0;
-            return r;
-        }
-        /// <summary>
-        ///  申请获得高能资源
-        /// </summary>
-        /// <param name="amount"></param>
-        /// <returns>实际申请到的能源量</returns>
-        public float ApplyHPEnergy(float amount)
-        {
-            if (CurrentHPEnergy >= amount)
-            {
-                CurrentHPEnergy -= amount;
-                return amount;
-            }
-            float r = CurrentHPEnergy;
-            CurrentHPEnergy = 0;
-            return r;
-        }
+        ///// <summary>
+        /////  申请获得低能资源
+        ///// </summary>
+        ///// <param name="amount"></param>
+        ///// <returns>实际申请到的能源量</returns>
+        //public float ApplyLPEnergy(float amount)
+        //{
+        //    if (CurrentLPEnergy >= amount)
+        //    {
+        //        CurrentLPEnergy -= amount;
+        //        return amount;
+        //    }
+        //    float r = CurrentLPEnergy;
+        //    CurrentLPEnergy = 0;
+        //    return r;
+        //}
+        ///// <summary>
+        /////  申请获得高能资源
+        ///// </summary>
+        ///// <param name="amount"></param>
+        ///// <returns>实际申请到的能源量</returns>
+        //public float ApplyHPEnergy(float amount)
+        //{
+        //    if (CurrentHPEnergy >= amount)
+        //    {
+        //        CurrentHPEnergy -= amount;
+        //        return amount;
+        //    }
+        //    float r = CurrentHPEnergy;
+        //    CurrentHPEnergy = 0;
+        //    return r;
+        //}
 
-        /// <summary>
-        ///  申请获得食物
-        /// </summary>
-        /// <param name="amount"></param>
-        /// <returns>实际申请到的食物量</returns>
-        public float ApplyFood(float amount)
-        {
-            if (CurrentFood >= amount)
-            {
-                CurrentFood -= amount;
-                return amount;
-            }
-            float r = CurrentFood;
-            CurrentFood = 0;
-            return r;
-        }
+        ///// <summary>
+        /////  申请获得食物
+        ///// </summary>
+        ///// <param name="amount"></param>
+        ///// <returns>实际申请到的食物量</returns>
+        //public float ApplyFood(float amount)
+        //{
+        //    if (CurrentFood >= amount)
+        //    {
+        //        CurrentFood -= amount;
+        //        return amount;
+        //    }
+        //    float r = CurrentFood;
+        //    CurrentFood = 0;
+        //    return r;
+        //}
 
 
-        public void CommitLPEnergy(float amount)
-        {
-            CurrentLPEnergy += amount;
-        }
-        public void CommitHPEnergy(float amount)
-        {
-            CurrentHPEnergy += amount;
-        }
-        public void CommitFood(float amount)
-        {
-            CurrentFood += amount;
-        }
+        //public void CommitLPEnergy(float amount)
+        //{
+        //    CurrentLPEnergy += amount;
+        //}
+        //public void CommitHPEnergy(float amount)
+        //{
+        //    CurrentHPEnergy += amount;
+        //}
+        //public void CommitFood(float amount)
+        //{
+        //    CurrentFood += amount;
+        //}
 
         public EnergyStatus(SimulationRegion region)
         {

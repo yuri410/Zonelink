@@ -140,6 +140,8 @@ namespace Code2015.BalanceSystem
 
         CultureId culture;
 
+        City sourceCity;
+
         public City(EnergyStatus energyStat)
             : base(energyStat.Region)
         {
@@ -417,6 +419,10 @@ namespace Code2015.BalanceSystem
             return dev * pop;
         }
 
+        public void UpdateTopo()
+        {
+
+        }
 
         public override void Update(GameTime time)
         {
@@ -451,51 +457,54 @@ namespace Code2015.BalanceSystem
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
             #region 补缺储备，物流
+            if (sourceCity != null)
             {
-                float requirement = localLr.MaxLimit - localLr.Current;
-
-                if (requirement > 0)
                 {
-                    bool passed = true;
-                    if (energyStat.IsLPLow)
-                        passed ^= Randomizer.GetRandomBool();
-                    if (passed)
+                    float requirement = localLr.MaxLimit - localLr.Current;
+
+                    if (requirement > 0)
                     {
-                        float applyAmount = Math.Min(requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
-                        applyAmount = energyStat.ApplyLPEnergy(applyAmount);
-                        localLr.Commit(applyAmount);
+                        bool passed = true;
+                        if (energyStat.IsLPLow)
+                            passed ^= Randomizer.GetRandomBool();
+                        if (passed)
+                        {
+                            float applyAmount = Math.Min(requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
+                            applyAmount = sourceCity.LocalLR.Apply(applyAmount);// energyStat.ApplyLPEnergy(applyAmount);
+                            localLr.Commit(applyAmount);
+                        }
                     }
                 }
-            }
-            {
-                float requirement = localHr.MaxLimit - localHr.Current;
-
-                if (requirement > 0)
                 {
-                    bool passed = true;
-                    if (energyStat.IsHPLow)
-                        passed ^= Randomizer.GetRandomBool();
-                    if (passed)
+                    float requirement = localHr.MaxLimit - localHr.Current;
+
+                    if (requirement > 0)
                     {
-                        float applyAmount = Math.Min(requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
-                        applyAmount = energyStat.ApplyHPEnergy(applyAmount);
-                        localHr.Commit(applyAmount);
+                        bool passed = true;
+                        if (energyStat.IsHPLow)
+                            passed ^= Randomizer.GetRandomBool();
+                        if (passed)
+                        {
+                            float applyAmount = Math.Min(requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
+                            applyAmount = sourceCity.LocalHR.Apply(applyAmount);// energyStat.ApplyHPEnergy(applyAmount);
+                            localHr.Commit(applyAmount);
+                        }
                     }
                 }
-            }
-            {
-                float requirement = localFood.MaxLimit - localFood.Current;
-
-                if (requirement > 0)
                 {
-                    bool passed = true;
-                    if (energyStat.IsFoodLow)
-                        passed ^= Randomizer.GetRandomBool();
-                    if (passed)
+                    float requirement = localFood.MaxLimit - localFood.Current;
+
+                    if (requirement > 0)
                     {
-                        float applyAmount = Math.Min(requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
-                        applyAmount = energyStat.ApplyFood(applyAmount);
-                        localFood.Commit(applyAmount);
+                        bool passed = true;
+                        if (energyStat.IsFoodLow)
+                            passed ^= Randomizer.GetRandomBool();
+                        if (passed)
+                        {
+                            float applyAmount = Math.Min(requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
+                            applyAmount = sourceCity.LocalFood.Apply(applyAmount);// energyStat.ApplyFood(applyAmount);
+                            localFood.Commit(applyAmount);
+                        }
                     }
                 }
             }
@@ -525,7 +534,7 @@ namespace Code2015.BalanceSystem
 
                 if (actHrChange < hrChange)
                 {
-                    energyStat.CommitHPEnergy(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
+                    localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
                 }
 
                 lrChange = plugins[i].LRPSpeed * hours;
@@ -533,7 +542,7 @@ namespace Code2015.BalanceSystem
 
                 if (actLrChange < lrChange)
                 {
-                    energyStat.CommitHPEnergy(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
+                    localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
                 }
 
 
