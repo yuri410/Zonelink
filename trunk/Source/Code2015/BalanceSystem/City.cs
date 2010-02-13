@@ -147,8 +147,8 @@ namespace Code2015.BalanceSystem
 
         City sourceCity;
 
-        public City(EnergyStatus energyStat)
-            : base(energyStat.Region)
+        public City(SimulationRegion sim)
+            : base(sim)
         {
             this.energyStat = energyStat;
             localLr = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
@@ -157,13 +157,13 @@ namespace Code2015.BalanceSystem
             culture = CultureId.Asia;
             UpgradeUpdate();
         }
-        public City(EnergyStatus energyStat, UrbanSize size)
-            : this(energyStat)
+        public City(SimulationRegion sim, UrbanSize size)
+            : this(sim)
         {
             this.Size = size;
         }
-        public City(EnergyStatus energyStat, string name)
-            : this(energyStat)
+        public City(SimulationRegion sim, string name)
+            : this(sim)
         {
             this.Name = name;
         }
