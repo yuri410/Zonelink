@@ -136,8 +136,6 @@ namespace Code2015.BalanceSystem
             #region 处理采集自然资源
             int index = Randomizer.GetRandomInt(resource.Count);
 
-
-     
             float food = type.FoodCostSpeed * hours;
             float hpResource = type.HRCSpeed * hours;
             float lpResource = type.LRCSpeed * hours;
