@@ -446,9 +446,9 @@ namespace Code2015.BalanceSystem
             return dev * pop;
         }
 
-        public void UpdateTopo()
+        public void SetSourceCity(City source)
         {
-
+            sourceCity = source;
         }
 
         public override void Update(GameTime time)
