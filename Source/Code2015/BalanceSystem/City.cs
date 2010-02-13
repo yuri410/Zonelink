@@ -49,6 +49,11 @@ namespace Code2015.BalanceSystem
             set { limit = value; }
         }
 
+        public float StandardStorageBalance 
+        {
+            get { return limit * 0.5f; }
+        }
+
 
         /// <summary>
         ///  申请获得能源
@@ -460,7 +465,7 @@ namespace Code2015.BalanceSystem
             if (sourceCity != null)
             {
                 {
-                    float requirement = localLr.MaxLimit - localLr.Current;
+                    float requirement = localLr.StandardStorageBalance - localLr.Current;
 
                     if (requirement > 0)
                     {
@@ -474,9 +479,15 @@ namespace Code2015.BalanceSystem
                             localLr.Commit(applyAmount);
                         }
                     }
+                    else
+                    {
+                        float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
+                        commitAmount = sourceCity.LocalLR.Commit(commitAmount);
+                        localLr.Apply(commitAmount);
+                    }
                 }
                 {
-                    float requirement = localHr.MaxLimit - localHr.Current;
+                    float requirement = localHr.StandardStorageBalance - localHr.Current;
 
                     if (requirement > 0)
                     {
@@ -490,9 +501,15 @@ namespace Code2015.BalanceSystem
                             localHr.Commit(applyAmount);
                         }
                     }
+                    else
+                    {
+                        float commitAmount = Math.Min(-requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
+                        commitAmount = sourceCity.LocalHR.Commit(commitAmount);
+                        localHr.Apply(commitAmount);
+                    }
                 }
                 {
-                    float requirement = localFood.MaxLimit - localFood.Current;
+                    float requirement = localFood.StandardStorageBalance - localFood.Current;
 
                     if (requirement > 0)
                     {
@@ -505,6 +522,12 @@ namespace Code2015.BalanceSystem
                             applyAmount = sourceCity.LocalFood.Apply(applyAmount);// energyStat.ApplyFood(applyAmount);
                             localFood.Commit(applyAmount);
                         }
+                    }
+                    else
+                    {
+                        float commitAmount = Math.Min(-requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
+                        commitAmount = sourceCity.LocalFood.Commit(commitAmount);
+                        localFood.Apply(commitAmount);
                     }
                 }
             }
@@ -520,7 +543,7 @@ namespace Code2015.BalanceSystem
             // 计算插件
             for (int i = 0; i < plugins.Count; i++)
             {
-                // 高能资源消耗量
+                // 高能资源消耗量，消耗的其他计算在Plugin中
                 float hrChange = plugins[i].HRCSpeed * hours;
                 hrDev += hrChange * CityGrade.GetDevelopmentMult(Size);
 
@@ -555,8 +578,7 @@ namespace Code2015.BalanceSystem
             {
                 // 高能资源消耗量
                 float hrChange = CityGrade.GetSelfHRCSpeed(Size) * hours;
-                if (hrChange > float.Epsilon ||
-                    hrChange < -float.Epsilon)
+                if (hrChange < float.Epsilon)
                 {
                     float actHrChange = localHr.Apply(-hrChange);
                     SelfHRCRatio = -actHrChange / hrChange;
@@ -565,8 +587,7 @@ namespace Code2015.BalanceSystem
 
                 // 低能资源消耗量
                 float lrChange = CityGrade.GetSelfLRCSpeed(Size) * hours;
-                if (lrChange > float.Epsilon ||
-                    lrChange < -float.Epsilon)
+                if (lrChange < float.Epsilon)
                 {
                     float actLrChange = localLr.Apply(-lrChange);
                     SelfLRCRatio = -actLrChange / lrChange;
