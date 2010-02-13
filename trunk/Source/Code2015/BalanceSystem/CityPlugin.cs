@@ -12,16 +12,14 @@ namespace Code2015.BalanceSystem
     public class CityPlugin : IConfigurable, IUpdatable
     {
         City parent;
+        CityPluginType type;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
 
-
-        CityPluginType type;
         public CityPlugin(CityPluginType type)
         {
             this.Name = type.TypeName;
             this.type = type;
         }
-
 
         #region  属性
 
@@ -77,6 +75,7 @@ namespace Code2015.BalanceSystem
 
 
         #endregion
+
         public float GatherRadius
         {
             get;
