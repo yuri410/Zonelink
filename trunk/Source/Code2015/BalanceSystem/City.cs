@@ -132,7 +132,6 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float DevBias = -3;
 
-        EnergyStatus energyStat;
         /// <summary>
         ///  表示城市的附加设施
         /// </summary>
@@ -150,7 +149,6 @@ namespace Code2015.BalanceSystem
         public City(SimulationRegion sim)
             : base(sim)
         {
-            this.energyStat = energyStat;
             localLr = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
             localHr = new ResourceStorage(CityGrade.SmallMaxHPStorage, float.MaxValue);
             localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
