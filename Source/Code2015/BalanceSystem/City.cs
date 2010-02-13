@@ -126,6 +126,15 @@ namespace Code2015.BalanceSystem
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
+
+        [SLGValue()]
+        const float HPLowThreshold = 0.15f;
+        [SLGValue()]
+        const float LPLowThreshold = 0.15f;
+        [SLGValue()]
+        const float FoodLowThreshold = 0.15f;
+
+
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
@@ -318,6 +327,21 @@ namespace Code2015.BalanceSystem
         }
 
 
+        /// <summary>
+        ///  获取一个布尔值，表示当前已储备的高能资源量是否过低
+        /// </summary>
+        public bool IsHRLow
+        {
+            get { return localHr.Current < HPLowThreshold; }
+        }
+        public bool IsLRLow
+        {
+            get { return localLr.Current < LPLowThreshold; }
+        }
+        public bool IsFoodLow
+        {
+            get { return localFood.Current < FoodLowThreshold; }
+        }
         #endregion
 
         public event CitypluginEventHandle PluginAdded;
@@ -468,7 +492,7 @@ namespace Code2015.BalanceSystem
                     if (requirement > 0)
                     {
                         bool passed = true;
-                        if (energyStat.IsLPLow)
+                        if (sourceCity.IsLRLow)
                             passed ^= Randomizer.GetRandomBool();
                         if (passed)
                         {
@@ -490,7 +514,7 @@ namespace Code2015.BalanceSystem
                     if (requirement > 0)
                     {
                         bool passed = true;
-                        if (energyStat.IsHPLow)
+                        if (sourceCity.IsHRLow)
                             passed ^= Randomizer.GetRandomBool();
                         if (passed)
                         {
@@ -512,7 +536,7 @@ namespace Code2015.BalanceSystem
                     if (requirement > 0)
                     {
                         bool passed = true;
-                        if (energyStat.IsFoodLow)
+                        if (sourceCity.IsFoodLow)
                             passed ^= Randomizer.GetRandomBool();
                         if (passed)
                         {

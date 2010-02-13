@@ -47,7 +47,7 @@ namespace Code2015.World
 
                         if (flag)
                         {
-                            City city = new City(SLGWorld.EnergyStatus);
+                            City city = new City(SLGWorld);
                             city.Parse(sect);
                             cities.Add(city);
                             cityTable.Add(sect.Name);
