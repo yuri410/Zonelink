@@ -16,11 +16,11 @@ namespace Code2015.BalanceSystem
         const float InitLPEnergy = 1000000;
 
         [SLGValue()]
-        const float HPLowThreshold = 300;
+        public const float HPLowThreshold = 300;
         [SLGValue()]
-        const float LPLowThreshold = 300;
+        public const float LPLowThreshold = 300;
         [SLGValue()]
-        const float FoodLowThreshold = 300;
+        public const float FoodLowThreshold = 300;
 
 
         FastList<City> cities;
