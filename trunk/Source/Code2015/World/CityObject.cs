@@ -52,7 +52,7 @@ namespace Code2015.World
         static readonly string WoodFactory_Inv = "woofac_inv.mesh";
         static readonly string BioFuelFactory_Inv = "biofac_inv.mesh";
         static readonly string EducationOrgan_Inv = "eduorg_inv.mesh";
-        static readonly string Hospital_Inv = "hospital.mesh";
+        static readonly string Hospital_Inv = "hospital_inv.mesh";
 
 
         CityStyleData[] styles;
@@ -72,6 +72,13 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(LargeCityCenter_Inv, FileLocateRule.Model);
             styles[0].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
+
+            styles[0].OilRefinary = new ResourceHandle<ModelData>[1];
+            styles[0].WoodFactory = new ResourceHandle<ModelData>[1];
+            styles[0].BiofuelFactory = new ResourceHandle<ModelData>[1];
+            styles[0].EducationOrgan = new ResourceHandle<ModelData>[1];
+            styles[0].Hospital = new ResourceHandle<ModelData>[1];
+
             fl = FileSystem.Instance.Locate(OilRefinary_Inv, FileLocateRule.Model);
             styles[0].OilRefinary[0] = ModelManager.Instance.CreateInstance(rs, fl);
 
@@ -85,7 +92,7 @@ namespace Code2015.World
             styles[0].EducationOrgan[0] = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(Hospital_Inv, FileLocateRule.Model);
-            styles[0].Hospital[2] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].Hospital[0] = ModelManager.Instance.CreateInstance(rs, fl);
 
 
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
