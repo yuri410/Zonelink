@@ -27,6 +27,8 @@ namespace Code2015.World
         public ResourceHandle<ModelData>[] EducationOrgan;
 
         public ResourceHandle<ModelData>[] Hospital;
+
+        public ResourceHandle<ModelData> Cow;
     }
     struct CityStyle
     {
@@ -44,16 +46,16 @@ namespace Code2015.World
 
     class CityStyleTable
     {
-        static readonly string SmallCityCenter_Inv = "small_inv.mesh";
-        static readonly string MediumCityCenter_Inv = "medium_inv.mesh";
-        static readonly string LargeCityCenter_Inv = "large_inv.mesh";
+        static readonly string SmallCityCenter_Inv = "small.mesh";
+        static readonly string MediumCityCenter_Inv = "medium.mesh";
+        static readonly string LargeCityCenter_Inv = "large.mesh";
 
-        static readonly string OilRefinary_Inv = "oilref_inv.mesh";
-        static readonly string WoodFactory_Inv = "woofac_inv.mesh";
-        static readonly string BioFuelFactory_Inv = "biofac_inv.mesh";
-        static readonly string EducationOrgan_Inv = "eduorg_inv.mesh";
-        static readonly string Hospital_Inv = "hospital_inv.mesh";
-
+        static readonly string OilRefinary_Inv = "oilref.mesh";
+        static readonly string WoodFactory_Inv = "woofac.mesh";
+        static readonly string BioFuelFactory_Inv = "biofac.mesh";
+        static readonly string EducationOrgan_Inv = "eduorg.mesh";
+        static readonly string Hospital_Inv = "hospital.mesh";
+        static readonly string Cow_Inv = "cow.mesh";
 
         CityStyleData[] styles;
 
@@ -94,7 +96,8 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(Hospital_Inv, FileLocateRule.Model);
             styles[0].Hospital[0] = ModelManager.Instance.CreateInstance(rs, fl);
 
-
+            fl = FileSystem.Instance.Locate(Cow_Inv, FileLocateRule.Model);
+            styles[0].Cow = ModelManager.Instance.CreateInstance(rs, rl);
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
             //{
 
