@@ -18,6 +18,11 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
+        public static FileLocateRule Model
+        {
+            get;
+            private set;
+        }
         public static FileLocateRule Terrain
         {
             get;
@@ -38,7 +43,7 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
-        public static FileLocateRule UI
+        public static FileLocateRule GUI
         {
             get;
             private set;
@@ -62,7 +67,7 @@ namespace Code2015.EngineEx
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("effects");
+            pts[0].AddPath("effect.lpk");
             Effect = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
@@ -87,8 +92,13 @@ namespace Code2015.EngineEx
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("ui.lpk");
-            UI = new FileLocateRule(pts);
+            pts[0].AddPath("gui.lpk");
+            GUI = new FileLocateRule(pts);
+
+            pts = new LocateCheckPoint[1];
+            pts[0] = new LocateCheckPoint();
+            pts[0].AddPath("model.lpk");
+            Model = new FileLocateRule(pts);
         }
     }
 }

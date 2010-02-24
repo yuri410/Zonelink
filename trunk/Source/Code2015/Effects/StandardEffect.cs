@@ -5,6 +5,7 @@ using Apoc3D.Vfs;
 using Apoc3D.Scene;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
+using Code2015.EngineEx;
 
 namespace Apoc3D.Graphics.Effects
 {
@@ -76,18 +77,22 @@ namespace Apoc3D.Graphics.Effects
 
         Texture noTexture;
 
-        public unsafe StandardEffect(RenderSystem dev)
+        public unsafe StandardEffect(RenderSystem rs)
             : base(false, StandardEffectFactory.Name)
         {
-            renderSys = dev;
+            FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
+            noTexture = TextureManager.Instance.CreateInstance(fl);// fac.CreateTexture(1, 1, 1, TextureUsage.Static, ImagePixelFormat.A8R8G8B8);
 
-            ObjectFactory fac = dev.ObjectFactory;
 
-            noTexture = fac.CreateTexture( 1, 1, 1, TextureUsage.Static, ImagePixelFormat.A8R8G8B8 );
-            *((int*)noTexture.Lock(0, LockMode.None).Pointer) = (int)ColorValue.Gray.PackedValue;
-            noTexture.Unlock(0);
+            this.renderSys = rs;
 
-          
+            fl = FileSystem.Instance.Locate("standard.cvs", GameFileLocs.Effect);
+            vtxShader = LoadVertexShader(renderSys, fl);
+
+            fl = FileSystem.Instance.Locate("standard.cps", GameFileLocs.Effect);
+            pixShader = LoadPixelShader(renderSys, fl);
+
+
             //effect = LoadEffect(dev, "Standard.fx");
             //effectInst = LoadEffect(dev, "StandardInst.fx");
 

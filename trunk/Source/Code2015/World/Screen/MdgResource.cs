@@ -183,7 +183,7 @@ namespace Code2015.World.Screen
                     break;
             }
 
-            FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.UI);
+            FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.GUI);
             return UITextureManager.Instance.CreateInstance(fl);
         }
 

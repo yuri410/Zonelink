@@ -65,6 +65,9 @@ namespace Code2015
         /// </summary>
         public void Initialize()
         {
+            FileLocateRule.Textures = GameFileLocs.Texture;
+            FileLocateRule.Effects = GameFileLocs.Effect;
+
             ConfigurationManager.Initialize();
             ConfigurationManager.Instance.Register(new IniConfigurationFormat());
             ConfigurationManager.Instance.Register(new GameConfigurationFormat());

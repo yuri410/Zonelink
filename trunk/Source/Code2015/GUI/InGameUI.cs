@@ -42,7 +42,7 @@ namespace Code2015.GUI
 
             this.icons = new GoalIcons(physWorld);
 
-            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.UI);
+            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
         }
 

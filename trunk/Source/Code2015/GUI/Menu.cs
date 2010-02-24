@@ -23,7 +23,7 @@ namespace Code2015.GUI
 
         public Menu(Code2015 game, RenderSystem rs)
         {
-            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.UI);
+            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(rs, fl, "default");
             this.game = game;
         }
