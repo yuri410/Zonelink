@@ -16,8 +16,8 @@ namespace Code2015.World
     /// </summary>
     class GameStateBuilder
     {
-        const int MaxCities = 100;
-        const int MinCities = 80;
+        const int MaxCities = 60;
+        const int MinCities = 40;
 
         public SimulationRegion SLGWorld
         {
@@ -37,6 +37,7 @@ namespace Code2015.World
             ExistTable<string> cityTable = new ExistTable<string>(MaxCities);
             FastList<City> cities = new FastList<City>(MaxCities);
 
+            // 随机选取City
             while (cities.Count < MinCities && cities.Count < MaxCities)
             {
                 foreach (GameConfigurationSection sect in resVals)
@@ -54,6 +55,11 @@ namespace Code2015.World
                         }
                     }
                 }
+            }
+
+            for (int i = 0; i < cities.Count; i++) 
+            {
+                SLGWorld.Add(cities[i]);
             }
 
         }

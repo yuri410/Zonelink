@@ -11,6 +11,7 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
@@ -51,8 +52,8 @@ namespace Code2015.World
         static readonly string LargeCityCenter_Inv = "large.mesh";
 
         static readonly string OilRefinary_Inv = "oilref.mesh";
-        static readonly string WoodFactory_Inv = "woofac.mesh";
-        static readonly string BioFuelFactory_Inv = "biofac.mesh";
+        static readonly string WoodFactory_Inv = "woodfac.mesh";
+        static readonly string BioFuelFactory_Inv = "biofuel.mesh";
         static readonly string EducationOrgan_Inv = "eduorg.mesh";
         static readonly string Hospital_Inv = "hospital.mesh";
         static readonly string Cow_Inv = "cow.mesh";
@@ -164,7 +165,11 @@ namespace Code2015.World
 
         PluginPositionFlag pluginFlags;
 
-        public CityObject(City city,CityStyleTable styleSet)
+        RenderOperation[] opBuffer;
+
+
+
+        public CityObject(City city, CityStyleTable styleSet)
             : base(false)
         {
             this.city = city;
@@ -173,6 +178,9 @@ namespace Code2015.World
 
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
+
+            Transformation = Matrix.Identity;
+
         }
 
         protected override void Dispose(bool disposing)
