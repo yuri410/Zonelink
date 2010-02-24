@@ -284,6 +284,8 @@
     <None Include="Effects\skybox.vs" />
     <None Include="Effects\waterDepth.psh" />
     <None Include="Effects\waterDepth.vsh" />
+    <None Include="Effects\standard.ps" />
+    <None Include="Effects\standard.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

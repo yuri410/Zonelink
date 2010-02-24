@@ -97,7 +97,7 @@ namespace Code2015.World
             styles[0].Hospital[0] = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(Cow_Inv, FileLocateRule.Model);
-            styles[0].Cow = ModelManager.Instance.CreateInstance(rs, rl);
+            styles[0].Cow = ModelManager.Instance.CreateInstance(rs, fl);
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
             //{
 
