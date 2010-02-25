@@ -6,6 +6,7 @@ using Apoc3D.Scene;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Code2015.EngineEx;
+using Apoc3D.Core;
 
 namespace Apoc3D.Graphics.Effects
 {
@@ -181,19 +182,24 @@ namespace Apoc3D.Graphics.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
+            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+
+            vtxShader.SetValue("mvp", ref mvp);
+            vtxShader.SetValue("world", ref op.Transformation);
+
             if (!stateSetted)
             {
-            //    Light light = EffectParams.Atmosphere.Light;
-            //    Vector3 lightDir = light.Direction;
-            //    effect.SetValue(tlParamLa, light.Ambient);
-            //    effect.SetValue(tlParamLd, light.Diffuse);
-            //    effect.SetValue(tlParamLs, light.Specular);
-            //    effect.SetValue(tlParamLdir, new float[3] { lightDir.X, lightDir.Y, lightDir.Z });
+                //    Light light = EffectParams.Atmosphere.Light;
+                //    Vector3 lightDir = light.Direction;
+                //    effect.SetValue(tlParamLa, light.Ambient);
+                //    effect.SetValue(tlParamLd, light.Diffuse);
+                //    effect.SetValue(tlParamLs, light.Specular);
+                //    effect.SetValue(tlParamLdir, new float[3] { lightDir.X, lightDir.Y, lightDir.Z });
 
-            //    Vector3 pos = EffectParams.CurrentCamera.Position;
-            //    effect.SetValue(tlParamVpos, new float[3] { pos.X, pos.Y, pos.Z });
+                //    Vector3 pos = EffectParams.CurrentCamera.Position;
+                //    effect.SetValue(tlParamVpos, new float[3] { pos.X, pos.Y, pos.Z });
 
-            //    effect.SetTexture(shadowMapParam, EffectParams.ShadowMap.ShadowColorMap);
+                //    effect.SetTexture(shadowMapParam, EffectParams.ShadowMap.ShadowColorMap);
 
                 stateSetted = true;
             }
@@ -204,15 +210,15 @@ namespace Apoc3D.Graphics.Effects
 
             //effect.SetValue(tlParamPwr, mat.mat.Power);
 
-            //GameTexture clrTex = mat.GetTexture(0);
-            //if (clrTex == null)
-            //{
-            //    effect.SetTexture(tlParamClrMap, noTexture);
-            //}
-            //else
-            //{
-            //    effect.SetTexture(tlParamClrMap, clrTex.GetTexture);
-            //}
+            ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+            if (clrTex == null)
+            {
+                pixShader.SetTexture("texDif", noTexture);
+            }
+            else
+            {
+                pixShader.SetTexture("texDif", clrTex);
+            }
 
             //effect.SetValue(tlParamMVP, op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix);
 
