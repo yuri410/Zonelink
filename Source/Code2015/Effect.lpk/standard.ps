@@ -1,0 +1,24 @@
+
+sampler2D texDif : register(s0);
+
+struct PSInput
+{
+    float2 TexCoord : TEXCOORD0;
+    float3 Normal : TEXCOORD1; 
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+    float ndl = max(0, dot(ip.Normal, float3(1,0,0)));
+	
+    o.Color = ndl * tex2D(texDif, ip.TexCoord);
+    
+    return o;
+}
