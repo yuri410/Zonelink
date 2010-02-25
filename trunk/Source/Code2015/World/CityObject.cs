@@ -182,10 +182,10 @@ namespace Code2015.World
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
             Vector3 pos = PlanetEarth.GetPosition(radLong, radLat);
-            Transformation = Matrix.RotationX(radLat) * Matrix.RotationY(radLong) * Matrix.Translation(pos);//Matrix.RotationX(MathEx.PiOver2) * 
-            //Matrix.Translation(0, 0, PlanetEarth.PlanetRadius) * Matrix.RotationX(city.Latitude) * Matrix.RotationY(city.Longitude);
-            BoundingSphere.Radius = float.MaxValue;
-            BoundingSphere.Center = Vector3.Zero;
+            Transformation = Matrix.Translation(pos);//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
+
+            BoundingSphere.Radius = 200;
+            BoundingSphere.Center = pos;
         }
 
         protected override void Dispose(bool disposing)
