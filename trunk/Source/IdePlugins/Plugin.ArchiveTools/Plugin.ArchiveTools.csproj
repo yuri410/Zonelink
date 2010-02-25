@@ -47,7 +47,6 @@
     <Compile Include="LpkArchivePacker.cs" />
     <Compile Include="LPKViewerFactory.cs" />
     <Compile Include="LPKViewer.cs">
-      <SubType>Form</SubType>
     </Compile>
     <Compile Include="LPKViewer.Designer.cs">
       <DependentUpon>LPKViewer.cs</DependentUpon>
@@ -60,16 +59,6 @@
     </Compile>
     <Compile Include="Plugin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\apoc3d\Source\Apoc3D.Core\Apoc3D.Core.csproj">
-      <Project>{767AFD72-02F7-4543-B193-A2E19645A4B9}</Project>
-      <Name>Apoc3D.Core</Name>
-    </ProjectReference>
-    <ProjectReference Include="..\..\..\..\apoc3d\Source\Apoc3D.Ide\Apoc3D.Ide.csproj">
-      <Project>{AA72D449-B468-4698-A28D-926E2225FC5A}</Project>
-      <Name>Apoc3D.Ide</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="LPKViewer.resx">
