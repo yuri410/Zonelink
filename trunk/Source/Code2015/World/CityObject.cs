@@ -179,8 +179,11 @@ namespace Code2015.World
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
 
-            Transformation = Matrix.Identity;
-
+            Vector3 pos = PlanetEarth.GetPosition(city.Longitude, city.Latitude);
+            Transformation = Matrix.Translation(pos);//Matrix.RotationX(MathEx.PiOver2) * 
+                //Matrix.Translation(0, 0, PlanetEarth.PlanetRadius) * Matrix.RotationX(city.Latitude) * Matrix.RotationY(city.Longitude);
+            BoundingSphere.Radius = float.MaxValue;
+            BoundingSphere.Center = Vector3.Zero;
         }
 
         protected override void Dispose(bool disposing)
@@ -245,7 +248,7 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            throw new NotImplementedException();
+            return style.Urban[2].GetRenderOperation();
         }
 
         public override void Update(GameTime dt)

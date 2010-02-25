@@ -16,8 +16,8 @@ namespace Code2015.World
     /// </summary>
     class GameStateBuilder
     {
-        const int MaxCities = 60;
-        const int MinCities = 40;
+        const int MaxCities = 2;
+        const int MinCities = 1;
 
         public SimulationRegion SLGWorld
         {
@@ -46,13 +46,14 @@ namespace Code2015.World
                     {
                         bool flag = Randomizer.GetRandomBool();
 
-                        if (flag)
+                        //if (flag)
                         {
                             City city = new City(SLGWorld);
                             city.Parse(sect);
                             cities.Add(city);
                             cityTable.Add(sect.Name);
                         }
+                        break;
                     }
                 }
             }

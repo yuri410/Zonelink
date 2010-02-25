@@ -6,7 +6,7 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-    static class GameFileLocs
+    public static class GameFileLocs
     {
         public static FileLocateRule Effect
         {
