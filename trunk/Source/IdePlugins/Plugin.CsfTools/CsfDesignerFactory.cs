@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Ide;
 using Apoc3D.Ide.Designers;
-using Apoc3D.IO;
+using Apoc3D.Vfs;
 
 namespace Plugin.CsfTools
 {
