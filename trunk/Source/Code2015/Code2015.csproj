@@ -73,6 +73,8 @@
       <Private>False</Private>
     </Reference>
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml">
       <Private>False</Private>
     </Reference>
@@ -116,6 +118,270 @@
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
+    <Compile Include="Engine\Apoc3D.Collision\CollisionTreeType.cs" />
+    <Compile Include="Engine\Apoc3D.Collision\MidPhase\AABBTree.cs" />
+    <Compile Include="Engine\Apoc3D.Collision\MidPhase\BaseTree.cs" />
+    <Compile Include="Engine\Apoc3D.Collision\MidPhase\BBTree.cs" />
+    <Compile Include="Engine\Apoc3D.Core\CaseInsensitiveStringComparer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\CollectionBase.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\CurveKeyCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\ExistTable.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\FastList.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\FastQueue.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\HashHelpers.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Collections\PlaformCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\Configuration.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\ConfigurationManager.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\ConfigurationSection.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\CustomParser.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\CustomParserManager.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\IConfigurable.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\IniConfiguration.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\IniSection.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\XmlConfiguration.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Config\XmlSection.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\AsyncProcessor.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\DummyAttributes.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\EngineConsole.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\EngineTimer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\GenerationTable.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\IPlugin.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\Log.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\LogManager.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\PluginManager.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\Resource.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\ResourceInterlock.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Core\ResourceManager.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\ArrayConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\Dummy.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\IEditControl.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\MatrixEditControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Core\Design\MatrixEditControl.designer.cs">
+      <DependentUpon>MatrixEditControl.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Core\Design\MatrixEditor.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\BoundingBoxConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\BoundingSphereConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\Color4FConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\ColorConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\FieldPropertyDescriptor.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\MathTypeConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\MatrixConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\MemberPropertyDescriptor.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\PlaneConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\PointConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\QuaternionConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\RayConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\RectangleConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\SizeConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\Vector2Converter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\Vector3Converter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Design\TypeConverters\Vector4Converter.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Exceptions.cs" />
+    <Compile Include="Engine\Apoc3D.Core\GameTime.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Handlers.cs" />
+    <Compile Include="Engine\Apoc3D.Core\IUpdatable.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LanguageParser.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\CRC.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\ICoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\InBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LzmaBench.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaBase.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaDecoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaEncoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\IMatchFinder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzBinTree.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzInWindow.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzOutWindow.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\OutBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoderBitTree.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\BoundingBox.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\BoundingFrustum.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\BoundingSphere.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Box.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Color4F.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\ColorValue.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Curve.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\DirectDetectData.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Frustum.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Half.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\LineSegment.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\MathEx.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Matrix.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Matrix3.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\OctreeBox.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\PackedVector.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\PackUtils.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Pair.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Plane.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Point.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Quaternion.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Random\GaussianDeviate.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Random\MersenneTwister.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Random\PerlinNoise.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Random\UniformDeviate.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Ray.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Rectangle.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Size.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Triangle.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Vector2.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Vector3.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Vector4.cs" />
+    <Compile Include="Engine\Apoc3D.Core\MathLib\Viewport.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Media\Data.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Media\PixelFormat.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Memory.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Network\IClient.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Network\INetworkObject.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Network\IServer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\PlatformAPISupport.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Randomizer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Singleton.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Sound\ISample.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Sound\ISample3D.cs" />
+    <Compile Include="Engine\Apoc3D.Core\StringTable.cs" />
+    <Compile Include="Engine\Apoc3D.Core\StringTableManager.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Utils.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\Archive.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\BinaryData.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\ContentBinary.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\ContentText.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\DefaultLocateRules.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\Exceptions.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\FileBase.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\FileLocateRule.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\FileSystem.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\IAbstractFactory.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\Location.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\LpkArchive.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\Streams.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\Animation.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\Bone.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\EntityNode.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\KeyFrame.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\MaterialAnimation.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\SkinAnimation.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\TransformAnimation.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Camera.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Collections\BoneCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Collections\ClipPlaneCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Collections\EntityNodeCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Collections\SamplerStateCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Collections\TextureWrapCollection.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Desgin\MeshFaceConverter.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\DefaultSMGenEffect.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\Effect.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\EffectManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\EffectParams.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\Post\Bloom.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\Post\Composite.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\Post\GaussBlurX.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\Post\GaussBlurY.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Effects\Post\PostEffect.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\FpsCounter.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Geometry\Sphere.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\IRenderable.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Mesh.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\MeshSimplifier.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Model.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\ModelHelper.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\ModelManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\PostRenderer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderOperation.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\BufferStream.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Buffer\BackBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Buffer\DepthBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Buffer\HardwareBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Buffer\IndexBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Buffer\VertexBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\DeviceContent.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Enums.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Font.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\FontManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\GraphicsAPI.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\IRenderWindowHandler.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Light.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Line.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Material.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\ObjectFactory.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\RenderControl.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\RenderStateManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\RenderSystem.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\RenderSystemCaps.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\RenderTarget.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\SamplerState.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Shader.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Sprite.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\StateBlock.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\Texture.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\TextureManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\VertexDeclaration.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\VertexElement.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\VertexFormats.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\SceneRenderer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\Atmosphere.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\DynamicObject.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\Entity.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\IFindObjectCallBack.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\Lights\DirectionalLight.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\Lights\LightFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\Lights\LightObject.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\ObjectFactory.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\ObjectTypeManager.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\OctreeSceneManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\OctreeSceneNode.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\PassData.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\SceneData.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\SceneDataBase.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\SceneManager.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\SceneNode.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\SceneObject.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\StaticModelObject.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\ShadowMap.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\TextureIO.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\UnmanagedResource.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\WaterSurface.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\WeatherType.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\Buffer\XnaDepthBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\Buffer\XnaIndexBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\Buffer\XnaVertexBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\Hlsl\HlslCode.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\Hlsl\HlslDeclaration.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\Hlsl\HlslEnums.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaDeviceContent.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaGraphicsAPIFactory.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaObjectFactory.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaPixelShader.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaRenderStateManager.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaRenderSystem.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaRenderTarget.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaRenderWindow.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaSamplerState.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaSprite.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaStateBlock.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaTexture.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaTextureWrapCollection.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaUtils.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
+    <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="GUI\GoalIcons.cs" />
     <Compile Include="GUI\InGameUI.cs" />
@@ -191,6 +457,8 @@
     <None Include="Configs\cityStyles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Content Include="Engine\Apoc3D.Core\statistic.exe" />
+    <Content Include="Engine\Apoc3D.Graphics\Effects\Post\note.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
     <None Include="GUI\TODOs.txt" />
@@ -278,6 +546,19 @@
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Engine\Apoc3D.Core\Design\MatrixEditControl.resx">
+      <DependentUpon>MatrixEditControl.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Engine\Apoc3D.Core\Graphic\" />
+    <Folder Include="Engine\Apoc3D.Core\Input\" />
+    <Folder Include="Engine\Apoc3D.Core\Physics\" />
+    <Folder Include="Engine\Apoc3D.Graphics\Core\" />
+    <Folder Include="Engine\Apoc3D.Graphics\EffectSystem\" />
+    <Folder Include="Engine\Apoc3D.Graphics\ParticleSystem\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
