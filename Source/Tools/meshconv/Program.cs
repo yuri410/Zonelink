@@ -8,6 +8,8 @@ namespace meshconv
     {
         static void Main(string[] args)
         {
+            Converter.Initialize();
+
         }
     }
 }

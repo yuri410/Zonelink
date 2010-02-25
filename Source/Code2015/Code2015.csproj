@@ -109,10 +109,10 @@
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
-    <Compile Include="Effects\SkyboxEffect.cs" />
-    <Compile Include="Effects\StandardEffect.cs" />
-    <Compile Include="Effects\TerrainEffect.cs" />
-    <Compile Include="Effects\WaterEffect.cs" />
+    <Compile Include="Effect.lpk\SkyboxEffect.cs" />
+    <Compile Include="Effect.lpk\StandardEffect.cs" />
+    <Compile Include="Effect.lpk\TerrainEffect.cs" />
+    <Compile Include="Effect.lpk\WaterEffect.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
@@ -256,42 +256,42 @@
     <None Include="Configs\cities.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\skybox.cps">
+    <None Include="Effect.lpk\skybox.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\skybox.cvs">
+    <None Include="Effect.lpk\skybox.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\standard.cps">
+    <None Include="Effect.lpk\standard.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\standard.cvs">
+    <None Include="Effect.lpk\standard.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\terrain.cps">
+    <None Include="Effect.lpk\terrain.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\terrain.cvs">
+    <None Include="Effect.lpk\terrain.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\terrain.ps" />
-    <None Include="Effects\terrain.vs" />
-    <None Include="Effects\water.cps">
+    <None Include="Effect.lpk\terrain.ps" />
+    <None Include="Effect.lpk\terrain.vs" />
+    <None Include="Effect.lpk\water.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\water.cvs">
+    <None Include="Effect.lpk\water.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effects\water.ps">
+    <None Include="Effect.lpk\water.ps">
     </None>
-    <None Include="Effects\water.vs">
+    <None Include="Effect.lpk\water.vs">
     </None>
-    <None Include="Effects\skybox.ps" />
-    <None Include="Effects\skybox.vs" />
-    <None Include="Effects\waterDepth.psh" />
-    <None Include="Effects\waterDepth.vsh" />
-    <None Include="Effects\standard.ps" />
-    <None Include="Effects\standard.vs" />
+    <None Include="Effect.lpk\skybox.ps" />
+    <None Include="Effect.lpk\skybox.vs" />
+    <None Include="Effect.lpk\waterDepth.psh" />
+    <None Include="Effect.lpk\waterDepth.vsh" />
+    <None Include="Effect.lpk\standard.ps" />
+    <None Include="Effect.lpk\standard.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
