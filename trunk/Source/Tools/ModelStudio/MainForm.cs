@@ -16,28 +16,29 @@ using DX = SlimDX.Direct3D9;
 
 namespace ModelStudio
 {
-    class EditableModel : ModelBase<MeshData>, IDisposable
-    {
-        public EditableModel() { }
-
-        protected override MeshData LoadMesh(BinaryDataReader data)
-        {
-            throw new NotSupportedException();
-        }
-
-        protected override BinaryDataWriter SaveMesh(MeshData mesh)
-        {
-            return mesh.Save();
-        }
-
-        protected override void unload()
-        {
-
-        }
-
-    }
     public unsafe partial class MainForm : Form
     {
+        class EditableModel : ModelBase<MeshData>, IDisposable
+        {
+            public EditableModel() { }
+
+            protected override MeshData LoadMesh(BinaryDataReader data)
+            {
+                throw new NotSupportedException();
+            }
+
+            protected override BinaryDataWriter SaveMesh(MeshData mesh)
+            {
+                return mesh.Save();
+            }
+
+            protected override void unload()
+            {
+
+            }
+
+        }
+
         DX.Direct3D d3d;
         DX.Device device;
 
@@ -47,9 +48,12 @@ namespace ModelStudio
             InitializeComponent();
             renderSys = rs;
 
+            
             d3d = new DX.Direct3D();
+            
             DX.PresentParameters pm = new DX.PresentParameters();
             pm.Windowed = true;
+            
             device = new DX.Device(d3d, 0, DX.DeviceType.Reference, this.Handle, DX.CreateFlags.None, pm);
         }
 
@@ -67,9 +71,9 @@ namespace ModelStudio
             }
         }
 
-        static VertexElementFormat Convert(DX.DeclarationType type) 
+        static VertexElementFormat Convert(DX.DeclarationType type)
         {
-            switch (type) 
+            switch (type)
             {
                 case DX.DeclarationType.Color:
                     return VertexElementFormat.Color;
@@ -106,9 +110,9 @@ namespace ModelStudio
             }
             return VertexElementFormat.Unused;
         }
-        static VertexElementUsage Convert(DX.DeclarationUsage usage) 
+        static VertexElementUsage Convert(DX.DeclarationUsage usage)
         {
-            switch (usage) 
+            switch (usage)
             {
                 case DX.DeclarationUsage.Binormal:
                     return VertexElementUsage.Binormal;
@@ -169,7 +173,7 @@ namespace ModelStudio
             DX.VertexElement[] elements = DX.D3DX.DeclaratorFromFVF(mesh.VertexFormat);
 
             data.VertexElements = new VertexElement[elements.Length];
-            for (int i = 0; i < elements.Length - 1; i++) 
+            for (int i = 0; i < elements.Length - 1; i++)
             {
                 data.VertexElements[i] = new VertexElement(elements[i].Offset, Convert(elements[i].Type), Convert(elements[i].Usage), elements[i].UsageIndex);
                 //data.VertexElements [i]= new VertexElement (elements[i].Offset,
@@ -214,7 +218,7 @@ namespace ModelStudio
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
-            if (openFileDialog2.ShowDialog() == DialogResult.OK) 
+            if (openFileDialog2.ShowDialog() == DialogResult.OK)
             {
                 DX.Mesh mesh = DX.Mesh.FromFile(device, openFileDialog2.FileName, DX.MeshFlags.Managed);
 
@@ -254,7 +258,7 @@ namespace ModelStudio
 
                 BuildFromMesh(mesh, data, outMats);
 
-                
+
                 EditableModel outMdl = new EditableModel();
 
                 //mesh.Dispose();
@@ -268,6 +272,7 @@ namespace ModelStudio
                 string dest = Path.Combine(Path.GetDirectoryName(openFileDialog2.FileName), name + ".mesh");
                 EditableModel.ToFile(outMdl, dest);
 
+                Program.Viewer.CurrentModel = new Model(ModelManager.Instance.CreateInstance(renderSys, new FileLocation(dest)));
 
                 //outMdl.Dispose();
             }
@@ -285,5 +290,7 @@ namespace ModelStudio
                 }
             }
         }
+
+
     }
 }
