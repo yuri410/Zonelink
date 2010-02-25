@@ -15,8 +15,8 @@ namespace Code2015.World
     /// </summary>
     class GameStateBuilder
     {
-        const int MaxCities = 2;
-        const int MinCities = 1;
+        const int MaxCities = 20;
+        const int MinCities = 10;
 
         public SimulationRegion SLGWorld
         {
