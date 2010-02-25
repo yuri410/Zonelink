@@ -8,9 +8,11 @@ using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using System.Windows.Forms.Design;
-using WeifenLuo.WinFormsUI.Docking;
-using Apoc3D.Ide.Designers;
+using Apoc3D;
 using Apoc3D.Ide;
+using Apoc3D.Ide.Designers;
+using Apoc3D.Vfs;
+using WeifenLuo.WinFormsUI.Docking;
 
 namespace Plugin.CsfTools
 {

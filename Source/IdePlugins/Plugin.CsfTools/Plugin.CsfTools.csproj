@@ -90,7 +90,11 @@
     <None Include="Resources\List_BulletsHS.png" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\apoc3d\Source\Apoc3D.Ide\Apoc3D.Ide.csproj">
+    <ProjectReference Include="..\..\Code2015\Code2015.csproj">
+      <Project>{9CCB378A-849F-4578-BAE9-DAA749B63FAD}</Project>
+      <Name>Code2015</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Code2015\Engine\Apoc3D.Ide\Apoc3D.Ide.csproj">
       <Project>{AA72D449-B468-4698-A28D-926E2225FC5A}</Project>
       <Name>Apoc3D.Ide</Name>
     </ProjectReference>
@@ -104,8 +108,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy $(TargetPath) ..\..\..\..\..\..\apoc3d\Source\Apoc3D.Ide\bin\Plugins\$(TargetFileName)
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\Plugins\$(TargetFileName)
 
-Copy $(TargetDir)$(TargetName)".pdb" ..\..\..\..\..\..\apoc3d\Source\Apoc3D.Ide\bin\Plugins\$(TargetName)".pdb"</PostBuildEvent>
+Copy $(TargetDir)$(TargetName)".pdb" $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\Plugins\$(TargetName)".pdb"</PostBuildEvent>
   </PropertyGroup>
 </Project>

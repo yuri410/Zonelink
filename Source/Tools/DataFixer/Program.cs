@@ -5,6 +5,7 @@ using System.Text;
 using Apoc3D.Graphics;
 using Apoc3D.Ide;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
 using Code2015.World;
 using Plugin.GISTools;
 
@@ -452,7 +453,7 @@ namespace DataFixer
                     if (File.Exists(file))
                     {
                         TDMPIO d1 = new TDMPIO();
-                        d1.Load(new DevFileLocation(file));
+                        d1.Load(new FileLocation(file));
 
                         d1.XSpan *= 2;
                         d1.YSpan *= 2;
