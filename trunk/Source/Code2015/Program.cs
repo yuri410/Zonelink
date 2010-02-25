@@ -36,10 +36,10 @@ namespace Code2015
             window.EventHandler = new Code2015(devContent.RenderSystem);
 
             #region hacks
-            X.Game game = (X.Game)window.Tag;
+            //X.Game game = (X.Game)window.Tag;
 
-            XGS.GamerServicesComponent liveComp = new XGS.GamerServicesComponent(game);
-            game.Components.Add(liveComp);
+            //XGS.GamerServicesComponent liveComp = new XGS.GamerServicesComponent(game);
+            //game.Components.Add(liveComp);
             #endregion
 
             return window;
