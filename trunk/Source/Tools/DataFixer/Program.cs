@@ -465,10 +465,57 @@ namespace DataFixer
             }
         }
 
+        static void Simplify()
+        {
+            const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
+            const string OutDir = @"E:\Desktop\out";
+
+            for (int x = 1; x < 72; x += 2)
+            {
+                for (int y = 1; y < 36; y += 2)
+                {
+
+                    string file = Path.Combine(SrcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + ".tdmp");
+                    //string file2 = Path.Combine(OutDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + ".tdmp");
+                    if (File.Exists(file))
+                    {
+                        bool passed = false;
+                        TDMPIO d1 = new TDMPIO();
+                        d1.Load(new DevFileLocation(file));
+
+                        for (int i = 0; i < d1.Height; i++)
+                        {
+                            for (int j = 0; j < d1.Width; j++)
+                            {
+                                int idx = i * d1.Height + j;
+                                if (d1.Data[idx] > 500)
+                                {
+                                    passed = true;
+                                }
+                            }
+                        }
+
+                        if (!passed) 
+                        {
+                            Console.WriteLine(file);
+                            File.Delete(file);
+                            file = Path.Combine(SrcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_1" + ".tdmp");
+                            File.Delete(file);
+                            file = Path.Combine(SrcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_2" + ".tdmp");
+                            File.Delete(file);
+                            file = Path.Combine(SrcDir, "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_3" + ".tdmp");
+                            File.Delete(file);
+
+                        }
+                    }
+                }
+            }
+        }
 
         static void Main(string[] args)
         {
-            EdgeMix();
+            Simplify();
+            Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
 
