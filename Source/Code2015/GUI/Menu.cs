@@ -6,6 +6,7 @@ using Apoc3D.Graphics;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.MathLib;
 
 namespace Code2015.GUI
 {
@@ -34,6 +35,8 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            sprite.SetTransform(Matrix.Identity);
+
             if (!game.IsIngame)
             {
                 font.DrawString(sprite, "Not Implemented\nPress Enter to start a new game", 0, 0, 34, DrawTextFormat.Center, -1);
