@@ -197,16 +197,29 @@ namespace Plugin.Common
 
                 if (dxtFormat != Il.IL_DXT_NO_COMP)
                 {
+                    int numImagePasses = cubeFlags ? 6 : 1;
                     int dxtSize = Il.ilGetDXTCData(IntPtr.Zero, 0, dxtFormat);
-                    texData.Levels[i].Content = new byte[dxtSize];
-                    texData.Levels[i].LevelSize = dxtSize;
 
-                    fixed (byte* dst = &texData.Levels[i].Content[0])
+                    byte[] buffer = new byte[numImagePasses * dxtSize];
+
+                    for (int j = 0, offset = 0; j < numImagePasses; j++, offset += dxtSize)
                     {
-                        Il.ilGetDXTCData(new IntPtr(dst), dxtSize, dxtFormat);
+                        if (cubeFlags)
+                        {
+                            Il.ilBindImage(image);
+                            Il.ilActiveImage(j);
+                            Il.ilActiveMipmap(i);
+                        }
+                        fixed (byte* dst = &buffer[offset])
+                        {
+                            Il.ilGetDXTCData(new IntPtr(dst), dxtSize, dxtFormat);
+                        }
                     }
 
-                    texData.ContentSize += dxtSize;
+                    texData.Levels[i].Content = buffer;
+                    texData.Levels[i].LevelSize = buffer.Length;
+
+                    texData.ContentSize += buffer.Length;
                 }
                 else
                 {

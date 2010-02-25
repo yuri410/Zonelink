@@ -1,6 +1,6 @@
 sampler2D dudvMap : register(s0);
 sampler2D normalMap : register(s1);
-sampler2D reflectionMap : register(s2);
+samplerCUBE reflectionMap : register(s2);
 
 float move : register(c4);
 
@@ -36,15 +36,11 @@ PSOutput main(PSInput ip)
 	float3 lightReflection = reflect(ip.TangentSpaceLDir, normalVector) ;
 	float specular = pow(max(0, dot(lightReflection, ip.TangentSpaceVDir)), 25);
 
-	float4 projCoord = ip.Position / ip.Position.w;
-	projCoord = (projCoord + 1.0) * 0.5;
-	projCoord += dudvColor;
-	projCoord = saturate(projCoord);
-	
+
 	float fn = dot(normalize(ip.TangentSpaceVDir), float3(0, 0, 1));
 	fn = 1.0 - saturate(fn/0.779);
 
-	float4 reflectionColor  = tex2D(reflectionMap, ip.Position.xy);
+	float4 reflectionColor  = texCUBE(reflectionMap, reflect(ip.TangentSpaceVDir,normalVector));
 	
 	/*
 	const float e = 2.71828;
