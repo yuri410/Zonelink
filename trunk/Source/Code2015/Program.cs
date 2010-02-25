@@ -17,7 +17,6 @@ namespace Code2015
         static RenderWindow CreateRenderWindow()
         {
             FileSystem.Instance.AddWorkingDir(StorageContainer.TitleLocation);
-            PluginManager.Initiailze(null, null);
 
             devContent = GraphicsAPIManager.Instance.CreateDeviceContent();
 

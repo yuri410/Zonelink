@@ -44,10 +44,6 @@
       <Project>{9CCB378A-849F-4578-BAE9-DAA749B63FAD}</Project>
       <Name>Code2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\IdePlugins\Plugin.GISTools\Plugin.GISTools.csproj">
-      <Project>{8F9419AA-EA51-4759-BADC-59D984FFA3B3}</Project>
-      <Name>Plugin.GISTools</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
