@@ -248,7 +248,7 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            return style.Urban[2].GetRenderOperation();
+            return null;// style.Urban[2].GetRenderOperation();
         }
 
         public override void Update(GameTime dt)
