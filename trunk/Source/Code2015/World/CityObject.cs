@@ -179,7 +179,7 @@ namespace Code2015.World
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
 
-            Vector3 pos = PlanetEarth.GetPosition(city.Longitude, city.Latitude);
+            Vector3 pos = PlanetEarth.GetPosition(MathEx.Degree2Radian(city.Longitude), MathEx.Degree2Radian(city.Latitude));
             Transformation = Matrix.Translation(pos);//Matrix.RotationX(MathEx.PiOver2) * 
                 //Matrix.Translation(0, 0, PlanetEarth.PlanetRadius) * Matrix.RotationX(city.Latitude) * Matrix.RotationY(city.Longitude);
             BoundingSphere.Radius = float.MaxValue;
