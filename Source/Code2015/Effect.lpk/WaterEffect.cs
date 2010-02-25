@@ -41,17 +41,18 @@ namespace Code2015.Effects
 
     class WaterEffect : Effect
     {
-        public static RenderTarget Reflection
-        {
-            get;
-            set;
-        }
+        //public static RenderTarget Reflection
+        //{
+        //    get;
+        //    set;
+        //}
 
         RenderSystem renderSystem;
 
         PixelShader pixShader;
         VertexShader vtxShader;
         float move;
+        Texture reflection;
 
         public WaterEffect(RenderSystem renderSystem)
             : base(false, WaterEffectFactory.Name)
@@ -63,6 +64,9 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("water.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
+
+            fl = FileSystem.Instance.Locate("reflection.tex", GameFileLocs.Nature);
+            reflection = TextureManager.Instance.CreateInstance(fl);
         }
 
         protected override int begin()
@@ -108,9 +112,9 @@ namespace Code2015.Effects
 
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
-            if (Reflection != null)
+            if (reflection != null)
             {
-                pixShader.SetTexture("reflectionMap", Reflection.GetColorBufferTexture());
+                pixShader.SetTexture("reflectionMap", reflection);
             }
 
             move += 0.000033f;

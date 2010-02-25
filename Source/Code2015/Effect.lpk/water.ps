@@ -37,22 +37,22 @@ PSOutput main(PSInput ip)
 	float specular = pow(max(0, dot(lightReflection, ip.TangentSpaceVDir)), 25);
 
 
+	
+	float3 refCoord = reflect(ip.TangentSpaceVDir,0.67 * float3(0,0,1) + 0.33 * normalVector);
+	float tmp = refCoord.y;
+	refCoord.y = refCoord.z;
+	refCoord.z = tmp;
+	float4 reflectionColor  = texCUBE(reflectionMap, refCoord);
+	
 	float fn = dot(normalize(ip.TangentSpaceVDir), float3(0, 0, 1));
 	fn = 1.0 - saturate(fn/0.779);
-
-	float4 reflectionColor  = texCUBE(reflectionMap, reflect(ip.TangentSpaceVDir,normalVector));
-	
-	/*
-	const float e = 2.71828;
-	float fogfactor = (density * viewCoords.z);
-	fogfactor *= fogfactor;
-	fogfactor = clamp(pow(e, -fogfactor), 0.0, 1.0);
-	float4 FinalColor = float4(0.9 * reflectionColor.xyz, fn);
-	gl_FragColor = mix(fogcolor,FinalColor,fogfactor); 
-	*/
     
 	float ndl = max(0, dot(normalVector, ip.TangentSpaceLDir));
 	
-    o.Color = ndl * float4(0, 0.211, 0.341, 0.5 * ndl + specular) * reflectionColor + specular;
+	float lum = dot(reflectionColor, float3(0.3, 0.59, 0.11))-0.3;
+	if (lum<0)lum =0;
+	lum/=0.7;
+	
+    o.Color = lerp(ndl * float4(0, 0.211, 0.341, 0.5 * ndl + specular), float4(reflectionColor.xyz, specular+lum), fn) + specular;
     return o;
 }
