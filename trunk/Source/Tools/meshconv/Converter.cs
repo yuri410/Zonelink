@@ -8,6 +8,7 @@ using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using DX = SlimDX.Direct3D9;
+using System.Windows.Forms;
 
 namespace meshconv
 {
@@ -35,14 +36,19 @@ namespace meshconv
     {
         static DX.Direct3D d3d;
         static DX.Device device;
+        static Form frm;
 
         public static void Initialize()
         {
+            frm = new Form();
+            frm.Show();
+
             d3d = new DX.Direct3D();
 
             DX.PresentParameters pm = new DX.PresentParameters();
-            pm.Windowed = true;
-            device = new DX.Device(d3d, 0, DX.DeviceType.Reference, IntPtr.Zero, DX.CreateFlags.None, pm);
+            pm.Windowed = true; pm.AutoDepthStencilFormat = DX.Format.D24S8;
+
+            device = new DX.Device(d3d, 0, DX.DeviceType.Reference, frm.Handle, DX.CreateFlags.SoftwareVertexProcessing, pm);
         }
 
         static VertexElementFormat Convert(DX.DeclarationType type)

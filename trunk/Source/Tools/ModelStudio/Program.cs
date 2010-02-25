@@ -27,7 +27,7 @@ namespace ModelStudio
 
             FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
 
-
+            GraphicsAPIManager.Instance.RegisterGraphicsAPI(new Apoc3D.RenderSystem.Xna.XnaGraphicsAPIFactory());
 
             DeviceContent dc = GraphicsAPIManager.Instance.CreateDeviceContent();
 
