@@ -49,9 +49,9 @@ PSOutput main(PSInput ip)
     
 	float ndl = max(0, dot(normalVector, ip.TangentSpaceLDir));
 	
-	float lum = dot(reflectionColor, float3(0.3, 0.59, 0.11))-0.3;
+	float lum = dot(reflectionColor.xyz, float3(0.3, 0.59, 0.11))-0.3;
 	if (lum<0)lum =0;
-	lum/=0.7;
+	//lum/=0.7;
 	
     o.Color = lerp(ndl * float4(0, 0.211, 0.341, 0.5 * ndl + specular), float4(reflectionColor.xyz, specular+lum), fn) + specular;
     return o;
