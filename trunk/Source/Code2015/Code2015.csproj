@@ -109,6 +109,7 @@
     <Compile Include="Effect.lpk\StandardEffect.cs" />
     <Compile Include="Effect.lpk\TerrainEffect.cs" />
     <Compile Include="Effect.lpk\WaterEffect.cs" />
+    <Compile Include="ElevationQuery.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
