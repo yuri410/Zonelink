@@ -182,7 +182,14 @@ namespace Code2015.World
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
             Vector3 pos = PlanetEarth.GetPosition(radLong, radLat);
-            Transformation = Matrix.Translation(pos);//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
+
+            Transformation = Matrix.Identity;
+
+            Transformation.Up = PlanetEarth.GetNormal(radLong, radLat);
+            Transformation.Right = PlanetEarth.GetTangentX(radLong, radLat);
+            Transformation.Forward = PlanetEarth.GetTangentY(radLong, radLat);
+
+            Transformation.TranslationValue = pos;//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
 
             BoundingSphere.Radius = 200;
             BoundingSphere.Center = pos;
