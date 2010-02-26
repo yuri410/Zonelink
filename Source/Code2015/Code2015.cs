@@ -91,6 +91,7 @@ namespace Code2015
 
             menu = new Menu(this, renderSys);
 
+            //Tools.ModelRecenter(renderSys, @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\model.lpk");
         }
 
         public void finalize()
