@@ -23,9 +23,9 @@ namespace Code2015.World
 
         public const float DefaultTileSpan = MathEx.PIf * 10 / 180;
 
-       static Texture defaultNMap;
+        static Texture defaultNMap;
 
-       public static Texture DefaultNormalMap 
+        public static Texture DefaultNormalMap
         {
             get { return defaultNMap; }
         }
