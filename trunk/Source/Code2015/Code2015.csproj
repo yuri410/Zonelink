@@ -390,6 +390,7 @@
     <Compile Include="ParticleSystem\ParticleEffect.cs" />
     <Compile Include="ParticleSystem\ParticleEmitter.cs" />
     <Compile Include="ParticleSystem\ParticleManager.cs" />
+    <Compile Include="Tools.cs" />
     <Compile Include="World\CityObject.cs" />
     <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />

@@ -512,6 +512,8 @@ namespace DataFixer
             }
         }
 
+        
+
         static void Main(string[] args)
         {
             Simplify();
