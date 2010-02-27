@@ -45,6 +45,7 @@ namespace Code2015.World
 
         public Model[] Hospital;
 
+        public Model Cow;
         public Model[] Base;
     }
 
@@ -53,9 +54,9 @@ namespace Code2015.World
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";
         static readonly string LargeCityCenter_Inv = "large.mesh";
-        static readonly string SmallBase_Inv = "smallbase_l1.mseh";
-        static readonly string MediumBase_Inv = "mediumbase_l1.mseh";
-        static readonly string LargeBase_Inv = "largebase_l1.mseh";
+        static readonly string SmallBase_Inv = "basesmall_l1.mesh";
+        static readonly string MediumBase_Inv = "basemedium_l1.mesh";
+        static readonly string LargeBase_Inv = "baselarge_l1.mesh";
 
 
         static readonly string OilRefinary_Inv = "oilref.mesh";
@@ -64,7 +65,7 @@ namespace Code2015.World
         static readonly string EducationOrgan_Inv = "eduorg.mesh";
         static readonly string Hospital_Inv = "hospital.mesh";
         static readonly string Cow_Inv = "cow.mesh";
-        
+
         CityStyleData[] styles;
 
         public CityStyleTable(RenderSystem rs)
@@ -133,6 +134,11 @@ namespace Code2015.World
             result.EducationOrgan = new Model[data.EducationOrgan.Length];
             result.Base = new Model[data.Base.Length];
 
+            result.Cow = new Model(data.Cow);
+
+            for (int i = 0; i < result.Base.Length; i++)
+                result.Base[i] = new Model(data.Urban[i]);
+
             for (int i = 0; i < result.Urban.Length; i++)
                 result.Urban[i] = new Model(data.Urban[i]);
 
@@ -144,7 +150,7 @@ namespace Code2015.World
 
             for (int i = 0; i < result.Hospital.Length; i++)
                 result.Hospital[i] = new Model(data.Hospital[i]);
-            
+
             for (int i = 0; i < result.EducationOrgan.Length; i++)
                 result.EducationOrgan[i] = new Model(data.EducationOrgan[i]);
 
@@ -152,7 +158,6 @@ namespace Code2015.World
             return result;
         }
     }
-
 
     enum PluginPositionFlag
     {
@@ -181,6 +186,7 @@ namespace Code2015.World
         PluginPositionFlag pluginFlags;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
+        
         public CityObject(City city, CityStyleTable styleSet)
             : base(false)
         {
@@ -217,7 +223,7 @@ namespace Code2015.World
                 city.PluginRemoved -= City_PluginRemoved;
             }
         }
-        
+
 
         void City_PluginAdded(City city, CityPlugin plugin)
         {
@@ -229,7 +235,7 @@ namespace Code2015.World
                 ent.position = PluginPositionFlag.P1;
                 plugins.Add(ent);
             }
-            if ((pluginFlags & PluginPositionFlag.P2) == 0) 
+            if ((pluginFlags & PluginPositionFlag.P2) == 0)
             {
                 pluginFlags |= PluginPositionFlag.P2;
                 PluginEntry ent;
@@ -275,7 +281,7 @@ namespace Code2015.World
             ops = style.Urban[(int)city.Size].GetRenderOperation();
             opBuffer.Add(ops);
 
-            
+
 
             opBuffer.Trim();
             return opBuffer.Elements;
