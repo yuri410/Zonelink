@@ -83,18 +83,12 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(LargeCityCenter_Inv, GameFileLocs.Model);
             styles[0].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
-
             fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
             styles[0].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
             fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
             styles[0].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
             fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
             styles[0].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-
-
-
-
 
             styles[0].OilRefinary = new ResourceHandle<ModelData>[1];
             styles[0].WoodFactory = new ResourceHandle<ModelData>[1];
@@ -186,10 +180,7 @@ namespace Code2015.World
 
         PluginPositionFlag pluginFlags;
 
-        RenderOperation[] opBuffer;
-
-
-
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
         public CityObject(City city, CityStyleTable styleSet)
             : base(false)
         {
@@ -275,11 +266,19 @@ namespace Code2015.World
             }
         }
 
-        
 
         public override RenderOperation[] GetRenderOperation()
         {
-            return style.Urban[(int)city.Size].GetRenderOperation();
+            RenderOperation[] ops = style.Base[(int)city.Size].GetRenderOperation();
+            opBuffer.Add(ops);
+
+            ops = style.Urban[(int)city.Size].GetRenderOperation();
+            opBuffer.Add(ops);
+
+            
+
+            opBuffer.Trim();
+            return opBuffer.Elements;
         }
 
         public override void Update(GameTime dt)
