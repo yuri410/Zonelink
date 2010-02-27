@@ -348,7 +348,7 @@ namespace Code2015.EngineEx
                     float curLat = radSpan + radtl - i * cellAngle;
 
                     curCol += MathEx.PIf;
-                    curLat -= MathEx.Degree2Radian(5);
+                    curLat -= MathEx.Degree2Radian(10);
 
                     vtxArray[index].u = 0.5f * curCol / MathEx.PIf;
                     vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
