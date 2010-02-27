@@ -6,11 +6,11 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
-using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
@@ -257,7 +257,7 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            return style.Urban[2].GetRenderOperation();
+            return style.Urban[(int)city.Size].GetRenderOperation();
         }
 
         public override void Update(GameTime dt)
