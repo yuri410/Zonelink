@@ -29,6 +29,8 @@ namespace Code2015.World
         public ResourceHandle<ModelData>[] Hospital;
 
         public ResourceHandle<ModelData> Cow;
+
+        public ResourceHandle<ModelData>[] Base;
     }
     struct CityStyle
     {
@@ -42,6 +44,8 @@ namespace Code2015.World
         public Model[] EducationOrgan;
 
         public Model[] Hospital;
+
+        public Model[] Base;
     }
 
     class CityStyleTable
@@ -49,6 +53,10 @@ namespace Code2015.World
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";
         static readonly string LargeCityCenter_Inv = "large.mesh";
+        static readonly string SmallBase_Inv = "smallbase_l1.mseh";
+        static readonly string MediumBase_Inv = "mediumbase_l1.mseh";
+        static readonly string LargeBase_Inv = "largebase_l1.mseh";
+
 
         static readonly string OilRefinary_Inv = "oilref.mesh";
         static readonly string WoodFactory_Inv = "woodfac.mesh";
@@ -56,7 +64,7 @@ namespace Code2015.World
         static readonly string EducationOrgan_Inv = "eduorg.mesh";
         static readonly string Hospital_Inv = "hospital.mesh";
         static readonly string Cow_Inv = "cow.mesh";
-
+        
         CityStyleData[] styles;
 
         public CityStyleTable(RenderSystem rs)
@@ -66,6 +74,7 @@ namespace Code2015.World
             // initialize all
             styles[0].ID = CultureId.Asia;
             styles[0].Urban = new ResourceHandle<ModelData>[3];
+            styles[0].Base = new ResourceHandle<ModelData>[3];
 
             FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Inv, GameFileLocs.Model);
             styles[0].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
@@ -73,6 +82,10 @@ namespace Code2015.World
             styles[0].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
             fl = FileSystem.Instance.Locate(LargeCityCenter_Inv, GameFileLocs.Model);
             styles[0].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+
+
+
 
 
             styles[0].OilRefinary = new ResourceHandle<ModelData>[1];
