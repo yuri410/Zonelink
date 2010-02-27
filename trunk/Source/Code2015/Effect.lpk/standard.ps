@@ -18,7 +18,7 @@ PSOutput main(PSInput ip)
     
     float ndl = max(0, dot(ip.Normal, float3(1,0,0)));
 	
-    o.Color = ndl * tex2D(texDif, ip.TexCoord);
-    
+    o.Color = tex2D(texDif, ip.TexCoord);
+    //o.Color.xyz *= ndl;
     return o;
 }
