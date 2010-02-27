@@ -84,6 +84,14 @@ namespace Code2015.World
             styles[0].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
 
+            fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
+            styles[0].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
+            styles[0].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
+            styles[0].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+
 
 
 
@@ -129,6 +137,7 @@ namespace Code2015.World
             result.WoodFactory = new Model[data.WoodFactory.Length];
             result.Hospital = new Model[data.Hospital.Length];
             result.EducationOrgan = new Model[data.EducationOrgan.Length];
+            result.Base = new Model[data.Base.Length];
 
             for (int i = 0; i < result.Urban.Length; i++)
                 result.Urban[i] = new Model(data.Urban[i]);
