@@ -123,7 +123,7 @@ namespace Code2015.World
         public static void TileCoord2CoordNew(float x, float y, out float col, out float lat)
         {
             col = x * 5 - 185;
-            lat = 90 - y * 5;
+            lat = 95 - y * 5;
 
         }
 

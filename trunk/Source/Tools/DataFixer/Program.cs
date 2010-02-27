@@ -26,13 +26,13 @@ namespace DataFixer
                     {
                         TDMPIO d1 = new TDMPIO();
                         d1.Load(new DevFileLocation(file));
-
+                        
                         Point coord;
                         coord.X = (int)Math.Truncate(d1.Xllcorner);
                         coord.Y = (int)Math.Truncate(d1.Yllcorner);
 
                         int col = x * 5 - 185;
-                        int lat = 50 - y * 5;
+                        int lat = 95 - y * 5;
 
                         if (col != coord.X || lat != coord.Y)
                         {
@@ -516,7 +516,7 @@ namespace DataFixer
 
         static void Main(string[] args)
         {
-            Simplify();
+            Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
             Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
