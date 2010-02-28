@@ -38,8 +38,6 @@ namespace ModelStudio
 
         }
 
-        DX.Direct3D d3d;
-        DX.Device device;
 
         RenderSystem renderSys;
         public MainForm(RenderSystem rs)

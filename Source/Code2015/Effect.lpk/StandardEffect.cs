@@ -127,12 +127,23 @@ namespace Apoc3D.Graphics.Effects
 
             if (!stateSetted)
             {
+                ShaderSamplerState state = new ShaderSamplerState();
+                state.AddressU = TextureAddressMode.Wrap;
+                state.AddressV = TextureAddressMode.Wrap;
+                state.AddressW = TextureAddressMode.Wrap;
+                state.MinFilter = TextureFilter.Anisotropic;
+                state.MagFilter = TextureFilter.Anisotropic;
+                state.MipFilter = TextureFilter.Anisotropic;
+                state.MaxAnisotropy = 8;
+                state.MipMapLODBias = 0;
+
                 pixShader.SetValue("k_a", mat.Ambient);
                 pixShader.SetValue("k_d", mat.Diffuse);
                 pixShader.SetValue("k_s", mat.Specular);
                 pixShader.SetValue("k_e", mat.Emissive);
                 pixShader.SetValue("k_power", mat.Power);
 
+                pixShader.SetSamplerState("texDif", ref state);
 
                 ResourceHandle<Texture> clrTex = mat.GetTexture(0);
                 if (clrTex == null)

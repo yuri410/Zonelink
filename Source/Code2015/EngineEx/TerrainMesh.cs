@@ -191,7 +191,7 @@ namespace Code2015.EngineEx
             //material.Specular = terrData.MaterialSpecular;
             //material.Power = terrData.MaterialPower;
             material.Ambient = new Color4F(1, 0.5f, 0.5f, 0.5f);
-            material.Diffuse = new Color4F(1, 1, 1, 1);
+            material.Diffuse = new Color4F(1f, 1f, 1f, 1f);
             material.Specular = new Color4F(0, 0, 0, 0);
             material.Power = 1;
             

@@ -146,7 +146,7 @@ namespace Code2015.Effects
             pixShader.SetValue("i_a", EffectParams.LightAmbient);
             pixShader.SetValue("i_d", EffectParams.LightDiffuse);
             pixShader.SetValue("i_s", EffectParams.LightSpecular);
-            pixShader.SetValue("lightDir", EffectParams.LightDir);
+            vtxShader.SetValue("lightDir", EffectParams.LightDir);
             vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
             stateSetted = false;
             return 1;
@@ -196,7 +196,7 @@ namespace Code2015.Effects
                 state.MagFilter = TextureFilter.Anisotropic;
                 state.MipFilter = TextureFilter.Anisotropic;
                 state.MaxAnisotropy = 8;
-
+                state.MipMapLODBias = -1;
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetTexture("texDif", mat.GetTexture(0));
