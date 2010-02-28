@@ -163,6 +163,26 @@ namespace Code2015.World
                 result.Y = 0;
             return result;
         }
+        public static Vector3 GetPosition(float x, float y, float r)
+        {
+            x = -x;
+            // 微积分 球面参数方程
+            Vector3 result;
+            float py = (float)Math.Cos(y);
+            float rr = r * py;
+
+            result.Y = (float)Math.Sqrt(r * r - rr * rr);
+            if (y < 0)
+                result.Y = -result.Y;
+
+            result.X = (float)Math.Cos(x) * rr;
+            result.Z = (float)Math.Sin(x) * rr;
+
+
+            if (float.IsNaN(result.Y))
+                result.Y = 0;
+            return result;
+        }
         /// <summary>
         ///  计算球面上一点的法向量
         /// </summary>

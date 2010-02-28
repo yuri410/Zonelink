@@ -200,8 +200,8 @@ namespace Code2015.World
             float radLong = MathEx.Degree2Radian(city.Longitude);
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
-            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat);
-
+            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 100);
+            
             Transformation = Matrix.Identity;
 
             Transformation.Up = PlanetEarth.GetNormal(radLong, radLat);
@@ -275,13 +275,15 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
+            opBuffer.FastClear();
+
             RenderOperation[] ops = style.Base[(int)city.Size].GetRenderOperation();
-            opBuffer.Add(ops);
+            if (ops != null)
+                opBuffer.Add(ops);
 
             ops = style.Urban[(int)city.Size].GetRenderOperation();
-            opBuffer.Add(ops);
-
-
+            if (ops != null)
+                opBuffer.Add(ops);
 
             opBuffer.Trim();
             return opBuffer.Elements;
