@@ -209,7 +209,16 @@ namespace Code2015.World.Screen
             return d <= Radius;
         }
 
-
+        public Vector2 Position
+        {
+            get { return body.Position; }
+            set { body.Position = value; }
+        }
+        public Vector2 Velocity 
+        {
+            get { return body.Velocity; }
+            set { body.Velocity = value; }
+        }
 
         public MdgResource(ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
