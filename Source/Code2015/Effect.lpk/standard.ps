@@ -11,12 +11,13 @@ float4 i_a : register(c5);
 float4 i_d : register(c6);
 float4 i_s : register(c7);
 float3 lightDir : register(c8);
-float3 viewDir : register(c9);
 
 struct PSInput
 {
     float2 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1; 
+    float3 ViewDir : TEXCOORD5;
+    
 };
 
 struct PSOutput
@@ -36,7 +37,7 @@ PSOutput main(PSInput ip)
 	float4 dif = i_d * k_d;
 	dif.xyz *= max(0, ndl);
 	
-	float4 spec = i_s * k_s * pow(max(0, dot(R, viewDir)), k_power);
+	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.ViewDir)), k_power);
 	
     o.Color = tex2D(texDif, ip.TexCoord) * (amb + dif + k_e) + spec;
     
