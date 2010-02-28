@@ -6,6 +6,7 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
@@ -17,36 +18,90 @@ namespace Code2015.World
     struct CityStyleData
     {
         public CultureId ID;
-
+        
+        public ResourceHandle<ModelData>[] Base;
         public ResourceHandle<ModelData>[] Urban;
 
-        public ResourceHandle<ModelData>[] OilRefinary;
-        public ResourceHandle<ModelData>[] WoodFactory;
-        public ResourceHandle<ModelData>[] BiofuelFactory;
+        public ResourceHandle<ModelData> OilRefinary;
+        public ResourceHandle<ModelData> WoodFactory;
+        public ResourceHandle<ModelData> BiofuelFactory;
 
-        public ResourceHandle<ModelData>[] EducationOrgan;
+        public ResourceHandle<ModelData> EducationOrgan;
 
-        public ResourceHandle<ModelData>[] Hospital;
+        public ResourceHandle<ModelData> Hospital;
 
         public ResourceHandle<ModelData> Cow;
-
-        public ResourceHandle<ModelData>[] Base;
     }
     struct CityStyle
     {
         public CultureId ID;
 
+        public Model[] Base;
         public Model[] Urban;
 
-        public Model[] OilRefinary;
-        public Model[] WoodFactory;
+        public Model OilRefinary;
+        public Model WoodFactory;
+        public Model BiofuelFactory;
+        public Model EducationOrgan;
 
-        public Model[] EducationOrgan;
-
-        public Model[] Hospital;
+        public Model Hospital;
 
         public Model Cow;
-        public Model[] Base;
+
+        public CityStyle(ref CityStyleData data)
+        {
+            ID = data.ID;
+            Urban = new Model[data.Urban.Length];
+            Base = new Model[data.Base.Length];
+
+            Cow = new Model(data.Cow);
+
+            for (int i = 0; i < Base.Length; i++)
+                Base[i] = new Model(data.Base[i]);
+
+            for (int i = 0; i < Urban.Length; i++)
+                Urban[i] = new Model(data.Urban[i]);
+
+            OilRefinary = new Model(data.OilRefinary);
+            WoodFactory = new Model(data.WoodFactory);
+            BiofuelFactory = new Model(data.BiofuelFactory);
+
+            Hospital = new Model(data.Hospital);
+            EducationOrgan = new Model(data.EducationOrgan);
+        }
+    }
+
+    struct CityObjectTRAdjust
+    {
+        public CultureId ID;
+
+        public Matrix[] Urban;
+        public Matrix[] Base;
+
+        public Matrix OilRefinary;
+        public Matrix WoodFactory;
+        public Matrix EducationOrgan;
+        public Matrix Hospital;
+        public Matrix Biofuel;
+        public Matrix Cow;
+
+        public CityObjectTRAdjust(ref CityObjectTRAdjust src)
+        {
+            OilRefinary = src.OilRefinary;
+            WoodFactory = src.WoodFactory;
+            EducationOrgan = src.EducationOrgan;
+            Hospital = src.Hospital;
+            Biofuel = src.Biofuel;
+            Cow = src.Cow;
+
+            Urban = new Matrix[src.Urban.Length];
+            Array.Copy(src.Urban, Urban, src.Urban.Length);
+
+            Base = new Matrix[src.Base.Length];
+            Array.Copy(src.Base, Base, src.Base.Length);
+
+            ID = src.ID;
+        }
     }
 
     class CityStyleTable
@@ -67,12 +122,15 @@ namespace Code2015.World
         static readonly string Cow_Inv = "cow.mesh";
 
         CityStyleData[] styles;
+        CityObjectTRAdjust[] adjusts;
 
         public CityStyleTable(RenderSystem rs)
         {
             styles = new CityStyleData[(int)CultureId.Count];
 
             // initialize all
+
+            #region 初始化默认样式
             styles[0].ID = CultureId.Asia;
             styles[0].Urban = new ResourceHandle<ModelData>[3];
             styles[0].Base = new ResourceHandle<ModelData>[3];
@@ -91,71 +149,77 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
             styles[0].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
-            styles[0].OilRefinary = new ResourceHandle<ModelData>[1];
-            styles[0].WoodFactory = new ResourceHandle<ModelData>[1];
-            styles[0].BiofuelFactory = new ResourceHandle<ModelData>[1];
-            styles[0].EducationOrgan = new ResourceHandle<ModelData>[1];
-            styles[0].Hospital = new ResourceHandle<ModelData>[1];
 
             fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
-            styles[0].OilRefinary[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
-            styles[0].WoodFactory[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
-            styles[0].BiofuelFactory[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
-            styles[0].EducationOrgan[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
-            styles[0].Hospital[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
             styles[0].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+
+            #endregion
+
+            #region 初始化变换调整
+            adjusts = new CityObjectTRAdjust[(int)CultureId.Count];
+
+            adjusts[0].Base = new Matrix[3];
+            adjusts[0].Urban = new Matrix[3];
+
+            for (int i = 0; i < adjusts[0].Base.Length; i++)
+                adjusts[0].Base[i] = Matrix.Identity;
+            for (int i = 0; i < adjusts[0].Urban.Length; i++)
+                adjusts[0].Urban[i] = Matrix.Identity;
+           
+            adjusts[0].WoodFactory = Matrix.Identity;
+            adjusts[0].Cow = Matrix.Identity;
+            adjusts[0].Hospital = Matrix.Identity;
+            adjusts[0].OilRefinary = Matrix.Identity;
+            adjusts[0].Biofuel = Matrix.Identity;
+            #endregion
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
             //{
 
             //}
         }
 
+        public CityObjectTRAdjust CreateTRAdjust(CultureId culture) 
+        {
+            return new CityObjectTRAdjust(ref adjusts[(int)culture]);
+        }
         public CityStyle CreateStyle(CultureId culture)
         {
-            CityStyle result;
-
-            result.ID = culture;
-
             CityStyleData data = styles[(int)culture];
-            result.Urban = new Model[data.Urban.Length];
-            result.OilRefinary = new Model[data.OilRefinary.Length];
-            result.WoodFactory = new Model[data.WoodFactory.Length];
-            result.Hospital = new Model[data.Hospital.Length];
-            result.EducationOrgan = new Model[data.EducationOrgan.Length];
-            result.Base = new Model[data.Base.Length];
+            
+            CityStyle style = new CityStyle(ref data);
 
-            result.Cow = new Model(data.Cow);
+            for (int i = 0; i < style.Base.Length; i++) 
+            {
+                style.Base[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Base[i]);
+            }
+            for (int i = 0; i < style.Urban.Length; i++)
+            {
+                style.Urban[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Urban[i]);
+            }
 
-            for (int i = 0; i < result.Base.Length; i++)
-                result.Base[i] = new Model(data.Base[i]);
-
-            for (int i = 0; i < result.Urban.Length; i++)
-                result.Urban[i] = new Model(data.Urban[i]);
-
-            for (int i = 0; i < result.OilRefinary.Length; i++)
-                result.OilRefinary[i] = new Model(data.OilRefinary[i]);
-
-            for (int i = 0; i < result.WoodFactory.Length; i++)
-                result.WoodFactory[i] = new Model(data.WoodFactory[i]);
-
-            for (int i = 0; i < result.Hospital.Length; i++)
-                result.Hospital[i] = new Model(data.Hospital[i]);
-
-            for (int i = 0; i < result.EducationOrgan.Length; i++)
-                result.EducationOrgan[i] = new Model(data.EducationOrgan[i]);
-
-
-            return result;
+            style.BiofuelFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Biofuel);
+            style.OilRefinary.CurrentAnimation = new NoAnimation(adjusts[(int)culture].OilRefinary);
+            style.WoodFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].WoodFactory);
+            style.EducationOrgan.CurrentAnimation = new NoAnimation(adjusts[(int)culture].EducationOrgan);
+            style.Hospital.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Hospital);
+            style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
+            
+            return style;
         }
     }
 
