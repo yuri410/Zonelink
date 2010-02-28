@@ -15,6 +15,10 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
 
+        Point lastMousePos;
+        bool lastMouseLeft;
+        MdgResource selectedItem;
+
 
         public GoalIcons(ScreenPhysicsWorld physWorld) 
         {
@@ -54,29 +58,86 @@ namespace Code2015.GUI
         }
         public override void Update(GameTime time)
         {
-            //XI.MouseState state = XI.Mouse.GetState();
+            XI.MouseState state = XI.Mouse.GetState();
 
-            //for (MdgType i = MdgType.Hunger; i < MdgType.Count; i++)
-            //{
-            //    int cnt = resources.GetResourceCount(i);
-            //    for (int j = 0; j < cnt; j++)
-            //    {
-            //        if (resources.GetResource(i, j).HitTest(state.X, state.Y))
-            //        {
+            if (state.LeftButton == XI.ButtonState.Pressed)
+            {
+                if (!lastMouseLeft)//是否刚按下
+                {
+                    lastMouseLeft = true;
 
-            //        }
-            //    }
+                    for (MdgType i = MdgType.Hunger; i < MdgType.Count; i++)
+                    {
+                        int cnt = resources.GetResourceCount(i);
+                        for (int j = 0; j < cnt; j++)
+                        {
+                            MdgResource res = resources.GetResource(i, j);
+                            if (res.HitTest(state.X, state.Y))
+                            {
+                                i = MdgType.Count;
+                                selectedItem = res;
+                                break;
+                            }
+                        }
+                    }
+                }
 
-            //    for (int k = 1; k < 8; k++)
-            //    {
-            //        cnt = resources.GetPieceCount(i, k);
-            //        for (int j = 0; j < cnt; j++)
-            //        {
-            //          //resources.GetPiece(i, k, j)
-            //        }
-            //    }
-            //}
-            //resources.Update(time);
+                if (selectedItem != null)
+                {
+                    selectedItem.Velocity = Vector2.Zero;
+                    selectedItem.Position += new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y);
+                }
+
+                //bool passed = false;
+                //for (MdgType i = MdgType.Hunger; i < MdgType.Count; i++)
+                //{
+                //    int cnt = resources.GetResourceCount(i);
+                //    for (int j = 0; j < cnt; j++)
+                //    {
+                //        MdgResource res = resources.GetResource(i, j);
+                //        if (res.HitTest(state.X, state.Y))
+                //        {
+                //            res.Position += new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y);
+                //            passed = true;
+                //            break;
+                //        }
+                //    }
+
+                //    if (passed)
+                //        break;
+
+                //    for (int k = 1; k < 8; k++)
+                //    {
+                //        cnt = resources.GetPieceCount(i, k);
+                //        for (int j = 0; j < cnt; j++)
+                //        {
+                //            MdgPiece res = resources.GetPiece(i, k, j);
+                //            passed = true;
+                //            break;
+                //        }
+                //    }
+                //    if (passed)
+                //        break;
+                //}
+            }
+            else if (state.LeftButton == XI.ButtonState.Released) 
+            {
+                if (lastMouseLeft) //是否刚松开
+                {
+                    if (selectedItem != null)
+                    {
+                        float dt = time.ElapsedRealTime;
+                        if (dt>float.Epsilon )
+                            selectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / dt;
+                        selectedItem = null;
+                    }
+                    lastMouseLeft = false;
+                }
+            }
+
+            lastMousePos.X = state.X;
+            lastMousePos.Y = state.Y;
+
         }
     }
 }
