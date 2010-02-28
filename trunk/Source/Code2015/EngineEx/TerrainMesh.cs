@@ -190,6 +190,11 @@ namespace Code2015.EngineEx
             //material.Emissive = terrData.MaterialEmissive;
             //material.Specular = terrData.MaterialSpecular;
             //material.Power = terrData.MaterialPower;
+            material.Ambient = new Color4F(1, 0.5f, 0.5f, 0.5f);
+            material.Diffuse = new Color4F(1, 1, 1, 1);
+            material.Specular = new Color4F(0, 0, 0, 0);
+            material.Power = 1;
+            
             material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);

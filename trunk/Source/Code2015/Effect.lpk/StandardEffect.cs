@@ -48,33 +48,6 @@ namespace Apoc3D.Graphics.Effects
 
         PixelShader pixShader;
         VertexShader vtxShader;
-        //Effect effect;
-        //Effect effectInst;
-
-        //EffectHandle tlParamLa;
-        //EffectHandle tlParamLd;
-        //EffectHandle tlParamLs;
-        //EffectHandle tlParamKa;
-        //EffectHandle tlParamKd;
-        //EffectHandle tlParamKs;
-        //EffectHandle tlParamKe;
-        //EffectHandle tlParamPwr;
-        //EffectHandle tlParamLdir;
-        //EffectHandle tlParamVpos;
-        //EffectHandle tlParamClrMap;
-        //EffectHandle tlParamMVP;
-        //EffectHandle tlParamVP;
-
-        //EffectHandle tlParamWorldT;
-        //EffectHandle shadowMapParam;
-        //EffectHandle shadowMapTransform;
-        //EffectHandle fogDensityParam;
-        //EffectHandle fogColorParam;
-
-
-        //Effect shadowMapGen;
-
-
 
         Texture noTexture;
 
@@ -93,46 +66,6 @@ namespace Apoc3D.Graphics.Effects
             fl = FileSystem.Instance.Locate("standard.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
-
-            //effect = LoadEffect(dev, "Standard.fx");
-            //effectInst = LoadEffect(dev, "StandardInst.fx");
-
-
-            //effect.Technique = new EffectHandle("Standard");
-            //effectInst.Technique = new EffectHandle("Standard");
-
-            //tlParamLa = new EffectHandle("I_a");
-            //tlParamLd = new EffectHandle("I_d");
-            //tlParamLs = new EffectHandle("I_s");
-            //tlParamKa = new EffectHandle("k_a");
-            //tlParamKd = new EffectHandle("k_d");
-            //tlParamKs = new EffectHandle("k_s");
-            //tlParamKe = new EffectHandle("k_e");
-            //tlParamPwr = new EffectHandle("power");
-            //tlParamLdir = new EffectHandle("lightDir");
-
-            //tlParamClrMap = new EffectHandle("clrMap");
-
-            //tlParamVpos = new EffectHandle("cameraPos");
-            //tlParamMVP = new EffectHandle("mvp");
-            //tlParamVP = new EffectHandle("vp");
-
-            //tlParamWorldT = new EffectHandle("worldTrans");
-
-            //fogDensityParam = new EffectHandle("fogDensity");
-            //fogColorParam = new EffectHandle("fogColor");
-
-            //shadowMapParam = new EffectHandle("shadowMap");
-            //shadowMapTransform = new EffectHandle("smTrans");
-
-            //// ======================================================================
-            ////fl = FileSystem.Instance.Locate(FileSystem.CombinePath(Paths.Effects, "StandardShadowInst.fx"), FileLocateRules.Default);
-            ////sr = new ContentStreamReader(fl);
-            ////code = sr.ReadToEnd();
-            ////shadowMapGen = Effect.FromString(dev, code, null, IncludeHandler.Instance, null, ShaderFlags.OptimizationLevel3, null, out err);
-            ////sr.Close();
-            //shadowMapGen = LoadEffect(dev, "StandardShadow.fx");
-            //shadowMapGen.Technique = new EffectHandle("StandardShadow");
         }
 
         #region Instance
@@ -160,6 +93,11 @@ namespace Apoc3D.Graphics.Effects
         {
             renderSys.BindShader(vtxShader);
             renderSys.BindShader(pixShader);
+            pixShader.SetValue("i_a", EffectParams.LightAmbient);
+            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
+            pixShader.SetValue("i_s", EffectParams.LightSpecular);
+            pixShader.SetValue("lightDir", EffectParams.LightDir);
+            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
             stateSetted = false;
             return 1;
@@ -189,50 +127,25 @@ namespace Apoc3D.Graphics.Effects
 
             if (!stateSetted)
             {
-                //    Light light = EffectParams.Atmosphere.Light;
-                //    Vector3 lightDir = light.Direction;
-                //    effect.SetValue(tlParamLa, light.Ambient);
-                //    effect.SetValue(tlParamLd, light.Diffuse);
-                //    effect.SetValue(tlParamLs, light.Specular);
-                //    effect.SetValue(tlParamLdir, new float[3] { lightDir.X, lightDir.Y, lightDir.Z });
+                pixShader.SetValue("k_a", mat.Ambient);
+                pixShader.SetValue("k_d", mat.Diffuse);
+                pixShader.SetValue("k_s", mat.Specular);
+                pixShader.SetValue("k_e", mat.Emissive);
+                pixShader.SetValue("k_power", mat.Power);
 
-                //    Vector3 pos = EffectParams.CurrentCamera.Position;
-                //    effect.SetValue(tlParamVpos, new float[3] { pos.X, pos.Y, pos.Z });
 
-                //    effect.SetTexture(shadowMapParam, EffectParams.ShadowMap.ShadowColorMap);
+                ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+                if (clrTex == null)
+                {
+                    pixShader.SetTexture("texDif", noTexture);
+                }
+                else
+                {
+                    pixShader.SetTexture("texDif", clrTex);
+                }
 
                 stateSetted = true;
             }
-            //effect.SetValue(tlParamKa, mat.mat.Ambient);
-            //effect.SetValue(tlParamKd, mat.mat.Diffuse);
-            //effect.SetValue(tlParamKs, mat.mat.Specular);
-            //effect.SetValue(tlParamKe, mat.mat.Emissive);
-
-            //effect.SetValue(tlParamPwr, mat.mat.Power);
-
-            ResourceHandle<Texture> clrTex = mat.GetTexture(0);
-            if (clrTex == null)
-            {
-                pixShader.SetTexture("texDif", noTexture);
-            }
-            else
-            {
-                pixShader.SetTexture("texDif", clrTex);
-            }
-
-            //effect.SetValue(tlParamMVP, op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix);
-
-            //effect.SetValue(fogColorParam, new Color4(EffectParams.Atmosphere.FogColor));
-            //effect.SetValue(fogDensityParam, EffectParams.Atmosphere.FogDensity);
-
-            //Matrix lightPrjTrans;
-            //Matrix.Multiply(ref op.Transformation, ref EffectParams.ShadowMap.ViewProj, out lightPrjTrans);
-
-            //effect.SetValue(shadowMapTransform, lightPrjTrans);
-            //effect.SetValue(tlParamWorldT, op.Transformation);
-
-            //effect.CommitChanges();
-
         }
 
         //public override void SetupInstancing(Material mat)
