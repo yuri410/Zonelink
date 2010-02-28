@@ -129,6 +129,15 @@ namespace Code2015
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
+            if (time.ElapsedRealTime > 0.05f)
+            {
+                time.SetElapsedRealTime(0.05f);
+            }
+            if (time.ElapsedRealTime < 0.005f)
+            {
+                time.SetElapsedRealTime(0.005f);
+            }
+
             if (menu != null)
             {
                 menu.Update(time);

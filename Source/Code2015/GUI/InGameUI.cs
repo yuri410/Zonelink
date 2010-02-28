@@ -45,6 +45,8 @@ namespace Code2015.GUI
             this.scene = scene;
             this.physWorld = new ScreenPhysicsWorld();
 
+            
+
             this.icons = new GoalIcons(physWorld);
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
