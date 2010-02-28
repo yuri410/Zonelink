@@ -51,6 +51,24 @@ namespace Code2015.World.Screen
         Count = 8
     }
 
+    static class MdgPhysicsParams
+    {
+        public const float PieceRadius = 10;
+        public const float PieceMass = 1;
+        public const float PieceElasity = 0.5f;
+        public const float PieceFriction = 0.5f;
+        public const float PieceAngularDamp = 0.5f;
+        public const float PieceLinearDamp = 0.5f;
+
+        public const float BallRadius = 32;
+        public const float BallMass = 2.5f;
+        public const float BallElasity = 0.5f;
+        public const float BallFriction = 0.5f;
+        public const float BallAngularDamp = 0.5f;
+        public const float BallLinearDamp = 0.5f;
+
+    }
+
     /// <summary>
     ///  表示一个MDG拼图碎片
     /// </summary>
@@ -80,10 +98,13 @@ namespace Code2015.World.Screen
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
-            this.body.Radius = 32;
-            this.body.Mass = 1;
-            this.body.Elasity = 0.5f;
-            this.body.Friction = 0.5f;
+            this.body.Radius = MdgPhysicsParams.PieceRadius;
+            this.body.Mass = MdgPhysicsParams.PieceMass;
+            this.body.Elasity = MdgPhysicsParams.PieceElasity;
+            this.body.Friction = MdgPhysicsParams.PieceFriction;
+            this.body.AngularDamp = MdgPhysicsParams.PieceAngularDamp;
+            this.body.LinearDamp = MdgPhysicsParams.PieceLinearDamp;
+
             world.Add(body);
             
             this.type = type;
@@ -186,8 +207,6 @@ namespace Code2015.World.Screen
             return UITextureManager.Instance.CreateInstance(fl);
         }
 
-        const float Radius = 32;
-
         ScreenRigidBody body;
 
         Texture image;
@@ -206,7 +225,7 @@ namespace Code2015.World.Screen
 
             float d = (float)Math.Sqrt(MathEx.Sqr(x - pos.X) + MathEx.Sqr(y - pos.Y));
 
-            return d <= Radius;
+            return d <= MdgPhysicsParams.BallRadius;
         }
 
         public Vector2 Position
@@ -227,12 +246,12 @@ namespace Code2015.World.Screen
             this.body = new ScreenRigidBody();
             this.body.Orientation = ori;
             this.body.Position = pos;
-            this.body.Radius = Radius;
-            this.body.Mass = 1;
-            this.body.Elasity = 0.5f;
-            this.body.Friction = 0.5f;
-            this.body.AngularDamp = 0.5f;
-            this.body.LinearDamp = 0.5f;
+            this.body.Radius = MdgPhysicsParams.BallRadius;
+            this.body.Mass = MdgPhysicsParams.BallMass;
+            this.body.Elasity = MdgPhysicsParams.BallElasity;
+            this.body.Friction = MdgPhysicsParams.BallFriction;
+            this.body.AngularDamp = MdgPhysicsParams.BallAngularDamp;
+            this.body.LinearDamp = MdgPhysicsParams.BallLinearDamp;
 
             world.Add(body);
 
