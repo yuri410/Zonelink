@@ -137,7 +137,7 @@ namespace Code2015.World
             result.Cow = new Model(data.Cow);
 
             for (int i = 0; i < result.Base.Length; i++)
-                result.Base[i] = new Model(data.Urban[i]);
+                result.Base[i] = new Model(data.Base[i]);
 
             for (int i = 0; i < result.Urban.Length; i++)
                 result.Urban[i] = new Model(data.Urban[i]);

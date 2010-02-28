@@ -104,7 +104,6 @@ namespace Code2015.World.Screen
 
             position += velocity * dt;
 
-            velocity.Y -= 9;
             velocity -= velocity * LinearDamp * dt;
             angularVel -= angularVel * AngularDamp * dt;
         }
