@@ -100,12 +100,11 @@ namespace Code2015.World.Screen
 
         public void Integrate(float dt)
         {
-            if (dt > 0.2f)
-                return;
             orientation += angularVel * dt;
 
             position += velocity * dt;
 
+            velocity.Y -= 9;
             velocity -= velocity * LinearDamp * dt;
             angularVel -= angularVel * AngularDamp * dt;
         }

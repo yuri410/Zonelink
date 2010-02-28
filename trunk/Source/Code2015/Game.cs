@@ -8,6 +8,7 @@ using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.World;
 using Code2015.BalanceSystem;
+using Apoc3D.MathLib;
 
 namespace Code2015
 {
@@ -117,7 +118,8 @@ namespace Code2015
         }
         public void Render()
         {
-            scene.RenderScene();
+            renderSys.Clear(ClearFlags.DepthBuffer | ClearFlags.Target, ColorValue.White, 1, 0);
+            //scene.RenderScene();
         }
         public void Update(GameTime time)
         {

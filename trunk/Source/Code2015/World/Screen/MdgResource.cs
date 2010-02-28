@@ -231,6 +231,8 @@ namespace Code2015.World.Screen
             this.body.Mass = 1;
             this.body.Elasity = 0.5f;
             this.body.Friction = 0.5f;
+            this.body.AngularDamp = 0.5f;
+            this.body.LinearDamp = 0.5f;
 
             world.Add(body);
 
