@@ -176,16 +176,20 @@ namespace Code2015.World
             adjusts[0].Base = new Matrix[3];
             adjusts[0].Urban = new Matrix[3];
 
+            const float scaler = 1.5384615384615384615384615384615f;
+            Matrix scale = Matrix.Scaling(scaler, scaler, scaler);
             for (int i = 0; i < adjusts[0].Base.Length; i++)
-                adjusts[0].Base[i] = Matrix.Identity;
+                adjusts[0].Base[i] = scale;
             for (int i = 0; i < adjusts[0].Urban.Length; i++)
-                adjusts[0].Urban[i] = Matrix.Identity;
-           
-            adjusts[0].WoodFactory = Matrix.Identity;
+                adjusts[0].Urban[i] = scale;
+
+            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(0, 33, -5);
+
+            adjusts[0].WoodFactory = scale;
             adjusts[0].Cow = Matrix.Identity;
-            adjusts[0].Hospital = Matrix.Identity;
-            adjusts[0].OilRefinary = Matrix.Identity;
-            adjusts[0].Biofuel = Matrix.Identity;
+            adjusts[0].Hospital = scale;
+            adjusts[0].OilRefinary = scale;
+            adjusts[0].Biofuel = scale;
             #endregion
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
             //{
@@ -264,7 +268,7 @@ namespace Code2015.World
             float radLong = MathEx.Degree2Radian(city.Longitude);
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
-            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 100);
+            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 300);
             
             Transformation = Matrix.Identity;
 

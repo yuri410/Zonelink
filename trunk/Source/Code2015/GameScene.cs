@@ -7,6 +7,7 @@ using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.MathLib;
 
 namespace Code2015
 {
@@ -39,8 +40,10 @@ namespace Code2015
 
             renderer = new SceneRenderer(renderSys, sm);
 
+            Size size = Program.Window.ClientSize;
+            float aspectRatio = size.Width / (float)size.Height;
 
-            camera = new RtsCamera(65, 1);
+            camera = new RtsCamera(65, aspectRatio);
             camera.NearPlane = 10;
             camera.FarPlane = 6000;
             camera.Mode = RenderMode.Final;

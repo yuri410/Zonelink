@@ -44,7 +44,11 @@ namespace Code2015
 
             return window;
         }
-
+        public static RenderWindow Window
+        {
+            get;
+            private set;
+        }
         /// <summary>
         /// The main entry point for the application.
         /// </summary>
@@ -52,6 +56,7 @@ namespace Code2015
         {
             using (RenderWindow game = CreateRenderWindow())
             {
+                Window = game;
                 game.Run();
             }
             Properties.Settings.Default.Save();

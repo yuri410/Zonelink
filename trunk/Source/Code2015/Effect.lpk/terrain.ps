@@ -9,11 +9,22 @@ sampler2D texDif : register(s4);
 sampler2D texColor : register(s5);
 sampler2D texNrm : register(s6);
 
+float4 k_d : register(c0);
+float4 k_a : register(c1);
+float4 k_s : register(c2);
+float4 k_e : register(c3);
+float k_power : register(c4);
+
+float4 i_a : register(c5);
+float4 i_d : register(c6);
+float4 i_s : register(c7);
+
 struct PSInput
 {
     float2 GlobeCoord : TEXCOORD0; 
     float2 DetailCoord : TEXCOORD1; 
     
+	float3 TangentSpaceVDir : TEXCOORD5;
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
     
@@ -37,7 +48,7 @@ PSOutput main(PSInput ip)
 	N.y = tmp;
     N = normalize(N);
     
-    float ndl = max(0, dot(N, ip.TangentSpaceLDir));
+    float ndl = dot(N, ip.TangentSpaceLDir);
 	
 	float4 index = tex2D(texDif, ip.GlobeCoord);
 	
@@ -64,7 +75,16 @@ PSOutput main(PSInput ip)
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*21);
 	}
 	
-    o.Color = ndl * lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
+    o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
+    
+	float4 amb = i_a * k_a;
+	float4 dif = i_d * k_d;
+	dif.xyz *= max(0, ndl);
+	
+	float3 R = reflect(ip.TangentSpaceLDir, N) ;
+	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
+
+    o.Color = o.Color * (amb + dif + k_e) + spec;
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
