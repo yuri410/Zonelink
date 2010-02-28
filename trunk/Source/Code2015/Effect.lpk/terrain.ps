@@ -72,7 +72,7 @@ PSOutput main(PSInput ip)
 	if (index[3]>0.01)
 	{
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*3);
-		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*21);
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*19);
 	}
 	
     o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
@@ -81,7 +81,7 @@ PSOutput main(PSInput ip)
 	float4 dif = i_d * k_d;
 	dif.xyz *= max(0, ndl);
 	
-	float3 R = reflect(ip.TangentSpaceLDir, N) ;
+	float3 R = reflect(ip.TangentSpaceLDir, N);
 	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
 
     o.Color = o.Color * (amb + dif + k_e) + spec;

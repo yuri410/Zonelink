@@ -1,6 +1,7 @@
 float4x4 mvp : register(c0);
 float4x4 world : register(c4);
 float3 viewPos : register(c8);
+float3 lightDir : register(c9);
 
 struct VSInput
 {
@@ -40,7 +41,6 @@ VSOutput main(VSInput ip)
     tanTrans = transpose(tanTrans);
     
     
-	float3 lightDir = float3(1,0,0);
     o.TangentSpaceVDir = (float3)mul(float4(normalize(wpos-viewPos),0), tanTrans);
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
     

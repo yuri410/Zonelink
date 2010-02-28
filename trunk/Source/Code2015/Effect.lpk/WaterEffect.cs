@@ -73,7 +73,7 @@ namespace Code2015.Effects
         {
             renderSystem.BindShader(vtxShader);
             renderSystem.BindShader(pixShader);
-
+            vtxShader.SetValue("lightDir", EffectParams.LightDir);
             return 1;
         }
 

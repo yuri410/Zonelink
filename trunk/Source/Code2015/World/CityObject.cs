@@ -183,7 +183,8 @@ namespace Code2015.World
             for (int i = 0; i < adjusts[0].Urban.Length; i++)
                 adjusts[0].Urban[i] = scale;
 
-            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(0, 33, -5);
+            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0);
+            adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-20, 10, 0);
 
             adjusts[0].WoodFactory = scale;
             adjusts[0].Cow = Matrix.Identity;
