@@ -24,7 +24,7 @@ VSOutput main(VSInput ip)
 
     o.Position = mul(ip.Position, mvp);
     o.TexCoord = ip.TexCoord;
-    o.Normal = (float3)mul(float4(ip.Normal,0), world);
+    o.Normal = normalize((float3)mul(float4(ip.Normal,0), world));
 
     return o;
 }

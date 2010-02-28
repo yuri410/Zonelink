@@ -1,7 +1,6 @@
 #include "waterDepth.vsh"
 
 float4x4 mvp : register(c0);
-//float4x4 invWorld : register(c4);
 float terrSize : register(c8);
 float4x4 world : register(c9);
 float3 viewPos : register(c14);
@@ -18,6 +17,7 @@ struct VSOutput
     float2 GlobeCoord : TEXCOORD0;
     float2 DetailCoord : TEXCOORD1;
     
+    float3 TangentSpaceVDir : TEXCOORD5;
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
     
@@ -71,6 +71,7 @@ VSOutput main(VSInput ip)
         
 	float3 lightDir = float3(1,0,0);
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
-    
+	o.TangentSpaceVDir = (float3)mul(float4(normalize(wpos.xyz - viewPos),0), tanTrans);
+
     return o;
 }
