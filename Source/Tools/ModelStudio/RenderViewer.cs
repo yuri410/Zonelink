@@ -10,7 +10,7 @@ using Apoc3D.Config;
 using Apoc3D.Graphics.Effects;
 using Code2015.EngineEx;
 using Code2015.Effects;
-
+using XI = Microsoft.Xna.Framework.Input;
 namespace ModelStudio
 {
     class ModelWrapper : Entity 
@@ -75,6 +75,7 @@ namespace ModelStudio
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
 
             ModelManager.Initialize();
+            EffectManager.Instance.LoadEffects();
         }
 
         public void finalize()
@@ -84,11 +85,18 @@ namespace ModelStudio
 
         public void Load()
         {
+            Size clSize = Program.Window.ClientSize;
+            camera = new ChaseCamera(clSize.Width / (float)clSize.Height);
+            camera.ChaseDirection = new Vector3(0, 0, -1);
+            camera.ChasePosition = new Vector3(0, 0, 0);
+            camera.DesiredPositionOffset = new Vector3(0, 0, 40);  
+            camera.Mode = RenderMode.Final;
+            camera.FarPlane = 1000;
+            camera.NearPlane = 0.5f;
 
-            camera = new ChaseCamera(.75f);
-            camera.ChaseDirection = new Vector3(0, 0, 1);
-            camera.ChasePosition = Vector3.Zero;
-
+            distance = 40;
+            yang = MathEx.Degree2Radian(30);
+            xang = MathEx.Degree2Radian(45);
 
             sceneManager = new SceneManager();
             SceneRendererParameter sm = new SceneRendererParameter ();
@@ -110,14 +118,36 @@ namespace ModelStudio
         {
         }
 
+        XI.MouseState lastState;
+        float xang;
+        float yang;
+        float distance;
+
         public void Update(GameTime time)
         {
             renderer.Update(time);
+
+            XI.MouseState mstate = XI.Mouse.GetState();
+
+            camera.ChaseDirection = new Vector3((float)Math.Cos(xang), -(float)Math.Sin(yang), (float)Math.Sin(xang));
+            camera.DesiredPositionOffset = new Vector3(0, 0, distance);
+
+            distance -= 0.05f * (mstate.ScrollWheelValue - lastState.ScrollWheelValue);
+            if (mstate.RightButton == XI.ButtonState.Pressed)
+            {
+                xang += MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f;
+                yang += MathEx.Degree2Radian(mstate.Y - lastState.Y) * 0.5f;
+            }
+            else if (mstate.LeftButton == XI.ButtonState.Pressed) 
+            {
+                obj.Orientation *= Matrix.RotationY(MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f);
+            }
+
+            lastState = mstate;
         }
 
         public void Draw()
         {
-            renderSys.Clear(ClearFlags.Target, ColorValue.Black, 1, 0);
             renderer.RenderScene();
         }
 

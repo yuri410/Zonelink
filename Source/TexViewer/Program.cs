@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using Apoc3D.Graphics;
@@ -21,9 +21,6 @@ namespace ModelStudio
             private set;
         }
 
-        /// <summary>
-        /// 应用程序的主入口点。
-        /// </summary>
         [STAThread]
         static void Main()
         {
@@ -39,7 +36,7 @@ namespace ModelStudio
             PresentParameters pm2 = new PresentParameters();
             pm2.IsWindowed = true;
             pm2.BackBufferFormat = ImagePixelFormat.A8R8G8B8;
-            pm2.BackBufferHeight = 600;
+            pm2.BackBufferHeight = 800;
             pm2.BackBufferWidth = 800;
 
             RenderWindow wnd = (RenderWindow)dc.Create(pm2);
