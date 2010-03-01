@@ -89,6 +89,7 @@ namespace Code2015.World
                         case UrbanSize.Medium:
                             return new Vector3(PluginTranslate[(int)size], 0, 0);
                         case UrbanSize.Small:
+                            return new Vector3(PluginTranslate[(int)size], 0, 0);
                         case UrbanSize.Large:
                             return new Vector3(-PluginTranslate[(int)size], 0, 0);
                         default:
@@ -126,7 +127,7 @@ namespace Code2015.World
             return Vector3.Zero;
         }
 
-
+        
     }
 
     struct CityObjectTRAdjust
@@ -247,12 +248,12 @@ namespace Code2015.World
             adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
 
-            adjusts[0].WoodFactory = Matrix.Translation(0, 3, 0) * scale;
-            adjusts[0].EducationOrgan = Matrix.Translation(0, 3, 0) * scale;
+            adjusts[0].WoodFactory = Matrix.Translation(0, 6.25f, 0) * scale;
+            adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
             adjusts[0].Cow = Matrix.Scaling(0, 0, -1);
-            adjusts[0].Hospital = scale;
-            adjusts[0].OilRefinary = scale;
-            adjusts[0].Biofuel = scale;
+            adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
+            adjusts[0].OilRefinary = Matrix.Translation(0, 9.75f, 0) * scale;
+            adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
             #endregion
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
             //{
@@ -305,6 +306,7 @@ namespace Code2015.World
         {
             public CityPlugin plugin;
             public PluginPositionFlag position;
+            public Matrix transform;
         }
 
         City city;
@@ -331,7 +333,7 @@ namespace Code2015.World
             float radLong = MathEx.Degree2Radian(city.Longitude);
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
-            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 150);
+            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius);
             
             Transformation = Matrix.Identity;
 
@@ -343,6 +345,26 @@ namespace Code2015.World
 
             BoundingSphere.Radius = 200;
             BoundingSphere.Center = pos;
+
+
+            switch (city.Size)
+            {
+                case UrbanSize.Small:
+                    city.Add(new CityPlugin(new CityPluginType("A")));
+
+                    break;
+                case UrbanSize.Medium:
+                    city.Add(new CityPlugin(new CityPluginType("B")));
+                    city.Add(new CityPlugin(new CityPluginType("C")));
+                    city.Add(new CityPlugin(new CityPluginType("D")));
+                    break;
+                case UrbanSize.Large:
+                    city.Add(new CityPlugin(new CityPluginType("E")));
+                    city.Add(new CityPlugin(new CityPluginType("B")));
+                    city.Add(new CityPlugin(new CityPluginType("C")));
+                    city.Add(new CityPlugin(new CityPluginType("D")));
+                    break;
+            }
         }
 
         protected override void Dispose(bool disposing)
@@ -358,38 +380,32 @@ namespace Code2015.World
 
         void City_PluginAdded(City city, CityPlugin plugin)
         {
+            PluginEntry ent = new PluginEntry();
+
             if ((pluginFlags & PluginPositionFlag.P1) == 0)
             {
                 pluginFlags |= PluginPositionFlag.P1;
-                PluginEntry ent;
-                ent.plugin = plugin;
                 ent.position = PluginPositionFlag.P1;
-                plugins.Add(ent);
             }
-            if ((pluginFlags & PluginPositionFlag.P2) == 0)
+            else if ((pluginFlags & PluginPositionFlag.P2) == 0)
             {
                 pluginFlags |= PluginPositionFlag.P2;
-                PluginEntry ent;
-                ent.plugin = plugin;
                 ent.position = PluginPositionFlag.P2;
-                plugins.Add(ent);
             }
-            if ((pluginFlags & PluginPositionFlag.P3) == 0)
+            else if ((pluginFlags & PluginPositionFlag.P3) == 0)
             {
                 pluginFlags |= PluginPositionFlag.P3;
-                PluginEntry ent;
-                ent.plugin = plugin;
                 ent.position = PluginPositionFlag.P3;
-                plugins.Add(ent);
             }
-            if ((pluginFlags & PluginPositionFlag.P4) == 0)
+            else if ((pluginFlags & PluginPositionFlag.P4) == 0)
             {
                 pluginFlags |= PluginPositionFlag.P4;
-                PluginEntry ent;
-                ent.plugin = plugin;
                 ent.position = PluginPositionFlag.P4;
-                plugins.Add(ent);
             }
+            ent.plugin = plugin;
+
+            ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position, city.Size));
+            plugins.Add(ent);
         }
         void City_PluginRemoved(City city, CityPlugin plugin)
         {
@@ -415,6 +431,38 @@ namespace Code2015.World
             ops = style.Urban[(int)city.Size].GetRenderOperation();
             if (ops != null)
                 opBuffer.Add(ops);
+
+
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                ops = null;
+                switch (plugins[i].plugin.Type.TypeName)
+                {
+                    case "A":
+                        ops = style.BiofuelFactory.GetRenderOperation();
+                        break;
+                    case "B":
+                        ops = style.EducationOrgan.GetRenderOperation();
+                        break;
+                    case "C":
+                        ops = style.Hospital.GetRenderOperation();
+                        break;
+                    case "D":
+                        ops = style.OilRefinary.GetRenderOperation();
+                        break;
+                    case "E":
+                        ops = style.WoodFactory.GetRenderOperation();
+                        break;
+                }
+                if (ops != null)
+                {
+                    for (int j = 0; j < ops.Length; j++)
+                    {
+                        ops[j].Transformation *= plugins[i].transform;
+                    }
+                    opBuffer.Add(ops);
+                }
+            }
 
             opBuffer.Trim();
             return opBuffer.Elements;

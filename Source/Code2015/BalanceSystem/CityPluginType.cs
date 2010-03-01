@@ -10,6 +10,8 @@ namespace Code2015.BalanceSystem
     /// </summary>
     public class CityPluginType : IConfigurable
     {
+        public CityPluginType() { }
+        public CityPluginType(string typeName) { TypeName = typeName; }
 
         public float HRPConvRate
         {

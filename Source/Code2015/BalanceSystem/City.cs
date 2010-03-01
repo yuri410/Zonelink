@@ -455,25 +455,25 @@ namespace Code2015.BalanceSystem
             CarbonProduceSpeed = 0;
 
 
-            #region 城市自动级别调整
-            float points = GetCityPoints(Development, Population);
+            //#region 城市自动级别调整
+            //float points = GetCityPoints(Development, Population);
 
-            if (points < MediumCityPointThreshold)
-            {
-                if (points < SmallCityPointThreshold)
-                {
-                    Size = UrbanSize.Small;
-                }
-                else
-                {
-                    Size = UrbanSize.Medium;
-                }
-            }
-            else
-            {
-                Size = UrbanSize.Large;
-            }
-            #endregion
+            //if (points < MediumCityPointThreshold)
+            //{
+            //    if (points < SmallCityPointThreshold)
+            //    {
+            //        Size = UrbanSize.Small;
+            //    }
+            //    else
+            //    {
+            //        Size = UrbanSize.Medium;
+            //    }
+            //}
+            //else
+            //{
+            //    Size = UrbanSize.Large;
+            //}
+            //#endregion
 
             for (int i = 0; i < plugins.Count; i++)
             {
