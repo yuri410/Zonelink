@@ -17,9 +17,7 @@ namespace Code2015
 
         List<TerrainTile> terrList = new List<TerrainTile>();
         RtsCamera camera;
-        ReflectionCamera reflectionCamera;
         SceneRenderer renderer;
-        RenderTarget reflectionRt;
 
         public SceneManagerBase Scene
         {
@@ -82,14 +80,6 @@ namespace Code2015
                 camera.MoveBack();
             }
 
-            //if (state.IsKeyDown(XI.Keys.LeftShift))
-            //{
-            //    camera.MoveSpeed = 50;
-            //}
-            //else
-            //{
-            //    camera.MoveSpeed = 2;
-            //}
 
             if (state.IsKeyDown(XI.Keys.Space))
             {

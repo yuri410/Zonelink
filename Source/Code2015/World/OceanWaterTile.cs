@@ -81,7 +81,7 @@ namespace Code2015.World
             material.IsTransparent = true;
             material.ZWriteEnabled = false;
             material.ZEnabled = true;
-            material.CullMode = CullMode.CounterClockwise;
+            material.CullMode = CullMode.Clockwise;
 
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);

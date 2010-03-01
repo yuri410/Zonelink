@@ -55,7 +55,7 @@ namespace Code2015.EngineEx
             axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw) * rotTrans);
 
             position = target + axis * height * 20;
-            Matrix viewTrans = Matrix.LookAtRH(position, target,
+            Matrix viewTrans = Matrix.LookAtLH(position, target,
                 Vector3.TransformSimple(up, rotTrans));
 
             Frustum.View = viewTrans;
