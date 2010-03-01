@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
-using Apoc3D.MathLib;
 
 namespace Code2015
 {
@@ -50,11 +50,11 @@ namespace Code2015
 
 
 
-            PlanetEarth earth = new PlanetEarth(renderSys);
-            sm.SceneManager.AddObjectToScene(earth);
+            //PlanetEarth earth = new PlanetEarth(renderSys);
+            //sm.SceneManager.AddObjectToScene(earth);
 
-            OceanWater water = new OceanWater(renderSys);
-            sm.SceneManager.AddObjectToScene(water);
+            //OceanWater water = new OceanWater(renderSys);
+            //sm.SceneManager.AddObjectToScene(water);
 
         }
 

@@ -42,7 +42,9 @@ namespace Code2015.GUI
                 int cnt = resources.GetResourceCount(i);
                 for (int j = 0; j < cnt; j++)
                 {
-                    resources.GetResource(i, j).Render(sprite);
+                    MdgResource res = resources.GetResource(i, j);
+                    res.IsPrimary = j == 0;
+                    res.Render(sprite);
                 }
 
                 for (int k = 1; k < 8; k++)
@@ -50,7 +52,9 @@ namespace Code2015.GUI
                     cnt = resources.GetPieceCount(i, k);
                     for (int j = 0; j < cnt; j++)
                     {
-                        resources.GetPiece(i, k, j).Render(sprite);
+                        MdgPiece piece = resources.GetPiece(i, k, j);
+                        piece.IsPrimary = j == 0;
+                        piece.Render(sprite);
                     }
                 }
             }
