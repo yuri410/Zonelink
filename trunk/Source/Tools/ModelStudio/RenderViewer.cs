@@ -87,7 +87,7 @@ namespace ModelStudio
         {
             Size clSize = Program.Window.ClientSize;
             camera = new ChaseCamera(clSize.Width / (float)clSize.Height);
-            camera.ChaseDirection = new Vector3(0, 0, -1);
+            camera.ChaseDirection = new Vector3(0, 0, 1);
             camera.ChasePosition = new Vector3(0, 0, 0);
             camera.DesiredPositionOffset = new Vector3(0, 0, 40);  
             camera.Mode = RenderMode.Final;
