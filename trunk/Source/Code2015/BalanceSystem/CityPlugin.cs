@@ -20,6 +20,10 @@ namespace Code2015.BalanceSystem
             this.type = type;
         }
 
+        public CityPluginType Type 
+        {
+            get { return type; }
+        }
         #region  属性
 
         public string Name
@@ -107,7 +111,7 @@ namespace Code2015.BalanceSystem
 
         public void NotifyAdded(City city)
         {
-            if (city != null)
+            if (city == null)
             {
                 throw new InvalidOperationException();
             }

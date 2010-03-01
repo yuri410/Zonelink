@@ -77,7 +77,7 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
-            slgSystem.Update(time);
+            //slgSystem.Update(time);
         }
 
 

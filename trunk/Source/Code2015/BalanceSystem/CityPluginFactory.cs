@@ -45,7 +45,6 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeOilRefinary()
         {
-            //CityPlugin oilRefinary = new CityPlugin("OilRefinary");
             CityPlugin oilRefinary = new CityPlugin(oilRefinaryType);
             ConfigurationSection sect = new IniSection("OilRefinary");
             sect.Add("Cost", "1000");
@@ -61,7 +60,6 @@ namespace Code2015.BalanceSystem
         }
         public CityPlugin MakeWoodFactory()
         {
-            //CityPlugin woodfactory = new CityPlugin("WoodFactory");
             CityPlugin woodfactory = new CityPlugin(woodFactoryType);
             ConfigurationSection sect = new IniSection("WoodFactory");
             sect.Add("Cost", "500");
@@ -78,7 +76,6 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeBioEnergeFactory()
         {
-            //CityPlugin biofactory = new CityPlugin("BioEnergyFactory");
             CityPlugin biofactory = new CityPlugin(bioFuelFactoryType);
             ConfigurationSection sect = new IniSection("BioEnergyFactory");
             sect.Add("Cost", "2000");
@@ -94,7 +91,6 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeHospital()
         {
-            //CityPlugin hospital = new CityPlugin("Hospital");
             CityPlugin hospital = new CityPlugin(hospitalType);
 
             ConfigurationSection sect = new IniSection("Hospital");
@@ -112,7 +108,6 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeEducationAgent()
         {
-            //CityPlugin EducationAgent = new CityPlugin("EducationAgent");
             CityPlugin EducationAgent = new CityPlugin(educationOrganType);
 
             ConfigurationSection sect = new IniSection("EducationAgent");
