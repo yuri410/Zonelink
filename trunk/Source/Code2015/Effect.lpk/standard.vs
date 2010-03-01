@@ -4,6 +4,7 @@ float4x4 mvp : register(c0);
 
 float4x4 world : register(c4);
 float3 viewPos : register(c8);
+bool isVegetation : register(c9);
 
 struct VSInput
 {
@@ -25,7 +26,11 @@ VSOutput main(VSInput ip)
 
     o.Position = mul(ip.Position, mvp);
     o.TexCoord = ip.TexCoord;
-    o.Normal = normalize((float3)mul(float4(ip.Normal,0), world));
+    if (isVegetation)
+	{
+		ip.Normal = float3(0,1,0);
+	}
+	o.Normal = normalize((float3)mul(float4(ip.Normal,0), world));
     
     float3 wpos = mul(ip.Position, world);
     
