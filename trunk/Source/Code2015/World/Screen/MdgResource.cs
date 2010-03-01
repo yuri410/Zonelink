@@ -59,7 +59,7 @@ namespace Code2015.World.Screen
 
     static class MdgPhysicsParams
     {
-        public const float PieceRadius = 10;
+        public const float PieceRadius = 32;
         public const float PieceMass = 1;
         public const float PieceElasity = 0.5f;
         public const float PieceFriction = 0.5f;
@@ -91,8 +91,6 @@ namespace Code2015.World.Screen
     /// </summary>
     class MdgPiece : UIComponent, IMdgSelection
     {
-        const float Radius = 16;
-
         ScreenRigidBody body;
 
         /// <summary>
@@ -121,6 +119,7 @@ namespace Code2015.World.Screen
             this.body.Friction = MdgPhysicsParams.PieceFriction;
             this.body.AngularDamp = MdgPhysicsParams.PieceAngularDamp;
             this.body.LinearDamp = MdgPhysicsParams.PieceLinearDamp;
+            this.body.Tag = this;
 
             world.Add(body);
             
@@ -146,7 +145,7 @@ namespace Code2015.World.Screen
 
             float d = (float)Math.Sqrt(MathEx.Sqr(x - pos.X) + MathEx.Sqr(y - pos.Y));
 
-            return d <= MdgPhysicsParams.PieceRadius;
+            return d <= body.Radius;
         }
         public object Merge(MdgPiece other)
         {
@@ -193,9 +192,14 @@ namespace Code2015.World.Screen
                 Vector2 pos = body.Position;
                 float r = body.Radius;
 
+                float aspect = image.Width / (float)image.Height;
+                //float widRate = image.Width / 300.0f;
+                //float hgtRate = image.Height / 300.0f;
+                float wr = aspect * r;
+
                 sprite.SetTransform(
-                    Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
-                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+                    Matrix.Scaling(2 * wr / image.Width, 2 * r / image.Height, 1) *
+                    Matrix.Translation(-wr, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
                 if (IsPrimary)
                 {
@@ -313,6 +317,7 @@ namespace Code2015.World.Screen
             this.body.Friction = MdgPhysicsParams.BallFriction;
             this.body.AngularDamp = MdgPhysicsParams.BallAngularDamp;
             this.body.LinearDamp = MdgPhysicsParams.BallLinearDamp;
+            this.body.Tag = this;
 
             world.Add(body);
 

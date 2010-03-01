@@ -36,6 +36,13 @@ namespace Code2015.World.Screen
             get { return angularDamp; }
             set { angularDamp = value; }
         }
+
+        public object Tag
+        {
+            get;
+            set;
+        }
+
     }
 
     class ScreenRigidBody : ScreenPhysicsObject

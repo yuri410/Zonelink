@@ -18,11 +18,11 @@ namespace Code2015.GUI
         Point lastMousePos;
         bool lastMouseLeft;
         IMdgSelection selectedItem;
-        IMdgSelection targeItem;
 
         public GoalIcons(ScreenPhysicsWorld physWorld)
         {
             this.physWorld = physWorld;
+            this.physWorld.BodyCollision += Phys_Collision;
             resources = new MdgResourceManager();
 
             #region test
@@ -31,6 +31,11 @@ namespace Code2015.GUI
             resources.Add(res);
             res = new MdgResource(physWorld, MdgType.Environment, new Vector2(600, 300), 0);
             resources.Add(res);
+
+            MdgPiece pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 1, new Vector2(200, 300), 0);
+            resources.Add(pie);
+            pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 2, new Vector2(400, 300), 0);
+            resources.Add(pie);
 
             #endregion
         }
@@ -100,6 +105,38 @@ namespace Code2015.GUI
             return result;
         }
 
+        bool Phys_Collision(ScreenRigidBody a, ScreenRigidBody b)
+        {
+            MdgPiece left = a.Tag as MdgPiece;
+            MdgPiece right = b.Tag as MdgPiece;
+
+            if (left != null && right != null &&
+                (object.ReferenceEquals(left, selectedItem) || object.ReferenceEquals(right, selectedItem)))
+            {
+                if (left.CheckMerge(right))
+                {
+                    object result = left.Merge(right);
+
+                    MdgPiece r1 = result as MdgPiece;
+                    if (r1 != null)
+                    {
+                        resources.Add(r1);
+                        selectedItem = r1;
+                    }
+
+                    MdgResource r2 = result as MdgResource;
+                    if (r2 != null)
+                    {
+                        resources.Add(r2);
+                        selectedItem = r2;
+                    }
+
+                    return true;
+                }
+            }
+            return false;
+        }
+
         public override void Update(GameTime time)
         {
             XI.MouseState state = XI.Mouse.GetState();
@@ -115,15 +152,6 @@ namespace Code2015.GUI
 
                 if (selectedItem != null)
                 {
-                    if (selectedItem.IconType == MdgIconType.Piece)
-                    {
-                        targeItem = HitTest(state.X, state.Y);
-                    }
-                    else 
-                    {
-                        targeItem = null;
-                    }
-
                     selectedItem.Velocity = Vector2.Zero;
                     selectedItem.Position += new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y);
                 }
@@ -134,21 +162,10 @@ namespace Code2015.GUI
                 {
                     if (selectedItem != null)
                     {
-                        if (targeItem != null)
-                        {
-                            if (selectedItem.IconType == MdgIconType.Piece && targeItem.IconType == MdgIconType.Piece)
-                            {
-                                MdgPiece left = (MdgPiece)selectedItem;
-                                MdgPiece right = (MdgPiece)targeItem;
-                                left.Merge(right);
-                            }
-                        }
-                        else
-                        {
-                            float dt = time.ElapsedGameTimeSeconds;
-                            if (dt > float.Epsilon)
-                                selectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / (2 * dt);
-                        }
+                        float dt = time.ElapsedGameTimeSeconds;
+                        if (dt > float.Epsilon)
+                            selectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / (2 * dt);
+
                         selectedItem = null;
                     }
                     lastMouseLeft = false;
