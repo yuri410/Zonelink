@@ -183,7 +183,7 @@ namespace Code2015.EngineEx
             factory = rs.ObjectFactory;
 
             material = new Material(rs);
-            material.CullMode = CullMode.None;
+            material.CullMode = CullMode.Clockwise;
 
             //material.Ambient = terrData.MaterialAmbient;
             //material.Diffuse = terrData.MaterialDiffuse;
