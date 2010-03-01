@@ -203,6 +203,45 @@ namespace ModelStudio
             mtrl.AlphaRef = (float)numericUpDown1.Value;
         }
 
+        private void button1_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = button1.BackColor;
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                button1.BackColor = colorDialog1.Color;
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = button2.BackColor;
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                button2.BackColor = colorDialog1.Color;
+            }
+
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = button3.BackColor;
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                button3.BackColor = colorDialog1.Color;
+            }
+
+        }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            colorDialog1.Color = button4.BackColor;
+            if (colorDialog1.ShowDialog() == DialogResult.OK)
+            {
+                button4.BackColor = colorDialog1.Color;
+            }
+
+        }
+
 
     }
 }
