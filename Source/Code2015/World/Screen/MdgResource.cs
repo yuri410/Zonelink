@@ -395,18 +395,24 @@ namespace Code2015.World.Screen
         /// </summary>
         FastList<MdgResource>[] balls;
 
+        MdgResource[] primaryBall;
+        MdgPiece[][] primaryPiece;
+
         public MdgResourceManager()
         {
             pieces = new FastList<MdgPiece>[(int)MdgType.Count][];
+            primaryBall = new MdgResource[(int)MdgType.Count];
+            primaryPiece = new MdgPiece[(int)MdgType.Count][];
 
             balls = new FastList<MdgResource>[(int)MdgType.Count];
-
+            
             for (int i = 0; i < pieces.Length; i++)
             {
                 pieces[i] = new FastList<MdgPiece>[8];
+                primaryPiece[i] = new MdgPiece[8];
 
                 pieces[i][0] = null;
-
+              
                 // 1
                 pieces[i][1] = new FastList<MdgPiece>();
 
@@ -436,23 +442,61 @@ namespace Code2015.World.Screen
 
         public void Add(MdgPiece piece)
         {
+            if (pieces[(int)piece.Type][piece.BitMask].Count == 0)
+            {
+                primaryPiece[(int)piece.Type][piece.BitMask] = piece;
+            }
             pieces[(int)piece.Type][piece.BitMask].Add(piece);
         }
         public void Add(MdgResource res)
         {
+            if (balls[(int)res.Type].Count == 0)
+            {
+                primaryBall[(int)res.Type] = res;
+            }
             balls[(int)res.Type].Add(res);
         }
         public void Remove(MdgPiece piece)
         {
             pieces[(int)piece.Type][piece.BitMask].Remove(piece);
             piece.NotifyRemoved();
+            for (int i = 0; i < primaryPiece.Length; i++) 
+            {
+                for (int j = 0; j < primaryPiece[i].Length; j++)
+                {
+                    if (object.ReferenceEquals(primaryPiece[i][j], piece))
+                    {
+                        primaryPiece[i][j] = null;
+                        i = primaryPiece.Length;
+                        break;
+                    }
+                }
+            }
         }
         public void Remove(MdgResource res)
         {
             balls[(int)res.Type].Remove(res);
             res.NotifyRemoved();
+            for (int i = 0; i < primaryBall.Length; i++)
+            {
+                if (object.ReferenceEquals(primaryBall[i], res))
+                {
+                    primaryBall[i] = null;
+                    i = primaryBall.Length;
+                    break;
+                }
+
+            }
         }
 
+        public MdgResource GetPrimaryResource(MdgType type)
+        {
+            return primaryBall[(int)type];
+        }
+        public MdgPiece GetPrimaryPiece(MdgType type, int bitmask)
+        {
+            return primaryPiece[(int)type][bitmask];
+        }
 
         public int GetPieceCount(MdgType type, int bitmask)
         {

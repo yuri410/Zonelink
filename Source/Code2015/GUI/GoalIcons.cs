@@ -20,7 +20,6 @@ namespace Code2015.GUI
         IMdgSelection selectedItem;
 
 
-        
 
         public GoalIcons(ScreenPhysicsWorld physWorld)
         {
