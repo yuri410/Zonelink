@@ -19,6 +19,20 @@ namespace Code2015.GUI
         bool lastMouseLeft;
         IMdgSelection selectedItem;
 
+        IMdgSelection SelectedItem
+        {
+            get { return selectedItem; }
+            set
+            {
+                selectedItem = value;
+                if (value != null)
+                {
+                    resources.SetPrimary(value);
+                }
+
+            }
+        }
+
 
 
         public GoalIcons(ScreenPhysicsWorld physWorld)
@@ -29,15 +43,32 @@ namespace Code2015.GUI
 
             #region test
 
-            MdgResource res = new MdgResource(physWorld, MdgType.ChildMortality, new Vector2(300, 300), 1);
+            MdgResource res = new MdgResource(resources, physWorld, MdgType.ChildMortality, new Vector2(200, 300), 1);
             resources.Add(res);
-            res = new MdgResource(physWorld, MdgType.Environment, new Vector2(600, 300), 0);
+            res = new MdgResource(resources, physWorld, MdgType.Environment, new Vector2(200, 500), 0);
+            resources.Add(res);
+            res = new MdgResource(resources, physWorld, MdgType.Diseases, new Vector2(200, 600), 0);
+            resources.Add(res);
+            res = new MdgResource(resources, physWorld, MdgType.Education, new Vector2(200, 400), 0);
+            resources.Add(res);
+            res = new MdgResource(resources, physWorld, MdgType.GenderEquality, new Vector2(200, 700), 0);
+            resources.Add(res);
+            res = new MdgResource(resources, physWorld, MdgType.Hunger, new Vector2(500, 300), 0);
+            resources.Add(res);
+            res = new MdgResource(resources, physWorld, MdgType.MaternalHealth, new Vector2(500, 400), 0);
             resources.Add(res);
 
-            MdgPiece pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 1, new Vector2(200, 300), 0);
+
+
+            MdgPiece pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 1, new Vector2(300, 300), 0);
             resources.Add(pie);
+
             pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 2, new Vector2(400, 300), 0);
             resources.Add(pie);
+
+            pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 4, new Vector2(600, 300), 0);
+            resources.Add(pie);
+
 
             #endregion
         }
@@ -76,7 +107,7 @@ namespace Code2015.GUI
                 for (int j = 0; j < cnt; j++)
                 {
                     MdgResource res = resources.GetResource(i, j);
-                    if (res != selectedItem && res.HitTest(x, y))
+                    if (res != SelectedItem && res.HitTest(x, y))
                     {
                         result = res;
                         passed = true;
@@ -93,7 +124,7 @@ namespace Code2015.GUI
                     for (int j = 0; j < cnt; j++)
                     {
                         MdgPiece res = resources.GetPiece(i, k, j);
-                        if (res != selectedItem && res.HitTest(x, y))
+                        if (res != SelectedItem && res.HitTest(x, y))
                         {
                             result = res;
                             passed = true;
@@ -111,7 +142,7 @@ namespace Code2015.GUI
             MdgPiece right = b.Tag as MdgPiece;
 
             if (left != null && right != null &&
-                (object.ReferenceEquals(left, selectedItem) || object.ReferenceEquals(right, selectedItem)))
+                (object.ReferenceEquals(left, SelectedItem) || object.ReferenceEquals(right, SelectedItem)))
             {
                 if (left.CheckMerge(right))
                 {
@@ -120,18 +151,18 @@ namespace Code2015.GUI
                     MdgPiece r1 = result as MdgPiece;
                     if (r1 != null)
                     {
-                        resources.Add(r1);
-                        selectedItem = r1;
+                        r1.Position = new Vector2(lastMousePos.X, lastMousePos.Y);
+                        SelectedItem = r1;
+                        return true;
                     }
 
                     MdgResource r2 = result as MdgResource;
                     if (r2 != null)
                     {
-                        resources.Add(r2);
-                        selectedItem = r2;
+                        r2.Position = new Vector2(lastMousePos.X, lastMousePos.Y);
+                        SelectedItem = r2;
+                        return true;
                     }
-
-                    return true;
                 }
             }
             return false;
@@ -147,26 +178,27 @@ namespace Code2015.GUI
                 {
                     lastMouseLeft = true;
 
-                    selectedItem = HitTest(state.X, state.Y);
+                    SelectedItem = HitTest(state.X, state.Y);
+                    
                 }
 
-                if (selectedItem != null)
-                {
-                    selectedItem.Velocity = Vector2.Zero;
-                    selectedItem.Position += new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y);
+                if (SelectedItem != null)
+                {   
+                    SelectedItem.Velocity = Vector2.Zero;
+                    SelectedItem.Position += new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y);
                 }
             }
             else if (state.LeftButton == XI.ButtonState.Released) 
             {
                 if (lastMouseLeft) //是否刚松开
                 {
-                    if (selectedItem != null)
+                    if (SelectedItem != null)
                     {
                         float dt = time.ElapsedGameTimeSeconds;
                         if (dt > float.Epsilon)
-                            selectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / (2 * dt);
+                            SelectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / (2 * dt);
 
-                        selectedItem = null;
+                        SelectedItem = null;
                     }
                     lastMouseLeft = false;
                 }

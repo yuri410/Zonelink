@@ -160,7 +160,7 @@ namespace Code2015.World.Screen
 
                 if (bit == 7)
                 {
-                    MdgResource res = new MdgResource(physicsWorld, type, body.Position, body.Orientation);
+                    MdgResource res = new MdgResource(manager, physicsWorld, type, body.Position, body.Orientation);
 
                     manager.Remove(this);
                     manager.Remove(other);
@@ -185,11 +185,7 @@ namespace Code2015.World.Screen
             }
             return false;
         }
-        public bool IsPrimary
-        {
-            get;
-            set;
-        }
+
         public override void Render(Sprite sprite)
         {
             if (image != null)
@@ -206,7 +202,7 @@ namespace Code2015.World.Screen
                     Matrix.Scaling(scaler, scaler, 1) *
                     Matrix.Translation(-rectr.X * 0.5f, -rectr.Y * 0.5f, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
-                if (IsPrimary)
+                if (object.ReferenceEquals(manager.GetPrimaryPiece(type, bitMask), this))
                 {
                     sprite.Draw(image, 0, 0, ColorValue.White);
                 }
@@ -285,7 +281,7 @@ namespace Code2015.World.Screen
 
         MdgType type;
         ScreenPhysicsWorld physicsWorld;
-
+        MdgResourceManager manager;
         public MdgType Type
         {
             get { return type; }
@@ -302,14 +298,9 @@ namespace Code2015.World.Screen
 
 
 
-        public bool IsPrimary
+        public MdgResource(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
-            get;
-            set;
-        }
-
-        public MdgResource(ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
-        {
+            this.manager = manager;
             this.physicsWorld = world;
 
             this.body = new ScreenRigidBody();
@@ -343,7 +334,7 @@ namespace Code2015.World.Screen
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
-                if (IsPrimary)
+                if (object.ReferenceEquals(manager.GetPrimaryResource(type), this))
                 {
                     sprite.Draw(image, 0, 0, ColorValue.White);
                 }
@@ -405,14 +396,14 @@ namespace Code2015.World.Screen
             primaryPiece = new MdgPiece[(int)MdgType.Count][];
 
             balls = new FastList<MdgResource>[(int)MdgType.Count];
-            
+
             for (int i = 0; i < pieces.Length; i++)
             {
                 pieces[i] = new FastList<MdgPiece>[8];
                 primaryPiece[i] = new MdgPiece[8];
 
                 pieces[i][0] = null;
-              
+
                 // 1
                 pieces[i][1] = new FastList<MdgPiece>();
 
@@ -460,32 +451,35 @@ namespace Code2015.World.Screen
         {
             pieces[(int)piece.Type][piece.BitMask].Remove(piece);
             piece.NotifyRemoved();
-            for (int i = 0; i < primaryPiece.Length; i++) 
+
+            if (object.ReferenceEquals(primaryPiece[(int)piece.Type][piece.BitMask], piece))
             {
-                for (int j = 0; j < primaryPiece[i].Length; j++)
-                {
-                    if (object.ReferenceEquals(primaryPiece[i][j], piece))
-                    {
-                        primaryPiece[i][j] = null;
-                        i = primaryPiece.Length;
-                        break;
-                    }
-                }
+                primaryPiece[(int)piece.Type][piece.BitMask] = null;
             }
         }
         public void Remove(MdgResource res)
         {
             balls[(int)res.Type].Remove(res);
             res.NotifyRemoved();
-            for (int i = 0; i < primaryBall.Length; i++)
-            {
-                if (object.ReferenceEquals(primaryBall[i], res))
-                {
-                    primaryBall[i] = null;
-                    i = primaryBall.Length;
-                    break;
-                }
 
+            if (object.ReferenceEquals(primaryBall[(int)res.Type], res))
+            {
+                primaryBall[(int)res.Type] = null;
+            }
+        }
+        public void SetPrimary(object obj)
+        {
+            MdgPiece r1 = obj as MdgPiece;
+            if (r1 != null)
+            {
+                primaryPiece[(int)r1.Type][r1.BitMask] = r1;
+                return;
+            }
+
+            MdgResource r2 = obj as MdgResource;
+            if (r2 != null)
+            {
+                primaryBall[(int)r2.Type] = r2;
             }
         }
 
@@ -516,14 +510,9 @@ namespace Code2015.World.Screen
             return balls[(int)type][index];
         }
 
+        //public void Update(GameTime time)
+        //{
 
-        public void Update(GameTime time)
-        {
-
-        }
-
-
-
+        //}
     }
-
 }
