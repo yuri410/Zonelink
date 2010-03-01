@@ -184,7 +184,8 @@ namespace Code2015.World
                 adjusts[0].Urban[i] = scale;
 
             adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0);
-            adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-20, 10, 0);
+            adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
+            adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
 
             adjusts[0].WoodFactory = scale;
             adjusts[0].Cow = Matrix.Identity;
@@ -269,13 +270,13 @@ namespace Code2015.World
             float radLong = MathEx.Degree2Radian(city.Longitude);
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
-            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 300);
+            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 150);
             
             Transformation = Matrix.Identity;
 
             Transformation.Up = PlanetEarth.GetNormal(radLong, radLat);
             Transformation.Right = PlanetEarth.GetTangentX(radLong, radLat);
-            Transformation.Forward = PlanetEarth.GetTangentY(radLong, radLat);
+            Transformation.Forward = -PlanetEarth.GetTangentY(radLong, radLat);
 
             Transformation.TranslationValue = pos;//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
 

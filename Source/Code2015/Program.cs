@@ -37,7 +37,6 @@ namespace Code2015
 
             #region hacks
             //X.Game game = (X.Game)window.Tag;
-
             //XGS.GamerServicesComponent liveComp = new XGS.GamerServicesComponent(game);
             //game.Components.Add(liveComp);
             #endregion
