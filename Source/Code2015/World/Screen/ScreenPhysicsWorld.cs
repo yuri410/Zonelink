@@ -313,7 +313,7 @@ namespace Code2015.World.Screen
 
         public void Update(GameTime time)
         {
-            float dt = time.ElapsedRealTime;
+            float dt = time.ElapsedGameTimeSeconds;
             if (dt > float.Epsilon)
             {
                 if (dt > 0.05f)
