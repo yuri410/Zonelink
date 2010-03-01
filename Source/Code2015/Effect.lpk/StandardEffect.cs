@@ -155,6 +155,8 @@ namespace Apoc3D.Graphics.Effects
                     pixShader.SetTexture("texDif", clrTex);
                 }
 
+
+                vtxShader.SetValue("isVegetation", mat.IsVegetation);
                 stateSetted = true;
             }
         }
