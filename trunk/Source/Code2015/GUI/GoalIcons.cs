@@ -126,7 +126,7 @@ namespace Code2015.GUI
                 {
                     if (selectedItem != null)
                     {
-                        float dt = time.ElapsedRealTime;
+                        float dt = time.ElapsedGameTimeSeconds;
                         if (dt > float.Epsilon)
                             selectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / (2 * dt);
                         selectedItem = null;
