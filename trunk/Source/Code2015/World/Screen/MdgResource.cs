@@ -73,7 +73,7 @@ namespace Code2015.World.Screen
         public const float BallAngularDamp = 0.5f;
         public const float BallLinearDamp = 0.5f;
 
-        public const float InactiveAlpha = 0.5f;
+        public const float InactiveAlpha = 0.2f;
     }
 
 
@@ -458,11 +458,11 @@ namespace Code2015.World.Screen
             return balls[(int)type][index];
         }
 
+
+        public void Update(GameTime time)
+        {
             
-            //public void Update(GameTime time)
-            //{
-                
-            //}
+        }
 
 
 
