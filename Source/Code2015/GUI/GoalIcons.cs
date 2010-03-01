@@ -19,6 +19,9 @@ namespace Code2015.GUI
         bool lastMouseLeft;
         IMdgSelection selectedItem;
 
+
+        
+
         public GoalIcons(ScreenPhysicsWorld physWorld)
         {
             this.physWorld = physWorld;
@@ -48,7 +51,6 @@ namespace Code2015.GUI
                 for (int j = 0; j < cnt; j++)
                 {
                     MdgResource res = resources.GetResource(i, j);
-                    res.IsPrimary = j == 0;
                     res.Render(sprite);
                 }
 
@@ -58,7 +60,6 @@ namespace Code2015.GUI
                     for (int j = 0; j < cnt; j++)
                     {
                         MdgPiece piece = resources.GetPiece(i, k, j);
-                        piece.IsPrimary = j == 0;
                         piece.Render(sprite);
                     }
                 }

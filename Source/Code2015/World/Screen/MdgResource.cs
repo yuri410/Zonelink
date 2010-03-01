@@ -51,7 +51,7 @@ namespace Code2015.World.Screen
         Count = 8
     }
 
-    enum MdgIconType 
+    enum MdgIconType
     {
         Piece,
         Ball
@@ -122,11 +122,16 @@ namespace Code2015.World.Screen
             this.body.Tag = this;
 
             world.Add(body);
-            
+
             this.type = type;
             this.bitMask = bitMask;
 
             this.image = MdgResource.LoadImage(type, bitMask);
+        }
+
+        public void NotifyRemoved()
+        {
+            physicsWorld.Remove(body);
         }
 
         public int BitMask
@@ -134,7 +139,7 @@ namespace Code2015.World.Screen
             get { return bitMask; }
         }
 
-        public MdgType Type 
+        public MdgType Type
         {
             get { return type; }
         }
@@ -155,7 +160,7 @@ namespace Code2015.World.Screen
 
                 if (bit == 7)
                 {
-                    MdgResource res =  new MdgResource(physicsWorld, type, body.Position, body.Orientation);
+                    MdgResource res = new MdgResource(physicsWorld, type, body.Position, body.Orientation);
 
                     manager.Remove(this);
                     manager.Remove(other);
@@ -165,7 +170,7 @@ namespace Code2015.World.Screen
 
                 MdgPiece piece = new MdgPiece(manager, physicsWorld, type, bit, body.Position, body.Orientation);
                 manager.Remove(this);
-                manager.Remove(other); 
+                manager.Remove(other);
                 manager.Add(piece);
                 return piece;
             }
@@ -189,17 +194,17 @@ namespace Code2015.World.Screen
         {
             if (image != null)
             {
+                const float scaler = 0.21333f;
+
+                Vector2 rectr = new Vector2(image.Width * scaler, image.Height * scaler);
+                body.Radius = rectr.Length() * 0.5f;
+
                 Vector2 pos = body.Position;
                 float r = body.Radius;
 
-                float aspect = image.Width / (float)image.Height;
-                //float widRate = image.Width / 300.0f;
-                //float hgtRate = image.Height / 300.0f;
-                float wr = aspect * r;
-
                 sprite.SetTransform(
-                    Matrix.Scaling(2 * wr / image.Width, 2 * r / image.Height, 1) *
-                    Matrix.Translation(-wr, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+                    Matrix.Scaling(scaler, scaler, 1) *
+                    Matrix.Translation(-rectr.X * 0.5f, -rectr.Y * 0.5f, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
                 if (IsPrimary)
                 {
@@ -216,7 +221,6 @@ namespace Code2015.World.Screen
 
         //public override void Update(GameTime time)
         //{
-
         //}
 
         #region IMdgSelection 成员
@@ -324,7 +328,10 @@ namespace Code2015.World.Screen
             this.type = type;
             this.image = LoadImage(type, 7);
         }
-
+        public void NotifyRemoved()
+        {
+            physicsWorld.Remove(body);
+        }
         public override void Render(Sprite sprite)
         {
             if (image != null)
@@ -438,10 +445,12 @@ namespace Code2015.World.Screen
         public void Remove(MdgPiece piece)
         {
             pieces[(int)piece.Type][piece.BitMask].Remove(piece);
+            piece.NotifyRemoved();
         }
         public void Remove(MdgResource res)
         {
             balls[(int)res.Type].Remove(res);
+            res.NotifyRemoved();
         }
 
 
@@ -466,7 +475,7 @@ namespace Code2015.World.Screen
 
         public void Update(GameTime time)
         {
-            
+
         }
 
 
