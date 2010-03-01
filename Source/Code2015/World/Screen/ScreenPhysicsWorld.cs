@@ -8,6 +8,14 @@ using Apoc3D.MathLib;
 namespace Code2015.World.Screen
 {
     /// <summary>
+    ///  
+    /// </summary>
+    /// <param name="a"></param>
+    /// <param name="b"></param>
+    /// <returns>返回true放弃碰撞处理</returns>
+    delegate bool CollisionHandler(ScreenRigidBody a, ScreenRigidBody b);
+
+    /// <summary>
     ///  表示屏幕空间2D物理世界环境
     /// </summary>
     class ScreenPhysicsWorld
@@ -44,6 +52,8 @@ namespace Code2015.World.Screen
         {
             statics.Remove(body);
         }
+
+        public event CollisionHandler BodyCollision;
 
         /// <summary>
         ///  获取或设置模拟区域
@@ -139,49 +149,57 @@ namespace Code2015.World.Screen
 
                         if (vrn < 0)
                         {
-                            float ranCrs = Vector2.Cross(ra, n);
-                            float rbnCrs = Vector2.Cross(rb, n);
-
-                            float elasity = bodyA.Elasity * bodyB.Elasity;
-
-                            float impluse = -(1 + elasity) * vrn /
-                                (1 / bodyA.Mass + 1 / bodyB.Mass +
-                                Vector2.Dot(new Vector2(-ranCrs * ra.Y, ranCrs * ra.X) / bodyA.Inertia, n) +
-                                Vector2.Dot(new Vector2(-rbnCrs * rb.Y, rbnCrs * rb.X) / bodyB.Inertia, n));
-
-                            Vector2 impulseVec = n * impluse;
-                            bodyA.ApplyImpulse(impulseVec, collPos);
-                            bodyB.ApplyImpulse(-impulseVec, collPos);
-
-
-
-
-
-                            Vector2 tang = new Vector2(-n.Y, n.X);
-                            float ratCrs = Vector2.Cross(ra, tang);
-                            float rbtCrs = Vector2.Cross(rb, tang);
-
-                            float vrt = Vector2.Dot(va - vb, tang);
-
-                            float frictionMax = -vrt /
-                                (1 / bodyA.Mass + 1 / bodyB.Mass +
-                                 Vector2.Dot(new Vector2(-ratCrs * ra.Y, ratCrs * ra.X) / bodyA.Inertia, tang) +
-                                 Vector2.Dot(new Vector2(-rbtCrs * rb.Y, rbtCrs * rb.X) / bodyB.Inertia, tang));
-
-                            float friction = impluse * bodyA.Friction * bodyB.Friction;
-
-                            if (friction < frictionMax)
+                            bool passed = true;
+                            if (BodyCollision != null)
                             {
-                                impulseVec = tang * friction;
-                            }
-                            else
-                            {
-                                impulseVec = tang * frictionMax;
+                                if (BodyCollision(bodyA, bodyB))
+                                {
+                                    passed = false;
+                                }
                             }
 
-                            bodyA.ApplyImpulse(impulseVec, collPos);
-                            bodyB.ApplyImpulse(-impulseVec, collPos);
+                            if (passed)
+                            {
+                                float ranCrs = Vector2.Cross(ra, n);
+                                float rbnCrs = Vector2.Cross(rb, n);
 
+                                float elasity = bodyA.Elasity * bodyB.Elasity;
+
+                                float impluse = -(1 + elasity) * vrn /
+                                    (1 / bodyA.Mass + 1 / bodyB.Mass +
+                                    Vector2.Dot(new Vector2(-ranCrs * ra.Y, ranCrs * ra.X) / bodyA.Inertia, n) +
+                                    Vector2.Dot(new Vector2(-rbnCrs * rb.Y, rbnCrs * rb.X) / bodyB.Inertia, n));
+
+                                Vector2 impulseVec = n * impluse;
+                                bodyA.ApplyImpulse(impulseVec, collPos);
+                                bodyB.ApplyImpulse(-impulseVec, collPos);
+
+
+                                Vector2 tang = new Vector2(-n.Y, n.X);
+                                float ratCrs = Vector2.Cross(ra, tang);
+                                float rbtCrs = Vector2.Cross(rb, tang);
+
+                                float vrt = Vector2.Dot(va - vb, tang);
+
+                                float frictionMax = -vrt /
+                                    (1 / bodyA.Mass + 1 / bodyB.Mass +
+                                     Vector2.Dot(new Vector2(-ratCrs * ra.Y, ratCrs * ra.X) / bodyA.Inertia, tang) +
+                                     Vector2.Dot(new Vector2(-rbtCrs * rb.Y, rbtCrs * rb.X) / bodyB.Inertia, tang));
+
+                                float friction = impluse * bodyA.Friction * bodyB.Friction;
+
+                                if (friction < frictionMax)
+                                {
+                                    impulseVec = tang * friction;
+                                }
+                                else
+                                {
+                                    impulseVec = tang * frictionMax;
+                                }
+
+                                bodyA.ApplyImpulse(impulseVec, collPos);
+                                bodyB.ApplyImpulse(-impulseVec, collPos);
+                            }
                         }
                     }
                 }
