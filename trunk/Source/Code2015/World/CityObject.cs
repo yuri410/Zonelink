@@ -48,6 +48,8 @@ namespace Code2015.World
 
         public Model Cow;
 
+        public float[] PluginTranslate;
+
         public CityStyle(ref CityStyleData data)
         {
             ID = data.ID;
@@ -68,11 +70,69 @@ namespace Code2015.World
 
             Hospital = new Model(data.Hospital);
             EducationOrgan = new Model(data.EducationOrgan);
+
+
+            PluginTranslate = new float[3];
+
+            PluginTranslate[(int)UrbanSize.Large] = CityObjectTRAdjust.Scaler * 68;
+            PluginTranslate[(int)UrbanSize.Medium] = CityObjectTRAdjust.Scaler * 47;
+            PluginTranslate[(int)UrbanSize.Small] = CityObjectTRAdjust.Scaler * 40;
         }
+
+        public Vector3 GetPluginTranslation(PluginPositionFlag p, UrbanSize size)
+        {
+            switch (p)
+            {
+                case PluginPositionFlag.P1:
+                    switch (size)
+                    {
+                        case UrbanSize.Medium:
+                            return new Vector3(PluginTranslate[(int)size], 0, 0);
+                        case UrbanSize.Small:
+                        case UrbanSize.Large:
+                            return new Vector3(-PluginTranslate[(int)size], 0, 0);
+                        default:
+                            throw new ArgumentException();
+                    }
+                case PluginPositionFlag.P2:
+                    switch (size)
+                    {
+                        case UrbanSize.Medium:
+                            return new Vector3(-0.5f * PluginTranslate[(int)size], 0, MathEx.Root3 * 0.5f * PluginTranslate[(int)size]);
+                        case UrbanSize.Large:
+                            return new Vector3(0, 0, -PluginTranslate[(int)size]);
+                        default:
+                            throw new ArgumentException();
+                    }
+                case PluginPositionFlag.P3:
+                    switch (size)
+                    {
+                        case UrbanSize.Medium:
+                            return new Vector3(-0.5f * PluginTranslate[(int)size], 0, -MathEx.Root3 * 0.5f * PluginTranslate[(int)size]);
+                        case UrbanSize.Large:
+                            return new Vector3(PluginTranslate[(int)size], 0, 0);
+                        default:
+                            throw new ArgumentException();
+                    }
+                case PluginPositionFlag.P4:
+                    switch (size)
+                    {
+                        case UrbanSize.Large:
+                            return new Vector3(0, 0, PluginTranslate[(int)size]);
+                        default:
+                            throw new ArgumentException();
+                    }
+            }
+            return Vector3.Zero;
+        }
+
+
     }
 
     struct CityObjectTRAdjust
     {
+        public const float Scaler = 1.5384615384615384615384615384615f;
+
         public CultureId ID;
 
         public Matrix[] Urban;
@@ -176,8 +236,8 @@ namespace Code2015.World
             adjusts[0].Base = new Matrix[3];
             adjusts[0].Urban = new Matrix[3];
 
-            const float scaler = 1.5384615384615384615384615384615f;
-            Matrix scale = Matrix.Scaling(scaler, scaler, scaler);
+
+            Matrix scale = Matrix.Scaling(CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler);
             for (int i = 0; i < adjusts[0].Base.Length; i++)
                 adjusts[0].Base[i] = scale;
             for (int i = 0; i < adjusts[0].Urban.Length; i++)
@@ -187,8 +247,9 @@ namespace Code2015.World
             adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
 
-            adjusts[0].WoodFactory = scale;
-            adjusts[0].Cow = Matrix.Identity;
+            adjusts[0].WoodFactory = Matrix.Translation(0, 3, 0) * scale;
+            adjusts[0].EducationOrgan = Matrix.Translation(0, 3, 0) * scale;
+            adjusts[0].Cow = Matrix.Scaling(0, 0, -1);
             adjusts[0].Hospital = scale;
             adjusts[0].OilRefinary = scale;
             adjusts[0].Biofuel = scale;
