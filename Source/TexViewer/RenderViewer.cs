@@ -15,7 +15,6 @@ using XI = Microsoft.Xna.Framework.Input;
 
 namespace ModelStudio
 {
-   
     class RenderViewer : IRenderWindowHandler
     {
         RenderSystem renderSys;
