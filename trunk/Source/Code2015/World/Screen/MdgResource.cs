@@ -51,6 +51,12 @@ namespace Code2015.World.Screen
         Count = 8
     }
 
+    enum MdgIconType 
+    {
+        Piece,
+        Ball
+    }
+
     static class MdgPhysicsParams
     {
         public const float PieceRadius = 10;
@@ -67,12 +73,23 @@ namespace Code2015.World.Screen
         public const float BallAngularDamp = 0.5f;
         public const float BallLinearDamp = 0.5f;
 
+        public const float InactiveAlpha = 0.5f;
+    }
+
+
+
+    interface IMdgSelection
+    {
+        Vector2 Position { get; set; }
+        Vector2 Velocity { get; set; }
+        MdgIconType IconType { get; }
+
     }
 
     /// <summary>
     ///  表示一个MDG拼图碎片
     /// </summary>
-    class MdgPiece : UIComponent
+    class MdgPiece : UIComponent, IMdgSelection
     {
         const float Radius = 16;
 
@@ -123,6 +140,14 @@ namespace Code2015.World.Screen
             get { return type; }
         }
 
+        public bool HitTest(int x, int y)
+        {
+            Vector2 pos = body.Position;
+
+            float d = (float)Math.Sqrt(MathEx.Sqr(x - pos.X) + MathEx.Sqr(y - pos.Y));
+
+            return d <= MdgPhysicsParams.PieceRadius;
+        }
         public object Merge(MdgPiece other)
         {
             if (CheckMerge(other))
@@ -156,26 +181,65 @@ namespace Code2015.World.Screen
             }
             return false;
         }
-
+        public bool IsPrimary
+        {
+            get;
+            set;
+        }
         public override void Render(Sprite sprite)
         {
             if (image != null)
             {
-                sprite.SetTransform(Matrix.RotationZ(body.Orientation));
-                sprite.Draw(image, 0, 0, ColorValue.White);
+                Vector2 pos = body.Position;
+                float r = body.Radius;
+
+                sprite.SetTransform(
+                    Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
+                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+
+                if (IsPrimary)
+                {
+                    sprite.Draw(image, 0, 0, ColorValue.White);
+                }
+                else
+                {
+                    ColorValue opa = new ColorValue(MdgPhysicsParams.InactiveAlpha, 1, 1, 1);
+                    sprite.Draw(image, 0, 0, opa);
+                }
             }
+
         }
 
         //public override void Update(GameTime time)
         //{
 
         //}
+
+        #region IMdgSelection 成员
+
+
+        public MdgIconType IconType
+        {
+            get { return MdgIconType.Piece; }
+        }
+
+        public Vector2 Position
+        {
+            get { return body.Position; }
+            set { body.Position = value; }
+        }
+        public Vector2 Velocity
+        {
+            get { return body.Velocity; }
+            set { body.Velocity = value; }
+        }
+        #endregion
     }
 
     /// <summary>
     ///  表示一个拼好的MDG图标
     /// </summary>
-    class MdgResource : UIComponent
+    class MdgResource : UIComponent, IMdgSelection
     {
         public static Texture LoadImage(MdgType type, int bitmask)
         {
@@ -228,15 +292,12 @@ namespace Code2015.World.Screen
             return d <= MdgPhysicsParams.BallRadius;
         }
 
-        public Vector2 Position
+
+
+        public bool IsPrimary
         {
-            get { return body.Position; }
-            set { body.Position = value; }
-        }
-        public Vector2 Velocity 
-        {
-            get { return body.Velocity; }
-            set { body.Velocity = value; }
+            get;
+            set;
         }
 
         public MdgResource(ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
@@ -269,14 +330,42 @@ namespace Code2015.World.Screen
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
-                sprite.Draw(image, 0, 0, ColorValue.White);
+
+                if (IsPrimary)
+                {
+                    sprite.Draw(image, 0, 0, ColorValue.White);
+                }
+                else
+                {
+                    ColorValue opa = new ColorValue(MdgPhysicsParams.InactiveAlpha, 1, 1, 1);
+                    sprite.Draw(image, 0, 0, opa);
+                }
             }
+
         }
 
         //public override void Update(GameTime time)
         //{
-            
+
         //}
+        #region IMdgSelection 成员
+
+        public MdgIconType IconType
+        {
+            get { return MdgIconType.Ball; }
+        }
+
+        public Vector2 Position
+        {
+            get { return body.Position; }
+            set { body.Position = value; }
+        }
+        public Vector2 Velocity
+        {
+            get { return body.Velocity; }
+            set { body.Velocity = value; }
+        }
+        #endregion
     }
 
     /// <summary>
