@@ -18,7 +18,7 @@ namespace Code2015.World
     public struct CityStyleData
     {
         public CultureId ID;
-        
+
         public ResourceHandle<ModelData>[] Base;
         public ResourceHandle<ModelData>[] Urban;
 
@@ -31,6 +31,9 @@ namespace Code2015.World
         public ResourceHandle<ModelData> Hospital;
 
         public ResourceHandle<ModelData> Cow;
+
+        public ResourceHandle<ModelData> Ring;
+        public ResourceHandle<ModelData> SelRing;
     }
     public struct CityStyle
     {
@@ -47,6 +50,9 @@ namespace Code2015.World
         public Model Hospital;
 
         public Model Cow;
+
+        public Model Ring;
+        public Model SelRing;
 
         public float[] PluginTranslate;
 
@@ -71,6 +77,9 @@ namespace Code2015.World
             Hospital = new Model(data.Hospital);
             EducationOrgan = new Model(data.EducationOrgan);
 
+
+            Ring = new Model(data.Ring);
+            SelRing = new Model(data.SelRing);
 
             PluginTranslate = new float[3];
 
@@ -127,7 +136,7 @@ namespace Code2015.World
             return Vector3.Zero;
         }
 
-        
+
     }
 
     public struct CityObjectTRAdjust
@@ -181,6 +190,8 @@ namespace Code2015.World
         static readonly string EducationOrgan_Inv = "eduorg.mesh";
         static readonly string Hospital_Inv = "hospital.mesh";
         static readonly string Cow_Inv = "cow.mesh";
+        static readonly string Ring_Inv = "cityring.mesh";
+        static readonly string SelRing_Inv = "citysel.mesh";
 
         CityStyleData[] styles;
         CityObjectTRAdjust[] adjusts;
@@ -229,6 +240,12 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
             styles[0].Cow = ModelManager.Instance.CreateInstance(rs, fl);
 
+            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
+            styles[0].Ring = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
+            styles[0].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+
             #endregion
 
             #region 初始化变换调整
@@ -261,17 +278,17 @@ namespace Code2015.World
             //}
         }
 
-        public CityObjectTRAdjust CreateTRAdjust(CultureId culture) 
+        public CityObjectTRAdjust CreateTRAdjust(CultureId culture)
         {
             return new CityObjectTRAdjust(ref adjusts[(int)culture]);
         }
         public CityStyle CreateStyle(CultureId culture)
         {
             CityStyleData data = styles[(int)culture];
-            
+
             CityStyle style = new CityStyle(ref data);
 
-            for (int i = 0; i < style.Base.Length; i++) 
+            for (int i = 0; i < style.Base.Length; i++)
             {
                 style.Base[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Base[i]);
             }
@@ -286,7 +303,7 @@ namespace Code2015.World
             style.EducationOrgan.CurrentAnimation = new NoAnimation(adjusts[(int)culture].EducationOrgan);
             style.Hospital.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Hospital);
             style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
-            
+
             return style;
         }
     }
@@ -302,6 +319,8 @@ namespace Code2015.World
 
     public class CityObject : SceneObject
     {
+        const float RingRadius = 50;
+
         struct PluginEntry
         {
             public CityPlugin plugin;
@@ -311,6 +330,11 @@ namespace Code2015.World
 
         City city;
         CityStyle style;
+
+        NoAnimation selRingTrans;
+        NoAnimation ringTrans;
+
+        Material ringMaterial;
 
         RenderSystem renderSys;
         SceneManagerBase sceMgr;
@@ -346,6 +370,9 @@ namespace Code2015.World
             this.style = styleSet.CreateStyle(city.Culture);
             this.renderSys = rs;
 
+            selRingTrans = (NoAnimation)style.SelRing.CurrentAnimation;
+            ringTrans = (NoAnimation)style.Ring.CurrentAnimation;
+
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
 
@@ -355,13 +382,18 @@ namespace Code2015.World
             Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 150);
 
             Transformation = PlanetEarth.GetOrientation(MathEx.Degree2Radian(city.Longitude),
-                MathEx.Degree2Radian(city.Latitude)); 
+                MathEx.Degree2Radian(city.Latitude));
 
             Transformation.TranslationValue = pos;//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
 
             BoundingSphere.Radius = 200;
             BoundingSphere.Center = pos;
             position = pos;
+
+            {
+                ModelData mdlData = style.Ring.GetData();
+                ringMaterial = mdlData.Entities[0].Materials[0][0].Clone();
+            }
 
             switch (city.Size)
             {
@@ -393,7 +425,7 @@ namespace Code2015.World
             }
         }
 
-        void City_Linked(City a, City b) 
+        void City_Linked(City a, City b)
         {
             if (b != null)
             {
@@ -490,7 +522,29 @@ namespace Code2015.World
 
             if (city.Owner != null)
             {
+                float scale = 1;
 
+                switch (city.Size)
+                {
+                    case UrbanSize.Small:
+                        scale = 40f / RingRadius;
+                        break;
+                    case UrbanSize.Medium:
+                        scale = 75f / RingRadius;
+                        break;
+                    case UrbanSize.Large:
+                        scale = 100f / RingRadius;
+                        break;
+                }
+
+                selRingTrans.SetTransform(Matrix.Scaling(scale, 1, scale));
+
+                ops = style.Ring.GetRenderOperation();
+                if (ops != null)
+                {
+
+                    opBuffer.Add(ops);
+                }
             }
 
             opBuffer.Trim();
