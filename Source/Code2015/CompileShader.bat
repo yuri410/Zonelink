@@ -10,3 +10,9 @@ fxc Effect.lpk\skybox.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\skybox.cps /Zpr
 
 fxc Effect.lpk\standard.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\standard.cvs /Zpr
 fxc Effect.lpk\standard.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\standard.cps /Zpr
+
+fxc Effect.lpk\earthbase.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\earthbase.cvs /Zpr
+fxc Effect.lpk\earthbase.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\earthbase.cps /Zpr
+
+fxc Effect.lpk\atmosphere.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\atmosphere.cvs /Zpr
+fxc Effect.lpk\atmosphere.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\atmosphere.cps /Zpr

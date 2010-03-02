@@ -1,0 +1,12 @@
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main()
+{
+    PSOutput o;
+    o.Color = 1;
+    o.Color.a = 0.5;
+    return o;
+}

@@ -4,8 +4,9 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.MathLib;
+using Code2015.BalanceSystem;
 
-namespace Code2015.BalanceSystem
+namespace Code2015.Logic
 {
     /// <summary>
     ///  表示玩家当前所有的城市

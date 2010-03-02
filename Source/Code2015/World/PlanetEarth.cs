@@ -237,7 +237,7 @@ namespace Code2015.World
         #endregion
 
         RenderSystem renderSys;
-        //Sphere earthSphere;
+        Sphere earthSphere;
 
 
         TerrainTile[] terrainTiles;
@@ -270,22 +270,28 @@ namespace Code2015.World
                     terrainTiles[index++] = new TerrainTile(renderSys, i, j + LatTileStart);
                 }
             }
-            //Material[][] mats = new Material[1][];
-            //mats[0] = new Material[1];
-            //mats[0][0] = new Material(renderSys);
+            Material[][] mats = new Material[1][];
+            mats[0] = new Material[1];
+            mats[0][0] = new Material(renderSys);
+            mats[0][0].AlphaRef = -1;
+            mats[0][0].ZEnabled = true;
+            mats[0][0].ZWriteEnabled = true;
+            mats[0][0].IsTransparent = false;
+            mats[0][0].CullMode = CullMode.CounterClockwise;
+            mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(EarthBaseEffectFactory.Name));
+            earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.PostZeroLevel * TerrainMeshManager.PostHeightScale,
+                ColTileCount, LatTileCount, mats);
 
-            ////mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-
-            //mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect513Factory.Name));
-            //earthSphere = new Sphere(rs, PlanetRadius - TerrainMeshManager.PostZeroLevel, ColTileCount, LatTileCount, mats);
-
-            //base.ModelL0 = earthSphere;
-
+            base.ModelL0 = earthSphere;
 
             BoundingSphere.Radius = PlanetRadius;
 
         }
 
+        public override RenderOperation[] GetRenderOperation()
+        {
+            return base.GetRenderOperation();
+        }
         public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
         {
             for (int i = 0; i < terrainTiles.Length; i++)

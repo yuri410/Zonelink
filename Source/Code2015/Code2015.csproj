@@ -96,9 +96,9 @@
     </Compile>
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
-    <Compile Include="BalanceSystem\Interfaces.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />
-    <Compile Include="BalanceSystem\PlayerArea.cs" />
+    <Compile Include="Logic\ILogicStateObject.cs" />
+    <Compile Include="Logic\PlayerArea.cs" />
     <Compile Include="BalanceSystem\SimulateObject.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -106,10 +106,12 @@
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
+    <Compile Include="Effect.lpk\EarthBaseEffect.cs" />
     <Compile Include="Effect.lpk\SkyboxEffect.cs" />
     <Compile Include="Effect.lpk\StandardEffect.cs" />
     <Compile Include="Effect.lpk\TerrainEffect.cs" />
     <Compile Include="Effect.lpk\WaterEffect.cs" />
+    <Compile Include="Effect.lpk\AtmosphereEffect.cs" />
     <Compile Include="ElevationQuery.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
@@ -413,7 +415,7 @@
     <Compile Include="Game.cs" />
     <Compile Include="LevelSystem\Mission.cs" />
     <Compile Include="LevelSystem\Task.cs" />
-    <Compile Include="Player.cs" />
+    <Compile Include="Logic\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\Settings.Designer.cs">
@@ -424,7 +426,7 @@
     <Compile Include="Score.cs" />
     <Compile Include="World\Atmosphere.cs" />
     <Compile Include="EngineEx\GameConfigurationSection.cs" />
-    <Compile Include="World\GameState.cs" />
+    <Compile Include="Logic\GameState.cs" />
     <Compile Include="World\Screen\MdgResource.cs" />
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
@@ -504,6 +506,18 @@
     <None Include="Configs\cities.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Effect.lpk\atmosphere.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect.lpk\atmosphere.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect.lpk\earthbase.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect.lpk\earthbase.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Effect.lpk\skybox.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -540,6 +554,10 @@
     <None Include="Effect.lpk\waterDepth.vsh" />
     <None Include="Effect.lpk\standard.ps" />
     <None Include="Effect.lpk\standard.vs" />
+    <None Include="Effect.lpk\earthBase.ps" />
+    <None Include="Effect.lpk\earthBase.vs" />
+    <None Include="Effect.lpk\atmosphere.ps" />
+    <None Include="Effect.lpk\atmosphere.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

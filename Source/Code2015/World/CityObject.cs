@@ -354,7 +354,8 @@ namespace Code2015.World
 
             Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 150);
 
-            Transformation = PlanetEarth.GetOrientation(city.Longitude, city.Latitude);// Matrix.Identity;
+            Transformation = PlanetEarth.GetOrientation(MathEx.Degree2Radian(city.Longitude),
+                MathEx.Degree2Radian(city.Latitude)); 
 
             Transformation.TranslationValue = pos;//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
 
@@ -485,6 +486,11 @@ namespace Code2015.World
                     }
                     opBuffer.Add(ops);
                 }
+            }
+
+            if (city.Owner != null)
+            {
+
             }
 
             opBuffer.Trim();

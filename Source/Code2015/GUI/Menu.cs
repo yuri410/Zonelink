@@ -7,6 +7,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using XI = Microsoft.Xna.Framework.Input;
+using Code2015.Logic;
 
 namespace Code2015.GUI
 {
@@ -56,6 +57,8 @@ namespace Code2015.GUI
                 {
                     GameCreationParameters gcp = new GameCreationParameters();
 
+                    
+                    gcp.Player1 = new Player("test");
                     game.StartNewGame(gcp);
 
                     return;

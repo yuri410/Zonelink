@@ -1,6 +1,7 @@
 
 #define waterBegin 0
 #define waterEnd -35
+#define WaterDarkColor (float4(0, 0.111, 0.141, 0.5))
 
 float4 GetColor(float4 color, float w)
 {
@@ -13,6 +14,6 @@ float4 GetColor(float4 color, float w)
 		w = 0;
 	}
 	
-	float4 fogColor = float4(0, 0.111, 0.141, 0.5);
+	float4 fogColor = WaterDarkColor;
 	return lerp(color, fogColor, w);//1 / exp(1-w));
 }

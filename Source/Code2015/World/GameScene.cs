@@ -43,7 +43,7 @@ namespace Code2015.World
 
             camera = new RtsCamera(65, aspectRatio);
             camera.NearPlane = 10;
-            camera.FarPlane = 6000;
+            camera.FarPlane = 8000;
             camera.Mode = RenderMode.Final;
 
             renderer.RegisterCamera(camera);
@@ -56,6 +56,8 @@ namespace Code2015.World
             OceanWater water = new OceanWater(renderSys);
             sm.SceneManager.AddObjectToScene(water);
 
+            Atmosphere atmos = new Atmosphere(renderSys);
+            sm.SceneManager.AddObjectToScene(atmos);
         }
 
         public void Update(GameTime time)
