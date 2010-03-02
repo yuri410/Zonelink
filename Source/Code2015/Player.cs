@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using XFGS = Microsoft.Xna.Framework.GamerServices;
+using Apoc3D.MathLib;
 
 namespace Code2015
 {
@@ -21,5 +22,12 @@ namespace Code2015
             set;
 
         }
+
+        public ColorValue SideColor
+        {
+            get;
+            set;
+        }
+
     }
 }
