@@ -98,6 +98,7 @@
     <Compile Include="BalanceSystem\Forest.cs" />
     <Compile Include="BalanceSystem\Interfaces.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />
+    <Compile Include="BalanceSystem\PlayerArea.cs" />
     <Compile Include="BalanceSystem\SimulateObject.cs">
       <SubType>Code</SubType>
     </Compile>

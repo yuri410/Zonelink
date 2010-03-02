@@ -102,7 +102,7 @@ namespace Code2015
 
                 if (city != null)
                 {
-                    CityObject cityObj = new CityObject(city, cityStyles);
+                    CityObject cityObj = new CityObject(renderSys, city, cityStyles);
 
                     scene.Scene.AddObjectToScene(cityObj);
                 }

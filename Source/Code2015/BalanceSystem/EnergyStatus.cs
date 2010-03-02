@@ -22,8 +22,6 @@ namespace Code2015.BalanceSystem
         public const float FoodLowThreshold = 300;
 
 
-        FastList<City> cities;
-
         public SimulationRegion Region
         {
             get;
@@ -147,7 +145,6 @@ namespace Code2015.BalanceSystem
 
         public EnergyStatus(SimulationRegion region)
         {
-            cities = new FastList<City>();
             this.CurrentHPEnergy = InitHPEnergy;
             this.CurrentLPEnergy = InitLPEnergy;
             this.CurrentFood = 10000;

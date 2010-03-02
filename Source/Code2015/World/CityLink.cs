@@ -7,6 +7,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.BalanceSystem;
 
 namespace Code2015.World
 {
@@ -23,7 +24,7 @@ namespace Code2015.World
             start = a;
             end = b;
 
-            FileLocation fl = FileSystem.Instance.Locate("", GameFileLocs.Model);
+            FileLocation fl = FileSystem.Instance.Locate("link.mesh", GameFileLocs.Model);
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
 
             float dist = Vector3.Distance(a.Position, b.Position);
