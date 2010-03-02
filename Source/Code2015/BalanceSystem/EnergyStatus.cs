@@ -30,16 +30,22 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  当前已储备的能量
         /// </summary>
-        public float CurrentHPEnergy
+        public float CurrentHR
         {
             get;
             private set;
         }
-        public float CurrentLPEnergy
+        /// <summary>
+        ///  当前已储备的能源
+        /// </summary>
+        public float CurrentLR
         {
             get;
             private set;
         }
+        /// <summary>
+        ///  当前已储备的食物
+        /// </summary>
         public float CurrentFood
         {
             get;
@@ -51,11 +57,11 @@ namespace Code2015.BalanceSystem
         /// </summary>
         public bool IsHPLow
         {
-            get { return CurrentHPEnergy < HPLowThreshold; }
+            get { return CurrentHR < HPLowThreshold; }
         }
         public bool IsLPLow
         {
-            get { return CurrentLPEnergy < LPLowThreshold; }
+            get { return CurrentLR < LPLowThreshold; }
         }
         public bool IsFoodLow
         {
@@ -65,88 +71,21 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  自然环境中，剩余未开发不可再生资源可转化为的能量
         /// </summary>
-        public float RemainingHPEnergy
+        public float RemainingHR
         {
             get;
             private set;
         }
-        public float RemainingLPEnergy
+        public float RemainingLR
         {
             get;
             private set;
         }
-
-
-
-
-        ///// <summary>
-        /////  申请获得低能资源
-        ///// </summary>
-        ///// <param name="amount"></param>
-        ///// <returns>实际申请到的能源量</returns>
-        //public float ApplyLPEnergy(float amount)
-        //{
-        //    if (CurrentLPEnergy >= amount)
-        //    {
-        //        CurrentLPEnergy -= amount;
-        //        return amount;
-        //    }
-        //    float r = CurrentLPEnergy;
-        //    CurrentLPEnergy = 0;
-        //    return r;
-        //}
-        ///// <summary>
-        /////  申请获得高能资源
-        ///// </summary>
-        ///// <param name="amount"></param>
-        ///// <returns>实际申请到的能源量</returns>
-        //public float ApplyHPEnergy(float amount)
-        //{
-        //    if (CurrentHPEnergy >= amount)
-        //    {
-        //        CurrentHPEnergy -= amount;
-        //        return amount;
-        //    }
-        //    float r = CurrentHPEnergy;
-        //    CurrentHPEnergy = 0;
-        //    return r;
-        //}
-
-        ///// <summary>
-        /////  申请获得食物
-        ///// </summary>
-        ///// <param name="amount"></param>
-        ///// <returns>实际申请到的食物量</returns>
-        //public float ApplyFood(float amount)
-        //{
-        //    if (CurrentFood >= amount)
-        //    {
-        //        CurrentFood -= amount;
-        //        return amount;
-        //    }
-        //    float r = CurrentFood;
-        //    CurrentFood = 0;
-        //    return r;
-        //}
-
-
-        //public void CommitLPEnergy(float amount)
-        //{
-        //    CurrentLPEnergy += amount;
-        //}
-        //public void CommitHPEnergy(float amount)
-        //{
-        //    CurrentHPEnergy += amount;
-        //}
-        //public void CommitFood(float amount)
-        //{
-        //    CurrentFood += amount;
-        //}
 
         public EnergyStatus(SimulationRegion region)
         {
-            this.CurrentHPEnergy = InitHPEnergy;
-            this.CurrentLPEnergy = InitLPEnergy;
+            this.CurrentHR = InitHPEnergy;
+            this.CurrentLR = InitLPEnergy;
             this.CurrentFood = 10000;
             //this.RemainingHPEnergy = CurrentHPEnergy;
             //this.RemainingLPEnergy = CurrentLPEnergy;
@@ -156,7 +95,44 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
-            // TODO：统计
+            // 统计资源量
+
+            float hr = 0;
+            float lr = 0;
+            float food = 0;
+            SimulationRegion region  = Region;
+            // 已经采集的资源
+            for (int i = 0; i < region.CityCount; i++)
+            {
+                City city = region.GetCity (i);
+                hr += city.LocalHR.Current;
+                lr += city.LocalLR.Current;
+                food += city.LocalFood.Current;
+            }
+            CurrentFood = food;
+            CurrentHR = hr;
+            CurrentLR = lr;
+
+
+            hr = 0;
+            lr = 0;
+            food = 0;
+            // 自然中未开发的
+            for (int i = 0; i < region.ResourceCount; i++)
+            {
+                NaturalResource res = region.GetResource(i);
+                if (res.Type == NaturalResourceType.Petro) 
+                {
+                    hr += res.CurrentAmount;
+                }
+                else if (res.Type == NaturalResourceType.Wood) 
+                {
+                    lr += res.CurrentAmount;
+                }
+            }
+            RemainingHR = hr;
+            RemainingLR = lr;
+           
         }
 
 
