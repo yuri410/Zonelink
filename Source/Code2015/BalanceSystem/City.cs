@@ -122,6 +122,7 @@ namespace Code2015.BalanceSystem
 
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
+    public delegate void CitySourceChangedHandler(City city,City srcCity);
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
@@ -345,6 +346,7 @@ namespace Code2015.BalanceSystem
 
         public event CitypluginEventHandle PluginAdded;
         public event CitypluginEventHandle PluginRemoved;
+        public event CitySourceChangedHandler CitySourceChanged;
 
         /// <summary>
         ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
@@ -442,12 +444,14 @@ namespace Code2015.BalanceSystem
         /// <returns></returns>
         static float GetCityPoints(float dev, float pop)
         {
-            return dev * pop;
+            return dev;
         }
 
         public void SetSourceCity(City source)
         {
             sourceCity = source;
+            if (CitySourceChanged != null)
+                CitySourceChanged(this, source);
         }
 
         public override void Update(GameTime time)
@@ -455,25 +459,33 @@ namespace Code2015.BalanceSystem
             CarbonProduceSpeed = 0;
 
 
-            //#region 城市自动级别调整
-            //float points = GetCityPoints(Development, Population);
+            #region 城市自动级别调整
 
-            //if (points < MediumCityPointThreshold)
-            //{
-            //    if (points < SmallCityPointThreshold)
-            //    {
-            //        Size = UrbanSize.Small;
-            //    }
-            //    else
-            //    {
-            //        Size = UrbanSize.Medium;
-            //    }
-            //}
-            //else
-            //{
-            //    Size = UrbanSize.Large;
-            //}
-            //#endregion
+            if (Size != UrbanSize.Large)
+            {
+                float points = GetCityPoints(Development, Population);
+
+                UrbanSize newSize;
+                if (points < MediumCityPointThreshold)
+                {
+                    if (points < SmallCityPointThreshold)
+                    {
+                        newSize = UrbanSize.Small;
+                    }
+                    else
+                    {
+                        newSize = UrbanSize.Medium;
+                    }
+                }
+                else
+                {
+                    newSize = UrbanSize.Large;
+                }
+                if (newSize > Size)
+                    Size = newSize;
+            }
+
+            #endregion
 
             for (int i = 0; i < plugins.Count; i++)
             {
