@@ -208,7 +208,8 @@ namespace Code2015.World.Screen
                 }
                 else
                 {
-                    ColorValue opa = new ColorValue(MdgPhysicsParams.InactiveAlpha, 1, 1, 1);
+                    ColorValue opa = new ColorValue(1, 1, 1, MdgPhysicsParams.InactiveAlpha);
+
                     sprite.Draw(image, 0, 0, opa);
                 }
             }
@@ -340,7 +341,7 @@ namespace Code2015.World.Screen
                 }
                 else
                 {
-                    ColorValue opa = new ColorValue(MdgPhysicsParams.InactiveAlpha, 1, 1, 1);
+                    ColorValue opa = new ColorValue(1, 1, 1, MdgPhysicsParams.InactiveAlpha);
                     sprite.Draw(image, 0, 0, opa);
                 }
             }

@@ -252,7 +252,7 @@ namespace Code2015.World
             adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
             adjusts[0].Cow = Matrix.Scaling(0, 0, -1);
             adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
-            adjusts[0].OilRefinary = Matrix.Translation(0, 9.75f, 0) * scale;
+            adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
             adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
             #endregion
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
@@ -319,7 +319,13 @@ namespace Code2015.World
         PluginPositionFlag pluginFlags;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
-        
+
+        Vector3 position;
+        public Vector3 Position
+        {
+            get { return position; }
+        }
+
         public CityObject(City city, CityStyleTable styleSet)
             : base(false)
         {
@@ -333,7 +339,7 @@ namespace Code2015.World
             float radLong = MathEx.Degree2Radian(city.Longitude);
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
-            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius);
+            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 150);
             
             Transformation = Matrix.Identity;
 
@@ -345,7 +351,7 @@ namespace Code2015.World
 
             BoundingSphere.Radius = 200;
             BoundingSphere.Center = pos;
-
+            position = pos;
 
             switch (city.Size)
             {
