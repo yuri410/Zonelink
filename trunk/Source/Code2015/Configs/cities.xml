@@ -34,7 +34,7 @@
   </Shanghai>
 
   <Guangzhou>
-    <Name>Canton</Name>
+    <Name>Guangzhou</Name>
     <Longitude>131.2641</Longitude>
     <Latitude>23.1289</Latitude>
     <Size>Medium</Size>
@@ -84,7 +84,7 @@
   <!--印度-->
   <NewDelhi>
     <Name>New Delhi</Name>
-    <Longitude>71.225</Longitude>
+    <Longitude>77.225</Longitude>
     <Latitude>28.635278</Latitude>
     <Size>Medium</Size>
     <Population>900</Population>
@@ -109,7 +109,7 @@
   <!--缅甸-->
   <Mandalay>
     <Name>Mandalay</Name>
-    <Longitude>96.0993</Longitude>
+    <Longitude>95.0993</Longitude>
     <Latitude>21.992556</Latitude>
     <Size>Medium</Size>
     <Population>130</Population>
@@ -127,23 +127,23 @@
   <Albany>
     <Name>Albany</Name>
     <Longitude>145.775</Longitude>
-    <Latitude>-16.925278</Latitude>
+    <Latitude>-37.925278</Latitude>
     <Size>Medium</Size>
     <Population>85</Population>
   </Albany>
 
-  <Caims>
-    <Name>Caims</Name>
-    <Longitude>117.878838</Longitude>
-    <Latitude>-35.005534</Latitude>
+  <Cairns>
+    <Name>Cairns</Name>
+    <Longitude>145.878838</Longitude>
+    <Latitude>-16.005534</Latitude>
     <Size>Medium</Size>
     <Population>15</Population>
-  </Caims>
+  </Cairns>
 
   <AliceSprings>
     <Name>Alice Springs</Name>
     <Longitude>133.879995</Longitude>
-    <Latitude>-23.700808</Latitude>
+    <Latitude>-18.700808</Latitude>
     <Size>Small</Size>
     <Population>2</Population>
   </AliceSprings>
@@ -168,7 +168,7 @@
 
   <Novosibirsk>
     <Name>Novosibirsk</Name>
-    <Longitude>82.92326</Longitude>
+    <Longitude>80.92326</Longitude>
     <Latitude>55.024086</Latitude>
     <Size>Small</Size>
     <Population>142</Population>
@@ -199,15 +199,16 @@
     <Population>700</Population>
   </Dhaka>
 
-  <!--哈萨克斯坦-->
+  <!--吉尔吉斯斯坦-->
   <Suzak>
     <Name>Suzak</Name>
-    <Longitude>68.466282</Longitude>
-    <Latitude>44.140272</Latitude>
+    <Longitude>72.466282</Longitude>
+    <Latitude>40.140272</Latitude>
     <Size>Small</Size>
     <Population>30</Population>
   </Suzak>
 
+  <!--乌兹别克斯坦-->
   <Tashkent>
     <Name>Tashkent</Name>
     <Longitude>69.257813</Longitude>
@@ -216,7 +217,6 @@
     <Population>218</Population>
   </Tashkent>
 
-  <!--乌兹别克斯坦-->
   <Balkanabat>
     <Name>Balkanabat</Name>
     <Longitude>54.37593</Longitude>
@@ -270,7 +270,7 @@
   <Ulm>
     <Name>Ulm</Name>
     <Longitude>9.990349</Longitude>
-    <Latitude>48.397297</Latitude>
+    <Latitude>52.397297</Latitude>
     <Size>Small</Size>
     <Population>12</Population>
   </Ulm>
@@ -303,8 +303,8 @@
 
   <Kryvyi>
     <Name>Kryvyi Rih</Name>
-    <Longitude>33.397236</Longitude>
-    <Latitude>47.897355</Latitude>
+    <Longitude>23.397236</Longitude>
+    <Latitude>48.897355</Latitude>
     <Size>Small</Size>
     <Population>71</Population>
   </Kryvyi>
@@ -318,13 +318,13 @@
     <Population>29</Population>
   </Craiova>
 
-  <Bucuresti>
+  <Bucurest>
     <Name>Bucharest</Name>
     <Longitude>26.109009</Longitude>
     <Latitude>44.425934</Latitude>
     <Size>Medium</Size>
     <Population>194</Population>
-  </Bucuresti>
+  </Bucurest>
 
   <!--西班牙-->
   <Valladolid>
@@ -337,8 +337,8 @@
 
   <Madrid>
     <Name>Madrid</Name>
-    <Longitude>-3.702736</Longitude>
-    <Latitude>40.418724</Latitude>
+    <Longitude>-4.702736</Longitude>
+    <Latitude>41.418724</Latitude>
     <Size>Large</Size>
     <Population>321</Population>
   </Madrid>
@@ -423,8 +423,8 @@
   <!--利比亚-->
   <EIGezira>
     <Name>EI Gezira</Name>
-    <Longitude>21.088772</Longitude>
-    <Latitude>25.674021</Latitude>
+    <Longitude>14.088772</Longitude>
+    <Latitude>27.674021</Latitude>
     <Size>Small</Size>
     <Population>30</Population>
   </EIGezira>
@@ -494,7 +494,7 @@
 
   <!--Mali-->
   <Bamako>
-    <Name></Name>
+    <Name>Bamako</Name>
     <Longitude>-7.988777</Longitude>
     <Latitude>12.624928</Latitude>
     <Size>Medium</Size>
@@ -504,7 +504,7 @@
   
   <!--Mauritania-->
   <Nouakchott>
-    <Name></Name>
+    <Name>Nouakchott</Name>
     <Longitude>-15.979271</Longitude>
     <Latitude>18.08777</Latitude>
     <Size>Medium</Size>
@@ -567,14 +567,13 @@
   </Luanda>
   
   <!--Tanzania-->
-  <Salaam>
-    <Name>Salaam</Name>
+  <DaresSalaam>
+    <Name>Dar es Salaam</Name>
     <Longitude>39.241447</Longitude>
     <Latitude>-6.820762</Latitude>
     <Size>Medium</Size>
     <Population>245</Population>
-
-  </Salaam>
+  </DaresSalaam>
 
   <!--Namibia-->
   <Windhoek>
@@ -605,7 +604,7 @@
 
   <Durban>
     <Name>Durban</Name>
-    <Longitude>30.914841</Longitude>
+    <Longitude>31.914841</Longitude>
     <Latitude>-29.829327</Latitude>
     <Size>Large</Size>
     <Population>309</Population>
@@ -642,8 +641,8 @@
 
   <Quebec>
     <Name>Quebec</Name>
-    <Longitude>-71.215439</Longitude>
-    <Latitude>46.80288</Latitude>
+    <Longitude>-73.215439</Longitude>
+    <Latitude>52.80288</Latitude>
     <Size>Medium</Size>
     <Population>778</Population>
   </Quebec>
@@ -772,7 +771,7 @@
   <SanFrancisco>
     <Name>San Francisco</Name>
     <Longitude>-121.78894</Longitude>
-    <Latitude>38.173433</Latitude>
+    <Latitude>37.173433</Latitude>
     <Size>Large</Size>
     <Population>73</Population>
 
@@ -843,7 +842,7 @@
     <Population>30</Population>
   </SanJuanBautistaTuxtepec>
 
-
+<!--巴西-->
   <Maraba>
     <Name>Maraba</Name>
     <Longitude>-49.105968</Longitude>
@@ -935,20 +934,20 @@
 
   <SantaRosa>
     <Name>Santa Rosa</Name>
-    <Longitude>-64.287529</Longitude>
-    <Latitude>-36.623794</Latitude>
+    <Longitude>-66.287529</Longitude>
+    <Latitude>-25.623794</Latitude>
     <Size>Small</Size>
     <Population>29</Population>
 
   </SantaRosa>
  
   <!--智利-->
-  <LosAngles>
-    <Name>Los Angles</Name>
+  <LosAngeles>
+    <Name>Los Angeles</Name>
     <Longitude>-72.351151</Longitude>
     <Latitude>-37.471316</Latitude>
     <Size>Small</Size>
     <Population>30</Population>
 
-  </LosAngles>
+  </LosAngeles>
 </Cities>

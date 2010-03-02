@@ -90,16 +90,6 @@
     <Compile Include="RenderViewer.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Game.ico" />
-    <Content Include="GameThumbnail.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <NestedContentProject Include="Content\Content.contentproj">
-      <Project>36730a62-b8d9-45b6-86fa-9e7b74e9cbf7</Project>
-      <Visible>False</Visible>
-    </NestedContentProject>
-  </ItemGroup>
-  <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">
       <Visible>False</Visible>
       <ProductName>.NET Framework Client Profile</ProductName>
