@@ -6,6 +6,7 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
+using Code2015.World;
 
 namespace Code2015.BalanceSystem
 {
@@ -154,6 +155,13 @@ namespace Code2015.BalanceSystem
         CultureId culture;
 
         City sourceCity;
+        CityObject parent;
+
+        public CityObject Parent
+        {
+            get { return parent; }
+            set { parent = value; }
+        }
 
         public City(SimulationRegion sim)
             : base(sim)
@@ -176,6 +184,11 @@ namespace Code2015.BalanceSystem
         }
 
         #region  属性
+
+        public bool IsDead
+        {
+            get { return Population < 0.1f; }
+        }
 
         public CultureId Culture 
         {
@@ -458,6 +471,10 @@ namespace Code2015.BalanceSystem
         {
             CarbonProduceSpeed = 0;
 
+            if (IsDead) 
+            {
+                return;
+            }
 
             #region 城市自动级别调整
 

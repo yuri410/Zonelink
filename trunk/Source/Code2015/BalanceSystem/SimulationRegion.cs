@@ -11,8 +11,11 @@ namespace Code2015.BalanceSystem
     /// </summary>
     public class SimulationRegion : IUpdatable
     {
-
         FastList<SimulateObject> simulateObject = new FastList<SimulateObject>();
+        FastList<City> cities = new FastList<City>();
+        FastList<NaturalResource> resources = new FastList<NaturalResource>();
+
+
         EnergyStatus energyStatus;
         SocietyStatus societyStatus;
 
@@ -20,6 +23,27 @@ namespace Code2015.BalanceSystem
         {
             get { return energyStatus; }
         }
+
+
+        public int CityCount
+        {
+            get { return cities.Count; }
+        }
+        public int ResourceCount
+        {
+            get { return resources.Count; }
+        }
+
+        public City GetCity(int i)
+        {
+            return cities[i];
+        }
+        public NaturalResource GetResource(int i)
+        {
+            return resources[i];
+        }
+
+
 
         public int Count
         {
@@ -33,12 +57,35 @@ namespace Code2015.BalanceSystem
         public void Add(SimulateObject obj)
         {
             simulateObject.Add(obj);
-        }
 
+            City city = obj as City;
+            if (city != null)
+            {
+                cities.Add(city);
+            }
+
+            NaturalResource res = obj as NaturalResource;
+            if (res != null)
+            {
+                resources.Add(res);
+            }
+        }
        
         public void Remove(SimulateObject obj)
         {
             simulateObject.Remove(obj);
+
+            City city = obj as City;
+            if (city != null)
+            {
+                cities.Remove(city);
+            }
+
+            NaturalResource res = obj as NaturalResource;
+            if (res != null)
+            {
+                resources.Remove(res);
+            }
         }
        
         public SimulationRegion()

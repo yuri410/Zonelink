@@ -15,7 +15,7 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
-    struct CityStyleData
+    public struct CityStyleData
     {
         public CultureId ID;
         
@@ -32,7 +32,7 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData> Cow;
     }
-    struct CityStyle
+    public struct CityStyle
     {
         public CultureId ID;
 
@@ -130,7 +130,7 @@ namespace Code2015.World
         
     }
 
-    struct CityObjectTRAdjust
+    public struct CityObjectTRAdjust
     {
         public const float Scaler = 1.5384615384615384615384615384615f;
 
@@ -165,7 +165,7 @@ namespace Code2015.World
         }
     }
 
-    class CityStyleTable
+    public class CityStyleTable
     {
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";
@@ -291,7 +291,7 @@ namespace Code2015.World
         }
     }
 
-    enum PluginPositionFlag
+    public enum PluginPositionFlag
     {
         None = 0,
         P1 = 1,
@@ -300,7 +300,7 @@ namespace Code2015.World
         P4 = 1 << 3
     }
 
-    class CityObject : SceneObject
+    public class CityObject : SceneObject
     {
         struct PluginEntry
         {
@@ -312,6 +312,7 @@ namespace Code2015.World
         City city;
         CityStyle style;
 
+        RenderSystem renderSys;
         SceneManagerBase sceMgr;
 
         FastList<PluginEntry> plugins;
@@ -326,12 +327,14 @@ namespace Code2015.World
             get { return position; }
         }
 
-        public CityObject(City city, CityStyleTable styleSet)
+        public CityObject(RenderSystem rs, City city, CityStyleTable styleSet)
             : base(false)
         {
             this.city = city;
+            city.Parent = this;
             this.plugins = new FastList<PluginEntry>();
             this.style = styleSet.CreateStyle(city.Culture);
+            this.renderSys = rs;
 
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
@@ -383,7 +386,15 @@ namespace Code2015.World
             }
         }
 
+        void City_Linked(City a, City b) 
+        {
+            if (b != null)
+            {
+                CityLink link = new CityLink(renderSys, a.Parent, b.Parent);
 
+                sceMgr.AddObjectToScene(link);
+            }
+        }
         void City_PluginAdded(City city, CityPlugin plugin)
         {
             PluginEntry ent = new PluginEntry();
