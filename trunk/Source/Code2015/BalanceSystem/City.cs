@@ -183,8 +183,13 @@ namespace Code2015.BalanceSystem
             this.Name = name;
         }
 
-        #region  属性
 
+        #region  属性
+        public Player Owner
+        {
+            get;
+            private set;
+        }
         public bool IsDead
         {
             get { return Population < 0.1f; }
@@ -360,6 +365,12 @@ namespace Code2015.BalanceSystem
         public event CitypluginEventHandle PluginAdded;
         public event CitypluginEventHandle PluginRemoved;
         public event CitySourceChangedHandler CitySourceChanged;
+
+
+        public void ChangeOwner(Player player)
+        {
+            Owner = player;
+        }
 
         /// <summary>
         ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了

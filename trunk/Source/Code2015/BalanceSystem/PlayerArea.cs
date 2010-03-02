@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.Collections;
 using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
@@ -17,9 +17,19 @@ namespace Code2015.BalanceSystem
         City rootCity;
         SimulationRegion simulator;
 
-        public PlayerArea(SimulationRegion region)
+        Player owner;
+
+
+
+        public PlayerArea(SimulationRegion region, Player player)
         {
-            simulator = region;
+            this.simulator = region;
+            this.owner = player;
+        }
+
+        public Player Owner
+        {
+            get { return owner; }
         }
 
         public City RootCity
@@ -27,16 +37,8 @@ namespace Code2015.BalanceSystem
             get { return rootCity; }
         }
 
-        /// <summary>
-        ///  计算一个城市是否可以被占据
-        ///  只有离玩家最近的城市才能占领，太远的，中间隔有更近的城市的无法占领
-        /// </summary>
-        /// <returns></returns>
-        public bool CanCapture(City city)
+        City GetNearestCity(City city)
         {
-            if (cities.Count == 0)
-                return false;
-
             float dist = float.MaxValue;
             City minCity = null;
             for (int i = 0; i < cities.Count; i++)
@@ -52,6 +54,21 @@ namespace Code2015.BalanceSystem
                     }
                 }
             }
+            return minCity;
+        }
+
+
+        /// <summary>
+        ///  计算一个城市是否可以被占据
+        ///  只有离玩家最近的城市才能占领，太远的，中间隔有更近的城市的无法占领
+        /// </summary>
+        /// <returns></returns>
+        public bool CanCapture(City city)
+        {
+            if (cities.Count == 0)
+                return false;
+
+            City minCity = GetNearestCity(city);
 
             if (minCity != null)
             {
@@ -62,12 +79,15 @@ namespace Code2015.BalanceSystem
                 for (int i = 0; i < simulator.CityCount; i++)
                 {
                     City cc = simulator.GetCity(i);
-                    float cdist = new Vector2(cc.Longitude - minCity.Longitude, cc.Latitude - minCity.Latitude).Length();
-
-                    if (cdist < minDist)
+                    if (!object.ReferenceEquals(cc.Owner, null))
                     {
-                        minDist = cdist;
-                        midCity = cc;
+                        float cdist = new Vector2(cc.Longitude - minCity.Longitude, cc.Latitude - minCity.Latitude).Length();
+
+                        if (cdist < minDist)
+                        {
+                            minDist = cdist;
+                            midCity = cc;
+                        }
                     }
                 }
 
@@ -88,7 +108,12 @@ namespace Code2015.BalanceSystem
                 rootCity = city;
             }
 
-            
+            // 加入城市网络
+            City minCty = GetNearestCity(city);
+            if (minCty != null)
+            {
+                city.SetSourceCity(minCty);
+            }
         }
 
         public void Update(GameTime time)
