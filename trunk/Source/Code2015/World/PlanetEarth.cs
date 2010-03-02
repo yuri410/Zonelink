@@ -137,6 +137,16 @@ namespace Code2015.World
             col = MathEx.Vector2DirAngle(latCir);
         }
 
+        public static Matrix GetOrientation(float x, float y)
+        {
+            Matrix Transformation = Matrix.Identity;
+
+            Transformation.Up = PlanetEarth.GetNormal(x, y);
+            Transformation.Right = PlanetEarth.GetTangentX(x, y);
+            Transformation.Forward = -PlanetEarth.GetTangentY(x, y);
+            return Transformation;
+        }
+
         /// <summary>
         ///  计算球面上的点的坐标
         /// </summary>

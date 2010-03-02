@@ -87,7 +87,7 @@ namespace Code2015
 
             // 初始化GameState
             GameStateBuilder stateBuilder = new GameStateBuilder();
-            gameState = new GameState(stateBuilder);
+            gameState = new GameState(stateBuilder, gcp.Player1);
 
 
             // 初始化场景

@@ -8,6 +8,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World.Screen;
 using XI = Microsoft.Xna.Framework.Input;
+using Code2015.World;
 
 namespace Code2015.GUI
 {

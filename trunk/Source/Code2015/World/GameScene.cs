@@ -9,7 +9,7 @@ using Code2015.EngineEx;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
 
-namespace Code2015
+namespace Code2015.World
 {
     class GameScene
     {

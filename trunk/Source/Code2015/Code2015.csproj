@@ -378,7 +378,7 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaUtils.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
-    <Compile Include="GameScene.cs" />
+    <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\GoalIcons.cs" />
     <Compile Include="GUI\InGameUI.cs" />
     <Compile Include="GUI\Menu.cs">
