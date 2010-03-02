@@ -30,8 +30,13 @@ namespace Code2015.World
             float dist = Vector3.Distance(a.Position, b.Position);
             ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(1, 1, dist / LinkBaseLength));
 
-            Position = 0.5f * (start.Position + end.Position);
-            
+
+            float longitude = 0.5f * MathEx.Degree2Radian(a.Longitude + b.Longitude);
+            float latitude = 0.5f * MathEx.Degree2Radian(a.Latitude + b.Latitude);
+            Transformation = PlanetEarth.GetOrientation(longitude, latitude);
+
+            Position = PlanetEarth.GetPosition(longitude, latitude);// 0.5f * (start.Position + end.Position);
+
         }
 
         public override bool IsSerializable

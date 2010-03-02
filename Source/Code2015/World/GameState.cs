@@ -68,11 +68,18 @@ namespace Code2015.World
     class GameState
     {
         SimulationRegion slgSystem;
+       
+        // TODO：local player不止一个
 
+        PlayerArea localPlayerArea;
 
-        public GameState(GameStateBuilder srcState)
+        public GameState(GameStateBuilder srcState, Player localPlayer)
         {
             slgSystem = srcState.SLGWorld;
+
+            localPlayerArea = new PlayerArea(slgSystem, localPlayer);
+
+
         }
 
         public void Update(GameTime time)

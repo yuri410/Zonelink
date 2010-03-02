@@ -327,6 +327,16 @@ namespace Code2015.World
             get { return position; }
         }
 
+        public float Longitude
+        {
+            get { return city.Longitude; }
+        }
+        public float Latitude
+        {
+            get { return city.Latitude; }
+        }
+
+
         public CityObject(RenderSystem rs, City city, CityStyleTable styleSet)
             : base(false)
         {
@@ -343,12 +353,8 @@ namespace Code2015.World
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
             Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + 150);
-            
-            Transformation = Matrix.Identity;
 
-            Transformation.Up = PlanetEarth.GetNormal(radLong, radLat);
-            Transformation.Right = PlanetEarth.GetTangentX(radLong, radLat);
-            Transformation.Forward = -PlanetEarth.GetTangentY(radLong, radLat);
+            Transformation = PlanetEarth.GetOrientation(city.Longitude, city.Latitude);// Matrix.Identity;
 
             Transformation.TranslationValue = pos;//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
 
