@@ -7,6 +7,7 @@ using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
 using Code2015.World;
+using Code2015.Logic;
 
 namespace Code2015.BalanceSystem
 {
@@ -366,10 +367,18 @@ namespace Code2015.BalanceSystem
         public event CitypluginEventHandle PluginRemoved;
         public event CitySourceChangedHandler CitySourceChanged;
 
-
+        /// <summary>
+        ///  给无家可归的城市一个主
+        /// </summary>
+        /// <param name="player"></param>
         public void ChangeOwner(Player player)
         {
+            if (Owner != null) 
+            {
+                throw new InvalidOperationException("目前不能抢夺别人的城市");
+            }
             Owner = player;
+            Owner.Area.NotifyNewCity(this);
         }
 
         /// <summary>

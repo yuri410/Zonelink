@@ -40,9 +40,18 @@ namespace Code2015.World
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
             terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
             terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
+
+            if (lat > 5 && lat < 31)
+            {
+                terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
+            }
+            else
+            {
+                terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
+            }
+
             terrain2.Touch();
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 

@@ -3,6 +3,10 @@ Configs\action.xml
 Configs\cityplugins.xml
 Configs\cityStyles.xml
 Configs\cities.xml
+Effect.lpk\atmosphere.cps
+Effect.lpk\atmosphere.cvs
+Effect.lpk\earthbase.cps
+Effect.lpk\earthbase.cvs
 Effect.lpk\skybox.cps
 Effect.lpk\skybox.cvs
 Effect.lpk\standard.cps

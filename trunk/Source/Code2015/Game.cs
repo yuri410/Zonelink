@@ -8,6 +8,7 @@ using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI;
+using Code2015.Logic;
 using Code2015.World;
 
 namespace Code2015
@@ -37,6 +38,7 @@ namespace Code2015
             get;
             set;
         }
+
     }
 
     /// <summary>
@@ -49,13 +51,20 @@ namespace Code2015
         GameCreationParameters parameters;
 
         Code2015 game;
+
+        #region 界面/呈现
         InGameUI ingameUI;
-        GameState gameState;
 
         RenderSystem renderSys;
         GameScene scene;
-
         CityStyleTable cityStyles;
+
+        #endregion
+
+        #region 游戏状态
+        GameState gameState;
+        #endregion
+
 
         bool isLoaded;
         int loadingCountDown = 100;
@@ -78,6 +87,28 @@ namespace Code2015
             }
         }
 
+        Player[] GetLocalPlayers(GameCreationParameters gcp)
+        {
+            List<Player> list = new List<Player>();
+            if (gcp.Player1 !=null && gcp.Player1.IsLocal) 
+            {
+                list.Add(gcp.Player1);
+            }
+            if (gcp.Player2 !=null && gcp.Player2.IsLocal)
+            {
+                list.Add(gcp.Player2);
+            }
+            if (gcp.Player3 != null && gcp.Player3.IsLocal)
+            {
+                list.Add(gcp.Player3);
+            }
+            if (gcp.Player4 != null && gcp.Player4.IsLocal) 
+            {
+                list.Add(gcp.Player4);
+            }
+            return list.ToArray();
+        }
+
         public Game(Code2015 game, GameCreationParameters gcp)
         {
             this.game = game;
@@ -87,7 +118,9 @@ namespace Code2015
 
             // 初始化GameState
             GameStateBuilder stateBuilder = new GameStateBuilder();
-            gameState = new GameState(stateBuilder, gcp.Player1);
+
+
+            gameState = new GameState(stateBuilder, GetLocalPlayers(gcp));
 
 
             // 初始化场景

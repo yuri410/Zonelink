@@ -7,6 +7,7 @@ using Apoc3D.Graphics;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Code2015.Logic;
 
 namespace Code2015.World
 {
@@ -65,25 +66,40 @@ namespace Code2015.World
         }
     }
 
+    /// <summary>
+    ///  表示游戏逻辑状态。
+    /// </summary>
     class GameState
     {
         SimulationRegion slgSystem;
        
-        // TODO：local player不止一个
+        PlayerArea[] localPlayerArea;
 
-        PlayerArea localPlayerArea;
-
-        public GameState(GameStateBuilder srcState, Player localPlayer)
+        public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
             slgSystem = srcState.SLGWorld;
 
-            localPlayerArea = new PlayerArea(slgSystem, localPlayer);
+            localPlayerArea = new PlayerArea[localPlayer.Length];
 
+            System.Diagnostics.Debug.Assert(localPlayer.Length == 1, "测试阶段仅支持一个本地玩家");
+            for (int i = 0; i < localPlayerArea.Length; i++)
+            {
+                localPlayerArea[i] = new PlayerArea(slgSystem, localPlayer[i]);
 
+                localPlayer[i].SetArea(localPlayerArea[i]);
+
+                // 测试
+                slgSystem.GetCity(0).ChangeOwner(localPlayer[i]);
+            }
         }
 
         public void Update(GameTime time)
         {
+            /////// 接受playerOperation，由127.0.0.1
+
+            
+
+
             //slgSystem.Update(time);
         }
 
