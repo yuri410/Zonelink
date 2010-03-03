@@ -13,7 +13,7 @@ namespace Code2015.World
 {
     class CityLink : Entity
     {
-        const float LinkBaseLength = 25;
+        const float LinkBaseLength = 100;
 
         CityObject start;
         CityObject end;
@@ -28,12 +28,12 @@ namespace Code2015.World
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
 
             float dist = Vector3.Distance(a.Position, b.Position);
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(1, 1, dist / LinkBaseLength));
+            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1, 1));
 
 
-            float longitude = 0.5f * MathEx.Degree2Radian(a.Longitude + b.Longitude);
-            float latitude = 0.5f * MathEx.Degree2Radian(a.Latitude + b.Latitude);
-            Transformation = PlanetEarth.GetOrientation(longitude, latitude);
+            float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
+            float latitude = MathEx.Degree2Radian(0.5f * (a.Latitude + b.Latitude));
+            Orientation = PlanetEarth.GetOrientation(longitude, latitude);
 
             Position = PlanetEarth.GetPosition(longitude, latitude);// 0.5f * (start.Position + end.Position);
 
