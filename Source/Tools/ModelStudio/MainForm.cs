@@ -48,7 +48,10 @@ namespace ModelStudio
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            for (RenderPriority i = RenderPriority.First; i <= RenderPriority.Last; i++)
+            {
+                comboBox4.Items.Add(i.ToString());
+            }
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -138,6 +141,8 @@ namespace ModelStudio
             checkBox2.Checked = mtrl.IsVegetation;
             checkBox3.Checked = mtrl.ZEnabled;
 
+            comboBox4.SelectedIndex = (int)mtrl.PriorityHint;
+
             switch (mtrl.CullMode) 
             {
                 case CullMode.Clockwise:
@@ -183,6 +188,7 @@ namespace ModelStudio
             mtrl.ZWriteEnabled = checkBox4.Checked;
             mtrl.IsVegetation = checkBox2.Checked;
             mtrl.ZEnabled = checkBox3.Checked;
+            mtrl.PriorityHint = (RenderPriority)comboBox4.SelectedIndex;
 
             switch (comboBox2.SelectedIndex)
             {
@@ -239,6 +245,11 @@ namespace ModelStudio
             {
                 button4.BackColor = colorDialog1.Color;
             }
+
+        }
+
+        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
+        {
 
         }
 

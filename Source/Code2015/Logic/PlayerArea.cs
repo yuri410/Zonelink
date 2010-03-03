@@ -38,20 +38,25 @@ namespace Code2015.Logic
             get { return rootCity; }
         }
 
+        /// <summary>
+        ///  获取此玩家所有的城市中离目标城市最近的一个
+        /// </summary>
+        /// <param name="city">目标城市</param>
+        /// <returns></returns>
         City GetNearestCity(City city)
         {
             float dist = float.MaxValue;
             City minCity = null;
             for (int i = 0; i < cities.Count; i++)
             {
-                if (!cities[i].IsDead)
+                if (!cities[i].IsDead && !object.ReferenceEquals(city, cities[i]))
                 {
                     float cdist = new Vector2(cities[i].Longitude - city.Longitude, cities[i].Latitude - city.Latitude).Length();
 
                     if (cdist < dist)
                     {
                         dist = cdist;
-                        minCity = city;
+                        minCity = cities[i];
                     }
                 }
             }
@@ -109,12 +114,17 @@ namespace Code2015.Logic
                 rootCity = city;
             }
 
-            // 加入城市网络
-            City minCty = GetNearestCity(city);
-            if (minCty != null)
+
+            if (cities.Count > 0)
             {
-                city.SetSourceCity(minCty);
+                // 加入城市网络
+                City minCty = GetNearestCity(city);
+                if (minCty != null)
+                {
+                    city.SetSourceCity(minCty);
+                }
             }
+            cities.Add(city);
         }
 
         public void Update(GameTime time)

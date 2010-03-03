@@ -93,13 +93,15 @@ namespace Code2015.World
             }
         }
 
+        int test;
         public void Update(GameTime time)
         {
             /////// 接受playerOperation，由127.0.0.1
 
-            
-
-
+            if (test++ == 1000)
+            {
+                slgSystem.GetCity(1).ChangeOwner(localPlayerArea[0].Owner);
+            }
             //slgSystem.Update(time);
         }
 
