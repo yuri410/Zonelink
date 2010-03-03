@@ -76,7 +76,7 @@ namespace Apoc3D.Graphics.Effects
             pixShader.SetValue("lightDir", EffectParams.LightDir);
             vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
-            move -= 0.00033f;
+            move -= 0.0005f;
             while (move <0)
                 move++;
 

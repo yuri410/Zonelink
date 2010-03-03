@@ -14,7 +14,8 @@ namespace Code2015.World
     class CityLink : Entity
     {
         const float LinkBaseLength = 100;
-        const float LinkWidthScale = 0.0075f;
+        const float LinkWidthScale = 0.0035f;
+        const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
         CityObject start;
         CityObject end;
@@ -30,7 +31,7 @@ namespace Code2015.World
 
             float dist = Vector3.Distance(a.Position, b.Position);
 
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1, 1 + LinkWidthScale * dist));
+            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
            
 
             float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
@@ -43,8 +44,10 @@ namespace Code2015.World
 
             Orientation = ori;
 
-            Position = PlanetEarth.GetPosition(longitude, latitude,PlanetEarth.PlanetRadius + 100);
+            Position = PlanetEarth.GetPosition(longitude, latitude,PlanetEarth.PlanetRadius + 150);
 
+            BoundingSphere.Center = position;
+            BoundingSphere.Radius = dist * 0.5f;
         }
 
         public override bool IsSerializable
