@@ -438,8 +438,7 @@ namespace Code2015.World
             position = pos;
 
             {
-                //ModelData mdlData = style.Ring[0].GetData();
-                ringMaterial = new Material(renderSys);// mdlData.Entities[0].Materials[0][0].Clone();
+                ringMaterial = new Material(renderSys);
                 ringMaterial.Ambient = new Color4F(ColorValue.Gray);
                 ringMaterial.Diffuse = new Color4F(1f, 1f, 1f, 1f);
                 ringMaterial.Power = 1;
