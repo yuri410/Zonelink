@@ -125,6 +125,7 @@ namespace Code2015.BalanceSystem
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
     public delegate void CitySourceChangedHandler(City city,City srcCity);
+    public delegate void CityOwnerChanged(Player newOwner);
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
@@ -366,6 +367,7 @@ namespace Code2015.BalanceSystem
         public event CitypluginEventHandle PluginAdded;
         public event CitypluginEventHandle PluginRemoved;
         public event CitySourceChangedHandler CitySourceChanged;
+        public event CityOwnerChanged CityOwnerChanged;
 
         /// <summary>
         ///  给无家可归的城市一个主
@@ -379,6 +381,9 @@ namespace Code2015.BalanceSystem
             }
             Owner = player;
             Owner.Area.NotifyNewCity(this);
+
+            if (CityOwnerChanged != null)
+                CityOwnerChanged(player);
         }
 
         /// <summary>
