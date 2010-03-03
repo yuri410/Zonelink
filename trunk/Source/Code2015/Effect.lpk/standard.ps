@@ -39,7 +39,11 @@ PSOutput main(PSInput ip)
 	
 	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.ViewDir)), k_power);
 	
-    o.Color = tex2D(texDif, ip.TexCoord) * (amb + dif + k_e * 0.01) + float4(0.01*spec.xyz,0);
-    
+	float4 p = amb+dif+k_e;
+	p.a = saturate(p.a);
+	
+    o.Color = tex2D(texDif, ip.TexCoord) * p + float4(0.01*spec.xyz,0);
+  
+  
     return o;
 }

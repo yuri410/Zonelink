@@ -440,7 +440,7 @@ namespace Code2015.World
             {
                 ringMaterial = new Material(renderSys);
                 ringMaterial.Ambient = new Color4F(ColorValue.Gray);
-                ringMaterial.Diffuse = new Color4F(1f, 1f, 1f, 1f);
+                ringMaterial.Diffuse = new Color4F(0.5f, 1f, 1f, 1f);
                 ringMaterial.Power = 1;
                 ringMaterial.IsTransparent = true;
                 ringMaterial.AlphaRef = 0.05f;
