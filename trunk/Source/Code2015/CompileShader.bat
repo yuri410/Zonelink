@@ -16,3 +16,6 @@ fxc Effect.lpk\earthbase.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\earthbase.cps /
 
 fxc Effect.lpk\atmosphere.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\atmosphere.cvs /Zpr
 fxc Effect.lpk\atmosphere.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\atmosphere.cps /Zpr
+
+fxc Effect.lpk\citylink.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\citylink.cvs /Zpr
+fxc Effect.lpk\citylink.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\citylink.cps /Zpr

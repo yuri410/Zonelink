@@ -12,6 +12,7 @@ using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Apoc3D.Vfs;
+using Apoc3D.Graphics.Effects;
 
 namespace ModelStudio
 {
@@ -135,6 +136,7 @@ namespace ModelStudio
 
             textBox1.Text = mtrl.GetTextureFile(0);
             textBox2.Text = mtrl.GetTextureFile(1);
+            textBox3.Text = mtrl.GetEffectName();// mtrl.Effect == null ? string.Empty : mtrl.Effect.Name;
 
             checkBox1.Checked = mtrl.IsTransparent;
             checkBox4.Checked = mtrl.ZWriteEnabled;
@@ -184,6 +186,10 @@ namespace ModelStudio
                 mtrl.ReloadTextures();
 
             }
+
+            mtrl.SetEffectName(textBox3.Text);
+            
+
             mtrl.IsTransparent = checkBox1.Checked;
             mtrl.ZWriteEnabled = checkBox4.Checked;
             mtrl.IsVegetation = checkBox2.Checked;

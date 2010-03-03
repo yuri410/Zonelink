@@ -74,6 +74,11 @@ namespace Code2015.Effects
             renderSystem.BindShader(vtxShader);
             renderSystem.BindShader(pixShader);
             vtxShader.SetValue("lightDir", EffectParams.LightDir);
+
+            move += 0.000033f;
+            while (move > 1)
+                move--; 
+            
             return 1;
         }
 
@@ -116,10 +121,6 @@ namespace Code2015.Effects
             {
                 pixShader.SetTexture("reflectionMap", reflection);
             }
-
-            move += 0.000033f;
-            while (move > 1)
-                move--;
 
             pixShader.SetValue("move", move);
         }
