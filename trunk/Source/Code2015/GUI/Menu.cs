@@ -59,6 +59,7 @@ namespace Code2015.GUI
 
                     
                     gcp.Player1 = new Player("test");
+                    gcp.Player1.SideColor = ColorValue.Red;
                     game.StartNewGame(gcp);
 
                     return;

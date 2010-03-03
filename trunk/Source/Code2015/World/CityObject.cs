@@ -7,11 +7,13 @@ using Apoc3D.Collections;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Code2015.Logic;
 
 namespace Code2015.World
 {
@@ -32,8 +34,8 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData> Cow;
 
-        public ResourceHandle<ModelData> Ring;
-        public ResourceHandle<ModelData> SelRing;
+        public ResourceHandle<ModelData>[] Ring;
+        public ResourceHandle<ModelData>[] SelRing;
     }
     public struct CityStyle
     {
@@ -51,8 +53,8 @@ namespace Code2015.World
 
         public Model Cow;
 
-        public Model Ring;
-        public Model SelRing;
+        public Model[] Ring;
+        public Model[] SelRing;
 
         public float[] PluginTranslate;
 
@@ -78,8 +80,16 @@ namespace Code2015.World
             EducationOrgan = new Model(data.EducationOrgan);
 
 
-            Ring = new Model(data.Ring);
-            SelRing = new Model(data.SelRing);
+            Ring = new Model[data.Ring.Length];
+            SelRing = new Model[data.SelRing.Length];
+
+            for (int i = 0; i < Ring.Length; i++)
+                Ring[i] = new Model(data.Ring[i]);
+
+            for (int i = 0; i < SelRing.Length; i++)
+                SelRing[i] = new Model(data.SelRing[i]);
+
+            
 
             PluginTranslate = new float[3];
 
@@ -154,6 +164,8 @@ namespace Code2015.World
         public Matrix Hospital;
         public Matrix Biofuel;
         public Matrix Cow;
+        public Matrix[] Ring;
+        public Matrix[] SelRing;
 
         public CityObjectTRAdjust(ref CityObjectTRAdjust src)
         {
@@ -170,12 +182,20 @@ namespace Code2015.World
             Base = new Matrix[src.Base.Length];
             Array.Copy(src.Base, Base, src.Base.Length);
 
+            Ring = new Matrix[src.Base.Length];
+            Array.Copy(src.Ring, Ring, src.Ring.Length);
+
+            SelRing = new Matrix[src.SelRing.Length];
+            Array.Copy(src.SelRing, SelRing, src.SelRing.Length);
+
             ID = src.ID;
         }
     }
 
     public class CityStyleTable
     {
+        const float RingRadius = 50;
+
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";
         static readonly string LargeCityCenter_Inv = "large.mesh";
@@ -206,6 +226,8 @@ namespace Code2015.World
             styles[0].ID = CultureId.Asia;
             styles[0].Urban = new ResourceHandle<ModelData>[3];
             styles[0].Base = new ResourceHandle<ModelData>[3];
+            styles[0].Ring = new ResourceHandle<ModelData>[3];
+            styles[0].SelRing = new ResourceHandle<ModelData>[3];
 
             FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Inv, GameFileLocs.Model);
             styles[0].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
@@ -241,10 +263,14 @@ namespace Code2015.World
             styles[0].Cow = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
-            styles[0].Ring = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].Ring[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
-            styles[0].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].SelRing[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
             #endregion
 
@@ -253,6 +279,8 @@ namespace Code2015.World
 
             adjusts[0].Base = new Matrix[3];
             adjusts[0].Urban = new Matrix[3];
+            adjusts[0].SelRing = new Matrix[3];
+            adjusts[0].Ring = new Matrix[3];
 
 
             Matrix scale = Matrix.Scaling(CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler);
@@ -271,6 +299,22 @@ namespace Code2015.World
             adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
             adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
             adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
+
+            {
+                float s = CityObjectTRAdjust.Scaler * (48f + 8f) / RingRadius;
+                adjusts[0].Ring[(int)UrbanSize.Small] = Matrix.Translation(22f, 0, 0) * Matrix.Scaling(s, 1, s);
+                adjusts[0].SelRing[(int)UrbanSize.Small] = adjusts[0].Ring[(int)UrbanSize.Small];
+
+                s = CityObjectTRAdjust.Scaler * (78f + 15f) / RingRadius;
+                adjusts[0].Ring[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
+                adjusts[0].SelRing[(int)UrbanSize.Medium] = adjusts[0].Ring[(int)UrbanSize.Medium];
+
+                s = CityObjectTRAdjust.Scaler * (100f + 15f) / RingRadius;
+                adjusts[0].Ring[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
+                adjusts[0].SelRing[(int)UrbanSize.Large] = adjusts[0].Ring[(int)UrbanSize.Large];
+
+            }
+
             #endregion
             //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
             //{
@@ -303,7 +347,15 @@ namespace Code2015.World
             style.EducationOrgan.CurrentAnimation = new NoAnimation(adjusts[(int)culture].EducationOrgan);
             style.Hospital.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Hospital);
             style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
-
+            
+            for (int i = 0; i < style.Ring.Length; i++)
+            {
+                style.Ring[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Ring[i]);
+            }
+            for (int i = 0; i < style.SelRing.Length; i++)
+            {
+                style.SelRing[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].SelRing[i]);
+            }
             return style;
         }
     }
@@ -319,7 +371,6 @@ namespace Code2015.World
 
     public class CityObject : SceneObject
     {
-        const float RingRadius = 50;
 
         struct PluginEntry
         {
@@ -330,9 +381,6 @@ namespace Code2015.World
 
         City city;
         CityStyle style;
-
-        NoAnimation selRingTrans;
-        NoAnimation ringTrans;
 
         Material ringMaterial;
 
@@ -370,11 +418,10 @@ namespace Code2015.World
             this.style = styleSet.CreateStyle(city.Culture);
             this.renderSys = rs;
 
-            selRingTrans = (NoAnimation)style.SelRing.CurrentAnimation;
-            ringTrans = (NoAnimation)style.Ring.CurrentAnimation;
-
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
+            city.CitySourceChanged += City_Linked;
+            city.CityOwnerChanged += City_OwnerChanged;
 
             float radLong = MathEx.Degree2Radian(city.Longitude);
             float radLat = MathEx.Degree2Radian(city.Latitude);
@@ -391,8 +438,23 @@ namespace Code2015.World
             position = pos;
 
             {
-                ModelData mdlData = style.Ring.GetData();
-                ringMaterial = mdlData.Entities[0].Materials[0][0].Clone();
+                //ModelData mdlData = style.Ring[0].GetData();
+                ringMaterial = new Material(renderSys);// mdlData.Entities[0].Materials[0][0].Clone();
+                ringMaterial.Ambient = new Color4F(ColorValue.Gray);
+                ringMaterial.Diffuse = new Color4F(1f, 1f, 1f, 1f);
+                ringMaterial.Power = 1;
+                ringMaterial.IsTransparent = true;
+                ringMaterial.AlphaRef = 0.05f;
+                ringMaterial.CullMode = CullMode.None;
+                ringMaterial.ZEnabled = true;
+                ringMaterial.ZWriteEnabled = true;
+
+                FileLocation fl = FileSystem.Instance.Locate("cityring.tex", GameFileLocs.Texture);
+                ringMaterial.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
+                ringMaterial.SetEffect(EffectManager.Instance.GetModelEffect(StandardEffectFactory.Name));
+
+                if (city.Owner != null)
+                    City_OwnerChanged(city.Owner);
             }
 
             switch (city.Size)
@@ -474,7 +536,15 @@ namespace Code2015.World
                 }
             }
         }
-
+        void City_OwnerChanged(Player owner)
+        {
+            if (owner != null)
+            {
+                Color4F color = new Color4F(owner.SideColor);
+                ringMaterial.Ambient *= color;
+                ringMaterial.Diffuse *= color;
+            }
+        }
 
         public override RenderOperation[] GetRenderOperation()
         {
@@ -520,29 +590,15 @@ namespace Code2015.World
                 }
             }
 
-            if (city.Owner != null)
             {
-                float scale = 1;
-
-                switch (city.Size)
+                ops = style.Ring[(int)city.Size].GetRenderOperation();
+                for (int j = 0; j < ops.Length; j++)
                 {
-                    case UrbanSize.Small:
-                        scale = 40f / RingRadius;
-                        break;
-                    case UrbanSize.Medium:
-                        scale = 75f / RingRadius;
-                        break;
-                    case UrbanSize.Large:
-                        scale = 100f / RingRadius;
-                        break;
+                    ops[j].Material = ringMaterial;
+                    ops[j].Priority = RenderPriority.Third;
                 }
-
-                selRingTrans.SetTransform(Matrix.Scaling(scale, 1, scale));
-
-                ops = style.Ring.GetRenderOperation();
                 if (ops != null)
                 {
-
                     opBuffer.Add(ops);
                 }
             }
