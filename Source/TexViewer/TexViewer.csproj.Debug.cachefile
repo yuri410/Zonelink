@@ -5,6 +5,8 @@ Configs\cityStyles.xml
 Configs\cities.xml
 Effect.lpk\atmosphere.cps
 Effect.lpk\atmosphere.cvs
+Effect.lpk\citylink.cps
+Effect.lpk\citylink.cvs
 Effect.lpk\earthbase.cps
 Effect.lpk\earthbase.cvs
 Effect.lpk\skybox.cps
