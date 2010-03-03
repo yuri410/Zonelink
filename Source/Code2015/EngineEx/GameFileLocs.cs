@@ -47,6 +47,11 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
+        public static FileLocateRule Earth
+        {
+            get;
+            private set;
+        }
         public static FileLocateRule Config
         {
             get;
@@ -98,6 +103,12 @@ namespace Code2015.EngineEx
             pts[0] = new LocateCheckPoint();
             pts[0].AddPath("model.lpk");
             Model = new FileLocateRule(pts);
+
+            pts = new LocateCheckPoint[1];
+            pts[0] = new LocateCheckPoint();
+            pts[0].AddPath("earth.lpk");
+            Earth = new FileLocateRule(pts);
+
         }
     }
 }
