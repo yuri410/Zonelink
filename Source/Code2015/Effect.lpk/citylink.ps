@@ -42,6 +42,6 @@ PSOutput main(PSInput ip)
     o.Color = clr * (amb + dif + k_e * 0.01) + float4(0.01*spec.xyz,0);
     o.Color.a *= dot(clr.rgb, float3(0.33,0.33,0.33));
     o.Color.a *= ip.TexCoord.z;
-    o.Color.rgb += 1;
+    //o.Color.rgb += 1;
     return o;
 }
