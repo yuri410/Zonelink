@@ -22,17 +22,33 @@ namespace TestCode2015
             SimulationRegion region = new SimulationRegion();
 
             City city = new City(region);
+            City city2 = new City(region);
 
             IniSection sect = new IniSection("");
             sect.Add("Name", "HUST");
             sect.Add("Longitude", "0");
             sect.Add("Latitude", "0");
-            sect.Add("Population", "1000");
+            sect.Add("Population", "1500");
             sect.Add("Size", UrbanSize.Large.ToString());
 
             city.Parse(sect);
 
+
+
+            sect = new IniSection("");
+            sect.Add("Name", "Home");
+            sect.Add("Longitude", "0");
+            sect.Add("Latitude", "0");
+            sect.Add("Population", "10");
+            sect.Add("Size", UrbanSize.Small.ToString());
+
+            city2.Parse(sect);
+
             region.Add(city);
+            region.Add(city2);
+
+            city.AddNearbyCity(city2);
+            city2.AddNearbyCity(city);
 
             //OilField oil = new OilField(region);
             //Forest forest = new Forest(region);
@@ -48,6 +64,9 @@ namespace TestCode2015
                 //Console.Write(" Current LP Storage   ");
                 //Console.WriteLine(region.EnergyStatus.CurrentLPEnergy);
 
+
+
+                Console.WriteLine("City :" + city.Name);
                 Console.WriteLine("City Status:");
                 Console.Write(" Development   ");
                 Console.WriteLine(city.Development);
@@ -64,12 +83,35 @@ namespace TestCode2015
 
                 c += city.GetCarbonChange();
 
+
+                city2.LocalHR.Commit(250);
+                city2.LocalLR.Commit(250);
+
+                Console.WriteLine("City :" + city2.Name);
+                Console.WriteLine("City Status:");
+                Console.Write(" Development   ");
+                Console.WriteLine(city2.Development);
+                Console.Write(" Population   ");
+                Console.WriteLine(city2.Population);
+                Console.Write(" Disease   ");
+                Console.WriteLine(city2.Disease);
+                Console.Write(" Size   ");
+                Console.WriteLine(city2.Size);
+
+                Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city2.LocalHR.Current, city2.LocalLR.Current, city2.LocalFood.Current);
+                Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city2.GetSelfHRCSpeed(), city2.GetSelfLRCSpeed(), city2.GetSelfFoodCostSpeed());
+                Console.WriteLine(" Ratio  H[{0:P}] L[{1:P}] F[{2:P}]", city2.SelfHRCRatio, city2.SelfLRCRatio, city2.SelfFoodCostRatio);
+
+
+                c += city2.GetCarbonChange();
+
+
                 Console.WriteLine("World Carbon {0}", c);
 
                 GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
                 region.Update(gt);
 
-                Thread.Sleep(100);
+                Thread.Sleep(40);
             }
         }
     }
