@@ -24,9 +24,9 @@ namespace Code2015.BalanceSystem
     public class ResourceStorage
     {
         [SLGValue()]
-        const float SafeLimitRate = 0.33f;
+        const float SafeLimitRate = 0.5f;
         [SLGValue()]
-        const float StandardStorageBallanceRate = 0.67f;
+        const float StandardStorageBallanceRate = 1;
 
         float amount;
         float limit;
@@ -160,7 +160,7 @@ namespace Code2015.BalanceSystem
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
         [SLGValue]
-        const float DevBias = -3;
+        const float DevBias = 0;
 
         /// <summary>
         ///  表示城市的附加设施
@@ -280,7 +280,10 @@ namespace Code2015.BalanceSystem
 
         public float GetSelfFoodCostSpeedFull()
         {
-            return Population * 0.05f;
+            float res=  Population * 0.05f;
+            if (res < 0)
+                res = 0;
+            return res;
         }
 
         /// <summary>
@@ -560,9 +563,11 @@ namespace Code2015.BalanceSystem
             
             for (int i = 0; i < nearbyCity.Count; i++)
             {
+                float transSpeed;
                 City sourceCity = nearbyCity[i];
                 {
                     float requirement = localLr.StandardStorageBalance - localLr.Current;
+                    transSpeed = Math.Min(CityGrade.GetLPTransportSpeed(Size), CityGrade.GetLPTransportSpeed(sourceCity.Size));
 
                     if (requirement > 0)
                     {
@@ -571,20 +576,21 @@ namespace Code2015.BalanceSystem
                             passed ^= Randomizer.GetRandomBool();
                         if (passed)
                         {
-                            float applyAmount = Math.Min(requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
-                            applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);// energyStat.ApplyLPEnergy(applyAmount);
+                            float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
+                            applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
                             localLr.Commit(applyAmount);
                         }
                     }
-                    else
-                    {
-                        float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
-                        commitAmount = sourceCity.LocalLR.Commit(commitAmount);
-                        localLr.Apply(commitAmount);
-                    }
+                    //else
+                    //{
+                    //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
+                    //    commitAmount = sourceCity.LocalLR.Commit(commitAmount);
+                    //    localLr.Apply(commitAmount);
+                    //}
                 }
                 {
                     float requirement = localHr.StandardStorageBalance - localHr.Current;
+                    transSpeed = Math.Min(CityGrade.GetHPTransportSpeed(Size), CityGrade.GetHPTransportSpeed(sourceCity.Size));
 
                     if (requirement > 0)
                     {
@@ -593,20 +599,22 @@ namespace Code2015.BalanceSystem
                             passed ^= Randomizer.GetRandomBool();
                         if (passed)
                         {
-                            float applyAmount = Math.Min(requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
-                            applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);// energyStat.ApplyHPEnergy(applyAmount);
+
+                            float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
+                            applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
                             localHr.Commit(applyAmount);
                         }
                     }
-                    else
-                    {
-                        float commitAmount = Math.Min(-requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
-                        commitAmount = sourceCity.LocalHR.Commit(commitAmount);
-                        localHr.Apply(commitAmount);
-                    }
+                    //else
+                    //{
+                    //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
+                    //    commitAmount = sourceCity.LocalHR.Commit(commitAmount);
+                    //    localHr.Apply(commitAmount);
+                    //}
                 }
                 {
                     float requirement = localFood.StandardStorageBalance - localFood.Current;
+                    transSpeed = Math.Min(CityGrade.GetFoodTransportSpeed(Size), CityGrade.GetFoodTransportSpeed(sourceCity.Size));
 
                     if (requirement > 0)
                     {
@@ -615,17 +623,18 @@ namespace Code2015.BalanceSystem
                             passed ^= Randomizer.GetRandomBool();
                         if (passed)
                         {
-                            float applyAmount = Math.Min(requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
-                            applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);// energyStat.ApplyFood(applyAmount);
+
+                            float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
+                            applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
                             localFood.Commit(applyAmount);
                         }
                     }
-                    else
-                    {
-                        float commitAmount = Math.Min(-requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
-                        commitAmount = sourceCity.LocalFood.Commit(commitAmount);
-                        localFood.Apply(commitAmount);
-                    }
+                    //else
+                    //{
+                    //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
+                    //    commitAmount = sourceCity.LocalFood.Commit(commitAmount);
+                    //    localFood.Apply(commitAmount);
+                    //}
                 }
             }
 
@@ -676,30 +685,49 @@ namespace Code2015.BalanceSystem
             {
                 // 高能资源消耗量
                 float hrChange = CityGrade.GetSelfHRCSpeed(Size) * hours;
-                if (hrChange < float.Epsilon)
+                if (hrChange < -float.Epsilon)
                 {
                     float actHrChange = localHr.Apply(-hrChange);
                     SelfHRCRatio = -actHrChange / hrChange;
                     hrDev += actHrChange * CityGrade.GetDevelopmentMult(Size);
                 }
+                else
+                {
+                    SelfHRCRatio = 0;
+                }
 
                 // 低能资源消耗量
                 float lrChange = CityGrade.GetSelfLRCSpeed(Size) * hours;
-                if (lrChange < float.Epsilon)
+                if (lrChange < -float.Epsilon)
                 {
                     float actLrChange = localLr.Apply(-lrChange);
                     SelfLRCRatio = -actLrChange / lrChange;
                     lrDev += actLrChange * CityGrade.GetDevelopmentMult(Size);
                 }
+                else
+                {
+                    SelfLRCRatio = 0;
+                }
 
                 float foodSpeedFull = GetSelfFoodCostSpeedFull();
 
 #warning 实现采集食物
-                float foodChange = (-foodSpeedFull + CityGrade.GetSelfFoodGatheringSpeed(Size)) * hours;
+                // 仅仅测试
+                localFood.Commit(CityGrade.GetSelfFoodGatheringSpeed(Size) * hours);
+
+
+                float foodChange = (-foodSpeedFull) * hours;
 
                 float actFood = localFood.Apply(-foodChange);
 
-                SelfFoodCostRatio = actFood / -foodChange;
+                if (foodChange < -float.Epsilon)
+                {
+                    SelfFoodCostRatio = actFood / -foodChange;
+                }
+                else
+                {
+                    SelfFoodCostRatio = 0;
+                }
 
                 // 食物 碳排量计算
                 CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
@@ -727,7 +755,7 @@ namespace Code2015.BalanceSystem
             // 疾病发展传播计算
             if (Disease > 0)
             {
-                Disease += Disease * (float)Math.Log(Population, 100) * 0.001f;
+                Disease += Disease * (float)Math.Log(Population, 1000) * 0.001f;
             }
             else
             {
@@ -777,7 +805,7 @@ namespace Code2015.BalanceSystem
 
             }
 #warning sign check
-            float devIncr = popDevAdj * (lrDev * 0.5f + lrDev - DevBias);
+            float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias);
             Development += devIncr + foodLack;
             if (Development < 0)
             {
