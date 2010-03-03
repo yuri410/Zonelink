@@ -420,7 +420,7 @@ namespace Code2015.World
 
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
-            city.CitySourceChanged += City_Linked;
+            city.NearbyCityAdded += City_Linked;
             city.CityOwnerChanged += City_OwnerChanged;
 
             float radLong = MathEx.Degree2Radian(city.Longitude);

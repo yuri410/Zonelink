@@ -6,8 +6,8 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
-using Code2015.World;
 using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.BalanceSystem
 {
@@ -23,9 +23,15 @@ namespace Code2015.BalanceSystem
     /// </remarks>
     public class ResourceStorage
     {
+        [SLGValue()]
+        const float SafeLimitRate = 0.33f;
+        [SLGValue()]
+        const float StandardStorageBallanceRate = 0.67f;
+
         float amount;
         float limit;
 
+        
         public ResourceStorage(float a, float limit)
         {
             this.amount = a;
@@ -52,9 +58,12 @@ namespace Code2015.BalanceSystem
 
         public float StandardStorageBalance 
         {
-            get { return limit * 0.5f; }
+            get { return limit * StandardStorageBallanceRate; }
         }
-
+        public float SafeLimit
+        {
+            get { return limit * SafeLimitRate; }
+        }
 
         /// <summary>
         ///  申请获得能源
@@ -71,6 +80,15 @@ namespace Code2015.BalanceSystem
             float r = Current;
             Current = 0;
             return r;
+        }
+
+        public float ApplyFar(float amount)
+        {
+            if (Current > SafeLimit)
+            {
+                return Apply(amount);
+            }
+            return 0;
         }
 
         /// <summary>
@@ -124,7 +142,7 @@ namespace Code2015.BalanceSystem
 
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
-    public delegate void CitySourceChangedHandler(City city,City srcCity);
+    public delegate void NearbyCityAddedHandler(City city,City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
 
     public class City : SimulateObject, IConfigurable, IUpdatable
@@ -156,7 +174,7 @@ namespace Code2015.BalanceSystem
 
         CultureId culture;
 
-        City sourceCity;
+        FastList<City> nearbyCity = new FastList<City>();
         CityObject parent;
 
         public CityObject Parent
@@ -366,7 +384,7 @@ namespace Code2015.BalanceSystem
 
         public event CitypluginEventHandle PluginAdded;
         public event CitypluginEventHandle PluginRemoved;
-        public event CitySourceChangedHandler CitySourceChanged;
+        public event NearbyCityAddedHandler NearbyCityAdded;
         public event CityOwnerChanged CityOwnerChanged;
 
         /// <summary>
@@ -485,12 +503,14 @@ namespace Code2015.BalanceSystem
             return dev;
         }
 
-        public void SetSourceCity(City source)
+        public void AddNearbyCity(City city)
         {
-            sourceCity = source;
-            if (CitySourceChanged != null)
-                CitySourceChanged(this, source);
+            nearbyCity.Add(city);
+            if (NearbyCityAdded != null)
+                NearbyCityAdded(this, city);
+
         }
+
 
         public override void Update(GameTime time)
         {
@@ -537,8 +557,10 @@ namespace Code2015.BalanceSystem
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
             #region 补缺储备，物流
-            if (sourceCity != null)
+            
+            for (int i = 0; i < nearbyCity.Count; i++)
             {
+                City sourceCity = nearbyCity[i];
                 {
                     float requirement = localLr.StandardStorageBalance - localLr.Current;
 
@@ -550,7 +572,7 @@ namespace Code2015.BalanceSystem
                         if (passed)
                         {
                             float applyAmount = Math.Min(requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
-                            applyAmount = sourceCity.LocalLR.Apply(applyAmount);// energyStat.ApplyLPEnergy(applyAmount);
+                            applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);// energyStat.ApplyLPEnergy(applyAmount);
                             localLr.Commit(applyAmount);
                         }
                     }
@@ -572,7 +594,7 @@ namespace Code2015.BalanceSystem
                         if (passed)
                         {
                             float applyAmount = Math.Min(requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
-                            applyAmount = sourceCity.LocalHR.Apply(applyAmount);// energyStat.ApplyHPEnergy(applyAmount);
+                            applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);// energyStat.ApplyHPEnergy(applyAmount);
                             localHr.Commit(applyAmount);
                         }
                     }
@@ -594,7 +616,7 @@ namespace Code2015.BalanceSystem
                         if (passed)
                         {
                             float applyAmount = Math.Min(requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
-                            applyAmount = sourceCity.LocalFood.Apply(applyAmount);// energyStat.ApplyFood(applyAmount);
+                            applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);// energyStat.ApplyFood(applyAmount);
                             localFood.Commit(applyAmount);
                         }
                     }
@@ -606,6 +628,7 @@ namespace Code2015.BalanceSystem
                     }
                 }
             }
+
             #endregion
 
 

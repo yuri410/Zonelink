@@ -121,7 +121,8 @@ namespace Code2015.Logic
                 City minCty = GetNearestCity(city);
                 if (minCty != null)
                 {
-                    city.SetSourceCity(minCty);
+                    city.AddNearbyCity(minCty);
+                    minCty.AddNearbyCity(city);
                 }
             }
             cities.Add(city);
