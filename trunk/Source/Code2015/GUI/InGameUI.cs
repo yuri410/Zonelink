@@ -30,6 +30,7 @@ namespace Code2015.GUI
         Texture cursor;
         Point mousePosition;
 
+        InGameUI2 ingameui2;
 
         public ScreenPhysicsWorld PhysicsWorld
         {
@@ -55,6 +56,8 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
+
+            this.ingameui2 = new InGameUI2(game, parent, scene);
         }
 
         public override void Render(Sprite sprite)
@@ -65,9 +68,12 @@ namespace Code2015.GUI
             }
             else
             {
+                
                 icons.Render(sprite);
-
                 sprite.SetTransform(Matrix.Identity);
+                ingameui2.Render(sprite);
+
+                
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             }
         }
@@ -81,7 +87,7 @@ namespace Code2015.GUI
             mousePosition.Y = mstate.Y;
 
             icons.Update(time);
-
+            ingameui2.Update(time);
         }
     }
 }
