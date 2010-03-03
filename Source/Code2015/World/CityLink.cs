@@ -14,6 +14,7 @@ namespace Code2015.World
     class CityLink : Entity
     {
         const float LinkBaseLength = 100;
+        const float LinkWidthScale = 0.0075f;
 
         CityObject start;
         CityObject end;
@@ -28,14 +29,21 @@ namespace Code2015.World
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
 
             float dist = Vector3.Distance(a.Position, b.Position);
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1, 1));
 
+            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1, 1 + LinkWidthScale * dist));
+           
 
             float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
             float latitude = MathEx.Degree2Radian(0.5f * (a.Latitude + b.Latitude));
-            Orientation = PlanetEarth.GetOrientation(longitude, latitude);
 
-            Position = PlanetEarth.GetPosition(longitude, latitude);// 0.5f * (start.Position + end.Position);
+            Matrix ori = Matrix.Identity;
+            ori.Right = Vector3.Normalize(a.Position - b.Position);
+            ori.Up = PlanetEarth.GetNormal(longitude, latitude);
+            ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
+
+            Orientation = ori;
+
+            Position = PlanetEarth.GetPosition(longitude, latitude,PlanetEarth.PlanetRadius + 100);
 
         }
 

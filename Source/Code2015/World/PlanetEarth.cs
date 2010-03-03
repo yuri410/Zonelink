@@ -147,6 +147,15 @@ namespace Code2015.World
             return Transformation;
         }
 
+        public static Vector2 Coord2Planar(float lng, float lat)
+        {
+            Vector2 result;
+
+            result.X = 0.5f * lng / MathEx.PIf;
+            result.Y = (-lat + MathEx.PiOver2) / MathEx.PIf;
+            return result;
+        }
+
         /// <summary>
         ///  计算球面上的点的坐标
         /// </summary>

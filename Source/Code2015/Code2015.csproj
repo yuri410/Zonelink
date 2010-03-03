@@ -97,6 +97,7 @@
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />
+    <Compile Include="Effect.lpk\CityLinkEffect.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
     <Compile Include="BalanceSystem\SimulateObject.cs">
@@ -512,6 +513,12 @@
     <None Include="Effect.lpk\atmosphere.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Effect.lpk\citylink.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect.lpk\citylink.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Effect.lpk\earthbase.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -558,6 +565,8 @@
     <None Include="Effect.lpk\earthBase.vs" />
     <None Include="Effect.lpk\atmosphere.ps" />
     <None Include="Effect.lpk\atmosphere.vs" />
+    <None Include="Effect.lpk\citylink.ps" />
+    <None Include="Effect.lpk\citylink.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
