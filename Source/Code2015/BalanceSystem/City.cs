@@ -280,7 +280,7 @@ namespace Code2015.BalanceSystem
 
         public float GetSelfFoodCostSpeedFull()
         {
-            float res=  Population * 0.05f;
+            float res = Population * CityGrade.FoodCostPerPeople;
             if (res < 0)
                 res = 0;
             return res;
@@ -662,17 +662,22 @@ namespace Code2015.BalanceSystem
                 hrChange = plugins[i].HRPSpeed * hours;
                 float actHrChange = localHr.Commit(hrChange);
 
-                if (actHrChange < hrChange)
+                if (actHrChange < hrChange) // 资源过剩，转为碳
                 {
-                    localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
+                    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
+                    //float actCmt = localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
                 }
+                 
+                
 
                 lrChange = plugins[i].LRPSpeed * hours;
                 float actLrChange = localLr.Commit(lrChange);
 
-                if (actLrChange < lrChange)
+                if (actLrChange < lrChange)// 资源过剩，转为碳
                 {
-                    localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
+                    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
+
+                    //localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
                 }
 
 
@@ -741,10 +746,14 @@ namespace Code2015.BalanceSystem
                     {
                         Disease = 0.01f;
                     }
+                    else
+                    {
+                        Disease -= foodLack * 0.005f;
+                    }
                 }
                 else
                 {
-                    Disease -= actFood;
+                    Disease -= actFood * 0.005f;
                 }
 
 
@@ -804,7 +813,9 @@ namespace Code2015.BalanceSystem
 
 
             }
-#warning sign check
+
+            CarbonProduceSpeed += lrDev / hours + hrDev / hours;
+
             float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias);
             Development += devIncr + foodLack;
             if (Development < 0)

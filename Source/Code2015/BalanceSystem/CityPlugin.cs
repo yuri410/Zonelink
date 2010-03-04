@@ -8,7 +8,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-    public class CityPlugin : IConfigurable, IUpdatable
+    public class CityPlugin : IUpdatable
     {
         City parent;
         CityPluginType type;
@@ -79,16 +79,13 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
-        public float GatherRadius
-        {
-            get;
-            set;
-        }
+       
         void FindResources()
         {
             SimulationRegion region = parent.Region;
 
             Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
+            float r = CityGrade.GetGatherRadius(parent.Size);
             for (int i = 0; i < region.Count; i++)
             {
                 if (!object.ReferenceEquals(region[i], parent))
@@ -99,7 +96,7 @@ namespace Code2015.BalanceSystem
                         Vector2 pos = new Vector2(res.Latitude, res.Longitude);
                         float dist = Vector2.Distance(pos, myPos);
 
-                        if (dist < GatherRadius)
+                        if (dist < r)
                         {
                             resource.Add(res);
                         }
@@ -135,110 +132,110 @@ namespace Code2015.BalanceSystem
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
-            #region 处理采集自然资源
-            int index = Randomizer.GetRandomInt(resource.Count);
-
-            float food = type.FoodCostSpeed * hours;
-            float hpResource = type.HRCSpeed * hours;
-            float lpResource = type.LRCSpeed * hours;
-
-            int tries = 0;
-            bool finished = false;
-            CarbonProduceSpeed = 0;
-
-
-            if (hpResource > float.Epsilon ||
-                lpResource > float.Epsilon)
+            switch (type.Behaviour)
             {
-                while (tries < resource.Count && !finished)
-                {
-                    NaturalResource res = resource[index % resource.Count];
+                case CityPluginBehaviourType.Hospital:
+                case CityPluginBehaviourType.Education:
+                    #region 处理消耗资源
 
-                    if (hpResource > 0)
+                    // 高能资源消耗量
+
+                    float hrChange = type.HRCSpeed * hours;
+
+
+                    if (hrChange < -float.Epsilon)
                     {
-                        if (res.Type == NaturalResourceType.Petro)
-                        {
-                            //采集资源
+                        float actHrChange = parent.LocalHR.Apply(-hrChange);
 
-                            float act = res.Exploit(hpResource);
-                            float speed = act / hours;
-
-                            HRPSpeed = speed * type.HRPConvRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - type.HRPConvRate);
-                            hpResource = 0;
-                        }
-                    }
-                    if (lpResource > 0)
-                    {
-                        if (res.Type == NaturalResourceType.Wood)
-                        {
-                            float act = res.Exploit(lpResource);
-                            float speed = act / hours;
-
-                            LRPSpeed = speed * type.LRPConvRate;
-                            CarbonProduceSpeed += speed * Math.Max(0, 1 - type.LRPConvRate);
-                            lpResource = 0;
-                        }
+                        HRCSpeed = actHrChange / hours;
                     }
 
+                    // 低能资源消耗量
 
-                    index++;
-                    tries++;
+                    float lrChange = type.LRCSpeed * hours;
 
-                }
+
+                    if (lrChange < -float.Epsilon)
+                    {
+                        float actLrChange = parent.LocalLR.Apply(-lrChange);
+
+                        LRCSpeed = actLrChange / hours;
+                    }
+
+                    CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
+                    #endregion
+
+                    break;
+                case CityPluginBehaviourType.CollectorFactory:
+                    #region 处理采集自然资源
+                    int index = Randomizer.GetRandomInt(resource.Count);
+
+                    float food = type.FoodCostSpeed * hours;
+                    float hpResource = type.HRCSpeed * hours;
+                    float lpResource = type.LRCSpeed * hours;
+
+                    int tries = 0;
+                    bool finished = false;
+                    CarbonProduceSpeed = 0;
+
+
+                    if (hpResource > float.Epsilon ||
+                        lpResource > float.Epsilon)
+                    {
+                        while (tries < resource.Count && !finished)
+                        {
+                            NaturalResource res = resource[index % resource.Count];
+
+                            if (hpResource > 0)
+                            {
+                                if (res.Type == NaturalResourceType.Petro)
+                                {
+                                    //采集资源
+
+                                    float act = res.Exploit(hpResource);
+                                    float speed = act / hours;
+
+                                    HRPSpeed = speed * type.HRPConvRate;
+                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - type.HRPConvRate);
+                                    hpResource -= act;
+                                }
+                            }
+                            if (lpResource > 0)
+                            {
+                                if (res.Type == NaturalResourceType.Wood)
+                                {
+                                    float act = res.Exploit(lpResource);
+                                    float speed = act / hours;
+
+                                    LRPSpeed = speed * type.LRPConvRate;
+                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - type.LRPConvRate);
+                                    lpResource -= act;
+                                }
+                            }
+
+                            finished = (lpResource < float.Epsilon && hpResource < float.Epsilon);
+
+                            index++;
+                            tries++;
+
+                        }
+                    }
+                    if (food > float.Epsilon)
+                    {
+                        float act = parent.LocalFood.Apply(food);
+
+                        float speed = act / hours;
+
+                        HRPSpeed = speed * type.FoodConvRate;
+                        CarbonProduceSpeed += Math.Max(0, 1 - type.FoodConvRate) * speed;
+                    }
+                    #endregion
+                    break;
             }
-            if (food > 0)
-            {
-                float act = parent.LocalFood.Apply(-food);
-
-                float speed = act / hours;
-
-                HRPSpeed = speed * type.FoodConvRate;
-                CarbonProduceSpeed += Math.Max(0, 1 - type.FoodConvRate) * speed;
-            }
-            #endregion
-
-            #region 处理消耗资源
-
-            // 高能资源消耗量
-
-            float hrChange = type.HRCSpeed * hours;
-
-
-            if (hrChange > float.Epsilon ||
-                hrChange < -float.Epsilon)
-            {
-                float actHrChange = parent.LocalHR.Apply(-hrChange);
-
-                HRCSpeed = actHrChange / hours;
-            }
-
-            // 低能资源消耗量
-
-            float lrChange = type.LRCSpeed * hours;
-
-
-            if (lrChange > float.Epsilon ||
-                lrChange < -float.Epsilon)
-            {
-                float actLrChange = parent.LocalLR.Apply(-lrChange);
-
-                LRCSpeed = actLrChange / hours;
-            }
-
-            CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
-            #endregion
+            
         }
 
         #endregion
 
-        #region IConfigurable 成员
-
-        public void Parse(ConfigurationSection sect)
-        {
-            throw new NotImplementedException();
-        }
-
-        #endregion
     }
 }

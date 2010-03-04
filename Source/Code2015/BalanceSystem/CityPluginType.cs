@@ -6,6 +6,17 @@ using Apoc3D.Config;
 namespace Code2015.BalanceSystem
 {
     /// <summary>
+    ///  硬编码内定附加物的行为
+    /// </summary>
+    public enum CityPluginBehaviourType
+    {
+        None,
+        CollectorFactory,
+        Hospital,
+        Education
+    }
+
+    /// <summary>
     ///  表示城市附属物的一种类型
     /// </summary>
     public class CityPluginType : IConfigurable
@@ -31,9 +42,28 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public CityPluginBehaviourType Behaviour
+        {
+            get;
+            private set;
+        }
+        ///// <summary>
+        /////  采集资源的速度
+        ///// </summary>
+        //public float HRPSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
+
+        //public float LRPSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
 
         /// <summary>
-        ///  获取在资源充足的条件下，高能资源消耗的速度
+        ///  获取在资源充足的条件下，高能资源消耗的速度。
         /// </summary>
         public float HRCSpeed
         {
@@ -55,12 +85,6 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
-
-        public float GatherRadius
-        {
-            get;
-            protected set;
-        }
 
         public float GetUpgradeCost(int level)
         {
@@ -104,7 +128,22 @@ namespace Code2015.BalanceSystem
         public void Parse(ConfigurationSection sect)
         {
             Cost = sect.GetSingle("Cost");
-            
+
+            //HRPSpeed = sect.GetSingle("HRPSpeed", 0);
+            //LRPSpeed = sect.GetSingle("LRPSpeed", 0);
+
+            HRCSpeed = sect.GetSingle("HRCSpeed", 0);
+            LRCSpeed = sect.GetSingle("LRCSpeed", 0);
+
+            FoodCostSpeed = sect.GetSingle("FoodCostSpeed", 0);
+
+            FoodConvRate = sect.GetSingle("FoodConvRate", 0.75f);
+            HRPConvRate = sect.GetSingle("HRPConvRate", 0.75f);
+            LRPConvRate = sect.GetSingle("LRPConvRate", 0.75f);
+
+            Behaviour = (CityPluginBehaviourType)
+                Enum.Parse(typeof(CityPluginBehaviourType), 
+                sect.GetString("Behaviour", CityPluginBehaviourType.None.ToString()), true);
         }
 
         #endregion

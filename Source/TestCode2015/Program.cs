@@ -28,7 +28,7 @@ namespace TestCode2015
             sect.Add("Name", "HUST");
             sect.Add("Longitude", "0");
             sect.Add("Latitude", "0");
-            sect.Add("Population", "1500");
+            sect.Add("Population", "150");
             sect.Add("Size", UrbanSize.Large.ToString());
 
             city.Parse(sect);
@@ -37,18 +37,53 @@ namespace TestCode2015
 
             sect = new IniSection("");
             sect.Add("Name", "Home");
-            sect.Add("Longitude", "0");
+            sect.Add("Longitude", "1");
             sect.Add("Latitude", "0");
-            sect.Add("Population", "10");
+            sect.Add("Population", "1");
             sect.Add("Size", UrbanSize.Small.ToString());
 
             city2.Parse(sect);
 
             region.Add(city);
-            region.Add(city2);
+            //region.Add(city2);
 
-            city.AddNearbyCity(city2);
-            city2.AddNearbyCity(city);
+            //city.AddNearbyCity(city2);
+            //city2.AddNearbyCity(city);
+
+
+
+            OilField oilFld = new OilField(region);
+            sect = new IniSection("");
+            sect.Add("Amount", "100000");
+            sect.Add("Latitude", "1");
+            sect.Add("Longitude", "0");
+            oilFld.Parse(sect);
+            region.Add(oilFld);
+
+
+            CityPluginType plgType = new CityPluginType("test plg");
+            sect = new IniSection("");
+            sect.Add("Cost", "100");
+            sect.Add("HRCSpeed", "100");
+            sect.Add("Behaviour", CityPluginBehaviourType.CollectorFactory.ToString());
+            plgType.Parse(sect);
+
+            CityPlugin plg = new CityPlugin(plgType);
+            city.Add(plg);
+
+
+
+            plgType = new CityPluginType("test plg");
+            sect = new IniSection("");
+            sect.Add("Cost", "100");
+            sect.Add("FoodConvRate", "0.50");
+            sect.Add("FoodCostSpeed", "100");
+            sect.Add("Behaviour", CityPluginBehaviourType.CollectorFactory.ToString());
+            plgType.Parse(sect);
+            plg = new CityPlugin(plgType);
+            city.Add(plg);
+
+
 
             //OilField oil = new OilField(region);
             //Forest forest = new Forest(region);
@@ -56,13 +91,17 @@ namespace TestCode2015
             while (true)
             {
                 Console.Clear();
-                //Console.WriteLine("Energy Status:");
-                //Console.Write(" Current Food Storage   ");
-                //Console.WriteLine(region.EnergyStatus.CurrentFood);
-                //Console.Write(" Current HP Storage   ");
-                //Console.WriteLine(region.EnergyStatus.CurrentHPEnergy);
-                //Console.Write(" Current LP Storage   ");
-                //Console.WriteLine(region.EnergyStatus.CurrentLPEnergy);
+                Console.WriteLine("Energy Status:");
+                Console.Write(" Current Food Storage   ");
+                Console.WriteLine(region.EnergyStatus.CurrentFood);
+                Console.Write(" Current HR Storage   ");
+                Console.WriteLine(region.EnergyStatus.CurrentHR);
+                Console.Write(" Current LR Storage   ");
+                Console.WriteLine(region.EnergyStatus.CurrentLR);
+                Console.Write(" Current Natural HR   ");
+                Console.WriteLine(region.EnergyStatus.RemainingHR);
+                Console.Write(" Current Natural LR   ");
+                Console.WriteLine(region.EnergyStatus.RemainingLR);
 
 
 
@@ -83,27 +122,27 @@ namespace TestCode2015
 
                 c += city.GetCarbonChange();
 
+                //city.LocalFood.Commit(250);
+                //city.LocalHR.Commit(250);
+                //city2.LocalLR.Commit(250);
 
-                city2.LocalHR.Commit(250);
-                city2.LocalLR.Commit(250);
+                //Console.WriteLine("City :" + city2.Name);
+                //Console.WriteLine("City Status:");
+                //Console.Write(" Development   ");
+                //Console.WriteLine(city2.Development);
+                //Console.Write(" Population   ");
+                //Console.WriteLine(city2.Population);
+                //Console.Write(" Disease   ");
+                //Console.WriteLine(city2.Disease);
+                //Console.Write(" Size   ");
+                //Console.WriteLine(city2.Size);
 
-                Console.WriteLine("City :" + city2.Name);
-                Console.WriteLine("City Status:");
-                Console.Write(" Development   ");
-                Console.WriteLine(city2.Development);
-                Console.Write(" Population   ");
-                Console.WriteLine(city2.Population);
-                Console.Write(" Disease   ");
-                Console.WriteLine(city2.Disease);
-                Console.Write(" Size   ");
-                Console.WriteLine(city2.Size);
-
-                Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city2.LocalHR.Current, city2.LocalLR.Current, city2.LocalFood.Current);
-                Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city2.GetSelfHRCSpeed(), city2.GetSelfLRCSpeed(), city2.GetSelfFoodCostSpeed());
-                Console.WriteLine(" Ratio  H[{0:P}] L[{1:P}] F[{2:P}]", city2.SelfHRCRatio, city2.SelfLRCRatio, city2.SelfFoodCostRatio);
+                //Console.WriteLine(" Local  H[{0}] L[{1}] F[{2}]", city2.LocalHR.Current, city2.LocalLR.Current, city2.LocalFood.Current);
+                //Console.WriteLine(" Drain  H[{0}] L[{1}] F[{2}]", city2.GetSelfHRCSpeed(), city2.GetSelfLRCSpeed(), city2.GetSelfFoodCostSpeed());
+                //Console.WriteLine(" Ratio  H[{0:P}] L[{1:P}] F[{2:P}]", city2.SelfHRCRatio, city2.SelfLRCRatio, city2.SelfFoodCostRatio);
 
 
-                c += city2.GetCarbonChange();
+                //c += city2.GetCarbonChange();
 
 
                 Console.WriteLine("World Carbon {0}", c);
@@ -111,7 +150,7 @@ namespace TestCode2015
                 GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
                 region.Update(gt);
 
-                Thread.Sleep(40);
+                Thread.Sleep(50);
             }
         }
     }

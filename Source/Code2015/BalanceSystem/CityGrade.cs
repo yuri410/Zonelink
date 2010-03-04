@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Config;
+using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
@@ -104,6 +105,14 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const int LargeFoodCollectSpeed = 50;
 
+        [SLGValue]
+        public const float SmallGatherRadius = 1;
+        [SLGValue]
+        public const float MediumGatherRadius = 2 ;
+        [SLGValue]
+        public const float LargeGatherRadius = 3 ;
+
+        static readonly float[] GatherRadius = { SmallGatherRadius, MediumGatherRadius, LargeGatherRadius };
 
         static readonly float[] DevMult = { SmallDevMult, MediumDevMult, LargeDevMult };
         static readonly float[] LPSpeed = { SmallCityLPSpeed, MediumCityLPSpeed, LargeCityLPSpeed };
@@ -115,7 +124,17 @@ namespace Code2015.BalanceSystem
 
         static readonly float[] FoodCollSpeed = { SmallFoodCollectSpeed, MediumFoodCollectSpeed, LargeFoodCollectSpeed };
 
+        [SLGValue]
+        public const float FoodCostPerPeople = 0.05f;
 
+        [SLGValue]
+        public const float CityDeathThreshold = 0.1f;
+
+
+        public static float GetGatherRadius(UrbanSize citySize)
+        {
+            return GatherRadius[(int)citySize];
+        }
 
         /// <summary>
         ///  获取在当前城市规模下的参考人口（标准人口）
