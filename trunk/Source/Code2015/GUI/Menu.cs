@@ -62,14 +62,14 @@ namespace Code2015.GUI
             //{
             //    font.DrawString(sprite, "Not Implemented\nPress Enter to start a new game", 0, 0, 34, DrawTextFormat.Center, -1);
             //}
-            //font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
-
-            sprite.SetTransform(Matrix.Identity);
-            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+            font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
             sprite.Draw(credits, 231, 464, ColorValue.White);
             sprite.Draw(exit, 79, 620, ColorValue.White);
             sprite.Draw(start, 428, 304, ColorValue.White);
-            sprite.Draw(help, 672, 166, ColorValue.White);
+            sprite.Draw(help, 672, 166, ColorValue.White); 
+
+            sprite.SetTransform(Matrix.Identity);
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }
 
         public override void Update(GameTime time)
@@ -77,6 +77,25 @@ namespace Code2015.GUI
             XI.MouseState mstate = XI.Mouse.GetState();
             mousePosition.X = mstate.X;
             mousePosition.Y = mstate.Y;
+            if (!game.IsIngame)
+            {
+                float s = (float)Math.Sqrt((mousePosition.X - 460) * (mousePosition.X - 460) + (mousePosition.Y - 336) * (mousePosition.Y - 336));
+                if ((s < 32)&&(mstate.LeftButton==XI.ButtonState.Pressed))
+                {
+                   
+                    GameCreationParameters gcp = new GameCreationParameters();
+
+
+                    gcp.Player1 = new Player("test");
+                    gcp.Player1.SideColor = ColorValue.Red;
+                    game.StartNewGame(gcp);
+
+                    return;
+                }
+                
+            }
+
+            
             fps = time.FramesPerSecond;
 
             if (!game.IsIngame)
@@ -98,6 +117,9 @@ namespace Code2015.GUI
                    
                 }
             }
+
+            
         }
     }
+    
 }

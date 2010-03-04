@@ -102,6 +102,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\InGameUI2.cs" />
+    <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
     <Compile Include="BalanceSystem\SimulateObject.cs">
