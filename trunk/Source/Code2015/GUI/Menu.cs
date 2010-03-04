@@ -22,11 +22,31 @@ namespace Code2015.GUI
 
         float fps;
 
+        Texture credits;
+        Texture exit;
+        Texture help;
+        Texture start;
+
+        Texture cursor;
+        Point mousePosition;
+
         public Menu(Code2015 game, RenderSystem rs)
         {
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(rs, fl, "default");
             this.game = game;
+
+            fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            cursor = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("credits.tex", GameFileLocs.GUI);
+            credits = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("exit.tex", GameFileLocs.GUI);
+            exit = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("help.tex", GameFileLocs.GUI);
+            help = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
+            start = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public void Render()
@@ -36,23 +56,33 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            sprite.SetTransform(Matrix.Identity);
+            //sprite.SetTransform(Matrix.Identity);
 
-            if (!game.IsIngame)
-            {
-                font.DrawString(sprite, "Not Implemented\nPress Enter to start a new game", 0, 0, 34, DrawTextFormat.Center, -1);
-            }
-            font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
+            //if (!game.IsIngame)
+            //{
+            //    font.DrawString(sprite, "Not Implemented\nPress Enter to start a new game", 0, 0, 34, DrawTextFormat.Center, -1);
+            //}
+            //font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
+
+            sprite.SetTransform(Matrix.Identity);
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+            sprite.Draw(credits, 231, 464, ColorValue.White);
+            sprite.Draw(exit, 79, 620, ColorValue.White);
+            sprite.Draw(start, 428, 304, ColorValue.White);
+            sprite.Draw(help, 672, 166, ColorValue.White);
         }
 
         public override void Update(GameTime time)
-        {
+        { 
+            XI.MouseState mstate = XI.Mouse.GetState();
+            mousePosition.X = mstate.X;
+            mousePosition.Y = mstate.Y;
             fps = time.FramesPerSecond;
 
             if (!game.IsIngame)
             {
                 XI.KeyboardState state = XI.Keyboard.GetState();
-
+                
                 if (state.IsKeyDown(XI.Keys.Enter))
                 {
                     GameCreationParameters gcp = new GameCreationParameters();
@@ -63,6 +93,9 @@ namespace Code2015.GUI
                     game.StartNewGame(gcp);
 
                     return;
+
+
+                   
                 }
             }
         }

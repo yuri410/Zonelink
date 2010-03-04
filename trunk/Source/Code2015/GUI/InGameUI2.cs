@@ -34,10 +34,7 @@ namespace Code2015.GUI
         Texture btnoilref;
         Texture btnwoodfac;
 
-        Texture credits;
-        Texture exit;
-        Texture help;
-        Texture start;
+       
 
         Texture[] earth;
        const int EarthFrameCount = 100;
@@ -92,14 +89,7 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_btn_woodfac.tex", GameFileLocs.GUI);
             btnwoodfac = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("credits.tex", GameFileLocs.GUI);
-            credits = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("exit.tex", GameFileLocs.GUI);
-            exit = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("help.tex", GameFileLocs.GUI);
-            help = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
-            start = UITextureManager.Instance.CreateInstance(fl);
+           
 
             earth = new Texture[EarthFrameCount];
             for (int i = 0; i < EarthFrameCount; i++)
@@ -131,10 +121,7 @@ namespace Code2015.GUI
             sprite.Draw(btnoilref, 936, 595, ColorValue.White);
             sprite.Draw(btnwoodfac, 795, 528, ColorValue.White);
 
-            sprite.Draw(credits, 231, 464, ColorValue.White);
-            sprite.Draw(exit, 79, 620, ColorValue.White);
-            sprite.Draw(start, 428, 304, ColorValue.White);
-            sprite.Draw(help, 672, 166, ColorValue.White);
+          
         }
 
         public override void Update(GameTime time)
