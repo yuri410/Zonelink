@@ -42,6 +42,9 @@ namespace Code2015
             this.renderSys = rs;
         }
 
+        /// <summary>
+        ///  表示当前是否在游戏过程中。即不在主菜单都为在游戏过程中。
+        /// </summary>
         public bool IsIngame 
         {
             get { return currentGame != null; }

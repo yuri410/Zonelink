@@ -188,21 +188,6 @@
     <Compile Include="Engine\Apoc3D.Core\Handlers.cs" />
     <Compile Include="Engine\Apoc3D.Core\IUpdatable.cs" />
     <Compile Include="Engine\Apoc3D.Core\LanguageParser.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\CRC.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\ICoder.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\InBuffer.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LzmaBench.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaBase.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaDecoder.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaEncoder.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\IMatchFinder.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzBinTree.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzInWindow.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzOutWindow.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\OutBuffer.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoder.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoderBit.cs" />
-    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoderBitTree.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\BoundingBox.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\BoundingFrustum.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\BoundingSphere.cs" />
@@ -462,7 +447,7 @@
     <None Include="Configs\cityStyles.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <Content Include="Engine\Apoc3D.Core\statistic.exe" />
+    <None Include="Engine\Apoc3D.Core\statistic.exe" />
     <Content Include="Engine\Apoc3D.Graphics\Effects\Post\note.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />

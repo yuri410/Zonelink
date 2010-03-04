@@ -124,7 +124,7 @@ namespace TestCode2015
 
                 //city.LocalFood.Commit(250);
                 //city.LocalHR.Commit(250);
-                //city2.LocalLR.Commit(250);
+                city.LocalLR.Commit(100);
 
                 //Console.WriteLine("City :" + city2.Name);
                 //Console.WriteLine("City Status:");
@@ -150,7 +150,7 @@ namespace TestCode2015
                 GameTime gt = new GameTime(0, 0, TimeSpan.FromHours(1), TimeSpan.FromHours(1));
                 region.Update(gt);
 
-                Thread.Sleep(50);
+                Thread.Sleep(5);
             }
         }
     }
