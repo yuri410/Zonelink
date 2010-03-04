@@ -10,11 +10,15 @@ namespace Code2015.BalanceSystem
 
     public class Forest : NaturalResource
     {
+        /// <summary>
+        ///  
+        /// </summary>
         [SLGValueAttribute()]
-        const float INITForestAmount = 100000;
-        [SLGValueAttribute()]
-        const float ABSORBCarbonSpeed = 1000;
-       
+        const float AbsorbCarbonRate = 1000;
+
+        [SLGValue]
+        const float RecoverRate = 1;
+
         public float AbsorbCarbonSpeed
         {
             get;

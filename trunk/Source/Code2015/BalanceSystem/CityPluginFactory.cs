@@ -46,30 +46,30 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeOilRefinary()
         {
             CityPlugin oilRefinary = new CityPlugin(oilRefinaryType);
-            ConfigurationSection sect = new IniSection("OilRefinary");
-            sect.Add("Cost", "1000");
-            sect.Add("UpgradeCost", "100");
-            sect.Add("HPProductionSpeed", "100");
-            sect.Add("LPProductionSpeed", "0");
-            sect.Add("CarbonProduceSpeed", "500");
-            sect.Add("FoodCostSpeed", "0");
+            //ConfigurationSection sect = new IniSection("OilRefinary");
+            //sect.Add("Cost", "1000");
+            //sect.Add("UpgradeCost", "100");
+            //sect.Add("HPProductionSpeed", "100");
+            //sect.Add("LPProductionSpeed", "0");
+            //sect.Add("CarbonProduceSpeed", "500");
+            //sect.Add("FoodCostSpeed", "0");
 
-            oilRefinary.Parse(sect);
+            //oilRefinary.Parse(sect);
 
             return oilRefinary;
         }
         public CityPlugin MakeWoodFactory()
         {
             CityPlugin woodfactory = new CityPlugin(woodFactoryType);
-            ConfigurationSection sect = new IniSection("WoodFactory");
-            sect.Add("Cost", "500");
-            sect.Add("UpgradeCost", "700");
-            sect.Add("HPProductionSpeed", "0");
-            sect.Add("LPProductionSpeed", "50");
-            sect.Add("CarbonProduceSpeed", "100");
-            sect.Add("FoodCostSpeed", "0");
+            //ConfigurationSection sect = new IniSection("WoodFactory");
+            //sect.Add("Cost", "500");
+            //sect.Add("UpgradeCost", "700");
+            //sect.Add("HPProductionSpeed", "0");
+            //sect.Add("LPProductionSpeed", "50");
+            //sect.Add("CarbonProduceSpeed", "100");
+            //sect.Add("FoodCostSpeed", "0");
 
-            woodfactory.Parse(sect);
+            //woodfactory.Parse(sect);
 
             return woodfactory;
         }
@@ -77,15 +77,15 @@ namespace Code2015.BalanceSystem
         public CityPlugin MakeBioEnergeFactory()
         {
             CityPlugin biofactory = new CityPlugin(bioFuelFactoryType);
-            ConfigurationSection sect = new IniSection("BioEnergyFactory");
-            sect.Add("Cost", "2000");
-            sect.Add("UpgradeCost", "2500");
-            sect.Add("HPProductionSpeed", "75");
-            sect.Add("LPProductionSpeed", "75");
-            sect.Add("CarbonProduceSpeed", "0");
-            sect.Add("FoodCostSpeed", "-200");
+            //ConfigurationSection sect = new IniSection("BioEnergyFactory");
+            //sect.Add("Cost", "2000");
+            //sect.Add("UpgradeCost", "2500");
+            //sect.Add("HPProductionSpeed", "75");
+            //sect.Add("LPProductionSpeed", "75");
+            //sect.Add("CarbonProduceSpeed", "0");
+            //sect.Add("FoodCostSpeed", "-200");
 
-            biofactory.Parse(sect);
+            //biofactory.Parse(sect);
             return biofactory;
         }
 
@@ -93,15 +93,15 @@ namespace Code2015.BalanceSystem
         {
             CityPlugin hospital = new CityPlugin(hospitalType);
 
-            ConfigurationSection sect = new IniSection("Hospital");
-            sect.Add("Cost", "1000");
-            sect.Add("UpgradeCost", "1000");
-            sect.Add("HPProductionSpeed", "-30");
-            sect.Add("LPProductionSpeed", "-30");
-            sect.Add("CarbonProduceSpeed", "50");
-            sect.Add("FoodCostSpeed", "-50");
+            //ConfigurationSection sect = new IniSection("Hospital");
+            //sect.Add("Cost", "1000");
+            //sect.Add("UpgradeCost", "1000");
+            //sect.Add("HPProductionSpeed", "-30");
+            //sect.Add("LPProductionSpeed", "-30");
+            //sect.Add("CarbonProduceSpeed", "50");
+            //sect.Add("FoodCostSpeed", "-50");
 
-            hospital.Parse(sect);
+            //hospital.Parse(sect);
 
             return hospital;
         }
@@ -110,15 +110,15 @@ namespace Code2015.BalanceSystem
         {
             CityPlugin EducationAgent = new CityPlugin(educationOrganType);
 
-            ConfigurationSection sect = new IniSection("EducationAgent");
-            sect.Add("Cost", "1000");
-            sect.Add("UpgradeCost", "500");
-            sect.Add("HPProductionSpeed", "-15");
-            sect.Add("LPProductionSpeed", "-15");
-            sect.Add("CarbonProduceSpeed", "50");
-            sect.Add("FoodCostSpeed", "-50");
+            //ConfigurationSection sect = new IniSection("EducationAgent");
+            //sect.Add("Cost", "1000");
+            //sect.Add("UpgradeCost", "500");
+            //sect.Add("HPProductionSpeed", "-15");
+            //sect.Add("LPProductionSpeed", "-15");
+            //sect.Add("CarbonProduceSpeed", "50");
+            //sect.Add("FoodCostSpeed", "-50");
 
-            EducationAgent.Parse(sect);
+            //EducationAgent.Parse(sect);
             return EducationAgent;
 
         }

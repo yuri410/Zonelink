@@ -9,9 +9,7 @@ namespace Code2015.BalanceSystem
 
     public class OilField : NaturalResource
     {
-        [SLGValueAttribute()]
-        const float OILWeight = 100000;//油田含油量的初始值
-        const float EMITCarbonSpeed = 10;//油田释放的C值
+        //const float EMITCarbonSpeed = 10;//油田释放的C值
 
 
         public OilField(SimulationRegion region)
@@ -20,19 +18,16 @@ namespace Code2015.BalanceSystem
            
         }
 
-        public float EmitCarbonSpeed
-        {
-            get;
-            set;
-        }
+        //public float EmitCarbonSpeed
+        //{
+        //    get;
+        //    set;
+        //}
      
-
-      
-        
-        public override void Update(GameTime time)
-        {
+        //public override void Update(GameTime time)
+        //{
          
-        }
+        //}
 
     }
 }

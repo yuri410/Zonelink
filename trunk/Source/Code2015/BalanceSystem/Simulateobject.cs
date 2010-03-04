@@ -74,6 +74,8 @@ namespace Code2015.BalanceSystem
         {
             Longitude = sect.GetSingle("Longitude");
             Latitude = sect.GetSingle("Latitude");
+
+            
         }
         #endregion
     }
