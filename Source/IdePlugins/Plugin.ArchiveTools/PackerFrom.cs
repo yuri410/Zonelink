@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using Apoc3D;
 using Apoc3D.Ide;
 using Apoc3D.Vfs;
-using SevenZip;
+//using SevenZip;
 
 namespace Plugin.ArchiveTools
 {
@@ -93,48 +93,74 @@ namespace Plugin.ArchiveTools
                 bw.Write(entries[i].Flag);
             }
 
-            CoderPropID[] propIDs = 
-			{ 
-				CoderPropID.DictionarySize,
-                CoderPropID.Algorithm
-			};
-            object[] properties = 
-			{
-				1048576*8,
-                2
-			};
-            SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
 
-            encoder.SetCoderProperties(propIDs, properties);
-
-            System.IO.MemoryStream propms = new System.IO.MemoryStream();
-            encoder.WriteCoderProperties (propms);
-            bw.Write((int)propms.Length);
-            propms.Close();
-            bw.Write(propms.ToArray());
+            #region 打包文件
 
             for (int i = 0; i < count; i++)
             {
-                entries[i].Offset = (int)bw.BaseStream.Position;
-
                 FileStream fs = new FileStream(coll[i].Text, FileMode.Open, FileAccess.Read);
-                System.IO.MemoryStream ms = new System.IO.MemoryStream((int)fs.Length / 2);
+                BinaryReader br = new BinaryReader(fs);
 
-                encoder.Code(fs, ms, -1, -1, null);
-
-                entries[i].Size = (int)fs.Length;
-                               
-                fs.Close();
-                ms.Close();
-
-                byte[] buffer = ms.ToArray();
-                bw.Write(buffer);
-                entries[i].CompressedSize = buffer.Length;
+                entries[i].Offset = (int)bw.BaseStream.Position;
+                entries[i].Size = (int)br.BaseStream.Length;
+                entries[i].CompressedSize = entries[i].Size;
                 entries[i].Flag = 0;
 
-                Application.DoEvents();
+                bw.Write(br.ReadBytes(entries[i].Size));
+
+                br.Close();
+
+                fs.Close();
+
+                Application.DoEvents(); 
                 progressBar1.Value = i + 1;
             }
+
+
+            //CoderPropID[] propIDs = 
+            //{ 
+            //    CoderPropID.DictionarySize,
+            //    CoderPropID.Algorithm
+            //};
+            //object[] properties = 
+            //{
+            //    1048576*8,
+            //    2
+            //};
+            //SevenZip.Compression.LZMA.Encoder encoder = new SevenZip.Compression.LZMA.Encoder();
+
+            //encoder.SetCoderProperties(propIDs, properties);
+
+            //System.IO.MemoryStream propms = new System.IO.MemoryStream();
+            //encoder.WriteCoderProperties (propms);
+            //bw.Write((int)propms.Length);
+            //propms.Close();
+            //bw.Write(propms.ToArray());
+
+            //for (int i = 0; i < count; i++)
+            //{
+            //    entries[i].Offset = (int)bw.BaseStream.Position;
+
+            //    FileStream fs = new FileStream(coll[i].Text, FileMode.Open, FileAccess.Read);
+            //    System.IO.MemoryStream ms = new System.IO.MemoryStream((int)fs.Length / 2);
+
+            //    encoder.Code(fs, ms, -1, -1, null);
+
+            //    entries[i].Size = (int)fs.Length;
+                               
+            //    fs.Close();
+            //    ms.Close();
+
+            //    byte[] buffer = ms.ToArray();
+            //    bw.Write(buffer);
+            //    entries[i].CompressedSize = buffer.Length;
+            //    entries[i].Flag = 0;
+
+            //    Application.DoEvents();
+            //    progressBar1.Value = i + 1;
+            //}
+            #endregion
+
 
             bw.Seek(oldPos, SeekOrigin.Begin);
 

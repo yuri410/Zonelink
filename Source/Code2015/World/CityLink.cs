@@ -14,7 +14,7 @@ namespace Code2015.World
     class CityLink : Entity
     {
         const float LinkBaseLength = 100;
-        const float LinkWidthScale = 0.0035f;
+        const float LinkWidthScale = 0.00065f;
         const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
         CityObject start;
@@ -26,12 +26,13 @@ namespace Code2015.World
             start = a;
             end = b;
 
-            FileLocation fl = FileSystem.Instance.Locate("link.mesh", GameFileLocs.Model);
+            FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
 
             float dist = Vector3.Distance(a.Position, b.Position);
 
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
+            ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY (MathEx.PiOver2) *
+                Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
            
 
             float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
@@ -44,8 +45,8 @@ namespace Code2015.World
 
             Orientation = ori;
 
-            Position = PlanetEarth.GetPosition(longitude, latitude,PlanetEarth.PlanetRadius + 150);
-
+            Position = 0.5f * (a.Position + b.Position);
+            
             BoundingSphere.Center = position;
             BoundingSphere.Radius = dist * 0.5f;
         }
