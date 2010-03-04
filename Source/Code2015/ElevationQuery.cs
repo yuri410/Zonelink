@@ -9,6 +9,21 @@ namespace Code2015
 {
     class ElevotionQuery
     {
+        static ElevotionQuery singleton;
+
+        public static ElevotionQuery Instance
+        {
+            get 
+            {
+                return singleton;
+            }
+        }
+
+        public static void Initialize()
+        {
+            singleton = new ElevotionQuery();
+        }
+
         byte[,] data;
         int width;
         int height;

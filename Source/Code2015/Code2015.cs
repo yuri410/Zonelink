@@ -90,6 +90,9 @@ namespace Code2015
             EffectManager.Instance.LoadEffects();
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
+
+            ElevotionQuery.Initialize();
+
             sprite = renderSys.ObjectFactory.CreateSprite();
 
             menu = new Menu(this, renderSys);
