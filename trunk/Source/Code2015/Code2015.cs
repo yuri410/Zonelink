@@ -15,6 +15,7 @@ using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
+using Apoc3D.Core;
 
 namespace Code2015
 {
@@ -105,6 +106,15 @@ namespace Code2015
         public void finalize()
         {
             sprite.Dispose();
+
+            TextureManager.Instance.Dispose();
+            ModelManager.Instance.Dispose();
+            EffectManager.Instance.Dispose();
+            TerrainMeshManager.Instance.Dispose();
+
+            FileSystem.Instance.Dispose();
+
+            EngineTimer.Dispose();
         }
 
 
