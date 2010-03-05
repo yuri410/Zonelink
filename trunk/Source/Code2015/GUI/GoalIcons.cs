@@ -15,8 +15,8 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
 
-        Point lastMousePos;
-        bool lastMouseLeft;
+        //Point lastMousePos;
+        //bool lastMouseLeft;
         IMdgSelection selectedItem;
 
         IMdgSelection SelectedItem
@@ -33,7 +33,8 @@ namespace Code2015.GUI
             }
         }
 
-
+        ScreenStaticBody panel;
+        ScreenStaticBody statBar;
 
         public GoalIcons(ScreenPhysicsWorld physWorld)
         {
@@ -43,34 +44,47 @@ namespace Code2015.GUI
 
             #region test
 
-            MdgResource res = new MdgResource(resources, physWorld, MdgType.ChildMortality, new Vector2(200, 300), 1);
-            resources.Add(res);
-            res = new MdgResource(resources, physWorld, MdgType.Environment, new Vector2(200, 500), 0);
-            resources.Add(res);
-            res = new MdgResource(resources, physWorld, MdgType.Diseases, new Vector2(200, 600), 0);
-            resources.Add(res);
-            res = new MdgResource(resources, physWorld, MdgType.Education, new Vector2(200, 400), 0);
-            resources.Add(res);
-            res = new MdgResource(resources, physWorld, MdgType.GenderEquality, new Vector2(200, 700), 0);
-            resources.Add(res);
-            res = new MdgResource(resources, physWorld, MdgType.Hunger, new Vector2(500, 300), 0);
-            resources.Add(res);
-            res = new MdgResource(resources, physWorld, MdgType.MaternalHealth, new Vector2(500, 400), 0);
-            resources.Add(res);
+
+            for (int i = 0; i < 5; i++)
+                for (int j = 0; j < 5; j++)
+                {
+                    int t = Randomizer.GetRandomInt((int)MdgType.Partnership);
+                    MdgResource res = new MdgResource(resources, physWorld, (MdgType)t, new Vector2(i * 100 + 400, j * 100), 0);
+                    resources.Add(res);
+                }
+           
+            //res = new MdgResource(resources, physWorld, MdgType.Environment, new Vector2(200, 500), 0);
+            //resources.Add(res);
+            //res = new MdgResource(resources, physWorld, MdgType.Diseases, new Vector2(200, 600), 0);
+            //resources.Add(res);
+            //res = new MdgResource(resources, physWorld, MdgType.Education, new Vector2(200, 400), 0);
+            //resources.Add(res);
+            //res = new MdgResource(resources, physWorld, MdgType.GenderEquality, new Vector2(200, 700), 0);
+            //resources.Add(res);
+            //res = new MdgResource(resources, physWorld, MdgType.Hunger, new Vector2(500, 300), 0);
+            //resources.Add(res);
+            //res = new MdgResource(resources, physWorld, MdgType.MaternalHealth, new Vector2(500, 400), 0);
+            //resources.Add(res);
 
 
 
-            MdgPiece pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 1, new Vector2(300, 300), 0);
-            resources.Add(pie);
+            //MdgPiece pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 1, new Vector2(300, 300), 0);
+            //resources.Add(pie);
 
-            pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 2, new Vector2(400, 300), 0);
-            resources.Add(pie);
+            //pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 2, new Vector2(400, 300), 0);
+            //resources.Add(pie);
 
-            pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 4, new Vector2(600, 300), 0);
-            resources.Add(pie);
+            //pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 4, new Vector2(600, 300), 0);
+            //resources.Add(pie);
 
 
             #endregion
+
+
+            panel = new ScreenStaticBody();
+
+            statBar = new ScreenStaticBody();
+            
         }
 
         public override void Render(Sprite sprite)
@@ -151,7 +165,7 @@ namespace Code2015.GUI
                     MdgPiece r1 = result as MdgPiece;
                     if (r1 != null)
                     {
-                        r1.Position = new Vector2(lastMousePos.X, lastMousePos.Y);
+                        r1.Position = new Vector2(MouseInput.X, MouseInput.Y);
                         SelectedItem = r1;
                         return true;
                     }
@@ -159,7 +173,7 @@ namespace Code2015.GUI
                     MdgResource r2 = result as MdgResource;
                     if (r2 != null)
                     {
-                        r2.Position = new Vector2(lastMousePos.X, lastMousePos.Y);
+                        r2.Position = new Vector2(MouseInput.X, MouseInput.Y);
                         SelectedItem = r2;
                         return true;
                     }
@@ -168,45 +182,33 @@ namespace Code2015.GUI
             return false;
         }
 
+
         public override void Update(GameTime time)
         {
-            XI.MouseState state = XI.Mouse.GetState();
-
-            if (state.LeftButton == XI.ButtonState.Pressed)
+            if (MouseInput.IsMouseDownLeft)
             {
-                if (!lastMouseLeft)//是否刚按下
-                {
-                    lastMouseLeft = true;
+                SelectedItem = HitTest(MouseInput.X, MouseInput.Y);
+            }
 
-                    SelectedItem = HitTest(state.X, state.Y);
-                    
-                }
-
+            if (MouseInput.IsLeftPressed)
+            {
                 if (SelectedItem != null)
                 {   
                     SelectedItem.Velocity = Vector2.Zero;
-                    SelectedItem.Position += new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y);
+                    SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
                 }
             }
-            else if (state.LeftButton == XI.ButtonState.Released) 
+            else if (MouseInput.IsMouseUpLeft)
             {
-                if (lastMouseLeft) //是否刚松开
+                if (SelectedItem != null)
                 {
-                    if (SelectedItem != null)
-                    {
-                        float dt = time.ElapsedGameTimeSeconds;
-                        if (dt > float.Epsilon)
-                            SelectedItem.Velocity = new Vector2(state.X - lastMousePos.X, state.Y - lastMousePos.Y) / (2 * dt);
+                    float dt = time.ElapsedGameTimeSeconds;
+                    if (dt > float.Epsilon)
+                        SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
 
-                        SelectedItem = null;
-                    }
-                    lastMouseLeft = false;
+                    SelectedItem = null;
                 }
             }
-
-            lastMousePos.X = state.X;
-            lastMousePos.Y = state.Y;
-
         }
     }
 }

@@ -8,7 +8,6 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
 using Code2015.World.Screen;
-using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
 {
@@ -34,11 +33,11 @@ namespace Code2015.GUI
         Texture btnoilref;
         Texture btnwoodfac;
 
-       
+
 
         Texture[] earth;
-       const int EarthFrameCount = 100;
-       const float RoundTime = 30;
+        const int EarthFrameCount = 100;
+        const float RoundTime = 30;
         Point mousePosition;
 
         int currentFrameIdx;
@@ -89,7 +88,7 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_btn_woodfac.tex", GameFileLocs.GUI);
             btnwoodfac = UITextureManager.Instance.CreateInstance(fl);
 
-           
+
 
             earth = new Texture[EarthFrameCount];
             for (int i = 0; i < EarthFrameCount; i++)
@@ -121,16 +120,14 @@ namespace Code2015.GUI
             sprite.Draw(btnoilref, 936, 595, ColorValue.White);
             sprite.Draw(btnwoodfac, 795, 528, ColorValue.White);
 
-          
+
         }
 
         public override void Update(GameTime time)
         {
-            XI.MouseState mstate = XI.Mouse.GetState();
-            mousePosition.X = mstate.X;
-            mousePosition.Y = mstate.Y;
-           
 
+            mousePosition.X = MouseInput.X;
+            mousePosition.Y = MouseInput.Y;
 
             cycleTime += time.ElapsedGameTimeSeconds;
             if (cycleTime >= RoundTime)

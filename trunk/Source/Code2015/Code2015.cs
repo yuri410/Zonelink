@@ -137,6 +137,7 @@ namespace Code2015
         /// <param name="time"></param>
         public void Update(GameTime time)
         {
+            MouseInput.Update(time);
             if (menu != null)
             {
                 menu.Update(time);
