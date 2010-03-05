@@ -33,8 +33,8 @@ namespace Code2015.World
 
             dir.Normalize();
 
-            Vector3 pa = a.Position + dir * CityObjectTRAdjust.Scaler * CityStyleTable.CityRadius[(int)a.Size];
-            Vector3 pb = b.Position - dir * CityObjectTRAdjust.Scaler * CityStyleTable.CityRadius[(int)b.Size];
+            Vector3 pa = a.Position + dir * CityStyleTable.CityRadius[(int)a.Size];
+            Vector3 pb = b.Position - dir * CityStyleTable.CityRadius[(int)b.Size];
 
 
             float dist = Vector3.Distance(pa, pb);

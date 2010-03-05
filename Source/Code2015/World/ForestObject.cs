@@ -9,13 +9,13 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.World
 {
-    class ForestObject : SceneObject
+    class ForestObject : SceneObject, ISelectableObject
     {
-        struct Tree 
-        {
-            public Matrix Transformation;
-            public Model Model;
-        }
+        //struct Tree 
+        //{
+        //    public Matrix Transformation;
+        //    public Model Model;
+        //}
 
         Forest forest;
 
@@ -41,5 +41,15 @@ namespace Code2015.World
         {
             get { return false; }
         }
+
+        #region ISelectableObject 成员
+
+        bool ISelectableObject.IsSelected
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 }

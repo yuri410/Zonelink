@@ -417,6 +417,7 @@
     <Compile Include="World\Atmosphere.cs" />
     <Compile Include="EngineEx\GameConfigurationSection.cs" />
     <Compile Include="Logic\GameState.cs" />
+    <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\Screen\MdgResource.cs" />
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />

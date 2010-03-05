@@ -29,7 +29,7 @@ namespace Code2015.GUI
 
         public bool Check(SceneObject obj)
         {
-            return obj is CityObject;
+            return obj is ISelectableObject;
         }
 
         public bool Check(OctreeSceneNode node)
@@ -150,11 +150,9 @@ namespace Code2015.GUI
                 SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
                 if (obj != null)
                 {
-                    CityObject city = obj as CityObject;
-                    if (city != null)
-                    {
-                        city.IsSelected = true;
-                    }
+                    ISelectableObject sel = obj as ISelectableObject;
+
+                    ingameui2.SelectedObject = sel;
                 }
             }
         }

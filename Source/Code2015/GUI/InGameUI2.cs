@@ -44,6 +44,29 @@ namespace Code2015.GUI
 
         float cycleTime;
 
+        ISelectableObject selected;
+
+        public ISelectableObject SelectedObject
+        {
+            get { return selected; }
+            set
+            {
+                if (!object.ReferenceEquals(selected, value))
+                {
+                    if (selected != null)
+                    {
+                        selected.IsSelected = false;
+                    }
+                    selected = value;
+
+                    if (selected != null)
+                    {
+                        selected.IsSelected = true;
+                    }
+                }
+            }
+        }
+
         public InGameUI2(Code2015 game, Game parent, GameScene scene)
         {
             this.parent = parent;
