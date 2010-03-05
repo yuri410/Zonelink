@@ -19,6 +19,11 @@ namespace Code2015.World
         RtsCamera camera;
         SceneRenderer renderer;
 
+        public RtsCamera Camera
+        {
+            get { return camera; }
+        }
+
         public SceneManagerBase Scene
         {
             get { return renderer.SceneManager; }
@@ -62,51 +67,51 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
-            XI.KeyboardState state = XI.Keyboard.GetState();
+            //XI.KeyboardState state = XI.Keyboard.GetState();
 
-            if (state.IsKeyDown(XI.Keys.W))
-            {
-                camera.MoveFront();
-            }
+            //if (state.IsKeyDown(XI.Keys.W))
+            //{
+            //    camera.MoveFront();
+            //}
 
-            if (state.IsKeyDown(XI.Keys.A))
-            {
-                camera.MoveLeft();
-            }
-            if (state.IsKeyDown(XI.Keys.D))
-            {
-                camera.MoveRight();
-            }
-            if (state.IsKeyDown(XI.Keys.S))
-            {
-                camera.MoveBack();
-            }
+            //if (state.IsKeyDown(XI.Keys.A))
+            //{
+            //    camera.MoveLeft();
+            //}
+            //if (state.IsKeyDown(XI.Keys.D))
+            //{
+            //    camera.MoveRight();
+            //}
+            //if (state.IsKeyDown(XI.Keys.S))
+            //{
+            //    camera.MoveBack();
+            //}
 
 
-            if (state.IsKeyDown(XI.Keys.Space))
-            {
-                camera.Height++;
-            }
-            if (state.IsKeyDown(XI.Keys.LeftControl))
-            {
-                camera.Height--;
-            }
+            //if (state.IsKeyDown(XI.Keys.Space))
+            //{
+            //    camera.Height++;
+            //}
+            //if (state.IsKeyDown(XI.Keys.LeftControl))
+            //{
+            //    camera.Height--;
+            //}
 
-            if (state.IsKeyDown(XI.Keys.Right))
-            {
-                camera.TurnRight();
-            }
-            if (state.IsKeyDown(XI.Keys.Left))
-            {
-                camera.TurnLeft();
-            }
-            if (state.IsKeyDown(XI.Keys.Up))
-            {
+            //if (state.IsKeyDown(XI.Keys.Right))
+            //{
+            //    camera.TurnRight();
+            //}
+            //if (state.IsKeyDown(XI.Keys.Left))
+            //{
+            //    camera.TurnLeft();
+            //}
+            //if (state.IsKeyDown(XI.Keys.Up))
+            //{
 
-            }
-            if (state.IsKeyDown(XI.Keys.Down))
-            {
-            }
+            //}
+            //if (state.IsKeyDown(XI.Keys.Down))
+            //{
+            //}
 
             renderer.Update(time);
         }

@@ -69,6 +69,12 @@ namespace Code2015
         bool isLoaded;
         int loadingCountDown = 100;
 
+        public GameScene Scene
+        {
+            get { return scene; }
+        }
+
+
         public bool IsLoaded
         {
             get

@@ -213,6 +213,17 @@ namespace Code2015.World
         static readonly string Ring_Inv = "cityring.mesh";
         static readonly string SelRing_Inv = "citysel.mesh";
 
+
+        public const float SmallCityRadius = 48;
+        public const float SmallCityRadiusRing = SmallCityRadius + 8;
+        public const float MediumCityRadius = 78;
+        public const float MediumCityRadiusRing = MediumCityRadius + 15;
+        public const float LargeCityRadius = 100;
+        public const float LargeCityRadiusRing = LargeCityRadius + 15;
+
+
+        public static readonly float[] CityRadius = new float[] { SmallCityRadius, MediumCityRadius, LargeCityRadius };
+
         CityStyleData[] styles;
         CityObjectTRAdjust[] adjusts;
 
@@ -301,15 +312,15 @@ namespace Code2015.World
             adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
 
             {
-                float s = CityObjectTRAdjust.Scaler * (48f + 8f) / RingRadius;
+                float s = CityObjectTRAdjust.Scaler * (SmallCityRadiusRing) / RingRadius;
                 adjusts[0].Ring[(int)UrbanSize.Small] = Matrix.Translation(22f, 0, 0) * Matrix.Scaling(s, 1, s);
                 adjusts[0].SelRing[(int)UrbanSize.Small] = adjusts[0].Ring[(int)UrbanSize.Small];
 
-                s = CityObjectTRAdjust.Scaler * (78f + 15f) / RingRadius;
+                s = CityObjectTRAdjust.Scaler * (MediumCityRadiusRing) / RingRadius;
                 adjusts[0].Ring[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
                 adjusts[0].SelRing[(int)UrbanSize.Medium] = adjusts[0].Ring[(int)UrbanSize.Medium];
 
-                s = CityObjectTRAdjust.Scaler * (100f + 15f) / RingRadius;
+                s = CityObjectTRAdjust.Scaler * (LargeCityRadiusRing) / RingRadius;
                 adjusts[0].Ring[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
                 adjusts[0].SelRing[(int)UrbanSize.Large] = adjusts[0].Ring[(int)UrbanSize.Large];
 
@@ -407,8 +418,17 @@ namespace Code2015.World
         {
             get { return city.Latitude; }
         }
+        public UrbanSize Size
+        {
+            get { return city.Size; }
+        }
 
 
+        public bool IsSelected
+        {
+            get;
+            set;
+        }
         public CityObject(RenderSystem rs, City city, CityStyleTable styleSet)
             : base(false)
         {
@@ -431,7 +451,7 @@ namespace Code2015.World
 
             Transformation = PlanetEarth.GetOrientation(radLong, radLat);
 
-            Transformation.TranslationValue = pos;//Matrix.RotationZ(-radLat) * Matrix.RotationX(-radLong) * 
+            Transformation.TranslationValue = pos;
 
             BoundingSphere.Radius = 200;
             BoundingSphere.Center = pos;
@@ -591,14 +611,27 @@ namespace Code2015.World
 
             {
                 ops = style.Ring[(int)city.Size].GetRenderOperation();
-                for (int j = 0; j < ops.Length; j++)
-                {
-                    ops[j].Material = ringMaterial;
-                    ops[j].Priority = RenderPriority.Third;
-                }
+
+
                 if (ops != null)
                 {
+                    for (int j = 0; j < ops.Length; j++)
+                    {
+                        ops[j].Material = ringMaterial;
+                        ops[j].Priority = RenderPriority.Third;
+                    }
                     opBuffer.Add(ops);
+                }
+            }
+
+            {
+                if (IsSelected)
+                {
+                    ops = style.SelRing[(int)city.Size].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
             }
 

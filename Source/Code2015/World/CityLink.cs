@@ -29,9 +29,17 @@ namespace Code2015.World
             FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
 
-            float dist = Vector3.Distance(a.Position, b.Position);
+            Vector3 dir = b.Position - a.Position;
 
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY (MathEx.PiOver2) *
+            dir.Normalize();
+
+            Vector3 pa = a.Position + dir * CityObjectTRAdjust.Scaler * CityStyleTable.CityRadius[(int)a.Size];
+            Vector3 pb = b.Position - dir * CityObjectTRAdjust.Scaler * CityStyleTable.CityRadius[(int)b.Size];
+
+
+            float dist = Vector3.Distance(pa, pb);
+
+            ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY(MathEx.PiOver2) *
                 Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
            
 
@@ -39,13 +47,13 @@ namespace Code2015.World
             float latitude = MathEx.Degree2Radian(0.5f * (a.Latitude + b.Latitude));
 
             Matrix ori = Matrix.Identity;
-            ori.Right = Vector3.Normalize(a.Position - b.Position);
+            ori.Right = Vector3.Normalize(pa - pb);
             ori.Up = PlanetEarth.GetNormal(longitude, latitude);
             ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
 
             Orientation = ori;
 
-            Position = 0.5f * (a.Position + b.Position);
+            Position = 0.5f * (pa + pb);
             
             BoundingSphere.Center = position;
             BoundingSphere.Radius = dist * 0.5f;

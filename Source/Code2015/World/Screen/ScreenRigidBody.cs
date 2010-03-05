@@ -51,6 +51,7 @@ namespace Code2015.World.Screen
 
         Vector2 position;
         Vector2 velocity;
+        Vector2 force;
         float angularVel;
 
         float mass;
@@ -81,7 +82,17 @@ namespace Code2015.World.Screen
                 inertia = 4 * mass * radius * radius;
             }
         }
+        public bool IsColliding
+        {
+            get;
+            set;
+        }
 
+        public Vector2 Force
+        {
+            get { return force; }
+            set { force = value; }
+        }
         public Vector2 Velocity
         {
             get { return velocity; }
@@ -107,7 +118,12 @@ namespace Code2015.World.Screen
 
         public void Integrate(float dt)
         {
+            IsColliding = false;
+
             orientation += angularVel * dt;
+
+            velocity += force / mass;
+            force = new Vector2();
 
             position += velocity * dt;
 

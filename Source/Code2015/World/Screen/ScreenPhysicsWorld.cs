@@ -75,8 +75,8 @@ namespace Code2015.World.Screen
 
             float vrn = Vector2.Dot(va, n);
 
-            if (vrn >= 0)
-                vrn -= depth * invdt;
+            //if (vrn >= 0)
+                vrn -= depth;
 
             if (vrn < 0)
             {
@@ -110,6 +110,7 @@ namespace Code2015.World.Screen
                 }
 
                 bodyA.ApplyImpulse(impulseVec, collPos);
+                bodyA.IsColliding = false;
             }
         }
 
@@ -199,6 +200,8 @@ namespace Code2015.World.Screen
 
                                 bodyA.ApplyImpulse(impulseVec, collPos);
                                 bodyB.ApplyImpulse(-impulseVec, collPos);
+                                bodyA.IsColliding = false;
+                                bodyB.IsColliding = false;
                             }
                         }
                     }
@@ -331,6 +334,9 @@ namespace Code2015.World.Screen
 
         public void Update(GameTime time)
         {
+            float h_wid = 0.5f * bounds.Width;
+            float h_hgt = 0.5f * bounds.Height;
+
             float dt = time.ElapsedGameTimeSeconds;
             if (dt > float.Epsilon)
             {
@@ -338,6 +344,32 @@ namespace Code2015.World.Screen
                     dt = 0.05f;
                 for (int i = 0; i < bodies.Count; i++)
                 {
+                    if (!bodies[i].IsColliding)
+                    {
+                        float x = bodies[i].Position.X;
+
+                        if (x < h_wid)
+                        {
+                            float r = (bodies[i].Position.X) / (float)bounds.Width;
+                            float r2 = 1 - r * r;
+                            if (r2 > float.Epsilon)
+                            {
+                                Vector2 f1 = Vector2.UnitX * (1 / r2);
+                                bodies[i].Force -= f1;
+                            }
+                        }
+                        else
+                        {
+                            float r = ((float)bounds.Width - bodies[i].Position.X) / (float)bounds.Width;
+                            float r2 = 1 - r * r;
+                            if (r2 > float.Epsilon)
+                            {
+                                Vector2 f1 = Vector2.UnitX * (1 / r2);
+                                bodies[i].Force += f1;
+                            }
+                        }
+                    }
+
                     bodies[i].Integrate(dt);
                 }
                 Collision(dt);
