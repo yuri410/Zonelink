@@ -97,7 +97,7 @@ namespace Code2015.BalanceSystem
         public const float LargeRefPop = 1000;
         #endregion
 
-
+        #region 食物自采集速度
         [SLGValue]
         public const int SmallFoodCollectSpeed = 10;
         [SLGValue]
@@ -110,7 +110,19 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float MediumGatherRadius = 2 ;
         [SLGValue]
-        public const float LargeGatherRadius = 3 ;
+        public const float LargeGatherRadius = 3;
+        #endregion
+
+        #region 城市占领分数
+        [SLGValue()]
+        public const float LargeCityCapturePoint = 100000;
+
+        [SLGValue()]
+        public const float MediumCityCapturePoint = 10000;
+
+        [SLGValue()]
+        public const float SmallCityCapturePoint = 1000;
+        #endregion
 
         static readonly float[] GatherRadius = { SmallGatherRadius, MediumGatherRadius, LargeGatherRadius };
 
@@ -129,6 +141,9 @@ namespace Code2015.BalanceSystem
 
         [SLGValue]
         public const float CityDeathThreshold = 0.1f;
+
+
+
 
 
         public static float GetGatherRadius(UrbanSize citySize)

@@ -140,6 +140,30 @@ namespace Code2015.BalanceSystem
         Large = 2
     }
 
+    /// <summary>
+    ///  表示城市占领的状态
+    /// </summary>
+    public class CaptureState
+    {
+        /// <summary>
+        ///  即将占领的玩家
+        /// </summary>
+        public Player NewOwner
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
+        ///  占领进度
+        /// </summary>
+        public float CaputreProgress
+        {
+            get;
+            private set;
+        }
+
+    }
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
     public delegate void NearbyCityAddedHandler(City city,City srcCity);
@@ -160,7 +184,7 @@ namespace Code2015.BalanceSystem
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
         [SLGValue]
-        const float DevBias = 0;
+        const float DevBias = -0.1f;
 
         /// <summary>
         ///  表示城市的附加设施
@@ -205,6 +229,12 @@ namespace Code2015.BalanceSystem
 
 
         #region  属性
+        public CaptureState Capture
+        {
+            get;
+            private set;
+        }
+
         public Player Owner
         {
             get;
@@ -212,7 +242,7 @@ namespace Code2015.BalanceSystem
         }
         public bool IsDead
         {
-            get { return Population < 0.1f; }
+            get { return Population < CityGrade.CityDeathThreshold; }
         }
 
         public CultureId Culture 
