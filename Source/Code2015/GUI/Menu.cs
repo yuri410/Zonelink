@@ -72,6 +72,7 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
             start = UITextureManager.Instance.CreateInstance(fl);
 
+
             #region 配置按钮
             startButton = new RoundButton();
             startButton.X = StartBtnX;
@@ -117,6 +118,7 @@ namespace Code2015.GUI
             #endregion
 
 
+
         }
 
         void ExitButton_Click(object sender, MouseButtonFlags btn)
@@ -131,12 +133,12 @@ namespace Code2015.GUI
             if (btn == MouseButtonFlags.Left)
             {
                 GameCreationParameters gcp = new GameCreationParameters();
-
                 gcp.Player1 = new Player("test");
                 gcp.Player1.SideColor = ColorValue.Red;
                 game.StartNewGame(gcp);
             }
         }
+
 
         public void Render()
         {
@@ -159,14 +161,13 @@ namespace Code2015.GUI
                 sprite.SetTransform(Matrix.Identity);
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             }
+
         }
-
-        
-
         public override void Update(GameTime time)
         {
             mousePosition.X = MouseInput.X;
-            mousePosition.Y = MouseInput.Y;
+            mousePosition.Y = MouseInput.Y
+            fps = time.FramesPerSecond;
 
             if (!game.IsIngame)
             {
@@ -174,11 +175,8 @@ namespace Code2015.GUI
                 creditButton.Update(time);
                 exitButton.Update(time);
                 helpButton.Update(time);
-
+                fps = time.FramesPerSecond;
             }
-
-
-            fps = time.FramesPerSecond;
 
         }
     }

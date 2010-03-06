@@ -226,13 +226,13 @@
   </Balkanabat>
 
   <!--法国-->
-  <Paris>
+  <!--<Paris>
     <Name>Paris</Name>
     <Longitude>2.35083</Longitude>
     <Latitude>48.8567</Latitude>
     <Size>Large</Size>
     <Population>1176</Population>
-  </Paris>
+  </Paris>-->
 
   <Toulouse>
     <Name>Toulouse</Name>
