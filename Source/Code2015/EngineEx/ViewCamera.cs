@@ -136,7 +136,7 @@ namespace Code2015.EngineEx
             }
             set
             {
-                if (value >= 10 && value < 90)
+                if (value >= 30 && value < 75)
                 {
                     yaw = MathEx.Degree2Radian(height) - MathEx.PiOver2;
 
@@ -153,11 +153,20 @@ namespace Code2015.EngineEx
         {
             longitude -= (float)Math.Sin(rotation) * dMoveSpeed;
             latitude += (float)Math.Cos(rotation) * dMoveSpeed;
+            if (latitude > MathEx.PIf * 5 / 18f)
+                latitude = MathEx.PIf * 5 / 18f;
+            if (latitude < -MathEx.PIf * 5 / 18f)
+                latitude = -MathEx.PIf * 5 / 18f;
+
         }
         public void MoveBack()
         {
             longitude += (float)Math.Sin(rotation) * dMoveSpeed;
             latitude -= (float)Math.Cos(rotation) * dMoveSpeed;
+            if (latitude > MathEx.PIf * 5 / 18f)
+                latitude = MathEx.PIf * 5 / 18f;
+            if (latitude < -MathEx.PIf * 5 / 18f)
+                latitude = -MathEx.PIf * 5 / 18f;
         }
 
         public void MoveLeft()
