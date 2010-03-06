@@ -8,6 +8,8 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
+
+
     public class CityPlugin : IUpdatable
     {
         City parent;
@@ -19,12 +21,18 @@ namespace Code2015.BalanceSystem
             this.Name = type.TypeName;
             this.type = type;
         }
+        #region  属性
 
         public CityPluginType Type 
         {
             get { return type; }
         }
-        #region  属性
+
+        public float UpgradeProgress
+        {
+            get;
+            set;
+        }
 
         public string Name
         {

@@ -25,6 +25,7 @@ namespace Code2015.GUI
                 return singleton;
             }
         }
+    
         #region IObjectFilter 成员
 
         public bool Check(SceneObject obj)

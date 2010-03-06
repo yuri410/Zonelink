@@ -98,6 +98,20 @@
     <Compile Include="BalanceSystem\Forest.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />
     <Compile Include="Effect.lpk\CityLinkEffect.cs" />
+    <Compile Include="GUI\Controls\Control.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\Controls\RoundButton.cs">
+    </Compile>
+    <Compile Include="GUI\Controls\ImageControl.cs" />
+    <Compile Include="GUI\Controls\Label.cs">
+    </Compile>
+    <Compile Include="GUI\Controls\TextBox.cs">
+    </Compile>
+    <Compile Include="GUI\Controls\TextControl.cs">
+    </Compile>
+    <Compile Include="GUI\Controls\Trackbar.cs">
+    </Compile>
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>

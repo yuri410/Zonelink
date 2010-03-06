@@ -6,9 +6,15 @@ using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
 {
-    public enum MouseButton { Left, Middle, Right };
+    public enum MouseButtonFlags
+    {
+        None,
+        Left = 1,
+        Middle = 1 << 1,
+        Right = 1 << 2
+    };
 
-    public delegate void MouseClickHandler(MouseButton mouse, int x, int y);
+    public delegate void MouseClickHandler(MouseButtonFlags mouse, int x, int y);
     static class MouseInput
     {
         /// <summary>
@@ -104,7 +110,7 @@ namespace Code2015.GUI
             {
                 if (MouseDown != null)
                 {
-                    MouseDown(MouseButton.Left, currentState.X, currentState.Y);
+                    MouseDown(MouseButtonFlags.Left, currentState.X, currentState.Y);
                 }
                 IsMouseDownLeft = true;
             }
@@ -113,7 +119,7 @@ namespace Code2015.GUI
             {
                 if (MouseDown != null)
                 {
-                    MouseDown(MouseButton.Middle, currentState.X, currentState.Y);
+                    MouseDown(MouseButtonFlags.Middle, currentState.X, currentState.Y);
                 }
             }
             if (currentState.RightButton == XI.ButtonState.Pressed &&
@@ -121,7 +127,7 @@ namespace Code2015.GUI
             {
                 if (MouseDown != null)
                 {
-                    MouseDown(MouseButton.Right, currentState.X, currentState.Y);
+                    MouseDown(MouseButtonFlags.Right, currentState.X, currentState.Y);
                 }
                 IsMouseDownRight = true;
             }
@@ -131,7 +137,7 @@ namespace Code2015.GUI
             {
                 if (MouseUp != null)
                 {
-                    MouseUp(MouseButton.Left, currentState.X, currentState.Y);
+                    MouseUp(MouseButtonFlags.Left, currentState.X, currentState.Y);
                 }
                 IsMouseUpLeft = true;
             }
@@ -140,7 +146,7 @@ namespace Code2015.GUI
             {
                 if (MouseUp != null)
                 {
-                    MouseUp(MouseButton.Middle, currentState.X, currentState.Y);
+                    MouseUp(MouseButtonFlags.Middle, currentState.X, currentState.Y);
                 }
             }
             if (currentState.RightButton == XI.ButtonState.Released &&
@@ -148,7 +154,7 @@ namespace Code2015.GUI
             {
                 if (MouseUp != null)
                 {
-                    MouseUp(MouseButton.Right, currentState.X, currentState.Y);
+                    MouseUp(MouseButtonFlags.Right, currentState.X, currentState.Y);
                 }
                 IsMouseUpRight = true;
             }
