@@ -64,7 +64,7 @@ namespace Code2015.World
         {
             this.Size = size;
 
-            geoData = new GeomentryData(null);
+            geoData = new GeomentryData();
 
             ObjectFactory fac = rs.ObjectFactory;
 
@@ -129,7 +129,7 @@ namespace Code2015.World
             #endregion
 
             #region 构造GeomentryData
-            geoData = new GeomentryData(null);
+            geoData = new GeomentryData();
             geoData.VertexDeclaration = vtxDecl;
 
             geoData.VertexSize = WaterVertex.Size;

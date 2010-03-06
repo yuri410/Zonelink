@@ -97,16 +97,28 @@ namespace Apoc3D.Graphics.Effects
             vtxShader.SetValue("mvp", ref mvp);
             vtxShader.SetValue("world", ref op.Transformation);
 
-            CityOwnerRing ring = op.Geomentry.Sender as CityOwnerRing;
-            pixShader.SetValue("weights", new Vector4(0.5f, 0.2f, 0.2f, 0.1f));
+            object sdr = op.Sender;
+            bool passed = false;
+            if (sdr != null)
+            {
+                CityOwnerRing ring = sdr as CityOwnerRing;
 
-            Matrix colors = new Matrix();
-            colors.SetRow(0, new Vector4(1, 0, 0, 1));
-            colors.SetRow(1, new Vector4(0, 1, 0, 1));
-            colors.SetRow(2, new Vector4(0, 0, 1, 1));
-            colors.SetRow(3, new Vector4(1, 1, 0, 1));
-            pixShader.SetValue("ownerColors", colors);
+                if (ring != null)
+                {
+                    pixShader.SetValue("weights", ring.GetWeights());
 
+                    pixShader.SetValue("ownerColors", ring.GetColorMatrix());
+                    passed = true;
+
+                }
+            }
+            if (!passed)
+            {
+                pixShader.SetValue("weights", new Vector4());
+
+                pixShader.SetValue("ownerColors", CityOwnerRing.WhiteMatrix);
+            }
+            
 
             if (!stateSetted)
             {

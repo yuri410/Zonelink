@@ -398,6 +398,7 @@ namespace Code2015.World
 
         City city;
         CityStyle style;
+        CityOwnerRing sideRing;
 
         Material ringMaterial;
 
@@ -436,8 +437,18 @@ namespace Code2015.World
             get { return city.Size; }
         }
 
-        
-
+        public bool IsCapturing 
+        {
+            get { return city.Capture.IsCapturing; }
+        }
+        public CaptureState Capture 
+        {
+            get { return city.Capture; }
+        }
+        public Player Owner
+        {
+            get { return city.Owner; }
+        }
         bool ISelectableObject.IsSelected
         {
             get { return isSelected; }
@@ -483,6 +494,7 @@ namespace Code2015.World
                 ringMaterial.CullMode = CullMode.None;
                 ringMaterial.ZEnabled = true;
                 ringMaterial.ZWriteEnabled = true;
+                ringMaterial.PriorityHint = RenderPriority.Third;
 
                 FileLocation fl = FileSystem.Instance.Locate("cityring.tex", GameFileLocs.Texture);
                 ringMaterial.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
@@ -491,7 +503,9 @@ namespace Code2015.World
                 if (city.Owner != null)
                     City_OwnerChanged(city.Owner);
             }
+            sideRing = new CityOwnerRing(this, style);
 
+            // 测试代码
             switch (city.Size)
             {
                 case UrbanSize.Small:
@@ -629,33 +643,21 @@ namespace Code2015.World
                 }
             }
 
+            if (isSelected)
             {
-                ops = style.Ring[(int)city.Size].GetRenderOperation();
-
-
+                ops = style.SelRing[(int)city.Size].GetRenderOperation();
                 if (ops != null)
                 {
-                    for (int j = 0; j < ops.Length; j++)
-                    {
-                        ops[j].Material = ringMaterial;
-                        ops[j].Priority = RenderPriority.Third;
-                    }
                     opBuffer.Add(ops);
                 }
             }
 
+            if (Owner != null)
             {
-                if (isSelected)
+                ops = sideRing.GetRenderOperation();
+                if (ops != null)
                 {
-                    ops = style.SelRing[(int)city.Size].GetRenderOperation();
-                    if (ops != null)
-                    {
-                        for (int j = 0; j < ops.Length; j++)
-                        {
-                            ops[j].Priority = RenderPriority.Third;
-                        }
-                        opBuffer.Add(ops);
-                    }
+                    opBuffer.Add(ops);
                 }
             }
 

@@ -194,7 +194,7 @@ namespace Code2015.EngineEx
             material.Diffuse = new Color4F(1f, 1f, 1f, 1f);
             material.Specular = new Color4F(0, 0, 0, 0);
             material.Power = 1;
-            
+            material.PriorityHint = RenderPriority.Second;
             material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);
@@ -431,7 +431,7 @@ namespace Code2015.EngineEx
                 #endregion
 
                 #region 构造GeomentryData
-                defGeometryData = new GeomentryData(this);
+                defGeometryData = new GeomentryData();
                 defGeometryData.VertexDeclaration = vtxDecl;
 
                 defGeometryData.VertexSize = TerrainVertex.Size;
@@ -508,7 +508,7 @@ namespace Code2015.EngineEx
                         // 为这个block创建特殊的IB
                     }
 
-                    GeomentryData gd = new GeomentryData(this);
+                    GeomentryData gd = new GeomentryData();
                     gd.VertexDeclaration = vtxDecl;
 
                     gd.VertexSize = TerrainVertex.Size;
@@ -655,7 +655,7 @@ namespace Code2015.EngineEx
                                         op.Geomentry.VertexCount = levelVertexCount[lodLevel];
 
                                         op.Transformation = Matrix.Identity;
-                                        op.Priority = RenderPriority.Second;
+                                        op.Sender = this;
                                         opBuffer.Add(op);
                                     }
                                 }
@@ -673,7 +673,7 @@ namespace Code2015.EngineEx
                     op.Geomentry = defGeometryData;
 
                     op.Transformation = Matrix.Identity;
-                    op.Priority = RenderPriority.Second;
+                    op.Sender = this; 
                     opBuffer.Add(op);
                 }
             }
