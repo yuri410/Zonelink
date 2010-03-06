@@ -10,6 +10,7 @@ using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.Collections;
 
 namespace Code2015
 {
@@ -74,7 +75,6 @@ namespace Code2015
             get { return scene; }
         }
 
-
         public bool IsLoaded
         {
             get
@@ -93,22 +93,28 @@ namespace Code2015
             }
         }
 
+        public Player HumanPlayer
+        {
+            get;
+            private set;
+        }
+
         Player[] GetLocalPlayers(GameCreationParameters gcp)
         {
             List<Player> list = new List<Player>();
-            if (gcp.Player1 !=null && gcp.Player1.IsLocal) 
+            if (gcp.Player1 !=null && gcp.Player1.Type != PlayerType.Remote) 
             {
                 list.Add(gcp.Player1);
             }
-            if (gcp.Player2 !=null && gcp.Player2.IsLocal)
+            if (gcp.Player2 != null && gcp.Player2.Type != PlayerType.Remote)
             {
                 list.Add(gcp.Player2);
             }
-            if (gcp.Player3 != null && gcp.Player3.IsLocal)
+            if (gcp.Player3 != null && gcp.Player3.Type != PlayerType.Remote)
             {
                 list.Add(gcp.Player3);
             }
-            if (gcp.Player4 != null && gcp.Player4.IsLocal) 
+            if (gcp.Player4 != null && gcp.Player4.Type != PlayerType.Remote) 
             {
                 list.Add(gcp.Player4);
             }
@@ -127,11 +133,11 @@ namespace Code2015
 
 
             gameState = new GameState(stateBuilder, GetLocalPlayers(gcp));
-
+            
 
             // 初始化场景
-            this.scene = new GameScene(renderSys);
             this.cityStyles = new CityStyleTable(renderSys);
+            this.scene = new GameScene(renderSys);
 
             SimulationRegion slgSystem = gameState.SLGWorld;
             for (int i = 0; i < slgSystem.Count; i++)
@@ -143,13 +149,16 @@ namespace Code2015
                 {
                     CityObject cityObj = new CityObject(renderSys, city, cityStyles);
 
+                    cityObj.CityVisible += scene.City_Visible;
+
                     scene.Scene.AddObjectToScene(cityObj);
                 }
             }
-
           
             this.ingameUI = new InGameUI(game, this, scene);
         }
+
+
 
         public void Render(Sprite sprite)
         {

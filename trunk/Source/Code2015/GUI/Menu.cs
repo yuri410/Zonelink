@@ -3,12 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using XI = Microsoft.Xna.Framework.Input;
-using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI
 {
@@ -37,6 +36,9 @@ namespace Code2015.GUI
         //const int StartBtnCenterX = StartBtnLTX + StartBtnRadius;
         //const int StartBtnCenterY = StartBtnLTY + StartBtnRadius;
         const int StartBtnRadius = 64;
+        const int ExitBtnRadius = 64;
+        const int CreditBtnRadius = 64;
+        const int HelpBtnRadius = 64;
 
 
         const int ExitBtnX = 79;
@@ -87,7 +89,7 @@ namespace Code2015.GUI
             exitButton.Y = ExitBtnY;
             exitButton.Radius = 64;
             exitButton.Image = exit;
-            exitButton.ImageMouseOver = start;
+            exitButton.ImageMouseOver = exit;
             exitButton.Enabled = true;
             exitButton.IsValid = true;
 
@@ -99,7 +101,7 @@ namespace Code2015.GUI
             creditButton.Y = CreditBtnY;
             creditButton.Radius = 64;
             creditButton.Image = credits;
-            creditButton.ImageMouseOver = start;
+            creditButton.ImageMouseOver = credits;
             creditButton.Enabled = true;
             creditButton.IsValid = true;
 
@@ -109,7 +111,7 @@ namespace Code2015.GUI
             helpButton.Y = HelpBtnY;
             helpButton.Radius = 64;
             helpButton.Image = help;
-            helpButton.ImageMouseOver = start;
+            helpButton.ImageMouseOver = help;
             helpButton.Enabled = true;
             helpButton.IsValid = true;
             #endregion
@@ -147,26 +149,12 @@ namespace Code2015.GUI
 
             if (!game.IsIngame)
             {
-                
                 font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
-                //Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
-                //Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
-
-                //float s = Vector2.Distance(pa, pb);
-
-                //if (s < StartBtnRadius)
-                //    sprite.Draw(start, 428, 304, ColorValue.Red);
-                //else 
-                //    sprite.Draw(start, 428, 304, ColorValue.White);
                 startButton.Render(sprite);
                 creditButton.Render(sprite);
                 exitButton.Render(sprite);
                 helpButton.Render(sprite);
-                //sprite.Draw(credits, CreditBtnX, CreditBtnY, ColorValue.White);
-                //sprite.Draw(exit, ExitBtnX, ExitBtnY, ColorValue.White);
-               
-                //sprite.Draw(help, 672, 166, ColorValue.White);
 
                 sprite.SetTransform(Matrix.Identity);
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);

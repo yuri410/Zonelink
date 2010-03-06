@@ -9,6 +9,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
 using Code2015.World.Screen;
+using Code2015.Logic;
 
 namespace Code2015.GUI
 {
@@ -61,6 +62,8 @@ namespace Code2015.GUI
 
         InGameUI2 ingameui2;
 
+        Player player;
+
         public ScreenPhysicsWorld PhysicsWorld
         {
             get { return physWorld; }
@@ -76,7 +79,7 @@ namespace Code2015.GUI
             this.scene = scene;
             this.physWorld = new ScreenPhysicsWorld();
 
-            
+            this.player = parent.HumanPlayer;
 
             this.icons = new GoalIcons(physWorld);
 

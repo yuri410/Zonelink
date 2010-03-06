@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Config;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
@@ -15,7 +16,6 @@ using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
-using Apoc3D.Core;
 
 namespace Code2015
 {
