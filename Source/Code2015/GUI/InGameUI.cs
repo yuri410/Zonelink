@@ -56,6 +56,7 @@ namespace Code2015.GUI
         GoalIcons icons;
 
         ScreenPhysicsWorld physWorld;
+        Texture background;
 
         Texture cursor;
         Point mousePosition;
@@ -89,6 +90,9 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
+            background = UITextureManager.Instance.CreateInstance(fl);
+
             this.ingameui2 = new InGameUI2(game, parent, scene);
         }
 
@@ -97,6 +101,8 @@ namespace Code2015.GUI
             if (!parent.IsLoaded)
             {
                 font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, -1);
+
+                sprite.Draw(background, 0, 0, ColorValue.LightGray);
             }
             else
             {
