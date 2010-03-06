@@ -148,21 +148,49 @@ namespace Code2015.BalanceSystem
         /// <summary>
         ///  即将占领的玩家
         /// </summary>
-        public Player NewOwner
+        public Player NewOwner1
         {
             get;
             private set;
         }
-
+        public Player NewOwner2
+        {
+            get;
+            private set;
+        }
+        public Player NewOwner3
+        {
+            get;
+            private set;
+        }
+        public Player NewOwner4
+        {
+            get;
+            private set;
+        }
         /// <summary>
         ///  占领进度
         /// </summary>
-        public float CaputreProgress
+        public float CaputreProgress1
         {
             get;
             private set;
         }
-
+        public float CaputreProgress2
+        {
+            get;
+            private set;
+        }
+        public float CaputreProgress3
+        {
+            get;
+            private set;
+        }
+        public float CaputreProgress4
+        {
+            get;
+            private set;
+        }
     }
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);

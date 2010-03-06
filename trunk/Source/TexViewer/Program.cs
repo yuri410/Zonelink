@@ -27,7 +27,10 @@ namespace ModelStudio
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
 
+
             FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
+
+            // zou jia's res dir
             FileSystem.Instance.AddWorkingDir(@"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Code2015\bin\x86\Debug");
 
 

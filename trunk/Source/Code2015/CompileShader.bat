@@ -19,3 +19,6 @@ fxc Effect.lpk\atmosphere.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\atmosphere.cps
 
 fxc Effect.lpk\citylink.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\citylink.cvs /Zpr
 fxc Effect.lpk\citylink.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\citylink.cps /Zpr
+
+fxc Effect.lpk\cityring.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\cityring.cvs /Zpr
+fxc Effect.lpk\cityring.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\cityring.cps /Zpr
