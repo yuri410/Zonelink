@@ -116,7 +116,12 @@
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\InGameUI2.cs" />
+    <Compile Include="GUI\InGameUI2.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="GUI\Menu.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
@@ -388,9 +393,6 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\GoalIcons.cs" />
-    <Compile Include="GUI\Menu.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GUI\UIComponent.cs">
       <SubType>Code</SubType>
     </Compile>

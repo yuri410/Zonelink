@@ -93,7 +93,9 @@ namespace Code2015.GUI
             this.scene = scene;
 
 
+
             this.camera = scene.Camera;
+
 
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
@@ -157,6 +159,7 @@ namespace Code2015.GUI
 
             //sprite.SetTransform(Matrix.Identity);
             //sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+            
             sprite.Draw(statusBar, 130, 0, ColorValue.White);
             sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
             sprite.Draw(selimglarge, 785, 575, ColorValue.White);
@@ -177,8 +180,12 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
 
+         
+          
+
             mousePosition.X = MouseInput.X;
             mousePosition.Y = MouseInput.Y;
+
 
             cycleTime += time.ElapsedGameTimeSeconds;
             if (cycleTime >= RoundTime)
