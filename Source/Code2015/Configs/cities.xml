@@ -19,7 +19,7 @@
 
   <Wuhan>
     <Name>Wuhan</Name>
-    <Longitude>144.305</Longitude>
+    <Longitude>114.305</Longitude>
     <Latitude>30.5097222</Latitude>
     <Size>Medium</Size>
     <Population>970</Population>
@@ -35,7 +35,7 @@
 
   <Guangzhou>
     <Name>Guangzhou</Name>
-    <Longitude>131.2641</Longitude>
+    <Longitude>113.2641</Longitude>
     <Latitude>23.1289</Latitude>
     <Size>Medium</Size>
     <Population>935</Population>
