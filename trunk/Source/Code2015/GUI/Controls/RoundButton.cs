@@ -8,8 +8,7 @@ namespace Apoc3D.GUI.Controls
 {
     public class RoundButton : TextControl
     {
-        public RoundButton(Apoc3D.Graphics.RenderSystem rs)
-            : base(rs)
+        public RoundButton()
         {
 
         }

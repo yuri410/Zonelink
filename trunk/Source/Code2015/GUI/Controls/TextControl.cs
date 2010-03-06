@@ -8,8 +8,7 @@ namespace Apoc3D.GUI.Controls
 {
     public abstract class TextControl : Control
     {
-        protected TextControl(Apoc3D.Graphics.RenderSystem rs)
-            : base(rs)
+        protected TextControl()
         {
             Text = string.Empty;
         }

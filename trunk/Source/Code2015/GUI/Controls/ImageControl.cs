@@ -12,8 +12,7 @@ namespace Apoc3D.GUI.Controls
         Texture image;
 
 
-        public ImageControl(Apoc3D.Graphics.RenderSystem rs)
-            : base(rs)
+        public ImageControl()
         {
         }
 

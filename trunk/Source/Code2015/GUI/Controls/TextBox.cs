@@ -11,8 +11,7 @@ namespace Apoc3D.GUI.Controls
 
         
 
-        public TextBox(Apoc3D.Graphics.RenderSystem rs)
-            : base(rs)
+        public TextBox()
         {
             IsInputControl = true;
             Text = string.Empty;

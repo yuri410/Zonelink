@@ -101,6 +101,7 @@
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\Controls\ProgressBar.cs" />
     <Compile Include="GUI\Controls\RoundButton.cs">
     </Compile>
     <Compile Include="GUI\Controls\ImageControl.cs" />

@@ -56,7 +56,7 @@ namespace Apoc3D.GUI.Controls
         public event MouseWheelHandler MouseWheel;
         
 
-        protected Control( Apoc3D.Graphics.RenderSystem renderSys)
+        protected Control()
         {
 
             //txtHint = TextRenderingHint.ClearTypeGridFit;

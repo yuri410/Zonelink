@@ -57,10 +57,9 @@ namespace Apoc3D.GUI.Controls
         }
 
 
-        public Trackbar(Apoc3D.Graphics.RenderSystem rs)
-            : base(rs)
+        public Trackbar()
         {
-            lbl = new Label(rs);
+            lbl = new Label();
             lbl.AutoSize = false;
 
             //Rectangle rect = Bounds;
