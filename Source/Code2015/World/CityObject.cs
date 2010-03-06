@@ -89,7 +89,7 @@ namespace Code2015.World
             for (int i = 0; i < SelRing.Length; i++)
                 SelRing[i] = new Model(data.SelRing[i]);
 
-            
+
 
             PluginTranslate = new float[3];
 
@@ -384,6 +384,8 @@ namespace Code2015.World
         P4 = 1 << 3
     }
 
+    public delegate void CityVisibleHander(CityObject obj);
+
     public class CityObject : SceneObject, ISelectableObject
     {
 
@@ -412,6 +414,10 @@ namespace Code2015.World
 
         bool isSelected;
 
+        public string Name
+        {
+            get { return city.Name; }
+        }
         public Vector3 Position
         {
             get { return position; }
@@ -430,7 +436,7 @@ namespace Code2015.World
             get { return city.Size; }
         }
 
-
+        
 
         bool ISelectableObject.IsSelected
         {
@@ -438,6 +444,8 @@ namespace Code2015.World
             set { isSelected = value; }
         }
 
+        public event CityVisibleHander CityVisible;
+        
         public CityObject(RenderSystem rs, City city, CityStyleTable styleSet)
             : base(false)
         {
@@ -576,6 +584,10 @@ namespace Code2015.World
         public override RenderOperation[] GetRenderOperation()
         {
             opBuffer.FastClear();
+            if (CityVisible != null)
+            {
+                CityVisible(this);
+            }
 
             RenderOperation[] ops = style.Base[(int)city.Size].GetRenderOperation();
             if (ops != null)

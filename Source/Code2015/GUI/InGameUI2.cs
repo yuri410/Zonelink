@@ -46,7 +46,7 @@ namespace Code2015.GUI
         Texture btnoilref;
         Texture btnwoodfac;
 
-        
+        RtsCamera camera;
 
         Texture[] earth;
         const int EarthFrameCount = 100;
@@ -58,6 +58,8 @@ namespace Code2015.GUI
         float cycleTime;
 
         ISelectableObject selected;
+        CityObject city;
+        Point selectedProjPos;
 
         public ISelectableObject SelectedObject
         {
@@ -75,6 +77,9 @@ namespace Code2015.GUI
                     if (selected != null)
                     {
                         selected.IsSelected = true;
+
+                        city = selected as CityObject;
+
                     }
                 }
             }
@@ -88,7 +93,7 @@ namespace Code2015.GUI
             this.scene = scene;
 
 
-
+            this.camera = scene.Camera;
 
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
@@ -138,8 +143,18 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            for (int i = 0; i < scene.VisibleCityCount; i++)
+            {
+                CityObject cc = scene.GetVisibleCity(i);
+                Vector3 ppos = renderSys.Viewport.Project(cc.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
 
-            //font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, -1);
+                selectedProjPos.X = (int)ppos.X;
+                selectedProjPos.Y = (int)ppos.Y;
+
+
+                font.DrawString(sprite, cc.Name, selectedProjPos.X, selectedProjPos.Y, 34, DrawTextFormat.Center, -1);
+            }
+
             //sprite.SetTransform(Matrix.Identity);
             //sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             sprite.Draw(statusBar, 130, 0, ColorValue.White);
@@ -170,6 +185,8 @@ namespace Code2015.GUI
                 cycleTime = 0;
 
             currentFrameIdx = (int)(EarthFrameCount * (cycleTime / RoundTime));
+
+
         }
     }
 }

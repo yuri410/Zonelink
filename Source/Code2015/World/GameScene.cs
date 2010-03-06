@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.World;
-using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.World
 {
+    
+
     class GameScene
     {
         RenderSystem renderSys;
@@ -18,6 +20,8 @@ namespace Code2015.World
         List<TerrainTile> terrList = new List<TerrainTile>();
         RtsCamera camera;
         SceneRenderer renderer;
+
+        FastList<CityObject> visibleList = new FastList<CityObject>();
 
         public RtsCamera Camera
         {
@@ -43,8 +47,8 @@ namespace Code2015.World
 
             renderer = new SceneRenderer(renderSys, sm);
 
-            Size size = Program.Window.ClientSize;
-            float aspectRatio = size.Width / (float)size.Height;
+            Viewport vp = rs.Viewport;
+            float aspectRatio = vp.Width / (float)vp.Height;
 
             camera = new RtsCamera(65, aspectRatio);
             camera.NearPlane = 10;
@@ -65,8 +69,24 @@ namespace Code2015.World
             sm.SceneManager.AddObjectToScene(atmos);
         }
 
+        internal void City_Visible(CityObject obj) 
+        {
+            visibleList.Add(obj);
+        }
+
+        public int VisibleCityCount 
+        {
+            get { return visibleList.Count; }
+        }
+        public CityObject GetVisibleCity(int i)
+        {
+            return visibleList[i];
+        }
+
+
         public void Update(GameTime time)
         {
+            visibleList.Clear();
             //XI.KeyboardState state = XI.Keyboard.GetState();
 
             //if (state.IsKeyDown(XI.Keys.W))

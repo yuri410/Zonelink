@@ -16,7 +16,7 @@ namespace Code2015.World
     /// </summary>
     class GameStateBuilder
     {
-        const int MaxCities = 100;
+        const int MaxCities = 120;
         const int MinCities = 85;
 
         public SimulationRegion SLGWorld
@@ -44,7 +44,7 @@ namespace Code2015.World
                 {
                     if (!cityTable.Exists(sect.Name))
                     {
-                        bool flag = Randomizer.GetRandomBool();
+                        //bool flag = Randomizer.GetRandomBool();
 
                         //if (flag)
                         {
@@ -53,7 +53,7 @@ namespace Code2015.World
                             cities.Add(city);
                             cityTable.Add(sect.Name);
                         }
-                        break;
+                        //break;
                     }
                 }
             }
@@ -73,7 +73,15 @@ namespace Code2015.World
     {
         SimulationRegion slgSystem;
        
+        
         PlayerArea[] localPlayerArea;
+
+
+        public Player LocalHumanPlayer
+        {
+            get;
+            private set;
+        }
 
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
@@ -85,6 +93,9 @@ namespace Code2015.World
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
                 localPlayerArea[i] = new PlayerArea(slgSystem, localPlayer[i]);
+
+                if (localPlayer[i].Type == PlayerType.LocalHuman)
+                    LocalHumanPlayer = localPlayer[i];
 
                 localPlayer[i].SetArea(localPlayerArea[i]);
 
