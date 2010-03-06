@@ -145,6 +145,11 @@ namespace Code2015.BalanceSystem
     /// </summary>
     public class CaptureState
     {
+        public bool IsCapturing 
+        {
+            get { return NewOwner1 != null || NewOwner2 != null || NewOwner3 != null || NewOwner4 != null; }
+        }
+
         /// <summary>
         ///  即将占领的玩家
         /// </summary>
@@ -242,6 +247,8 @@ namespace Code2015.BalanceSystem
             localHr = new ResourceStorage(CityGrade.SmallMaxHPStorage, float.MaxValue);
             localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
             culture = CultureId.Asia;
+
+            Capture = new CaptureState();
             UpgradeUpdate();
         }
         public City(SimulationRegion sim, UrbanSize size)

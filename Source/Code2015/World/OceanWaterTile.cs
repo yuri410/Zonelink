@@ -82,6 +82,7 @@ namespace Code2015.World
             material.ZWriteEnabled = false;
             material.ZEnabled = true;
             material.CullMode = CullMode.CounterClockwise;
+            material.PriorityHint = RenderPriority.Third;
 
             data0 = manager.GetData(Lod0Size, tileLat);
             data1 = manager.GetData(Lod1Size, tileLat);
@@ -106,25 +107,22 @@ namespace Code2015.World
                     opBuf[0].Geomentry = data0.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
-                    opBuf[0].Priority = RenderPriority.Third;
-                    if (opBuf[0].Geomentry.Sender == null)
-                        opBuf[0].Geomentry.SetSender(this);
+                    if (opBuf[0].Sender == null)
+                        opBuf[0].Sender = this;
                     return opBuf;
                 case 1:
                     opBuf[0].Geomentry = data1.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
-                    opBuf[0].Priority = RenderPriority.Third;
-                    if (opBuf[0].Geomentry.Sender == null)
-                        opBuf[0].Geomentry.SetSender(this);
+                    if (opBuf[0].Sender == null)
+                        opBuf[0].Sender = this;
                     return opBuf;
                 default:
                     opBuf[0].Geomentry = data2.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
-                    opBuf[0].Priority = RenderPriority.Third;
-                    if (opBuf[0].Geomentry.Sender == null)
-                        opBuf[0].Geomentry.SetSender(this);
+                    if (opBuf[0].Sender == null)
+                        opBuf[0].Sender = this;
                     return opBuf;
             }
         }

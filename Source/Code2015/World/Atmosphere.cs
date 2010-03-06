@@ -36,7 +36,7 @@ namespace Code2015.World
             mats[0][0].Ambient = new Color4F(1, 1, 1, 1);
             mats[0][0].Diffuse = new Color4F(1, 1, 1, 1);
 
-            
+            mats[0][0].PriorityHint = RenderPriority.First;
             mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(AtmosphereEffectFactory.Name));
             atmoSphere = new Sphere(rs, PlanetEarth.PlanetRadius + AtmosphereThickness,
                PlanetEarth.ColTileCount, PlanetEarth.LatTileCount, mats);
@@ -47,15 +47,6 @@ namespace Code2015.World
             BoundingSphere.Radius = PlanetEarth.PlanetRadius;// +AtmosphereThickness;
         }
 
-        public override RenderOperation[] GetRenderOperation()
-        {
-            RenderOperation[] ops = base.GetRenderOperation();
-            for (int i = 0; i < ops.Length; i++)
-            {
-                ops[i].Priority = RenderPriority.First;
-            }
-            return ops;
-        }
 
         public override bool IsSerializable
         {

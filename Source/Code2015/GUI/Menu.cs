@@ -166,7 +166,7 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
             mousePosition.X = MouseInput.X;
-            mousePosition.Y = MouseInput.Y
+            mousePosition.Y = MouseInput.Y;
             fps = time.FramesPerSecond;
 
             if (!game.IsIngame)

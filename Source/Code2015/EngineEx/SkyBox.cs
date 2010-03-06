@@ -108,14 +108,14 @@ namespace Code2015.EngineEx
 
             opList = new RenderOperation[1];
             opList[0].Transformation = Matrix.Identity;
-            opList[0].Priority = RenderPriority.Second;
-
+            
             opList[0].Material = new Material(renderSystem);
             opList[0].Material.ZEnabled = false;
             opList[0].Material.ZWriteEnabled = false;
             opList[0].Material.CullMode = CullMode.None;
+            opList[0].Material.PriorityHint = RenderPriority.Second;
 
-            opList[0].Geomentry = new GeomentryData(this);
+            opList[0].Geomentry = new GeomentryData();
             opList[0].Geomentry.IndexBuffer = indexBuffer;
             opList[0].Geomentry.VertexBuffer = box;
             opList[0].Geomentry.VertexCount = 8;
@@ -123,7 +123,7 @@ namespace Code2015.EngineEx
             opList[0].Geomentry.VertexSize = vtxDecl.GetVertexSize();
             opList[0].Geomentry.PrimitiveType = RenderPrimitiveType.TriangleList;
             opList[0].Geomentry.PrimCount = 12;
-
+            opList[0].Sender = this;
         }
 
         public float DayNightLerpParam

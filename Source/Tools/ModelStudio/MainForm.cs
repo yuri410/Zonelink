@@ -53,6 +53,11 @@ namespace ModelStudio
             {
                 comboBox4.Items.Add(i.ToString());
             }
+            for (MaterialFlags f = MaterialFlags.None; f <= MaterialFlags.BlendBright_Color; f++)
+            {
+                comboBox5.Items.Add(f.ToString());
+            }
+
         }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
@@ -144,6 +149,7 @@ namespace ModelStudio
             checkBox3.Checked = mtrl.ZEnabled;
 
             comboBox4.SelectedIndex = (int)mtrl.PriorityHint;
+            comboBox5.SelectedIndex = (int)mtrl.Flags;
 
             switch (mtrl.CullMode) 
             {
@@ -195,6 +201,7 @@ namespace ModelStudio
             mtrl.IsVegetation = checkBox2.Checked;
             mtrl.ZEnabled = checkBox3.Checked;
             mtrl.PriorityHint = (RenderPriority)comboBox4.SelectedIndex;
+            mtrl.Flags = (MaterialFlags)comboBox5.SelectedIndex;
 
             switch (comboBox2.SelectedIndex)
             {
@@ -251,11 +258,6 @@ namespace ModelStudio
             {
                 button4.BackColor = colorDialog1.Color;
             }
-
-        }
-
-        private void toolStripContainer1_ContentPanel_Load(object sender, EventArgs e)
-        {
 
         }
 
