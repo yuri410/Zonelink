@@ -7,8 +7,7 @@ namespace Apoc3D.GUI.Controls
 {
     public class Label : TextControl
     {
-        public Label(Apoc3D.Graphics.RenderSystem rs)
-            : base(rs)
+        public Label()
         {
         }
 

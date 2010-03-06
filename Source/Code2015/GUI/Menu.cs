@@ -31,15 +31,26 @@ namespace Code2015.GUI
         Texture cursor;
         Point mousePosition;
 
-        const int StartBtnLTX = 428;
-        const int StartBtnLTY = 304;
+        const int StartBtnX = 428;
+        const int StartBtnY = 304;
 
-        const int StartBtnCenterX = StartBtnLTX + StartBtnRadius;
-        const int StartBtnCenterY = StartBtnLTY + StartBtnRadius;
+        //const int StartBtnCenterX = StartBtnLTX + StartBtnRadius;
+        //const int StartBtnCenterY = StartBtnLTY + StartBtnRadius;
         const int StartBtnRadius = 64;
 
 
+        const int ExitBtnX = 79;
+        const int ExitBtnY = 620;
+        const int CreditBtnX = 231;
+        const int CreditBtnY = 464;
+
+        const int HelpBtnX = 672;
+        const int HelpBtnY = 166;
+
         RoundButton startButton;
+        RoundButton exitButton;
+        RoundButton creditButton;
+        RoundButton helpButton;
 
         public Menu(Code2015 game, RenderSystem rs)
         {
@@ -59,18 +70,71 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
             start = UITextureManager.Instance.CreateInstance(fl);
 
-
-            startButton = new RoundButton(rs);
-            startButton.X = StartBtnLTX;
-            startButton.Y = StartBtnLTY;
+            #region 配置按钮
+            startButton = new RoundButton();
+            startButton.X = StartBtnX;
+            startButton.Y = StartBtnY;
             startButton.Radius = 64;
             startButton.Image = start;
+            startButton.ImageMouseOver = start;
             startButton.Enabled = true;
             startButton.IsValid = true;
-       
+
+            startButton.MouseClick += StartButton_Click;
+
+            exitButton = new RoundButton();
+            exitButton.X = ExitBtnX;
+            exitButton.Y = ExitBtnY;
+            exitButton.Radius = 64;
+            exitButton.Image = exit;
+            exitButton.ImageMouseOver = start;
+            exitButton.Enabled = true;
+            exitButton.IsValid = true;
+
+            exitButton.MouseClick += ExitButton_Click;
+
+
+            creditButton = new RoundButton();
+            creditButton.X = CreditBtnX;
+            creditButton.Y = CreditBtnY;
+            creditButton.Radius = 64;
+            creditButton.Image = credits;
+            creditButton.ImageMouseOver = start;
+            creditButton.Enabled = true;
+            creditButton.IsValid = true;
+
+
+            helpButton = new RoundButton();
+            helpButton.X = HelpBtnX;
+            helpButton.Y = HelpBtnY;
+            helpButton.Radius = 64;
+            helpButton.Image = help;
+            helpButton.ImageMouseOver = start;
+            helpButton.Enabled = true;
+            helpButton.IsValid = true;
+            #endregion
+
+
         }
 
+        void ExitButton_Click(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                
+            }
+        }
+        void StartButton_Click(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                GameCreationParameters gcp = new GameCreationParameters();
 
+                gcp.Player1 = new Player("test");
+                gcp.Player1.SideColor = ColorValue.Red;
+                game.StartNewGame(gcp);
+            }
+        }
 
         public void Render()
         {
@@ -86,8 +150,8 @@ namespace Code2015.GUI
                 
                 font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
-                Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
-                Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
+                //Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
+                //Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
 
                 //float s = Vector2.Distance(pa, pb);
 
@@ -96,11 +160,13 @@ namespace Code2015.GUI
                 //else 
                 //    sprite.Draw(start, 428, 304, ColorValue.White);
                 startButton.Render(sprite);
-
-                sprite.Draw(credits, 231, 464, ColorValue.White);
-                sprite.Draw(exit, 79, 620, ColorValue.White);
+                creditButton.Render(sprite);
+                exitButton.Render(sprite);
+                helpButton.Render(sprite);
+                //sprite.Draw(credits, CreditBtnX, CreditBtnY, ColorValue.White);
+                //sprite.Draw(exit, ExitBtnX, ExitBtnY, ColorValue.White);
                
-                sprite.Draw(help, 672, 166, ColorValue.White);
+                //sprite.Draw(help, 672, 166, ColorValue.White);
 
                 sprite.SetTransform(Matrix.Identity);
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
@@ -117,22 +183,9 @@ namespace Code2015.GUI
             if (!game.IsIngame)
             {
                 startButton.Update(time);
-                //Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
-                //Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
-
-                //float s = Vector2.Distance(pa, pb);
-
-
-                //if ((s < StartBtnRadius) && MouseInput.IsMouseUpLeft)
-                //{
-                //    GameCreationParameters gcp = new GameCreationParameters();
-
-                //    gcp.Player1 = new Player("test");
-                //    gcp.Player1.SideColor = ColorValue.Red;
-                //    game.StartNewGame(gcp);
-
-                //    return;
-                //}
+                creditButton.Update(time);
+                exitButton.Update(time);
+                helpButton.Update(time);
 
             }
 
