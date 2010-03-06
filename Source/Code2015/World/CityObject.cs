@@ -436,10 +436,21 @@ namespace Code2015.World
         {
             get { return city.Size; }
         }
-
+        public bool CanCapture(Player pl)
+        {
+            if (Owner != null) 
+            {
+                return false;
+            }
+            return city.Capture.CanCapture(pl) && pl.Area.CanCapture(city);
+        }
         public bool IsCapturing 
         {
             get { return city.Capture.IsCapturing; }
+        }
+        public bool IsCaptured 
+        {
+            get { return city.IsCaptured; }
         }
         public CaptureState Capture 
         {
@@ -652,13 +663,10 @@ namespace Code2015.World
                 }
             }
 
-            if (Owner != null)
+            ops = sideRing.GetRenderOperation();
+            if (ops != null)
             {
-                ops = sideRing.GetRenderOperation();
-                if (ops != null)
-                {
-                    opBuffer.Add(ops);
-                }
+                opBuffer.Add(ops);
             }
 
             opBuffer.Trim();

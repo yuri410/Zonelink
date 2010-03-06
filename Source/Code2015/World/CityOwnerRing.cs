@@ -30,7 +30,7 @@ namespace Code2015.World
 
         public Vector4 GetWeights()
         {
-            if (parent.IsCapturing) 
+            if (parent.IsCapturing && !parent.IsCaptured) 
             {
                 CaptureState capture = parent.Capture;
 
@@ -49,7 +49,7 @@ namespace Code2015.World
         {
             Matrix colors = WhiteMatrix;
 
-            if (parent.IsCapturing)
+            if (parent.IsCapturing && !parent.IsCaptured) 
             {
                 CaptureState capture = parent.Capture;
                 
