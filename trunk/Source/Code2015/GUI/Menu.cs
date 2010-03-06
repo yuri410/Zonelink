@@ -8,6 +8,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI
 {
@@ -37,6 +38,9 @@ namespace Code2015.GUI
         const int StartBtnCenterY = StartBtnLTY + StartBtnRadius;
         const int StartBtnRadius = 64;
 
+
+        RoundButton startButton;
+
         public Menu(Code2015 game, RenderSystem rs)
         {
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
@@ -54,6 +58,16 @@ namespace Code2015.GUI
             help = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
             start = UITextureManager.Instance.CreateInstance(fl);
+
+
+            startButton = new RoundButton(rs);
+            startButton.X = StartBtnLTX;
+            startButton.Y = StartBtnLTY;
+            startButton.Radius = 64;
+            startButton.Image = start;
+            startButton.Enabled = true;
+            startButton.IsValid = true;
+       
         }
 
 
@@ -75,13 +89,14 @@ namespace Code2015.GUI
                 Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
                 Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
 
-                float s = Vector2.Distance(pa, pb);
+                //float s = Vector2.Distance(pa, pb);
 
-                if (s < StartBtnRadius)
-                    sprite.Draw(start, 428, 304, ColorValue.Red);
-                else 
-                    sprite.Draw(start, 428, 304, ColorValue.White);
-                
+                //if (s < StartBtnRadius)
+                //    sprite.Draw(start, 428, 304, ColorValue.Red);
+                //else 
+                //    sprite.Draw(start, 428, 304, ColorValue.White);
+                startButton.Render(sprite);
+
                 sprite.Draw(credits, 231, 464, ColorValue.White);
                 sprite.Draw(exit, 79, 620, ColorValue.White);
                
@@ -101,22 +116,23 @@ namespace Code2015.GUI
 
             if (!game.IsIngame)
             {
-                Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
-                Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
+                startButton.Update(time);
+                //Vector2 pa = new Vector2(StartBtnCenterX, StartBtnCenterY);
+                //Vector2 pb = new Vector2(mousePosition.X, mousePosition.Y);
 
-                float s = Vector2.Distance(pa, pb);
+                //float s = Vector2.Distance(pa, pb);
 
 
-                if ((s < StartBtnRadius) && MouseInput.IsMouseUpLeft)
-                {
-                    GameCreationParameters gcp = new GameCreationParameters();
+                //if ((s < StartBtnRadius) && MouseInput.IsMouseUpLeft)
+                //{
+                //    GameCreationParameters gcp = new GameCreationParameters();
 
-                    gcp.Player1 = new Player("test");
-                    gcp.Player1.SideColor = ColorValue.Red;
-                    game.StartNewGame(gcp);
+                //    gcp.Player1 = new Player("test");
+                //    gcp.Player1.SideColor = ColorValue.Red;
+                //    game.StartNewGame(gcp);
 
-                    return;
-                }
+                //    return;
+                //}
 
             }
 

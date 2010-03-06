@@ -12,10 +12,23 @@ using Code2015.World.Screen;
 namespace Code2015.GUI
 {
     /// <summary>
-    ///  表示游戏过程中的界面
+    ///  用于显示游戏中已选择物体的信息
     /// </summary>
     class InGameUI2 : UIComponent
     {
+        /// <summary>
+        ///  表示页面的类型
+        /// </summary>
+        enum PanelPage
+        {
+            Info,
+            WoodFactory,
+            OilRefinary,
+            Hospital,
+            EduOrg,
+
+        }
+
         GameScene scene;
         RenderSystem renderSys;
         Code2015 game;
@@ -33,7 +46,7 @@ namespace Code2015.GUI
         Texture btnoilref;
         Texture btnwoodfac;
 
-
+        
 
         Texture[] earth;
         const int EarthFrameCount = 100;
