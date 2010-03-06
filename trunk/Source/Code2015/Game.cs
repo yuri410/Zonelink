@@ -133,7 +133,7 @@ namespace Code2015
 
 
             gameState = new GameState(stateBuilder, GetLocalPlayers(gcp));
-            
+            HumanPlayer = gameState.LocalHumanPlayer;
 
             // 初始化场景
             this.cityStyles = new CityStyleTable(renderSys);

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
 using Code2015.World.Screen;
+using Code2015.Logic;
 
 namespace Code2015.GUI
 {
@@ -34,6 +36,7 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         Font font;
+        Player player;
 
         //Texture cursor;
         Texture statusBar;
@@ -49,9 +52,9 @@ namespace Code2015.GUI
         RtsCamera camera;
 
         Texture[] earth;
+
         const int EarthFrameCount = 100;
         const float RoundTime = 30;
-        Point mousePosition;
 
         int currentFrameIdx;
 
@@ -60,6 +63,10 @@ namespace Code2015.GUI
         ISelectableObject selected;
         CityObject city;
         Point selectedProjPos;
+        bool isCapturable;
+
+
+        Button captureBtn;
 
         public ISelectableObject SelectedObject
         {
@@ -80,6 +87,15 @@ namespace Code2015.GUI
 
                         city = selected as CityObject;
 
+                        if (city != null)
+                        {
+                            Vector3 ppos = renderSys.Viewport.Project(city.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+
+                            selectedProjPos.X = (int)ppos.X;
+                            selectedProjPos.Y = (int)ppos.Y;
+
+                            isCapturable = city.CanCapture(player);
+                        }
                     }
                 }
             }
@@ -92,11 +108,9 @@ namespace Code2015.GUI
             this.renderSys = game.RenderSystem;
             this.scene = scene;
 
-
-
             this.camera = scene.Camera;
 
-
+            this.player = parent.HumanPlayer;
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
@@ -131,7 +145,20 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_btn_woodfac.tex", GameFileLocs.GUI);
             btnwoodfac = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_btn_capture.tex", GameFileLocs.GUI);
+            Texture helpBg = UITextureManager.Instance.CreateInstance(fl);
+            captureBtn = new Button();
+            captureBtn.X = 440;
+            captureBtn.Y = 630;
 
+            captureBtn.Width = 256;
+            captureBtn.Height = 128;
+            captureBtn.Image = helpBg;
+            captureBtn.ImageMouseOver = helpBg;
+            captureBtn.IsValid = true;
+            captureBtn.Enabled = true;
+
+            captureBtn.MouseClick += this.CaptureBtn_Click;
 
             earth = new Texture[EarthFrameCount];
             for (int i = 0; i < EarthFrameCount; i++)
@@ -143,56 +170,85 @@ namespace Code2015.GUI
             }
         }
 
+        void CaptureBtn_Click(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                city.Capture.SetCapture(player);
+            }
+        }
+
         public override void Render(Sprite sprite)
         {
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
                 CityObject cc = scene.GetVisibleCity(i);
                 Vector3 ppos = renderSys.Viewport.Project(cc.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
-                selectedProjPos.X = (int)ppos.X;
-                selectedProjPos.Y = (int)ppos.Y;
+                font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 34, DrawTextFormat.Center, -1);
+            }
+
+            if (city != null)
+            {
+
+                sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
+                sprite.Draw(selimglarge, 785, 575, ColorValue.White);
+
+                sprite.Draw(btninfo, 734, 590, ColorValue.White);
+                sprite.Draw(btneduorg, 885, 531, ColorValue.White);
+                sprite.Draw(btnhosp, 931, 672, ColorValue.White);
+                sprite.Draw(btnoilref, 936, 595, ColorValue.White);
+                sprite.Draw(btnwoodfac, 795, 528, ColorValue.White);
 
 
-                font.DrawString(sprite, cc.Name, selectedProjPos.X, selectedProjPos.Y, 34, DrawTextFormat.Center, -1);
+
+
+                font.DrawString(sprite, city.Name, 427, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                font.DrawString(sprite, city.Size.ToString() + " City", 470, 672, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
+                if (object.ReferenceEquals(city.Owner, player))
+                {
+                }
+                else
+                {
+                    if (isCapturable)
+                    {
+                        captureBtn.Render(sprite);
+                    }
+                    else
+                    {
+                        font.DrawString(sprite, "This city is too far to help it.", 470, 692, 14,
+                            DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                    }
+                }
             }
 
             //sprite.SetTransform(Matrix.Identity);
             //sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             
             sprite.Draw(statusBar, 130, 0, ColorValue.White);
-            sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
-            sprite.Draw(selimglarge, 785, 575, ColorValue.White);
             sprite.Draw(earth[currentFrameIdx], 448, -3, ColorValue.White);
             //if (currentFrameIdx >= EarthFrameCount)
             //    currentFrameIdx = 0;
 
             sprite.Draw(earthGlow, 423, -30, ColorValue.White);
-            sprite.Draw(btninfo, 734, 590, ColorValue.White);
-            sprite.Draw(btneduorg, 885, 531, ColorValue.White);
-            sprite.Draw(btnhosp, 931, 672, ColorValue.White);
-            sprite.Draw(btnoilref, 936, 595, ColorValue.White);
-            sprite.Draw(btnwoodfac, 795, 528, ColorValue.White);
 
 
         }
 
         public override void Update(GameTime time)
         {
-
-         
-          
-
-            mousePosition.X = MouseInput.X;
-            mousePosition.Y = MouseInput.Y;
-
-
             cycleTime += time.ElapsedGameTimeSeconds;
             if (cycleTime >= RoundTime)
                 cycleTime = 0;
 
             currentFrameIdx = (int)(EarthFrameCount * (cycleTime / RoundTime));
 
+            if (city != null)
+            {
+                captureBtn.Update(time);
+            }
 
         }
     }

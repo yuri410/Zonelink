@@ -113,7 +113,7 @@ namespace Code2015.World
             {
                 slgSystem.GetCity(1).ChangeOwner(localPlayerArea[0].Owner);
             }
-            //slgSystem.Update(time);
+            slgSystem.Update(time);
         }
 
 

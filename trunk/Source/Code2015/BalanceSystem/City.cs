@@ -149,6 +149,28 @@ namespace Code2015.BalanceSystem
         {
             get { return NewOwner1 != null || NewOwner2 != null || NewOwner3 != null || NewOwner4 != null; }
         }
+        
+        public Player CheckCapture()
+        {
+            if (CaputreProgress1 >= 1) 
+            {
+                return NewOwner1;
+            }
+            if (CaputreProgress2 >= 1) 
+            {
+                return NewOwner2;
+            }
+            if (CaputreProgress3 >= 1) 
+            {
+                return NewOwner3;
+            }
+            if (CaputreProgress4 >= 1)
+            {
+                return NewOwner4;
+            }
+            return null;
+        }
+
 
         /// <summary>
         ///  即将占领的玩家
@@ -195,6 +217,68 @@ namespace Code2015.BalanceSystem
         {
             get;
             private set;
+        }
+
+        public bool CanCapture(Player player)
+        {
+            if (!IsCapturing)
+                return true;
+            if (player == NewOwner1)
+            {
+                return false;
+            }
+            if (player == NewOwner2)
+            {
+                return false;
+            }
+            if (player == NewOwner3)
+            {
+                return false;
+            }
+            if (player == NewOwner4)
+            {
+                return false;
+            }
+            return true;
+        }
+        public void SetCapture(Player player)
+        {
+            if (object.ReferenceEquals(NewOwner1, null))
+            {
+                NewOwner1 = player;
+            }
+            else if (object.ReferenceEquals(NewOwner2, null))
+            {
+                NewOwner2 = player;
+            }
+            else if (object.ReferenceEquals(NewOwner3, null))
+            {
+                NewOwner3 = player;
+            }
+            else if (object.ReferenceEquals(NewOwner4, null))
+            {
+                NewOwner4 = player;
+            }
+        }
+
+        public void ReceiveGood(Player player, float hrAmount, float lrAmount) 
+        {
+            if (player == NewOwner1) 
+            {
+                CaputreProgress1 += hrAmount + lrAmount * 0.5f;
+            }
+            else if (player == NewOwner2) 
+            {
+                CaputreProgress2 += hrAmount + lrAmount * 0.5f;
+            }
+            else if (player == NewOwner3) 
+            {
+                CaputreProgress3 += hrAmount + lrAmount * 0.5f;
+            }
+            else if (player == NewOwner4) 
+            {
+                CaputreProgress4 += hrAmount + lrAmount * 0.5f;
+            }
         }
     }
 
@@ -270,6 +354,10 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public bool IsCaptured
+        {
+            get { return Owner != null; }
+        }
         public Player Owner
         {
             get;
@@ -585,9 +673,30 @@ namespace Code2015.BalanceSystem
             CarbonProduceSpeed = 0;
 
             if (IsDead) 
+                return;
+
+            if (Capture.IsCapturing && !IsCaptured) 
             {
+
+                // 测试
+                Capture.ReceiveGood(Capture.NewOwner1, 0.01f, 0);
+
+                Player player = Capture.CheckCapture();
+                if (player != null)
+                {
+                    ChangeOwner(player);
+                }
+
+                
+            }
+
+            if (Owner == null)
+            {
+                
                 return;
             }
+
+
 
             #region 城市自动级别调整
 

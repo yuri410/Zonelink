@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="GUI\Controls\Trackbar.cs">
     </Compile>
+    <Compile Include="GUI\Controls\Button.cs" />
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>

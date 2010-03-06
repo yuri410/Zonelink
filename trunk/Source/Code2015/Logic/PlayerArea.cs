@@ -85,7 +85,10 @@ namespace Code2015.Logic
                 for (int i = 0; i < simulator.CityCount; i++)
                 {
                     City cc = simulator.GetCity(i);
-                    if (!object.ReferenceEquals(cc.Owner, null))
+
+                    bool flag1 = !object.ReferenceEquals(cc, minCity);
+                    bool flag2 = !object.ReferenceEquals(cc.Owner, minCity.Owner);
+                    if (flag1 && flag2)
                     {
                         float cdist = new Vector2(cc.Longitude - minCity.Longitude, cc.Latitude - minCity.Latitude).Length();
 
@@ -97,7 +100,7 @@ namespace Code2015.Logic
                     }
                 }
 
-                return midCity == null;
+                return object.ReferenceEquals(midCity, null) || object.ReferenceEquals(city, midCity);
             }
             return false;
         }
