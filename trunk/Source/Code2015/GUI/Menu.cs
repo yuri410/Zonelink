@@ -27,6 +27,8 @@ namespace Code2015.GUI
         Texture help;
         Texture start;
 
+        Texture background;
+
         Texture cursor;
         Point mousePosition;
 
@@ -72,6 +74,9 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
             start = UITextureManager.Instance.CreateInstance(fl);
 
+
+            fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
+            background = UITextureManager.Instance.CreateInstance(fl);
 
             #region 配置按钮
             startButton = new RoundButton();
@@ -151,6 +156,9 @@ namespace Code2015.GUI
 
             if (!game.IsIngame)
             {
+                sprite.SetTransform(Matrix.Identity);
+
+                sprite.Draw(background, 0, 0, ColorValue.White);
                 font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
                 startButton.Render(sprite);
@@ -158,7 +166,6 @@ namespace Code2015.GUI
                 exitButton.Render(sprite);
                 helpButton.Render(sprite);
 
-                sprite.SetTransform(Matrix.Identity);
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             }
 
