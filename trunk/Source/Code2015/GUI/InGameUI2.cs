@@ -6,19 +6,37 @@ using Apoc3D.Graphics;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Code2015.GUI.Controls;
+using Code2015.Logic;
 using Code2015.World;
 using Code2015.World.Screen;
-using Code2015.Logic;
-using Code2015.GUI.Controls;
-using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
     class CityMeasure 
     {
+        public City Current
+        {
+            get;
+            private set;
+        }
+
+        public int PopulationDirective
+        {
+            get;
+            private set;
+        }
+
+        public int DiseaseDirective
+        {
+            get;
+            private set;
+        }
 
     }
+
     /// <summary>
     ///  用于显示游戏中已选择物体的信息
     /// </summary>
