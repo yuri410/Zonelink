@@ -415,6 +415,10 @@ namespace Code2015.World
 
         bool isSelected;
 
+        public City City 
+        {
+            get { return city; }
+        }
         public string Name
         {
             get { return city.Name; }

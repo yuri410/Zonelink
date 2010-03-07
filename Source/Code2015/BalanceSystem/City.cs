@@ -172,6 +172,31 @@ namespace Code2015.BalanceSystem
         }
 
 
+        public City NearbyCity1
+        {
+            get;
+            private set;
+        }
+
+        public City NearbyCity2
+        {
+            get;
+            private set;
+        }
+        public City NearbyCity3
+        {
+            get;
+            private set;
+        }
+        public City NearbyCity4
+        {
+            get;
+            private set;
+
+        }
+
+
+
         /// <summary>
         ///  即将占领的玩家
         /// </summary>
@@ -241,23 +266,27 @@ namespace Code2015.BalanceSystem
             }
             return true;
         }
-        public void SetCapture(Player player)
+        public void SetCapture(Player player, City nearby)
         {
             if (object.ReferenceEquals(NewOwner1, null))
             {
                 NewOwner1 = player;
+                NearbyCity1 = nearby;
             }
             else if (object.ReferenceEquals(NewOwner2, null))
             {
                 NewOwner2 = player;
+                NearbyCity2 = nearby;
             }
             else if (object.ReferenceEquals(NewOwner3, null))
             {
                 NewOwner3 = player;
+                NearbyCity3 = nearby;
             }
             else if (object.ReferenceEquals(NewOwner4, null))
             {
                 NewOwner4 = player;
+                NearbyCity4 = nearby;
             }
         }
 
@@ -680,6 +709,13 @@ namespace Code2015.BalanceSystem
 
                 // 测试
                 Capture.ReceiveGood(Capture.NewOwner1, 0.01f, 0);
+
+                for (int i = 0; i < nearbyCity.Count; i++)
+                {
+                    float capreq = nearbyCity[i].LocalHR.ApplyFar(100);
+                    float capreq2 = nearbyCity[i].LocalLR.ApplyFar(100);
+                    Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+                }
 
                 Player player = Capture.CheckCapture();
                 if (player != null)

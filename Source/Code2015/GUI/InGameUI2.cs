@@ -174,7 +174,7 @@ namespace Code2015.GUI
         {
             if (btn == MouseButtonFlags.Left)
             {
-                city.Capture.SetCapture(player);
+                city.Capture.SetCapture(player, player.Area.GetNearestCity(city.City));
             }
         }
 

@@ -43,7 +43,7 @@ namespace Code2015.Logic
         /// </summary>
         /// <param name="city">目标城市</param>
         /// <returns></returns>
-        City GetNearestCity(City city)
+        public City GetNearestCity(City city)
         {
             float dist = float.MaxValue;
             City minCity = null;
