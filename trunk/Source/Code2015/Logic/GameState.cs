@@ -72,8 +72,9 @@ namespace Code2015.World
     class GameState
     {
         SimulationRegion slgSystem;
-       
-        
+
+
+        GameTime newTime;
         PlayerArea[] localPlayerArea;
 
 
@@ -102,18 +103,26 @@ namespace Code2015.World
                 // 测试
                 slgSystem.GetCity(0).ChangeOwner(localPlayer[i]);
             }
+
+            newTime = new GameTime();
         }
 
         int test;
         public void Update(GameTime time)
         {
             /////// 接受playerOperation，由127.0.0.1
+            newTime.SetElapsedGameTime(TimeSpan.FromSeconds(time.ElapsedGameTimeSeconds * 3600));
+            newTime.SetElapsedRealTime(time.ElapsedRealTime * 3600);
+            newTime.SetFramesPerSecond(time.FramesPerSecond);
+            newTime.SetIsRunningSlowly(time.IsRunningSlowly);
+            newTime.SetTotalGameTime(TimeSpan.FromSeconds(time.TotalGameTime.TotalSeconds * 3600));
+            newTime.SetTotalRealTime(time.TotalRealTime * 3600);
 
-            if (test++ == 1000)
-            {
-                slgSystem.GetCity(1).ChangeOwner(localPlayerArea[0].Owner);
-            }
-            slgSystem.Update(time);
+            //if (test++ == 1000)
+            //{
+            //    slgSystem.GetCity(1).ChangeOwner(localPlayerArea[0].Owner);
+            //}
+            slgSystem.Update(newTime);
         }
 
 

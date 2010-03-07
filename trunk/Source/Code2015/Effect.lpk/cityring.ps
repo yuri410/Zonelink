@@ -9,7 +9,7 @@ struct PSOutput
 {
     float4 Color : COLOR;
 };
-float3 lightDir : register(c8);
+float3 lightDir : register(c5);
 
 #define pi 3.14159265
 
@@ -57,7 +57,7 @@ PSOutput main(PSInput ip)
 	}
 	
     float ndl = dot(ip.Normal, lightDir);
-	clr.xyz += 0.01 * max(0, ndl);
+	clr.xyz += max(0, ndl);
 	
 	o.Color = clr;
     return o;
