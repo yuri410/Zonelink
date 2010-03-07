@@ -124,6 +124,7 @@ namespace Code2015.BalanceSystem
         public const float SmallCityCapturePoint = 1000;
         #endregion
 
+        static readonly float[] CapturePoint = { SmallCityCapturePoint, MediumCityCapturePoint, LargeCityCapturePoint };
         static readonly float[] GatherRadius = { SmallGatherRadius, MediumGatherRadius, LargeGatherRadius };
 
         static readonly float[] DevMult = { SmallDevMult, MediumDevMult, LargeDevMult };
@@ -143,7 +144,10 @@ namespace Code2015.BalanceSystem
         public const float CityDeathThreshold = 0.1f;
 
 
-
+        public static float GetCapturePoint(UrbanSize size) 
+        {
+            return CapturePoint[(int)size];
+        }
 
 
         public static float GetGatherRadius(UrbanSize citySize)
