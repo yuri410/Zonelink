@@ -963,7 +963,7 @@ namespace Code2015.BalanceSystem
                 }
                 else
                 {
-                    Disease -= actFood * 0.005f;
+                    Disease -= actFood * 0.033f;
                 }
 
 

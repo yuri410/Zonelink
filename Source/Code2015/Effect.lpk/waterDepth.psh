@@ -1,7 +1,7 @@
 
 #define waterBegin 0
 #define waterEnd -35
-#define WaterDarkColor (float4(0, 0.111, 0.141, 0.5))
+#define WaterDarkColor (float4(0, 0.111, 0.141, 0.9))
 
 float4 GetColor(float4 color, float w)
 {

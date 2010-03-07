@@ -34,7 +34,7 @@ PSOutput main(PSInput ip)
 	normalVector = normalVector * 2.0 - 1.0;
 	
 	float3 lightReflection = reflect(ip.TangentSpaceLDir, normalVector) ;
-	float specular = pow(max(0, dot(lightReflection, ip.TangentSpaceVDir)), 25);
+	float specular = pow(max(0, dot(lightReflection, ip.TangentSpaceVDir)), 10);
 
 
 	
@@ -53,6 +53,6 @@ PSOutput main(PSInput ip)
 	if (lum<0)lum =0;
 	//lum/=0.7;
 	
-    o.Color = lerp(ndl * float4(0, 0.211, 0.341, 0.5 * ndl + specular), float4(reflectionColor.xyz, specular+lum), fn) + specular;
+    o.Color = lerp(ndl * float4(0, 0.211, 0.341, 0.7 * ndl + specular), float4(reflectionColor.xyz, specular+lum), fn) + specular;
     return o;
 }

@@ -15,12 +15,101 @@ using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {
-    class CityMeasure 
+    class CityMeasure
     {
+        Texture rightArrowR;
+        Texture leftArrowR;
+        Texture rightArrowG;
+        Texture leftArrowG;
+
+
+        ValueSmoother populationDir;
+        ValueSmoother diseaseDir;
+        ValueSmoother devDir;
+
+        float lastPopulation;
+        float lastDisease;
+        float lastDev;
+
+
+
+        ProgressBar devBar;
+        ProgressBar popBar;
+        ProgressBar disBar;
+        ProgressBar supBar;
+
+
+        City current;
+
         public City Current
         {
-            get;
-            private set;
+            get { return current; }
+            set 
+            {
+                if (!object.ReferenceEquals(current, value))
+                {
+                    current = value;
+                    if (value != null)
+                    {
+                        populationDir.Clear();
+                        diseaseDir.Clear();
+                        devDir.Clear();
+                    }
+                }
+            }
+        }
+
+        public CityMeasure(RenderSystem rs)
+        {
+            populationDir = new ValueSmoother(10);
+            diseaseDir = new ValueSmoother(10);
+            devDir = new ValueSmoother(10);
+
+            FileLocation fl = FileSystem.Instance.Locate("ig_leftArrow_red.tex", GameFileLocs.GUI);
+            leftArrowR = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_right_arrow_red.tex", GameFileLocs.GUI);
+            rightArrowR = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("ig_leftArrow_green.tex", GameFileLocs.GUI);
+            leftArrowG = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_rightArrow_green.tex", GameFileLocs.GUI);
+            rightArrowG = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("ig_progressbar.tex", GameFileLocs.GUI);
+            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
+
+            devBar = new ProgressBar();
+            devBar.X = 630;
+            devBar.Y = 640;
+            devBar.Height = 25;
+            devBar.Width = 110;
+            devBar.ProgressImage = prgBg;
+
+            popBar = new ProgressBar();
+            popBar.X = 630;
+            popBar.Y = 680;
+            popBar.Height = 25;
+            popBar.Width = 110;
+            popBar.ProgressImage = prgBg;
+
+            supBar = new ProgressBar();
+            supBar.X = 630;
+            supBar.Y = 720;
+            supBar.Height = 25;
+            supBar.Width = 110;
+            supBar.ProgressImage = prgBg;
+
+
+            disBar = new ProgressBar();
+            disBar.X = 630;
+            disBar.Y = 760;
+            disBar.Height = 25;
+            disBar.Width = 110;
+            disBar.ProgressImage = prgBg;
         }
 
         public int PopulationDirective
@@ -34,7 +123,117 @@ namespace Code2015.GUI
             get;
             private set;
         }
+        public int DevelopmentDir
+        {
+            get;
+            private set;
+        }
 
+        public float Development
+        {
+            get;
+            private set;
+        }
+        public float Disease
+        {
+            get;
+            private set;
+        }
+        public float Population
+        {
+            get;
+            private set;
+        }
+
+        int ClassifyDir(float v)
+        {
+            v *= 100;
+            int sig = Math.Sign(v);
+            int result = 0;
+            v = Math.Abs(v);
+            if (v > float.Epsilon)
+            {
+                if (v > 1)
+                {
+                    if (v > 2)
+                    {
+                        result = v > 3 ? 4 : 3;
+                        result *= sig;
+                        return result;
+                    }
+                    else
+                    {
+                        result = 2;
+                        result *= sig;
+                        return result;
+                    }
+                }
+                else
+                {
+                    result = 1;
+                    result *= sig;
+                    return result;
+                }
+            }
+            return result;
+        }
+
+        public void Update(GameTime time)
+        {
+            if (current != null)
+            {
+                float dev = current.Development / 10000f;
+                float pop = current.Population / CityGrade.GetRefPopulation(current.Size);
+                float dis = current.Disease / 2;
+                Development = MathEx.Saturate(dev);
+                Population = MathEx.Saturate(pop);
+                Disease = MathEx.Saturate(dis);
+
+
+                populationDir.Add((pop - lastPopulation) * 100);
+                diseaseDir.Add(dis - lastDisease);
+                devDir.Add(dev - lastDev);
+
+                float v = populationDir.Result;
+                PopulationDirective = ClassifyDir(v);
+                v = diseaseDir.Result;
+                DiseaseDirective = ClassifyDir(v);
+                v = devDir.Result;
+                DevelopmentDir = ClassifyDir(v);
+
+                lastPopulation = pop;
+                lastDisease = dis;
+                lastDev = dev;
+
+            }
+        }
+
+        public void Render(Sprite sprite)
+        {
+            devBar.Value = Development;
+            devBar.Render(sprite);
+
+            popBar.Value = Population;
+            popBar.Render(sprite);
+
+            disBar.Value = Disease;
+            disBar.Render(sprite);
+
+            if (PopulationDirective < 0) 
+            {
+                Rectangle rect;
+                
+                rect.Y = 680;
+                rect.Width = 16;
+                rect.Height = 16;
+                for (int i = PopulationDirective; i < 0; i++)
+                {
+                    rect.X = 620 + i * 16;
+                    sprite.Draw(leftArrowR, rect, ColorValue.White);
+                }
+            }
+
+        }
     }
 
     /// <summary>
@@ -73,6 +272,7 @@ namespace Code2015.GUI
         Texture btnoilref;
         Texture btnwoodfac;
 
+
         RtsCamera camera;
 
         Texture[] earth;
@@ -86,16 +286,13 @@ namespace Code2015.GUI
 
         ISelectableObject selected;
         CityObject city;
+        CityMeasure cityMeasure;
+
         Point selectedProjPos;
         bool isCapturable;
 
 
         Button captureBtn;
-
-        ProgressBar devBar;
-        ProgressBar popBar;
-        ProgressBar disBar;
-        ProgressBar supBar;
 
         public ISelectableObject SelectedObject
         {
@@ -124,6 +321,11 @@ namespace Code2015.GUI
                             selectedProjPos.Y = (int)ppos.Y;
 
                             isCapturable = city.CanCapture(player);
+                            cityMeasure.Current = city.City;
+                        }
+                        else
+                        {
+                            cityMeasure.Current = null;
                         }
                     }
                 }
@@ -138,8 +340,9 @@ namespace Code2015.GUI
             this.scene = scene;
 
             this.camera = scene.Camera;
-
             this.player = parent.HumanPlayer;
+
+            this.cityMeasure = new CityMeasure(renderSys);
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
@@ -189,37 +392,6 @@ namespace Code2015.GUI
 
             captureBtn.MouseClick += this.CaptureBtn_Click;
 
-            fl = FileSystem.Instance.Locate("ig_progressbar.tex", GameFileLocs.GUI);
-            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
-
-            devBar = new ProgressBar();
-            devBar.X = 630;
-            devBar.Y = 640;
-            devBar.Height = 25;
-            devBar.Width = 110;
-            devBar.ProgressImage = prgBg;
-
-            popBar = new ProgressBar();
-            popBar.X = 630;
-            popBar.Y = 680;
-            popBar.Height = 25;
-            popBar.Width = 110;
-            popBar.ProgressImage = prgBg;
-
-            supBar = new ProgressBar();
-            supBar.X = 630;
-            supBar.Y = 720;
-            supBar.Height = 25;
-            supBar.Width = 110;
-            supBar.ProgressImage = prgBg;
-
-
-            disBar = new ProgressBar();
-            disBar.X = 630;
-            disBar.Y = 760;
-            disBar.Height = 25;
-            disBar.Width = 110;
-            disBar.ProgressImage = prgBg;
 
             earth = new Texture[EarthFrameCount];
             for (int i = 0; i < EarthFrameCount; i++)
@@ -279,18 +451,10 @@ namespace Code2015.GUI
 
                 if (object.ReferenceEquals(city.Owner, player))
                 {
-                    devBar.Value = MathEx.Saturate(city.City.Development / 10000f);
-                    devBar.Render(sprite);
+                    cityMeasure.Render(sprite);
 
-                    popBar.Value = MathEx.Saturate(city.City.Population / CityGrade.GetRefPopulation(city.Size));
-                    popBar.Render(sprite);
-
-
-                    disBar.Value = MathEx.Saturate(city.City.Disease / 2);
-                    disBar.Render(sprite);
-
-                    supBar.Value = MathEx.Saturate(city.City.SelfHRCRatio);
-                    disBar.Render(sprite);
+                    //supBar.Value = MathEx.Saturate(city.City.SelfHRCRatio);
+                    //disBar.Render(sprite);
                 }
                 else
                 {
@@ -330,6 +494,7 @@ namespace Code2015.GUI
             if (city != null)
             {
                 captureBtn.Update(time);
+                cityMeasure.Update(time);
             }
 
         }
