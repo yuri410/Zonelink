@@ -15,6 +15,10 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
+    class CityMeasure 
+    {
+
+    }
     /// <summary>
     ///  用于显示游戏中已选择物体的信息
     /// </summary>
@@ -173,21 +177,31 @@ namespace Code2015.GUI
             devBar = new ProgressBar();
             devBar.X = 630;
             devBar.Y = 640;
-            devBar.Height = 35;
+            devBar.Height = 25;
             devBar.Width = 110;
             devBar.ProgressImage = prgBg;
 
             popBar = new ProgressBar();
             popBar.X = 630;
             popBar.Y = 680;
-            popBar.Height = 35;
+            popBar.Height = 25;
             popBar.Width = 110;
             popBar.ProgressImage = prgBg;
 
             supBar = new ProgressBar();
+            supBar.X = 630;
+            supBar.Y = 720;
+            supBar.Height = 25;
+            supBar.Width = 110;
+            supBar.ProgressImage = prgBg;
 
 
             disBar = new ProgressBar();
+            disBar.X = 630;
+            disBar.Y = 760;
+            disBar.Height = 25;
+            disBar.Width = 110;
+            disBar.ProgressImage = prgBg;
 
             earth = new Texture[EarthFrameCount];
             for (int i = 0; i < EarthFrameCount; i++)
@@ -212,10 +226,19 @@ namespace Code2015.GUI
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
                 CityObject cc = scene.GetVisibleCity(i);
-                Vector3 ppos = renderSys.Viewport.Project(cc.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+
+                Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude));
+
+                Vector3 ppos = renderSys.Viewport.Project(cc.Position - tangy * (CityStyleTable.CityRadius[(int)cc.Size] + 5),
+                    camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
                 Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
-                font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 34, DrawTextFormat.Center, -1);
+                Size strSize = font.MeasureString(cc.Name, 20, DrawTextFormat.Center);
+
+                //scrnPos.Y += strSize.Height;
+                scrnPos.X -= strSize.Width / 2;
+
+                font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
             }
 
             if (city != null)
@@ -243,6 +266,13 @@ namespace Code2015.GUI
 
                     popBar.Value = MathEx.Saturate(city.City.Population / CityGrade.GetRefPopulation(city.Size));
                     popBar.Render(sprite);
+
+
+                    disBar.Value = MathEx.Saturate(city.City.Disease / 2);
+                    disBar.Render(sprite);
+
+                    supBar.Value = MathEx.Saturate(city.City.SelfHRCRatio);
+                    disBar.Render(sprite);
                 }
                 else
                 {
