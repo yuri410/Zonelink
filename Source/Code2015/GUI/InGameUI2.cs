@@ -10,6 +10,8 @@ using Code2015.EngineEx;
 using Code2015.World;
 using Code2015.World.Screen;
 using Code2015.Logic;
+using Code2015.GUI.Controls;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -67,6 +69,11 @@ namespace Code2015.GUI
 
 
         Button captureBtn;
+
+        ProgressBar devBar;
+        ProgressBar popBar;
+        ProgressBar disBar;
+        ProgressBar supBar;
 
         public ISelectableObject SelectedObject
         {
@@ -160,6 +167,28 @@ namespace Code2015.GUI
 
             captureBtn.MouseClick += this.CaptureBtn_Click;
 
+            fl = FileSystem.Instance.Locate("ig_progressbar.tex", GameFileLocs.GUI);
+            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
+
+            devBar = new ProgressBar();
+            devBar.X = 630;
+            devBar.Y = 640;
+            devBar.Height = 35;
+            devBar.Width = 110;
+            devBar.ProgressImage = prgBg;
+
+            popBar = new ProgressBar();
+            popBar.X = 630;
+            popBar.Y = 680;
+            popBar.Height = 35;
+            popBar.Width = 110;
+            popBar.ProgressImage = prgBg;
+
+            supBar = new ProgressBar();
+
+
+            disBar = new ProgressBar();
+
             earth = new Texture[EarthFrameCount];
             for (int i = 0; i < EarthFrameCount; i++)
             {
@@ -209,6 +238,11 @@ namespace Code2015.GUI
 
                 if (object.ReferenceEquals(city.Owner, player))
                 {
+                    devBar.Value = MathEx.Saturate(city.City.Development / 10000f);
+                    devBar.Render(sprite);
+
+                    popBar.Value = MathEx.Saturate(city.City.Population / CityGrade.GetRefPopulation(city.Size));
+                    popBar.Render(sprite);
                 }
                 else
                 {

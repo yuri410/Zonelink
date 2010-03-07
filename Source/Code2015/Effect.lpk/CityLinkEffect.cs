@@ -50,6 +50,7 @@ namespace Apoc3D.Graphics.Effects
         VertexShader vtxShader;
 
         float move;
+        float sign;
 
         public unsafe CityLinkEffect(RenderSystem rs)
             : base(false, StandardEffectFactory.Name)
@@ -76,9 +77,19 @@ namespace Apoc3D.Graphics.Effects
             pixShader.SetValue("lightDir", EffectParams.LightDir);
             vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
-            move -= 0.0005f;
-            while (move <0)
-                move++;
+            move += sign * 0.01f;
+            if (move > 0.75f) 
+            {
+                sign = -1;
+            }
+            else if (move < 0.25f) 
+            {
+                sign = 1;
+            }
+
+            //if (move >= MathEx.PIf)
+            //    move -= MathEx.PIf;
+
 
             stateSetted = false;
             return 1;
@@ -105,7 +116,7 @@ namespace Apoc3D.Graphics.Effects
 
             vtxShader.SetValue("mvp", ref mvp);
             vtxShader.SetValue("world", ref op.Transformation);
-            vtxShader.SetValue("move", move);
+            pixShader.SetValue("move", move);
 
 
             if (!stateSetted)
