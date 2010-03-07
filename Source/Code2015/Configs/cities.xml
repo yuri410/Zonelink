@@ -121,6 +121,14 @@
     <Size>Small</Size>
     <Population>47</Population>
   </Bandjarmasin>
+  <TapungHulu>
+    <Name>Tapung Hulu</Name>
+    <Longitude>100.892944</Longitude>
+    <Latitude>0.722332</Latitude>
+    <Size>Small</Size>
+    <Population>47</Population>
+  </TapungHulu>
+ 
 
   <!--泰国-->
   <Bangkok>
@@ -562,13 +570,13 @@
   </London>
   
   <!--德国-->
-  <Berlin>
+  <!--<Berlin>
     <Name>Berlin</Name>
     <Longitude>13.4095</Longitude>
     <Latitude>50.520399</Latitude>
     <Size>Large</Size>
     <Population>343</Population>
-  </Berlin>
+  </Berlin>-->
 
   <Hannover>
     <Name>Hanover</Name>
@@ -607,7 +615,7 @@
   <Kyiv>
     <Name>Kiev</Name>
     <Longitude>30.531006</Longitude>
-    <Latitude>50.447011</Latitude>
+    <Latitude>48.447011</Latitude>
     <Size>Medium</Size>
     <Population>281</Population>
   </Kyiv>
@@ -691,7 +699,7 @@
   <Moscow>
     <Name>Moscow</Name>
     <Longitude>37.617188</Longitude>
-    <Latitude>55.748758</Latitude>
+    <Latitude>52.748758</Latitude>
     <Size>Large</Size>
     <Population>1052</Population>
   </Moscow>
@@ -719,8 +727,22 @@
     <Size>Small</Size>
     <Population>59</Population>
   </Irkutsk>
-
-
+  
+  <!--<Postnyy>
+    <Name>Postnyy</Name>
+    <Longitude>47.033087</Longitude>
+    <Latitude>43.747289</Latitude>
+    <Size>Small</Size>
+    <Population>59</Population>
+  </Postnyy>-->
+  <Budennovsk>
+    <Name>Budennovsk</Name>
+    <Longitude>44.149933</Longitude>
+    <Latitude>44.79012</Latitude>
+    <Size>Small</Size>
+    <Population>59</Population>
+  </Budennovsk>
+  
   <!--加拿大-->
   <Calgary>
     <Name>Calgary</Name>
@@ -771,13 +793,13 @@
     <Population>589</Population>
   </Washington>
   
-  <Dallas>
+  <!--<Dallas>
     <Name>Dallas</Name>
     <Longitude>-96.763458</Longitude>
     <Latitude>32.831135</Latitude>
     <Size>Large</Size>
     <Population>569</Population>
-  </Dallas> 
+  </Dallas>--> 
   
   
 
@@ -821,29 +843,29 @@
     <Population>423</Population>
   </Birmingham>
 
-  <Bend>
+  <!--<Bend>
     <Name>Bend</Name>
     <Longitude>-121.304169</Longitude>
     <Latitude>44.059219</Latitude>
     <Size>Medium</Size>
     <Population>11</Population>
-  </Bend>   
+  </Bend>-->   
 
-  <Charlotte>
+  <!--<Charlotte>
     <Name>Charlotte</Name>
     <Longitude>-80.837402</Longitude>
     <Latitude>35.252348</Latitude>
     <Size>Medium</Size>
     <Population>170</Population>
-  </Charlotte>
+  </Charlotte>-->
 
- <Denver>
+ <!--<Denver>
   <Name>Denver</Name>
   <Longitude>-95.998535</Longitude>
   <Latitude>41.280903</Latitude>
   <Size>Medium</Size>
   <Population>60</Population>
-  </Denver>
+  </Denver>-->
 
   <Omaha>
     <Name>Omaha</Name>
@@ -904,6 +926,21 @@
     <Size>Small</Size>
     <Population>30</Population>
   </SanJuanBautistaTuxtepec>
+  <SanPedro>
+    <Name>San Pedro</Name>
+    <Longitude>-102.963867</Longitude>
+    <Latitude>25.977799</Latitude>
+    <Size>Small</Size>
+    <Population>30</Population>
+  </SanPedro>
+  <SanJuanito>
+    <Name>San Juanito</Name>
+    <Longitude>-107.600098</Longitude>
+    <Latitude>27.991976</Latitude>
+    <Size>Small</Size>
+    <Population>30</Population>
+  </SanJuanito>
+ 
 
   <!--巴西-->
   <SaoPaulo>
@@ -956,12 +993,29 @@
     <Population>18</Population>
   </Sinop>
 
- 
-<!--委内瑞拉-->
+
+  <Acre>
+    <Name>Acre</Name>
+    <Longitude>-70.532227</Longitude>
+    <Latitude>-8.29847</Latitude>
+    <Size>Small</Size>
+    <Population>18</Population>
+  </Acre>
+  <Carauari>
+  <Name>Carauari</Name>
+  <Longitude>-66.884766</Longitude>
+  <Latitude>-4.64213</Latitude>
+  <Size>Small</Size>
+  <Population>48</Population>
+  </Carauari>
+
+  
+
+  <!--委内瑞拉-->
   <Caracas>
     <Name>Caracas</Name>
     <Longitude>-65.896439</Longitude>
-    <Latitude>9.70199</Latitude>
+    <Latitude>9.00199</Latitude>
     <Size>Medium</Size>
     <Population>207</Population>
   </Caracas>
@@ -970,8 +1024,8 @@
   <!--秘鲁-->
   <Iquitos>
     <Name>Iquitos</Name>
-    <Longitude>-79.755377</Longitude>
-    <Latitude>-3.754977</Latitude>
+    <Longitude>-73.234863</Longitude>
+    <Latitude>-5.754977</Latitude>
     <Size>Small</Size>
     <Population>40</Population>
   </Iquitos>
@@ -980,7 +1034,7 @@
   <Barinas>
     <Name>Barinas</Name>
     <Longitude>-70.227356</Longitude>
-    <Latitude>8.629903</Latitude>
+    <Latitude>7.629903</Latitude>
     <Size>Medium</Size>
     <Population>18</Population>
   </Barinas>
@@ -1000,8 +1054,16 @@
     <Latitude>-17.784324</Latitude>
     <Size>Medium</Size>
     <Population>155</Population>
-
   </SantaCruz>
+
+  <Baures>
+    <Name>Baures</Name>
+    <Longitude>-66.8847666</Longitude>
+    <Latitude>-13.11158</Latitude>
+    <Size>Medium</Size>
+    <Population>155</Population>
+  </Baures>
+  
 
   <!--哥伦比亚-->
   <Medellin>
@@ -1016,8 +1078,8 @@
   <!--厄瓜多尔-->
   <Quito>
     <Name>Quito</Name>
-    <Longitude>-78.521347</Longitude>
-    <Latitude>-0.216293</Latitude>
+    <Longitude>-75.521347</Longitude>
+    <Latitude>-0.016293</Latitude>
     <Size>Large</Size>
     <Population>190</Population>
 
@@ -1029,8 +1091,16 @@
     <Latitude>-34.675006</Latitude>
     <Size>Large</Size>
     <Population>1300</Population>
-
-  </BuenosAires>
+    </BuenosAires>
+  
+    <EICalafate>
+      <Name>EI Calafate</Name>
+      <Longitude>-69.284546</Longitude>
+      <Latitude>-46.25423</Latitude>
+      <Size>Small</Size>
+      <Population>30</Population>
+  
+  </EICalafate>
 
   <Cordoba>
     <Name>Cordoba</Name>
@@ -1043,7 +1113,7 @@
 
   <SantaRosa>
     <Name>Santa Rosa</Name>
-    <Longitude>-66.287529</Longitude>
+    <Longitude>-64.287529</Longitude>
     <Latitude>-25.623794</Latitude>
     <Size>Small</Size>
     <Population>29</Population>
