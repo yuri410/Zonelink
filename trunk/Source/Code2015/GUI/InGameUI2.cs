@@ -251,7 +251,7 @@ namespace Code2015.GUI
                     camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
                 Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
-                //Size strSize = font.MeasureString(cc.Name, 20, DrawTextFormat.Center);
+                Size strSize = font.MeasureString(cc.Name, 20, DrawTextFormat.Center);
 
                 //scrnPos.Y += strSize.Height;
                 scrnPos.X -= strSize.Width / 2;
