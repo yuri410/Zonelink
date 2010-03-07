@@ -8,6 +8,7 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -19,7 +20,7 @@ namespace Code2015.World
 
         CityObject start;
         CityObject end;
-
+        Model link_e;
         public CityLink(RenderSystem renderSys, CityObject a, CityObject b)
             : base(false)
         {
@@ -41,7 +42,14 @@ namespace Code2015.World
 
             ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY(MathEx.PiOver2) *
                 Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
-           
+
+
+
+            fl = FileSystem.Instance.Locate("link_e.mesh", GameFileLocs.Model);
+            link_e = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
+            link_e.CurrentAnimation =
+                new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
+
 
             float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
             float latitude = MathEx.Degree2Radian(0.5f * (a.Latitude + b.Latitude));
@@ -62,6 +70,30 @@ namespace Code2015.World
         public override bool IsSerializable
         {
             get { return false; }
+        }
+
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
+
+        public override RenderOperation[] GetRenderOperation()
+        {
+            opBuffer.FastClear();
+            //return base.GetRenderOperation();
+            RenderOperation[] ops = ModelL0.GetRenderOperation();
+            if (ops != null)
+            {
+                opBuffer.Add(ops);
+            }
+            ops = link_e.GetRenderOperation();
+            if (ops != null) 
+            {
+                opBuffer.Add(ops);
+            }
+            opBuffer.Trim();
+            return opBuffer.Elements;
+        }
+        public override RenderOperation[] GetRenderOperation(int level)
+        {
+            return GetRenderOperation();
         }
     }
 }

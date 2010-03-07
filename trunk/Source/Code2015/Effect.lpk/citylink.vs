@@ -3,7 +3,6 @@
 float4x4 mvp : register(c0);
 float4x4 world : register(c4);
 float3 viewPos : register(c8);
-float move : register(c9);
 
 struct VSInput
 {
@@ -31,7 +30,6 @@ VSOutput main(VSInput ip)
 
 	o.TexCoord.z = o.TexCoord.z > 0 ? (1 - (o.TexCoord.z/15)) : 1;
 	
-    o.TexCoord.x += move;
     
 	o.Normal = normalize((float3)mul(float4(0, 1, 0, 0), world));
     
