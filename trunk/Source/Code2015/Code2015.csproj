@@ -99,6 +99,7 @@
     <Compile Include="BalanceSystem\OilField.cs" />
     <Compile Include="Effect.lpk\CityLinkEffect.cs" />
     <Compile Include="Effect.lpk\CityRingEffect.cs" />
+    <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
