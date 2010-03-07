@@ -1,514 +1,901 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <Resources>
+  <!--美国北部-->
   <Resource1>
     <Longitude>-107.468262</Longitude>
-    <Latitude>52.119999</Latitude>
+    <Latitude>50.119999</Latitude>
     <Type>Petro</Type>
-    <Amount>524301</Amount>
+    <Amount>5000</Amount>
   </Resource1>
   <Resource2>
+    <!--美国北部-->
     <Longitude>-114.65332</Longitude>
-    <Latitude>53.514185</Latitude>
+    <Latitude>50.514185</Latitude>
     <Type>Petro</Type>
-    <Amount>524303</Amount>
+    <Amount>5000</Amount>
   </Resource2>
   <Resource3>
+    <!--美国西北部-->
     <Longitude>-111.445312</Longitude>
-    <Latitude>49.639177</Latitude>
+    <Latitude>47.639177</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource3>
   <Resource4>
+    <!--美国北部-->
     <Longitude>-104.72168</Longitude>
     <Latitude>50.064192</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource4>
   <Resource5>
+    <!--老挝附近-->
     <Longitude>100.019531</Longitude>
     <Latitude>20.797201</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource5>
   <Resource6>
+    <!--美国东部海上-->
     <Longitude>-58.710937</Longitude>
     <Latitude>43.389082</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource6>
   <Resource7>
+    <!--美国东部-->
     <Longitude>-69.654297</Longitude>
     <Latitude>46.316584</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource7>
   <Resource8>
+    <!--美国和巴西的中间的一个岛-->
     <Longitude>-76.728516</Longitude>
     <Latitude>20.303418</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource8>
   <Resource9>
+    <!--巴西最北部临海-->
     <Longitude>-69.345703</Longitude>
     <Latitude>7.188101</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource9>
   <Resource10>
+    <!--厄瓜多尔-->
     <Longitude>-78.398437</Longitude>
     <Latitude>-1.142502</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource10>
   <Resource11>
+    <!--巴西北部边境-->
     <Longitude>-56.601562</Longitude>
     <Latitude>2.284551</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource11>
   <Resource12>
+    <!--玻利维亚-->
     <Longitude>-62.138672</Longitude>
     <Latitude>-19.642588</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource12>
   <Resource13>
+   <!--圣保罗东部的海-->
     <Longitude>-40.253906</Longitude>
     <Latitude>-26.588527</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource13>
   <Resource14>
+    <!--阿根廷南部-->
     <Longitude>-69.345703</Longitude>
     <Latitude>-48.341646</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource14>
   <Resource15>
+    <!--阿根廷东部的海-->
     <Longitude>-64.335937</Longitude>
     <Latitude>-50.120578</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource15>
   <Resource16>
+    <!--英国附近-->
     <Longitude>3.076172</Longitude>
     <Latitude>55.229023</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource16>
   <Resource17>
+    <!--德国北部-->
     <Longitude>9.316406</Longitude>
     <Latitude>53.014783</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource17>
   <Resource18>
+    <!--意大利北部-->
     <Longitude>11.162109</Longitude>
     <Latitude>45.521744</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource18> 
   <Resource19>
+    <!--西班牙和意大利之间的海-->
     <Longitude>5.273438</Longitude>
     <Latitude>39.639538</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource19>
   <Resource20>
+    <!--波兰的东南部-->
     <Longitude>26.455078</Longitude>
     <Latitude>48.57479</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource20>
   <Resource21>
+    <!--阿尔及利亚境内-->
     <Longitude>7.03125</Longitude>
     <Latitude>29.688053</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource21>
   <Resource22>
+    <!--利比亚境内-->
     <Longitude>15.380859</Longitude>
     <Latitude>30.600094</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource22>
   <Resource23>
+    <!--沙特阿拉伯-->
     <Longitude>36.298828</Longitude>
     <Latitude>26.667096</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource23>
   <Resource24>
+    <!--黑海和里海之间-->
     <Longitude>39.902344</Longitude>
     <Latitude>45.644768</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource24>
   <Resource25>
+    <!--伊拉克的巴格达-->
     <Longitude>44.384766</Longitude>
     <Latitude>33.211116</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource25>
   <Resource26>
+    <!--沙特阿拉伯-->
     <Longitude>48.515625</Longitude>
     <Latitude>26.431228</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource26>
   <Resource27>
+    <!--里海东部-->
     <Longitude>53.173828</Longitude>
     <Latitude>44.087585</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource27>
   <Resource28>
+    <!--乌兹别克斯坦-->
     <Longitude>63.896484</Longitude>
     <Latitude>41.376809</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource28>
   <Resource29>
+    <!--伊朗南部的海-->
     <Longitude>52.910156</Longitude>
     <Latitude>25.958045</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource29>
   <Resource30>
+    <!--沙特与也门交界处-->
     <Longitude>47.460938</Longitude>
     <Latitude>18.229351</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource30>
   <Resource31>
+    <!--巴基斯坦南部海-->
     <Longitude>66.621094</Longitude>
     <Latitude>22.268764</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource31>
   <Resource32>
+    <!--哈萨克斯坦中部-->
     <Longitude>70.136719</Longitude>
     <Latitude>50.34546</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource32>
   <Resource33>
+    <!--几内亚湾-->
     <Longitude>0.966797</Longitude>
     <Latitude>4.214943</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource33>
   <Resource34>
+    <!--几内亚-->
     <Longitude>-13.183594</Longitude>
     <Latitude>11.178402</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource34>
   <Resource35>
+    <!--蒙古国-->
     <Longitude>99.316406</Longitude>
     <Latitude>49.325122</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource35>  
   <Resource36>
+    <!--新疆塔克拉玛干-->
     <Longitude>82.529297</Longitude>
     <Latitude>38.548165</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource36>
   <Resource37>
-    <Longitude>82.529297</Longitude>
-    <Latitude>38.548165</Latitude>
+    <!--新疆-->
+    <Longitude>83.529297</Longitude>
+    <Latitude>39.548165</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource37>
   <Resource38>
+    <!--新疆-->
     <Longitude>86.484375</Longitude>
     <Latitude>40.111689</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource38>
   <Resource39>
+    <!--齐齐哈尔-->
     <Longitude>123.134766</Longitude>
     <Latitude>47.316483</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource39>
   <Resource40>
+    <!--日本秋田西部-->
     <Longitude>138.427734</Longitude>
     <Latitude>40.713956</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource40>
   <Resource41>
+    <!--陕西-->
     <Longitude>109.863281</Longitude>
     <Latitude>35.56798</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource41>
   <Resource42>
+    <!--四川成都附近-->
     <Longitude>105.380859</Longitude>
     <Latitude>30.751278</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource42>
   <Resource43>
+    <!--泰国西边-->
     <Longitude>96.635742</Longitude>
     <Latitude>11.307708</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource43>
   <Resource44>
+    <!--印度尼西亚大岛-->
     <Longitude>113.071289</Longitude>
     <Latitude>-1.845384</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource44>
   <Resource45>
+    <!--澳大利亚-->
     <Longitude>131.220703</Longitude>
     <Latitude>-22.024546</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource45>
   <Resource46>
+    <!--澳大利亚南部-->
     <Longitude>149.238281</Longitude>
     <Latitude>-39.67337</Latitude>
     <Type>Petro</Type>
-    <Amount></Amount>
+    <Amount>5000</Amount>
   </Resource46>
+
+  <!--木材-->
+  <!--Category：Tropics热带，Subtropics亚热带，TemperateZone温带-->
+  <!--Kind：Forest森林，Bush灌木，Grass草地-->
   <Resource47>
+    <!--福建附近-->
     <Longitude>118.070068</Longitude>
     <Latitude>26.32296</Latitude>
     <Type>Wood</Type>
-    <Amount>100</Amount>
+    <Radius>2</Radius> 
+    <Category>Subtropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>5000</Amount>
   </Resource47>
+  
   <Resource48>
+    <!--四川附近-->
     <Longitude>101.931152</Longitude>
     <Latitude>30.581179</Latitude>
     <Type>Wood</Type>
-    <Amount>40</Amount>
+    <Radius>1</Radius> 
+    <Category>Subtropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>5000</Amount>
   </Resource48>
+  
   <Resource49>
+    <!--西藏向南-->
     <Longitude>97.855225</Longitude>
     <Latitude>26.42139</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>3</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource49>
+  
   <Resource50>
+    <!--东北向北-->
     <Longitude>123.33252</Longitude>
     <Latitude>51.275662</Latitude>
     <Type>Wood</Type>
-    <Amount>70</Amount>
+    <Radius>3</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>3500</Amount>
   </Resource50>
+  
   <Resource51>
+    <!--东北-->
     <Longitude>128.671875</Longitude>
     <Latitude>42.843751</Latitude>
     <Type>Wood</Type>
-    <Amount>80</Amount>
+    <Radius>2</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>4000</Amount>
   </Resource51>
+  
   <Resource52>
+    <!--蒙古以北-->
     <Longitude>104.875488</Longitude>
     <Latitude>54.444492</Latitude>
     <Type>Wood</Type>
-    <Amount>200</Amount>
+    <Radius>2</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>10000</Amount>
   </Resource52>
+  
   <Resource53>
+    <!--陕西以北-->
     <Longitude>107.731934</Longitude>
     <Latitude>33.92513</Latitude>
     <Type>Wood</Type>
-    <Amount>50</Amount>
+    <Radius>2</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>2500</Amount>
   </Resource53>
+  
   <Resource54>
+    <!--俄罗斯与东北处-->
     <Longitude>132.451172</Longitude>
     <Latitude>53.592505</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>3.5</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource54>
+  
   <Resource55>
+    <!--蒙古国北-->
     <Longitude>94.614258</Longitude>
     <Latitude>54.72462</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>3</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource55>
+  
   <Resource56>
+    <!--新疆北-->
     <Longitude>87.670898</Longitude>
     <Latitude>52.536273</Latitude>
     <Type>Wood</Type>
-    <Amount>90</Amount>
+    <Radius>3</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>4500</Amount>
   </Resource56>
+  
   <Resource57>
+    <!--东南亚群岛，印度尼西亚-->
     <Longitude>114.741211</Longitude>
     <Latitude>0.439449</Latitude>
     <Type>Wood</Type>
-    <Amount>90</Amount>
+    <Radius>10</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>4500</Amount>
   </Resource57>
+  
   <Resource58>
+    <!--澳大利亚墨尔本-->
     <Longitude>146.975098</Longitude>
     <Latitude>-37.204082</Latitude>
     <Type>Wood</Type>
-    <Amount>100</Amount>
+    <Radius>1</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
   </Resource58>
+  
   <Resource59>
+    <!--巴布亚新几内亚-->
     <Longitude>141.416016</Longitude>
     <Latitude>-5.965754</Latitude>
     <Type>Wood</Type>
-    <Amount>90</Amount>
+    <Radius>5</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>4500</Amount>
   </Resource59>
+  
   <Resource60>
-    <Longitude>141.416016</Longitude>
-    <Latitude>-5.965754</Latitude>
+    <!--日本-->
+    <Longitude>139.746094</Longitude>
+    <Latitude>37.71859</Latitude>
     <Type>Wood</Type>
-    <Amount>50</Amount>
+    <Radius>5</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>2500</Amount>
   </Resource60>
+  
   <Resource61>
+    <!--马来西亚南的那个岛-->
     <Longitude>98.843994</Longitude>
     <Latitude>2.591889</Latitude>
     <Type>Wood</Type>
-    <Amount>70</Amount>
+    <Radius>7</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>3500</Amount>
   </Resource61>
+  
   <Resource62>
+    <!--黑海和里海之间-->
     <Longitude>43.330078</Longitude>
     <Latitude>42.326062</Latitude>
     <Type>Wood</Type>
-    <Amount>100</Amount>
+    <Radius>3</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>5000</Amount>  
   </Resource62>
+  
   <Resource63>
+    <!--英国周围的欧洲-->
     <Longitude>11.57959</Longitude>
     <Latitude>47.092566</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>6</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource63>
+  
   <Resource64>
+    <!--罗马尼亚-->
     <Longitude>25.598145</Longitude>
     <Latitude>45.912944</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>2</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource64>
+  
   <Resource65>
+    <!--法国-->
     <Longitude>0.241699</Longitude>
     <Latitude>43.036776</Latitude>
     <Type>Wood</Type>
-    <Amount>60</Amount>
+    <Radius>1</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>3000</Amount>
   </Resource65>
+  
   <Resource66>
+    <!--摩洛哥-->
     <Longitude>-5.998535</Longitude>
     <Latitude>33.302986</Latitude>
     <Type>Wood</Type>
-    <Amount>50</Amount>
+    <Radius>1</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>3000</Amount>
   </Resource66>
+  
   <Resource67>
+    <!--刚果-->
     <Longitude>24.697266</Longitude>
     <Latitude>1.230374</Latitude>
     <Type>Wood</Type>
-    <Amount>150</Amount>
+    <Radius>4</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>7500</Amount>
   </Resource67>
+  
   <Resource68>
+    <!--刚果-->
     <Longitude>20.258789</Longitude>
     <Latitude>-2.811371</Latitude>
     <Type>Wood</Type>
-    <Amount>200</Amount>
+    <Radius>6</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>10000</Amount>
   </Resource68>
+  
   <Resource69>
+    <!--刚果西的国家加蓬-->
     <Longitude>13.535156</Longitude>
     <Latitude>1.098565</Latitude>
     <Type>Wood</Type>
-    <Amount>180</Amount>
+    <Radius>3</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>18000</Amount>
   </Resource69> 
+  
   <Resource70>
+    <!--南非-->
     <Longitude>30.915527</Longitude>
     <Latitude>-25.967922</Latitude>
     <Type>Wood</Type>
-    <Amount>40</Amount>
+    <Radius>2</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>2000</Amount>
   </Resource70>
+  
   <Resource71>
+    <!--巴西北部-->
     <Longitude>-65.961914</Longitude>
     <Latitude>3.864255</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>2</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource71>
+  
   <Resource72>
+    <!--秘鲁-->
     <Longitude>-74.003906</Longitude>
     <Latitude>-3.337954</Latitude>
     <Type>Wood</Type>
-    <Amount>220</Amount>
+    <Radius>3</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>11000</Amount>
   </Resource72>
+  
   <Resource73>
+    <!--秘鲁-->
     <Longitude>-69.829102</Longitude>
     <Latitude>-9.449062</Latitude>
     <Type>Wood</Type>
-    <Amount>180</Amount>
+    <Radius>5</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>9000</Amount>
   </Resource73>
+  
   <Resource74>
+    <!--巴西-->
     <Longitude>-64.379883</Longitude>
     <Latitude>-2.899153</Latitude>
     <Type>Wood</Type>
-    <Amount>110</Amount>
+    <Radius>6</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>5500</Amount>
   </Resource74>
+  
   <Resource75>
+    <!--巴西-->
     <Longitude>-57.524414</Longitude>
     <Latitude>-9.362353</Latitude>
     <Type>Wood</Type>
-    <Amount>100</Amount>
+    <Radius>4</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>5000</Amount>
   </Resource75>
+  
   <Resource76>
     <Longitude>-90.483398</Longitude>
     <Latitude>15.897942</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>2</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource76>
+  
   <Resource77>
+    <!--美国-->
     <Longitude>-86.660156</Longitude>
     <Latitude>32.435613</Latitude>
     <Type>Wood</Type>
-    <Amount>160</Amount>
+    <Radius>3</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>8000</Amount>
   </Resource77>
+  
   <Resource78>
+    <!--美国-->
     <Longitude>-124.145508</Longitude>
     <Latitude>52.988337</Latitude>
     <Type>Wood</Type>
-    <Amount>200</Amount>
+    <Radius>1.7</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>10000</Amount>
   </Resource78>
+  
   <Resource79>
     <Longitude>-118.78418</Longitude>
-    <Latitude>49.922935</Latitude>
+    <Latitude>49.922935</Latitude> 
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>1.7</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource79>
+  
   <Resource80>
+    <!--美国最东部-->
     <Longitude>-66.31347</Longitude>
     <Latitude>48.719961</Latitude>
     <Type>Wood</Type>
-    <Amount>100</Amount>
+    <Radius>1.7</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>5000</Amount>
   </Resource80>
+  
   <Resource81>
+    <!--美国最东部-->
     <Longitude>-76.574707</Longitude>
     <Latitude>47.680183</Latitude>
     <Type>Wood</Type>
-    <Amount>150</Amount>
+    <Radius>3</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>7500</Amount>
   </Resource81>
+  
   <Resource82>
+    <!--美国最东北部-->
     <Longitude>-73.564453</Longitude>
     <Latitude>50.317408</Latitude>
     <Type>Wood</Type>
-    <Amount>120</Amount>
+    <Radius>3</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>6000</Amount>
   </Resource82>
+  
   <Resource83>
+    <!--加拿大-->
     <Longitude>-83.935547</Longitude>
     <Latitude>48.951366</Latitude>
     <Type>Wood</Type>
-    <Amount>180</Amount>
+    <Radius>1</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>8000</Amount>
   </Resource83>
+  
   <Resource84>
     <Longitude>-89.736328</Longitude>
     <Latitude>52.589701</Latitude>
     <Type>Wood</Type>
-    <Amount>200</Amount>
+    <Radius>3.5</Radius>
+    <Category>TemperateZone</Category>
+    <Kind>Forest</Kind>
+    <Amount>10000</Amount>
   </Resource84>
+  
   <Resource85>
+    <!--老挝-->
     <Longitude>102.041016</Longitude>
     <Latitude>20.653346</Latitude>
     <Type>Wood</Type>
-    <Amount>100</Amount>
+    <Radius>2</Radius>
+    <Category>Tropics</Category>
+    <Kind>Forest</Kind>
+    <Amount>5000</Amount>
   </Resource85>
+
+  <!--灌木-->
+  <Resource86>
+    <!--澳大利亚-->
+    <Longitude>133.242188</Longitude>
+    <Latitude>-23.966176</Latitude>
+    <Type>Wood</Type>
+    <Radius>7</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
+  </Resource86>
+  
+  <Resource87>
+    <!--澳大利亚-->
+    <Longitude>121.992188</Longitude>
+    <Latitude>-26.588527</Latitude>
+    <Type>Wood</Type>
+    <Radius>3</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
+  </Resource87>
+
+  <Resource88>
+    <!--马达加斯加岛-->
+    <Longitude>46.362305</Longitude>
+    <Latitude>-19.890723</Latitude>
+    <Type>Wood</Type>
+    <Radius>1</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
+  </Resource88>
+
+  <Resource89>
+    <!--马达加斯加岛-->
+    <Longitude>45.307617</Longitude>
+    <Latitude>-21.983801</Latitude>
+    <Type>Wood</Type>
+    <Radius>1.5</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
+  </Resource89>
+
+  <Resource90>
+    <!--非洲南部-->
+    <Longitude>24.345703</Longitude>
+    <Latitude>-22.674847</Latitude>
+    <Type>Wood</Type>
+    <Radius>3</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
+  </Resource90>
+
+  <Resource91>
+    <!--非洲南部-->
+    <Longitude>24.65332</Longitude>
+    <Latitude>-27.994401</Latitude>
+    <Type>Wood</Type>
+    <Radius>5</Radius>
+    <Category>Tropics</Category>
+    <Kind>Bush</Kind>
+    <Amount>5000</Amount>
+  </Resource91>
+  
+  <!--草地-->
+  <Resource92>
+    <!--新疆-->
+    <Longitude>89.692383</Longitude>
+    <Latitude>39.876019</Latitude>
+    <Type>Wood</Type>
+    <Radius>2</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource92>
+
+  <Resource93>
+    <!--新疆-->
+    <Longitude>99.316406</Longitude>
+    <Latitude>40.713956</Latitude>
+    <Type>Wood</Type>
+    <Radius>4</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource93>
+
+  <Resource94>
+    <!--内蒙-->
+    <Longitude>108.193359</Longitude>
+    <Latitude>42.163403</Latitude>
+    <Type>Wood</Type>
+    <Radius>1</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource94>
+
+  <Resource95>
+    <!--蒙古国-->
+    <Longitude>105.644531</Longitude>
+    <Latitude>46.13417</Latitude>
+    <Type>Wood</Type>
+    <Radius>2</Radius>
+    <Category>Subtropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource95>
+
+  <Resource96>
+    <!--非洲北部-->
+    <Longitude>-0.878906</Longitude>
+    <Latitude>22.350076</Latitude>
+    <Type>Wood</Type>
+    <Radius>8</Radius>
+    <Category>Tropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource96>
+
+
+  <Resource97>
+    <!--非洲北部-->
+    <Longitude>14.0625</Longitude>
+    <Latitude>20.550509</Latitude>
+    <Type>Wood</Type>
+    <Radius>8</Radius>
+    <Category>Tropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource97>
+  <Resource98>
+    <!--沙特阿拉伯-->
+    <Longitude>46.318359</Longitude>
+    <Latitude>22.024546</Latitude>
+    <Type>Wood</Type>
+    <Radius>3</Radius>
+    <Category>Tropics</Category>
+    <Kind>Grass</Kind>
+    <Amount>5000</Amount>
+  </Resource98>
+ 
 </Resources>
