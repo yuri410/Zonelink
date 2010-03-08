@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
@@ -12,14 +13,8 @@ namespace Code2015.World
 {
     class ForestObject : SceneObject, ISelectableObject
     {
-        //struct Tree 
-        //{
-        //    public Matrix Transformation;
-        //    public Model Model;
-        //}
-
         Forest forest;
-        TreeBatchModel model;
+        ResourceHandle<TreeBatchModel> model;
 
         public ForestObject(RenderSystem rs, Forest forest)
             : base(false)
@@ -34,25 +29,28 @@ namespace Code2015.World
 
             info.Amount = forest.CurrentAmount;
             info.Category = forest.Category;
-            info.Type = forest.PlantKind;
+            info.Type = forest.PlantSize;
 
-            info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, info.Type);
-            info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, info.Type);
-            model = new TreeBatchModel(rs, info);
+            info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, PlantType.Subtropics);// info.Type);
+            info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, PlantType.Subtropics);// info.Type);
+            model = TreeBatchModelManager.Instance.CreateInstance(rs, info);
 
 
-
+            Transformation = model.GetWeakResource().Transformation;
+            BoundingSphere = model.GetWeakResource().BoundingVolume;
 
         }
 
         public override RenderOperation[] GetRenderOperation()
         {
-            return model.GetRenderOperation();
+            TreeBatchModel mdl = model;
+
+            return mdl.GetRenderOperation();
         }
 
         public override void Update(GameTime dt)
         {
-            throw new NotImplementedException();
+            //throw new NotImplementedException();
         }
 
         public override bool IsSerializable

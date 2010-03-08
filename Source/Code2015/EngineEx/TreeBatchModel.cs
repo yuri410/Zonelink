@@ -66,6 +66,8 @@ namespace Code2015.EngineEx
         public Matrix Transformation;
 
         public TreeBatchModel(RenderSystem rs, ForestInfo info)
+            : base(TreeBatchModelManager.Instance,
+            info.Longitude.ToString() + "_" + info.Latitude.ToString() + "_" + info.Radius.ToString())
         {
             this.info = info;
             this.renderSys = rs;
@@ -73,10 +75,10 @@ namespace Code2015.EngineEx
             float radlng = MathEx.Degree2Radian(info.Longitude);
             float radlat = MathEx.Degree2Radian(info.Latitude);
 
-            Transformation = PlanetEarth.GetOrientation(radlng, radlat);
-            Transformation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat);
+            Transformation = Matrix.Identity;// PlanetEarth.GetOrientation(radlng, radlat);
+            //Transformation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat);
 
-            BoundingVolume.Center = Transformation.TranslationValue;
+            BoundingVolume.Center = PlanetEarth.GetPosition(radlng, radlat);
             BoundingVolume.Radius = PlanetEarth.GetTileArcLength(MathEx.Degree2Radian(info.Radius));
         }
 
@@ -102,6 +104,7 @@ namespace Code2015.EngineEx
             int smvCount = 0;
             switch (info.Category)
             {
+                case PlantCategory.Bush:
                 case PlantCategory.Forest:
                     treeCount = (int)(plantCount * 0.6f);
                     smvCount = (int)(plantCount * 0.4f);
@@ -112,13 +115,19 @@ namespace Code2015.EngineEx
             Dictionary<Material, FastList<int>> indices = new Dictionary<Material, FastList<int>>();
             Dictionary<Material, int> partVtxCount = new Dictionary<Material, int>();
 
+           
             for (int i = 0; i < plantCount; i++)
             {
+              
                 int idx = Randomizer.GetRandomInt(info.BigPlants.Length);
 
                 float rx = 2 * (Randomizer.GetRandomSingle() - 0.5f) * radr;
                 float ry = 2 * (Randomizer.GetRandomSingle() - 0.5f) * radr;
-                Vector3 pos = PlanetEarth.GetPosition(radlng + rx, radlat + ry);
+
+                Matrix trans =// Matrix.Scaling(CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler) *
+                   PlanetEarth.GetOrientation(radlng + rx, radlat + ry);
+                trans.TranslationValue = PlanetEarth.GetPosition(radlng + rx, radlng + ry,PlanetEarth.PlanetRadius + 100);
+
 
                 TreeModelData meshData = info.BigPlants[idx];
 
@@ -132,7 +141,8 @@ namespace Code2015.EngineEx
 
                     for (int j = 0; j < meshData.VertexCount; j++)
                     {
-                        ptr[j].pos += pos;
+                        Vector3 p = ptr[j].pos;
+                        Vector3.TransformSimple(ref p, ref trans, out ptr[j].pos);
                     }
                 }
                 vertices.Add(meshData.VertexData);
@@ -162,14 +172,14 @@ namespace Code2015.EngineEx
 
                     
                 }
-                vtxOffset += vtxDataSize;
+                vtxOffset += meshData.VertexCount;
             }
             resourceSize += vtxSizeTotal;
 
-            for (int i = 0; i < smvCount; i++)
-            {
-                int idx = Randomizer.GetRandomInt(info.SmallPlants.Length);
-            }
+            //for (int i = 0; i < smvCount; i++)
+            //{
+            //    int idx = Randomizer.GetRandomInt(info.SmallPlants.Length);
+            //}
 
 
             // ============================================================================

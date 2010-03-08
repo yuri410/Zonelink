@@ -29,7 +29,7 @@ namespace Code2015.World
         {
             SLGWorld = new SimulationRegion();
 
-            FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
+            FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
 
             GameConfiguration resCon = new GameConfiguration(fl);
             GameConfiguration.ValueCollection resVals = resCon.Values;
@@ -38,16 +38,19 @@ namespace Code2015.World
 
             foreach (GameConfigurationSection sect in resVals) 
             {
-                string type = sect.GetString("Type", string.Empty);
-                switch (type) 
+                string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
+                //switch (type) 
+                //{
+                //    case "wood":
+                if (type == "wood")
                 {
-                    case "Wood":
-                        Forest forest = new Forest(SLGWorld);
-                        forest.Parse(sect);
-                        resources.Add(forest);
-                        break;
+                    Forest forest = new Forest(SLGWorld);
+                    forest.Parse(sect);
+                    resources.Add(forest);
+                    break;
                 }
-                break;
+                //}
+                //break;
             }
             for (int i = 0; i < resources.Count; i++)
             {
