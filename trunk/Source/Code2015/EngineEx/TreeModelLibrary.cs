@@ -25,8 +25,8 @@ namespace Code2015.EngineEx
         }
 
         RenderSystem renderSys;
-        Dictionary<PlantCategory, TreeModelData> categoryModels = new Dictionary<PlantCategory, TreeModelData>();
-        Dictionary<PlantType, TreeModelData> typeModels = new Dictionary<PlantType, TreeModelData>();
+        Dictionary<PlantCategory, FastList<TreeModelData>> categoryModels = new Dictionary<PlantCategory, FastList<TreeModelData>>();
+        Dictionary<PlantType, FastList<TreeModelData>> typeModels = new Dictionary<PlantType, FastList<TreeModelData>>();
 
 
         private unsafe TreeModelLibrary(RenderSystem rs)
@@ -62,7 +62,7 @@ namespace Code2015.EngineEx
 
                     mdl.Materials = new Material[partCount];
                     mdl.Indices = new int[partCount][];
-
+                    mdl.PartVtxCount = new int[partCount];
 
                     MeshFace[] faces = data.Faces;
 
@@ -82,6 +82,22 @@ namespace Code2015.EngineEx
 
                         indices[i].Trim();
                         mdl.Indices[i] = indices[i].Elements;
+
+                        int partVtxCount =0;
+
+                        bool[] passed = new bool[data.VertexCount];
+
+                        for (int j = 0; j < mdl.Indices[i].Length; j++) 
+                        {
+                            passed[indices[i][j]] = true;
+                        }
+
+                        for (int j = 0; j < data.VertexCount; j++)
+                            if (passed[i])
+                                partVtxCount++;
+
+                        mdl.PartVtxCount[i] = partVtxCount;
+
                     }
 
                     mdl.VertexCount = data.VertexCount;
@@ -92,11 +108,55 @@ namespace Code2015.EngineEx
                     }
 
 
+                    #region 添加到表中
+                    FastList<TreeModelData> mdlList;
+                    if (categoryModels.TryGetValue(mdl.Category, out mdlList))
+                    {
+                        mdlList = new FastList<TreeModelData>();
+                        categoryModels.Add(mdl.Category, mdlList);
+                    }
+                    mdlList.Add(ref mdl);
+
+
+                    if (typeModels.TryGetValue(mdl.Type, out mdlList))
+                    {
+                        mdlList = new FastList<TreeModelData>();
+                        typeModels.Add(mdl.Type, mdlList);
+                    }
+                    mdlList.Add(ref mdl);
+                    #endregion
                 }
+            }
+
+            foreach (KeyValuePair<PlantCategory, FastList<TreeModelData>> e in categoryModels)
+            {
+                e.Value.Trim();
+            }
+            foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e in typeModels)
+            {
+                e.Value.Trim();
             }
         }
 
+        public TreeModelData[] GetCategory(PlantCategory cate)
+        {
+            FastList<TreeModelData> result;
+            if (categoryModels.TryGetValue(cate, out result)) 
+            {
+                return result.Elements;
+            }
+            return null;
+        }
 
+        public TreeModelData[] GetType(PlantType cate)
+        {
+            FastList<TreeModelData> result;
+            if (typeModels.TryGetValue(cate, out result))
+            {
+                return result.Elements;
+            }
+            return null;
+        }
 
 
         protected override void dispose()
