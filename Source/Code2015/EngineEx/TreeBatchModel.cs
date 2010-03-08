@@ -1,24 +1,33 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
-using Apoc3D.Collections;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
+using Code2015.BalanceSystem;
 using Code2015.World;
 
 namespace Code2015.EngineEx
 {
-    enum PlantCategory
-    {
-        Forest,
 
-    }
-    enum PlantType
+
+    struct TreeModelData
     {
-        Cold,
-        Temperate,
-        Hot
+        public Material[] Materials;
+        public int[][] Indices;
+        public int[] PartVtxCount;
+
+        public byte[] VertexData;
+
+        public int VertexCount;
+
+        public int VertexSize
+        {
+            get { return VertexPNT1.Size; }
+        }
     }
 
     struct ForestInfo 
@@ -27,25 +36,36 @@ namespace Code2015.EngineEx
         public float Latitude;
         public float Radius;
 
+        public float Amount;
+
         public PlantType Type;
         public PlantCategory Category;
 
-        public Model[] BigPlants;
-        public Model[] SmallPlants;
+        public TreeModelData[] BigPlants;
+        public TreeModelData[] SmallPlants;
     }
 
     class TreeBatchModel : Resource, IRenderable
     {
-        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
+        RenderSystem renderSys;
 
-        VertexBuffer[] vtxBuffer;
-        VertexDeclaration[] vtxDecl;
+        VertexBuffer vtxBuffer;
+        VertexDeclaration vtxDecl;
         IndexBuffer[] idxBuffer;
+        Material[] materials;
+        RenderOperation[] opBuf;
+
+        int resourceSize;
+
+        ForestInfo info;
 
         public BoundingSphere BoundingVolume;
 
-        public TreeBatchModel(ForestInfo info)
+        public TreeBatchModel(RenderSystem rs, ForestInfo info)
         {
+            this.info = info;
+            this.renderSys = rs;
+
             float radlng = MathEx.Degree2Radian(info.Longitude);
             float radlat = MathEx.Degree2Radian(info.Latitude);
             BoundingVolume.Center = PlanetEarth.GetPosition(radlng, radlat);
@@ -55,23 +75,136 @@ namespace Code2015.EngineEx
 
         public override int GetSize()
         {
-            throw new NotImplementedException();
+            return resourceSize;
         }
 
-        protected override void load()
+        protected unsafe override void load()
         {
-            throw new NotImplementedException();
+            resourceSize = 0;
+
+            int vtxCount = 0;
+            int vtxOffset = 0;
+            int vtxSizeTotal = 0;
+
+            int plantCount = (int)(info.Amount * 0.4f);
+            int treeCount = 0;
+            int smvCount = 0;
+            switch (info.Category)
+            {
+                case PlantCategory.Forest:
+                    treeCount = (int)(plantCount * 0.6f);
+                    smvCount = (int)(plantCount * 0.4f);
+                    break;
+            }
+
+            FastList<byte> vertices = new FastList<byte>(plantCount * 2500);
+            Dictionary<Material, FastList<int>> indices = new Dictionary<Material, FastList<int>>();
+            Dictionary<Material, int> partVtxCount = new Dictionary<Material, int>();
+
+            for (int i = 0; i < plantCount; i++)
+            {
+                int idx = Randomizer.GetRandomInt(info.BigPlants.Length);
+
+                TreeModelData meshData = info.BigPlants[idx];
+
+                int vtxDataSize = meshData.VertexCount * meshData.VertexSize;
+                vtxCount += meshData.VertexCount;
+                vtxSizeTotal += vtxDataSize;
+
+                vertices.Add(meshData.VertexData);
+
+                Material[] mtrls = meshData.Materials;
+                for (int k = 0; k < mtrls.Length; k++)
+                {
+                    Material mtrl = mtrls[k];
+
+                    FastList<int> idxData;
+                    if (!indices.TryGetValue(mtrl, out idxData))
+                    {
+                        idxData = new FastList<int>(plantCount * 120);
+                        indices.Add(mtrl, idxData);
+
+                        partVtxCount.Add(mtrl, 0);
+                    }
+
+                    partVtxCount[mtrl] += meshData.PartVtxCount[k];
+
+                    int[] meshIdx = meshData.Indices[k];
+
+                    for (int j = 0; j < meshIdx.Length; j++)
+                    {
+                        idxData.Add(meshIdx[j] + vtxOffset);
+                    }
+
+                    
+                }
+                vtxOffset += vtxDataSize;
+            }
+            resourceSize += vtxSizeTotal;
+
+            for (int i = 0; i < smvCount; i++)
+            {
+                int idx = Randomizer.GetRandomInt(info.SmallPlants.Length);
+            }
+
+
+            // ============================================================================
+
+            ObjectFactory fac = renderSys.ObjectFactory;
+            vtxDecl = fac.CreateVertexDeclaration(VertexPNT1.Elements);
+
+            vtxBuffer = fac.CreateVertexBuffer(vtxCount, vtxDecl, BufferUsage.Static);
+
+            vertices.Trim();
+            vtxBuffer.SetData<byte>(vertices.Elements);
+
+            int partCount = indices.Count;
+
+            idxBuffer = new IndexBuffer[partCount];
+            materials = new Material[partCount];
+            opBuf = new RenderOperation[partCount];
+
+            int index = 0;
+            int vtxSize = vtxDecl.GetVertexSize();
+
+            foreach (KeyValuePair<Material, FastList<int>> e in indices)
+            {
+                FastList<int> list = e.Value;
+                list.Trim();
+
+                materials[index] = e.Key;
+                idxBuffer[index] = fac.CreateIndexBuffer(IndexBufferType.Bit32, list.Count, BufferUsage.Static);
+
+                idxBuffer[index].SetData<int>(list.Elements);
+
+                resourceSize += sizeof(int) * list.Count;
+
+                // ==============================================================================================
+
+                opBuf[index].Material = e.Key;
+                opBuf[index].Geomentry = new GeomentryData();
+                opBuf[index].Geomentry.BaseIndexStart = 0;
+                opBuf[index].Geomentry.BaseVertex = 0;
+                opBuf[index].Geomentry.IndexBuffer = idxBuffer[index];
+                opBuf[index].Geomentry.PrimCount = idxBuffer[index].IndexCount / 3;
+                opBuf[index].Geomentry.PrimitiveType = RenderPrimitiveType.TriangleList;
+                opBuf[index].Geomentry.VertexBuffer = vtxBuffer;
+                opBuf[index].Geomentry.VertexCount = partVtxCount[e.Key];
+                opBuf[index].Geomentry.VertexDeclaration = vtxDecl;
+                opBuf[index].Geomentry.VertexSize = vtxSize;
+                index++;
+            }
+
+
+            
         }
 
         protected override void unload()
         {
-            if (vtxBuffer != null) 
+            if (vtxBuffer != null)
             {
-                for (int i = 0; i < vtxBuffer.Length; i++)
-                {
-                    if (vtxBuffer[i] != null && !vtxBuffer[i].Disposed)
-                        vtxBuffer[i].Dispose();
-                }
+                vtxBuffer.Dispose();
+
                 vtxBuffer = null;
             }
             if (idxBuffer != null)
@@ -83,13 +216,9 @@ namespace Code2015.EngineEx
                 }
                 idxBuffer = null;
             }
-            if (vtxDecl != null) 
+            if (vtxDecl != null)
             {
-                for (int i = 0; i < vtxDecl.Length; i++) 
-                {
-                    if (vtxDecl[i] != null && !vtxDecl[i].Disposed)
-                        vtxDecl[i].Dispose();
-                }
+                vtxDecl.Dispose();
                 vtxDecl = null;
             }
 
@@ -99,12 +228,20 @@ namespace Code2015.EngineEx
 
         public RenderOperation[] GetRenderOperation()
         {
-            throw new NotImplementedException();
+            if (State == ResourceState.Loaded)
+            {
+                for (int i = 0; i < opBuf.Length; i++) 
+                {
+                    opBuf[i].Transformation = Matrix.Identity;
+                }
+                return opBuf;
+            }
+            return null;
         }
 
         public RenderOperation[] GetRenderOperation(int level)
         {
-            throw new NotImplementedException();
+            return GetRenderOperation();
         }
 
         #endregion

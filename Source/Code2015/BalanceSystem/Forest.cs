@@ -7,6 +7,17 @@ using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
+    enum PlantCategory
+    {
+        Forest,
+
+    }
+    enum PlantType
+    {
+        Cold,
+        Temperate,
+        Hot
+    }
 
     public class Forest : NaturalResource
     {
@@ -22,8 +33,10 @@ namespace Code2015.BalanceSystem
         public float AbsorbCarbonSpeed
         {
             get;
-            set;
+            private set;
         }
+
+        
 
         public Forest(SimulationRegion region)
             : base(region, NaturalResourceType.Wood)
