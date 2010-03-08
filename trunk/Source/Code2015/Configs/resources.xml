@@ -887,6 +887,7 @@
     <Kind>Grass</Kind>
     <Amount>5000</Amount>
   </Resource97>
+  
   <Resource98>
     <!--沙特阿拉伯-->
     <Longitude>46.318359</Longitude>
@@ -897,5 +898,415 @@
     <Kind>Grass</Kind>
     <Amount>5000</Amount>
   </Resource98>
- 
+  
+  <!--农田-->
+  <!--非洲-->
+  <Resource99>
+    <!--Niger西部-->
+    <Longitude>3.251953</Longitude>
+    <Latitude>13.923404</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource99>
+
+  <Resource100>
+    <!--阿尔及利亚北部-->
+    <Longitude>24.78515</Longitude>
+    <Latitude>14.604847</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource100>
+
+  <Resource101>
+    <!--Chad和苏丹之间-->
+    <Longitude>3.603516</Longitude>
+    <Latitude>32.916485</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource101>
+
+  <Resource102>
+    <!--刚果-->
+    <Longitude>26.367188</Longitude>
+    <Latitude>-0.703107</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource102>
+
+  <Resource103>
+    <!--赞比亚-->
+    <Longitude>31.904297</Longitude>
+    <Latitude>-11.436955</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource103>
+
+  <Resource104>
+    <!--南非-->
+    <Longitude>-27.605671</Longitude>
+    <Latitude>29.003906</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource104>
+  
+  <Resource105>
+    <!--纳米比亚-->
+    <Longitude>17.226563</Longitude>
+    <Latitude>-20.550509</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource105>
+
+  <Resource106>
+    <!--马达加斯加岛-->
+    <Longitude>48.867188</Longitude>
+    <Latitude>-16.636192</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource106>
+  
+  <!--亚洲-->
+  <Resource107>
+    <!--沙特-->
+    <Longitude>27.098254</Longitude>
+    <Latitude>43.549805</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource107>
+
+  <Resource108>
+    <!--沙特-->
+    <Longitude>53.701172</Longitude>
+    <Latitude>20.385825</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource108>
+
+  <Resource109>
+    <!--也门-->
+    <Longitude>48.823242</Longitude>
+    <Latitude>16.467695</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource109>
+
+  <Resource110>
+    <!--伊拉克-->
+    <Longitude>43.659668</Longitude>
+    <Latitude>35.56798</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource110>
+  
+  <Resource111>
+    <!--印度-->
+    <Longitude>77.519531</Longitude>
+    <Latitude>27.839076</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource111>
+
+  <Resource112>
+    <!--印度-->
+    <Longitude>75.300293</Longitude>
+    <Latitude>18.083201</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource112>
+
+  <Resource113>
+    <!--印度-->
+    <Longitude>78.046875</Longitude>
+    <Latitude>9.535749</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource113>
+
+  <Resource114>
+    <!--泰国-->
+    <Longitude>103.051758</Longitude>
+    <Latitude>15.728814</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource114>
+
+  <Resource115>
+    <!--中国河北-->
+    <Longitude>115.532227</Longitude>
+    <Latitude>33.358062</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource115>
+
+
+  <Resource116>
+    <!--中国湖北-->
+    <Longitude>112.280273</Longitude>
+    <Latitude>30.031055</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource116>
+
+  <Resource117>
+    <!--印度尼西亚-->
+    <Longitude>115.861816</Longitude>
+    <Latitude>-0.032959</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource117>
+
+  <Resource118>
+    <!--澳大利亚-->
+    <Longitude>118.520508</Longitude>
+    <Latitude>-24.287027</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource118>
+
+  <Resource119>
+    <!--澳大利亚-->
+    <Longitude>142.163086</Longitude>
+    <Latitude>-30.789037</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource119>
+  
+  
+  <Resource120>
+    <!--缅甸-->
+    <Longitude>95.053711</Longitude>
+    <Latitude>20.992214</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource120>
+
+  <Resource121>
+    <!--缅甸-->
+    <Longitude>83.364258</Longitude>
+    <Latitude>38.530979</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource121>
+  
+  <!--欧洲-->
+  <Resource122>
+    <!--西班牙-->
+    <Longitude>-5.317383</Longitude>
+    <Latitude>42.147114</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource122>
+  <Resource123>
+    <!--西班牙-->
+    <Longitude>-6.459961</Longitude>
+    <Latitude>38.891033</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource123>
+
+  <Resource124>
+    <!--意大利-->
+    <Longitude>10.019531</Longitude>
+    <Latitude>45.321254</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource124>
+
+  <Resource125>
+    <!--法国-->
+    <Longitude>1.757811</Longitude>
+    <Latitude>47.561701</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource125>
+
+  <Resource126>
+    <!--波兰-->
+    <Longitude>19.072266</Longitude>
+    <Latitude>51.99841</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource126>
+
+  <Resource127>
+    <!--罗马尼亚-->
+    <Longitude>25.114746</Longitude>
+    <Latitude>44.150681</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource127>
+  <Resource128>
+    <!--乌克兰-->
+    <Longitude>36.826172</Longitude>
+    <Latitude>49.61071</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource128>
+
+  <Resource129>
+    <!--匈牙利-->
+    <Longitude>19.709473</Longitude>
+    <Latitude>46.513516</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource129>
+
+<!--美洲-->
+
+  <Resource130>
+    <!--美国-->
+    <Longitude>-103.666992</Longitude>
+    <Latitude>39.35129</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource130>
+
+  <Resource131>
+    <!--美国-->
+    <Longitude>-102.480469</Longitude>
+    <Latitude>30.334954</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource131>
+
+  <Resource132>
+    <!--美国-->
+    <Longitude>-84.155273</Longitude>
+    <Latitude>37.509726</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource132>
+
+  <Resource133>
+    <!--美国-->
+    <Longitude>-82.199707</Longitude>
+    <Latitude>51.179343</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource133>
+  <Resource134>
+    <!--美国-->
+    <Longitude>-109.599609</Longitude>
+    <Latitude>34.976002</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource134>
+  <Resource135>
+    <!--加拿大-->
+    <Longitude>-104.501953</Longitude>
+    <Latitude>50.930738</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource135>
+
+  <Resource136>
+    <!--墨西哥-->
+    <Longitude>-89.890137</Longitude>
+    <Latitude>18.187607</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource136>
+
+  <Resource137>
+    <!--秘鲁-->
+    <Longitude>-73.87207</Longitude>
+    <Latitude>-4.302591</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource137>
+
+
+  <Resource138>
+    <!--巴西-->
+    <Longitude>-66.972656</Longitude>
+    <Latitude>0.263671</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource138>
+
+  <Resource139>
+    <!--巴西-->
+    <Longitude>-56.469727</Longitude>
+    <Latitude>-0.483393</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource139>
+
+  <Resource140>
+    <!--巴西-->
+    <Longitude>-63.588867</Longitude>
+    <Latitude>-7.449624</Latitude>
+    <BasePos>4X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Large</Size>
+  </Resource140>
+
+
+  <Resource141>
+    <!--巴西-->
+    <Longitude>-48.8232427</Longitude>
+    <Latitude>-19.269665</Latitude>
+    <BasePos>2X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Medium</Size>
+  </Resource141>
+  
+  <Resource142>
+    <!--阿根廷-->
+    <Longitude>-66.313477</Longitude>
+    <Latitude>-34.016242</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource142>
+
+  <Resource143>
+    <!--阿根廷-->
+    <Longitude>-69.411621</Longitude>
+    <Latitude>-47.783635</Latitude>
+    <BasePos>1X4</BasePos>
+    <Type>Farm</Type>
+    <Size>Small</Size>
+  </Resource143>
 </Resources>
