@@ -34,6 +34,8 @@ namespace Code2015.EngineEx
         Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> table 
             = new Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>>();
 
+        FastList<ModelMemoryData> loadedModels
+            = new FastList<ModelMemoryData>();
 
         private unsafe TreeModelLibrary(RenderSystem rs)
         {
@@ -50,10 +52,12 @@ namespace Code2015.EngineEx
                 mdl.Category = (PlantCategory)Enum.Parse(typeof(PlantCategory), sect.GetString("Category", string.Empty));
                 mdl.Type = (PlantType)Enum.Parse(typeof(PlantType), sect.GetString("Type", string.Empty));
 
-                string fileName = sect.GetString("File", string.Empty);
-                FileLocation fl2 = new FileLocation(fileName);
+                string fileName = sect.GetString("Level0", string.Empty);
+                FileLocation fl2 = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
 
                 ModelMemoryData mdlData = new ModelMemoryData(rs, fl2);
+
+                loadedModels.Add(mdlData);
 
                 MeshData[] dataArr = mdlData.Entities;
 
@@ -65,6 +69,8 @@ namespace Code2015.EngineEx
 
                     int partCount = mtrls.Length;
                     FastList<int>[] indices = new FastList<int>[partCount];
+                    for (int i = 0; i < partCount; i++)
+                        indices[i] = new FastList<int>();
 
                     mdl.Materials = new Material[partCount];
                     mdl.Indices = new int[partCount][];
@@ -99,7 +105,7 @@ namespace Code2015.EngineEx
                         }
 
                         for (int j = 0; j < data.VertexCount; j++)
-                            if (passed[i])
+                            if (passed[j])
                                 partVtxCount++;
 
                         mdl.PartVtxCount[i] = partVtxCount;

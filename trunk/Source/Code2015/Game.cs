@@ -152,6 +152,15 @@ namespace Code2015
                     cityObj.CityVisible += scene.City_Visible;
 
                     scene.Scene.AddObjectToScene(cityObj);
+                    continue;
+                }
+
+                Forest forest = obj as Forest;
+                if (forest != null)
+                {
+                    ForestObject forestObj = new ForestObject(renderSys, forest);
+                    scene.Scene.AddObjectToScene(forestObj);
+                    continue;
                 }
             }
           

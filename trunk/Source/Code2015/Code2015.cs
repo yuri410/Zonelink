@@ -95,6 +95,7 @@ namespace Code2015
             EffectManager.Instance.LoadEffects();
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
+            TreeModelLibrary.Initialize(renderSys);
 
             ElevotionQuery.Initialize();
 

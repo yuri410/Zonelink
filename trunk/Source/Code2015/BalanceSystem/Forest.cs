@@ -42,7 +42,7 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        public PlantType PlantKind
+        public PlantType PlantSize
         {
             get;
             private set;
@@ -66,8 +66,8 @@ namespace Code2015.BalanceSystem
         {
             base.Parse(sect);
 
-            Category = (PlantCategory)Enum.Parse(typeof(PlantCategory), sect.GetString("Category", ""));
-            PlantKind = (PlantType)Enum.Parse(typeof(PlantType), sect.GetString("Kind", ""));
+            Category = (PlantCategory)Enum.Parse(typeof(PlantType), sect.GetString("Category", ""));
+            PlantSize = (PlantType)Enum.Parse(typeof(PlantCategory), sect.GetString("Kind", ""));
             Radius = sect.GetSingle("Radius");
         }
 

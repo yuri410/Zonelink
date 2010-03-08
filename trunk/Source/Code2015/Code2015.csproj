@@ -101,6 +101,7 @@
     <Compile Include="Effect.lpk\CityRingEffect.cs" />
     <Compile Include="EngineEx\FarmBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
+    <Compile Include="EngineEx\TreeBatchModelManager.cs" />
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\Controls\Control.cs">
