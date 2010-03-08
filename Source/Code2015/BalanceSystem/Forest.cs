@@ -7,16 +7,17 @@ using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
-    enum PlantCategory
+    public enum PlantCategory
     {
+        Grass,
+        Bush,
         Forest,
-
     }
-    enum PlantType
+    public enum PlantType
     {
-        Cold,
-        Temperate,
-        Hot
+        TemperateZone,
+        Subtropics,
+        Tropics
     }
 
     public class Forest : NaturalResource
@@ -36,6 +37,21 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public PlantCategory Category
+        {
+            get;
+            private set;
+        }
+        public PlantType Type
+        {
+            get;
+            private set;
+        }
+        public float Radius
+        {
+            get;
+            private set;
+        }
         
 
         public Forest(SimulationRegion region)
@@ -49,7 +65,10 @@ namespace Code2015.BalanceSystem
         public override void Parse(ConfigurationSection sect)
         {
             base.Parse(sect);
-            
+
+            Category = (PlantCategory)Enum.Parse(typeof(PlantCategory), sect.GetString("Category", ""));
+            Type = (PlantType)Enum.Parse(typeof(PlantType), sect.GetString("Kind", ""));
+            Radius = sect.GetSingle("Radius");
         }
 
 
