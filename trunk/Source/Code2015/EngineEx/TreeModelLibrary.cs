@@ -46,9 +46,9 @@ namespace Code2015.EngineEx
                 string fileName = sect.GetString("File", string.Empty);
                 FileLocation fl2 = new FileLocation(fileName);
 
-                ModelData mdlData = new ModelData(rs, fl2);
+                ModelMemoryData mdlData = new ModelMemoryData(rs, fl2);
 
-
+                
 
 
 
