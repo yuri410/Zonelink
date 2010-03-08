@@ -16,6 +16,9 @@ namespace Code2015.EngineEx
 
     struct TreeModelData
     {
+        public PlantType Type;
+        public PlantCategory Category;
+
         public Material[] Materials;
         public int[][] Indices;
         public int[] PartVtxCount;

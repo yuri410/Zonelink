@@ -68,7 +68,7 @@ namespace ModelStudio
 
 
                 ModelData data = Program.Viewer.CurrentModel.GetData();
-                GameMesh[] meshes = data.Entities;
+                Mesh[] meshes = data.Entities;
                 for (int i = 0; i < meshes.Length; i++)
                 {
                     comboBox3.Items.Add(meshes[i]);
@@ -100,7 +100,7 @@ namespace ModelStudio
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
-            GameMesh mesh = (GameMesh)comboBox3.SelectedItem;
+            Mesh mesh = (Mesh)comboBox3.SelectedItem;
             Material[][] mats = mesh.Materials;
 
             for (int i = 0; i < mats.Length; i++)
