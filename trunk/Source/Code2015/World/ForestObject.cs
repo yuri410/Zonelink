@@ -6,6 +6,7 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.BalanceSystem;
+using Code2015.EngineEx;
 
 namespace Code2015.World
 {
@@ -18,11 +19,27 @@ namespace Code2015.World
         //}
 
         Forest forest;
+        TreeBatchModel model;
 
-        public ForestObject(Forest forest)
+        public ForestObject(RenderSystem rs, Forest forest)
             : base(false)
         {
             this.forest = forest;
+
+
+            ForestInfo info;
+            info.Latitude = forest.Latitude;
+            info.Longitude = forest.Longitude;
+            info.Radius = forest.Radius;
+
+            info.Amount = forest.CurrentAmount;
+            info.Category = forest.Category;
+            info.Type = forest.PlantKind;
+
+            info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, info.Type);
+            info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, info.Type);
+            model = new TreeBatchModel(rs, info);
+
         }
 
         public override RenderOperation[] GetRenderOperation()

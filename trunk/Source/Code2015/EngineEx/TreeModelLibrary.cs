@@ -25,8 +25,14 @@ namespace Code2015.EngineEx
         }
 
         RenderSystem renderSys;
-        Dictionary<PlantCategory, FastList<TreeModelData>> categoryModels = new Dictionary<PlantCategory, FastList<TreeModelData>>();
-        Dictionary<PlantType, FastList<TreeModelData>> typeModels = new Dictionary<PlantType, FastList<TreeModelData>>();
+        Dictionary<PlantCategory, FastList<TreeModelData>> categoryModels 
+            = new Dictionary<PlantCategory, FastList<TreeModelData>>();
+
+        Dictionary<PlantType, FastList<TreeModelData>> typeModels 
+            = new Dictionary<PlantType, FastList<TreeModelData>>();
+
+        Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> table 
+            = new Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>>();
 
 
         private unsafe TreeModelLibrary(RenderSystem rs)
@@ -110,7 +116,7 @@ namespace Code2015.EngineEx
 
                     #region 添加到表中
                     FastList<TreeModelData> mdlList;
-                    if (categoryModels.TryGetValue(mdl.Category, out mdlList))
+                    if (!categoryModels.TryGetValue(mdl.Category, out mdlList))
                     {
                         mdlList = new FastList<TreeModelData>();
                         categoryModels.Add(mdl.Category, mdlList);
@@ -118,12 +124,28 @@ namespace Code2015.EngineEx
                     mdlList.Add(ref mdl);
 
 
-                    if (typeModels.TryGetValue(mdl.Type, out mdlList))
+                    if (!typeModels.TryGetValue(mdl.Type, out mdlList))
                     {
                         mdlList = new FastList<TreeModelData>();
                         typeModels.Add(mdl.Type, mdlList);
                     }
                     mdlList.Add(ref mdl);
+
+                    Dictionary <PlantType, FastList <TreeModelData>> typeTbl;
+                    if (!table.TryGetValue(mdl.Category, out typeTbl)) 
+                    {
+                        typeTbl = new Dictionary<PlantType, FastList<TreeModelData>>();
+                        table.Add(mdl.Category, typeTbl);
+                    }
+
+                    if (!typeTbl.TryGetValue(mdl.Type, out mdlList)) 
+                    {
+                        mdlList = new FastList<TreeModelData>();
+                        typeTbl.Add(mdl.Type, mdlList);
+                    }
+                    mdlList.Add(ref mdl);
+
+
                     #endregion
                 }
             }
@@ -136,6 +158,30 @@ namespace Code2015.EngineEx
             {
                 e.Value.Trim();
             }
+            foreach (KeyValuePair<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> e1 in table)
+            {
+                Dictionary<PlantType, FastList<TreeModelData>> typeTbl = e1.Value;
+
+                foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e2 in typeTbl) 
+                {
+                    e2.Value.Trim();
+                }
+            }
+            
+        }
+
+        public TreeModelData[] Get(PlantCategory cate, PlantType type)
+        {
+            Dictionary<PlantType, FastList<TreeModelData>> typeTable;
+            if (table.TryGetValue(cate, out typeTable))
+            {
+                FastList<TreeModelData> result;
+                if (typeTable.TryGetValue(type, out result))
+                {
+                    return result.Elements;
+                }
+            }
+            return null;
         }
 
         public TreeModelData[] GetCategory(PlantCategory cate)
