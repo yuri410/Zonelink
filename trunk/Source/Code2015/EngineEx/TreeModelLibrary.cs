@@ -2,10 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Graphics;
-using Code2015.BalanceSystem;
+using Apoc3D.Collections;
 using Apoc3D.Config;
+using Apoc3D.Graphics;
 using Apoc3D.Vfs;
+using Code2015.BalanceSystem;
 
 namespace Code2015.EngineEx
 {
@@ -28,7 +29,7 @@ namespace Code2015.EngineEx
         Dictionary<PlantType, TreeModelData> typeModels = new Dictionary<PlantType, TreeModelData>();
 
 
-        private TreeModelLibrary(RenderSystem rs)
+        private unsafe TreeModelLibrary(RenderSystem rs)
         {
             renderSys = rs;
 
@@ -48,11 +49,50 @@ namespace Code2015.EngineEx
 
                 ModelMemoryData mdlData = new ModelMemoryData(rs, fl2);
 
-                
+                MeshData[] dataArr = mdlData.Entities;
+
+                if (dataArr.Length == 1)
+                {
+                    MeshData data = dataArr[0];
+
+                    Material[][] mtrls = data.Materials;
+
+                    int partCount = mtrls.Length;
+                    FastList<int>[] indices = new FastList<int>[partCount];
+
+                    mdl.Materials = new Material[partCount];
+                    mdl.Indices = new int[partCount][];
 
 
+                    MeshFace[] faces = data.Faces;
+
+                    for (int i = 0; i < faces.Length; i++)
+                    {
+                        int matId = faces[i].MaterialIndex;
+                        indices[matId].Add(faces[i].IndexA);
+                        indices[matId].Add(faces[i].IndexB);
+                        indices[matId].Add(faces[i].IndexC);
+                    }
 
 
+                    for (int i = 0; i < partCount; i++)
+                    {
+                        Material mtrl = mtrls[i][0];
+                        mdl.Materials[i] = mtrl;
+
+                        indices[i].Trim();
+                        mdl.Indices[i] = indices[i].Elements;
+                    }
+
+                    mdl.VertexCount = data.VertexCount;
+                    mdl.VertexData = new byte[data.VertexCount * data.VertexSize];
+                    fixed (byte* dst = &mdl.VertexData[0])
+                    {
+                        Memory.Copy(data.Data.ToPointer(), dst, mdl.VertexData.Length);
+                    }
+
+
+                }
             }
         }
 
