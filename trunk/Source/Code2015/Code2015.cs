@@ -85,7 +85,8 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(AtmosphereEffectFactory.Name, new AtmosphereEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CityLinkEffectFactory.Name, new CityLinkEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CityRingEffectFactory.Name, new CityRingEffectFactory(renderSys));
-
+            EffectManager.Instance.RegisterModelEffectType(TreeEffectFactory.Name, new TreeEffectFactory(renderSys));
+            
             TextureManager.Initialize(1048576 * 100);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);

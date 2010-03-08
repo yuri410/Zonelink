@@ -127,15 +127,15 @@ namespace Code2015.World
 
         }
 
-        public static void GetCoord(Vector3 p, out float col, out float lat)
-        {
-            p.Normalize();
+        //public static void GetCoord(Vector3 p, out float col, out float lat)
+        //{
+        //    p.Normalize();
 
-            lat = (float)Math.Asin(p.Y);
+        //    lat = (float)Math.Asin(p.Y);
 
-            Vector2 latCir = new Vector2(p.X, p.Z);
-            col = MathEx.Vector2DirAngle(latCir);
-        }
+        //    Vector2 latCir = new Vector2(p.X, p.Z);
+        //    col = MathEx.Vector2DirAngle(latCir);
+        //}
 
         public static Matrix GetOrientation(float x, float y)
         {

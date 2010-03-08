@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.MathLib;
 
 namespace Code2015.GUI
 {
@@ -26,6 +27,7 @@ namespace Code2015.GUI
         /// </summary>
         static XI.MouseState currentState;
 
+        static ValueSmoother wheel = new ValueSmoother(20);
 
         /// <summary>
         ///  鼠标任一按键由按下变为松开时引发此事件
@@ -57,13 +59,19 @@ namespace Code2015.GUI
             get { return currentState.Y; }
         }
 
-        public static int ScrollWheelValue 
+        public static float ScrollWheelValue
         {
-            get { return currentState.ScrollWheelValue; }
+            get;
+            private set;
         }
-        public static int DScrollWheelValue 
+        static float OldScrollWheelValue
         {
-            get { return currentState.ScrollWheelValue - oldState.ScrollWheelValue; }
+            get;
+            set;
+        }
+        public static float DScrollWheelValue 
+        {
+            get { return ScrollWheelValue - OldScrollWheelValue; }
         }
         public static bool IsMouseUpLeft
         {
@@ -103,7 +111,13 @@ namespace Code2015.GUI
             IsMouseDownRight = false;
 
             oldState = currentState;
+            OldScrollWheelValue = ScrollWheelValue;
             currentState = XI.Mouse.GetState();
+
+            wheel.Add(currentState.ScrollWheelValue);
+            ScrollWheelValue = wheel.Result;
+
+
 
             if (currentState.LeftButton == XI.ButtonState.Pressed &&
                 oldState.LeftButton == XI.ButtonState.Released)
