@@ -19,8 +19,6 @@ namespace Code2015.World
 
         Forest forest;
 
-        RenderOperation[] opBuffer;
-
         public ForestObject(Forest forest)
             : base(false)
         {
