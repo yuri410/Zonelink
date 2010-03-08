@@ -11,7 +11,7 @@ using Code2015.GUI;
 namespace Apoc3D.GUI.Controls
 {
     public delegate void MouseEventHandler(object sender, MouseButtonFlags btn);
-    public delegate void MouseWheelHandler(object sender, int value);
+    public delegate void MouseWheelHandler(object sender, float value);
     /// <summary>
     /// 
     /// </summary>

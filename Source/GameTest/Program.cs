@@ -50,33 +50,33 @@ namespace GameTest
 
             Il.ilDeleteImage(image);
         }
-        static void Vec2Ang()
-        {
-            for (int i = 0; i < 36; i++)
-            {
-                Console.Write(i * 10);
-                Console.Write(' ');
-                if ((i + 1) % 12 == 0)
-                    Console.WriteLine();
-            }
-            Console.WriteLine();
+        //static void Vec2Ang()
+        //{
+        //    for (int i = 0; i < 36; i++)
+        //    {
+        //        Console.Write(i * 10);
+        //        Console.Write(' ');
+        //        if ((i + 1) % 12 == 0)
+        //            Console.WriteLine();
+        //    }
+        //    Console.WriteLine();
 
-            for (int i = 0; i < 36; i++)
-            {
-                float rad = MathEx.Degree2Radian(i * 10);
+        //    for (int i = 0; i < 36; i++)
+        //    {
+        //        float rad = MathEx.Degree2Radian(i * 10);
 
-                Vector2 a = new Vector2((float)Math.Cos(rad), (float)Math.Sin(rad));
+        //        Vector2 a = new Vector2((float)Math.Cos(rad), (float)Math.Sin(rad));
 
-                float ang = MathEx.Vector2DirAngle(a);
-                ang = MathEx.Radian2Degree(ang);
-                //ang = -ang;
+        //        float ang = MathEx.Vector2DirAngle(a);
+        //        ang = MathEx.Radian2Degree(ang);
+        //        //ang = -ang;
 
-                Console.Write(ang);
-                Console.Write(' ');
-                if ((i + 1) % 12 == 0)
-                    Console.WriteLine();
-            }
-        }
+        //        Console.Write(ang);
+        //        Console.Write(' ');
+        //        if ((i + 1) % 12 == 0)
+        //            Console.WriteLine();
+        //    }
+        //}
         static void PlanetPosition()
         {
             for (int i = 0; i < 90; i++)
