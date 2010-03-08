@@ -63,6 +63,7 @@ namespace Code2015.EngineEx
         ForestInfo info;
 
         public BoundingSphere BoundingVolume;
+        public Matrix Transformation;
 
         public TreeBatchModel(RenderSystem rs, ForestInfo info)
         {
@@ -71,8 +72,11 @@ namespace Code2015.EngineEx
 
             float radlng = MathEx.Degree2Radian(info.Longitude);
             float radlat = MathEx.Degree2Radian(info.Latitude);
-            BoundingVolume.Center = PlanetEarth.GetPosition(radlng, radlat);
 
+            Transformation = PlanetEarth.GetOrientation(radlng, radlat);
+            Transformation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat);
+
+            BoundingVolume.Center = Transformation.TranslationValue;
             BoundingVolume.Radius = PlanetEarth.GetTileArcLength(MathEx.Degree2Radian(info.Radius));
         }
 
@@ -84,6 +88,10 @@ namespace Code2015.EngineEx
         protected unsafe override void load()
         {
             resourceSize = 0;
+
+            float radlng = MathEx.Degree2Radian(info.Longitude);
+            float radlat = MathEx.Degree2Radian(info.Latitude);
+            float radr = MathEx.Degree2Radian(info.Radius);
 
             int vtxCount = 0;
             int vtxOffset = 0;
@@ -108,12 +116,25 @@ namespace Code2015.EngineEx
             {
                 int idx = Randomizer.GetRandomInt(info.BigPlants.Length);
 
+                float rx = 2 * (Randomizer.GetRandomSingle() - 0.5f) * radr;
+                float ry = 2 * (Randomizer.GetRandomSingle() - 0.5f) * radr;
+                Vector3 pos = PlanetEarth.GetPosition(radlng + rx, radlat + ry);
+
                 TreeModelData meshData = info.BigPlants[idx];
 
                 int vtxDataSize = meshData.VertexCount * meshData.VertexSize;
                 vtxCount += meshData.VertexCount;
                 vtxSizeTotal += vtxDataSize;
 
+                fixed (byte* src = &meshData.VertexData[0])
+                {
+                    VertexPNT1* ptr = (VertexPNT1*)src;
+
+                    for (int j = 0; j < meshData.VertexCount; j++)
+                    {
+                        ptr[j].pos += pos;
+                    }
+                }
                 vertices.Add(meshData.VertexData);
 
                 Material[] mtrls = meshData.Materials;

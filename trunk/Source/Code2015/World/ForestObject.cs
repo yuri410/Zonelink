@@ -40,11 +40,14 @@ namespace Code2015.World
             info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, info.Type);
             model = new TreeBatchModel(rs, info);
 
+
+
+
         }
 
         public override RenderOperation[] GetRenderOperation()
         {
-            throw new NotImplementedException();
+            return model.GetRenderOperation();
         }
 
         public override void Update(GameTime dt)
