@@ -6,7 +6,7 @@
     <Longitude>116.408056</Longitude>
     <Latitude>39.904444</Latitude>
     <Size>Large</Size>
-    <Population>1695</Population>
+    <Population>1500</Population>
   </Peking>
   
   <Urumuqi>
@@ -14,7 +14,7 @@
     <Longitude>87.61722</Longitude>
     <Latitude>43.82556</Latitude>
     <Size>Medium</Size>
-    <Population>235</Population>
+    <Population>600</Population>
   </Urumuqi>
   
   <Shanghai>
@@ -22,7 +22,7 @@
     <Longitude>119.47278</Longitude>
     <Latitude>31.23056</Latitude>
     <Size>Large</Size>
-    <Population>1888</Population>
+    <Population>1500</Population>
   </Shanghai>
 
   <Wuhan>
@@ -30,7 +30,7 @@
     <Longitude>114.305</Longitude>
     <Latitude>30.5097222</Latitude>
     <Size>Medium</Size>
-    <Population>970</Population>
+    <Population>600</Population>
   </Wuhan>
 
   <Guangzhou>
@@ -38,7 +38,7 @@
     <Longitude>113.2641</Longitude>
     <Latitude>23.1289</Latitude>
     <Size>Medium</Size>
-    <Population>935</Population>
+    <Population>600</Population>
   </Guangzhou>
 
   <Chengdu>
@@ -46,15 +46,28 @@
     <Longitude>104.065</Longitude>
     <Latitude>30.6586</Latitude>
     <Size>Medium</Size>
-    <Population>1125</Population>
+    <Population>600</Population>
   </Chengdu>
-  
-  <Daqing>
+  <Kunming>
+    <Name>Kunming</Name>
+    <Longitude>102.546387</Longitude>
+    <Latitude>24.906367</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Kunming>
+  <Hetian>
+    <Name>Hetian</Name>
+    <Longitude>80.536523</Longitude>
+    <Latitude>38.544577</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Hetian>
+    <Daqing>
     <Name>Daqing</Name>
     <Longitude>125.120373</Longitude>
     <Latitude>46.588597</Latitude>
     <Size>Small</Size>
-    <Population>270</Population>
+    <Population>50</Population>
   </Daqing>
 
   <Geermu>
@@ -62,7 +75,7 @@
     <Longitude>94.904709</Longitude>
     <Latitude>36.414099</Latitude>
     <Size>Small</Size>
-    <Population>17.5</Population>
+    <Population>50</Population>
   </Geermu>
   <!--日本-->
 
@@ -71,15 +84,31 @@
     <Longitude>139.390039</Longitude>
     <Latitude>36.350527</Latitude>
     <Size>Large</Size>
-    <Population>3530</Population>
+    <Population>1500</Population>
   </Tokyo>
+  <!--也门-->
+  <Sana>
+    <Name>Sana'a</Name>
+    <Longitude>45.219971</Longitude>
+    <Latitude>15.347762</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Sana>
+
+  <Oman>
+    <Name>Oman</Name>
+    <Longitude>54.492188</Longitude>
+    <Latitude>21.453069</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Oman>
   <!--印度-->
   <Mumbai>
     <Name>Mumbai</Name>
-    <Longitude>74.3561</Longitude>
-    <Latitude>19.0175</Latitude>
+    <Longitude>75.3561</Longitude>
+    <Latitude>24.0175</Latitude>
     <Size>Large</Size>
-    <Population>1830</Population>
+    <Population>1500</Population>
   </Mumbai>
 
   <Kolkata>
@@ -87,7 +116,7 @@
     <Longitude>87.445313</Longitude>
     <Latitude>25.641526</Latitude>
     <Size>Large</Size>
-    <Population>1430</Population>
+    <Population>1500</Population>
   </Kolkata> 
   
   <NewDelhi>
@@ -95,7 +124,7 @@
     <Longitude>77.225</Longitude>
     <Latitude>28.635278</Latitude>
     <Size>Large</Size>
-    <Population>1530</Population>
+    <Population>1500</Population>
   </NewDelhi>
 
   <Nagpur>
@@ -103,15 +132,15 @@
     <Longitude>79.08886</Longitude>
     <Latitude>21.153517</Latitude>
     <Size>Medium</Size>
-    <Population>242</Population>
+    <Population>600</Population>
   </Nagpur>
 
   <Agra>
     <Name>Agra</Name>
-    <Longitude>78.008766</Longitude>
+    <Longitude>73.008766</Longitude>
     <Latitude>25.184715</Latitude>
     <Size>Small</Size>
-    <Population>77</Population>
+    <Population>50</Population>
   </Agra>
 
   <Bandjarmasin>
@@ -119,14 +148,14 @@
     <Longitude>114.588861</Longitude>
     <Latitude>-3.326729</Latitude>
     <Size>Small</Size>
-    <Population>47</Population>
+    <Population>50</Population>
   </Bandjarmasin>
   <TapungHulu>
     <Name>Tapung Hulu</Name>
     <Longitude>100.892944</Longitude>
     <Latitude>0.722332</Latitude>
     <Size>Small</Size>
-    <Population>47</Population>
+    <Population>50</Population>
   </TapungHulu>
  
 
@@ -136,16 +165,16 @@
     <Longitude>100.48645</Longitude>
     <Latitude>13.843414</Latitude>
     <Size>Medium</Size>
-    <Population>242</Population>
+    <Population>600</Population>
   </Bangkok>
   
   <!--柬埔寨-->
   <SiemReap>
     <Name>Siem Reap</Name>
-    <Longitude>103.866119</Longitude>
+    <Longitude>105.466119</Longitude>
     <Latitude>13.376928</Latitude>
     <Size>Small</Size>
-    <Population>9</Population>
+    <Population>50</Population>
   </SiemReap>
   
   <!--菲律宾-->
@@ -154,16 +183,24 @@
     <Longitude>121.039124</Longitude>
     <Latitude>14.663312</Latitude>
     <Size>Medium</Size>
-    <Population>800</Population>
+    <Population>600</Population>
   </Manila>
-  
+
+  <!--马来西亚-->
+  <Kapit>
+    <Name>Kapit</Name>
+    <Longitude>113.595886</Longitude>
+    <Latitude>1.812442</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Kapit>
   <!--缅甸-->
   <Mandalay>
     <Name>Mandalay</Name>
     <Longitude>95.0993</Longitude>
     <Latitude>21.992556</Latitude>
     <Size>Medium</Size>
-    <Population>130</Population>
+    <Population>600</Population>
   </Mandalay>
   
   <!--老挝-->
@@ -172,25 +209,33 @@
     <Longitude>102.615395</Longitude>
     <Latitude>17.970242</Latitude>
     <Size>Medium</Size>
-    <Population>70</Population>
+    <Population>600</Population>
   </Vientiane>
 
   <!--巴布亚新几内亚-->
-  <PortMoresby>
+  <!--<PortMoresby>
     <Name>Port Moresby</Name>
     <Longitude>147.190704</Longitude>
     <Latitude>-9.453126</Latitude>
     <Size>Medium</Size>
     <Population>40</Population>
-  </PortMoresby>
-  
+  </PortMoresby>-->
+
+
+  <Kiunga>
+    <Name>Kiunga</Name>
+    <Longitude>140.328125</Longitude>
+    <Latitude>-5.562401</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Kiunga>
   <!--澳大利亚-->
   <Melbourne>
     <Name>Melbourne</Name>
     <Longitude>144.970093</Longitude>
     <Latitude>-37.318463</Latitude>
     <Size>Large</Size>
-    <Population>389</Population>
+    <Population>1500</Population>
   </Melbourne>
 
   <Queensland>
@@ -198,7 +243,7 @@
     <Longitude>133.428955</Longitude>
     <Latitude>-22.836946</Latitude>
     <Size>Large</Size>
-    <Population>418</Population>
+    <Population>1500</Population>
   </Queensland>
 
   <Birdum>
@@ -206,7 +251,7 @@
     <Longitude>143.525391</Longitude>
     <Latitude>-15.834536</Latitude>
     <Size>Small</Size>
-    <Population>48</Population>
+    <Population>50</Population>
   </Birdum>
 
 
@@ -216,7 +261,7 @@
     <Longitude>118.652344</Longitude>
     <Latitude>-26.735799</Latitude>
     <Size>Small</Size>
-    <Population>48</Population>
+    <Population>50</Population>
   </Meekatharra>
 
 
@@ -226,7 +271,7 @@
     <Longitude>150.193844</Longitude>
     <Latitude>-33.756315</Latitude>
     <Size>Large</Size>
-    <Population>418</Population>
+    <Population>1500</Population>
   </Sydney>
 
   <BrokenHill>
@@ -234,7 +279,7 @@
     <Longitude>141.547852</Longitude>
     <Latitude>-31.952162</Latitude>
     <Size>Small</Size>
-    <Population>48</Population>
+    <Population>50</Population>
   </BrokenHill>
   
   <!--<Albany>
@@ -250,27 +295,51 @@
     <Longitude>133.879995</Longitude>
     <Latitude>-18.700808</Latitude>
     <Size>Small</Size>
-    <Population>2</Population>
+    <Population>50</Population>
   </AliceSprings>
 
+  
 
+  <Kadal>
+    <Name>Kadal</Name>
+    <Longitude>0.021484</Longitude>
+    <Latitude>21.453069</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Kadal>
 
+ 
+  <Matan>
+    <Name>Matan</Name>
+    <Longitude>24.620361</Longitude>
+    <Latitude>20.303418</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Matan>
   <!--苏丹-->
   <Khartoum>
     <Name>Khartoum</Name>
     <Longitude>32.523651</Longitude>
     <Latitude>15.597245</Latitude>
     <Size>Medium</Size>
-    <Population>100</Population>
+    <Population>600</Population>
   </Khartoum>
 
   <Juba>
     <Name>Juba</Name>
-    <Longitude>31.59462</Longitude>
-    <Latitude>4.84126</Latitude>
-    <Size>Small</Size>
-    <Population>16</Population>
+    <Longitude>29.59462</Longitude>
+    <Latitude>6.84126</Latitude>
+    <Size>Medium</Size>
+    <Population>50</Population>
   </Juba>
+
+  <Wasatan>
+    <Name>Wasatan</Name>
+    <Longitude>26.339722</Longitude>
+    <Latitude>16.062118</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </Wasatan>
 
   <!--埃塞俄比亚-->
   <AddisAbeta>
@@ -278,7 +347,7 @@
     <Longitude>38.752213</Longitude>
     <Latitude>9.010894</Latitude>
     <Size>Large</Size>
-    <Population>200</Population>
+    <Population>1500</Population>
   </AddisAbeta>
 
   <!--肯尼亚-->
@@ -287,7 +356,7 @@
     <Longitude>36.813812</Longitude>
     <Latitude>-1.248223</Latitude>
     <Size>Large</Size>
-    <Population>200</Population>
+    <Population>1500</Population>
   </Nairobi>
   
   <!--Niger-->
@@ -296,7 +365,7 @@
     <Longitude>7.984571</Longitude>
     <Latitude>16.972577</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
   </Agadez>
 
   <!--津巴布韦-->
@@ -305,7 +374,7 @@
     <Longitude>31.053886</Longitude>
     <Latitude>-17.827717</Latitude>
     <Size>Medium</Size>
-    <Population>187</Population>
+    <Population>600</Population>
   </Harare>
   
   <!--Chad-->
@@ -313,8 +382,8 @@
     <Name>Ati</Name>
     <Longitude>18.336954</Longitude>
     <Latitude>13.214211</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
+    <Size>Medium</Size>
+    <Population>50</Population>
   </Ati>
 
   <!--Mali-->
@@ -323,7 +392,7 @@
     <Longitude>-7.988777</Longitude>
     <Latitude>12.624928</Latitude>
     <Size>Medium</Size>
-    <Population>150</Population>
+    <Population>600</Population>
   </Bamako>
 
   <!--Mauritania-->
@@ -332,7 +401,7 @@
     <Longitude>-13.279271</Longitude>
     <Latitude>20.08777</Latitude>
     <Size>Medium</Size>
-    <Population>61</Population>
+    <Population>600</Population>
   </Nouakchott>
 
   <!--Cameroon-->
@@ -341,16 +410,16 @@
     <Longitude>11.517792</Longitude>
     <Latitude>3.857746</Latitude>
     <Size>Medium</Size>
-    <Population>143</Population>
+    <Population>600</Population>
   </Yaounde>
 
   <!--刚果-->
   <Kisangani>
     <Name>Kisangani</Name>
-    <Longitude>25.194397</Longitude>
+    <Longitude>24.194397</Longitude>
     <Latitude>0.550681</Latitude>
     <Size>Medium</Size>
-    <Population>70</Population>
+    <Population>600</Population>
   </Kisangani>
   
   <!--Cango-->
@@ -359,15 +428,23 @@
     <Longitude>15.259666</Longitude>
     <Latitude>-4.318682</Latitude>
     <Size>Large</Size>
-    <Population>600</Population>
+    <Population>1500</Population>
   </Kinshasa>
 
+  <Kamina>
+    <Name>Kamina</Name>
+    <Longitude>24.785156</Longitude>
+    <Latitude>-9.015302</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Kamina>
+  
   <Bunia>
     <Name>Bunia</Name>
     <Longitude>30.252228</Longitude>
     <Latitude>1.562011</Latitude>
     <Size>Small</Size>
-    <Population>20</Population>
+    <Population>50</Population>
   </Bunia>
 
   <!--中非-->
@@ -376,18 +453,24 @@
     <Longitude>18.555651</Longitude>
     <Latitude>4.364041</Latitude>
     <Size>Medium</Size>
-    <Population>59</Population>
+    <Population>600</Population>
   </Bangui>
 
-  
+  <Enugu>
+    <Name>Enugu</Name>
+    <Longitude>6.416016</Longitude>
+    <Latitude>7.318882</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Enugu>
 
   <!--Zambia-->
   <Lusaka>
     <Name>Lusaka</Name>
     <Longitude>28.280869</Longitude>
-    <Latitude>-15.410988</Latitude>
+    <Latitude>-13.410988</Latitude>
     <Size>Medium</Size>
-    <Population>200</Population>
+    <Population>600</Population>
   </Lusaka>
 
   <!--Angola-->
@@ -396,7 +479,7 @@
     <Longitude>14.759468</Longitude>
     <Latitude>-8.849454</Latitude>
     <Size>Medium</Size>
-    <Population>479</Population>
+    <Population>600</Population>
   </Luanda>
 
   <Kuito>
@@ -404,8 +487,24 @@
     <Longitude>16.938086</Longitude>
     <Latitude>-12.382845</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
   </Kuito>
+
+  <Gode>
+    <Name>Gode</Name>
+    <Longitude>43.319092</Longitude>
+    <Latitude>5.932972</Latitude>
+    <Size>Medium</Size>
+    <Population>50</Population>
+  </Gode>
+
+  <Nampla>
+    <Name>Nampla</Name>
+    <Longitude>38.408203</Longitude>
+    <Latitude> -14.98724</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Nampla>
 
   <!--SouthAfrica-->
   <Capetown>
@@ -413,7 +512,7 @@
     <Longitude>20.048355</Longitude>
     <Latitude>-32.930827</Latitude>
     <Size>Large</Size>
-    <Population>290</Population>
+    <Population>1500</Population>
   </Capetown>
 
   <Durban>
@@ -421,15 +520,15 @@
     <Longitude>29.414841</Longitude>
     <Latitude>-29.829327</Latitude>
     <Size>Large</Size>
-    <Population>309</Population>
+    <Population>1500</Population>
   </Durban>
 
   <Upington>
     <Name>Upington</Name>
     <Longitude>21.242409</Longitude>
-    <Latitude>-28.459033</Latitude>
-    <Size>Small</Size>
-    <Population>10</Population>
+    <Latitude>-24.459033</Latitude>
+    <Size>Medium</Size>
+    <Population>50</Population>
   </Upington>
 
   <!--埃及-->
@@ -438,7 +537,7 @@
     <Longitude>31.2494</Longitude>
     <Latitude>29.564722</Latitude>
     <Size>Large</Size>
-    <Population>773</Population>
+    <Population>1500</Population>
   </Cario>
 
   <Aswan>
@@ -446,7 +545,7 @@
     <Longitude>32.90637</Longitude>
     <Latitude>24.091291</Latitude>
     <Size>Small</Size>
-    <Population>110</Population>
+    <Population>50</Population>
   </Aswan>
   
   <!--马达加斯加-->
@@ -455,7 +554,7 @@
     <Longitude>47.504883</Longitude>
     <Latitude>-18.521283</Latitude>
     <Size>Medium</Size>
-    <Population>70</Population>
+    <Population>600</Population>
   </Tananarive>
 
 
@@ -465,7 +564,7 @@
     <Longitude>46.728973</Longitude>
     <Latitude>24.673226</Latitude>
     <Size>Medium</Size>
-    <Population>545</Population>
+    <Population>600</Population>
   </ArRiyad>
   
   <Hail>
@@ -473,7 +572,7 @@
     <Longitude>41.693802</Longitude>
     <Latitude>27.520451</Latitude>
     <Size>Small</Size>
-    <Population>26</Population>
+    <Population>50</Population>
   </Hail>
   <!--伊拉克-->
   <Baghdad>
@@ -481,7 +580,7 @@
     <Longitude>44.396439</Longitude>
     <Latitude>33.313889</Latitude>
     <Size>Large</Size>
-    <Population>655</Population>
+    <Population>1500</Population>
   </Baghdad>
 
   <!--阿富汗-->
@@ -490,17 +589,17 @@
     <Longitude>65.721588</Longitude>
     <Latitude>31.617866</Latitude>
     <Size>Small</Size>
-    <Population>46</Population>
+    <Population>50</Population>
   </Qandahar>
 
   <!--孟加拉国-->
-  <Dhaka>
+  <!--<Dhaka>
     <Name>Dhaka</Name>
     <Longitude>90.391388</Longitude>
     <Latitude>23.772149</Latitude>
     <Size>Medium</Size>
-    <Population>700</Population>
-  </Dhaka>
+    <Population>600</Population>
+  </Dhaka>-->
 
   <!--乌兹别克斯坦-->
   <Tashkent>
@@ -508,15 +607,15 @@
     <Longitude>69.257813</Longitude>
     <Latitude>41.309277</Latitude>
     <Size>Medium</Size>
-    <Population>218</Population>
+    <Population>600</Population>
   </Tashkent>
 
   <Balkanabat>
     <Name>Balkanabat</Name>
-    <Longitude>55.17593</Longitude>
+    <Longitude>59.17593</Longitude>
     <Latitude>39.504537</Latitude>
     <Size>Small</Size>
-    <Population>8</Population>
+    <Population>50</Population>
   </Balkanabat>
   <!--伊朗-->
   <Tehran>
@@ -524,8 +623,24 @@
     <Longitude>51.428375</Longitude>
     <Latitude>35.221988</Latitude>
     <Size>Large</Size>
-    <Population>1100</Population>
+    <Population>1500</Population>
   </Tehran>
+  <Samen>
+    <Name>Samen</Name>
+    <Longitude>58.480957</Longitude>
+    <Latitude>35.125448</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Samen>
+
+  <Farce>
+    <Name>Farce</Name>
+    <Longitude>56.811279</Longitude>
+    <Latitude>29.807911</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Farce>
+
 
   <!--法国-->
   <Toulouse>
@@ -533,7 +648,7 @@
     <Longitude>1.441612</Longitude>
     <Latitude>43.601279</Latitude>
     <Size>Medium</Size>
-    <Population>1102</Population>
+    <Population>600</Population>
   </Toulouse>
 
   <Angers>
@@ -541,32 +656,47 @@
     <Longitude>-0.5476</Longitude>
     <Latitude>47.466049</Latitude>
     <Size>Small</Size>
-    <Population>15</Population>
+    <Population>50</Population>
   </Angers>
 
   <!--利比亚-->
   <EIGezira>
     <Name>EI Gezira</Name>
-    <Longitude>14.088772</Longitude>
-    <Latitude>27.674021</Latitude>
+    <Longitude>13.088772</Longitude>
+    <Latitude>28.674021</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
   </EIGezira>
 
   <Sabha>
     <Name>Sabha</Name>
-    <Longitude>16.422388</Longitude>
-    <Latitude>27.039251</Latitude>
+    <Longitude>17.422388</Longitude>
+    <Latitude>26.039251</Latitude>
     <Size>Small</Size>
-    <Population>13</Population>
+    <Population>50</Population>
   </Sabha>
+  <Tabrechat>
+    <Name>Tabrechat</Name>
+    <Longitude>0.20874</Longitude>
+    <Latitude>17.69636</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </Tabrechat>
+  <Awbari>
+    <Name>Awbari</Name>
+    <Longitude>10.744141</Longitude>
+    <Latitude>23.627818</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </Awbari>
+ 
   <!--英国-->
   <London>
     <Name>London</Name>
     <Longitude>-1.581152</Longitude>
     <Latitude>51.713416</Latitude>
     <Size>Large</Size>
-    <Population>1200</Population>
+    <Population>1500</Population>
   </London>
   
   <!--德国-->
@@ -583,32 +713,32 @@
     <Longitude>9.730453</Longitude>
     <Latitude>53.382515</Latitude>
     <Size>Medium</Size>
-    <Population>52</Population>
+    <Population>600</Population>
   </Hannover>
 
   <Ulm>
     <Name>Ulm</Name>
     <Longitude>8.490349</Longitude>
-    <Latitude>50.397297</Latitude>
+    <Latitude>48.097297</Latitude>
     <Size>Small</Size>
-    <Population>12</Population>
+    <Population>50</Population>
   </Ulm>
 
   <!--波兰-->
-  <Warszawa>
+  <!--<Warszawa>
     <Name>Warsaw</Name>
     <Longitude>22.055298</Longitude>
     <Latitude>52.223593</Latitude>
     <Size>Large</Size>
     <Population>171</Population>
-  </Warszawa>
+  </Warszawa>-->
 
   <Torun>
     <Name>Torun</Name>
     <Longitude>17.608952</Longitude>
     <Latitude>53.009929</Latitude>
     <Size>Small</Size>
-    <Population>20</Population>
+    <Population>50</Population>
   </Torun>
 
   <!--乌克兰-->
@@ -617,7 +747,7 @@
     <Longitude>30.531006</Longitude>
     <Latitude>48.447011</Latitude>
     <Size>Medium</Size>
-    <Population>281</Population>
+    <Population>600</Population>
   </Kyiv>
 
   <Kryvyi>
@@ -625,7 +755,7 @@
     <Longitude>23.397236</Longitude>
     <Latitude>48.897355</Latitude>
     <Size>Small</Size>
-    <Population>71</Population>
+    <Population>50</Population>
   </Kryvyi>
 
   <!--罗马尼亚-->
@@ -634,15 +764,15 @@
     <Longitude>26.109009</Longitude>
     <Latitude>44.425934</Latitude>
     <Size>Medium</Size>
-    <Population>194</Population>
+    <Population>600</Population>
   </Bucurest>
 
   <Craiova>
     <Name>Craiova</Name>
-    <Longitude>21.794327</Longitude>
+    <Longitude>19.794327</Longitude>
     <Latitude>44.318936</Latitude>
     <Size>Small</Size>
-    <Population>29</Population>
+    <Population>50</Population>
   </Craiova>
 
   <!--土耳其-->
@@ -651,24 +781,24 @@
     <Longitude>32.856245</Longitude>
     <Latitude>39.945213</Latitude>
     <Size>Medium</Size>
-    <Population>500</Population>
+    <Population>600</Population>
   </Ankara>
   <!--西班牙-->
   <Madrid>
     <Name>Madrid</Name>
-    <Longitude>-5.702736</Longitude>
-    <Latitude>41.918724</Latitude>
+    <Longitude>-4.702736</Longitude>
+    <Latitude>40.918724</Latitude>
     <Size>Large</Size>
-    <Population>321</Population>
+    <Population>1500</Population>
   </Madrid>
 
-  <Valencia>
+  <!--<Valencia>
     <Name>Valencia</Name>
     <Longitude>-0.374908</Longitude>
     <Latitude>39.468005</Latitude>
     <Size>Medium</Size>
-    <Population>226</Population>
-  </Valencia>
+    <Population>600</Population>
+  </Valencia>-->
 
   <!--<Valladolid>
     <Name>Valladolid</Name>
@@ -684,7 +814,7 @@
     <Longitude>3.548878</Longitude>
     <Latitude>34.738609</Latitude>
     <Size>Medium</Size>
-    <Population>151</Population>
+    <Population>600</Population>
   </Alger>
 
   <BeniAbbes>
@@ -692,7 +822,7 @@
     <Longitude>-2.169456</Longitude>
     <Latitude>30.134439</Latitude>
     <Size>Small</Size>
-    <Population>5</Population>
+    <Population>50</Population>
   </BeniAbbes>
 
   <!--俄罗斯-->
@@ -701,7 +831,7 @@
     <Longitude>37.617188</Longitude>
     <Latitude>52.748758</Latitude>
     <Size>Large</Size>
-    <Population>1052</Population>
+    <Population>1500</Population>
   </Moscow>
 
   <Komsomolsk-on-Amur>
@@ -709,7 +839,7 @@
     <Longitude>136.995392</Longitude>
     <Latitude>50.549217</Latitude>
     <Size>Medium</Size>
-    <Population>27</Population>
+    <Population>600</Population>
   </Komsomolsk-on-Amur>
 
   <Novosibirsk>
@@ -717,7 +847,7 @@
     <Longitude>80.92326</Longitude>
     <Latitude>55.024086</Latitude>
     <Size>Small</Size>
-    <Population>142</Population>
+    <Population>50</Population>
   </Novosibirsk>
 
   <Irkutsk>
@@ -725,7 +855,7 @@
     <Longitude>104.308319</Longitude>
     <Latitude>52.27383</Latitude>
     <Size>Small</Size>
-    <Population>59</Population>
+    <Population>50</Population>
   </Irkutsk>
   
   <!--<Postnyy>
@@ -740,16 +870,39 @@
     <Longitude>44.149933</Longitude>
     <Latitude>44.79012</Latitude>
     <Size>Small</Size>
-    <Population>59</Population>
+    <Population>50</Population>
   </Budennovsk>
+
+  <Caran>
+    <Name>Caran</Name>
+    <Longitude>49.152832</Longitude>
+    <Latitude>50.764212</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </Caran>
   
+  <!--哈萨克斯坦-->
+  <Aktumsyk>
+    <Name>Aktumsyk</Name>
+    <Longitude>57.330866</Longitude>
+    <Latitude>46.658273</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>    
+  </Aktumsyk>
+  <AkSay>
+    <Name>Ak-Say</Name>
+    <Longitude>65.281738</Longitude>
+    <Latitude>48.246626</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </AkSay>
   <!--加拿大-->
   <Calgary>
     <Name>Calgary</Name>
     <Longitude>-114.051819</Longitude>
     <Latitude>51.054344</Latitude>
     <Size>Large</Size>
-    <Population>108</Population>
+    <Population>1500</Population>
   </Calgary>
 
   <Saskatoon>
@@ -757,7 +910,7 @@
     <Longitude>-106.671066</Longitude>
     <Latitude>52.127165</Latitude>
     <Size>Medium</Size>
-    <Population>20</Population>
+    <Population>600</Population>
   </Saskatoon>
 
   <Quebec>
@@ -765,7 +918,7 @@
     <Longitude>-73.215439</Longitude>
     <Latitude>52.80288</Latitude>
     <Size>Medium</Size>
-    <Population>778</Population>
+    <Population>600</Population>
   </Quebec>
 
   <Halifax>
@@ -773,8 +926,16 @@
     <Longitude>-63.582687</Longitude>
     <Latitude>44.674513</Latitude>
     <Size>Medium</Size>
-    <Population>57</Population>
+    <Population>600</Population>
   </Halifax>
+  <!--<PrinceAlbert>
+    <Name>Prince Albert</Name>
+    <Longitude>-105.600586</Longitude>
+    <Latitude>53.041213</Latitude>
+    <Size>Medium</Size>
+    <Population>89</Population>
+  </PrinceAlbert>-->
+  
 
 <!--美国-->
   <Boston>
@@ -782,7 +943,7 @@
     <Longitude>-73.064034</Longitude>
     <Latitude>42.354992</Latitude>
     <Size>Large</Size>
-    <Population>59</Population>
+    <Population>1500</Population>
   </Boston>
   
    <Washington>
@@ -790,7 +951,7 @@
     <Longitude>-79.01004</Longitude>
     <Latitude>38.907064</Latitude>
     <Size>Large</Size>
-    <Population>589</Population>
+    <Population>1500</Population>
   </Washington>
   
   <!--<Dallas>
@@ -803,20 +964,20 @@
   
   
 
-  <Chicago>
+  <!--<Chicago>
     <Name>Chicago</Name>
     <Longitude>-87.648926</Longitude>
     <Latitude>41.867516</Latitude>
     <Size>Large</Size>
     <Population>960</Population>
-  </Chicago>
+  </Chicago>-->
 
   <SanFrancisco>
     <Name>San Francisco</Name>
     <Longitude>-119.78894</Longitude>
     <Latitude>37.173433</Latitude>
     <Size>Large</Size>
-    <Population>73</Population>
+    <Population>1500</Population>
   </SanFrancisco>
   
   <Seattle>
@@ -824,7 +985,7 @@
     <Longitude>-120.288818</Longitude>
     <Latitude>47.604311</Latitude>
     <Size>Large</Size>
-    <Population>57</Population>
+    <Population>1500</Population>
   </Seattle>
 
   <Wichita>
@@ -832,17 +993,24 @@
     <Longitude>-97.336464</Longitude>
     <Latitude>37.691699</Latitude>
     <Size>Medium</Size>
-    <Population>13</Population>
+    <Population>600</Population>
   </Wichita>
   
   <Birmingham>
     <Name>Birmingham</Name>
-    <Longitude>-86.819458</Longitude>
+    <Longitude>-90.087891</Longitude>
     <Latitude>33.522506</Latitude>
     <Size>Medium</Size>
-    <Population>423</Population>
+    <Population>600</Population>
   </Birmingham>
 
+  <Ontanrio>
+    <Name>Ontanrio</Name>
+    <Longitude>-86.819458</Longitude>
+    <Latitude>51.399206</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Ontanrio>
   <!--<Bend>
     <Name>Bend</Name>
     <Longitude>-121.304169</Longitude>
@@ -872,7 +1040,7 @@
     <Longitude>-93.998535</Longitude>
     <Latitude>41.280903</Latitude>
     <Size>Small</Size>
-    <Population>40</Population>
+    <Population>50</Population>
   </Omaha>
 
   <RapidCity>
@@ -880,7 +1048,7 @@
     <Longitude>-103.187714</Longitude>
     <Latitude>44.088818</Latitude>
     <Size>Small</Size>
-    <Population>60</Population>
+    <Population>50</Population>
   </RapidCity>
 
   <Abilene>
@@ -888,7 +1056,7 @@
     <Longitude>-99.737663</Longitude>
     <Latitude>32.449955</Latitude>
     <Size>Small</Size>
-    <Population>6</Population>
+    <Population>50</Population>
   </Abilene>
 
   <CapeGirardeau>
@@ -896,7 +1064,7 @@
     <Longitude>-89.542522</Longitude>
     <Latitude>37.31311</Latitude>
     <Size>Small</Size>
-    <Population>608</Population>
+    <Population>50</Population>
   </CapeGirardeau>
 
   <Orlando>
@@ -904,16 +1072,16 @@
     <Longitude>-81.489029</Longitude>
     <Latitude>28.550751</Latitude>
     <Size>Small</Size>
-    <Population>22</Population>
+    <Population>50</Population>
   </Orlando>
 
   <!--Papua New Guinea-->
   <Kowatasi>
     <Name>Kowatasi</Name>
     <Longitude>142.998047</Longitude>
-    <Latitude>-7.144499</Latitude>
+    <Latitude>-8.144499</Latitude>
     <Size>Small</Size>
-    <Population>25</Population>
+    <Population>50</Population>
 
   </Kowatasi>
 
@@ -924,21 +1092,21 @@
     <Longitude>-96.14213</Longitude>
     <Latitude>18.085322</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
   </SanJuanBautistaTuxtepec>
   <SanPedro>
     <Name>San Pedro</Name>
     <Longitude>-102.963867</Longitude>
     <Latitude>25.977799</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
   </SanPedro>
   <SanJuanito>
     <Name>San Juanito</Name>
     <Longitude>-107.600098</Longitude>
     <Latitude>27.991976</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
   </SanJuanito>
  
 
@@ -948,7 +1116,7 @@
     <Longitude>-47.03765</Longitude>
     <Latitude>-23.059581</Latitude>
     <Size>Large</Size>
-    <Population>1850</Population>
+    <Population>1500</Population>
   </SaoPaulo>
 
   <Brasilia>
@@ -956,7 +1124,7 @@
     <Longitude>-44.969055</Longitude>
     <Latitude>-15.826609</Latitude>
     <Size>Medium</Size>
-    <Population>205</Population>
+    <Population>600</Population>
   </Brasilia>
   
   <Maraba>
@@ -964,15 +1132,15 @@
     <Longitude>-49.105968</Longitude>
     <Latitude>-5.352838</Latitude>
     <Size>Medium</Size>
-    <Population>150</Population>
+    <Population>600</Population>
   </Maraba>
   
   <Goyas>
     <Name>Goyas</Name>
-    <Longitude>-50.142975</Longitude>
+    <Longitude>-51.542975</Longitude>
     <Latitude>-15.891338</Latitude>
     <Size>Large</Size>
-    <Population>570</Population>
+    <Population>1500</Population>
   </Goyas>
 
   <Manaus>
@@ -980,7 +1148,7 @@
     <Longitude>-60.010757</Longitude>
     <Latitude>-3.08258</Latitude>
     <Size>Medium</Size>
-    <Population>150</Population>
+    <Population>600</Population>
   </Manaus>
   
  
@@ -990,7 +1158,7 @@
     <Longitude>-55.503359</Longitude>
     <Latitude>-11.858699</Latitude>
     <Size>Small</Size>
-    <Population>18</Population>
+    <Population>50</Population>
   </Sinop>
 
 
@@ -999,17 +1167,23 @@
     <Longitude>-70.532227</Longitude>
     <Latitude>-8.29847</Latitude>
     <Size>Small</Size>
-    <Population>18</Population>
+    <Population>50</Population>
   </Acre>
   <Carauari>
   <Name>Carauari</Name>
   <Longitude>-66.884766</Longitude>
   <Latitude>-4.64213</Latitude>
   <Size>Small</Size>
-  <Population>48</Population>
+  <Population>50</Population>
   </Carauari>
 
-  
+  <Artamila>
+    <Name>Artamila</Name>
+    <Longitude>-54.09668</Longitude>
+    <Latitude>-7.536764</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </Artamila>
 
   <!--委内瑞拉-->
   <Caracas>
@@ -1017,17 +1191,26 @@
     <Longitude>-65.896439</Longitude>
     <Latitude>9.00199</Latitude>
     <Size>Medium</Size>
-    <Population>207</Population>
+    <Population>600</Population>
   </Caracas>
- 
 
+
+  
+  
+  <Tapaua>
+  <Name>Tapaua</Name>
+  <Longitude>-62.446289</Longitude>
+  <Latitude>-7.249776</Latitude>
+  <Size>Medium</Size>
+  <Population>600</Population>
+</Tapaua>
   <!--秘鲁-->
   <Iquitos>
     <Name>Iquitos</Name>
     <Longitude>-73.234863</Longitude>
     <Latitude>-5.754977</Latitude>
     <Size>Small</Size>
-    <Population>40</Population>
+    <Population>50</Population>
   </Iquitos>
 
   <!--Venezuela-->
@@ -1036,7 +1219,7 @@
     <Longitude>-70.227356</Longitude>
     <Latitude>7.629903</Latitude>
     <Size>Medium</Size>
-    <Population>18</Population>
+    <Population>600</Population>
   </Barinas>
 
 <!--巴拉圭-->
@@ -1045,7 +1228,7 @@
     <Longitude>-57.637024</Longitude>
     <Latitude>-25.288163</Latitude>
     <Size>Medium</Size>
-    <Population>51</Population>
+    <Population>50</Population>
   </Asuncion>
   <!--玻利维亚-->
   <SantaCruz>
@@ -1053,7 +1236,7 @@
     <Longitude>-63.179626</Longitude>
     <Latitude>-17.784324</Latitude>
     <Size>Medium</Size>
-    <Population>155</Population>
+    <Population>600</Population>
   </SantaCruz>
 
   <Baures>
@@ -1061,7 +1244,7 @@
     <Longitude>-66.8847666</Longitude>
     <Latitude>-13.11158</Latitude>
     <Size>Medium</Size>
-    <Population>155</Population>
+    <Population>600</Population>
   </Baures>
   
 
@@ -1071,17 +1254,34 @@
     <Longitude>-75.580444</Longitude>
     <Latitude>6.281173</Latitude>
     <Size>Large</Size>
-    <Population>180</Population>
+    <Population>1500</Population>
 
   </Medellin>
+
+  <Guanila>
+    <Name>Guanila</Name>
+    <Longitude>-67.631836</Longitude>
+    <Latitude>3.074695</Latitude>
+    <Size>Small</Size>
+    <Population>50</Population>
+  </Guanila>
+
   
+ 
+  <Teresina>
+    <Name>Teresina</Name>
+    <Longitude>-43.769531</Longitude>
+    <Latitude>-6.839175</Latitude>
+    <Size>Medium</Size>
+    <Population>600</Population>
+  </Teresina>
   <!--厄瓜多尔-->
   <Quito>
     <Name>Quito</Name>
     <Longitude>-75.521347</Longitude>
-    <Latitude>-0.016293</Latitude>
+    <Latitude>-3.016293</Latitude>
     <Size>Large</Size>
-    <Population>190</Population>
+    <Population>1500</Population>
 
   </Quito>
   <!--Argentina-->
@@ -1090,7 +1290,7 @@
     <Longitude>-58.495331</Longitude>
     <Latitude>-34.675006</Latitude>
     <Size>Large</Size>
-    <Population>1300</Population>
+    <Population>1500</Population>
     </BuenosAires>
   
     <EICalafate>
@@ -1098,7 +1298,7 @@
       <Longitude>-69.284546</Longitude>
       <Latitude>-46.25423</Latitude>
       <Size>Small</Size>
-      <Population>30</Population>
+      <Population>50</Population>
   
   </EICalafate>
 
@@ -1107,7 +1307,7 @@
     <Longitude>-64.188652</Longitude>
     <Latitude>-31.406396</Latitude>
     <Size>Medium</Size>
-    <Population>306</Population>
+    <Population>600</Population>
 
   </Cordoba>
 
@@ -1116,7 +1316,7 @@
     <Longitude>-64.287529</Longitude>
     <Latitude>-25.623794</Latitude>
     <Size>Small</Size>
-    <Population>29</Population>
+    <Population>50</Population>
 
   </SantaRosa>
 
@@ -1126,7 +1326,7 @@
     <Longitude>-71.351151</Longitude>
     <Latitude>-37.471316</Latitude>
     <Size>Small</Size>
-    <Population>30</Population>
+    <Population>50</Population>
 
   </LosAngeles>
   
