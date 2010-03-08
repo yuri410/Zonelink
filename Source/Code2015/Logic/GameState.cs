@@ -107,7 +107,7 @@ namespace Code2015.World
             newTime = new GameTime();
         }
 
-        int test;
+        //int test;
         public void Update(GameTime time)
         {
             /////// 接受playerOperation，由127.0.0.1
