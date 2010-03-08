@@ -17,7 +17,7 @@ namespace Code2015.World
     class GameStateBuilder
     {
         const int MaxCities = 120;
-        const int MinCities = 85;
+        //const int MinCities = 85;
 
         public SimulationRegion SLGWorld
         {
@@ -34,34 +34,48 @@ namespace Code2015.World
             GameConfiguration resCon = new GameConfiguration(fl);
             GameConfiguration.ValueCollection resVals = resCon.Values;
 
-            ExistTable<string> cityTable = new ExistTable<string>(MaxCities);
-            FastList<City> cities = new FastList<City>(MaxCities);
+            FastList<NaturalResource> resources = new FastList<NaturalResource>(MaxCities);
 
-            // 随机选取City
-            while (cities.Count < MinCities && cities.Count < MaxCities)
+            foreach (GameConfigurationSection sect in resVals) 
             {
-                foreach (GameConfigurationSection sect in resVals)
+                string type = sect.GetString("Type", string.Empty);
+                switch (type) 
                 {
-                    if (!cityTable.Exists(sect.Name))
-                    {
-                        //bool flag = Randomizer.GetRandomBool();
-
-                        //if (flag)
-                        {
-                            City city = new City(SLGWorld);
-                            city.Parse(sect);
-                            cities.Add(city);
-                            cityTable.Add(sect.Name);
-                        }
-                        //break;
-                    }
+                    case "Wood":
+                        Forest forest = new Forest(SLGWorld);
+                        forest.Parse(sect);
+                        resources.Add(forest);
+                        break;
                 }
+                break;
+            }
+            for (int i = 0; i < resources.Count; i++)
+            {
+                SLGWorld.Add(resources[i]);
             }
 
-            for (int i = 0; i < cities.Count; i++) 
+
+            fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
+
+            resCon = new GameConfiguration(fl);
+            resVals = resCon.Values;
+
+            FastList<City> cities = new FastList<City>(MaxCities);
+
+            foreach (GameConfigurationSection sect in resVals)
+            {
+                City city = new City(SLGWorld);
+                city.Parse(sect);
+                cities.Add(city);
+            }
+
+
+            for (int i = 0; i < cities.Count; i++)
             {
                 SLGWorld.Add(cities[i]);
             }
+
+
 
         }
     }
