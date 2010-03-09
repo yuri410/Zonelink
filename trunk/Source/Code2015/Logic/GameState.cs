@@ -47,7 +47,13 @@ namespace Code2015.World
                     Forest forest = new Forest(SLGWorld);
                     forest.Parse(sect);
                     resources.Add(forest);
-                    break;
+
+                }
+                else if (type == "petro") 
+                {
+                    OilField fld = new OilField(SLGWorld);
+                    fld.Parse(sect);
+                    resources.Add(fld);
                 }
                 //}
                 //break;

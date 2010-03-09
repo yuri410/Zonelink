@@ -47,6 +47,9 @@ namespace Code2015
     /// </summary>
     class Game : IGameComponent
     {
+        public const float ObjectScale = 3;
+        public const float TreeScale = ObjectScale * 1.33f;
+
         object syncHelper = new object();
 
         GameCreationParameters parameters;
@@ -160,6 +163,14 @@ namespace Code2015
                 {
                     ForestObject forestObj = new ForestObject(renderSys, forest);
                     scene.Scene.AddObjectToScene(forestObj);
+                    continue;
+                }
+
+                OilField oilfld = obj as OilField;
+                if (oilfld != null) 
+                {
+                    OilFieldObject oilObj = new OilFieldObject(renderSys, oilfld);
+                    scene.Scene.AddObjectToScene(oilObj);
                     continue;
                 }
             }

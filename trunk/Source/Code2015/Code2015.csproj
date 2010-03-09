@@ -100,7 +100,6 @@
     <Compile Include="Effect.lpk\CityLinkEffect.cs" />
     <Compile Include="Effect.lpk\CityRingEffect.cs" />
     <Compile Include="Effect.lpk\TreeEffect.cs" />
-    <Compile Include="EngineEx\FarmBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
@@ -399,6 +398,7 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaUtils.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
+    <Compile Include="World\FarmObject.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
@@ -570,6 +570,12 @@
     </None>
     <None Include="Effect.lpk\terrain.ps" />
     <None Include="Effect.lpk\terrain.vs" />
+    <None Include="Effect.lpk\tree.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect.lpk\tree.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Effect.lpk\water.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
