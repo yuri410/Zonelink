@@ -23,5 +23,5 @@ fxc Effect.lpk\citylink.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\citylink.cps /Zp
 fxc Effect.lpk\cityring.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\cityring.cvs /Zpr
 fxc Effect.lpk\cityring.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\cityring.cps /Zpr
 
-fxc Effect.lpk\cityring.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\tree.cvs /Zpr
-fxc Effect.lpk\cityring.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\tree.cps /Zpr
+fxc Effect.lpk\tree.vs /T vs_2_0 /E main /O3 /Fo Effect.lpk\tree.cvs /Zpr
+fxc Effect.lpk\tree.ps /T ps_2_0 /E main /O3 /Fo Effect.lpk\tree.cps /Zpr

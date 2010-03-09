@@ -93,9 +93,9 @@ namespace Code2015.World
 
             PluginTranslate = new float[3];
 
-            PluginTranslate[(int)UrbanSize.Large] = CityObjectTRAdjust.Scaler * 68;
-            PluginTranslate[(int)UrbanSize.Medium] = CityObjectTRAdjust.Scaler * 47;
-            PluginTranslate[(int)UrbanSize.Small] = CityObjectTRAdjust.Scaler * 40;
+            PluginTranslate[(int)UrbanSize.Large] = Game.ObjectScale * 68;
+            PluginTranslate[(int)UrbanSize.Medium] = Game.ObjectScale * 47;
+            PluginTranslate[(int)UrbanSize.Small] = Game.ObjectScale * 40;
         }
 
         public Vector3 GetPluginTranslation(PluginPositionFlag p, UrbanSize size)
@@ -151,7 +151,7 @@ namespace Code2015.World
 
     public struct CityObjectTRAdjust
     {
-        public const float Scaler = 1.5384615384615384615384615384615f;
+        //public const float Scaler = 1.5384615384615384615384615384615f;
 
         public CultureId ID;
 
@@ -214,12 +214,12 @@ namespace Code2015.World
         static readonly string SelRing_Inv = "citysel.mesh";
 
 
-        public const float SmallCityRadius = CityObjectTRAdjust.Scaler * 48;
-        public const float SmallCityRadiusRing = SmallCityRadius + CityObjectTRAdjust.Scaler * 8;
-        public const float MediumCityRadius = CityObjectTRAdjust.Scaler * 78;
-        public const float MediumCityRadiusRing = MediumCityRadius + CityObjectTRAdjust.Scaler * 15;
-        public const float LargeCityRadius = CityObjectTRAdjust.Scaler * 100;
-        public const float LargeCityRadiusRing = LargeCityRadius + CityObjectTRAdjust.Scaler * 15;
+        public const float SmallCityRadius = Game.ObjectScale * 48;
+        public const float SmallCityRadiusRing = SmallCityRadius + Game.ObjectScale * 8;
+        public const float MediumCityRadius = Game.ObjectScale * 78;
+        public const float MediumCityRadiusRing = MediumCityRadius + Game.ObjectScale * 15;
+        public const float LargeCityRadius = Game.ObjectScale * 100;
+        public const float LargeCityRadiusRing = LargeCityRadius + Game.ObjectScale * 15;
 
         public const float CitySelRingScale = 1.25f;
 
@@ -295,13 +295,13 @@ namespace Code2015.World
             adjusts[0].Ring = new Matrix[3];
 
 
-            Matrix scale = Matrix.Scaling(CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler, CityObjectTRAdjust.Scaler);
+            Matrix scale = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale);
             for (int i = 0; i < adjusts[0].Base.Length; i++)
                 adjusts[0].Base[i] = scale;
             for (int i = 0; i < adjusts[0].Urban.Length; i++)
                 adjusts[0].Urban[i] = scale;
 
-            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0);
+            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0) * Matrix.Scaling(Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f);
             adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
 

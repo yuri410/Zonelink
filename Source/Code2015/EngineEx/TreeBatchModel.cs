@@ -12,8 +12,6 @@ using Code2015.World;
 
 namespace Code2015.EngineEx
 {
-
-
     struct TreeModelData
     {
         public PlantType Type;
@@ -133,6 +131,7 @@ namespace Code2015.EngineEx
             int smvCount = 0;
             switch (info.Category)
             {
+                case PlantCategory.Grass:
                 case PlantCategory.Bush:
                 case PlantCategory.Forest:
                     treeCount = (int)(plantCount * 0.6f);
@@ -181,8 +180,12 @@ namespace Code2015.EngineEx
                         p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
                         p.pos.Y = ptr[j].pos.Y;
 
-                        p.pos = p.pos * 4f + pos;
-                        p.n = ptr[j].n;
+                        p.pos = p.pos * Game.TreeScale + pos;
+                       
+                        p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
+                        p.n.Z = rotSin * ptr[j].n.Z + rotCos * ptr[j].n.Z;
+                        p.n.Y = ptr[j].n.Y;
+
                         p.tex1 = new Vector3(ptr[j].u, ptr[j].v, instanceData);
 
                         fixed (byte* dst = &vtxBldBuffer[0])

@@ -75,15 +75,17 @@ namespace Apoc3D.Graphics.Effects
             pixShader.SetValue("lightDir", EffectParams.LightDir);
             vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
-            winding += sign * 0.01f;
-            if (winding > 1f)
-            {
-                sign = -1;
-            }
-            else if (winding < 0f)
-            {
-                sign = 1;
-            }
+            winding += sign * 0.0033f;
+            if (winding > 2 * MathEx.PIf)
+                winding -= 2 * MathEx.PIf;
+            //if (winding > 1f)
+            //{
+            //    sign = -1;
+            //}
+            //else if (winding < 0f)
+            //{
+            //    sign = 1;
+            //}
 
             stateSetted = false;
             return 1;
