@@ -444,7 +444,9 @@
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\CityOwnerRing.cs" />
-    <Compile Include="World\Screen\MdgResource.cs" />
+    <Compile Include="World\Screen\MdgResource.cs">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
     <Compile Include="World\OceanWaterTile.cs" />
