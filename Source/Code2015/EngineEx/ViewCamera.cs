@@ -22,7 +22,16 @@ namespace Code2015.EngineEx
         float rotation;
         float yaw;
 
-        
+        public float Latitude
+        {
+            get { return latitude; }
+            set { latitude = value; }
+        }
+        public float Longitude 
+        {
+            get { return longitude; }
+            set { longitude = value; }
+        }
 
         public RtsCamera(float fovy, float aspect)
             : base(aspect)

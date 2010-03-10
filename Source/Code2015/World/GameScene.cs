@@ -52,6 +52,8 @@ namespace Code2015.World
             camera.NearPlane = 10;
             camera.FarPlane = 8000;
             camera.Mode = RenderMode.Final;
+            camera.Longitude = MathEx.Degree2Radian(114);
+            camera.Latitude = MathEx.Degree2Radian(35);
 
             renderer.RegisterCamera(camera);
 
