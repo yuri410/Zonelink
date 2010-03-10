@@ -132,6 +132,7 @@
     </Compile>
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
+    <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
     <Compile Include="BalanceSystem\SimulateObject.cs">
       <SubType>Code</SubType>
