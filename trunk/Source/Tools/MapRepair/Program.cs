@@ -10,14 +10,13 @@ namespace MapRepair
     {
         static void Main(string[] args)
         {
-            string url1 = @"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l1.tdmp";
-            string url2 = @"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l2.tdmp";
+            string url1 = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l2.tdmp";
+            //string url2 = @"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l2.tdmp";
 
             BinaryReader br1 = new BinaryReader(File.Open(url1, FileMode.Open));
-            BinaryReader br2 = new BinaryReader(File.Open(url2, FileMode.Open));
 
-            int width = 36 * 129;
-            int height = 14 * 129;
+            int width = 36 * 33;
+            int height = 14 * 33;
 
             ushort[,] data = new ushort[height, width];
             for (int i = 0; i < height; i++)
@@ -30,31 +29,38 @@ namespace MapRepair
 
 
 
-            for (int i = 0; i < 14; i++)
+            for (int i = 1; i < 14; i++)
             {
-                int temp1 = 0;
-                int temp2 = 0;
-                int temp3 = 0;
-
-                for (int j = 0; j < 36; j++)
+                for (int j = 0; j < width; j++)
                 {
-                    int I1 = 129 * i;
-                    int I2 = 129 * i + 1;
-                    int J1 = 129 * j;
-                    int J2 = 129 * j + 1;
+                    int I1 = 33 * i - 1;
+                    int I2 = 33 * i;
 
-                    temp1 = data[I1, J1];
-                    temp2 = data[I2, J1];
-                    temp3 = data[I1, J2];
+                    int temp1 = data[I1, j];
+                    int temp2 = data[I2, j];
 
-                    data[I2, J1] = (ushort)((temp1 + temp2) / 2);
-
-                    data[I1, J2] = (ushort)((temp1 + temp3) / 2);
+                    data[I1, j] = (ushort)((temp1 + temp2) / 2);
+                    data[I2, j] = (ushort)((temp1 + temp2) / 2);
                 }
             }
 
-            BinaryWriter bw = new BinaryWriter(File.Open(@"C:\Users\penser\Desktop\FileMap129.raw", FileMode.OpenOrCreate));
-          
+
+            for (int i = 0; i < height; i++)
+            {
+                for (int j = 1; j < 36; j++)
+                {
+                    int J1 = 33 * j - 1;
+                    int J2 = 33 * j;
+
+                    int temp1 = data[i, J1];
+                    int temp3 = data[i, J2];
+
+                    data[i, J2] = (ushort)((temp1 + temp3) / 2);
+                    data[i, J2] = (ushort)((temp1 + temp3) / 2);
+                }
+            }
+            BinaryWriter bw = new BinaryWriter(File.Open(@"E:\Desktop\FileMap129.raw", FileMode.OpenOrCreate));
+
             for (int i = 0; i < height; i++)
             {
                 for (int j = 0; j < width; j++)
