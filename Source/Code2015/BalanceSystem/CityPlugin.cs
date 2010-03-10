@@ -26,10 +26,19 @@ namespace Code2015.BalanceSystem
             get { return type; }
         }
 
-        public float UpgradeProgress
+        public CityPluginTypeId TypeId
         {
             get;
-            set;
+            private set;
+        }
+
+        /// <summary>
+        ///  0..1之间的建造进度
+        /// </summary>
+        public float BuildProgress
+        {
+            get;
+            private  set;
         }
 
         public string Name

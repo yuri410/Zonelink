@@ -61,7 +61,7 @@ namespace TestCode2015
             region.Add(oilFld);
 
 
-            CityPluginType plgType = new CityPluginType("test plg");
+            CityPluginType plgType = new CityPluginType();
             sect = new IniSection("");
             sect.Add("Cost", "100");
             sect.Add("HRCSpeed", "100");
@@ -73,7 +73,7 @@ namespace TestCode2015
 
 
 
-            plgType = new CityPluginType("test plg");
+            plgType = new CityPluginType();
             sect = new IniSection("");
             sect.Add("Cost", "100");
             sect.Add("FoodConvRate", "0.50");

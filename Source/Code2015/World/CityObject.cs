@@ -534,25 +534,25 @@ namespace Code2015.World
             }
             sideRing = new CityOwnerRing(this, style);
 
-            // 测试代码
-            switch (city.Size)
-            {
-                case UrbanSize.Small:
-                    city.Add(new CityPlugin(new CityPluginType("A")));
+            //// 测试代码
+            //switch (city.Size)
+            //{
+            //    case UrbanSize.Small:
+            //        city.Add(new CityPlugin(new CityPluginType()));
 
-                    break;
-                case UrbanSize.Medium:
-                    city.Add(new CityPlugin(new CityPluginType("B")));
-                    city.Add(new CityPlugin(new CityPluginType("C")));
-                    city.Add(new CityPlugin(new CityPluginType("D")));
-                    break;
-                case UrbanSize.Large:
-                    city.Add(new CityPlugin(new CityPluginType("E")));
-                    city.Add(new CityPlugin(new CityPluginType("B")));
-                    city.Add(new CityPlugin(new CityPluginType("C")));
-                    city.Add(new CityPlugin(new CityPluginType("D")));
-                    break;
-            }
+            //        break;
+            //    case UrbanSize.Medium:
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        break;
+            //    case UrbanSize.Large:
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        city.Add(new CityPlugin(new CityPluginType()));
+            //        break;
+            //}
         }
 
         protected override void Dispose(bool disposing)
@@ -653,21 +653,21 @@ namespace Code2015.World
             for (int i = 0; i < plugins.Count; i++)
             {
                 ops = null;
-                switch (plugins[i].plugin.Type.TypeName)
+                switch (plugins[i].plugin.TypeId)
                 {
-                    case "A":
+                    case CityPluginTypeId.BiofuelFactory:
                         ops = style.BiofuelFactory.GetRenderOperation();
                         break;
-                    case "B":
+                    case CityPluginTypeId.EducationOrg:
                         ops = style.EducationOrgan.GetRenderOperation();
                         break;
-                    case "C":
+                    case CityPluginTypeId.Hospital:
                         ops = style.Hospital.GetRenderOperation();
                         break;
-                    case "D":
+                    case CityPluginTypeId.OilRefinary:
                         ops = style.OilRefinary.GetRenderOperation();
                         break;
-                    case "E":
+                    case CityPluginTypeId.WoodFactory:
                         ops = style.WoodFactory.GetRenderOperation();
                         break;
                 }

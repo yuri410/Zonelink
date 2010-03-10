@@ -15,6 +15,14 @@ namespace Code2015.BalanceSystem
         Hospital,
         Education
     }
+    public enum CityPluginTypeId
+    {
+        WoodFactory,
+        OilRefinary,
+        BiofuelFactory,
+        EducationOrg,
+        Hospital
+    }
 
     /// <summary>
     ///  表示城市附属物的一种类型
