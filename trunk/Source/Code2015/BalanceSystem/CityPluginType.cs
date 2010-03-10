@@ -22,8 +22,7 @@ namespace Code2015.BalanceSystem
     public class CityPluginType : IConfigurable
     {
         public CityPluginType() { }
-        public CityPluginType(string typeName) { TypeName = typeName; }
-
+        
         public float HRPConvRate
         {
             get;
@@ -86,13 +85,13 @@ namespace Code2015.BalanceSystem
         }
 
 
-        public float GetUpgradeCost(int level)
-        {
-            UpgradeCostBase = level * Cost;
-            float upgradecost = UpgradeCostBase;
-            UpgradeCostBase = 0;
-            return upgradecost;
-        }
+        //public float GetUpgradeCost(int level)
+        //{
+        //    UpgradeCostBase = level * Cost;
+        //    float upgradecost = UpgradeCostBase;
+        //    UpgradeCostBase = 0;
+        //    return upgradecost;
+        //}
 
         //public virtual float GetUpgradeCost()
         //{
@@ -103,20 +102,24 @@ namespace Code2015.BalanceSystem
         /// <summary>
         /// 升级所需费用
         /// </summary>
-        public float UpgradeCostBase
-        {
-            get;
-            protected set;
-        }
+        //public float UpgradeCostBase
+        //{
+        //    get;
+        //    protected set;
+        //}
         /// <summary>
         /// 建造一个所需费用
         /// </summary>
-        public float Cost
+        public float CostLR
         {
             get;
             protected set;
         }
-
+        public float CostHR
+        {
+            get;
+            private set;
+        }
         public string TypeName
         {
             get;
@@ -127,7 +130,9 @@ namespace Code2015.BalanceSystem
 
         public void Parse(ConfigurationSection sect)
         {
-            Cost = sect.GetSingle("Cost");
+            TypeName = sect["Name"];
+            CostLR = sect.GetSingle("CostLR");
+            CostHR = sect.GetSingle("CostHR");
 
             //HRPSpeed = sect.GetSingle("HRPSpeed", 0);
             //LRPSpeed = sect.GetSingle("LRPSpeed", 0);
