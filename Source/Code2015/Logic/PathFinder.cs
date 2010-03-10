@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.Collections;
 using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.MathLib;
 
 namespace Code2015.Logic
@@ -190,42 +190,7 @@ namespace Code2015.Logic
             MathEx.Root2, MathEx.Root2,
             MathEx.Root2, MathEx.Root2,
         };
-        bool[] terrainPassTable;
 
-        //public PathFinder(int width, int height, int zSize)
-        //{
-        //    this.width = width;
-        //    this.height = height;
-
-        //    traffic = new CellTraffic[width][][];
-        //    for (int i = 0; i < width; i++)
-        //    {
-        //        traffic[i] = new CellTraffic[height][];
-        //        for (int j = 0; j < height; j++)
-        //        {
-        //            traffic[i][j] = new CellTraffic[zSize];
-        //        }
-        //    }
-        //    terrain = new TerrainType[width][];
-        //    for (int i = 0; i < width; i++)
-        //    {
-        //        terrain[i] = new TerrainType[height];
-        //    }
-
-        //    units = new AStarNode[width][][];
-        //    for (int i = 0; i < width; i++)            
-        //    {
-        //        units[i] = new AStarNode[height][];
-        //        for (int j = 0; j < height; j++)
-        //        {
-        //            units[i][j] = new AStarNode[zSize];
-        //            for (int k = 0; k < zSize; k++)
-        //            {
-        //                units[i][j][k] = new AStarNode(i, j, k);
-        //            }
-        //        }
-        //    }
-        //}
         public PathFinder(PathFinderManager mgr)
         {
             this.traffic = mgr.TrafficTable;
