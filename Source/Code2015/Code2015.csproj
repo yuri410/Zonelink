@@ -445,7 +445,6 @@
     <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\CityOwnerRing.cs" />
     <Compile Include="World\Screen\MdgResource.cs">
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
@@ -457,6 +456,7 @@
     <Compile Include="World\Screen\ScreenPhysicsWorld.cs" />
     <Compile Include="World\Screen\ScreenRigidBody.cs" />
     <Compile Include="World\Screen\ScreenStaticBody.cs" />
+    <Compile Include="World\TerrainData.cs" />
     <Compile Include="World\TerrainTile.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -613,6 +613,12 @@
     <EmbeddedResource Include="Engine\Apoc3D.Core\Design\MatrixEditControl.resx">
       <DependentUpon>MatrixEditControl.cs</DependentUpon>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <NestedContentProject Include="Sounds\Sounds.contentproj">
+      <Project>80ef2075-1a8e-4d44-bd76-8bae1ea27f61</Project>
+      <Visible>false</Visible>
+    </NestedContentProject>
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Engine\Apoc3D.Core\Graphic\" />

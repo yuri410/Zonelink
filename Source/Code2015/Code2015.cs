@@ -98,6 +98,7 @@ namespace Code2015
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
             TreeModelLibrary.Initialize(renderSys);
 
+            TerrainData.Initialize();
             ElevotionQuery.Initialize();
 
             sprite = renderSys.ObjectFactory.CreateSprite();
