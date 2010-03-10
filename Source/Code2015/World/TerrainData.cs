@@ -90,7 +90,7 @@ namespace Code2015.World
             {
                 reader0.BaseStream.Position = sizeof(ushort) * (y * DataWidth0 + x);
 
-                return reader0.ReadUInt16() / 7.0f;
+                return (reader0.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
             }
         }
 

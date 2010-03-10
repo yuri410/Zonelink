@@ -27,7 +27,11 @@ namespace Code2015.World
             float radLng = MathEx.Degree2Radian(field.Longitude);
             float radLat = MathEx.Degree2Radian(field.Latitude);
 
-            Position = PlanetEarth.GetPosition(radLng,radLat);
+            float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
+            if (alt < 0)
+                alt = 0;
+
+            Position = PlanetEarth.GetPosition(radLng, radLat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
             BoundingSphere.Center = position;
 
             BoundingSphere.Radius = 50;

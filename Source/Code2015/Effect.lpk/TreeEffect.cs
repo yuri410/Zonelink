@@ -111,7 +111,16 @@ namespace Apoc3D.Graphics.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
+
+            TreeBatchModel mdl = op.Sender as TreeBatchModel;
+            if (mdl != null)
+            {
+                vtxShader.SetValue("world", ref mdl.TreeOrientation);
+            }
+            else 
+            {
+                vtxShader.SetValue("world", ref op.Transformation);
+            }
 
             if (!stateSetted)
             {

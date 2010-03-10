@@ -35,6 +35,7 @@ namespace Code2015.World
             info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, PlantType.Subtropics);// info.Type);
             model = TreeBatchModelManager.Instance.CreateInstance(rs, info);
 
+            model.Touch();
 
             Transformation = model.GetWeakResource().Transformation;
             BoundingSphere = model.GetWeakResource().BoundingVolume;

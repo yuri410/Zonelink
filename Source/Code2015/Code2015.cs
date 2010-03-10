@@ -99,7 +99,6 @@ namespace Code2015
             TreeModelLibrary.Initialize(renderSys);
 
             TerrainData.Initialize();
-            ElevotionQuery.Initialize();
 
             sprite = renderSys.ObjectFactory.CreateSprite();
 

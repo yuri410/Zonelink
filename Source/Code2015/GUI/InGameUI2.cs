@@ -272,17 +272,18 @@ namespace Code2015.GUI
         Texture btnoilref;
         Texture btnwoodfac;
 
+        Texture co2meterBg;
 
         RtsCamera camera;
 
-        Texture[] earth;
+        //Texture[] earth;
 
-        const int EarthFrameCount = 100;
-        const float RoundTime = 30;
+        //const int EarthFrameCount = 100;
+        //const float RoundTime = 30;
 
-        int currentFrameIdx;
+        //int currentFrameIdx;
 
-        float cycleTime;
+        //float cycleTime;
 
         ISelectableObject selected;
         CityObject city;
@@ -392,15 +393,16 @@ namespace Code2015.GUI
 
             captureBtn.MouseClick += this.CaptureBtn_Click;
 
+            fl = FileSystem.Instance.Locate("ig_co2_meter.tex", GameFileLocs.GUI);
+            co2meterBg = UITextureManager.Instance.CreateInstance(fl);
+            //earth = new Texture[EarthFrameCount];
+            //for (int i = 0; i < EarthFrameCount; i++)
+            //{
+            //    fl = FileSystem.Instance.Locate("earth" + i.ToString("D4") + ".tex", GameFileLocs.Earth);
 
-            earth = new Texture[EarthFrameCount];
-            for (int i = 0; i < EarthFrameCount; i++)
-            {
-                fl = FileSystem.Instance.Locate("earth" + i.ToString("D4") + ".tex", GameFileLocs.Earth);
+            //    earth[i] = UITextureManager.Instance.CreateInstance(fl);
 
-                earth[i] = UITextureManager.Instance.CreateInstance(fl);
-
-            }
+            //}
         }
 
         void CaptureBtn_Click(object sender, MouseButtonFlags btn)
@@ -474,7 +476,9 @@ namespace Code2015.GUI
             //sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             
             sprite.Draw(statusBar, 130, 0, ColorValue.White);
-            sprite.Draw(earth[currentFrameIdx], 448, -3, ColorValue.White);
+            //sprite.Draw(earth[currentFrameIdx], 448, -3, ColorValue.White);
+            sprite.Draw(co2meterBg, 448, 0, ColorValue.White);
+
             //if (currentFrameIdx >= EarthFrameCount)
             //    currentFrameIdx = 0;
 
@@ -485,11 +489,11 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            cycleTime += time.ElapsedGameTimeSeconds;
-            if (cycleTime >= RoundTime)
-                cycleTime = 0;
+            //cycleTime += time.ElapsedGameTimeSeconds;
+            //if (cycleTime >= RoundTime)
+            //    cycleTime = 0;
 
-            currentFrameIdx = (int)(EarthFrameCount * (cycleTime / RoundTime));
+            //currentFrameIdx = (int)(EarthFrameCount * (cycleTime / RoundTime));
 
             if (city != null)
             {

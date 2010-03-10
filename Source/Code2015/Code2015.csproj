@@ -103,6 +103,7 @@
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
+    <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
@@ -145,7 +146,6 @@
     <Compile Include="Effect.lpk\TerrainEffect.cs" />
     <Compile Include="Effect.lpk\WaterEffect.cs" />
     <Compile Include="Effect.lpk\AtmosphereEffect.cs" />
-    <Compile Include="ElevationQuery.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
