@@ -691,11 +691,11 @@ namespace DataFixer
 
         static void Build3() 
         {
-            FileLocation fl = new FileLocation(@"E:\Desktop\pass129.raw");
+            FileLocation fl = new FileLocation(@"E:\Desktop\pass64.raw");
             ContentBinaryReader br = new ContentBinaryReader(fl);
 
-            const int DW = 36 * 129;
-            const int DH = 14 * 129;
+            const int DW = 36 * 64;
+            const int DH = 14 * 64;
 
 
             Apoc3D.BitTable b = new Apoc3D.BitTable(DW * DH);

@@ -18,6 +18,7 @@ namespace Code2015.World
     {
         const int MaxCities = 120;
         //const int MinCities = 85;
+        
 
         public SimulationRegion SLGWorld
         {
