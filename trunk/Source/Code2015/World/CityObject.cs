@@ -307,7 +307,7 @@ namespace Code2015.World
 
             adjusts[0].WoodFactory = Matrix.Translation(0, 6.25f, 0) * scale;
             adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
-            adjusts[0].Cow = Matrix.Scaling(0, 0, -1);
+            adjusts[0].Cow = Matrix.RotationY(MathEx.PiOver2) * scale;// Matrix.Scaling(0, 0, -1);
             adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
             adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
             adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
@@ -405,6 +405,7 @@ namespace Code2015.World
         SceneManagerBase sceMgr;
         Map map;
 
+        FastList<Harvester> harvesters = new FastList<Harvester>();
         FastList<PluginEntry> plugins;
 
         PluginPositionFlag pluginFlags;
@@ -464,6 +465,16 @@ namespace Code2015.World
         {
             get { return city.Owner; }
         }
+
+        public int HarvesterCount
+        {
+            get { return harvesters.Count; }
+        }
+        public Harvester GetHarvester(int idx) 
+        {
+            return harvesters[idx];
+        }
+
         bool ISelectableObject.IsSelected
         {
             get { return isSelected; }
@@ -561,6 +572,9 @@ namespace Code2015.World
                 CityLink link = new CityLink(renderSys, a.Parent, b.Parent);
 
                 sceMgr.AddObjectToScene(link);
+
+                if (harvesters.Count > 0)
+                    harvesters[0].Move(MathEx.Degree2Radian(b.Longitude), MathEx.Degree2Radian(b.Latitude));
             }
         }
         void City_PluginAdded(City city, CityPlugin plugin)
@@ -612,9 +626,9 @@ namespace Code2015.World
                 ringMaterial.Diffuse *= color;
 
                 Harvester harv = new Harvester(renderSys, map, style.Cow);
-                harv.Latitude = MathEx.Degree2Radian(Latitude-5);
+                harv.Latitude = MathEx.Degree2Radian(Latitude - 2);
                 harv.Longtitude = MathEx.Degree2Radian(Longitude);
-
+                harvesters.Add(harv);
                 sceMgr.AddObjectToScene(harv);
             }
         }

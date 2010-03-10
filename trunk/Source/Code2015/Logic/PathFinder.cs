@@ -32,60 +32,58 @@ namespace Code2015.Logic
             get { return path.Count; }
         }
     }
-    public class NodeBuffer
-    {
-        public const int BufferW = 512;
-        public const int BufferH = 512;
+    //public class NodeBuffer
+    //{
+    //    public const int BufferW = 512;
+    //    public const int BufferH = 512;
 
-        AStarNode[][] nodes;
+    //    AStarNode[][] nodes;
 
-        int ofsX;
-        int ofsY;
+    //    int ofsX;
+    //    int ofsY;
 
-        public void SetOffset(int ox, int oy)
-        {
-            ofsX = ox;
-            ofsY = oy;
-        }
+    //    public void SetOffset(int ox, int oy)
+    //    {
+    //        ofsX = ox;
+    //        ofsY = oy;
+    //    }
 
-        public AStarNode[][] Nodes
-        {
-            get { return nodes; }
-        }
+    //    public AStarNode[][] Nodes
+    //    {
+    //        get { return nodes; }
+    //    }
 
-        public int OffsetX
-        {
-            get { return ofsX; }
-        }
-        public int OffsetY
-        {
-            get { return ofsY; }
-        }
+    //    public int OffsetX
+    //    {
+    //        get { return ofsX; }
+    //    }
+    //    public int OffsetY
+    //    {
+    //        get { return ofsY; }
+    //    }
 
-        public NodeBuffer()
-        {
-            nodes = new AStarNode[BufferW][];
-            for (int i = 0; i < nodes.Length; i++)
-            {
-                nodes[i] = new AStarNode[BufferH];
-                for (int j = 0; j < nodes[i].Length; j++)
-                {
-                    nodes[i][j] = new AStarNode(this, i, j);
-                }
-            }
-        }
+    //    public NodeBuffer()
+    //    {
+    //        nodes = new AStarNode[BufferW][];
+    //        for (int i = 0; i < nodes.Length; i++)
+    //        {
+    //            nodes[i] = new AStarNode[BufferH];
+    //            for (int j = 0; j < nodes[i].Length; j++)
+    //            {
+    //                nodes[i][j] = new AStarNode(this, i, j);
+    //            }
+    //        }
+    //    }
 
-        public AStarNode this[int x, int y]
-        {
-            get { return nodes[x - ofsX][y - ofsY]; }
-        }
-    }
+    //    public AStarNode this[int x, int y]
+    //    {
+    //        get { return nodes[x - ofsX][y - ofsY]; }
+    //    }
+    //}
     public class AStarNode
     {
-        NodeBuffer buffer;
-
-        int x;
-        int y;
+        public int X;
+        public int Y;
 
 
         public float f;
@@ -93,42 +91,30 @@ namespace Code2015.Logic
         public float h;
 
         public int depth;
-        //public int pX;
-        //public int pY;
-        //public int pZ;
+
         public AStarNode parent;
 
 
-        public int X
+        public AStarNode(int x, int y)
         {
-            get { return x + buffer.OffsetX; }
-        }
-        public int Y
-        {
-            get { return y + buffer.OffsetY; }
-        }
-
-        public AStarNode(NodeBuffer buffer, int x, int y)
-        {
-            this.buffer = buffer;
-            this.x = x;
-            this.y = y;
+            this.X = x;
+            this.Y = y;
         }
         public override int GetHashCode()
         {
-            return (x << 16) | (y);
+            return (X << 16) | Y;
         }
     }
     public class PathFinderManager
     {
         BitTable terrain;
 
-        NodeBuffer units;
+        AStarNode[][] units;
 
-        public const int DW = 36 * 64;
-        public const int DH = 14 * 64;
+        public const int DW = 36 * 32;
+        public const int DH = 14 * 32;
 
-        public NodeBuffer NodeBuffer
+        public AStarNode[][] NodeBuffer
         {
             get { return units; }
         }
@@ -136,7 +122,15 @@ namespace Code2015.Logic
         public PathFinderManager(BitTable terr)
         {
             terrain = terr;
-            units = new NodeBuffer();
+            units = new AStarNode[DW][];
+            for (int i = 0; i < DW; i++)
+            {
+                units[i] = new AStarNode[DH];
+                for (int j = 0; j < DH; j++)
+                {
+                    units[i][j] = new AStarNode(i, j);
+                }
+            }
         }
 
         public PathFinder CreatePathFinder()
@@ -168,7 +162,7 @@ namespace Code2015.Logic
     {
         const int MaxStep = 50;
 
-        NodeBuffer units;
+        AStarNode[][] units;
 
         BitTable terrain;
 
@@ -214,7 +208,7 @@ namespace Code2015.Logic
             this.height = mgr.Height;
             this.units = mgr.NodeBuffer;
         }
-        public PathFinder(BitTable terr, NodeBuffer units)
+        public PathFinder(BitTable terr, AStarNode[][] units)
         {
             this.terrain = terr;
             this.units = units;
@@ -288,19 +282,17 @@ namespace Code2015.Logic
 
         public PathFinderResult FindPath(int sx, int sy, int tx, int ty)
         {
-            if ((sx == tx && sy == ty) ||
-                (Math.Abs(tx - sx) > NodeBuffer.BufferW || Math.Abs(ty - sy) > NodeBuffer.BufferH))
+            if (sx == tx && sy == ty)
             {
                 return new PathFinderResult(new FastList<Point>(), false);
             }
 
             int ofsX = Math.Min(sx, tx);
             int ofsY = Math.Min(sy, ty);
-            units.SetOffset(ofsX, ofsY);
 
             FastList<AStarNode> enQueueBuffer = new FastList<AStarNode>(10);
 
-            AStarNode startNode = units[sx, sy];
+            AStarNode startNode = units[sx][sy];
             startNode.parent = null;
             startNode.h = 0;
             startNode.g = 0;
@@ -343,7 +335,7 @@ namespace Code2015.Logic
                     // 检查范围
                     if (nx >= 0 && nx < width && ny >= 0 && ny < height)
                     {
-                        AStarNode np = units[nx, ny];
+                        AStarNode np = units[nx][ny];
                         int npHash = np.GetHashCode();
 
 
@@ -358,7 +350,7 @@ namespace Code2015.Logic
                         }
                         else
                         {
-                            if (terrain.GetBit(ny * width + nx))  //地块能通过
+                            if (!terrain.GetBit(ny * width + nx))  //地块能通过
                             {
                                 bool isNPInQueue = false;
                                 AStarNode temp;
@@ -416,7 +408,7 @@ namespace Code2015.Logic
                 do
                 {
                     //result.Add(curNode);
-                    result[baseOffset + curNode.depth - 1] = new Point(curNode.X + ofsX, curNode.Y + ofsY);
+                    result[baseOffset + curNode.depth - 1] = new Point(curNode.X, curNode.Y);
                     curNode = curNode.parent;
                 }
                 while (curNode.parent != null);
@@ -433,7 +425,7 @@ namespace Code2015.Logic
                 do
                 {
                     //result.Add(curNode);
-                    result[curNode.depth - 1] = new Point(curNode.X + ofsX, curNode.Y + ofsY);
+                    result[curNode.depth - 1] = new Point(curNode.X, curNode.Y);
                     curNode = curNode.parent;
                 }
                 while (curNode.parent != null);
