@@ -11,8 +11,6 @@ using Code2015.World;
 
 namespace Code2015.World
 {
-    
-
     class GameScene
     {
         RenderSystem renderSys;

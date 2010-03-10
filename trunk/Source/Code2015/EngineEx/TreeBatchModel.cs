@@ -31,7 +31,7 @@ namespace Code2015.EngineEx
         //}
     }
 
-    struct ForestInfo 
+    struct ForestInfo
     {
         public float Longitude;
         public float Latitude;
@@ -48,7 +48,7 @@ namespace Code2015.EngineEx
 
     class TreeBatchModel : Resource, IRenderable
     {
-        struct TreeVertex 
+        struct TreeVertex
         {
             public Vector3 pos;
             public Vector3 n;
@@ -69,7 +69,7 @@ namespace Code2015.EngineEx
                 elements[2] = new VertexElement(elements[1].Offset + elements[1].Size, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0);
             }
 
-            public static VertexElement[] Elements 
+            public static VertexElement[] Elements
             {
                 get { return elements; }
             }
@@ -84,7 +84,6 @@ namespace Code2015.EngineEx
         Material[] materials;
         RenderOperation[] opBuf;
 
-        //float[] instanceData;
 
         int resourceSize;
 
@@ -92,6 +91,8 @@ namespace Code2015.EngineEx
 
         public BoundingSphere BoundingVolume;
         public Matrix Transformation;
+
+        public Matrix TreeOrientation;
 
         public TreeBatchModel(RenderSystem rs, ForestInfo info)
             : base(TreeBatchModelManager.Instance,
@@ -103,8 +104,8 @@ namespace Code2015.EngineEx
             float radlng = MathEx.Degree2Radian(info.Longitude);
             float radlat = MathEx.Degree2Radian(info.Latitude);
 
-            Transformation =  PlanetEarth.GetOrientation(radlng, radlat);
-            Transformation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat);
+            Transformation = Matrix.Identity;// PlanetEarth.GetOrientation(radlng, radlat);
+            //Transformation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat);
 
             BoundingVolume.Center = PlanetEarth.GetPosition(radlng, radlat);
             BoundingVolume.Radius = PlanetEarth.GetTileArcLength(MathEx.Degree2Radian(info.Radius));
@@ -149,20 +150,33 @@ namespace Code2015.EngineEx
 
             for (int i = 0; i < plantCount; i++)
             {
-              
                 int idx = Randomizer.GetRandomInt(info.BigPlants.Length);
 
-                float rr = PlanetEarth.GetTileArcLength(Randomizer.GetRandomSingle() * radr);
-                float rt = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+            Label_retry:
+                float rnd1 = Randomizer.GetRandomSingle();
+                float rnd2 = Randomizer.GetRandomSingle();
 
+                float r = rnd1 * radr;
+                float rr = PlanetEarth.GetTileArcLength(r);
+                float rt = rnd2 * MathEx.PIf * 2;
 
-                Vector3 pos = new Vector3(rr * (float)Math.Cos(rt), 0, rr * (float)Math.Sin(rt));
+                float rotCos = (float)Math.Cos(rt);
+                float rotSin = (float)Math.Sin(rt);
+
+                float alt = TerrainData.Instance.QueryHeight(radlng + r * rotCos, radlat + r * rotSin);
+
+                if (alt < 0)
+                    goto Label_retry;
+
+                TreeOrientation = PlanetEarth.GetOrientation(radlng + r * rotCos, radlat + r * rotSin);
+                TreeOrientation.TranslationValue = PlanetEarth.GetPosition(radlng + r * rotCos, radlat + r * rotSin,
+                    PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
 
                 float instanceData = Randomizer.GetRandomSingle();
 
                 float theta = instanceData * MathEx.PIf * 2;
-                float rotCos = (float)Math.Cos(theta);
-                float rotSin = (float)Math.Sin(theta);
+                rotCos = (float)Math.Cos(theta);
+                rotSin = (float)Math.Sin(theta);
 
                 TreeModelData meshData = info.BigPlants[idx];
 
@@ -180,8 +194,12 @@ namespace Code2015.EngineEx
                         p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
                         p.pos.Y = ptr[j].pos.Y;
 
-                        p.pos = p.pos * Game.TreeScale + pos;
-                       
+                        p.pos = p.pos * Game.TreeScale;
+
+                        Vector3 pp;
+                        Vector3.TransformSimple(ref p.pos, ref TreeOrientation, out pp);
+                        p.pos = pp;
+
                         p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
                         p.n.Z = rotSin * ptr[j].n.Z + rotCos * ptr[j].n.Z;
                         p.n.Y = ptr[j].n.Y;
@@ -195,7 +213,7 @@ namespace Code2015.EngineEx
                         vertices.Add(vtxBldBuffer);
                     }
                 }
-               
+
                 Material[] mtrls = meshData.Materials;
                 for (int k = 0; k < mtrls.Length; k++)
                 {
@@ -219,16 +237,15 @@ namespace Code2015.EngineEx
                         idxData.Add(meshIdx[j] + vtxOffset);
                     }
 
-                    
+
                 }
                 vtxOffset += meshData.VertexCount;
             }
-            
+
             //for (int i = 0; i < smvCount; i++)
             //{
             //    int idx = Randomizer.GetRandomInt(info.SmallPlants.Length);
             //}
-
 
             // ============================================================================
 
@@ -279,7 +296,7 @@ namespace Code2015.EngineEx
             }
 
 
-            
+
         }
 
         protected override void unload()
@@ -304,7 +321,6 @@ namespace Code2015.EngineEx
                 vtxDecl.Dispose();
                 vtxDecl = null;
             }
-
         }
 
         #region IRenderable 成员
@@ -313,7 +329,7 @@ namespace Code2015.EngineEx
         {
             if (State == ResourceState.Loaded)
             {
-                for (int i = 0; i < opBuf.Length; i++) 
+                for (int i = 0; i < opBuf.Length; i++)
                 {
                     opBuf[i].Transformation = Matrix.Identity;
                 }

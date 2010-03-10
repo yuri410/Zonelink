@@ -27,7 +27,16 @@ VSOutput main(VSInput ip)
 
 	float wind = 2 * 3.1415926 * (isVeg_wind.y + ip.TexCoord.z);
 	
-	ip.Position.x += 0.03 * sin(wind) * ip.Position.y;
+	float4 xas = float4(1,0,0,0);
+	float4 yas = float4(0,1,0,0);
+	
+	xas = mul(xas, world);
+	yas = mul(yas, world);
+	
+	float3 pn = normalize(ip.Position);
+	pn = ip.Position - pn * 6371;
+	
+	ip.Position += xas * (0.002 * sin(wind) * max(0, dot(yas,pn)));
 	
     o.Position = mul(ip.Position, mvp);
 	
@@ -35,11 +44,14 @@ VSOutput main(VSInput ip)
     o.TexCoord = ip.TexCoord.xy;
     if (isVeg_wind.x>10)
 	{
-		ip.Normal = float3(0,1,0);
+		o.Normal = yas.xyz;
 	}
-	o.Normal = normalize((float3)mul(float4(ip.Normal,0), world));
+	else
+	{
+		o.Normal = normalize((float3)mul(float4(ip.Normal,0), world));
+    }
     
-    float3 wpos = mul(ip.Position, world).xyz;
+    float3 wpos = ip.Position.xyz;
     
 	o.ViewDir = normalize(wpos - viewPos);
     return o;

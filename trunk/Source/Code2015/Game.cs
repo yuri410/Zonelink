@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Threading;
 using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
@@ -10,7 +11,6 @@ using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.Logic;
 using Code2015.World;
-using Apoc3D.Collections;
 
 namespace Code2015
 {
@@ -201,6 +201,11 @@ namespace Code2015
                     {
                         IsLoaded = true;
                     }
+                }
+                else 
+                {
+                    if (++loadingCountDown > 100)
+                        loadingCountDown = 100;
                 }
             }
             else

@@ -11,6 +11,74 @@ using Plugin.GISTools;
 
 namespace DataFixer
 {
+    //class BitTable 
+    //{
+    //    int[] data;
+    //    int size;
+
+    //    public BitTable(int size)
+    //    {
+    //        this.size = size;
+
+    //        data = new int[size];
+    //    }
+
+    //    public bool GetBit(int x)
+    //    {
+    //        int xx = x % 32;
+
+    //        x = x / 32;
+
+    //        int v = data[x];
+
+    //        return ((v >> xx) & 1) != 0;
+    //    }
+
+    //    public void SetBit(int x, bool v)
+    //    {
+    //        int xx = x % 32;
+
+    //        x = x / 32;
+
+    //        //int vv = v ? 1 : 0;
+    //        if (v)
+    //        {
+    //            data[x] |= (1 << xx);
+    //        }
+    //        else 
+    //        {
+    //            data[x] &= ~(1 << xx);
+    //        }
+    //    }
+
+
+    //    public void Load(FileLocation fl)
+    //    {
+    //        ContentBinaryReader br = new ContentBinaryReader(fl);
+    //        size = br.ReadInt32();
+    //        data = new int[size];
+    //        for (int i = 0; i < size; i++)
+    //        {
+    //            data[i] = br.ReadInt32();
+    //        }
+    //        br.Close();
+    //    }
+
+    //    public void Save(Stream stm)
+    //    {
+    //        ContentBinaryWriter bw = new ContentBinaryWriter(stm);
+
+    //        bw.Write(size);
+    //        for (int i = 0; i < size; i++)
+    //        {
+    //            bw.Write(data[i]);
+    //        }
+
+    //        bw.Close();
+    //    }
+    //}
+
+
     class Program
     {
         static void Scan2(string srcDir)
@@ -538,9 +606,9 @@ namespace DataFixer
 
             bw.Close();
         }
-        static void BuildBitMap()
+        static void BuildLandArea() 
         {
-            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\ushort.all.5120.raw");
+            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l1.tdmp");
             ContentBinaryReader br = new ContentBinaryReader(fl);
 
             const int DW = 36 * 129;
@@ -552,7 +620,37 @@ namespace DataFixer
             {
                 for (int j = 0; j < DW; j++)
                 {
-                    data[i, j] = br.ReadUInt16();
+                    ushort v = br.ReadUInt16();
+                    data[i, j] = (v > (ushort)(1640 * 7)) ? (ushort)0 : ushort.MaxValue;// br.ReadUInt16();
+                }
+            }
+            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\land129.raw", FileMode.OpenOrCreate));
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    bw.Write(data[i, j]);
+                }
+            }
+            bw.Close();
+
+        }
+        static void BuildBitMap()
+        {
+            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l1.tdmp");
+            ContentBinaryReader br = new ContentBinaryReader(fl);
+
+            const int DW = 36 * 129;
+            const int DH = 14 * 129;
+
+            ushort[,] data = new ushort[DH, DW];
+
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    ushort v = br.ReadUInt16();
+                    data[i, j] = Math.Max(v, (ushort)(1640*7));// br.ReadUInt16();
                 }
             }
 
@@ -564,29 +662,67 @@ namespace DataFixer
             {
                 for (int j = 0; j < DW - 1; j++) 
                 {
-                    int dx = dir[i + 1, j] - dir[i, j];
-                    int dy = dir[i, j + 1] - dir[i, j];
+                    int dx = data[i + 1, j] - data[i, j];
+                    int dy = data[i, j + 1] - data[i, j];
                     dir[i, j] = Math.Abs(dx) + Math.Abs(dy);
                 }
             }
             for (int i = 0; i < DH - 1; i++)
             {
                 int j = DW - 1;
-                int dx = dir[i + 1, j] - dir[i, j];
-                int dy = dir[i, 0] - dir[i, j];
+                int dx = data[i + 1, j] - data[i, j];
+                int dy = data[i, 0] - data[i, j];
                 dir[i, j] = Math.Abs(dx) + Math.Abs(dy);
             }
-            
+
+            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\grad.raw", FileMode.OpenOrCreate));
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    if (dir[i, j] > ushort.MaxValue)
+                        dir[i, j] = ushort.MaxValue;
+
+                    bw.Write((ushort)dir[i, j]);
+                }
+            }
+            bw.Close();
+        }
+
+        static void Build3() 
+        {
+            FileLocation fl = new FileLocation(@"E:\Desktop\pass129.raw");
+            ContentBinaryReader br = new ContentBinaryReader(fl);
+
+            const int DW = 36 * 129;
+            const int DH = 14 * 129;
+
+
+            Apoc3D.BitTable b = new Apoc3D.BitTable(DW * DH);
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    ushort v = br.ReadUInt16();
+
+                    b.SetBit(i * DW + j, v > 32767);
+                }
+            }
+
+
+            br.Close();
+            b.Save(File.Open(@"E:\Desktop\aa.bit", FileMode.OpenOrCreate));
         }
 
         static void Main(string[] args)
         {
-            FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
-            TerrainData.Initialize();
+            //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
+            //TerrainData.Initialize();
 
-            float radlng = MathEx.Degree2Radian(133.678894f);
-            float radlat = MathEx.Degree2Radian(43.090955f);
-            Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));
+            //float radlng = MathEx.Degree2Radian(133.678894f);
+            //float radlat = MathEx.Degree2Radian(43.090955f);
+            //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));
+            Build3();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
             Console.ReadKey();
