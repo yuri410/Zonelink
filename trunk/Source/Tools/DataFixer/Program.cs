@@ -512,11 +512,83 @@ namespace DataFixer
             }
         }
 
-        
+        static void BuildFlag()
+        {
+            bool[,] flags = new bool[36, 14];
+
+            for (int x = 1, i = 0; x < 72; x += 2, i++)
+            {
+                for (int y = 5, j = 0; y < 33; y += 2, j++)
+                {
+                    string file = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0.tdmp";
+
+                    flags[i, j] = File.Exists(file);
+                }
+            }
+
+            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\flags.dat", FileMode.OpenOrCreate));
+
+            for (int i = 0; i < 36; i++)
+            {
+                for (int j = 0; j < 14; j++)
+                {
+                    bw.Write(flags[i, j]);
+                }
+            }
+
+            bw.Close();
+        }
+        static void BuildBitMap()
+        {
+            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\ushort.all.5120.raw");
+            ContentBinaryReader br = new ContentBinaryReader(fl);
+
+            const int DW = 36 * 129;
+            const int DH = 14 * 129;
+
+            ushort[,] data = new ushort[DH, DW];
+
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    data[i, j] = br.ReadUInt16();
+                }
+            }
+
+            br.Close();
+
+            int[,] dir = new int[DH, DW];
+
+            for (int i = 0; i < DH - 1; i++) 
+            {
+                for (int j = 0; j < DW - 1; j++) 
+                {
+                    int dx = dir[i + 1, j] - dir[i, j];
+                    int dy = dir[i, j + 1] - dir[i, j];
+                    dir[i, j] = Math.Abs(dx) + Math.Abs(dy);
+                }
+            }
+            for (int i = 0; i < DH - 1; i++)
+            {
+                int j = DW - 1;
+                int dx = dir[i + 1, j] - dir[i, j];
+                int dy = dir[i, 0] - dir[i, j];
+                dir[i, j] = Math.Abs(dx) + Math.Abs(dy);
+            }
+            
+        }
 
         static void Main(string[] args)
         {
-            Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
+            FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
+            TerrainData.Initialize();
+
+            float radlng = MathEx.Degree2Radian(133.678894f);
+            float radlat = MathEx.Degree2Radian(43.090955f);
+            Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));
+            //BuildFlag();
+            //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
             Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";

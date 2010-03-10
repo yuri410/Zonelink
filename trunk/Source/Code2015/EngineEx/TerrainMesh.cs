@@ -53,7 +53,8 @@ namespace Code2015.EngineEx
             }
         }
 
-        FileLocation resLoc;
+        bool hasData;
+        //FileLocation resLoc;
         FileLocation nrmMapLoc;
         Texture normalMap;
 
@@ -136,6 +137,8 @@ namespace Code2015.EngineEx
 
         float tileCol;
         float tileLat;
+        int tileX;
+        int tileY;
 
         /// <summary>
         ///  经度
@@ -173,8 +176,12 @@ namespace Code2015.EngineEx
             this.bfsQueue = new Queue<TerrainTreeNode>();
             this.opBuffer = new FastList<RenderOperation>();
 
-            resLoc = FileSystem.Instance.TryLocate(
-                "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
+            this.tileX = x;
+            this.tileY = y;
+
+            hasData = TerrainData.Instance.HasData(x, y);
+            //resLoc = FileSystem.Instance.TryLocate(
+            //    "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
             nrmMapLoc = FileSystem.Instance.TryLocate(
                 "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TextureData.Extension, GameFileLocs.TerrainNormal);
 
@@ -233,7 +240,7 @@ namespace Code2015.EngineEx
         public override int GetSize()
         {
             int size = 0;
-            if (resLoc != null)
+            if (hasData)
             {
                 switch (dataLevel)
                 {
@@ -262,7 +269,7 @@ namespace Code2015.EngineEx
 
         protected override void load()
         {
-            if (resLoc == null)
+            if (!hasData)
                 return;
 
             if (nrmMapLoc != null)
@@ -277,16 +284,17 @@ namespace Code2015.EngineEx
 
 
             // 读取地形数据
-            TDMPIO data = new TDMPIO();
-            data.Load(resLoc);
-            tileCol = data.Xllcorner;// (float)Math.Round(data.Xllcorner);
-            tileLat = data.Yllcorner;// (float)Math.Round(data.Yllcorner);
+            //TDMPIO data = new TDMPIO();
+            //data.Load(resLoc);
+            //tileCol = data.Xllcorner;// (float)Math.Round(data.Xllcorner);
+            //tileLat = data.Yllcorner;// (float)Math.Round(data.Yllcorner);
+            float[] data = TerrainData.Instance.GetData(tileX, tileY, dataLevel);
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-            terrEdgeSize = data.Width;
+            //terrEdgeSize = data.Width;
 
-            float radSpan = MathEx.Degree2Radian(data.XSpan);
+            float radSpan = MathEx.Degree2Radian(10);
 
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
@@ -329,7 +337,7 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
-                    float height = (data.Data[index] - TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
+                    float height = (data[index] - TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
 
                     //if (height > 0)
                     //{
@@ -586,7 +594,7 @@ namespace Code2015.EngineEx
         /// <param name="level"></param>
         public void PrepareVisibleObjects(ICamera cam, int level)
         {
-            if (resLoc == null)
+            if (!hasData)
                 return;
 
             if (State == ResourceState.Loaded)
@@ -685,7 +693,7 @@ namespace Code2015.EngineEx
         {
             if (State == ResourceState.Loaded)
             {
-                if (resLoc != null)
+                if (hasData)
                 {
                     return opBuffer.Elements;
                 }

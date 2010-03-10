@@ -44,6 +44,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CsfDesigner.cs">
+      <SubType>Form</SubType>
     </Compile>
     <Compile Include="CsfDesigner.Designer.cs">
       <DependentUpon>CsfDesigner.cs</DependentUpon>

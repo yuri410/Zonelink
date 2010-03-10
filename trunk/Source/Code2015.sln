@@ -231,6 +231,14 @@ Global
 		{9131ED78-CDB4-484A-9640-E648AE205E52}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{9131ED78-CDB4-484A-9640-E648AE205E52}.Release|x86.ActiveCfg = Release|Any CPU
 		{9131ED78-CDB4-484A-9640-E648AE205E52}.Release|Xbox 360.ActiveCfg = Release|Any CPU
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Debug|x86.ActiveCfg = Debug|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|Any CPU.ActiveCfg = Release|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|x86.ActiveCfg = Release|x86
+		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|Xbox 360.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

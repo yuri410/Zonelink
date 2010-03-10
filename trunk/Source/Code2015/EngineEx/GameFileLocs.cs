@@ -7,6 +7,11 @@ namespace Code2015.EngineEx
 {
     public static class GameFileLocs
     {
+        public static FileLocateRule Default
+        {
+            get;
+            private set;
+        }
         public static FileLocateRule Effect
         {
             get;
@@ -109,6 +114,10 @@ namespace Code2015.EngineEx
             pts[0].AddPath("earth.lpk");
             Earth = new FileLocateRule(pts);
 
+            pts = new LocateCheckPoint[1];
+            pts[0] = new LocateCheckPoint();
+            pts[0].AddPath(string.Empty);
+            Default = new FileLocateRule(pts);
         }
     }
 }
