@@ -33,10 +33,10 @@ VSOutput main(VSInput ip)
 	xas = mul(xas, world);
 	yas = mul(yas, world);
 	
-	float3 pn = normalize(ip.Position);
-	pn = ip.Position - pn * 6371;
+	float3 pn = normalize(ip.Position.xyz);
+	pn = ip.Position.xyz - pn * 6371;
 	
-	ip.Position += xas * (0.002 * sin(wind) * max(0, dot(yas,pn)));
+	ip.Position += xas * (0.002 * sin(wind) * max(0, dot(yas.xyz,pn)));
 	
     o.Position = mul(ip.Position, mvp);
 	
