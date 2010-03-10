@@ -10,6 +10,12 @@ namespace Code2015.BalanceSystem
 
     public class CityPluginFactory
     {
+        //public static readonly string WoodFactoryName = "WoodFactory";
+        //public static readonly string OilRefinaryName = "OilRefinary";
+        //public static readonly string BioFactoryName = "BiofuelFactory";
+        //public static readonly string HospitalName = "Hospital";
+        //public static readonly string EducationOrganizationName = "EducationOrganization";
+
         CityPluginType oilRefinaryType;
         CityPluginType woodFactoryType;
         CityPluginType bioFuelFactoryType;

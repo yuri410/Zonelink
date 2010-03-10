@@ -12,21 +12,22 @@ using Code2015.GUI.Controls;
 using Code2015.Logic;
 using Code2015.World;
 using Code2015.World.Screen;
+using Apoc3D.Collections;
 
 namespace Code2015.GUI
-{ 
+{
     /// <summary>
-        ///  表示页面的类型
-        /// </summary>
-        enum PanelPage
-        {
-            Info,
-            WoodFactory,
-            OilRefinary,
-            Hospital,
-            EduOrg,
+    ///  表示页面的类型
+    /// </summary>
+    enum PanelPage
+    {
+        Info,
+        WoodFactory,
+        OilRefinary,
+        Hospital,
+        EduOrg,
 
-        }
+    }
     class CityMeasure
     {
         Texture rightArrowR;
@@ -56,7 +57,7 @@ namespace Code2015.GUI
         public City Current
         {
             get { return current; }
-            set 
+            set
             {
                 if (!object.ReferenceEquals(current, value))
                 {
@@ -231,10 +232,10 @@ namespace Code2015.GUI
             disBar.Value = Disease;
             disBar.Render(sprite);
 
-            if (PopulationDirective < 0) 
+            if (PopulationDirective < 0)
             {
                 Rectangle rect;
-                
+
                 rect.Y = 680;
                 rect.Width = 16;
                 rect.Height = 16;
@@ -247,10 +248,19 @@ namespace Code2015.GUI
 
         }
     }
-    class CityFactoryPluginMeasure 
+    class CityFactoryPluginMeasure
     {
 
         City current;
+
+        RenderSystem renderSys;
+
+
+        FastList<CityPlugin> woodFactory = new FastList<CityPlugin>();
+        FastList<CityPlugin> oilRefinary = new FastList<CityPlugin>();
+        FastList<CityPlugin> school = new FastList<CityPlugin>();
+        FastList<CityPlugin> hospital = new FastList<CityPlugin>();
+
 
         public City Current
         {
@@ -260,49 +270,71 @@ namespace Code2015.GUI
                 if (!object.ReferenceEquals(current, value))
                 {
                     current = value;
+
                     if (value != null)
                     {
+                        for (int i = 0; i < value.PluginCount; i++)
+                        {
+                            switch (value[i].TypeId)
+                            {
+                                case CityPluginTypeId.WoodFactory:
+                                    woodFactory.Add(value[i]);
+                                    break;
+                                case CityPluginTypeId.OilRefinary:
+                                    oilRefinary.Add(value[i]);
+                                    break;
+                                case CityPluginTypeId.BiofuelFactory:
+                                    oilRefinary.Add(value[i]);
+                                    break;
+                                case CityPluginTypeId.EducationOrg:
+                                    school.Add(value[i]);
+                                    break;
+                                case CityPluginTypeId.Hospital:
+                                    hospital.Add(value[i]);
+                                    break;
+                            }
+
+                        }
                     }
                 }
             }
         }
 
+
+
         public bool HasWoodFactory
         {
-            get;
-            private set;
+            get { return woodFactory.Count > 0; }
         }
         public bool HasOilRefinary
         {
-            get;
-            private set;
+            get { return oilRefinary.Count > 0; }
         }
 
         public bool HasHospital
         {
-            get;
-            private set;
+            get { return hospital.Count > 0; }
         }
 
         public bool HasSchool
         {
-            get;
-            private set;
+            get { return school.Count > 0; }
         }
 
-        public void Render(Sprite sprite, PanelPage page)
+        public CityFactoryPluginMeasure(RenderSystem rs)
+        {
+            renderSys = rs;
+        }
+
+        public void RenderWoodFactory(Sprite sprite)
         {
             if (current != null)
             {
-                switch (page)
-                {
-                    case PanelPage.WoodFactory:
-                        break;
-                }
+
             }
         }
 
-        public void Update(GameTime time) 
+        public void Update(GameTime time)
         {
 
         }
@@ -339,11 +371,13 @@ namespace Code2015.GUI
 
         Texture selimglarge;
         Texture earthGlow;
-        Texture btninfo;
-        Texture btneduorg;
-        Texture btnhosp;
-        Texture btnoilref;
-        Texture btnwoodfac;
+
+
+        RoundButton btnInfo;
+        RoundButton btnEduorg;
+        RoundButton btnHosp;
+        RoundButton btnOilref;
+        RoundButton btnWood;
 
         Texture co2meterBg;
 
@@ -361,6 +395,7 @@ namespace Code2015.GUI
         ISelectableObject selected;
         CityObject city;
         CityMeasure cityMeasure;
+        CityFactoryPluginMeasure pluginMeasure;
 
         Point selectedProjPos;
         bool isCapturable;
@@ -419,6 +454,7 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
 
             this.cityMeasure = new CityMeasure(renderSys);
+            this.pluginMeasure = new CityFactoryPluginMeasure(renderSys);
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
@@ -429,8 +465,20 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_statusBar.tex", GameFileLocs.GUI);
             statusBar = UITextureManager.Instance.CreateInstance(fl);
 
+
             fl = FileSystem.Instance.Locate("ig_yellow_panel.tex", GameFileLocs.GUI);
             yellowpanel = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_blue_panel.tex", GameFileLocs.GUI);
+            bluePanel = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_green_panel.tex", GameFileLocs.GUI);
+            greenPanel = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_red_panel.tex", GameFileLocs.GUI);
+            redPanel = UITextureManager.Instance.CreateInstance(fl);
+            
+
 
             fl = FileSystem.Instance.Locate("ig_selimg_large_1.tex", GameFileLocs.GUI);
             selimglarge = UITextureManager.Instance.CreateInstance(fl);
@@ -438,23 +486,94 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_earthGlow.tex", GameFileLocs.GUI);
             earthGlow = UITextureManager.Instance.CreateInstance(fl);
 
+            #region 信息按钮
             fl = FileSystem.Instance.Locate("ig_btn_info.tex", GameFileLocs.GUI);
-            btninfo = UITextureManager.Instance.CreateInstance(fl);
+            Texture btnbg = UITextureManager.Instance.CreateInstance(fl);
+            btnInfo = new RoundButton();
+            btnInfo.X = 734;
+            btnInfo.Y = 590;
+            btnInfo.Radius = 48;
+            //btnInfo.Width = 96;
+            //btnInfo.Height = 96;
+            btnInfo.Image = btnbg;
+            btnInfo.ImageMouseOver = btnbg;
+            btnInfo.IsValid = true;
+            btnInfo.Enabled = true;
 
+            btnInfo.MouseClick += this.InfoBtn_Click;
+            #endregion
+
+            #region 教育机构按钮
             fl = FileSystem.Instance.Locate("ig_btn_eduorg.tex", GameFileLocs.GUI);
-            btneduorg = UITextureManager.Instance.CreateInstance(fl);
+            btnbg = UITextureManager.Instance.CreateInstance(fl);
+            btnEduorg = new RoundButton();
+            btnEduorg.X = 885;
+            btnEduorg.Y = 531;
+            btnEduorg.Radius = 48;
+            //btnEduorg.Width = 96;
+            //btnEduorg.Height = 96;
+            btnEduorg.Image = btnbg;
+            btnEduorg.ImageMouseOver = btnbg;
+            btnEduorg.IsValid = true;
+            btnEduorg.Enabled = true;
+
+            btnEduorg.MouseClick += this.EduBtn_Click;
+            #endregion
+
+            #region 医院按钮
 
             fl = FileSystem.Instance.Locate("ig_btn_hosp.tex", GameFileLocs.GUI);
-            btnhosp = UITextureManager.Instance.CreateInstance(fl);
+            btnbg = UITextureManager.Instance.CreateInstance(fl);
+            btnHosp = new RoundButton();
+            btnHosp.X = 931;
+            btnHosp.Y = 672;
+
+            btnHosp.Radius = 48;
+            //btnHosp.Width = 96;
+            //btnHosp.Height = 96;
+            btnHosp.Image = btnbg;
+            btnHosp.ImageMouseOver = btnbg;
+            btnHosp.IsValid = true;
+            btnHosp.Enabled = true;
+
+            btnHosp.MouseClick += this.HospBtn_Click;
+            #endregion
+
+            #region 石油加工按钮
 
             fl = FileSystem.Instance.Locate("ig_btn_oilref.tex", GameFileLocs.GUI);
-            btnoilref = UITextureManager.Instance.CreateInstance(fl);
+            btnbg = UITextureManager.Instance.CreateInstance(fl);
+            btnOilref = new RoundButton();
+            btnOilref.X = 936;
+            btnOilref.Y = 595;
+            btnOilref.Radius = 48;
+            //btnOilref.Width = 96;
+            //btnOilref.Height = 96;
+            btnOilref.Image = btnbg;
+            btnOilref.ImageMouseOver = btnbg;
+            btnOilref.IsValid = true;
+            btnOilref.Enabled = true;
 
+            btnOilref.MouseClick += this.OilBtn_Click;
+            #endregion
+
+            #region 木材厂按钮
             fl = FileSystem.Instance.Locate("ig_btn_woodfac.tex", GameFileLocs.GUI);
-            btnwoodfac = UITextureManager.Instance.CreateInstance(fl);
+            btnbg = UITextureManager.Instance.CreateInstance(fl);
 
+            btnWood = new RoundButton();
+            btnWood.X = 795;
+            btnWood.Y = 528;
+            btnWood.Radius = 48;
+            //btnWood.Width = 96;
+            //btnWood.Height = 96;
+            btnWood.Image = btnbg;
+            btnWood.ImageMouseOver = btnbg;
+            btnWood.IsValid = true;
+            btnWood.Enabled = true;
 
-
+            btnWood.MouseClick += this.WoodBtn_Click;
+            #endregion
 
             fl = FileSystem.Instance.Locate("ico_oilref.tex", GameFileLocs.GUI);
             ico_oil = UITextureManager.Instance.CreateInstance(fl);
@@ -477,7 +596,7 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_btn_capture.tex", GameFileLocs.GUI);
             Texture helpBg = UITextureManager.Instance.CreateInstance(fl);
-          
+
             captureBtn = new Button();
             captureBtn.X = 440;
             captureBtn.Y = 630;
@@ -510,6 +629,27 @@ namespace Code2015.GUI
                 city.Capture.SetCapture(player, player.Area.GetNearestCity(city.City));
             }
         }
+        void InfoBtn_Click(object sender, MouseButtonFlags btn)
+        {
+            page = PanelPage.Info;
+        }
+        void EduBtn_Click(object sender, MouseButtonFlags btn)
+        {
+            page = PanelPage.EduOrg;
+        }
+        void OilBtn_Click(object sender, MouseButtonFlags btn)
+        {
+            page = PanelPage.OilRefinary;
+        }
+        void WoodBtn_Click(object sender, MouseButtonFlags btn)
+        {
+            page = PanelPage.WoodFactory;
+        }
+        void HospBtn_Click(object sender, MouseButtonFlags btn)
+        {
+            page = PanelPage.Hospital;
+        }
+
 
         public override void Render(Sprite sprite)
         {
@@ -537,8 +677,9 @@ namespace Code2015.GUI
                 {
                     case PanelPage.Info:
                         sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
-                        
-                        font.DrawString(sprite, city.Name, 427, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        sprite.Draw(ico_info, 394, 563, ColorValue.White);
+
+                        font.DrawString(sprite, city.Name, 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
                         font.DrawString(sprite, city.Size.ToString() + " City", 470, 672, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
 
                         if (object.ReferenceEquals(city.Owner, player))
@@ -559,23 +700,60 @@ namespace Code2015.GUI
                         }
                         break;
                     case PanelPage.EduOrg:
+                        sprite.Draw(redPanel, 401, 580, ColorValue.White);
+                        sprite.Draw(ico_edu, 394, 563, ColorValue.White);
+
+                        font.DrawString(sprite,
+                            pluginMeasure.HasSchool ? "education org of " + city.Name : "the city have no edu org",
+                            457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
                         break;
                     case PanelPage.WoodFactory:
+                        sprite.Draw(bluePanel, 401, 580, ColorValue.White);
+                        sprite.Draw(ico_wood, 394, 563, ColorValue.White);
+
+
+                        font.DrawString(sprite,
+                            pluginMeasure.HasWoodFactory ? "wood factory of " + city.Name : "the city have no wood factory",
+                            457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
+                        if (pluginMeasure.HasWoodFactory)
+                        {
+
+                        }
+                        else
+                        {
+
+                        }
+
                         break;
                     case PanelPage.OilRefinary:
+                        sprite.Draw(greenPanel, 401, 580, ColorValue.White);
+                        sprite.Draw(ico_oil, 394, 563, ColorValue.White);
+                     
+                        font.DrawString(sprite,
+                            pluginMeasure.HasSchool ? "oil producer of " + city.Name : "the city have no oil producer",
+                            457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
                         break;
                     case PanelPage.Hospital:
+                        sprite.Draw(redPanel, 401, 580, ColorValue.White);
+                        sprite.Draw(ico_hosp, 394, 563, ColorValue.White);
+                    
+                        font.DrawString(sprite,
+                            pluginMeasure.HasSchool ? "hospital of " + city.Name : "the city have no hospital",
+                            457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
                         break;
                 }
 
                 sprite.Draw(selimglarge, 785, 575, ColorValue.White);
 
-                sprite.Draw(btninfo, 734, 590, ColorValue.White);
-                sprite.Draw(btneduorg, 885, 531, ColorValue.White);
-                sprite.Draw(btnhosp, 931, 672, ColorValue.White);
-                sprite.Draw(btnoilref, 936, 595, ColorValue.White);
-                sprite.Draw(btnwoodfac, 795, 528, ColorValue.White);
-
+                btnInfo.Render(sprite);
+                btnEduorg.Render(sprite);
+                btnHosp.Render(sprite);
+                btnOilref.Render(sprite);
+                btnWood.Render(sprite);
             }
 
             sprite.Draw(statusBar, 130, 0, ColorValue.White);
@@ -586,8 +764,22 @@ namespace Code2015.GUI
         {
             if (city != null)
             {
-                captureBtn.Update(time);
-                cityMeasure.Update(time);
+                switch (page)
+                {
+                    case PanelPage.Info:
+                        if (city.Owner == null)
+                        {
+                            captureBtn.Update(time);
+                        }
+                        cityMeasure.Update(time);
+                        break;
+                }
+
+                btnInfo.Update(time);
+                btnEduorg.Update(time);
+                btnHosp.Update(time);
+                btnOilref.Update(time);
+                btnWood.Update(time);
             }
 
         }
