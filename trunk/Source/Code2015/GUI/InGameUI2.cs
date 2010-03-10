@@ -14,7 +14,19 @@ using Code2015.World;
 using Code2015.World.Screen;
 
 namespace Code2015.GUI
-{
+{ 
+    /// <summary>
+        ///  表示页面的类型
+        /// </summary>
+        enum PanelPage
+        {
+            Info,
+            WoodFactory,
+            OilRefinary,
+            Hospital,
+            EduOrg,
+
+        }
     class CityMeasure
     {
         Texture rightArrowR;
@@ -235,24 +247,73 @@ namespace Code2015.GUI
 
         }
     }
+    class CityFactoryPluginMeasure 
+    {
+
+        City current;
+
+        public City Current
+        {
+            get { return current; }
+            set
+            {
+                if (!object.ReferenceEquals(current, value))
+                {
+                    current = value;
+                    if (value != null)
+                    {
+                    }
+                }
+            }
+        }
+
+        public bool HasWoodFactory
+        {
+            get;
+            private set;
+        }
+        public bool HasOilRefinary
+        {
+            get;
+            private set;
+        }
+
+        public bool HasHospital
+        {
+            get;
+            private set;
+        }
+
+        public bool HasSchool
+        {
+            get;
+            private set;
+        }
+
+        public void Render(Sprite sprite, PanelPage page)
+        {
+            if (current != null)
+            {
+                switch (page)
+                {
+                    case PanelPage.WoodFactory:
+                        break;
+                }
+            }
+        }
+
+        public void Update(GameTime time) 
+        {
+
+        }
+    }
 
     /// <summary>
     ///  用于显示游戏中已选择物体的信息
     /// </summary>
     class InGameUI2 : UIComponent
     {
-        /// <summary>
-        ///  表示页面的类型
-        /// </summary>
-        enum PanelPage
-        {
-            Info,
-            WoodFactory,
-            OilRefinary,
-            Hospital,
-            EduOrg,
 
-        }
 
         GameScene scene;
         RenderSystem renderSys;
@@ -263,7 +324,19 @@ namespace Code2015.GUI
 
         //Texture cursor;
         Texture statusBar;
+
         Texture yellowpanel;
+        Texture bluePanel;
+        Texture greenPanel;
+        Texture redPanel;
+
+        Texture ico_wood;
+        Texture ico_info;
+        Texture ico_edu;
+        Texture ico_hosp;
+        Texture ico_oil;
+
+
         Texture selimglarge;
         Texture earthGlow;
         Texture btninfo;
@@ -294,6 +367,8 @@ namespace Code2015.GUI
 
 
         Button captureBtn;
+
+        PanelPage page;
 
         public ISelectableObject SelectedObject
         {
@@ -378,8 +453,31 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_btn_woodfac.tex", GameFileLocs.GUI);
             btnwoodfac = UITextureManager.Instance.CreateInstance(fl);
 
+
+
+
+            fl = FileSystem.Instance.Locate("ico_oilref.tex", GameFileLocs.GUI);
+            ico_oil = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_hosp.tex", GameFileLocs.GUI);
+            ico_hosp = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_school.tex", GameFileLocs.GUI);
+            ico_edu = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_woodfac.tex", GameFileLocs.GUI);
+            ico_wood = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_info.tex", GameFileLocs.GUI);
+            ico_info = UITextureManager.Instance.CreateInstance(fl);
+
+
+
+
+
             fl = FileSystem.Instance.Locate("ig_btn_capture.tex", GameFileLocs.GUI);
             Texture helpBg = UITextureManager.Instance.CreateInstance(fl);
+          
             captureBtn = new Button();
             captureBtn.X = 440;
             captureBtn.Y = 630;
@@ -435,8 +533,41 @@ namespace Code2015.GUI
 
             if (city != null)
             {
+                switch (page)
+                {
+                    case PanelPage.Info:
+                        sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
+                        
+                        font.DrawString(sprite, city.Name, 427, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        font.DrawString(sprite, city.Size.ToString() + " City", 470, 672, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
 
-                sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
+                        if (object.ReferenceEquals(city.Owner, player))
+                        {
+                            cityMeasure.Render(sprite);
+                        }
+                        else
+                        {
+                            if (isCapturable)
+                            {
+                                captureBtn.Render(sprite);
+                            }
+                            else
+                            {
+                                font.DrawString(sprite, "This city is too far to help it.", 470, 692, 14,
+                                    DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                            }
+                        }
+                        break;
+                    case PanelPage.EduOrg:
+                        break;
+                    case PanelPage.WoodFactory:
+                        break;
+                    case PanelPage.OilRefinary:
+                        break;
+                    case PanelPage.Hospital:
+                        break;
+                }
+
                 sprite.Draw(selimglarge, 785, 575, ColorValue.White);
 
                 sprite.Draw(btninfo, 734, 590, ColorValue.White);
@@ -445,56 +576,14 @@ namespace Code2015.GUI
                 sprite.Draw(btnoilref, 936, 595, ColorValue.White);
                 sprite.Draw(btnwoodfac, 795, 528, ColorValue.White);
 
-
-
-
-                font.DrawString(sprite, city.Name, 427, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                font.DrawString(sprite, city.Size.ToString() + " City", 470, 672, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-
-                if (object.ReferenceEquals(city.Owner, player))
-                {
-                    cityMeasure.Render(sprite);
-
-                    //supBar.Value = MathEx.Saturate(city.City.SelfHRCRatio);
-                    //disBar.Render(sprite);
-                }
-                else
-                {
-                    if (isCapturable)
-                    {
-                        captureBtn.Render(sprite);
-                    }
-                    else
-                    {
-                        font.DrawString(sprite, "This city is too far to help it.", 470, 692, 14,
-                            DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                    }
-                }
             }
 
-            //sprite.SetTransform(Matrix.Identity);
-            //sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
-            
             sprite.Draw(statusBar, 130, 0, ColorValue.White);
-            //sprite.Draw(earth[currentFrameIdx], 448, -3, ColorValue.White);
             sprite.Draw(co2meterBg, 448, 0, ColorValue.White);
-
-            //if (currentFrameIdx >= EarthFrameCount)
-            //    currentFrameIdx = 0;
-
-            sprite.Draw(earthGlow, 423, -30, ColorValue.White);
-
-
         }
 
         public override void Update(GameTime time)
         {
-            //cycleTime += time.ElapsedGameTimeSeconds;
-            //if (cycleTime >= RoundTime)
-            //    cycleTime = 0;
-
-            //currentFrameIdx = (int)(EarthFrameCount * (cycleTime / RoundTime));
-
             if (city != null)
             {
                 captureBtn.Update(time);
