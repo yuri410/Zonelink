@@ -8,8 +8,6 @@ using Apoc3D.MathLib;
 
 namespace Code2015.BalanceSystem
 {
-
-
     public class CityPlugin : IUpdatable
     {
         City parent;
