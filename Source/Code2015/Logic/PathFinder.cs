@@ -9,7 +9,7 @@ namespace Code2015.Logic
 {
     public class PathFinderResult
     {
-        FastList<AStarNode> path;
+        FastList<Point> path;
         bool requiresContinuePathFinding;
 
         public bool RequiresPathFinding
@@ -17,13 +17,13 @@ namespace Code2015.Logic
             get { return requiresContinuePathFinding; }
         }
 
-        public PathFinderResult(FastList<AStarNode> path, bool rcpf)
+        public PathFinderResult(FastList<Point> path, bool rcpf)
         {
             this.path = path;
             requiresContinuePathFinding = rcpf;
         }
 
-        public AStarNode this[int idx]
+        public Point this[int idx]
         {
             get { return path[idx]; }
         }
@@ -32,23 +32,61 @@ namespace Code2015.Logic
             get { return path.Count; }
         }
     }
-    //public struct PathNode
-    //{
-    //    public int X;
-    //    public int Y;
-    //    public int Z;
+    public class NodeBuffer
+    {
+        public const int BufferW = 512;
+        public const int BufferH = 512;
 
-    //    public PathNode(int x, int y, int z) 
-    //    {
-    //        X = x;
-    //        Y = y;
-    //        Z = z;
-    //    }
-    //}
+        AStarNode[][] nodes;
+
+        int ofsX;
+        int ofsY;
+
+        public void SetOffset(int ox, int oy)
+        {
+            ofsX = ox;
+            ofsY = oy;
+        }
+
+        public AStarNode[][] Nodes
+        {
+            get { return nodes; }
+        }
+
+        public int OffsetX
+        {
+            get { return ofsX; }
+        }
+        public int OffsetY
+        {
+            get { return ofsY; }
+        }
+
+        public NodeBuffer()
+        {
+            nodes = new AStarNode[BufferW][];
+            for (int i = 0; i < nodes.Length; i++)
+            {
+                nodes[i] = new AStarNode[BufferH];
+                for (int j = 0; j < nodes[i].Length; j++)
+                {
+                    nodes[i][j] = new AStarNode(this, i, j);
+                }
+            }
+        }
+
+        public AStarNode this[int x, int y]
+        {
+            get { return nodes[x - ofsX][y - ofsY]; }
+        }
+    }
     public class AStarNode
     {
-        public int X;
-        public int Y;
+        NodeBuffer buffer;
+
+        int x;
+        int y;
+
 
         public float f;
         public float g;
@@ -60,61 +98,52 @@ namespace Code2015.Logic
         //public int pZ;
         public AStarNode parent;
 
-        //public AStarNode() { }
-        public AStarNode(int x, int y)
+
+        public int X
         {
-            X = x;
-            Y = y;
+            get { return x + buffer.OffsetX; }
+        }
+        public int Y
+        {
+            get { return y + buffer.OffsetY; }
+        }
+
+        public AStarNode(NodeBuffer buffer, int x, int y)
+        {
+            this.buffer = buffer;
+            this.x = x;
+            this.y = y;
         }
         public override int GetHashCode()
         {
-            return (X << 16) | (Y);
+            return (x << 16) | (y);
         }
-    }
-    public enum CellTraffic : byte
-    {
-        Clear = 0,
-        Jam,
-        Blocked
     }
     public class PathFinderManager
     {
-        CellTraffic[][] traffic;
         BitTable terrain;
 
-        AStarNode[][] units;
+        NodeBuffer units;
 
-        ///// <summary>
-        ///// Weight value for differents <seealso cref="R3D.IsoMap.TerrainType">TerrainType</seealso>s
-        ///// </summary>
-        //[Obsolete()]
-        //float[] terrainWeights;
+        public const int DW = 36 * 64;
+        public const int DH = 14 * 64;
 
-
-        public PathFinderManager(CellTraffic[][] traffic, BitTable terr)
+        public NodeBuffer NodeBuffer
         {
-            this.traffic = traffic;
+            get { return units; }
+        }
+
+        public PathFinderManager(BitTable terr)
+        {
             terrain = terr;
-            units = new AStarNode[traffic.Length][];
-            for (int i = 0; i < units.Length; i++)
-            {
-                units[i] = new AStarNode[traffic[i].Length];
-                for (int j = 0; j < units[i].Length; j++)
-                {
-                    units[i][j] = new AStarNode(i, j);
-                }
-            }
+            units = new NodeBuffer();
         }
 
         public PathFinder CreatePathFinder()
         {
-            return new PathFinder(traffic, terrain, units);
+            return new PathFinder(terrain, units);
         }
 
-        public CellTraffic[][] TrafficTable
-        {
-            get { return traffic; }
-        }
         public BitTable TerrainTable
         {
             get { return terrain; }
@@ -122,17 +151,13 @@ namespace Code2015.Logic
 
         public int Width
         {
-            get { return traffic.Length; }
+            get { return DW; }
         }
         public int Height
         {
-            get { return traffic[0].Length; }
+            get { return DH; }
         }
 
-        public AStarNode[][] AStarNodes
-        {
-            get { return units; }
-        }
     }
 
     /// <summary>
@@ -141,19 +166,10 @@ namespace Code2015.Logic
     /// </summary>
     public class PathFinder
     {
-        [Flags()]
-        enum PassState
-        {
-            None = 0,
-            Open = 1 << 0,
-            Close = 1 << 1
-        }
-
         const int MaxStep = 50;
 
-        AStarNode[][] units;
+        NodeBuffer units;
 
-        CellTraffic[][] traffic;
         BitTable terrain;
 
         /// <summary>
@@ -174,7 +190,7 @@ namespace Code2015.Logic
         int width;
         int height;
 
-        FastList<AStarNode> result = new FastList<AStarNode>();
+        FastList<Point> result = new FastList<Point>();
 
         readonly static int[][] stateEnum = new int[8][]
         {
@@ -193,32 +209,23 @@ namespace Code2015.Logic
 
         public PathFinder(PathFinderManager mgr)
         {
-            this.traffic = mgr.TrafficTable;
             this.terrain = mgr.TerrainTable;
             this.width = mgr.Width;
             this.height = mgr.Height;
-            this.units = mgr.AStarNodes;
+            this.units = mgr.NodeBuffer;
         }
-        public PathFinder(CellTraffic[][] traffic, BitTable terr, AStarNode[][] units)
+        public PathFinder(BitTable terr, NodeBuffer units)
         {
-            this.traffic = traffic;
             this.terrain = terr;
             this.units = units;
 
-
-            this.width = traffic.Length;
-            this.height = traffic[0].Length;
+            this.width = PathFinderManager.DW;
+            this.height = PathFinderManager.DH;
         }
 
-        public CellTraffic[][] TrafficTable
-        {
-            get { return traffic; }
-            set { traffic = value; }
-        }
         public BitTable Terrain
         {
             get { return terrain; }
-            set { terrain = value; }
         }
 
 
@@ -281,14 +288,19 @@ namespace Code2015.Logic
 
         public PathFinderResult FindPath(int sx, int sy, int tx, int ty)
         {
-            if (sx == tx && sy == ty)
+            if ((sx == tx && sy == ty) ||
+                (Math.Abs(tx - sx) > NodeBuffer.BufferW || Math.Abs(ty - sy) > NodeBuffer.BufferH))
             {
-                return new PathFinderResult(new FastList<AStarNode>(), false);
+                return new PathFinderResult(new FastList<Point>(), false);
             }
+
+            int ofsX = Math.Min(sx, tx);
+            int ofsY = Math.Min(sy, ty);
+            units.SetOffset(ofsX, ofsY);
 
             FastList<AStarNode> enQueueBuffer = new FastList<AStarNode>(10);
 
-            AStarNode startNode = units[sx][sy];
+            AStarNode startNode = units[sx, sy];
             startNode.parent = null;
             startNode.h = 0;
             startNode.g = 0;
@@ -323,19 +335,15 @@ namespace Code2015.Logic
                 int cy = curPos.Y;
 
                 // BFS展开新节点
-                for (int i = 0; i < 26; i++)
+                for (int i = 0; i < 8; i++)
                 {
                     int nx = cx + stateEnum[i][0];
                     int ny = cy + stateEnum[i][1];
 
-                    bool zShifted = stateEnum[i][2] != 0;
-
-
-
                     // 检查范围
                     if (nx >= 0 && nx < width && ny >= 0 && ny < height)
                     {
-                        AStarNode np = units[nx][ny];
+                        AStarNode np = units[nx, ny];
                         int npHash = np.GetHashCode();
 
 
@@ -350,14 +358,7 @@ namespace Code2015.Logic
                         }
                         else
                         {
-                            //if (zShifted || ((terrain[nx][ny] & TerrainType.BirdgeSE) == 0))
-                            //{
-
-                            //}
-
-
-                            if (traffic[nx][ny] != CellTraffic.Blocked && // 畅通
-                                terrain.GetBit(ny * width + nx))  //地块能通过
+                            if (terrain.GetBit(ny * width + nx))  //地块能通过
                             {
                                 bool isNPInQueue = false;
                                 AStarNode temp;
@@ -376,8 +377,6 @@ namespace Code2015.Logic
                                 //如果此方格不在即将展开的节点表 和 已遍历过的节点表
                                 {
                                     np.parent = curPos; //当前格为此格的父方格
-                                    //if (np.parent == null)
-                                    //    throw new Exception();
 
                                     np.g = curPos.g + stateEnumCost[i];
                                     np.h = Math.Abs(tx - nx) + Math.Abs(ty - ny);
@@ -412,12 +411,12 @@ namespace Code2015.Logic
                 int baseOffset = result.Count;
                 for (int i = 0; i < curNode.depth; i++)
                 {
-                    result.Add((AStarNode)null);
+                    result.Add(Point.Zero);
                 }
                 do
                 {
                     //result.Add(curNode);
-                    result[baseOffset + curNode.depth - 1] = curNode;
+                    result[baseOffset + curNode.depth - 1] = new Point(curNode.X + ofsX, curNode.Y + ofsY);
                     curNode = curNode.parent;
                 }
                 while (curNode.parent != null);
@@ -429,12 +428,12 @@ namespace Code2015.Logic
                 AStarNode curNode = finalNode;
                 for (int i = 0; i < curNode.depth; i++)
                 {
-                    result.Add((AStarNode)null);
+                    result.Add(Point.Zero);
                 }
                 do
                 {
                     //result.Add(curNode);
-                    result[curNode.depth - 1] = curNode;
+                    result[curNode.depth - 1] = new Point(curNode.X + ofsX, curNode.Y + ofsY);
                     curNode = curNode.parent;
                 }
                 while (curNode.parent != null);

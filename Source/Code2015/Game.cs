@@ -65,6 +65,8 @@ namespace Code2015
 
         #endregion
 
+        Map map;
+
         #region 游戏状态
         GameState gameState;
         #endregion
@@ -143,6 +145,10 @@ namespace Code2015
             this.scene = new GameScene(renderSys);
 
             SimulationRegion slgSystem = gameState.SLGWorld;
+
+
+            map = new Map(slgSystem);
+
             for (int i = 0; i < slgSystem.Count; i++)
             {
                 SimulateObject obj = slgSystem[i];
@@ -150,7 +156,7 @@ namespace Code2015
 
                 if (city != null)
                 {
-                    CityObject cityObj = new CityObject(renderSys, city, cityStyles);
+                    CityObject cityObj = new CityObject(renderSys, map, scene.Scene, city, cityStyles);
 
                     cityObj.CityVisible += scene.City_Visible;
 

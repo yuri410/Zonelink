@@ -388,7 +388,6 @@ namespace Code2015.World
 
     public class CityObject : SceneObject, ISelectableObject
     {
-
         struct PluginEntry
         {
             public CityPlugin plugin;
@@ -404,6 +403,7 @@ namespace Code2015.World
 
         RenderSystem renderSys;
         SceneManagerBase sceMgr;
+        Map map;
 
         FastList<PluginEntry> plugins;
 
@@ -471,12 +471,15 @@ namespace Code2015.World
         }
 
         public event CityVisibleHander CityVisible;
-        
-        public CityObject(RenderSystem rs, City city, CityStyleTable styleSet)
+
+        public CityObject(RenderSystem rs, Map map, SceneManagerBase sceMgr, City city, CityStyleTable styleSet)
             : base(false)
         {
             this.city = city;
             this.city.Parent = this;
+            this.sceMgr = sceMgr;
+            this.map = map;
+
             this.plugins = new FastList<PluginEntry>();
             this.style = styleSet.CreateStyle(city.Culture);
             this.renderSys = rs;
@@ -607,6 +610,12 @@ namespace Code2015.World
                 Color4F color = new Color4F(owner.SideColor);
                 ringMaterial.Ambient *= color;
                 ringMaterial.Diffuse *= color;
+
+                Harvester harv = new Harvester(renderSys, map, style.Cow);
+                harv.Latitude = MathEx.Degree2Radian(Latitude-5);
+                harv.Longtitude = MathEx.Degree2Radian(Longitude);
+
+                sceMgr.AddObjectToScene(harv);
             }
         }
 
@@ -682,11 +691,10 @@ namespace Code2015.World
             BoundingSphere.Radius = CityStyleTable.CityRadius[(int)city.Size];
         }
 
-        public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
-        {
-            base.OnAddedToScene(sender, sceneMgr);
-            this.sceMgr = sceneMgr;
-        }
+        //public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
+        //{
+        //    base.OnAddedToScene(sender, sceneMgr);
+        //}
 
         public override bool IsSerializable
         {
