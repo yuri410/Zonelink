@@ -31,31 +31,37 @@ namespace Code2015.GUI
 
     class CityMeasure
     {
-        Texture rightArrowR;
-        Texture leftArrowR;
-        Texture rightArrowG;
-        Texture leftArrowG;
+        Texture upArrowR;
+        Texture dnArrowR;
+        Texture upArrowG;
+        Texture dnArrowG;
 
 
         ValueSmoother populationDir;
         ValueSmoother diseaseDir;
         ValueSmoother devDir;
 
+        ValueSmoother woodsup;
+        ValueSmoother oilsup;
+        ValueSmoother foodsup;
+
         float lastPopulation;
         float lastDisease;
         float lastDev;
 
 
+        float devFlash;
+        float popFlash;
+        float disFlash;
 
         ProgressBar devBar;
         ProgressBar popBar;
         ProgressBar disBar;
-        ProgressBar supBar;
         ProgressBar woodBar;
         ProgressBar oilBar;
         ProgressBar foodBar;
 
-       
+
         City current;
 
         public City Current
@@ -71,6 +77,14 @@ namespace Code2015.GUI
                         populationDir.Clear();
                         diseaseDir.Clear();
                         devDir.Clear();
+
+                        woodsup.Clear();
+                        oilsup.Clear();
+                        foodsup.Clear();
+
+                        woodsup.Add(current.SelfLRCRatio);
+                        oilsup.Add(current.SelfHRCRatio);
+                        foodsup.Add(current.SelfFoodCostRatio);
                     }
                 }
             }
@@ -81,19 +95,22 @@ namespace Code2015.GUI
             populationDir = new ValueSmoother(10);
             diseaseDir = new ValueSmoother(10);
             devDir = new ValueSmoother(10);
+            woodsup = new ValueSmoother(10);
+            oilsup = new ValueSmoother(10);
+            foodsup = new ValueSmoother(10);
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_leftArrow_red.tex", GameFileLocs.GUI);
-            leftArrowR = UITextureManager.Instance.CreateInstance(fl);
+            FileLocation fl = FileSystem.Instance.Locate("arr_up_red.tex", GameFileLocs.GUI);
+            upArrowR = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_right_arrow_red.tex", GameFileLocs.GUI);
-            rightArrowR = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("arr_down_red.tex", GameFileLocs.GUI);
+            dnArrowR = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("ig_leftArrow_green.tex", GameFileLocs.GUI);
-            leftArrowG = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("arr_up_green.tex", GameFileLocs.GUI);
+            upArrowG = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_rightArrow_green.tex", GameFileLocs.GUI);
-            rightArrowG = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("arr_down_green.tex", GameFileLocs.GUI);
+            dnArrowG = UITextureManager.Instance.CreateInstance(fl);
 
 
             fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
@@ -145,18 +162,12 @@ namespace Code2015.GUI
 
             foodBar = new ProgressBar();
             foodBar.X = 444;
-            foodBar.Y = 72;
+            foodBar.Y = 721;
             foodBar.Height = 18;
             foodBar.Width = 117;
             foodBar.ProgressImage = prgBg;
             foodBar.Background = prgBg1;
 
-            supBar = new ProgressBar();
-            supBar.X = 630;
-            supBar.Y = 680;
-            supBar.Height = 18;
-            supBar.Width = 117;
-            supBar.ProgressImage = prgBg;
 
 
         }
@@ -172,7 +183,7 @@ namespace Code2015.GUI
             get;
             private set;
         }
-        public int DevelopmentDir
+        public int DevelopmentDirective
         {
             get;
             private set;
@@ -231,7 +242,7 @@ namespace Code2015.GUI
         {
             if (current != null)
             {
-                float dev = current.Development / 100f;
+                float dev = current.Development / CityGrade.GetUpgradePoint(current.Size);
                 float pop = current.Population / CityGrade.GetRefPopulation(current.Size);
                 float dis = current.Disease / 2;
                 Development = MathEx.Saturate(dev);
@@ -248,51 +259,125 @@ namespace Code2015.GUI
                 v = diseaseDir.Result;
                 DiseaseDirective = ClassifyDir(v);
                 v = devDir.Result;
-                DevelopmentDir = ClassifyDir(v);
+                DevelopmentDirective = ClassifyDir(v);
 
                 lastPopulation = pop;
                 lastDisease = dis;
                 lastDev = dev;
 
+
+                woodsup.Add(current.SelfLRCRatio);
+                oilsup.Add(current.SelfHRCRatio);
+                foodsup.Add(current.SelfFoodCostRatio);
+
             }
         }
 
-        public void Render(Sprite sprite,Font alger)
+        public void Render(Sprite sprite, Font alger)
         {
-            devBar.Value = Development;
-            devBar.Render(sprite);
-
-            popBar.Value = Population;
-            popBar.Render(sprite);
-
-            disBar.Value = Disease;
-            disBar.Render(sprite);
-
-            foodBar.Render(sprite);
-            oilBar.Render(sprite);
-            woodBar.Render(sprite);
-
-            if (PopulationDirective < 0)
+            if (current != null)
             {
-                Rectangle rect;
+                devBar.Value = Development;
+                devBar.Render(sprite);
 
-                rect.Y = 650;
-                rect.Width = 16;
-                rect.Height = 16;
-                for (int i = PopulationDirective; i < 0; i++)
+                popBar.Value = Population;
+                popBar.Render(sprite);
+
+                disBar.Value = Disease;
+                disBar.Render(sprite);
+
+                foodBar.Value = MathEx.Saturate(foodsup.Result);
+                foodBar.Render(sprite);
+
+                oilBar.Value = MathEx.Saturate(oilsup.Result);
+                oilBar.Render(sprite);
+
+                woodBar.Value = MathEx.Saturate(woodsup.Result);
+                woodBar.Render(sprite);
+
+                if (PopulationDirective < 0)
                 {
-                    rect.X = 620 + i * 16;
-                    sprite.Draw(leftArrowR, rect, ColorValue.White);
+                    //Rectangle rect;
+
+                    //rect.Y = 650;
+                    //rect.Width = 16;
+                    //rect.Height = 16;
+                    //for (int i = PopulationDirective; i < 0; i++)
+                    //{
+                    //    rect.X = 620 + i * 16;
+                    //    sprite.Draw(leftArrowR, rect, ColorValue.White);
+                    //}
+                    ColorValue c = ColorValue.White;
+                    c.A = (byte)(byte.MaxValue * 0.5 * (Math.Cos(popFlash) + 1));
+                    popFlash += PopulationDirective * 0.2f;
+                    sprite.Draw(dnArrowR, 733, 650, c);
                 }
+                else if (PopulationDirective > 0)
+                {
+                    ColorValue c = ColorValue.White;
+                    c.A = (byte)(byte.MaxValue * 0.5 * (Math.Cos(popFlash)+ 1));
+
+                    popFlash += PopulationDirective * 0.2f;
+                    sprite.Draw(upArrowG, 733, 650, c);
+                }
+
+                if (DevelopmentDirective > 0)
+                {
+                    ColorValue c = ColorValue.White;
+                    c.A = (byte)(byte.MaxValue * 0.5 * (Math.Cos(devFlash) + 1));
+                    devFlash += DevelopmentDirective * 0.2f;
+                    sprite.Draw(upArrowG, 733, 685, c);
+                }
+                else if (DevelopmentDirective < 0)
+                {
+                    ColorValue c = ColorValue.White;
+                    c.A = (byte)(byte.MaxValue * 0.5 * (Math.Cos(devFlash) + 1));
+                    devFlash += DevelopmentDirective * 0.2f;
+                    sprite.Draw(dnArrowR, 733, 685, c);
+                }
+
+                if (DiseaseDirective > 0)
+                {
+                    ColorValue c = ColorValue.White;
+                    c.A = (byte)(byte.MaxValue * 0.5 * (Math.Cos(disFlash) + 1));
+                    disFlash += DiseaseDirective * 0.2f;
+                    sprite.Draw(upArrowR, 733, 718, c);
+                }
+                else if (DiseaseDirective < 0)
+                {
+                    ColorValue c = ColorValue.White;
+                    c.A = (byte)(byte.MaxValue * 0.5 * (Math.Cos(disFlash) + 1));
+                    disFlash += DiseaseDirective * 0.2f;
+                    sprite.Draw(dnArrowG, 733, 718, c);
+                }
+
+                if (disFlash > 2 * MathEx.PIf)
+                    disFlash -= 2 * MathEx.PIf;
+                else if (disFlash < -2 * MathEx.PIf)
+                    disFlash += 2 * MathEx.PIf;
+
+                if (devFlash > 2 * MathEx.PIf)
+                    devFlash -= 2 * MathEx.PIf;
+                else if (devFlash < -2 * MathEx.PIf)
+                    devFlash += 2 * MathEx.PIf;
+
+                if (popFlash > 2 * MathEx.PIf)
+                    popFlash -= 2 * MathEx.PIf;
+                else if (popFlash < -2 * MathEx.PIf)
+                    popFlash += 2 * MathEx.PIf;
+                
+
+
+
+
+
+                alger.DrawString(sprite, "Wood", 428, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+                alger.DrawString(sprite, "Oil", 428, 673, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+                alger.DrawString(sprite, "Food", 428, 705, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+                alger.DrawString(sprite, "Population", 594, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+                alger.DrawString(sprite, "Development", 594, 673, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+                alger.DrawString(sprite, "Disease", 594, 705, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
             }
-
-            alger.DrawString(sprite, "Wood", 428, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Oil", 428, 673, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Food", 428, 705, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Population", 594, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Development", 594, 673, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Disease", 594, 705, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-
         }
     }
 
@@ -942,6 +1027,7 @@ namespace Code2015.GUI
                 //scrnPos.Y += strSize.Height;
                 scrnPos.X -= strSize.Width / 2;
 
+                font.DrawString(sprite, cc.Name, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
                 font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
             }
 

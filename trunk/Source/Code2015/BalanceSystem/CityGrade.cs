@@ -90,11 +90,11 @@ namespace Code2015.BalanceSystem
 
         #region 参考发展度
         [SLGValue]
-        public const float SmallCityPointThreshold = 10000;
+        public const float SmallCityPointThreshold = 500;
         [SLGValue]
-        public const float MediumCityPointThreshold = 100000;
+        public const float MediumCityPointThreshold = 5000;
         [SLGValue]
-        public const float LargeCityPointThreshold = 1000000;
+        public const float LargeCityPointThreshold = 50000;
 
         #endregion
 
@@ -134,6 +134,8 @@ namespace Code2015.BalanceSystem
         public const float SmallCityCapturePoint = 500;
         #endregion
 
+        static readonly float[] UpgradePoint = { SmallCityPointThreshold, MediumCityPointThreshold, LargeCityPointThreshold };
+
         static readonly float[] CapturePoint = { SmallCityCapturePoint, MediumCityCapturePoint, LargeCityCapturePoint };
         static readonly float[] GatherRadius = { SmallGatherRadius, MediumGatherRadius, LargeGatherRadius };
 
@@ -163,6 +165,11 @@ namespace Code2015.BalanceSystem
         public static float GetGatherRadius(UrbanSize citySize)
         {
             return GatherRadius[(int)citySize];
+        }
+
+        public static float GetUpgradePoint(UrbanSize size)
+        {
+            return UpgradePoint[(int)size];
         }
 
         /// <summary>
