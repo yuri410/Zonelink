@@ -28,6 +28,7 @@ namespace Code2015.GUI
         EduOrg,
 
     }
+
     class CityMeasure
     {
         Texture rightArrowR;
@@ -236,7 +237,7 @@ namespace Code2015.GUI
             {
                 Rectangle rect;
 
-                rect.Y = 680;
+                rect.Y = 650;
                 rect.Width = 16;
                 rect.Height = 16;
                 for (int i = PopulationDirective; i < 0; i++)
@@ -246,22 +247,21 @@ namespace Code2015.GUI
                 }
             }
 
+
+
         }
     }
+
     class CityFactoryPluginMeasure
     {
-
         City current;
 
         RenderSystem renderSys;
-
 
         FastList<CityPlugin> woodFactory = new FastList<CityPlugin>();
         FastList<CityPlugin> oilRefinary = new FastList<CityPlugin>();
         FastList<CityPlugin> school = new FastList<CityPlugin>();
         FastList<CityPlugin> hospital = new FastList<CityPlugin>();
-
-
 
         public City Current
         {
@@ -403,6 +403,43 @@ namespace Code2015.GUI
         public void Update(GameTime time)
         {
 
+        }
+    }
+
+    class ResourceMeasure
+    {
+        NaturalResource current;
+
+        public NaturalResource Current
+        {
+            get { return current; }
+            set
+            {
+                if (!object.ReferenceEquals(current, value))
+                {
+                    current = value;
+                    if (value != null)
+                    {
+                        
+                    }
+                }
+            }
+        }
+
+        public void Render(Sprite sprite)
+        {
+            if (current != null)
+            {
+
+            }
+        }
+
+        public void Update(GameTime time)
+        {
+            if (current != null)
+            {
+
+            }
         }
     }
 

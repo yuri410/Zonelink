@@ -541,26 +541,6 @@ namespace Code2015.World
                     City_OwnerChanged(city.Owner);
             }
             sideRing = new CityOwnerRing(this, style);
-
-            //// 测试代码
-            //switch (city.Size)
-            //{
-            //    case UrbanSize.Small:
-            //        city.Add(new CityPlugin(new CityPluginType()));
-
-            //        break;
-            //    case UrbanSize.Medium:
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        break;
-            //    case UrbanSize.Large:
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        city.Add(new CityPlugin(new CityPluginType()));
-            //        break;
-            //}
         }
 
         protected override void Dispose(bool disposing)
