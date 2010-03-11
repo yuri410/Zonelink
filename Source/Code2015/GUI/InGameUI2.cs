@@ -96,51 +96,60 @@ namespace Code2015.GUI
             rightArrowG = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
             Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
+            Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
+
+
             devBar = new ProgressBar();
-            devBar.X = 614;
+            devBar.X = 610;
             devBar.Y = 689;
             devBar.Height = 18;
             devBar.Width = 117;
             devBar.ProgressImage = prgBg;
+            devBar.Background = prgBg1;
 
             popBar = new ProgressBar();
-            popBar.X = 614;
+            popBar.X = 610;
             popBar.Y = 654;
             popBar.Height = 18;
             popBar.Width = 117;
             popBar.ProgressImage = prgBg;
+            popBar.Background = prgBg1;
 
             disBar = new ProgressBar();
-            disBar.X = 614;
+            disBar.X = 610;
             disBar.Y = 721;
             disBar.Height = 18;
             disBar.Width = 117;
             disBar.ProgressImage = prgBg;
+            disBar.Background = prgBg1;
 
             woodBar = new ProgressBar();
-            woodBar.X = 452;
+            woodBar.X = 444;
             woodBar.Y = 654;
             woodBar.Height = 18;
             woodBar.Width = 117;
             woodBar.ProgressImage = prgBg;
+            woodBar.Background = prgBg1;
 
             oilBar = new ProgressBar();
-            oilBar.X = 452;
+            oilBar.X = 444;
             oilBar.Y = 689;
             oilBar.Height = 18;
             oilBar.Width = 117;
             oilBar.ProgressImage = prgBg;
+            oilBar.Background = prgBg1;
 
             foodBar = new ProgressBar();
-            foodBar.X = 452;
-            foodBar.Y = 721;
+            foodBar.X = 444;
+            foodBar.Y = 72;
             foodBar.Height = 18;
             foodBar.Width = 117;
             foodBar.ProgressImage = prgBg;
-
+            foodBar.Background = prgBg1;
 
             supBar = new ProgressBar();
             supBar.X = 630;
@@ -259,6 +268,10 @@ namespace Code2015.GUI
             disBar.Value = Disease;
             disBar.Render(sprite);
 
+            foodBar.Render(sprite);
+            oilBar.Render(sprite);
+            woodBar.Render(sprite);
+
             if (PopulationDirective < 0)
             {
                 Rectangle rect;
@@ -274,11 +287,11 @@ namespace Code2015.GUI
             }
 
             alger.DrawString(sprite, "Wood", 428, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Oil", 428, 675, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Food", 428, 712, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Population", 607, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Development", 607, 675, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
-            alger.DrawString(sprite, "Disease", 607, 712, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Oil", 428, 673, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Food", 428, 705, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Population", 594, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Development", 594, 673, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Disease", 594, 705, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
 
         }
     }
@@ -908,7 +921,7 @@ namespace Code2015.GUI
                         sprite.Draw(ico_info, 394, 563, ColorValue.White);
 
                         algerFont.DrawString(sprite, city.Name, 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                        algerFont.DrawString(sprite, city.Size.ToString() + " City", 615, 605, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        algerFont.DrawString(sprite, city.Size.ToString() + " City", 615, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
 
                         if (city.IsCaptured)
                         {
@@ -1023,7 +1036,7 @@ namespace Code2015.GUI
             #endregion
 
             sprite.Draw(statusBar, 188, -8, ColorValue.White);
-            sprite.Draw(co2meterBg, 437, -5, ColorValue.White);
+            sprite.Draw(co2meterBg, 444, -1, ColorValue.White);
             sprite.Draw(ico_sidebar, 0, 168, ColorValue.White);
             sprite.Draw(ico_buger, -3, 197, ColorValue.White);
             sprite.Draw(ico_leaf, -3, 275, ColorValue.White);
