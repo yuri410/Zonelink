@@ -473,6 +473,12 @@ namespace Code2015.GUI
         Texture ico_hosp;
         Texture ico_oil;
 
+        //侧边栏图标
+        Texture ico_book;
+        Texture ico_buger;
+        Texture ico_pill;
+        Texture ico_leaf;
+        Texture ico_sidebar;
 
         Texture selimglarge;
         //Texture earthGlow;
@@ -588,6 +594,22 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_earthGlow.tex", GameFileLocs.GUI);
             //earthGlow = UITextureManager.Instance.CreateInstance(fl);
 
+            //侧边栏
+            fl = FileSystem.Instance.Locate("ico_book.tex", GameFileLocs.GUI);
+            ico_book = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_buger.tex", GameFileLocs.GUI);
+            ico_buger = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_pill.tex", GameFileLocs.GUI);
+            ico_pill = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ico_leaf.tex", GameFileLocs.GUI);
+            ico_leaf = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_sidebar.tex", GameFileLocs.GUI);
+            ico_sidebar = UITextureManager.Instance.CreateInstance(fl);
+            
             #region 信息按钮
             fl = FileSystem.Instance.Locate("ig_btn_info.tex", GameFileLocs.GUI);
             Texture btnbg = UITextureManager.Instance.CreateInstance(fl);
@@ -860,7 +882,7 @@ namespace Code2015.GUI
 
                         if (pluginMeasure.HasWoodFactory)
                             pluginMeasure.RenderWoodFactory(sprite, font);
-                        
+
 
                         break;
                     case PanelPage.OilRefinary:
@@ -876,7 +898,7 @@ namespace Code2015.GUI
 
                         if (pluginMeasure.HasOilRefinary)
                             pluginMeasure.RenderOil(sprite, font);
-                        
+
                         break;
                     case PanelPage.Hospital:
                         sprite.Draw(redPanel, 401, 580, ColorValue.White);
@@ -905,6 +927,11 @@ namespace Code2015.GUI
 
             sprite.Draw(statusBar, 188, -8, ColorValue.White);
             sprite.Draw(co2meterBg, 437, -5, ColorValue.White);
+            sprite.Draw(ico_sidebar, 0, 168, ColorValue.White);
+            sprite.Draw(ico_buger, -3, 197, ColorValue.White);
+            sprite.Draw(ico_leaf, -3, 275, ColorValue.White);
+            sprite.Draw(ico_book, -3, 358, ColorValue.White);
+            sprite.Draw(ico_pill, -3, 429, ColorValue.White);
         }
 
         public override void Update(GameTime time)

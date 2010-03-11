@@ -10,8 +10,8 @@
   </Peking>
   <Daqing>
     <Name>Daqing</Name>
-    <Longitude>125.120373</Longitude>
-    <Latitude>46.588597</Latitude>
+    <Longitude>127.120373</Longitude>
+    <Latitude>45.088597</Latitude>
     <Size>Small</Size>
     <Population>270</Population>
   </Daqing>
@@ -79,7 +79,7 @@
   <!--中国呼伦贝尔-->
   <Hulunber>
     <Name>Hulunber</Name>
-    <Longitude>119.882813</Longitude>
+    <Longitude>116.882813</Longitude>
     <Latitude>49.15297</Latitude>
     <Size>Medium</Size>
     <Population>270</Population>
