@@ -6,7 +6,7 @@
     <Longitude>116.408056</Longitude>
     <Latitude>39.904444</Latitude>
     <Size>Large</Size>
-    <Population>1695</Population>
+    <Population>1500</Population>
   </Peking>
 
   <Daqing>
@@ -16,7 +16,9 @@
     <Size>Small</Size>
     <Population>270</Population>
   </Daqing>
+  
 
+  
   <Wuhan>
     <Name>Wuhan</Name>
     <Longitude>114.305</Longitude>
@@ -65,13 +67,7 @@
     <Population>13.8</Population>
   </JiayYuguan>
 
-  <Geermu>
-    <Name>Ge'ermu</Name>
-    <Longitude>94.904709</Longitude>
-    <Latitude>36.414099</Latitude>
-    <Size>Small</Size>
-    <Population>17.5</Population>
-  </Geermu>
+ 
 
   <Ulaanbaatar>
     <Name>Ulan Bator</Name>

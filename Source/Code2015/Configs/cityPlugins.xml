@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <CityPlugins>
-  <WoodFactoryL1>
+  <WoodFactory>
     <Name></Name> <!--附加物名称-->
     <CostLR>1000</CostLR> <!--建造消耗木材-->
     <CostHR>0</CostHR> <!--建造消耗石油-->
-    <Behaviour>CollectorFactory</Behaviour> <!--附加物行为-->
+    <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->
     <HRPConvRate></HRPConvRate> <!--石油转化率-->
     <LRPConvRate></LRPConvRate> <!--木材转化率-->
     <FoodConvRate></FoodConvRate> <!--生物能源转化率-->
-    <HRCSpeed></HRCSpeed> <!--消耗石油的速度（理想情况）-->
+    <HRCSpeed></HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->
     <LRCSpeed></LRCSpeed> <!--消耗木材的速度（理想情况）-->
     <FoodCostSpeed></FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
-  </WoodFactoryL1>
+  </WoodFactory>
 </CityPlugins>
