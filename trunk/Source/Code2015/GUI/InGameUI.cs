@@ -62,6 +62,7 @@ namespace Code2015.GUI
 
 
         Texture cursor;
+        Texture lds_ball;
         Point mousePosition;
 
         InGameUI2 ingameui2;
@@ -107,6 +108,10 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("lds_prgimp.tex", GameFileLocs.GUI);
             progressBarImp = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("lds_ball.tex", GameFileLocs.GUI);
+            lds_ball = UITextureManager.Instance.CreateInstance(fl);
+
+
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
         }
 
@@ -124,8 +129,11 @@ namespace Code2015.GUI
 
                 Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
                 Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
-
+                //Rectangle ballrect = new Rectangle(75, 692);
+                
                 sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
+                sprite.Draw(lds_ball, 75, 632, ColorValue.White);
+
             }
             else
             {
