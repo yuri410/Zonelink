@@ -196,7 +196,7 @@ namespace Code2015.GUI
         {
             if (current != null)
             {
-                float dev = current.Development / 10000f;
+                float dev = current.Development / 100f;
                 float pop = current.Population / CityGrade.GetRefPopulation(current.Size);
                 float dis = current.Disease / 2;
                 Development = MathEx.Saturate(dev);

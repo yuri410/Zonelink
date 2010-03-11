@@ -25,6 +25,12 @@ namespace Code2015.BalanceSystem
         }
         #region  属性
 
+        public NaturalResource CurrentResource
+        {
+            get;
+            private set;
+        }
+
         public float HRPConvRate
         {
             get;
@@ -153,6 +159,7 @@ namespace Code2015.BalanceSystem
             parent = city;
 
             FindResources();
+            SelectResource();
         }
 
         public void NotifyRemoved(City city)
@@ -161,7 +168,32 @@ namespace Code2015.BalanceSystem
             resource.Clear();
         }
 
+        void SelectResource()
+        {
+            if (CurrentResource == null || CurrentResource.CurrentAmount < float.Epsilon)
+            {
+                bool finished = false;
+                int tries = 0;
 
+                while (!finished && tries < resource.Count)
+                {
+                    tries++;
+
+                    int index = Randomizer.GetRandomInt(int.MaxValue);
+                    CurrentResource = resource[index % resource.Count];
+
+                    switch (TypeId)
+                    {
+                        case CityPluginTypeId.WoodFactory:
+                            finished = CurrentResource.Type == NaturalResourceType.Wood && CurrentResource.CurrentAmount > float.Epsilon;
+                            break;
+                        case CityPluginTypeId.OilRefinary:
+                            finished = CurrentResource.Type == NaturalResourceType.Petro && CurrentResource.CurrentAmount > float.Epsilon;
+                            break;
+                    }
+                }
+            }
+        }
      
 
         #region IUpdatable 成员
@@ -177,7 +209,7 @@ namespace Code2015.BalanceSystem
                     #region 处理消耗资源
 
                     // 高能资源消耗量
-
+                   
                     float hrChange = type.HRCSpeed * hours;
 
 
@@ -205,24 +237,24 @@ namespace Code2015.BalanceSystem
 
                     break;
                 case CityPluginBehaviourType.CollectorFactory:
+
+                    // 如果没有采集目标，定下
+                    SelectResource();
+
                     #region 处理采集自然资源
-                    int index = Randomizer.GetRandomInt(resource.Count);
 
                     float food = type.FoodCostSpeed * hours;
                     float hpResource = type.HRCSpeed * hours;
                     float lpResource = type.LRCSpeed * hours;
 
-                    int tries = 0;
-                    bool finished = false;
                     CarbonProduceSpeed = 0;
-
-
-                    if (hpResource > float.Epsilon ||
-                        lpResource > float.Epsilon)
+                    if (CurrentResource != null)
                     {
-                        while (tries < resource.Count && !finished)
+                        if (hpResource > float.Epsilon ||
+                            lpResource > float.Epsilon)
                         {
-                            NaturalResource res = resource[index % resource.Count];
+
+                            NaturalResource res = CurrentResource;
 
                             if (hpResource > 0)
                             {
@@ -251,13 +283,9 @@ namespace Code2015.BalanceSystem
                                 }
                             }
 
-                            finished = (lpResource < float.Epsilon && hpResource < float.Epsilon);
-
-                            index++;
-                            tries++;
-
                         }
                     }
+
                     if (food > float.Epsilon)
                     {
                         float act = parent.LocalFood.Apply(food);
@@ -270,7 +298,7 @@ namespace Code2015.BalanceSystem
                     #endregion
                     break;
             }
-            
+
         }
 
         #endregion

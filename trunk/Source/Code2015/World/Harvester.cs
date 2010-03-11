@@ -14,9 +14,8 @@ namespace Code2015.World
 {
     enum UnitState
     {
-        Stopped,
-        Moving,
-        Rotating
+        TargetAuto,
+        HomeAuto
     }
 
     public class Harvester : DynamicObject
@@ -24,8 +23,14 @@ namespace Code2015.World
         float longtitude;
         float latitude;
 
+
         PathFinder finder;
         UnitState state;
+
+        float autoSLng;
+        float autoSLat;
+        float autoTLng;
+        float autoTLat;
 
         int destX; 
         int destY;
@@ -51,7 +56,7 @@ namespace Code2015.World
         public bool IsAuto
         {
             get;
-            set;
+            private set;
         }
 
         public Harvester(RenderSystem rs, Map map,  Model mdl)
@@ -63,12 +68,25 @@ namespace Code2015.World
             
         }
 
-        public void Move(float lng, float lat)
+        public void SetAuto(float tlng, float tlat, float slng, float slat)
+        {
+            IsAuto = true;
+           
+            autoSLat = slat;
+            autoSLng = slng;
+            autoTLat = tlat;
+            autoTLng = tlng;
+
+            move(autoTLng, autoTLat);
+            state = UnitState.TargetAuto;
+        }
+
+        void move(float lng, float lat) 
         {
             int sx, sy;
             Map.GetMapCoord(longtitude, latitude, out sx, out sy);
 
-            int tx ,ty;
+            int tx, ty;
             Map.GetMapCoord(lng, lat, out tx, out ty);
 
             destX = tx;
@@ -79,8 +97,14 @@ namespace Code2015.World
             currentNode = 0;
             currentPrg = 0;
         }
+        public void Move(float lng, float lat)
+        {
+            IsAuto = false;
+            move(lng, lat);
+        }
         void Move(int x, int y)
         {
+
             int sx, sy;
             Map.GetMapCoord(longtitude, latitude, out sx, out sy);
 
@@ -98,15 +122,15 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            //float xx, yy;
-            //Map.GetMapCoord(longtitude, latitude, out xx, out yy);
-
             if (cuurentPath != null)
             {
                 int nextNode = currentNode + 1;
 
                 if (nextNode >= cuurentPath.NodeCount)
-                {
+                {    
+                    nextNode = 0;
+                    currentPrg = 0;
+
                     if (cuurentPath.RequiresPathFinding)
                     {
                         Move(destX, destY);
@@ -114,9 +138,21 @@ namespace Code2015.World
                     else
                     {
                         cuurentPath = null;
+                        if (IsAuto)
+                        {
+                            if (state == UnitState.HomeAuto) 
+                            {
+                                move(autoTLng, autoTLat);
+                                state = UnitState.TargetAuto;
+                            }
+                            else if (state == UnitState.TargetAuto)
+                            {
+                                move(autoSLng, autoSLat);
+                                state = UnitState.HomeAuto;
+                            }
+                            
+                        }
                     }
-                    nextNode = 0;
-                    currentPrg = 0;
                 }
                 else
                 {
@@ -128,11 +164,6 @@ namespace Code2015.World
 
                     Map.GetCoord(x, y, out longtitude, out latitude);
                   
-                    //Map.GetMapCoord(longtitude, latitude, out xx, out yy);
-
-                    //Console.Write(xx);
-                    //Console.Write(yy);
-
                     currentPrg += 0.1f;
 
                     if (currentPrg > 1) 
@@ -143,14 +174,7 @@ namespace Code2015.World
                 }
             }
 
-            switch (state)
-            {
-                case UnitState.Moving:
 
-                    break;
-                case UnitState.Rotating:
-                    break;
-            }
 
             Orientation = PlanetEarth.GetOrientation(longtitude, latitude);
             Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + 50);

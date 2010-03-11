@@ -29,7 +29,12 @@ namespace Code2015.BalanceSystem
         const float AbsorbCarbonRate = 1000;
 
         [SLGValue]
-        const float RecoverRate = 1;
+        const float MaxAmount = 10000;
+
+        [SLGValue]
+        const float RecoverRate = 0.01f;
+        [SLGValue]
+        const float RecoverBias = 2f;
 
         public float AbsorbCarbonSpeed
         {
@@ -74,7 +79,12 @@ namespace Code2015.BalanceSystem
 
         public override void Update(GameTime time)
         {
-            float hours = (float)time.ElapsedGameTime.Hours;
+            float hours = (float)time.ElapsedGameTime.TotalHours;
+
+            if (CurrentAmount < MaxAmount)
+            {
+                CurrentAmount += (CurrentAmount * RecoverRate + RecoverBias) * hours;
+            }
         }
 
     }

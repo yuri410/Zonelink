@@ -17,16 +17,7 @@ namespace Code2015.GUI.Controls
             set;
         }
 
-        public int PaddingX
-        {
-            get;
-            set;
-        }
-        public int PaddingY
-        {
-            get;
-            set;
-        }
+       
         public Texture Background
         {
             get;
@@ -47,10 +38,11 @@ namespace Code2015.GUI.Controls
 
             if (ProgressImage != null)
             {
-                Rectangle rect = new Rectangle(X + PaddingX, Y + PaddingY, Width - PaddingX * 2, Height - PaddingY * 2);
+                Rectangle rect = new Rectangle(X, Y, Width, Height);
                 rect.Width = (int)(rect.Width * Value);
+                Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
 
-                sprite.Draw(ProgressImage, rect, ColorValue.White);
+                sprite.Draw(ProgressImage, rect, srect, ColorValue.White);
             }
 
 

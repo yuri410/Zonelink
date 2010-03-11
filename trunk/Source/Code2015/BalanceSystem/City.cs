@@ -330,7 +330,7 @@ namespace Code2015.BalanceSystem
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
         [SLGValue]
-        const float DevBias = -0.1f;
+        const float DevBias = -0.01f;
 
         /// <summary>
         ///  表示城市的附加设施
@@ -673,9 +673,6 @@ namespace Code2015.BalanceSystem
         }
 
 
-        const float SmallCityPointThreshold = 10000;
-        const float MediumCityPointThreshold = 100000;
-        //const float LargeCityPointThreshold = 1000000;
 
         /// <summary>
         ///  计算城市的分数，用于评估城市的等级
@@ -708,7 +705,7 @@ namespace Code2015.BalanceSystem
             {
 
                 // 测试
-                Capture.ReceiveGood(Capture.NewOwner1, 0.01f, 0);
+                //Capture.ReceiveGood(Capture.NewOwner1, 0.01f, 0);
 
                 for (int i = 0; i < nearbyCity.Count; i++)
                 {
@@ -741,9 +738,9 @@ namespace Code2015.BalanceSystem
                 float points = GetCityPoints(Development, Population);
 
                 UrbanSize newSize;
-                if (points < MediumCityPointThreshold)
+                if (points < CityGrade.MediumCityPointThreshold)
                 {
-                    if (points < SmallCityPointThreshold)
+                    if (points < CityGrade.SmallCityPointThreshold)
                     {
                         newSize = UrbanSize.Small;
                     }
