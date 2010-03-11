@@ -5,6 +5,7 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
 using Code2015.Logic;
+using Apoc3D;
 
 namespace Code2015.World
 {
@@ -20,12 +21,17 @@ namespace Code2015.World
         CityObject parent;
 
         CityStyle style;
+
+        int flashDuration;
+        
+        public void Flash(int duration)
+        {
+            flashDuration = duration;
+        }
         public CityOwnerRing(CityObject obj, CityStyle style)
         {
             this.parent = obj;
             this.style = style;
-
-           
         }
 
         public Vector4 GetWeights()
@@ -49,40 +55,51 @@ namespace Code2015.World
         {
             Matrix colors = WhiteMatrix;
 
-            if (parent.IsCapturing && !parent.IsCaptured) 
+            if (parent.IsCaptured)
             {
-                CaptureState capture = parent.Capture;
-                
-                Vector4 clr ;
-                if (capture.NewOwner1 != null)
+                if (flashDuration > 0)
                 {
-                    clr = capture.NewOwner1.SideColor.ToVector4();
-                    colors.SetRow(0, clr);
-                }
-                if (capture.NewOwner2 != null)
-                {
-                    clr = capture.NewOwner2.SideColor.ToVector4();
-                    colors.SetRow(1, clr);
-                }
-                if (capture.NewOwner3 != null)
-                {
-                    clr = capture.NewOwner3.SideColor.ToVector4();
-                    colors.SetRow(2, clr);
-                }
+                    float weight = 0.5f * ((float)Math.Sin(flashDuration * Math.PI * 0.1 - 0.5 * Math.PI) + 1);
 
-                if (capture.NewOwner4 != null)
-                {
-                    clr = capture.NewOwner4.SideColor.ToVector4();
-                    colors.SetRow(3, clr);
-                }
+                    Color4F cc = new Color4F(parent.Owner.SideColor);
+                    Color4F modColor = new Color4F(1, weight + cc.Red, weight + cc.Green, weight + cc.Blue);
 
-                return colors;
+                    colors.SetRow(0, modColor.ToVector4());
+                }
+                else
+                {
+                    colors.SetRow(0, parent.Owner.SideColor.ToVector4());
+                }
             }
-            
-            Player player = parent.Owner;
-            if (player != null)
+            else
             {
-                colors.SetRow(0, player.SideColor.ToVector4());
+                if (parent.IsCapturing && !parent.IsCaptured)
+                {
+                    CaptureState capture = parent.Capture;
+
+                    Vector4 clr;
+                    if (capture.NewOwner1 != null)
+                    {
+                        clr = capture.NewOwner1.SideColor.ToVector4();
+                        colors.SetRow(0, clr);
+                    }
+                    if (capture.NewOwner2 != null)
+                    {
+                        clr = capture.NewOwner2.SideColor.ToVector4();
+                        colors.SetRow(1, clr);
+                    }
+                    if (capture.NewOwner3 != null)
+                    {
+                        clr = capture.NewOwner3.SideColor.ToVector4();
+                        colors.SetRow(2, clr);
+                    }
+
+                    if (capture.NewOwner4 != null)
+                    {
+                        clr = capture.NewOwner4.SideColor.ToVector4();
+                        colors.SetRow(3, clr);
+                    }
+                }
             }
 
             return colors;
@@ -106,5 +123,11 @@ namespace Code2015.World
         }
 
         #endregion
+
+        public void Update(GameTime time)
+        {
+            flashDuration--;
+
+        }
     }
 }

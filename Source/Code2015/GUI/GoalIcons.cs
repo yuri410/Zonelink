@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
+using Code2015.Logic;
 using Code2015.World.Screen;
 
 namespace Code2015.GUI
@@ -14,6 +15,7 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
 
+        Player player;
         //Point lastMousePos;
         //bool lastMouseLeft;
         IMdgSelection selectedItem;
@@ -37,12 +39,13 @@ namespace Code2015.GUI
 
         InGameUI parent;
 
-        public GoalIcons(InGameUI parent, ScreenPhysicsWorld physWorld)
+        public GoalIcons(Game game, InGameUI parent, ScreenPhysicsWorld physWorld)
         {
             this.parent = parent;
             this.physWorld = physWorld;
             this.physWorld.BodyCollision += Phys_Collision;
-            resources = new MdgResourceManager();
+            this.resources = new MdgResourceManager();
+            this.player = game.HumanPlayer;
 
             #region test
 
@@ -182,11 +185,16 @@ namespace Code2015.GUI
                     // 检查是否在城市之上
                     if (!object.ReferenceEquals(parent.MouseHoverCity, null))
                     {
-                        MdgResource piece = SelectedItem as MdgResource;
-                        if (piece != null)
+                        if (object.ReferenceEquals(parent.MouseHoverCity.Owner, player))
                         {
-                            resources.Remove(piece);
-                            return;
+
+                            MdgResource piece = SelectedItem as MdgResource;
+                            if (piece != null)
+                            {
+                                resources.Remove(piece);
+                                parent.MouseHoverCity.Flash(60);
+                                return;
+                            }
                         }
                     }
                     else

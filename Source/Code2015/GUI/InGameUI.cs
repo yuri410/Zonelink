@@ -91,7 +91,7 @@ namespace Code2015.GUI
 
             this.player = parent.HumanPlayer;
 
-            this.icons = new GoalIcons(this, physWorld);
+            this.icons = new GoalIcons(parent, this, physWorld);
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");

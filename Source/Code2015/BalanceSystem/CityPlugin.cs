@@ -159,7 +159,7 @@ namespace Code2015.BalanceSystem
             parent = city;
 
             FindResources();
-            SelectResource();
+            SelectResourceStandard();
         }
 
         public void NotifyRemoved(City city)
@@ -167,7 +167,42 @@ namespace Code2015.BalanceSystem
             parent = null;
             resource.Clear();
         }
+        void SelectResourceStandard()
+        {
+            if (CurrentResource == null || CurrentResource.CurrentAmount < float.Epsilon)
+            {
+                for (int i = 0; i < resource.Count; i++)
+                {
+                    int index = Randomizer.GetRandomInt(int.MaxValue);
+                    CurrentResource = resource[index % resource.Count];
 
+                    switch (TypeId)
+                    {
+                        case CityPluginTypeId.WoodFactory:
+                            bool finished = CurrentResource.Type == NaturalResourceType.Wood && CurrentResource.CurrentAmount > float.Epsilon;
+                            if (!finished)
+                            {
+                                CurrentResource = null;
+                                continue;
+                            }
+                            else
+                                i = resource.Count;
+                            break;
+                        case CityPluginTypeId.OilRefinary:
+                            finished = CurrentResource.Type == NaturalResourceType.Petro && CurrentResource.CurrentAmount > float.Epsilon;
+                            if (!finished)
+                            {
+                                CurrentResource = null;
+                                continue;
+                            }
+                            else
+                                i = resource.Count;
+
+                            break;
+                    }
+                }
+            }
+        }
         void SelectResource()
         {
             if (CurrentResource == null || CurrentResource.CurrentAmount < float.Epsilon)
