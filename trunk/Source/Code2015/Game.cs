@@ -206,9 +206,9 @@ namespace Code2015
 
             if (!IsLoaded)
             {
-                bool newVal = TerrainMeshManager.Instance.IsIdle & 
+                bool newVal = TerrainMeshManager.Instance.IsIdle &
                     ModelManager.Instance.IsIdle &
-                    TextureManager.Instance.IsIdle & 
+                    TextureManager.Instance.IsIdle &
                     TreeBatchModelManager.Instance.IsIdle;
 
                 if (newVal)

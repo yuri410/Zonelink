@@ -341,6 +341,14 @@ namespace Code2015.World
         {
             return new CityObjectTRAdjust(ref adjusts[(int)culture]);
         }
+        float RandomAngle
+        {
+            get
+            {
+                return MathEx.PIf * 2 * Randomizer.GetRandomSingle();
+            }
+        }
+
         public CityStyle CreateStyle(CultureId culture)
         {
             CityStyleData data = styles[(int)culture];
@@ -356,11 +364,11 @@ namespace Code2015.World
                 style.Urban[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Urban[i]);
             }
 
-            style.BiofuelFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Biofuel);
-            style.OilRefinary.CurrentAnimation = new NoAnimation(adjusts[(int)culture].OilRefinary);
-            style.WoodFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].WoodFactory);
-            style.EducationOrgan.CurrentAnimation = new NoAnimation(adjusts[(int)culture].EducationOrgan);
-            style.Hospital.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Hospital);
+            style.BiofuelFactory.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].Biofuel);
+            style.OilRefinary.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].OilRefinary);
+            style.WoodFactory.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].WoodFactory);
+            style.EducationOrgan.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].EducationOrgan);
+            style.Hospital.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].Hospital);
             style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
 
             for (int i = 0; i < style.Ring.Length; i++)
