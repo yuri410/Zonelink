@@ -399,7 +399,7 @@ namespace Code2015.GUI
 
 
         Texture selimglarge;
-        Texture earthGlow;
+        //Texture earthGlow;
 
 
         RoundButton btnInfo;
@@ -508,7 +508,7 @@ namespace Code2015.GUI
             selimglarge = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("ig_earthGlow.tex", GameFileLocs.GUI);
-            earthGlow = UITextureManager.Instance.CreateInstance(fl);
+            //earthGlow = UITextureManager.Instance.CreateInstance(fl);
 
             #region 信息按钮
             fl = FileSystem.Instance.Locate("ig_btn_info.tex", GameFileLocs.GUI);
@@ -813,8 +813,8 @@ namespace Code2015.GUI
                 }
             }
 
-            sprite.Draw(statusBar, 130, 0, ColorValue.White);
-            sprite.Draw(co2meterBg, 448, 0, ColorValue.White);
+            sprite.Draw(statusBar, 188, -8, ColorValue.White);
+            sprite.Draw(co2meterBg, 437, -5, ColorValue.White);
         }
 
         public override void Update(GameTime time)

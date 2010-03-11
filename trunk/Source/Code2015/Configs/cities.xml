@@ -420,69 +420,22 @@
     <Population>150</Population>
   </Bamako>
 
-  <!--Mauritania-->
-  <Nouakchott>
-    <Name>Nouakchott</Name>
-    <Longitude>-13.279271</Longitude>
-    <Latitude>16.08777</Latitude>
-    <Size>Small</Size>
-    <Population>50</Population>
-  </Nouakchott>
-
-  <Mauritania>
-    <Name>Mauritania</Name>
-    <Longitude>24.20689</Longitude>
-    <Latitude>-9.887695</Latitude>
-    <Size>Small</Size>
-    <Population>29</Population>
-  </Mauritania>
-
-  <!--津巴布韦-->
-  <Harare>
-    <Name>Harare</Name>
-    <Longitude>31.053886</Longitude>
-    <Latitude>-17.827717</Latitude>
-    <Size>Medium</Size>
-    <Population>187</Population>
-  </Harare>
-
-  <!--肯尼亚-->
-  <Nairobi>
-    <Name>Nairobi</Name>
-    <Longitude>36.813812</Longitude>
-    <Latitude>-1.248223</Latitude>
-    <Size>Large</Size>
-    <Population>200</Population>
-  </Nairobi>
-
-  <!--埃塞俄比亚-->
-  <AddisAbeta>
-    <Name>AddisAbeta</Name>
-    <Longitude>38.752213</Longitude>
-    <Latitude>9.010894</Latitude>
-    <Size>Large</Size>
-    <Population>200</Population>
-  </AddisAbeta>
 
 
-  <Hail>
-    <Name>Hail</Name>
-    <Longitude>41.693802</Longitude>
-    <Latitude>27.520451</Latitude>
-    <Size>Small</Size>
-    <Population>26</Population>
-  </Hail>
+  
 
-  <DayrazZawr>
+  
+
+  <!--<DayrazZawr>
     <Name>DayrazZawr</Name>
     <Longitude>35.196256</Longitude>
     <Latitude>40.501099</Latitude>
     <Size>Small</Size>
     <Population>10</Population>
-  </DayrazZawr>
+  </DayrazZawr>-->
 
 
-  <Khmelnitski>
+  <!--<Khmelnitski>
     <Name>Khmelnitski</Name>
     <Longitude>26.90625</Longitude>
     <Latitude>49.944265</Latitude>
@@ -504,94 +457,94 @@
     <Latitude>9.75237</Latitude>
     <Size>Small</Size>
     <Population>29</Population>
-  </Vulu>
+  </Vulu>-->
 
-  <!--刚果-->
+  <!--刚果--><!--
   <Kisangani>
     <Name>Kisangani</Name>
     <Longitude>25.194397</Longitude>
     <Latitude>0.550681</Latitude>
     <Size>Medium</Size>
     <Population>70</Population>
-  </Kisangani>
+  </Kisangani>-->
 
-  <!--Zambia-->
+  <!--Zambia--><!--
   <Lusaka>
     <Name>Lusaka</Name>
     <Longitude>23.280869</Longitude>
     <Latitude>-15.410988</Latitude>
     <Size>Medium</Size>
     <Population>200</Population>
-  </Lusaka>
+  </Lusaka>-->
 
-  <Upington>
+  <!--<Upington>
     <Name>Upington</Name>
     <Longitude>21.242409</Longitude>
     <Latitude>-28.459033</Latitude>
     <Size>Small</Size>
     <Population>10</Population>
-  </Upington>
+  </Upington>-->
 
   <!--Cameroon-->
-  <Yaounde>
+  <!--<Yaounde>
     <Name>Yaounde</Name>
     <Longitude>13.517792</Longitude>
     <Latitude>3.857746</Latitude>
     <Size>Medium</Size>
     <Population>143</Population>
-  </Yaounde>
+  </Yaounde>-->
 
   <!--Niger-->
-  <Agadez>
+  <!--<Agadez>
     <Name>Agadez</Name>
     <Longitude>10.984571</Longitude>
     <Latitude>11.972577</Latitude>
     <Size>Small</Size>
     <Population>30</Population>
-  </Agadez>
+  </Agadez>-->
 
-  <Ghat>
+  <!--<Ghat>
     <Name>Ghat</Name>
     <Longitude>26.017298</Longitude>
     <Latitude>10.766602</Latitude>
     <Size>Small</Size>
     <Population>34</Population>
-  </Ghat>
+  </Ghat>-->
 
   <!--德国-->
-  <Berlin>
+  <!--<Berlin>
     <Name>Berlin</Name>
     <Longitude>13.4095</Longitude>
     <Latitude>50.520399</Latitude>
     <Size>Large</Size>
     <Population>343</Population>
-  </Berlin>
+  </Berlin>-->
 
   <!--西班牙-->
-  <Madrid>
+  <!--<Madrid>
     <Name>Madrid</Name>
     <Longitude>-5.702736</Longitude>
     <Latitude>41.918724</Latitude>
     <Size>Large</Size>
     <Population>321</Population>
-  </Madrid>
+  </Madrid>-->
 
-  <Adrar>
+  <!--<Adrar>
     <Name>Adrar</Name>
     <Longitude>-2.790527</Longitude>
     <Latitude>25.204941</Latitude>
     <Size>Small</Size>
     <Population>320</Population>
-  </Adrar>
+  </Adrar>-->
 
   <!--Mali-->
-  <Bamako>
+  <!--<Bamako>
     <Name>Bamako</Name>
     <Longitude>-4.988777</Longitude>
     <Latitude>12.624928</Latitude>
     <Size>Medium</Size>
     <Population>150</Population>
-  </Bamako>
+  </Bamako>-->
 
   <!--Mauritania-->
   <Nouakchott>
@@ -610,7 +563,7 @@
     <Population>29</Population>
   </Mauritania>
 
-  ///////
+  
   <Maraba>
     <Name>Maraba</Name>
     <Longitude>-44.105968</Longitude>
@@ -761,967 +714,4 @@
     <Size>Small</Size>
     <Population>10</Population>
   </PrinceGeorge>
-
-
-
-
-
-<!----><!--
-  <Mumbai>
-    <Name>Mumbai</Name>
-    <Longitude>74.3561</Longitude>
-    <Latitude>19.0175</Latitude>
-    <Size>Large</Size>
-    <Population>1830</Population>
-  </Mumbai>
-
-  <Kolkata>
-    <Name>Kolkata</Name>
-    <Longitude>87.445313</Longitude>
-    <Latitude>25.641526</Latitude>
-    <Size>Large</Size>
-    <Population>1430</Population>
-  </Kolkata> 
-  
- 
-  <Nagpur>
-    <Name>Nagpur</Name>
-    <Longitude>79.08886</Longitude>
-    <Latitude>21.153517</Latitude>
-    <Size>Medium</Size>
-    <Population>242</Population>
-  </Nagpur>
-
-  <Agra>
-    <Name>Agra</Name>
-    <Longitude>78.008766</Longitude>
-    <Latitude>25.184715</Latitude>
-    <Size>Small</Size>
-    <Population>77</Population>
-  </Agra>
-
-  <Bandjarmasin>
-    <Name>Bandjarmasin</Name>
-    <Longitude>114.588861</Longitude>
-    <Latitude>-3.326729</Latitude>
-    <Size>Small</Size>
-    <Population>47</Population>
-  </Bandjarmasin>
-
-  --><!--泰国--><!--
-  <Bangkok>
-    <Name>Bangkok</Name>
-    <Longitude>100.48645</Longitude>
-    <Latitude>13.843414</Latitude>
-    <Size>Medium</Size>
-    <Population>242</Population>
-  </Bangkok>
- 
-  
-  --><!--菲律宾--><!--
-  <Manila>
-    <Name>Metro Manila</Name>
-    <Longitude>121.039124</Longitude>
-    <Latitude>14.663312</Latitude>
-    <Size>Medium</Size>
-    <Population>800</Population>
-  </Manila>
-  
-  --><!--缅甸--><!--
-  <Mandalay>
-    <Name>Mandalay</Name>
-    <Longitude>95.0993</Longitude>
-    <Latitude>21.992556</Latitude>
-    <Size>Medium</Size>
-    <Population>130</Population>
-  </Mandalay>
-  
-  --><!--老挝--><!--
-  <Vientiane>
-    <Name>Vientiane</Name>
-    <Longitude>102.615395</Longitude>
-    <Latitude>17.970242</Latitude>
-    <Size>Medium</Size>
-    <Population>70</Population>
-  </Vientiane>
-
- 
- 
-
- 
-  --><!--巴布亚新几内亚--><!--
-  <PortMoresby>
-    <Name>Port Moresby</Name>
-    <Longitude>147.190704</Longitude>
-    <Latitude>-9.453126</Latitude>
-    <Size>Medium</Size>
-    <Population>40</Population>
-  </PortMoresby>
-  
-  
-
-
-
-
-  
-
-
-
-
-
-
-  <Sydney>
-    <Name>Sydney</Name>
-    <Longitude>150.193844</Longitude>
-    <Latitude>-33.756315</Latitude>
-    <Size>Large</Size>
-    <Population>418</Population>
-  </Sydney>
-
-  <BrokenHill>
-    <Name>Broken Hill</Name>
-    <Longitude>141.547852</Longitude>
-    <Latitude>-31.952162</Latitude>
-    <Size>Small</Size>
-    <Population>48</Population>
-  </BrokenHill>
-  
-  --><!--<Albany>
-    <Name>Albany</Name>
-    <Longitude>145.775</Longitude>
-    <Latitude>-37.925278</Latitude>
-    <Size>Medium</Size>
-    <Population>85</Population>
-  </Albany>--><!--
-
- 
-
-
-
-  --><!--苏丹--><!--
-  <Khartoum>
-    <Name>Khartoum</Name>
-    <Longitude>32.523651</Longitude>
-    <Latitude>15.597245</Latitude>
-    <Size>Medium</Size>
-    <Population>100</Population>
-  </Khartoum>
-
-  <Juba>
-    <Name>Juba</Name>
-    <Longitude>31.59462</Longitude>
-    <Latitude>4.84126</Latitude>
-    <Size>Small</Size>
-    <Population>16</Population>
-  </Juba>
-<Ghat>
-    <Name>Ghat</Name>
-    <Longitude>26.017298</Longitude>
-    <Latitude>10.766602</Latitude>
-    <Size>Small</Size>
-    <Population>34</Population>
-  </Ghat>
-
-  --><!--埃塞俄比亚--><!--
-  <AddisAbeta>
-    <Name>AddisAbeta</Name>
-    <Longitude>38.752213</Longitude>
-    <Latitude>9.010894</Latitude>
-    <Size>Large</Size>
-    <Population>200</Population>
-  </AddisAbeta>
-
-  --><!--肯尼亚--><!--
-  <Nairobi>
-    <Name>Nairobi</Name>
-    <Longitude>36.813812</Longitude>
-    <Latitude>-1.248223</Latitude>
-    <Size>Large</Size>
-    <Population>200</Population>
-  </Nairobi>
-  
-  --><!--Niger--><!--
-  <Agadez>
-    <Name>Agadez</Name>
-    <Longitude>10.984571</Longitude>
-    <Latitude>11.972577</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-  </Agadez>
-
-  --><!--津巴布韦--><!--
-  <Harare>
-    <Name>Harare</Name>
-    <Longitude>31.053886</Longitude>
-    <Latitude>-17.827717</Latitude>
-    <Size>Medium</Size>
-    <Population>187</Population>
-  </Harare>
-  
-  --><!--Chad--><!--
-  <Ati>
-    <Name>Ati</Name>
-    <Longitude>18.336954</Longitude>
-    <Latitude>13.214211</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-  </Ati>
-
-  --><!--Mali--><!--
-  <Bamako>
-    <Name>Bamako</Name>
-    <Longitude>-4.988777</Longitude>
-    <Latitude>12.624928</Latitude>
-    <Size>Medium</Size>
-    <Population>150</Population>
-  </Bamako>
-
-  --><!--Mauritania--><!--
-  <Nouakchott>
-    <Name>Nouakchott</Name>
-    <Longitude>-13.279271</Longitude>
-    <Latitude>16.08777</Latitude>
-    <Size>Medium</Size>
-    <Population>61</Population>
-  </Nouakchott>
-
-  --><!--Cameroon--><!--
-  <Yaounde>
-    <Name>Yaounde</Name>
-    <Longitude>13.517792</Longitude>
-    <Latitude>3.857746</Latitude>
-    <Size>Medium</Size>
-    <Population>143</Population>
-  </Yaounde>
-
-  --><!--刚果--><!--
-  <Kisangani>
-    <Name>Kisangani</Name>
-    <Longitude>25.194397</Longitude>
-    <Latitude>0.550681</Latitude>
-    <Size>Medium</Size>
-    <Population>70</Population>
-  </Kisangani>
-  
-  --><!--Cango--><!--
-  <Kinshasa>
-    <Name>Kinshasa</Name>
-    <Longitude>15.259666</Longitude>
-    <Latitude>-4.318682</Latitude>
-    <Size>Large</Size>
-    <Population>600</Population>
-  </Kinshasa>
-
-  <Bunia>
-    <Name>Bunia</Name>
-    <Longitude>30.252228</Longitude>
-    <Latitude>1.562011</Latitude>
-    <Size>Small</Size>
-    <Population>20</Population>
-  </Bunia>
-
-  --><!--中非--><!--
-  <Bangui>
-    <Name>Bangui</Name>
-    <Longitude>18.555651</Longitude>
-    <Latitude>4.364041</Latitude>
-    <Size>Medium</Size>
-    <Population>59</Population>
-  </Bangui>
-
-  
-
-  --><!--Zambia--><!--
-  <Lusaka>
-    <Name>Lusaka</Name>
-    <Longitude>23.280869</Longitude>
-    <Latitude>-15.410988</Latitude>
-    <Size>Medium</Size>
-    <Population>200</Population>
-  </Lusaka>
-
-  --><!--Angola--><!--
-  <Luanda>
-    <Name>Luanda</Name>
-    <Longitude>14.759468</Longitude>
-    <Latitude>-8.849454</Latitude>
-    <Size>Medium</Size>
-    <Population>479</Population>
-  </Luanda>
-
-  <Kuito>
-    <Name>Kuito</Name>
-    <Longitude>16.938086</Longitude>
-    <Latitude>-12.382845</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-  </Kuito>
-
-  --><!--SouthAfrica--><!--
-  <Capetown>
-    <Name>Capetown</Name>
-    <Longitude>20.048355</Longitude>
-    <Latitude>-32.930827</Latitude>
-    <Size>Large</Size>
-    <Population>290</Population>
-  </Capetown>
-  
-
-  <Durban>
-    <Name>Durban</Name>
-    <Longitude>29.414841</Longitude>
-    <Latitude>-29.829327</Latitude>
-    <Size>Large</Size>
-    <Population>309</Population>
-  </Durban>
-
-  <Upington>
-    <Name>Upington</Name>
-    <Longitude>21.242409</Longitude>
-    <Latitude>-28.459033</Latitude>
-    <Size>Small</Size>
-    <Population>10</Population>
-  </Upington>
-
-  --><!--埃及--><!--
-  <Cario>
-    <Name>Cario</Name>
-    <Longitude>31.2494</Longitude>
-    <Latitude>29.564722</Latitude>
-    <Size>Large</Size>
-    <Population>773</Population>
-  </Cario>
-
-  <Aswan>
-    <Name>Aswan</Name>
-    <Longitude>32.90637</Longitude>
-    <Latitude>24.091291</Latitude>
-    <Size>Small</Size>
-    <Population>110</Population>
-  </Aswan>
-  
-  --><!--马达加斯加--><!--
-  <Tananarive>
-    <Name>Tananarive</Name>
-    <Longitude>47.504883</Longitude>
-    <Latitude>-18.521283</Latitude>
-    <Size>Medium</Size>
-    <Population>70</Population>
-  </Tananarive>
-
-
-  --><!--沙特阿拉伯--><!--
-  <ArRiyad>
-    <Name>Ar Riyad</Name>
-    <Longitude>46.728973</Longitude>
-    <Latitude>24.673226</Latitude>
-    <Size>Medium</Size>
-    <Population>545</Population>
-  </ArRiyad>
-  
-  <Hail>
-    <Name>Hail</Name>
-    <Longitude>41.693802</Longitude>
-    <Latitude>27.520451</Latitude>
-    <Size>Small</Size>
-    <Population>26</Population>
-  </Hail>
-  --><!--伊拉克--><!--
-  <Baghdad>
-    <Name>Baghdad</Name>
-    <Longitude>44.396439</Longitude>
-    <Latitude>33.313889</Latitude>
-    <Size>Large</Size>
-    <Population>655</Population>
-  </Baghdad>
-
-  --><!--阿富汗--><!--
-  <Qandahar>
-    <Name>Kandahar</Name>
-    <Longitude>65.721588</Longitude>
-    <Latitude>31.617866</Latitude>
-    <Size>Small</Size>
-    <Population>46</Population>
-  </Qandahar>
-
-  --><!--孟加拉国--><!--
-  <Dhaka>
-    <Name>Dhaka</Name>
-    <Longitude>90.391388</Longitude>
-    <Latitude>23.772149</Latitude>
-    <Size>Medium</Size>
-    <Population>700</Population>
-  </Dhaka>
-  
-
-  --><!--乌兹别克斯坦--><!--
-  <Tashkent>
-    <Name>Tashkent</Name>
-    <Longitude>69.257813</Longitude>
-    <Latitude>41.309277</Latitude>
-    <Size>Medium</Size>
-    <Population>218</Population>
-  </Tashkent>
-
-  <Balkanabat>
-    <Name>Balkanabat</Name>
-    <Longitude>55.17593</Longitude>
-    <Latitude>39.504537</Latitude>
-    <Size>Small</Size>
-    <Population>8</Population>
-  </Balkanabat>
-  --><!--伊朗--><!--
-  <Tehran>
-    <Name>Tehran</Name>
-    <Longitude>51.428375</Longitude>
-    <Latitude>35.221988</Latitude>
-    <Size>Large</Size>
-    <Population>1100</Population>
-  </Tehran>
-
-  --><!--法国--><!--
-  <Toulouse>
-    <Name>Toulouse</Name>
-    <Longitude>1.441612</Longitude>
-    <Latitude>43.601279</Latitude>
-    <Size>Medium</Size>
-    <Population>1102</Population>
-  </Toulouse>
-
-  <Angers>
-    <Name>Angers</Name>
-    <Longitude>-0.5476</Longitude>
-    <Latitude>47.466049</Latitude>
-    <Size>Small</Size>
-    <Population>15</Population>
-  </Angers>
-
-  --><!--利比亚--><!--
-  <EIGezira>
-    <Name>EI Gezira</Name>
-    <Longitude>14.088772</Longitude>
-    <Latitude>27.674021</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-  </EIGezira>
-
-  <Sabha>
-    <Name>Sabha</Name>
-    <Longitude>16.422388</Longitude>
-    <Latitude>27.039251</Latitude>
-    <Size>Small</Size>
-    <Population>13</Population>
-  </Sabha>
-  --><!--英国--><!--
-  <London>
-    <Name>London</Name>
-    <Longitude>-1.581152</Longitude>
-    <Latitude>51.713416</Latitude>
-    <Size>Large</Size>
-    <Population>1200</Population>
-  </London>
-  
-  --><!--德国--><!--
-  <Berlin>
-    <Name>Berlin</Name>
-    <Longitude>13.4095</Longitude>
-    <Latitude>50.520399</Latitude>
-    <Size>Large</Size>
-    <Population>343</Population>
-  </Berlin>
-
-  <Hannover>
-    <Name>Hanover</Name>
-    <Longitude>9.730453</Longitude>
-    <Latitude>53.382515</Latitude>
-    <Size>Medium</Size>
-    <Population>52</Population>
-  </Hannover>
-
-  <Ulm>
-    <Name>Ulm</Name>
-    <Longitude>8.490349</Longitude>
-    <Latitude>50.397297</Latitude>
-    <Size>Small</Size>
-    <Population>12</Population>
-  </Ulm>
-
-  --><!--波兰--><!--
-  <Warszawa>
-    <Name>Warsaw</Name>
-    <Longitude>22.055298</Longitude>
-    <Latitude>52.223593</Latitude>
-    <Size>Large</Size>
-    <Population>171</Population>
-  </Warszawa>
-
-  <Torun>
-    <Name>Torun</Name>
-    <Longitude>17.608952</Longitude>
-    <Latitude>53.009929</Latitude>
-    <Size>Small</Size>
-    <Population>20</Population>
-  </Torun>
-
-  --><!--乌克兰--><!--
-  <Kyiv>
-    <Name>Kiev</Name>
-    <Longitude>30.531006</Longitude>
-    <Latitude>50.447011</Latitude>
-    <Size>Medium</Size>
-    <Population>281</Population>
-  </Kyiv>
-
-  <Kryvyi>
-    <Name>Kryvyi Rih</Name>
-    <Longitude>23.397236</Longitude>
-    <Latitude>48.897355</Latitude>
-    <Size>Small</Size>
-    <Population>71</Population>
-  </Kryvyi>
-
-  --><!--罗马尼亚--><!--
-  <Bucurest>
-    <Name>Bucharest</Name>
-    <Longitude>26.109009</Longitude>
-    <Latitude>44.425934</Latitude>
-    <Size>Medium</Size>
-    <Population>194</Population>
-  </Bucurest>
-
-  <Craiova>
-    <Name>Craiova</Name>
-    <Longitude>21.794327</Longitude>
-    <Latitude>44.318936</Latitude>
-    <Size>Small</Size>
-    <Population>29</Population>
-  </Craiova>
-
-  --><!--土耳其--><!--
-  <Ankara>
-    <Name>Ankara</Name>
-    <Longitude>32.856245</Longitude>
-    <Latitude>39.945213</Latitude>
-    <Size>Medium</Size>
-    <Population>500</Population>
-  </Ankara>
-  --><!--西班牙--><!--
-  <Madrid>
-    <Name>Madrid</Name>
-    <Longitude>-5.702736</Longitude>
-    <Latitude>41.918724</Latitude>
-    <Size>Large</Size>
-    <Population>321</Population>
-  </Madrid>
-
-  <Valencia>
-    <Name>Valencia</Name>
-    <Longitude>-0.374908</Longitude>
-    <Latitude>39.468005</Latitude>
-    <Size>Medium</Size>
-    <Population>226</Population>
-  </Valencia>
-
-  --><!--<Valladolid>
-    <Name>Valladolid</Name>
-    <Longitude>-4.731503</Longitude>
-    <Latitude>41.652265</Latitude>
-    <Size>Small</Size>
-    <Population>31</Population>
-  </Valladolid>--><!--
-
-  --><!--阿尔及利亚--><!--
-  <Alger>
-    <Name>Alger</Name>
-    <Longitude>3.548878</Longitude>
-    <Latitude>34.738609</Latitude>
-    <Size>Medium</Size>
-    <Population>151</Population>
-  </Alger>
-
-  <BeniAbbes>
-    <Name>Beni Abbes</Name>
-    <Longitude>-2.169456</Longitude>
-    <Latitude>30.134439</Latitude>
-    <Size>Small</Size>
-    <Population>5</Population>
-  </BeniAbbes>
-
-  --><!--俄罗斯--><!--
-  <Moscow>
-    <Name>Moscow</Name>
-    <Longitude>37.617188</Longitude>
-    <Latitude>55.748758</Latitude>
-    <Size>Large</Size>
-    <Population>1052</Population>
-  </Moscow>
-
-
-  <Novosibirsk>
-    <Name>Novosibirsk</Name>
-    <Longitude>80.92326</Longitude>
-    <Latitude>55.024086</Latitude>
-    <Size>Small</Size>
-    <Population>42</Population>
-  </Novosibirsk>
-
-
-
-
-  --><!--加拿大--><!--
-  <Calgary>
-    <Name>Calgary</Name>
-    <Longitude>-114.051819</Longitude>
-    <Latitude>51.054344</Latitude>
-    <Size>Large</Size>
-    <Population>108</Population>
-  </Calgary>
-  <PrinceGeorge>
-    <Name>Prince George</Name>
-    <Longitude>-1123.75</Longitude>
-    <Latitude>53.054344</Latitude>
-    <Size>Small</Size>
-    <Population>10</Population>
-  </PrinceGeorge>
-  
-  <Saskatoon>
-    <Name>Saskatoon</Name>
-    <Longitude>-98.671066</Longitude>
-    <Latitude>52.127165</Latitude>
-    <Size>Medium</Size>
-    <Population>20</Population>
-  </Saskatoon>
-
-  <Quebec>
-    <Name>Quebec</Name>
-    <Longitude>-80.215439</Longitude>
-    <Latitude>52.80288</Latitude>
-    <Size>Medium</Size>
-    <Population>778</Population>
-  </Quebec>
-
-  <Halifax>
-    <Name>Halifax</Name>
-    <Longitude>-63.582687</Longitude>
-    <Latitude>44.674513</Latitude>
-    <Size>Medium</Size>
-    <Population>57</Population>
-  </Halifax>
-
---><!--美国--><!--
-  <Boston>
-    <Name>Boston</Name>
-    <Longitude>-73.064034</Longitude>
-    <Latitude>42.354992</Latitude>
-    <Size>Large</Size>
-    <Population>59</Population>
-  </Boston>
-  
-   <Washington>
-    <Name>Washington</Name>
-    <Longitude>-79.01004</Longitude>
-    <Latitude>38.907064</Latitude>
-    <Size>Large</Size>
-    <Population>589</Population>
-  </Washington>
-  
-  <Dallas>
-    <Name>Dallas</Name>
-    <Longitude>-96.763458</Longitude>
-    <Latitude>36.831135</Latitude>
-    <Size>Large</Size>
-    <Population>569</Population>
-  </Dallas> 
-  
-  
-
-  <Chicago>
-    <Name>Chicago</Name>
-    <Longitude>-87.648926</Longitude>
-    <Latitude>41.867516</Latitude>
-    <Size>Large</Size>
-    <Population>960</Population>
-  </Chicago>
-
-  <SanFrancisco>
-    <Name>San Francisco</Name>
-    <Longitude>-112.78894</Longitude>
-    <Latitude>37.173433</Latitude>
-    <Size>Large</Size>
-    <Population>73</Population>
-  </SanFrancisco>
-  
-  <Seattle>
-    <Name>Seattle</Name>
-    <Longitude>-120.288818</Longitude>
-    <Latitude>47.604311</Latitude>
-    <Size>Large</Size>
-    <Population>57</Population>
-  </Seattle>
-
-  <Wichita>
-    <Name>Wichita</Name>
-    <Longitude>-97.336464</Longitude>
-    <Latitude>37.691699</Latitude>
-    <Size>Medium</Size>
-    <Population>13</Population>
-  </Wichita>
-  
-  <Birmingham>
-    <Name>Birmingham</Name>
-    <Longitude>-86.819458</Longitude>
-    <Latitude>33.522506</Latitude>
-    <Size>Medium</Size>
-    <Population>423</Population>
-  </Birmingham>
-
-  <Bend>
-    <Name>Bend</Name>
-    <Longitude>-121.304169</Longitude>
-    <Latitude>44.059219</Latitude>
-    <Size>Medium</Size>
-    <Population>11</Population>
-  </Bend>   
-
-  <Charlotte>
-    <Name>Charlotte</Name>
-    <Longitude>-80.837402</Longitude>
-    <Latitude>35.252348</Latitude>
-    <Size>Medium</Size>
-    <Population>170</Population>
-  </Charlotte>
-
- <Denver>
-  <Name>Denver</Name>
-  <Longitude>-95.998535</Longitude>
-  <Latitude>41.280903</Latitude>
-  <Size>Medium</Size>
-  <Population>60</Population>
-  </Denver>
-
-  <Omaha>
-    <Name>Omaha</Name>
-    <Longitude>-93.998535</Longitude>
-    <Latitude>41.280903</Latitude>
-    <Size>Small</Size>
-    <Population>40</Population>
-  </Omaha>
-
-  <RapidCity>
-    <Name>Rapid City</Name>
-    <Longitude>-103.187714</Longitude>
-    <Latitude>44.088818</Latitude>
-    <Size>Small</Size>
-    <Population>60</Population>
-  </RapidCity>
-
-  <Abilene>
-    <Name>Abilene</Name>
-    <Longitude>-99.737663</Longitude>
-    <Latitude>32.449955</Latitude>
-    <Size>Small</Size>
-    <Population>6</Population>
-  </Abilene>
-
-  <CapeGirardeau>
-    <Name>Cape Girardeau</Name>
-    <Longitude>-89.542522</Longitude>
-    <Latitude>37.31311</Latitude>
-    <Size>Small</Size>
-    <Population>608</Population>
-  </CapeGirardeau>
-
-  <Orlando>
-    <Name>Orlando</Name>
-    <Longitude>-81.489029</Longitude>
-    <Latitude>28.550751</Latitude>
-    <Size>Small</Size>
-    <Population>22</Population>
-  </Orlando>
-
-  --><!--Papua New Guinea--><!--
-  <Kowatasi>
-    <Name>Kowatasi</Name>
-    <Longitude>142.998047</Longitude>
-    <Latitude>-7.144499</Latitude>
-    <Size>Small</Size>
-    <Population>25</Population>
-
-  </Kowatasi>
-
-  
-  --><!--墨西哥--><!--
-  <SanJuanBautistaTuxtepec>
-    <Name>San Juan Bautista Tuxtepec</Name>
-    <Longitude>-96.14213</Longitude>
-    <Latitude>18.085322</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-  </SanJuanBautistaTuxtepec>
-
-  --><!--巴西--><!--
-  <SaoPaulo>
-    <Name>São Paulo</Name>
-    <Longitude>-47.03765</Longitude>
-    <Latitude>-23.059581</Latitude>
-    <Size>Large</Size>
-    <Population>1850</Population>
-  </SaoPaulo>
-
-  <Brasilia>
-    <Name>Brasilia</Name>
-    <Longitude>-44.969055</Longitude>
-    <Latitude>-15.826609</Latitude>
-    <Size>Medium</Size>
-    <Population>205</Population>
-  </Brasilia>
-  
-  <Maraba>
-    <Name>Maraba</Name>
-    <Longitude>-44.105968</Longitude>
-    <Latitude>-5.352838</Latitude>
-    <Size>Medium</Size>
-    <Population>150</Population>
-  </Maraba>
-  
-  <Goyas>
-    <Name>Goyas</Name>
-    <Longitude>-50.142975</Longitude>
-    <Latitude>-15.891338</Latitude>
-    <Size>Large</Size>
-    <Population>570</Population>
-  </Goyas>
-
-  <Manaus>
-    <Name>Manaus</Name>
-    <Longitude>-60.010757</Longitude>
-    <Latitude>-3.08258</Latitude>
-    <Size>Medium</Size>
-    <Population>150</Population>
-  </Manaus>
-  
- 
-  
-  <Sinop>
-    <Name>Sinop</Name>
-    <Longitude>-55.503359</Longitude>
-    <Latitude>-14.858699</Latitude>
-    <Size>Small</Size>
-    <Population>18</Population>
-  </Sinop>
-
- 
---><!--委内瑞拉--><!--
-  <Caracas>
-    <Name>Caracas</Name>
-    <Longitude>-65.896439</Longitude>
-    <Latitude>9.70199</Latitude>
-    <Size>Medium</Size>
-    <Population>207</Population>
-  </Caracas>
- 
-
-  --><!--秘鲁--><!--
-  <Iquitos>
-    <Name>Iquitos</Name>
-    <Longitude>-79.755377</Longitude>
-    <Latitude>-3.754977</Latitude>
-    <Size>Small</Size>
-    <Population>40</Population>
-  </Iquitos>
-
-  --><!--Venezuela--><!--
-  <Barinas>
-    <Name>Barinas</Name>
-    <Longitude>-70.227356</Longitude>
-    <Latitude>8.629903</Latitude>
-    <Size>Medium</Size>
-    <Population>18</Population>
-  </Barinas>
-
---><!--巴拉圭--><!--
-  <Asuncion>
-    <Name>Asuncion</Name>
-    <Longitude>-57.637024</Longitude>
-    <Latitude>-25.288163</Latitude>
-    <Size>Medium</Size>
-    <Population>51</Population>
-  </Asuncion>
-  --><!--玻利维亚--><!--
-  <SantaCruz>
-    <Name>Santa Cruz de La Sierra</Name>
-    <Longitude>-63.179626</Longitude>
-    <Latitude>-17.784324</Latitude>
-    <Size>Medium</Size>
-    <Population>155</Population>
-
-  </SantaCruz>
-
-  --><!--哥伦比亚--><!--
-  <Medellin>
-    <Name>Medellin</Name>
-    <Longitude>-75.580444</Longitude>
-    <Latitude>6.281173</Latitude>
-    <Size>Large</Size>
-    <Population>180</Population>
-
-  </Medellin>
-  
-  --><!--厄瓜多尔--><!--
-  <Quito>
-    <Name>Quito</Name>
-    <Longitude>-78.521347</Longitude>
-    <Latitude>-0.216293</Latitude>
-    <Size>Large</Size>
-    <Population>190</Population>
-
-  </Quito>
-  --><!--Argentina--><!--
-  <BuenosAires>
-    <Name>BuenosAires</Name>
-    <Longitude>-58.495331</Longitude>
-    <Latitude>-34.675006</Latitude>
-    <Size>Large</Size>
-    <Population>1300</Population>
-
-  </BuenosAires>
-
-  <Cordoba>
-    <Name>Cordoba</Name>
-    <Longitude>-64.188652</Longitude>
-    <Latitude>-31.406396</Latitude>
-    <Size>Medium</Size>
-    <Population>306</Population>
-
-  </Cordoba>
-
-  <Acre>
-    <Name>Acre</Name>
-    <Longitude>-70.532227</Longitude>
-    <Latitude>-9.145486</Latitude>
-    <Size>Medium</Size>
-    <Population>100</Population>
-
-  </Acre>
-  <SantaRosa>
-    <Name>Santa Rosa</Name>
-    <Longitude>-66.287529</Longitude>
-    <Latitude>-25.623794</Latitude>
-    <Size>Small</Size>
-    <Population>29</Population>
-
-  </SantaRosa>
-
-  --><!--智利--><!--
-  <LosAngeles>
-    <Name>Los Angeles</Name>
-    <Longitude>-71.351151</Longitude>
-    <Latitude>-37.471316</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-
-  </LosAngeles>-->
-  
-  
-
 </cities>
