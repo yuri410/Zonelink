@@ -5,7 +5,6 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.World.Screen;
-using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
 {
@@ -36,8 +35,11 @@ namespace Code2015.GUI
         ScreenStaticBody panel;
         ScreenStaticBody statBar;
 
-        public GoalIcons(ScreenPhysicsWorld physWorld)
+        InGameUI parent;
+
+        public GoalIcons(InGameUI parent, ScreenPhysicsWorld physWorld)
         {
+            this.parent = parent;
             this.physWorld = physWorld;
             this.physWorld.BodyCollision += Phys_Collision;
             resources = new MdgResourceManager();
@@ -53,31 +55,6 @@ namespace Code2015.GUI
                     resources.Add(res);
                 }
            
-            //res = new MdgResource(resources, physWorld, MdgType.Environment, new Vector2(200, 500), 0);
-            //resources.Add(res);
-            //res = new MdgResource(resources, physWorld, MdgType.Diseases, new Vector2(200, 600), 0);
-            //resources.Add(res);
-            //res = new MdgResource(resources, physWorld, MdgType.Education, new Vector2(200, 400), 0);
-            //resources.Add(res);
-            //res = new MdgResource(resources, physWorld, MdgType.GenderEquality, new Vector2(200, 700), 0);
-            //resources.Add(res);
-            //res = new MdgResource(resources, physWorld, MdgType.Hunger, new Vector2(500, 300), 0);
-            //resources.Add(res);
-            //res = new MdgResource(resources, physWorld, MdgType.MaternalHealth, new Vector2(500, 400), 0);
-            //resources.Add(res);
-
-
-
-            //MdgPiece pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 1, new Vector2(300, 300), 0);
-            //resources.Add(pie);
-
-            //pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 2, new Vector2(400, 300), 0);
-            //resources.Add(pie);
-
-            //pie = new MdgPiece(resources, physWorld, MdgType.Diseases, 4, new Vector2(600, 300), 0);
-            //resources.Add(pie);
-
-
             #endregion
 
 
@@ -202,11 +179,24 @@ namespace Code2015.GUI
             {
                 if (SelectedItem != null)
                 {
-                    float dt = time.ElapsedGameTimeSeconds;
-                    if (dt > float.Epsilon)
-                        SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
+                    // 检查是否在城市之上
+                    if (!object.ReferenceEquals(parent.MouseHoverCity, null))
+                    {
+                        MdgResource piece = SelectedItem as MdgResource;
+                        if (piece != null)
+                        {
+                            resources.Remove(piece);
+                            return;
+                        }
+                    }
+                    else
+                    {
+                        float dt = time.ElapsedGameTimeSeconds;
+                        if (dt > float.Epsilon)
+                            SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
 
-                    SelectedItem = null;
+                        SelectedItem = null;
+                    }
                 }
             }
         }

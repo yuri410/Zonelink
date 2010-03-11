@@ -125,13 +125,13 @@ namespace Code2015.BalanceSystem
 
         #region 城市占领分数
         [SLGValue()]
-        public const float LargeCityCapturePoint = 100000;
+        public const float LargeCityCapturePoint = 10000;
 
         [SLGValue()]
-        public const float MediumCityCapturePoint = 10000;
+        public const float MediumCityCapturePoint = 2000;
 
         [SLGValue()]
-        public const float SmallCityCapturePoint = 1000;
+        public const float SmallCityCapturePoint = 500;
         #endregion
 
         static readonly float[] CapturePoint = { SmallCityCapturePoint, MediumCityCapturePoint, LargeCityCapturePoint };

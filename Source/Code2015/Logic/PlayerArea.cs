@@ -5,6 +5,7 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
+using Code2015.World;
 
 namespace Code2015.Logic
 {
@@ -13,6 +14,8 @@ namespace Code2015.Logic
     /// </summary>
     public class PlayerArea : IUpdatable
     {
+        const float CaptureDistanceThreshold = 12;
+
         FastList<City> cities = new FastList<City>();
 
         City rootCity;
@@ -78,6 +81,7 @@ namespace Code2015.Logic
 
             if (minCity != null)
             {
+               
                 // 检查是否在两个城市之间还有城市
                 City midCity = null;
                 float minDist = float.MaxValue;
@@ -100,7 +104,10 @@ namespace Code2015.Logic
                     }
                 }
 
-                return object.ReferenceEquals(midCity, null) || object.ReferenceEquals(city, midCity);
+                Vector2 d = new Vector2(city.Longitude - minCity.Longitude, city.Latitude - minCity.Latitude);
+
+
+                return (object.ReferenceEquals(midCity, null) || object.ReferenceEquals(city, midCity)) || d.Length() < CaptureDistanceThreshold;
             }
             return false;
         }

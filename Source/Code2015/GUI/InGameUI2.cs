@@ -521,8 +521,10 @@ namespace Code2015.GUI
         CityFactoryPluginMeasure pluginMeasure;
         ResourceMeasure resourceMeasure;
 
-        Point selectedProjPos;
         bool isCapturable;
+        bool isPlayerCapturing;
+
+        Point selectedProjPos;
 
 
         public ISelectableObject SelectedObject
@@ -544,7 +546,6 @@ namespace Code2015.GUI
 
                         city = selected as CityObject;
                           
-                        isCapturable = false;
                         cityMeasure.Current = null;
                         pluginMeasure.Current = null;
                         resource = null;
@@ -557,7 +558,7 @@ namespace Code2015.GUI
                             selectedProjPos.X = (int)ppos.X;
                             selectedProjPos.Y = (int)ppos.Y;
 
-                            isCapturable = city.CanCapture(player);
+                            //isCapturable = city.CanCapture(player);
                             cityMeasure.Current = city.City;
                             pluginMeasure.Current = city.City;
                             return;
@@ -882,6 +883,13 @@ namespace Code2015.GUI
                             {
                                 captureBtn.Render(sprite);
                             }
+                            else if (isPlayerCapturing)
+                            {
+                                font.DrawString(sprite, "Helping...", 470, 692, 14,
+                                   DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
+
+                            }
                             else
                             {
                                 font.DrawString(sprite, "This city is too far to help it.", 470, 692, 14,
@@ -1011,6 +1019,8 @@ namespace Code2015.GUI
                 else
                 {
                     page = PanelPage.Info;
+                    isCapturable = city.CanCapture(player);
+                    isPlayerCapturing = city.IsPlayerCapturing(player);
                     if (isCapturable)
                     {
                         captureBtn.Update(time);
