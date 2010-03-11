@@ -59,6 +59,11 @@ namespace Code2015.World
             get { return false; }
         }
 
+        public Forest Forest
+        {
+            get { return forest; }
+        }
+
         #region ISelectableObject 成员
 
         bool ISelectableObject.IsSelected

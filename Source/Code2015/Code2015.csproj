@@ -7,7 +7,7 @@
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>Code2015</RootNamespace>
-    <AssemblyName>Code2015</AssemblyName>
+    <AssemblyName>ZoneLink</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <XnaFrameworkVersion>v3.0</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>

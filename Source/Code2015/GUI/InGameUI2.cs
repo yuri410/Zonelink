@@ -418,19 +418,32 @@ namespace Code2015.GUI
                 if (!object.ReferenceEquals(current, value))
                 {
                     current = value;
-                    if (value != null)
-                    {
+                    //if (value != null)
+                    //{
                         
-                    }
+                    //}
                 }
             }
         }
 
-        public void Render(Sprite sprite)
+        public void Render(Sprite sprite, Font font)
         {
             if (current != null)
             {
-
+                switch (current.Type)
+                {
+                    case NaturalResourceType.Food:
+                        font.DrawString(sprite, "Farm", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        break;
+                    case NaturalResourceType.Petro:
+                        font.DrawString(sprite, "Oil Field", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        break;
+                    case NaturalResourceType.Wood:
+                        font.DrawString(sprite, "Forest", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue); 
+                        break;
+                }
+                font.DrawString(sprite, "Total: " + current.CurrentAmount.ToString(),
+                              470, 635, 13, DrawTextFormat.Left, (int)ColorValue.Black.PackedValue);
             }
         }
 
@@ -481,7 +494,7 @@ namespace Code2015.GUI
         Texture ico_sidebar;
 
         Texture selimglarge;
-        //Texture earthGlow;
+
 
 
         RoundButton btnInfo;
@@ -503,8 +516,10 @@ namespace Code2015.GUI
 
         ISelectableObject selected;
         CityObject city;
+        NaturalResource resource;
         CityMeasure cityMeasure;
         CityFactoryPluginMeasure pluginMeasure;
+        ResourceMeasure resourceMeasure;
 
         Point selectedProjPos;
         bool isCapturable;
@@ -528,7 +543,13 @@ namespace Code2015.GUI
                         selected.IsSelected = true;
 
                         city = selected as CityObject;
-
+                          
+                        isCapturable = false;
+                        cityMeasure.Current = null;
+                        pluginMeasure.Current = null;
+                        resource = null;
+                        resourceMeasure.Current = null;
+                        
                         if (city != null)
                         {
                             Vector3 ppos = renderSys.Viewport.Project(city.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
@@ -539,11 +560,23 @@ namespace Code2015.GUI
                             isCapturable = city.CanCapture(player);
                             cityMeasure.Current = city.City;
                             pluginMeasure.Current = city.City;
+                            return;
                         }
-                        else
+
+                        OilFieldObject oilObj = selected as OilFieldObject;
+                        if (oilObj != null)
                         {
-                            cityMeasure.Current = null;
-                            pluginMeasure.Current = null;
+                            resource = oilObj.OilField;
+                            resourceMeasure.Current = resource;
+                            return;
+                        }
+
+                        ForestObject forestObj = selected as ForestObject;
+                        if (forestObj != null) 
+                        {
+                            resource = forestObj.Forest;
+                            resourceMeasure.Current = resource;
+                            return;
                         }
                     }
                 }
@@ -563,12 +596,11 @@ namespace Code2015.GUI
 
             this.cityMeasure = new CityMeasure(renderSys);
             this.pluginMeasure = new CityFactoryPluginMeasure(renderSys);
+            this.resourceMeasure = new ResourceMeasure();
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
-            ////读取纹理
-            //fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
-            //cursor = UITextureManager.Instance.CreateInstance(fl);
+           
 
             fl = FileSystem.Instance.Locate("ig_statusBar.tex", GameFileLocs.GUI);
             statusBar = UITextureManager.Instance.CreateInstance(fl);
@@ -591,7 +623,7 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_selimg_large_1.tex", GameFileLocs.GUI);
             selimglarge = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_earthGlow.tex", GameFileLocs.GUI);
+            //fl = FileSystem.Instance.Locate("ig_earthGlow.tex", GameFileLocs.GUI);
             //earthGlow = UITextureManager.Instance.CreateInstance(fl);
 
             //侧边栏
@@ -821,6 +853,7 @@ namespace Code2015.GUI
                 font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
             }
 
+            #region 渲染城市信息
             if (!object.ReferenceEquals(city, null))
             {
                 switch (page)
@@ -924,6 +957,17 @@ namespace Code2015.GUI
                     btnWood.Render(sprite);
                 }
             }
+            #endregion
+
+            #region 资源信息
+            if (!object.ReferenceEquals(resource, null))
+            {
+                sprite.Draw(greenPanel, 401, 580, ColorValue.White);
+
+                resourceMeasure.Render(sprite, font);
+            }
+
+            #endregion
 
             sprite.Draw(statusBar, 188, -8, ColorValue.White);
             sprite.Draw(co2meterBg, 437, -5, ColorValue.White);
@@ -936,6 +980,7 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
+            #region 城市
             if (!object.ReferenceEquals(city, null))
             {
                 if (city.IsCaptured)
@@ -972,7 +1017,14 @@ namespace Code2015.GUI
                     }
                 }
             }
+            #endregion
 
+            #region 资源
+            if (!object.ReferenceEquals(resource, null))
+            {
+                resourceMeasure.Update(time);
+            }
+            #endregion
         }
     }
 }
