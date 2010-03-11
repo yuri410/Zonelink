@@ -74,6 +74,7 @@ namespace Code2015
 
         bool isLoaded;
         int loadingCountDown = 100;
+        int maxLoadingOp;
 
         public GameScene Scene
         {
@@ -205,7 +206,11 @@ namespace Code2015
 
             if (!IsLoaded)
             {
-                bool newVal = TerrainMeshManager.Instance.IsIdle & ModelManager.Instance.IsIdle & TextureManager.Instance.IsIdle;
+                bool newVal = TerrainMeshManager.Instance.IsIdle & 
+                    ModelManager.Instance.IsIdle &
+                    TextureManager.Instance.IsIdle & 
+                    TreeBatchModelManager.Instance.IsIdle;
+
                 if (newVal)
                 {
                     if (--loadingCountDown < 0)
@@ -219,9 +224,20 @@ namespace Code2015
                         loadingCountDown = 100;
                 }
 
-                float newPrg = loadingCountDown / 100.0f;
-                if (newPrg > LoadingProgress)
-                    LoadingProgress = newPrg;
+                int ldop = TerrainMeshManager.Instance.GetCurrentOperationCount();
+                ldop += ModelManager.Instance.GetCurrentOperationCount();
+                ldop += TextureManager.Instance.GetCurrentOperationCount();
+                ldop += TreeBatchModelManager.Instance.GetCurrentOperationCount();
+
+                if (ldop > maxLoadingOp)
+                    maxLoadingOp = ldop;
+
+                if (maxLoadingOp > 0)
+                {
+                    float newPrg = 1 - ldop / (float)maxLoadingOp;
+                    if (newPrg > LoadingProgress)
+                        LoadingProgress = newPrg;
+                }
             }
             else
             {

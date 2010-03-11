@@ -116,10 +116,11 @@ namespace Code2015.GUI
 
                 sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
 
-                Rectangle drect = new Rectangle(15, 692, progressBarCmp.Width, progressBarCmp.Height);
-                Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
 
-                sprite.Draw(progressBarCmp, srect, srect, ColorValue.White);
+                Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
+                Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
+
+                sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
             }
             else
             {
