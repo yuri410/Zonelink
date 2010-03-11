@@ -51,8 +51,11 @@ namespace Code2015.GUI
         ProgressBar popBar;
         ProgressBar disBar;
         ProgressBar supBar;
+        ProgressBar woodBar;
+        ProgressBar oilBar;
+        ProgressBar foodBar;
 
-
+       
         City current;
 
         public City Current
@@ -93,37 +96,60 @@ namespace Code2015.GUI
             rightArrowG = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("ig_progressbar.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
             Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
 
             devBar = new ProgressBar();
-            devBar.X = 630;
-            devBar.Y = 620;
-            devBar.Height = 25;
-            devBar.Width = 110;
+            devBar.X = 614;
+            devBar.Y = 689;
+            devBar.Height = 18;
+            devBar.Width = 117;
             devBar.ProgressImage = prgBg;
 
             popBar = new ProgressBar();
-            popBar.X = 630;
-            popBar.Y = 650;
-            popBar.Height = 25;
-            popBar.Width = 110;
+            popBar.X = 614;
+            popBar.Y = 654;
+            popBar.Height = 18;
+            popBar.Width = 117;
             popBar.ProgressImage = prgBg;
+
+            disBar = new ProgressBar();
+            disBar.X = 614;
+            disBar.Y = 721;
+            disBar.Height = 18;
+            disBar.Width = 117;
+            disBar.ProgressImage = prgBg;
+
+            woodBar = new ProgressBar();
+            woodBar.X = 452;
+            woodBar.Y = 654;
+            woodBar.Height = 18;
+            woodBar.Width = 117;
+            woodBar.ProgressImage = prgBg;
+
+            oilBar = new ProgressBar();
+            oilBar.X = 452;
+            oilBar.Y = 689;
+            oilBar.Height = 18;
+            oilBar.Width = 117;
+            oilBar.ProgressImage = prgBg;
+
+            foodBar = new ProgressBar();
+            foodBar.X = 452;
+            foodBar.Y = 721;
+            foodBar.Height = 18;
+            foodBar.Width = 117;
+            foodBar.ProgressImage = prgBg;
+
 
             supBar = new ProgressBar();
             supBar.X = 630;
             supBar.Y = 680;
-            supBar.Height = 25;
-            supBar.Width = 110;
+            supBar.Height = 18;
+            supBar.Width = 117;
             supBar.ProgressImage = prgBg;
 
 
-            disBar = new ProgressBar();
-            disBar.X = 630;
-            disBar.Y = 710;
-            disBar.Height = 25;
-            disBar.Width = 110;
-            disBar.ProgressImage = prgBg;
         }
 
         public int PopulationDirective
@@ -222,7 +248,7 @@ namespace Code2015.GUI
             }
         }
 
-        public void Render(Sprite sprite)
+        public void Render(Sprite sprite,Font alger)
         {
             devBar.Value = Development;
             devBar.Render(sprite);
@@ -247,7 +273,12 @@ namespace Code2015.GUI
                 }
             }
 
-
+            alger.DrawString(sprite, "Wood", 428, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Oil", 428, 675, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Food", 428, 712, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Population", 607, 638, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Development", 607, 675, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
+            alger.DrawString(sprite, "Disease", 607, 712, 12, DrawTextFormat.Left, (int)ColorValue.Brown.PackedValue);
 
         }
     }
@@ -467,8 +498,10 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         Font font;
-        Player player;
+       
 
+        Font algerFont;
+          Player player;
 
         //Texture cursor;
         Texture statusBar;
@@ -601,7 +634,14 @@ namespace Code2015.GUI
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
-           
+
+            fl = FileSystem.Instance.Locate("Algerian.fnt", GameFileLocs.GUI);
+            algerFont = FontManager.Instance.CreateInstance(renderSys, fl, "Algerian");
+
+            ////读取纹理
+            //fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            //cursor = UITextureManager.Instance.CreateInstance(fl);
+
 
             fl = FileSystem.Instance.Locate("ig_statusBar.tex", GameFileLocs.GUI);
             statusBar = UITextureManager.Instance.CreateInstance(fl);
@@ -643,6 +683,8 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_sidebar.tex", GameFileLocs.GUI);
             ico_sidebar = UITextureManager.Instance.CreateInstance(fl);
             
+            
+
             #region 信息按钮
             fl = FileSystem.Instance.Locate("ig_btn_info.tex", GameFileLocs.GUI);
             Texture btnbg = UITextureManager.Instance.CreateInstance(fl);
@@ -836,6 +878,8 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+
+         
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
                 CityObject cc = scene.GetVisibleCity(i);
@@ -863,8 +907,8 @@ namespace Code2015.GUI
                         sprite.Draw(yellowpanel, 401, 580, ColorValue.White);
                         sprite.Draw(ico_info, 394, 563, ColorValue.White);
 
-                        font.DrawString(sprite, city.Name, 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                        font.DrawString(sprite, city.Size.ToString() + " City", 470, 672, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        algerFont.DrawString(sprite, city.Name, 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                        algerFont.DrawString(sprite, city.Size.ToString() + " City", 615, 605, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
 
                         if (city.IsCaptured)
                         {
@@ -874,7 +918,8 @@ namespace Code2015.GUI
                             }
                             else
                             {
-                                cityMeasure.Render(sprite);
+                                cityMeasure.Render(sprite,algerFont);//画城市具体信息
+
                             }
                         }
                         else

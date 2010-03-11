@@ -12,6 +12,9 @@
     <HRCSpeed>0</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->
     <LRCSpeed>100</LRCSpeed> <!--消耗木材的速度（理想情况）-->
     <FoodCostSpeed>0</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+    
+    <UpgradePoint>3</UpgradePoint>
+    <BuildTime>5</BuildTime>
   </WoodFactory>
   
   <OilRefinary>
@@ -24,7 +27,9 @@
     <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->  
     <HRCSpeed>100</HRCSpeed><!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->   
     <LRCSpeed>0</LRCSpeed> <!--消耗木材的速度（理想情况）-->
-    <FoodCostSpeed>0</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->  
+    <FoodCostSpeed>0</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+    <UpgradePoint>3</UpgradePoint>
+    <BuildTime>5</BuildTime>
   </OilRefinary>
   
   <BioFuelFactory>
@@ -37,7 +42,9 @@
     <FoodConvRate>0.4</FoodConvRate><!--生物能源转化率-->   
     <HRCSpeed>0</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
     <LRCSpeed>0</LRCSpeed> <!--消耗木材的速度（理想情况）-->  
-    <FoodCostSpeed>100</FoodCostSpeed><!--消耗食物的速度（理想情况）-->   
+    <FoodCostSpeed>100</FoodCostSpeed><!--消耗食物的速度（理想情况）-->
+    <UpgradePoint>3</UpgradePoint>
+    <BuildTime>5</BuildTime>
   </BioFuelFactory>
   
   <Hospital>
@@ -50,7 +57,9 @@
     <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->  
     <HRCSpeed>20</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
     <LRCSpeed>25</LRCSpeed>  <!--消耗木材的速度（理想情况）--> 
-    <FoodCostSpeed>5</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->  
+    <FoodCostSpeed>5</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+    <UpgradePoint>3</UpgradePoint>
+    <BuildTime>5</BuildTime>
   </Hospital>
   
   <EducationOrganization>
@@ -64,5 +73,7 @@
     <HRCSpeed>10</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
     <LRCSpeed>10</LRCSpeed> <!--消耗木材的速度（理想情况）-->
     <FoodCostSpeed>20</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+    <UpgradePoint>3</UpgradePoint>
+    <BuildTime>5</BuildTime>
   </EducationOrganization>
 </CityPlugins>
