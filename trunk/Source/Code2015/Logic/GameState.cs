@@ -18,7 +18,12 @@ namespace Code2015.World
     {
         const int MaxCities = 120;
         //const int MinCities = 85;
-        
+
+        public CityPluginFactory PluginFactory
+        {
+            get;
+            private set;
+        }
 
         public SimulationRegion SLGWorld
         {
@@ -29,6 +34,8 @@ namespace Code2015.World
         public GameStateBuilder()
         {
             SLGWorld = new SimulationRegion();
+
+            PluginFactory = new CityPluginFactory();
 
             FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
 
@@ -101,6 +108,11 @@ namespace Code2015.World
         GameTime newTime;
         PlayerArea[] localPlayerArea;
 
+        public CityPluginFactory PluginFactory
+        {
+            get;
+            private set;
+        }
 
         public Player LocalHumanPlayer
         {
@@ -111,6 +123,7 @@ namespace Code2015.World
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
             slgSystem = srcState.SLGWorld;
+            PluginFactory = srcState.PluginFactory;
 
             localPlayerArea = new PlayerArea[localPlayer.Length];
 
