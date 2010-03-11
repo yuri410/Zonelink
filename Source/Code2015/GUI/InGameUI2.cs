@@ -452,6 +452,7 @@ namespace Code2015.GUI
 
     class ResourceMeasure
     {
+        ValueSmoother amount = new ValueSmoother(10);
         NaturalResource current;
 
         public NaturalResource Current
@@ -462,10 +463,11 @@ namespace Code2015.GUI
                 if (!object.ReferenceEquals(current, value))
                 {
                     current = value;
-                    //if (value != null)
-                    //{
-                        
-                    //}
+                    amount.Clear();
+                    if (value != null)
+                    {
+                        amount.Add(current.CurrentAmount);
+                    }
                 }
             }
         }
@@ -486,7 +488,8 @@ namespace Code2015.GUI
                         font.DrawString(sprite, "Forest", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue); 
                         break;
                 }
-                font.DrawString(sprite, "Total: " + current.CurrentAmount.ToString(),
+               
+                font.DrawString(sprite, "Total: " + amount.Result.ToString(),
                               470, 635, 13, DrawTextFormat.Left, (int)ColorValue.Black.PackedValue);
             }
         }
@@ -495,6 +498,8 @@ namespace Code2015.GUI
         {
             if (current != null)
             {
+                amount.Add(current.CurrentAmount);
+
 
             }
         }
