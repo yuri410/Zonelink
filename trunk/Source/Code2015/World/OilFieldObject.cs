@@ -44,7 +44,10 @@ namespace Code2015.World
         }
 
 
-
+        public OilField OilField 
+        {
+            get { return oilField; }
+        }
 
         #region ISelectableObject 成员
 

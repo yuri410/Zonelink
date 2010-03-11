@@ -106,11 +106,11 @@ namespace Code2015.BalanceSystem
         public const int LargeFoodCollectSpeed = 50;
 
         [SLGValue]
-        public const float SmallGatherRadius = 1;
+        public const float SmallGatherRadius = 7;
         [SLGValue]
-        public const float MediumGatherRadius = 2 ;
+        public const float MediumGatherRadius = 9 ;
         [SLGValue]
-        public const float LargeGatherRadius = 3;
+        public const float LargeGatherRadius = 10;
         #endregion
 
         #region 城市占领分数

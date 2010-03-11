@@ -122,6 +122,7 @@ namespace Code2015.BalanceSystem
             SimulationRegion region = parent.Region;
 
             Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
+
             float r = CityGrade.GetGatherRadius(parent.Size);
             for (int i = 0; i < region.Count; i++)
             {
