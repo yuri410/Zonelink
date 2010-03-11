@@ -2,15 +2,67 @@
 
 <CityPlugins>
   <WoodFactory>
-    <Name></Name> <!--附加物名称-->
+    <Name>WoodFactory</Name> <!--附加物名称-->
     <CostLR>1000</CostLR> <!--建造消耗木材-->
     <CostHR>0</CostHR> <!--建造消耗石油-->
     <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->
-    <HRPConvRate></HRPConvRate> <!--石油转化率-->
-    <LRPConvRate></LRPConvRate> <!--木材转化率-->
-    <FoodConvRate></FoodConvRate> <!--生物能源转化率-->
-    <HRCSpeed></HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->
-    <LRCSpeed></LRCSpeed> <!--消耗木材的速度（理想情况）-->
-    <FoodCostSpeed></FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+    <HRPConvRate>0</HRPConvRate> <!--石油转化率-->
+    <LRPConvRate>0.8</LRPConvRate> <!--木材转化率-->
+    <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->
+    <HRCSpeed>5</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->
+    <LRCSpeed>50</LRCSpeed> <!--消耗木材的速度（理想情况）-->
+    <FoodCostSpeed>10</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
   </WoodFactory>
+  
+  <OilRefinary>
+    <Name>OilRefinary</Name> <!--附加物名称-->
+    <CostLR>1000</CostLR><!--建造消耗木材--> 
+    <CostHR>0</CostHR> <!--建造消耗石油-->  
+    <Behaviour>CollectorFactory</Behaviour><!--附加物行为，CollectorFactory，Hospital，Education-->  
+    <HRPConvRate></HRPConvRate> <!--石油转化率--> 
+    <LRPConvRate>0</LRPConvRate>  <!--木材转化率-->
+    <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->  
+    <HRCSpeed>50</HRCSpeed><!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->   
+    <LRCSpeed>5</LRCSpeed> <!--消耗木材的速度（理想情况）-->
+    <FoodCostSpeed>5</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->  
+  </OilRefinary>
+  
+  <BioFuelFactory>
+    <Name>BioFuelFactory</Name> <!--附加物名称--> 
+    <CostLR>1000</CostLR> <!--建造消耗木材-->  
+    <CostHR>0</CostHR><!--建造消耗石油-->   
+    <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->  
+    <HRPConvRate>0</HRPConvRate><!--石油转化率-->   
+    <LRPConvRate>0</LRPConvRate> <!--木材转化率--> 
+    <FoodConvRate>0.8</FoodConvRate><!--生物能源转化率-->   
+    <HRCSpeed>25</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
+    <LRCSpeed>5</LRCSpeed> <!--消耗木材的速度（理想情况）-->  
+    <FoodCostSpeed>50</FoodCostSpeed><!--消耗食物的速度（理想情况）-->   
+  </BioFuelFactory>
+  
+  <Hospital>
+    <Name>Hospital</Name> <!--附加物名称--> 
+    <CostLR>1000</CostLR> <!--建造消耗木材--> 
+    <CostHR>0</CostHR><!--建造消耗石油-->  
+    <Behaviour>Hospital</Behaviour><!--附加物行为，CollectorFactory，Hospital，Education-->  
+    <HRPConvRate>0</HRPConvRate><!--石油转化率-->   
+    <LRPConvRate>0</LRPConvRate> <!--木材转化率-->  
+    <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->  
+    <HRCSpeed>20</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
+    <LRCSpeed>25</LRCSpeed>  <!--消耗木材的速度（理想情况）--> 
+    <FoodCostSpeed>5</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->  
+  </Hospital>
+  
+  <EducationOrganization>
+    <Name>EducationOrganization</Name>  <!--附加物名称--> 
+    <CostLR>1000</CostLR> <!--建造消耗木材-->  
+    <CostHR>0</CostHR> <!--建造消耗石油--> 
+    <Behaviour>Education</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education--> 
+    <HRPConvRate>0</HRPConvRate> <!--石油转化率--> 
+    <LRPConvRate>0</LRPConvRate><!--木材转化率-->   
+    <FoodConvRate>0</FoodConvRate> <!--生物能源转化率--> 
+    <HRCSpeed>10</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
+    <LRCSpeed>10</LRCSpeed> <!--消耗木材的速度（理想情况）-->
+    <FoodCostSpeed>20</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+  </EducationOrganization>
 </CityPlugins>
