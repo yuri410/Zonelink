@@ -57,6 +57,9 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
         Texture background;
+        Texture progressBarImp;
+        Texture progressBarCmp;
+
 
         Texture cursor;
         Point mousePosition;
@@ -93,6 +96,12 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("lds_prgcmp.tex", GameFileLocs.GUI);
+            progressBarCmp = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("lds_prgimp.tex", GameFileLocs.GUI);
+            progressBarImp = UITextureManager.Instance.CreateInstance(fl);
+
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
         }
 
@@ -100,18 +109,26 @@ namespace Code2015.GUI
         {
             if (!parent.IsLoaded)
             {
-                font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, -1);
-
                 sprite.Draw(background, 0, 0, ColorValue.LightGray);
+
+                font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+
+
+                sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
+
+                Rectangle drect = new Rectangle(15, 692, progressBarCmp.Width, progressBarCmp.Height);
+                Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
+
+                sprite.Draw(progressBarCmp, srect, srect, ColorValue.White);
             }
             else
             {
-                
+
                 icons.Render(sprite);
                 sprite.SetTransform(Matrix.Identity);
                 ingameui2.Render(sprite);
 
-                
+
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             }
         }

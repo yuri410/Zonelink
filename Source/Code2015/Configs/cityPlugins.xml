@@ -7,11 +7,11 @@
     <CostHR>0</CostHR> <!--建造消耗石油-->
     <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->
     <HRPConvRate>0</HRPConvRate> <!--石油转化率-->
-    <LRPConvRate>0.8</LRPConvRate> <!--木材转化率-->
+    <LRPConvRate>0.6</LRPConvRate> <!--木材转化率-->
     <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->
-    <HRCSpeed>5</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->
-    <LRCSpeed>50</LRCSpeed> <!--消耗木材的速度（理想情况）-->
-    <FoodCostSpeed>10</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
+    <HRCSpeed>0</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->
+    <LRCSpeed>100</LRCSpeed> <!--消耗木材的速度（理想情况）-->
+    <FoodCostSpeed>0</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->
   </WoodFactory>
   
   <OilRefinary>
@@ -19,12 +19,12 @@
     <CostLR>1000</CostLR><!--建造消耗木材--> 
     <CostHR>0</CostHR> <!--建造消耗石油-->  
     <Behaviour>CollectorFactory</Behaviour><!--附加物行为，CollectorFactory，Hospital，Education-->  
-    <HRPConvRate></HRPConvRate> <!--石油转化率--> 
+    <HRPConvRate>0.5</HRPConvRate> <!--石油转化率--> 
     <LRPConvRate>0</LRPConvRate>  <!--木材转化率-->
     <FoodConvRate>0</FoodConvRate> <!--生物能源转化率-->  
-    <HRCSpeed>50</HRCSpeed><!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->   
-    <LRCSpeed>5</LRCSpeed> <!--消耗木材的速度（理想情况）-->
-    <FoodCostSpeed>5</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->  
+    <HRCSpeed>100</HRCSpeed><!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->   
+    <LRCSpeed>0</LRCSpeed> <!--消耗木材的速度（理想情况）-->
+    <FoodCostSpeed>0</FoodCostSpeed> <!--消耗食物的速度（理想情况）-->  
   </OilRefinary>
   
   <BioFuelFactory>
@@ -34,10 +34,10 @@
     <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->  
     <HRPConvRate>0</HRPConvRate><!--石油转化率-->   
     <LRPConvRate>0</LRPConvRate> <!--木材转化率--> 
-    <FoodConvRate>0.8</FoodConvRate><!--生物能源转化率-->   
-    <HRCSpeed>25</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
-    <LRCSpeed>5</LRCSpeed> <!--消耗木材的速度（理想情况）-->  
-    <FoodCostSpeed>50</FoodCostSpeed><!--消耗食物的速度（理想情况）-->   
+    <FoodConvRate>0.4</FoodConvRate><!--生物能源转化率-->   
+    <HRCSpeed>0</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
+    <LRCSpeed>0</LRCSpeed> <!--消耗木材的速度（理想情况）-->  
+    <FoodCostSpeed>100</FoodCostSpeed><!--消耗食物的速度（理想情况）-->   
   </BioFuelFactory>
   
   <Hospital>
