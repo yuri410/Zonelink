@@ -181,7 +181,7 @@ namespace Code2015
                 }
             }
           
-            this.ingameUI = new InGameUI(game, this, scene);
+            this.ingameUI = new InGameUI(game, this, scene, gameState);
         }
 
 

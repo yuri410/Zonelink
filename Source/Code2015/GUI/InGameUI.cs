@@ -71,7 +71,7 @@ namespace Code2015.GUI
         }
 
 
-        public InGameUI(Code2015 game, Game parent, GameScene scene)
+        public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.parent = parent;
 
@@ -93,7 +93,7 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            this.ingameui2 = new InGameUI2(game, parent, scene);
+            this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
         }
 
         public override void Render(Sprite sprite)
