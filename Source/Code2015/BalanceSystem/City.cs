@@ -385,7 +385,7 @@ namespace Code2015.BalanceSystem
 
         public bool IsCaptured
         {
-            get { return Owner != null; }
+            get { return !object.ReferenceEquals(Owner, null); }
         }
         public Player Owner
         {
