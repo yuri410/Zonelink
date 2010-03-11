@@ -129,10 +129,13 @@ namespace Code2015.GUI
 
                 Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
                 Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
-                //Rectangle ballrect = new Rectangle(75, 692);
+               
                 
                 sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
-                sprite.Draw(lds_ball, 75, 632, ColorValue.White);
+                int x = srect.Width + 15 - 60;
+                ColorValue c = ColorValue.White;
+                c.A = 189;
+                sprite.Draw(lds_ball, x, 657, c);
 
             }
             else
