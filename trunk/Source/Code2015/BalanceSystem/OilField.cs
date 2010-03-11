@@ -12,7 +12,7 @@ namespace Code2015.BalanceSystem
     {
         //const float EMITCarbonSpeed = 10;//油田释放的C值
 
-        const float RecoverBias = 5;
+        const float RecoverBias = 10;
         const float MaxAmount = 10000;
 
         public OilField(SimulationRegion region)

@@ -244,6 +244,26 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public bool IsPlayerCapturing(Player player)
+        {
+            if (player == NewOwner1)
+            {
+                return true;
+            }
+            if (player == NewOwner2)
+            {
+                return true;
+            }
+            if (player == NewOwner3)
+            {
+                return true;
+            }
+            if (player == NewOwner4)
+            {
+                return true;
+            }
+            return false;
+        }
         public bool CanCapture(Player player)
         {
             if (!IsCapturing)
@@ -701,18 +721,16 @@ namespace Code2015.BalanceSystem
             if (IsDead) 
                 return;
 
-            if (Capture.IsCapturing && !IsCaptured) 
+            if (Capture.IsCapturing && !IsCaptured)
             {
-
-                // 测试
-                //Capture.ReceiveGood(Capture.NewOwner1, 0.01f, 0);
-
-                for (int i = 0; i < nearbyCity.Count; i++)
+                if (Capture.NearbyCity1 != null)
                 {
-                    float capreq = nearbyCity[i].LocalHR.ApplyFar(100);
-                    float capreq2 = nearbyCity[i].LocalLR.ApplyFar(100);
+                    float capreq = Capture.NearbyCity1.LocalHR.Apply(100);
+                    float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100);
                     Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
                 }
+
+
 
                 Player player = Capture.CheckCapture();
                 if (player != null)
@@ -720,7 +738,7 @@ namespace Code2015.BalanceSystem
                     ChangeOwner(player);
                 }
 
-                
+
             }
 
             if (Owner == null)

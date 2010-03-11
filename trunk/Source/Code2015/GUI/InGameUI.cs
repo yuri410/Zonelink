@@ -72,6 +72,11 @@ namespace Code2015.GUI
         {
             get { return physWorld; }
         }
+        public CityObject MouseHoverCity
+        {
+            get;
+            private set;
+        }
 
 
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
@@ -85,7 +90,7 @@ namespace Code2015.GUI
 
             this.player = parent.HumanPlayer;
 
-            this.icons = new GoalIcons(physWorld);
+            this.icons = new GoalIcons(this, physWorld);
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
@@ -166,23 +171,29 @@ namespace Code2015.GUI
                 camera.MoveBack();
             }
 
-            if (MouseInput.IsMouseUpRight)
+            Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
+            Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+            mp.Z = 1;
+            Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+            Vector3 dir = end - start;
+            dir.Normalize();
+
+            SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
+            if (obj != null)
             {
-                Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
-                Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                mp.Z = 1;
-                Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                Vector3 dir = end - start;
-                dir.Normalize();
-
-                SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
-                if (obj != null)
+                ISelectableObject sel = obj as ISelectableObject;
+                if (MouseInput.IsMouseUpRight)
                 {
-                    ISelectableObject sel = obj as ISelectableObject;
-
                     ingameui2.SelectedObject = sel;
                 }
+                MouseHoverCity = sel as CityObject;
             }
+            else
+            {
+                MouseHoverCity = null;
+            }
+
+
         }
     }
 }

@@ -192,6 +192,9 @@ namespace Code2015.BalanceSystem
                             break;
                     }
                 }
+
+                if (!finished)
+                    CurrentResource = null;
             }
         }
      

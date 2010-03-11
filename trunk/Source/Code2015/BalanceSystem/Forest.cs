@@ -32,7 +32,7 @@ namespace Code2015.BalanceSystem
         const float MaxAmount = 10000;
 
         [SLGValue]
-        const float RecoverRate = 0.01f;
+        const float RecoverRate = 0.015f;
         [SLGValue]
         const float RecoverBias = 2f;
 
@@ -57,15 +57,15 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        
+
 
         public Forest(SimulationRegion region)
             : base(region, NaturalResourceType.Wood)
         {
-           
+
         }
 
-      
+
 
         public override void Parse(ConfigurationSection sect)
         {

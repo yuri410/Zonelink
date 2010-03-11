@@ -449,6 +449,10 @@ namespace Code2015.World
         {
             get { return city.Size; }
         }
+        public bool IsPlayerCapturing(Player pl) 
+        {
+            return city.Capture.IsPlayerCapturing(pl);
+        }
         public bool CanCapture(Player pl)
         {
             if (Owner != null) 
