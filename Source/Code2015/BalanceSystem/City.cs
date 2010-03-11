@@ -716,6 +716,8 @@ namespace Code2015.BalanceSystem
 
         public override void Update(GameTime time)
         {
+            float hours = (float)time.ElapsedGameTime.TotalHours;
+
             CarbonProduceSpeed = 0;
 
             if (IsDead) 
@@ -725,8 +727,8 @@ namespace Code2015.BalanceSystem
             {
                 if (Capture.NearbyCity1 != null)
                 {
-                    float capreq = Capture.NearbyCity1.LocalHR.Apply(100);
-                    float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100);
+                    float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
+                    float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);
                     Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
                 }
 
@@ -782,8 +784,7 @@ namespace Code2015.BalanceSystem
                 plugins[i].Update(time);
             }
 
-            float hours = (float)time.ElapsedGameTime.TotalHours;
-
+        
             #region 补缺储备，物流
             
             for (int i = 0; i < nearbyCity.Count; i++)
