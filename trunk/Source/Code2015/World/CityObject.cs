@@ -407,8 +407,6 @@ namespace Code2015.World
         CityStyle style;
         CityOwnerRing sideRing;
 
-        Material ringMaterial;
-
         RenderSystem renderSys;
         SceneManagerBase sceMgr;
         Map map;
@@ -421,6 +419,7 @@ namespace Code2015.World
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         Vector3 position;
+
 
         bool isSelected;
 
@@ -448,6 +447,10 @@ namespace Code2015.World
         public UrbanSize Size
         {
             get { return city.Size; }
+        }
+        public void Flash(int duration)
+        {
+            sideRing.Flash(duration);
         }
         public bool IsPlayerCapturing(Player pl) 
         {
@@ -525,25 +528,9 @@ namespace Code2015.World
             BoundingSphere.Center = pos;
             position = pos;
 
-            {
-                ringMaterial = new Material(renderSys);
-                ringMaterial.Ambient = new Color4F(ColorValue.Gray);
-                ringMaterial.Diffuse = new Color4F(0.5f, 1f, 1f, 1f);
-                ringMaterial.Power = 1;
-                ringMaterial.IsTransparent = true;
-                ringMaterial.AlphaRef = 0.05f;
-                ringMaterial.CullMode = CullMode.None;
-                ringMaterial.ZEnabled = true;
-                ringMaterial.ZWriteEnabled = true;
-                ringMaterial.PriorityHint = RenderPriority.Third;
-
-                FileLocation fl = FileSystem.Instance.Locate("cityring.tex", GameFileLocs.Texture);
-                ringMaterial.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
-                ringMaterial.SetEffect(EffectManager.Instance.GetModelEffect(StandardEffectFactory.Name));
-
                 if (city.Owner != null)
                     City_OwnerChanged(city.Owner);
-            }
+            
             sideRing = new CityOwnerRing(this, style);
         }
 
@@ -628,9 +615,9 @@ namespace Code2015.World
         {
             if (owner != null)
             {
-                Color4F color = new Color4F(owner.SideColor);
-                ringMaterial.Ambient *= color;
-                ringMaterial.Diffuse *= color;
+                //Color4F color = new Color4F(owner.SideColor);
+                //ringMaterial.Ambient *= color;
+                //ringMaterial.Diffuse *= color;
 
             }
         }
@@ -705,6 +692,8 @@ namespace Code2015.World
         public override void Update(GameTime dt)
         {
             BoundingSphere.Radius = CityStyleTable.CityRadius[(int)city.Size];
+
+            sideRing.Update(dt);
         }
 
         //public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)

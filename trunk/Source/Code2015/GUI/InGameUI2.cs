@@ -435,7 +435,7 @@ namespace Code2015.GUI
                 {
                     averE += oilRefinary[i].HRPConvRate;
                 }
-                averE /= (float)woodFactory.Count;
+                averE /= (float)oilRefinary.Count;
 
                 font.DrawString(sprite, "efficiency: " + averE.ToString(),
                     x, 685, 12, DrawTextFormat.Left, (int)ColorValue.Black.PackedValue);
@@ -514,7 +514,7 @@ namespace Code2015.GUI
        
 
         Font algerFont;
-          Player player;
+        Player player;
 
         //Texture cursor;
         Texture statusBar;
@@ -556,6 +556,17 @@ namespace Code2015.GUI
 
 
         Texture co2meterBg;
+        Texture co2tl;
+        Texture co2tr;
+        Texture co2bl;
+        Texture co2br;
+
+        Texture co2tl_blue;
+        Texture co2tr_blue;
+        Texture co2bl_blue;
+        Texture co2br_blue;
+
+
 
         RtsCamera camera;
 
@@ -841,6 +852,24 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_co2_meter.tex", GameFileLocs.GUI);
             co2meterBg = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_co2_yellow_tl.tex", GameFileLocs.GUI);
+            co2tl = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_co2_yellow_tr.tex", GameFileLocs.GUI);
+            co2tr = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_co2_yellow_bl.tex", GameFileLocs.GUI);
+            co2bl = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_co2_yellow_br.tex", GameFileLocs.GUI);
+            co2br = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_co2_blue_tl.tex", GameFileLocs.GUI);
+            co2tl_blue = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_co2_blue_tr.tex", GameFileLocs.GUI);
+            co2tr_blue = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_co2_blue_bl.tex", GameFileLocs.GUI);
+            co2bl_blue = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_co2_blue_br.tex", GameFileLocs.GUI);
+            co2br_blue = UITextureManager.Instance.CreateInstance(fl);
+
         }
 
         void BuildBtn_Click(object sender, MouseButtonFlags btn)
@@ -1036,7 +1065,15 @@ namespace Code2015.GUI
             #endregion
 
             sprite.Draw(statusBar, 188, -8, ColorValue.White);
-            sprite.Draw(co2meterBg, 444, -1, ColorValue.White);
+            sprite.Draw(co2meterBg, 447, -1, ColorValue.White);
+            sprite.Draw(co2tl, 459, 11, ColorValue.White);
+            sprite.Draw(co2tr, 517, 11, ColorValue.White);
+            sprite.Draw(co2bl, 459, 69, ColorValue.White);
+            sprite.Draw(co2br, 517, 69, ColorValue.White);
+
+            sprite.Draw(co2br_blue, 517, 69, ColorValue.White);
+
+
             sprite.Draw(ico_sidebar, 0, 168, ColorValue.White);
             sprite.Draw(ico_buger, -3, 197, ColorValue.White);
             sprite.Draw(ico_leaf, -3, 275, ColorValue.White);
