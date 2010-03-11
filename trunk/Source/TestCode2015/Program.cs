@@ -68,7 +68,7 @@ namespace TestCode2015
             sect.Add("Behaviour", CityPluginBehaviourType.CollectorFactory.ToString());
             plgType.Parse(sect);
 
-            CityPlugin plg = new CityPlugin(plgType);
+            CityPlugin plg = new CityPlugin(plgType, CityPluginTypeId.OilRefinary);
             city.Add(plg);
 
 
@@ -80,7 +80,7 @@ namespace TestCode2015
             sect.Add("FoodCostSpeed", "100");
             sect.Add("Behaviour", CityPluginBehaviourType.CollectorFactory.ToString());
             plgType.Parse(sect);
-            plg = new CityPlugin(plgType);
+            plg = new CityPlugin(plgType, CityPluginTypeId.BiofuelFactory);
             city.Add(plg);
 
 

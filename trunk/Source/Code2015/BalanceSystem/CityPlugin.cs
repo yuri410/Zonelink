@@ -14,12 +14,34 @@ namespace Code2015.BalanceSystem
         CityPluginType type;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
 
-        public CityPlugin(CityPluginType type)
+        public CityPlugin(CityPluginType type, CityPluginTypeId typeId)
         {
             this.Name = type.TypeName;
             this.type = type;
+            this.TypeId = typeId;
+            this.HRPConvRate = type.HRPConvRate;
+            this.LRPConvRate = type.LRPConvRate;
+            this.FoodConvRate = type.FoodConvRate;
         }
         #region  属性
+
+        public float HRPConvRate
+        {
+            get;
+            private set;
+        }
+
+        public float LRPConvRate
+        {
+            get;
+            private set;
+        }
+
+        public float FoodConvRate
+        {
+            get;
+            private set;
+        }
 
         public CityPluginType Type 
         {
@@ -210,8 +232,8 @@ namespace Code2015.BalanceSystem
                                     float act = res.Exploit(hpResource);
                                     float speed = act / hours;
 
-                                    HRPSpeed = speed * type.HRPConvRate;
-                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - type.HRPConvRate);
+                                    HRPSpeed = speed * HRPConvRate;
+                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
                                     hpResource -= act;
                                 }
                             }
@@ -222,8 +244,8 @@ namespace Code2015.BalanceSystem
                                     float act = res.Exploit(lpResource);
                                     float speed = act / hours;
 
-                                    LRPSpeed = speed * type.LRPConvRate;
-                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - type.LRPConvRate);
+                                    LRPSpeed = speed * LRPConvRate;
+                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
                                     lpResource -= act;
                                 }
                             }
@@ -241,8 +263,8 @@ namespace Code2015.BalanceSystem
 
                         float speed = act / hours;
 
-                        HRPSpeed = speed * type.FoodConvRate;
-                        CarbonProduceSpeed += Math.Max(0, 1 - type.FoodConvRate) * speed;
+                        HRPSpeed = speed * FoodConvRate;
+                        CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
                     }
                     #endregion
                     break;

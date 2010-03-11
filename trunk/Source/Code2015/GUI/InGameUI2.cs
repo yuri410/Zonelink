@@ -350,7 +350,7 @@ namespace Code2015.GUI
                 float averE = 0;
                 for (int i = 0; i < woodFactory.Count; i++)
                 {
-                    averE += woodFactory[i].Type.LRPConvRate;
+                    averE += woodFactory[i].LRPConvRate;
                 }
                 averE /= (float)woodFactory.Count;
 

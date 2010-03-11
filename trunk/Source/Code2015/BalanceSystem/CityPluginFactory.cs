@@ -10,12 +10,6 @@ namespace Code2015.BalanceSystem
 
     public class CityPluginFactory
     {
-        //public static readonly string WoodFactoryName = "WoodFactory";
-        //public static readonly string OilRefinaryName = "OilRefinary";
-        //public static readonly string BioFactoryName = "BiofuelFactory";
-        //public static readonly string HospitalName = "Hospital";
-        //public static readonly string EducationOrganizationName = "EducationOrganization";
-
         CityPluginType oilRefinaryType;
         CityPluginType woodFactoryType;
         CityPluginType bioFuelFactoryType;
@@ -51,26 +45,26 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeOilRefinary()
         {
-            return new CityPlugin(oilRefinaryType);
+            return new CityPlugin(oilRefinaryType, CityPluginTypeId.OilRefinary);
         }
         public CityPlugin MakeWoodFactory()
         {
-            return new CityPlugin(woodFactoryType);
+            return new CityPlugin(woodFactoryType, CityPluginTypeId.WoodFactory);
         }
 
         public CityPlugin MakeBioEnergeFactory()
         {
-            return new CityPlugin(bioFuelFactoryType);
+            return new CityPlugin(bioFuelFactoryType, CityPluginTypeId.BiofuelFactory);
         }
 
         public CityPlugin MakeHospital()
         {
-            return new CityPlugin(hospitalType);
+            return new CityPlugin(hospitalType, CityPluginTypeId.Hospital);
         }
 
         public CityPlugin MakeEducationAgent()
         {
-            return new CityPlugin(educationOrganType);
+            return new CityPlugin(educationOrganType, CityPluginTypeId.EducationOrg);
         }
     }
 }

@@ -97,6 +97,11 @@ namespace Code2015
                 }
             }
         }
+        public float LoadingProgress
+        {
+            get;
+            private set;
+        }
 
         public Player HumanPlayer
         {
@@ -208,11 +213,15 @@ namespace Code2015
                         IsLoaded = true;
                     }
                 }
-                else 
+                else
                 {
                     if (++loadingCountDown > 100)
                         loadingCountDown = 100;
                 }
+
+                float newPrg = loadingCountDown / 100.0f;
+                if (newPrg > LoadingProgress)
+                    LoadingProgress = newPrg;
             }
             else
             {
