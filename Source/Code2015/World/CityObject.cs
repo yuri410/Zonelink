@@ -559,10 +559,7 @@ namespace Code2015.World
             {
                 CityLink link = new CityLink(renderSys, a.Parent, b.Parent);
 
-                sceMgr.AddObjectToScene(link);
-
-                if (harvesters.Count > 0)
-                    harvesters[0].Move(MathEx.Degree2Radian(b.Longitude), MathEx.Degree2Radian(b.Latitude));
+                sceMgr.AddObjectToScene(link);           
             }
         }
         void City_PluginAdded(City city, CityPlugin plugin)
@@ -593,6 +590,24 @@ namespace Code2015.World
 
             ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position, city.Size));
             plugins.Add(ent);
+
+            if (IsCaptured && (plugin.TypeId == CityPluginTypeId.OilRefinary ||
+                plugin.TypeId == CityPluginTypeId.WoodFactory))
+            {
+                Harvester harv = new Harvester(renderSys, map, style.Cow);
+                harv.Latitude = MathEx.Degree2Radian(Latitude - 2);
+                harv.Longtitude = MathEx.Degree2Radian(Longitude);
+                harvesters.Add(harv);
+                sceMgr.AddObjectToScene(harv);
+
+                NaturalResource res = plugin.CurrentResource;
+                if (res != null)
+                {
+                    harv.SetAuto(
+                        MathEx.Degree2Radian(res.Longitude), MathEx.Degree2Radian(res.Latitude),
+                        MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
+                }
+            }
         }
         void City_PluginRemoved(City city, CityPlugin plugin)
         {
@@ -613,11 +628,6 @@ namespace Code2015.World
                 ringMaterial.Ambient *= color;
                 ringMaterial.Diffuse *= color;
 
-                Harvester harv = new Harvester(renderSys, map, style.Cow);
-                harv.Latitude = MathEx.Degree2Radian(Latitude - 2);
-                harv.Longtitude = MathEx.Degree2Radian(Longitude);
-                harvesters.Add(harv);
-                sceMgr.AddObjectToScene(harv);
             }
         }
 

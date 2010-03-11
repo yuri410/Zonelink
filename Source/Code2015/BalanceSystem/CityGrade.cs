@@ -88,6 +88,16 @@ namespace Code2015.BalanceSystem
         public const float LargeDevMult = 0.05f;
         #endregion
 
+        #region 参考发展度
+        [SLGValue]
+        public const float SmallCityPointThreshold = 10000;
+        [SLGValue]
+        public const float MediumCityPointThreshold = 100000;
+        [SLGValue]
+        public const float LargeCityPointThreshold = 1000000;
+
+        #endregion
+
         #region 参考人口
         [SLGValue]
         public const float SmallRefPop = 20;
