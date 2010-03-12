@@ -42,11 +42,11 @@ PSOutput main(PSInput ip)
     
     float3 N = 2 * (float3)tex2D(texNrm, ip.DetailCoord) - 1;
     
-    // 地形法线贴图要转换为切线空间的
-	float tmp = N.z;
-	N.z = N.y * 0.55;
-	N.y = tmp;
-    N = normalize(N);
+    //// 地形法线贴图要转换为切线空间的
+	//float tmp = N.z;
+	//N.z = N.y * 0.55;
+	//N.y = tmp;
+    //N = normalize(N);
     
     float ndl = dot(N, ip.TangentSpaceLDir);
 	
