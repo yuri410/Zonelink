@@ -66,17 +66,17 @@ namespace Code2015.EngineEx
         {
             LocateCheckPoint[] pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("terrain.lpk");
+            pts[0].AddPath("terrain");
             Terrain = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("terrainNormal.lpk");
+            pts[0].AddPath("terrainNormal");
             TerrainNormal = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("effect.lpk");
+            pts[0].AddPath("effect");
             Effect = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
@@ -86,32 +86,32 @@ namespace Code2015.EngineEx
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("terraintexture.lpk");
+            pts[0].AddPath("terraintexture");
             TerrainTexture = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("nature.lpk");
+            pts[0].AddPath("nature");
             Nature = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("texture.lpk");
+            pts[0].AddPath("texture");
             Texture = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("gui.lpk");
+            pts[0].AddPath("gui");
             GUI = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("model.lpk");
+            pts[0].AddPath("model");
             Model = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();
-            pts[0].AddPath("earth.lpk");
+            pts[0].AddPath("earth");
             Earth = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
