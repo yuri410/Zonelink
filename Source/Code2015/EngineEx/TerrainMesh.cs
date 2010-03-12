@@ -183,7 +183,7 @@ namespace Code2015.EngineEx
             //resLoc = FileSystem.Instance.TryLocate(
             //    "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
             nrmMapLoc = FileSystem.Instance.TryLocate(
-                "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TextureData.Extension, GameFileLocs.TerrainNormal);
+                "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + TextureData.Extension, GameFileLocs.TerrainNormal);
 
             dataLevel = lod;
             renderSystem = rs;

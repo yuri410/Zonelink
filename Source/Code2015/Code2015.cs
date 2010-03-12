@@ -103,7 +103,6 @@ namespace Code2015
             sprite = renderSys.ObjectFactory.CreateSprite();
 
             menu = new Menu(this, renderSys);
-
         }
 
         public void finalize()
