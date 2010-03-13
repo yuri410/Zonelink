@@ -264,7 +264,7 @@ namespace Code2015.World
                     defaultNMap = TextureManager.Instance.CreateInstance(1, 1, 1, ImagePixelFormat.A8R8G8B8);
                     uint* dst = (uint*)defaultNMap.Lock(0, LockMode.None).Pointer;
 
-                    *dst = 0xff80ff80;
+                    *dst = 0xff8080ff;
 
                     defaultNMap.Unlock(0);
                 }

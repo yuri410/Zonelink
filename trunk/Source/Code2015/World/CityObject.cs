@@ -519,7 +519,7 @@ namespace Code2015.World
             float radLat = MathEx.Degree2Radian(city.Latitude);
 
             float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
-            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude);
+            Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude + 5);
 
             Transformation = PlanetEarth.GetOrientation(radLong, radLat);
 
