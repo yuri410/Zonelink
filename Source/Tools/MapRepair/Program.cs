@@ -10,13 +10,13 @@ namespace MapRepair
     {
         static void Main(string[] args)
         {
-            string url1 = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l2.tdmp";
+            string url1 = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain\terrain_l1.tdmp";
             //string url2 = @"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l2.tdmp";
 
             BinaryReader br1 = new BinaryReader(File.Open(url1, FileMode.Open));
 
-            int width = 36 * 33;
-            int height = 14 * 33;
+            int width = 36 * 129;
+            int height = 14 * 129;
 
             ushort[,] data = new ushort[height, width];
             for (int i = 0; i < height; i++)
@@ -33,8 +33,8 @@ namespace MapRepair
             {
                 for (int j = 0; j < width; j++)
                 {
-                    int I1 = 33 * i - 1;
-                    int I2 = 33 * i;
+                    int I1 = 129 * i - 1;
+                    int I2 = 129 * i;
 
                     int temp1 = data[I1, j];
                     int temp2 = data[I2, j];
@@ -49,8 +49,8 @@ namespace MapRepair
             {
                 for (int j = 1; j < 36; j++)
                 {
-                    int J1 = 33 * j - 1;
-                    int J2 = 33 * j;
+                    int J1 = 129 * j - 1;
+                    int J2 = 129 * j;
 
                     int temp1 = data[i, J1];
                     int temp3 = data[i, J2];
@@ -59,7 +59,7 @@ namespace MapRepair
                     data[i, J2] = (ushort)((temp1 + temp3) / 2);
                 }
             }
-            BinaryWriter bw = new BinaryWriter(File.Open(@"E:\Desktop\FileMap129.raw", FileMode.OpenOrCreate));
+            BinaryWriter bw = new BinaryWriter(File.Open(@"E:\Desktop\terrain_l1.tdmp", FileMode.OpenOrCreate));
 
             for (int i = 0; i < height; i++)
             {

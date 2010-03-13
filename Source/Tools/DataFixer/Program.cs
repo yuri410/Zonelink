@@ -637,11 +637,11 @@ namespace DataFixer
         }
         static void BuildBitMap()
         {
-            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l1.tdmp");
+            FileLocation fl = new FileLocation(@"E:\Desktop\terrain_l2副本.raw");
             ContentBinaryReader br = new ContentBinaryReader(fl);
 
-            const int DW = 36 * 129;
-            const int DH = 14 * 129;
+            const int DW = 36 * 32;
+            const int DH = 14 * 32;
 
             ushort[,] data = new ushort[DH, DW];
 
@@ -718,7 +718,7 @@ namespace DataFixer
         {
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
-
+            //BuildBitMap();
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));

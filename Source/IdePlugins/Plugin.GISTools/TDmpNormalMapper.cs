@@ -234,6 +234,7 @@ namespace Plugin.GISTools
 
                     Vector3[] norm1 = new Vector3[NL * NL];
 
+                    // TODO 不考虑海平面之下的
                     for (int i = 0; i < NL; i++)
                     {
                         for (int j = 0; j < NL; j++)
