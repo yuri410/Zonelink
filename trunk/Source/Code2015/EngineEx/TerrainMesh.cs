@@ -229,7 +229,7 @@ namespace Code2015.EngineEx
                 float rad5 = PlanetEarth.DefaultTileSpan * 0.5f;
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
-                BoundingSphere.Radius = MathEx.Root2 *  PlanetEarth.GetTileHeight(rad5 * 2);
+                BoundingSphere.Radius = MathEx.Root2 * PlanetEarth.GetTileHeight(rad5 * 2);
 
                 if (ObjectSpaceChanged != null)
                     ObjectSpaceChanged(Transformation, BoundingSphere);
@@ -581,10 +581,10 @@ namespace Code2015.EngineEx
             }
             rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (terrEdgeSize - 1) / 2, (terrEdgeSize - 1) / 2, 1, terrEdgeSize);
 
-            BoundingSphere = rootNode.BoundingVolume;
-            BoundingSphere.Center = Vector3.TransformSimple(rootNode.BoundingVolume.Center, Transformation);
-            if (ObjectSpaceChanged != null)
-                ObjectSpaceChanged(Transformation, BoundingSphere);
+            //BoundingSphere = rootNode.BoundingVolume;
+            //BoundingSphere.Center = Vector3.TransformSimple(rootNode.BoundingVolume.Center, Transformation);
+            //if (ObjectSpaceChanged != null)
+            //    ObjectSpaceChanged(Transformation, BoundingSphere);
         }
 
         /// <summary>

@@ -58,25 +58,12 @@ namespace Code2015.World
             Transformation = terrain1.GetWeakResource().Transformation;
             BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
 
-            terrain0.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
-            terrain1.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
+            //Transformation = terrain0.GetWeakResource().Transformation;
+            //BoundingSphere = terrain0.GetWeakResource().BoundingSphere;
+
+            //terrain0.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
+            //terrain1.GetWeakResource().ObjectSpaceChanged += TerrainMesh_ObjectSpaceChanged;
         }
-
-
-        void TerrainMesh_ObjectSpaceChanged(Matrix mat, BoundingSphere bs)
-        {
-            if (Transformation != mat)
-            {
-                Transformation = mat;
-                RequiresUpdate = true;
-            }
-            if (BoundingSphere != bs)
-            {
-                BoundingSphere = bs;
-                RequiresUpdate = true;
-            }
-        }
-
 
         public override RenderOperation[] GetRenderOperation()
         {
@@ -117,6 +104,7 @@ namespace Code2015.World
                     }
                     break;
                 case 2:
+                case 3:
                     if (terrain2.State == ResourceState.Loaded)
                     {
                         ActiveTerrain = terrain2;
@@ -135,27 +123,13 @@ namespace Code2015.World
             {
                 TerrainMesh tm = ActiveTerrain.Resource;
 
-                if (tm.State == ResourceState.Loaded)
-                {
-                    if (Transformation != tm.Transformation)
-                    {
-                        Transformation = tm.Transformation;
-                        RequiresUpdate = true;
-                    }
-                    if (BoundingSphere != tm.BoundingSphere)
-                    {
-                        BoundingSphere = tm.BoundingSphere;
-                        RequiresUpdate = true;
-                    }
-                }
-
                 tm.PrepareVisibleObjects(cam, level);
             }
         }
 
         public override void Update(GameTime dt)
         {
-
+            BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
         }
 
         public override bool IsSerializable
@@ -169,9 +143,6 @@ namespace Code2015.World
 
             if (disposing)
             {
-                terrain0.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
-                terrain1.GetWeakResource().ObjectSpaceChanged -= TerrainMesh_ObjectSpaceChanged;
-
                 terrain0.Dispose();
                 terrain1.Dispose();
                 //terrain2.Dispose();

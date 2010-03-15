@@ -65,8 +65,8 @@ namespace Code2015.Effects
             fl = FileSystem.Instance.Locate("water.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
 
-            //fl = FileSystem.Instance.Locate("reflection.tex", GameFileLocs.Nature);
-            //reflection = TextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("reflection.tex", GameFileLocs.Nature);
+            reflection = TextureManager.Instance.CreateInstance(fl);
         }
 
         protected override int begin()
