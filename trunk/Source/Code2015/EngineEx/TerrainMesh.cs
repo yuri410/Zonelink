@@ -229,7 +229,7 @@ namespace Code2015.EngineEx
                 float rad5 = PlanetEarth.DefaultTileSpan * 0.5f;
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
-                BoundingSphere.Radius = PlanetEarth.GetTileHeight(rad5 * 2);
+                BoundingSphere.Radius = MathEx.Root2 *  PlanetEarth.GetTileHeight(rad5 * 2);
 
                 if (ObjectSpaceChanged != null)
                     ObjectSpaceChanged(Transformation, BoundingSphere);

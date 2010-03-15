@@ -7,14 +7,14 @@ using Apoc3D.Graphics.Effects;
 using Apoc3D.Graphics.Geometry;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
-using Code2015.EngineEx;
 using Code2015.Effects;
+using Code2015.EngineEx;
 
 namespace Code2015.World
 {
     class Atmosphere : StaticModelObject
     {
-        const float AtmosphereThickness = 2000;
+        const float AtmosphereThickness = 3400;
 
         Sphere atmoSphere;
         RenderSystem renderSys;
