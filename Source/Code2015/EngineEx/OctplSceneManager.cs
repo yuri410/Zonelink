@@ -11,8 +11,8 @@ namespace Code2015.EngineEx
 {
     class OctplSceneManager : OctreeSceneManager
     {
-        const int WorldLodLevelCount = 3;
-        static readonly float[] LodThresold = new float[WorldLodLevelCount] { 1.5f, 3, 4.5f };
+        const int WorldLodLevelCount = 4;
+        static readonly float[] LodThresold = new float[WorldLodLevelCount] { 0.5f, 1.33f, 3, 4.5f };
 
         public OctplSceneManager(float planetRadius)
             : base(new OctreeBox(planetRadius * 4f), planetRadius / 75f)
