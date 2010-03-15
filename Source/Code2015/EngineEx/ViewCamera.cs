@@ -63,7 +63,7 @@ namespace Code2015.EngineEx
             Quaternion rotTrans = Quaternion.RotationAxis(rotAxis, rotation);
             axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw) * rotTrans);
 
-            position = target + axis * height * 20;
+            position = target + axis * height * 35;
             Matrix viewTrans = Matrix.LookAtRH(position, target,
                 Vector3.TransformSimple(up, rotTrans));
 
@@ -147,7 +147,8 @@ namespace Code2015.EngineEx
             {
                 if (value >= 10 && value < 75)
                 {
-                    yaw = MathEx.Degree2Radian(height) - MathEx.PiOver2;
+                    //yaw = MathEx.Degree2Radian(height) - MathEx.PiOver2;
+                    yaw = -MathEx.PIf / 4f;
 
                     height = value;
                 }
