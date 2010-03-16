@@ -106,6 +106,7 @@
     <Compile Include="Effect\TerrainEffect.cs" />
     <Compile Include="Effect\TreeEffect.cs" />
     <Compile Include="Effect\WaterEffect.cs" />
+    <Compile Include="EngineEx\PathBuilder.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
     <Compile Include="EngineEx\TreeModelLibrary.cs" />

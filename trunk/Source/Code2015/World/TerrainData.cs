@@ -72,6 +72,17 @@ namespace Code2015.World
             return existData[tx, ty];
         }
 
+
+        // 使用地形1级
+
+        public void GetSlopTangentMatrix(Vector2 p, Vector2 upper, Vector2 right, out Matrix trans)
+        {
+
+            throw new NotImplementedException();
+        }
+
+
+
         public float QueryHeight(float longtiude, float latitude)
         {
             
@@ -135,7 +146,7 @@ namespace Code2015.World
                 lock (syncHelper)
                 {
                     cbr.BaseStream.Position = start + i * colSpan;
-
+                    
                     for (int j = 0; j < tileLen; j++)
                     {
                         result[i * tileLen + j] = cbr.ReadUInt16() / 7.0f;

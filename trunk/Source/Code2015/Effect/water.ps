@@ -42,7 +42,8 @@ PSOutput main(PSInput ip)
 	float tmp = refCoord.y;
 	refCoord.y = refCoord.z;
 	refCoord.z = tmp;
-	float4 reflectionColor = texCUBE(reflectionMap, refCoord) + float4(0.2,0.2,0.2,0);
+	float4 reflectionColor = texCUBE(reflectionMap, refCoord) + float4(0.25,0.5,0.25,0);
+	reflectionColor *= float4(0.75,1,0.75,1);
 	
 	float fn = dot(normalize(ip.TangentSpaceVDir), float3(0, 0, 1));
 	fn = 1.0 - saturate(fn/0.0779);
