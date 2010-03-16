@@ -46,6 +46,8 @@ namespace Code2015.EngineEx
         static Vector3[] rightBuffer = new Vector3[1000];
 
 
+        const float PathWidth = 5;
+
         public static ModelData BuildModel(RenderSystem rs, Map map, Point[] points)
         {
             MeshData surface = new MeshData(rs);
@@ -101,10 +103,23 @@ namespace Code2015.EngineEx
 
             // 计算网格顶点
             PathVertex[] vertices = new PathVertex[vertexCount];
+            float texV = 0;
             for (int i = 0; i < vertexLen; i++)
             {
 
+                vertices[i].N = nrmBuffer[i];
+                vertices[i].Right = rightBuffer[i];
+                vertices[i].Position = positionBuffer2[i] - vertices[i].Right * PathWidth * 0.5f;
 
+                vertices[i + 1].Position = positionBuffer2[i] + vertices[i].Right * PathWidth * 0.5f;
+                vertices[i + 1].N = vertices[i].N;
+                vertices[i + 1].Right = vertices[i].Right;
+
+
+                vertices[i].Tex1 = new Vector2(0, texV);
+                vertices[i].Tex1 = new Vector2(1, texV);
+
+                texV += 0.1f;
             }
 
             fixed (PathVertex* src = &vertices[0])
@@ -116,19 +131,34 @@ namespace Code2015.EngineEx
             surface.VertexSize = PathVertex.Size;
 
             MeshFace[] faces = new MeshFace[vertexCount - 2];
-            for (int i = 0; i < faces.Length; i+=2) 
+            for (int i = 0; i < faces.Length; i += 2)
             {
                 faces[i].MaterialIndex = 0;
-                faces[i].IndexA = i;
-                faces[i].IndexB = i + 1;
-                faces[i].IndexC = i + 2;
+                faces[i].IndexA = i * 4;
+                faces[i].IndexB = i * 4 + 1;
+                faces[i].IndexC = i * 4 + 2;
 
                 faces[i + 1].MaterialIndex = 0;
-                faces[i + 1].IndexA = i + 1;
-                faces[i + 1].IndexB = i + 2;
-                faces[i + 1].IndexC = i + 3;
+                faces[i + 1].IndexA = i * 4 + 1;
+                faces[i + 1].IndexB = i * 4 + 2;
+                faces[i + 1].IndexC = i * 4 + 3;
             }
             surface.Faces = faces;
+            surface.Materials = new Material[1][];
+            surface.Materials[0] = new Material[1];
+
+            Material surfMtrl = new Material(rs);
+            surfMtrl.ZEnabled = true;
+            surfMtrl.ZWriteEnabled = true;
+            surfMtrl.IsTransparent = true;
+            surfMtrl.PriorityHint = RenderPriority.Third;
+            surfMtrl.Power = 4;
+            surfMtrl.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
+            surfMtrl.Diffuse = new Color4F(1, 1f, 1, 1);
+            surfMtrl.Specular = new Color4F(1, 0.8f, 0.8f, 0.8f);
+
+            surface.Materials[0][0] = surfMtrl;
+
 
             Mesh surfaceMesh = new Mesh(rs, surface);
             ModelData result = new ModelData(rs, new Mesh[] { surfaceMesh });
