@@ -307,7 +307,7 @@ namespace Code2015.World
 
             adjusts[0].WoodFactory = Matrix.Translation(0, 6.25f, 0) * scale;
             adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
-            adjusts[0].Cow = Matrix.RotationY(MathEx.PiOver2) * scale;// Matrix.Scaling(0, 0, -1);
+            adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * scale;// Matrix.Scaling(0, 0, -1);
             adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
             adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
             adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;

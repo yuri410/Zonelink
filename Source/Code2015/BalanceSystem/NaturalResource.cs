@@ -37,6 +37,12 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public bool IsLow
+        {
+            get { return CurrentAmount < 1000; }
+        }
+
+
         /// <summary>
         ///  获取当前自然资源
         /// </summary>
@@ -46,6 +52,11 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
+        public object OutputTarget
+        {
+            get;
+            set;
+        }
 
         /// <summary>
         ///  开采一定数量的自然资源

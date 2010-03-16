@@ -125,6 +125,9 @@ namespace Code2015.BalanceSystem
        
         void FindResources()
         {
+            if (TypeId != CityPluginTypeId.WoodFactory && TypeId != CityPluginTypeId.OilRefinary)
+                return;
+
             SimulationRegion region = parent.Region;
 
             Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
@@ -135,6 +138,7 @@ namespace Code2015.BalanceSystem
                 if (!object.ReferenceEquals(region[i], parent))
                 {
                     NaturalResource res = region[i] as NaturalResource;
+
                     if (res != null)
                     {
                         Vector2 pos = new Vector2(res.Latitude, res.Longitude);
@@ -142,7 +146,22 @@ namespace Code2015.BalanceSystem
 
                         if (dist < r)
                         {
-                            resource.Add(res);
+                            switch (TypeId)
+                            {
+                                case CityPluginTypeId.OilRefinary:
+                                    if (res is OilField)
+                                    {
+                                        resource.Add(res);
+                                    }
+                                    break;
+                                case CityPluginTypeId.WoodFactory:
+                                    if (res is Forest)
+                                    {
+                                        resource.Add(res);
+                                    }
+                                    break;
+                            }
+                            
                         }
                     }
                 }
@@ -171,65 +190,57 @@ namespace Code2015.BalanceSystem
         {
             if (CurrentResource == null || CurrentResource.CurrentAmount < float.Epsilon)
             {
+                if (CurrentResource != null)
+                    CurrentResource.OutputTarget = null;
+
                 for (int i = 0; i < resource.Count; i++)
                 {
-                    int index = Randomizer.GetRandomInt(int.MaxValue);
-                    CurrentResource = resource[index % resource.Count];
+                    NaturalResource selRes = resource[i];
 
-                    switch (TypeId)
+                    if (selRes.OutputTarget == null)
                     {
-                        case CityPluginTypeId.WoodFactory:
-                            bool finished = CurrentResource.Type == NaturalResourceType.Wood && CurrentResource.CurrentAmount > float.Epsilon;
-                            if (!finished)
-                            {
-                                CurrentResource = null;
-                                continue;
-                            }
-                            else
-                                i = resource.Count;
-                            break;
-                        case CityPluginTypeId.OilRefinary:
-                            finished = CurrentResource.Type == NaturalResourceType.Petro && CurrentResource.CurrentAmount > float.Epsilon;
-                            if (!finished)
-                            {
-                                CurrentResource = null;
-                                continue;
-                            }
-                            else
-                                i = resource.Count;
-
-                            break;
+                        if (!selRes.IsLow)
+                        {
+                            selRes.OutputTarget = this;
+                            CurrentResource = selRes;
+                            return;
+                        }
                     }
                 }
+
+                int index = Randomizer.GetRandomInt(resource.Count);
+                CurrentResource = resource[index];
             }
         }
         void SelectResource()
         {
             if (CurrentResource == null || CurrentResource.CurrentAmount < float.Epsilon)
             {
-                bool finished = false;
-                int tries = 0;
+                if (CurrentResource != null)
+                    CurrentResource.OutputTarget = null;
 
-                while (!finished && tries < resource.Count)
+                int tries = 0;
+                NaturalResource selRes = null;
+
+                while (selRes != null && tries < resource.Count)
                 {
                     tries++;
 
                     int index = Randomizer.GetRandomInt(int.MaxValue);
-                    CurrentResource = resource[index % resource.Count];
+                    selRes = resource[index % resource.Count];
 
-                    switch (TypeId)
+                    if (selRes.IsLow)
                     {
-                        case CityPluginTypeId.WoodFactory:
-                            finished = CurrentResource.Type == NaturalResourceType.Wood && CurrentResource.CurrentAmount > float.Epsilon;
-                            break;
-                        case CityPluginTypeId.OilRefinary:
-                            finished = CurrentResource.Type == NaturalResourceType.Petro && CurrentResource.CurrentAmount > float.Epsilon;
-                            break;
+                        selRes = null;
                     }
+
                 }
 
-                if (!finished)
-                    CurrentResource = null;
+                if (selRes != null)
+                {
+                    selRes.OutputTarget = this;
+                    CurrentResource = selRes;
+                }
             }
         }
      

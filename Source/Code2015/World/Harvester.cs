@@ -23,7 +23,6 @@ namespace Code2015.World
         float longtitude;
         float latitude;
 
-
         PathFinder finder;
         UnitState state;
 
@@ -34,6 +33,12 @@ namespace Code2015.World
 
         int destX; 
         int destY;
+
+
+        Quaternion targetOri;
+        Quaternion srcOri;
+
+        bool rotUpdated;
 
         float currentPrg;
         int currentNode;
@@ -119,15 +124,42 @@ namespace Code2015.World
             currentPrg = 0;
         }
 
+        Quaternion GetOrientation(Point pa, Point pb)
+        {
+            float alng;
+            float alat;
+            float blng;
+            float blat;
+
+            Map.GetCoord(pa.X, pa.Y, out alng, out alat);
+            Map.GetCoord(pb.X, pb.Y, out blng, out blat);
+
+            Vector3 n = PlanetEarth.GetNormal(alng, alat);
+            Vector3 posA = PlanetEarth.GetPosition(alng, alat);
+            Vector3 posB = PlanetEarth.GetPosition(blng, blat);
+
+            Vector3 dir = posB - posA;
+            dir.Normalize();
+            Vector3 bi = Vector3.Cross(n, dir);
+            bi.Normalize();
+
+            Matrix result = Matrix.Identity;
+            result.Right = bi;
+            result.Up = n;
+            result.Forward = -dir;
+            return Quaternion.RotationMatrix(result);
+        }
 
         public override void Update(GameTime dt)
         {
+            Orientation = Matrix.Identity;
+
             if (cuurentPath != null)
             {
                 int nextNode = currentNode + 1;
 
                 if (nextNode >= cuurentPath.NodeCount)
-                {    
+                {
                     nextNode = 0;
                     currentPrg = 0;
 
@@ -140,7 +172,7 @@ namespace Code2015.World
                         cuurentPath = null;
                         if (IsAuto)
                         {
-                            if (state == UnitState.HomeAuto) 
+                            if (state == UnitState.HomeAuto)
                             {
                                 move(autoTLng, autoTLat);
                                 state = UnitState.TargetAuto;
@@ -150,7 +182,7 @@ namespace Code2015.World
                                 move(autoSLng, autoSLat);
                                 state = UnitState.HomeAuto;
                             }
-                            
+
                         }
                     }
                 }
@@ -159,24 +191,44 @@ namespace Code2015.World
                     Point np = cuurentPath[nextNode];
                     Point cp = cuurentPath[currentNode];
 
+                    if (currentPrg > 0.5f && !rotUpdated)
+                    {
+                        if (nextNode < cuurentPath.NodeCount - 1)
+                        {
+                            srcOri = GetOrientation(cp, np);
+                            targetOri = GetOrientation(np, cuurentPath[nextNode + 1]);
+                        }
+                        else
+                        {
+                            targetOri = GetOrientation(cp, np);
+                            srcOri = targetOri;
+                        }
+                        rotUpdated = true;
+                    }
+
+
                     float x = MathEx.LinearInterpose(cp.X, np.X, currentPrg);
                     float y = MathEx.LinearInterpose(cp.Y, np.Y, currentPrg);
 
                     Map.GetCoord(x, y, out longtitude, out latitude);
-                  
-                    currentPrg += 0.1f;
 
-                    if (currentPrg > 1) 
+                    Orientation = Matrix.RotationQuaternion(
+                        Quaternion.Slerp(srcOri, targetOri, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
+
+                    currentPrg += 0.05f;
+
+                    if (currentPrg > 1)
                     {
                         currentPrg = 0;
                         currentNode++;
+                        rotUpdated = false;
                     }
                 }
             }
 
 
 
-            Orientation = PlanetEarth.GetOrientation(longtitude, latitude);
+            //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
             Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + 50);
 
             base.Update(dt);
