@@ -28,7 +28,7 @@ struct PSInput
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
     
-    float LODTest:TEXCOORD4;
+    //float LODTest:TEXCOORD4;
 };
 
 struct PSOutput
@@ -89,7 +89,7 @@ PSOutput main(PSInput ip)
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
     
-    if (abs(ip.LODTest)<0.01)
+   /* if (abs(ip.LODTest)<0.01)
     {
 		o.Color += ndl * float4(0.5,0,0,0);
     }
@@ -100,7 +100,7 @@ PSOutput main(PSInput ip)
     else if (abs(ip.LODTest - 2)<0.01)
     {
 		o.Color += ndl * float4(0,0,0.5,0);
-    }
+    }*/
     
     return o;
 }
