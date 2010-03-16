@@ -41,6 +41,8 @@ namespace Code2015.ParticleSystem
             ColorValue[] colors;
             VertexDeclaration vertexDecl;
 
+            
+
             public Batch(RenderSystem rs, VertexDeclaration vtxDecl)
             {
                 this.vertexDecl = vtxDecl;
@@ -64,7 +66,8 @@ namespace Code2015.ParticleSystem
         }
 
         VertexDeclaration vtxDecl;
- 
+        Particle[] particles;
+
         public ParticleEffect(RenderSystem rs)
         {
             ObjectFactory fac = rs.ObjectFactory;
