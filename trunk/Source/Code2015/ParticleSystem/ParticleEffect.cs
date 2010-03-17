@@ -1,28 +1,30 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.MathLib;
+using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 
 namespace Code2015.ParticleSystem
 {
-    class ParticleEffect : IRenderable
+    class ParticleEffect : IRenderable, IUpdatable
     {
-
+        Vertex[] dataBuffer;
         struct Vertex
         {
-            public Vector2 Position;
+            public Vector3 Position;
+
 
             static VertexElement[] elements;
 
             static Vertex()
             {
-                elements = new VertexElement[1] { new VertexElement(0, VertexElementFormat.Vector2, VertexElementUsage.Position, 0) };
+                elements = new VertexElement[1] { new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0) };
             }
 
             public static int Size
             {
-                get { return Vector2.SizeInBytes; }
+                get { return Vector3.SizeInBytes; }
             }
 
             public static VertexElement[] Elements
@@ -32,62 +34,119 @@ namespace Code2015.ParticleSystem
 
         }
 
-        class Batch : IRenderable
-        {
-            const int MaxPerBatchCount = 120;
-
-            VertexBuffer vertexBuffer;
-            Vector4[] transform;
-            ColorValue[] colors;
-            VertexDeclaration vertexDecl;
-
-            
-
-            public Batch(RenderSystem rs, VertexDeclaration vtxDecl)
-            {
-                this.vertexDecl = vtxDecl;
-
-
-            }
-
-            #region IRenderable 成员
-
-            public RenderOperation[] GetRenderOperation()
-            {
-                throw new NotImplementedException();
-            }
-
-            public RenderOperation[] GetRenderOperation(int level)
-            {
-                throw new NotImplementedException();
-            }
-
-            #endregion
-        }
+        VertexBuffer vtxBuffer;
 
         VertexDeclaration vtxDecl;
         Particle[] particles;
 
-        public ParticleEffect(RenderSystem rs)
+        Material material;
+
+        ParticleEmitter emitter;
+        ParticleModifier modifier;
+
+        GeomentryData geoData;
+        RenderOperation[] renderOp;
+
+
+        public ParticleEffect(RenderSystem rs, int particleCount)
         {
             ObjectFactory fac = rs.ObjectFactory;
 
             vtxDecl = fac.CreateVertexDeclaration(Vertex.Elements);
 
+            particles = new Particle[particleCount];
+            dataBuffer = new Vertex[particleCount * 4];
+            vtxBuffer = fac.CreateVertexBuffer(particleCount, vtxDecl, BufferUsage.Dynamic);
 
+            material = new Material(rs);
+            material.CullMode = CullMode.None;
+            material.ZEnabled = true;
+            material.ZWriteEnabled = false;
+            material.PriorityHint = RenderPriority.Third;
+            material.IsTransparent = true;
+            material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
+            material.Diffuse = new Color4F(1, 1f, 1, 1);
+            
+
+            geoData = new GeomentryData();
+            geoData.VertexBuffer = vtxBuffer;
+            renderOp = new RenderOperation[1];
+
+            renderOp[0].Geomentry = geoData;
+            
         }
 
-       
+        public ParticleEmitter Emitter 
+        {
+            get { return emitter; }
+            set { emitter = value; }
+        }
+        public ParticleModifier Modifier 
+        {
+            get { return modifier; }
+            set { modifier = value; }
+        }
+
+        public Material Material
+        {
+            get { return material; }
+        }
+
+
+
         #region IRenderable 成员
 
         public RenderOperation[] GetRenderOperation()
         {
-            throw new NotImplementedException();
+            if (emitter != null)
+            {
+                geoData.VertexCount = emitter.CurrentCount * 4;
+                geoData.BaseVertex = 0;
+                geoData.BaseIndexStart = 0;
+                geoData.PrimitiveType = RenderPrimitiveType.TriangleList;
+                geoData.VertexSize = Vertex.Size;
+
+                renderOp[0].Transformation = Matrix.Identity;
+
+                return renderOp;
+            }
+            return null;
         }
 
         public RenderOperation[] GetRenderOperation(int level)
         {
-            throw new NotImplementedException();
+            if (level < 2)
+                return GetRenderOperation();
+            return null;
+        }
+
+        #endregion
+
+
+
+        #region IUpdatable 成员
+
+        public void Update(GameTime time)
+        {
+            float dt = time.ElapsedGameTimeSeconds;
+
+            if (emitter != null)
+                emitter.Update(dt);
+            if (modifier != null)
+                modifier.Update(particles, dt);
+
+            if (emitter != null)
+            {
+                for (int i = 0; i < emitter.CurrentCount; i++)
+                {
+                    int idx = i * 4;
+                    dataBuffer[idx].Position = particles[i].Position;
+                    dataBuffer[idx + 1].Position = particles[i].Position;
+                    dataBuffer[idx + 2].Position = particles[i].Position;
+                    dataBuffer[idx + 3].Position = particles[i].Position;
+                }
+                vtxBuffer.SetData(dataBuffer);
+            }
         }
 
         #endregion
