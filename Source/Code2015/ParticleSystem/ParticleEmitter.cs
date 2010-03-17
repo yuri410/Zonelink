@@ -6,7 +6,18 @@ namespace Code2015.ParticleSystem
 {
     class ParticleEmitter
     {
+        ParticleManager pmgr;
+        int currentParticleCount;
 
+        public ParticleEmitter(ParticleManager pm)
+        {
+            this.pmgr = pm;
+        }
+
+        public int CurrentCount
+        {
+            get { return currentParticleCount; }
+        }
 
         public void Update(float dt)
         {
