@@ -11,10 +11,10 @@ namespace Code2015.ParticleSystem
 
         public Vector3 Position;
         public Vector3 Velocity;
-        public ColorValue Color;
+        //public ColorValue Color;
         public float Alpha;
-        public float Size;
-        public float Rotation;
+        //public float Size;
+        //public float Rotation;
         public float Life;
 
         public void ApplyMoment(Vector3 m)
@@ -25,12 +25,6 @@ namespace Code2015.ParticleSystem
         public void Update(float dt)
         {
             Position += Velocity * dt;
-
-            if (Life < 0)
-            {
-                ParticleManager.Instance.Retire(this);
-            }
-
         }
     }
 }
