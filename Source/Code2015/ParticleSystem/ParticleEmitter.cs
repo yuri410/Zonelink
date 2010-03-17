@@ -19,7 +19,7 @@ namespace Code2015.ParticleSystem
             get { return currentParticleCount; }
         }
 
-        public void Update(float dt)
+        public void Update(Particle[] particles, float dt)
         {
 
         }

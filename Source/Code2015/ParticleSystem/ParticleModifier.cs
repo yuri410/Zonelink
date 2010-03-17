@@ -6,7 +6,7 @@ namespace Code2015.ParticleSystem
 {
     class ParticleModifier
     {
-        public void Update(Particle[] particles, float dt)
+        public void Update(Particle[] particles, int count, float dt)
         {
 
         }

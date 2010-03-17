@@ -13,13 +13,17 @@ namespace Code2015.ParticleSystem
         struct Vertex
         {
             public Vector3 Position;
-
+            public float Alpha;
 
             static VertexElement[] elements;
 
             static Vertex()
             {
-                elements = new VertexElement[1] { new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0) };
+                elements = new VertexElement[2]
+                {
+                    new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
+                    new VertexElement(1, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0)
+                };
             }
 
             public static int Size
@@ -122,7 +126,7 @@ namespace Code2015.ParticleSystem
 
         #endregion
 
-
+        
 
         #region IUpdatable 成员
 
@@ -131,21 +135,34 @@ namespace Code2015.ParticleSystem
             float dt = time.ElapsedGameTimeSeconds;
 
             if (emitter != null)
-                emitter.Update(dt);
-            if (modifier != null)
-                modifier.Update(particles, dt);
-
-            if (emitter != null)
             {
+                emitter.Update(particles, dt);
+
+                if (modifier != null)
+                {
+                    modifier.Update(particles, emitter.CurrentCount, dt);
+                }
+
                 for (int i = 0; i < emitter.CurrentCount; i++)
                 {
                     int idx = i * 4;
                     dataBuffer[idx].Position = particles[i].Position;
-                    dataBuffer[idx + 1].Position = particles[i].Position;
-                    dataBuffer[idx + 2].Position = particles[i].Position;
-                    dataBuffer[idx + 3].Position = particles[i].Position;
+                    dataBuffer[idx].Alpha = particles[i].Alpha;
+
+                    idx++;
+                    dataBuffer[idx].Position = particles[i].Position;
+                    dataBuffer[idx].Alpha = particles[i].Alpha;
+
+                    idx++;
+                    dataBuffer[idx].Position = particles[i].Position;
+                    dataBuffer[idx].Alpha = particles[i].Alpha;
+
+                    idx++;
+                    dataBuffer[idx].Position = particles[i].Position;
+                    dataBuffer[idx].Alpha = particles[i].Alpha;
                 }
                 vtxBuffer.SetData(dataBuffer);
+
             }
         }
 
