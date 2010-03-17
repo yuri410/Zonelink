@@ -171,7 +171,14 @@
     <Population>1500</Population>
   </NewDelhi>
 
-
+  <Nagpur>
+    <Name>Nagpur</Name>
+    <Longitude>79.08886</Longitude>
+    <Latitude>19.153517</Latitude>
+    <Size>Small</Size>
+    <Population>42</Population>
+  </Nagpur>
+  
   <!--新疆喀什-->
   <Kashi>
     <Name>Kashi</Name>
@@ -212,7 +219,7 @@
   <Qandahar>
     <Name>Kandahar</Name>
     <Longitude>65.721588</Longitude>
-    <Latitude>31.617866</Latitude>
+    <Latitude>29.617866</Latitude>
     <Size>Small</Size>
     <Population>46</Population>
   </Qandahar>
@@ -221,7 +228,7 @@
   <Riyadh>
     <Name>Riyadh</Name>
     <Longitude>46.845703</Longitude>
-    <Latitude>21.902278</Latitude>
+    <Latitude>18.902278</Latitude>
     <Size>Medium</Size>
     <Population>150</Population>
   </Riyadh>
@@ -303,7 +310,7 @@
   <DayrazZawr>
     <Name>DayrazZawr</Name>
     <Longitude>35.196256</Longitude>
-    <Latitude>40.501099</Latitude>
+    <Latitude>40.001099</Latitude>
     <Size>Small</Size>
     <Population>10</Population>
   </DayrazZawr>
@@ -379,8 +386,8 @@
 
   <Ghat>
     <Name>Ghat</Name>
-    <Longitude>26.017298</Longitude>
-    <Latitude>10.766602</Latitude>
+    <Longitude>29.517298</Longitude>
+    <Latitude>14.766602</Latitude>
     <Size>Small</Size>
     <Population>34</Population>
   </Ghat>
@@ -398,7 +405,7 @@
   <Madrid>
     <Name>Madrid</Name>
     <Longitude>-5.702736</Longitude>
-    <Latitude>41.918724</Latitude>
+    <Latitude>40.918724</Latitude>
     <Size>Large</Size>
     <Population>321</Population>
   </Madrid>
@@ -421,130 +428,6 @@
   </Bamako>
 
 
-
-  
-
-  
-
-  <!--<DayrazZawr>
-    <Name>DayrazZawr</Name>
-    <Longitude>35.196256</Longitude>
-    <Latitude>40.501099</Latitude>
-    <Size>Small</Size>
-    <Population>10</Population>
-  </DayrazZawr>-->
-
-
-  <!--<Khmelnitski>
-    <Name>Khmelnitski</Name>
-    <Longitude>26.90625</Longitude>
-    <Latitude>49.944265</Latitude>
-    <Size>Large</Size>
-    <Population>139</Population>
-  </Khmelnitski>
-
-  <Kufrah>
-    <Name>Kufrah</Name>
-    <Longitude>22.851563</Longitude>
-    <Latitude>25.562265</Latitude>
-    <Size>Small</Size>
-    <Population>10</Population>
-  </Kufrah>
-
-  <Vulu>
-    <Name>Vulu</Name>
-    <Longitude>24.356689</Longitude>
-    <Latitude>9.75237</Latitude>
-    <Size>Small</Size>
-    <Population>29</Population>
-  </Vulu>-->
-
-  <!--刚果--><!--
-  <Kisangani>
-    <Name>Kisangani</Name>
-    <Longitude>25.194397</Longitude>
-    <Latitude>0.550681</Latitude>
-    <Size>Medium</Size>
-    <Population>70</Population>
-  </Kisangani>-->
-
-  <!--Zambia--><!--
-  <Lusaka>
-    <Name>Lusaka</Name>
-    <Longitude>23.280869</Longitude>
-    <Latitude>-15.410988</Latitude>
-    <Size>Medium</Size>
-    <Population>200</Population>
-  </Lusaka>-->
-
-  <!--<Upington>
-    <Name>Upington</Name>
-    <Longitude>21.242409</Longitude>
-    <Latitude>-28.459033</Latitude>
-    <Size>Small</Size>
-    <Population>10</Population>
-  </Upington>-->
-
-  <!--Cameroon-->
-  <!--<Yaounde>
-    <Name>Yaounde</Name>
-    <Longitude>13.517792</Longitude>
-    <Latitude>3.857746</Latitude>
-    <Size>Medium</Size>
-    <Population>143</Population>
-  </Yaounde>-->
-
-  <!--Niger-->
-  <!--<Agadez>
-    <Name>Agadez</Name>
-    <Longitude>10.984571</Longitude>
-    <Latitude>11.972577</Latitude>
-    <Size>Small</Size>
-    <Population>30</Population>
-  </Agadez>-->
-
-  <!--<Ghat>
-    <Name>Ghat</Name>
-    <Longitude>26.017298</Longitude>
-    <Latitude>10.766602</Latitude>
-    <Size>Small</Size>
-    <Population>34</Population>
-  </Ghat>-->
-
-  <!--德国-->
-  <!--<Berlin>
-    <Name>Berlin</Name>
-    <Longitude>13.4095</Longitude>
-    <Latitude>50.520399</Latitude>
-    <Size>Large</Size>
-    <Population>343</Population>
-  </Berlin>-->
-
-  <!--西班牙-->
-  <!--<Madrid>
-    <Name>Madrid</Name>
-    <Longitude>-5.702736</Longitude>
-    <Latitude>41.918724</Latitude>
-    <Size>Large</Size>
-    <Population>321</Population>
-  </Madrid>-->
-
-  <!--<Adrar>
-    <Name>Adrar</Name>
-    <Longitude>-2.790527</Longitude>
-    <Latitude>25.204941</Latitude>
-    <Size>Small</Size>
-    <Population>320</Population>
-  </Adrar>-->
-
-  <!--Mali-->
-  <!--<Bamako>
-    <Name>Bamako</Name>
-    <Longitude>-4.988777</Longitude>
-    <Latitude>12.624928</Latitude>
-    <Size>Medium</Size>
-    <Population>150</Population>
-  </Bamako>-->
 
   <!--Mauritania-->
   <Nouakchott>
@@ -607,7 +490,7 @@
   <!--厄瓜多尔-->
   <Quito>
     <Name>Quito</Name>
-    <Longitude>-78.521347</Longitude>
+    <Longitude>-78.021347</Longitude>
     <Latitude>-0.216293</Latitude>
     <Size>Large</Size>
     <Population>190</Population>
@@ -634,7 +517,7 @@
   <!--智利-->
   <LosAngeles>
     <Name>Los Angeles</Name>
-    <Longitude>-71.351151</Longitude>
+    <Longitude>-69.851151</Longitude>
     <Latitude>-37.471316</Latitude>
     <Size>Small</Size>
     <Population>30</Population>
@@ -651,7 +534,7 @@
 
   <Quebec>
     <Name>Quebec</Name>
-    <Longitude>-80.215439</Longitude>
+    <Longitude>-78.715439</Longitude>
     <Latitude>52.80288</Latitude>
     <Size>Medium</Size>
     <Population>778</Population>
@@ -659,8 +542,8 @@
 
   <Washington>
     <Name>Washington</Name>
-    <Longitude>-79.01004</Longitude>
-    <Latitude>38.907064</Latitude>
+    <Longitude>-80.01004</Longitude>
+    <Latitude>37.907064</Latitude>
     <Size>Large</Size>
     <Population>589</Population>
   </Washington>
@@ -709,7 +592,7 @@
 
   <PrinceGeorge>
     <Name>Prince George</Name>
-    <Longitude>-1123.75</Longitude>
+    <Longitude>-123.75</Longitude>
     <Latitude>53.054344</Latitude>
     <Size>Small</Size>
     <Population>10</Population>

@@ -20,6 +20,12 @@ namespace Code2015.EngineEx
             get { return Vector3.SizeInBytes + Vector3.SizeInBytes + Vector3.SizeInBytes + Vector2.SizeInBytes; }
         }
 
+        public static VertexElement[] Elements
+        {
+            get;
+            private set;
+        }
+
         static PathVertex()
         {
             Elements = new VertexElement[4];
@@ -27,14 +33,9 @@ namespace Code2015.EngineEx
             Elements[1] = new VertexElement(Elements[0].Size, VertexElementFormat.Vector3, VertexElementUsage.Normal);
             Elements[2] = new VertexElement(Elements[1].Size + Elements[1].Offset, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0);
             Elements[3] = new VertexElement(Elements[2].Size + Elements[2].Offset, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 1);
+           
         }
-
-
-        public static VertexElement[] Elements
-        {
-            get;
-            private set;
-        }
+   
     }
 
     unsafe static class PathBuilder
@@ -51,7 +52,7 @@ namespace Code2015.EngineEx
         public static ModelData BuildModel(RenderSystem rs, Map map, Point[] points)
         {
             MeshData surface = new MeshData(rs);
-
+          
             int vertexLen = points.Length;
             int vertexCount = vertexLen * 4;
 

@@ -24,7 +24,7 @@ namespace Calculate
             int height = int.Parse(Height.Text);
             float input = float.Parse(inputHlat.Text);
 
-            float lat = 90f - Y * 180f / height;
+            float lat = input * 0.5f - Y * input / height;
             latitude.Text = lat.ToString();
 
           
@@ -45,8 +45,8 @@ namespace Calculate
             x.Text = X.ToString();
             //cal Y
             int height = int.Parse(Height.Text);
-           
-            int Y = (int)((90f - float.Parse(latitude.Text)) / 180f * height);
+
+            int Y = (int)((input * 0.5f - float.Parse(latitude.Text)) / input * height);
          
             y.Text = Y.ToString();
         }
