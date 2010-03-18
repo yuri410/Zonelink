@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D.MathLib;
 
 namespace Code2015.ParticleSystem
 {
@@ -33,7 +34,9 @@ namespace Code2015.ParticleSystem
         {
             for (int i = 0; i < currentParticleCount; i++)
             {
-                if (particles[i].Life < 0)
+                particles[i].ApplyMoment(new Vector3(0, -0.5f, 0));
+
+                if (particles[i].Life <= 0)
                 {
                     ParticleManager.Instance.Retire(particles[i]);
                     particles[i] = CreateParticle();

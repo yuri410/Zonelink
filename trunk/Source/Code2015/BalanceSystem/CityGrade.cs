@@ -98,6 +98,16 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+        #region 参考满意度
+        [SLGValue]
+        public const float SmallRefSat = SmallRefPop * SmallCityPointThreshold;
+        [SLGValue]
+        public const float MediumRefSat = MediumRefPop * MediumCityPointThreshold;
+        [SLGValue]
+        public const float LargeCityRefSat = LargeRefPop * LargeCityPointThreshold;
+
+        #endregion
+
         #region 参考人口
         [SLGValue]
         public const float SmallRefPop = 20;
