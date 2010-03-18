@@ -244,6 +244,30 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public void CancelCapture(Player player) 
+        {
+            if (player == NewOwner1)
+            {
+                NewOwner1 = null;
+                CaputreProgress1 = 0;
+            }
+            if (player == NewOwner2)
+            {
+                NewOwner2 = null;
+                CaputreProgress2 = 0;
+            }
+            if (player == NewOwner3)
+            {
+                NewOwner3 = null;
+                CaputreProgress3 = 0;
+            }
+            if (player == NewOwner4)
+            {
+                NewOwner4 = null;
+                CaputreProgress4 = 0;
+            }
+        }
+
         public bool IsPlayerCapturing(Player player)
         {
             if (player == NewOwner1)
@@ -354,6 +378,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float DevBias = -0.01f;
 
+        float recoverCooldown;
         /// <summary>
         ///  表示城市的附加设施
         /// </summary>
@@ -363,7 +388,7 @@ namespace Code2015.BalanceSystem
         ResourceStorage localHr;
         ResourceStorage localFood;
         UrbanSize size;
-
+        Player owner;
         CultureId culture;
 
         FastList<City> nearbyCity = new FastList<City>();
@@ -429,7 +454,21 @@ namespace Code2015.BalanceSystem
             get { return Satisfaction < SatThreshold; }
         }
 
-
+        public Player CoolDownPlayer
+        {
+            get;
+            private set;
+        }
+        public float RecoverCoolDown 
+        {
+            get { return recoverCooldown; }
+        }
+        
+        public bool IsRecovering
+        {
+            get;
+            private set;
+        }
 
         public CaptureState Capture
         {
@@ -441,10 +480,10 @@ namespace Code2015.BalanceSystem
         {
             get { return !object.ReferenceEquals(Owner, null); }
         }
+        
         public Player Owner
         {
-            get;
-            private set;
+            get { return owner; }
         }
         public CultureId Culture 
         {
@@ -629,10 +668,14 @@ namespace Code2015.BalanceSystem
         {
             if (Owner != null) 
             {
-                throw new InvalidOperationException("目前不能抢夺别人的城市");
+                Owner.Area.NotifyLostCity(this);
             }
-            Owner = player;
-            Owner.Area.NotifyNewCity(this);
+            owner = player;
+
+            if (player != null)
+            {
+                Owner.Area.NotifyNewCity(this);
+            }
 
             if (CityOwnerChanged != null)
                 CityOwnerChanged(player);
@@ -722,18 +765,6 @@ namespace Code2015.BalanceSystem
         }
 
 
-
-        /// <summary>
-        ///  计算城市的分数，用于评估城市的等级
-        /// </summary>
-        /// <param name="dev"></param>
-        /// <param name="pop"></param>
-        /// <returns></returns>
-        static float GetCityPoints(float dev, float pop)
-        {
-            return dev;
-        }
-
         public void AddNearbyCity(City city)
         {
             nearbyCity.Add(city);
@@ -742,50 +773,66 @@ namespace Code2015.BalanceSystem
 
         }
 
-
         public override void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
             CarbonProduceSpeed = 0;
 
+
             if (Capture.IsCapturing && !IsCaptured)
             {
-                if (Capture.NearbyCity1 != null)
+                if (!object.ReferenceEquals(Capture.NearbyCity1, null))
                 {
-                    float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
-                    float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);
-                    Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+                    if (!object.ReferenceEquals(Capture.NewOwner1, Capture.NearbyCity1.owner))
+                    {
+                        float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
+                        float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);
+                        Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+                    }
+                    else 
+                    {
+                        Capture.CancelCapture(Capture.NewOwner1);
+                    }
                 }
 
 
 
                 Player player = Capture.CheckCapture();
-                if (player != null)
+                if (!object.ReferenceEquals(player, null))
                 {
                     ChangeOwner(player);
                 }
             }
 
-            if (Satisfaction < float.Epsilon) 
+            if (IsRecovering)
             {
-                Owner = null;
+                recoverCooldown -= hours;
+                if (recoverCooldown < 0)
+                {
+                    IsRecovering = false;
+                }
+            }
+            else if (Satisfaction < float.Epsilon && !object.ReferenceEquals(Owner, null))
+            {
+                CoolDownPlayer = Owner;
+                ChangeOwner(null);
+                IsRecovering = true;
+                recoverCooldown = CityGrade.GetRecoverCoolDown(Size);
             }
 
-
-
-            if (Owner == null)
+            if (object.ReferenceEquals(Owner, null))
             {
                 return;
             }
-
+          
 
 
             #region 城市自动级别调整
 
             if (Size != UrbanSize.Large)
             {
-                float points = GetCityPoints(Development, Population);
+                float points = Development;
 
                 UrbanSize newSize;
                 if (points < CityGrade.MediumCityPointThreshold)
@@ -1072,7 +1119,7 @@ namespace Code2015.BalanceSystem
 
             CarbonProduceSpeed += lrDev / hours + hrDev / hours;
 
-            float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias);
+            float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + 20 * DevBias / CityGrade.GetDevelopmentMult(Size));
             Development += devIncr + foodLack;
             if (Development < 0)
             {
@@ -1101,8 +1148,10 @@ namespace Code2015.BalanceSystem
                     Development = 200;
                     break;
                 case UrbanSize.Medium:
+                    Development = 2000;
                     break;
                 case UrbanSize.Large:
+                    Development = 20000; 
                     break;
             }
             UpgradeUpdate();

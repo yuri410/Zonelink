@@ -52,7 +52,7 @@ namespace Code2015.Logic
             City minCity = null;
             for (int i = 0; i < cities.Count; i++)
             {
-                if (!cities[i].IsDead && !object.ReferenceEquals(city, cities[i]))
+                if (!cities[i].IsRecovering && !object.ReferenceEquals(city, cities[i]))
                 {
                     float cdist = new Vector2(cities[i].Longitude - city.Longitude, cities[i].Latitude - city.Latitude).Length();
 
@@ -136,6 +136,15 @@ namespace Code2015.Logic
                 }
             }
             cities.Add(city);
+        }
+        public void NotifyLostCity(City city) 
+        {
+            if (object.ReferenceEquals(rootCity, city)) 
+            {
+                rootCity = null;
+            }
+
+            cities.Remove(city);
         }
 
         public void Update(GameTime time)

@@ -84,7 +84,6 @@
   <ItemGroup>
     <Compile Include="ActionSystem\CycleJet.cs" />
     <Compile Include="Attributes.cs" />
-    <Compile Include="BalanceSystem\Carbon.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CityGrade.cs" />
     <Compile Include="BalanceSystem\CityPlugin.cs" />
@@ -147,7 +146,6 @@
     </Compile>
     <Compile Include="BalanceSystem\SimulationRegion.cs" />
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
-    <Compile Include="BalanceSystem\WorldEcoSystem.cs" />
     <Compile Include="Code2015.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
