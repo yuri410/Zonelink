@@ -77,6 +77,7 @@ namespace Code2015.ParticleSystem
             renderOp = new RenderOperation[1];
 
             renderOp[0].Geomentry = geoData;
+            renderOp[0].Material = material;
             
         }
 

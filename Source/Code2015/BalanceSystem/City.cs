@@ -397,6 +397,26 @@ namespace Code2015.BalanceSystem
 
 
         #region  属性
+        /// <summary>
+        ///  获取该城市市民满意度
+        /// </summary>
+        public float Satisfaction
+        {
+            get
+            {
+                float v = Development * Population;
+                switch (Size) 
+                {
+                    case UrbanSize.Large:
+                        return MathEx.Saturate(v / CityGrade.LargeCityRefSat);
+                    case UrbanSize.Medium:
+                        return MathEx.Saturate(v / CityGrade.MediumRefSat);
+                    case UrbanSize.Small:
+                        return MathEx.Saturate(v / CityGrade.SmallRefSat);
+                }
+                return 0;
+            }
+        }
         public CaptureState Capture
         {
             get;
