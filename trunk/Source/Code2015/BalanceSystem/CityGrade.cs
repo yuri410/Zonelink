@@ -144,6 +144,16 @@ namespace Code2015.BalanceSystem
         public const float SmallCityCapturePoint = 500 * 0.2f;
         #endregion
 
+        [SLGValue()]
+        public const float LargeRecoverCD = 100;
+
+        [SLGValue()]
+        public const float MediumRecoverCD = 50;
+
+        [SLGValue()]
+        public const float SmallRecoverCD = 30;
+
+        static readonly float[] RecoverCoolDown = { SmallRecoverCD, MediumRecoverCD, LargeRecoverCD };
         static readonly float[] UpgradePoint = { SmallCityPointThreshold, MediumCityPointThreshold, LargeCityPointThreshold };
 
         static readonly float[] CapturePoint = { SmallCityCapturePoint, MediumCityCapturePoint, LargeCityCapturePoint };
@@ -168,7 +178,10 @@ namespace Code2015.BalanceSystem
             return CapturePoint[(int)size];
         }
 
-
+        public static float GetRecoverCoolDown(UrbanSize size) 
+        {
+            return RecoverCoolDown[(int)size];
+        }
         public static float GetGatherRadius(UrbanSize citySize)
         {
             return GatherRadius[(int)citySize];

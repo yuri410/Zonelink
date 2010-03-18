@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
+using Code2015.Logic;
 
 namespace Code2015.BalanceSystem
 {
@@ -14,7 +15,6 @@ namespace Code2015.BalanceSystem
         FastList<SimulateObject> simulateObject = new FastList<SimulateObject>();
         FastList<City> cities = new FastList<City>();
         FastList<NaturalResource> resources = new FastList<NaturalResource>();
-
 
         EnergyStatus energyStatus;
         SocietyStatus societyStatus;
@@ -103,6 +103,8 @@ namespace Code2015.BalanceSystem
 
             societyStatus.Update(time);
             energyStatus.Update(time);
+
+
         }
 
     }

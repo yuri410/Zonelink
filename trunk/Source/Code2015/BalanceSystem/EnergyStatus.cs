@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
+using Code2015.Logic;
 
 namespace Code2015.BalanceSystem
 {
@@ -82,6 +83,8 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        Dictionary<Player, float> carbonWeight = new Dictionary<Player, float>();
+
         public EnergyStatus(SimulationRegion region)
         {
             this.CurrentHR = InitHPEnergy;
@@ -95,6 +98,8 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
+            float hours = (float)time.ElapsedGameTime.TotalHours;
+
             // 统计资源量
 
             float hr = 0;
@@ -108,6 +113,17 @@ namespace Code2015.BalanceSystem
                 hr += city.LocalHR.Current;
                 lr += city.LocalLR.Current;
                 food += city.LocalFood.Current;
+
+
+                Player pl = city.Owner;
+                if (pl != null) 
+                {
+                    if (!carbonWeight.ContainsKey(pl)) 
+                    {
+                        carbonWeight.Add(pl, 0);
+                    }
+                    carbonWeight[pl] += city.CarbonProduceSpeed * hours;
+                }
             }
             CurrentFood = food;
             CurrentHR = hr;
@@ -132,7 +148,8 @@ namespace Code2015.BalanceSystem
             }
             RemainingHR = hr;
             RemainingLR = lr;
-           
+
+            
         }
 
 
