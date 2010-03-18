@@ -162,9 +162,6 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float FoodCostPerPeople = 0.05f;
 
-        [SLGValue]
-        public const float CityDeathThreshold = 0.1f;
-
 
         public static float GetCapturePoint(UrbanSize size) 
         {

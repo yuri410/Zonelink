@@ -337,6 +337,8 @@ namespace Code2015.BalanceSystem
 
     public class City : SimulateObject, IConfigurable, IUpdatable
     {
+        [SLGValue()]
+        const float SatThreshold = 0.1f;
 
         [SLGValue()]
         const float HPLowThreshold = 0.15f;
@@ -404,19 +406,31 @@ namespace Code2015.BalanceSystem
         {
             get
             {
-                float v = Development * Population;
-                switch (Size) 
+                switch (Size)
                 {
-                    case UrbanSize.Large:
-                        return MathEx.Saturate(v / CityGrade.LargeCityRefSat);
-                    case UrbanSize.Medium:
-                        return MathEx.Saturate(v / CityGrade.MediumRefSat);
                     case UrbanSize.Small:
+                        float v = Population < CityGrade.SmallRefPop ?
+                            Development * Population : Development * (2 * CityGrade.SmallRefPop - Population);
                         return MathEx.Saturate(v / CityGrade.SmallRefSat);
+                    case UrbanSize.Medium:
+                        v = Population < CityGrade.MediumRefPop ?
+                           Development * Population : Development * (2 * CityGrade.MediumRefPop - Population);
+                        return MathEx.Saturate(v / CityGrade.MediumRefSat);
+                    case UrbanSize.Large:
+                        v = Population < CityGrade.LargeRefPop ?
+                           Development * Population : Development * (2 * CityGrade.LargeRefPop - Population);
+                        return MathEx.Saturate(v / CityGrade.LargeCityRefSat);
                 }
                 return 0;
             }
         }
+        public bool IsSatisfactionLow 
+        {
+            get { return Satisfaction < SatThreshold; }
+        }
+
+
+
         public CaptureState Capture
         {
             get;
@@ -432,11 +446,6 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        public bool IsDead
-        {
-            get { return Population < CityGrade.CityDeathThreshold; }
-        }
-
         public CultureId Culture 
         {
             get { return culture; }
@@ -740,9 +749,6 @@ namespace Code2015.BalanceSystem
 
             CarbonProduceSpeed = 0;
 
-            if (IsDead) 
-                return;
-
             if (Capture.IsCapturing && !IsCaptured)
             {
                 if (Capture.NearbyCity1 != null)
@@ -759,13 +765,17 @@ namespace Code2015.BalanceSystem
                 {
                     ChangeOwner(player);
                 }
-
-
             }
+
+            if (Satisfaction < float.Epsilon) 
+            {
+                Owner = null;
+            }
+
+
 
             if (Owner == null)
             {
-                
                 return;
             }
 
@@ -1084,7 +1094,17 @@ namespace Code2015.BalanceSystem
             Name = sect.GetString("Name", string.Empty);
             Population = sect.GetSingle("Population");
             Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", string.Empty));
-
+            
+            switch (Size) 
+            {
+                case UrbanSize.Small:
+                    Development = 200;
+                    break;
+                case UrbanSize.Medium:
+                    break;
+                case UrbanSize.Large:
+                    break;
+            }
             UpgradeUpdate();
         }
 
