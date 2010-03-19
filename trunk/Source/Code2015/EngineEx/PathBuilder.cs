@@ -135,14 +135,14 @@ namespace Code2015.EngineEx
             for (int i = 0; i < faces.Length; i += 2)
             {
                 faces[i].MaterialIndex = 0;
-                faces[i].IndexA = i * 4;
-                faces[i].IndexB = i * 4 + 1;
-                faces[i].IndexC = i * 4 + 2;
+                faces[i].IndexA = i * 2;
+                faces[i].IndexB = i * 2 + 1;
+                faces[i].IndexC = i * 2 + 2;
 
                 faces[i + 1].MaterialIndex = 0;
-                faces[i + 1].IndexA = i * 4 + 1;
-                faces[i + 1].IndexB = i * 4 + 2;
-                faces[i + 1].IndexC = i * 4 + 3;
+                faces[i + 1].IndexA = i * 2 + 1;
+                faces[i + 1].IndexB = i * 2 + 2;
+                faces[i + 1].IndexC = i * 2 + 3;
             }
             surface.Faces = faces;
             surface.Materials = new Material[1][];

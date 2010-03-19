@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.MathLib;
 using Apoc3D.Collections;
+using Apoc3D.MathLib;
 
 namespace Code2015.ParticleSystem
 {
