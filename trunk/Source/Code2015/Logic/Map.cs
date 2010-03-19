@@ -57,6 +57,8 @@ namespace Code2015.Logic
             
         }
 
+
+
         public float GetHeightBilinear(float lng, float lat)
         {
             float yspan = (14.0f / 18.0f) * MathEx.PIf;

@@ -18,12 +18,23 @@ namespace Code2015.World
         HomeAuto
     }
 
+    struct MoveNode 
+    {
+        public float Longitude;
+        public float Latitude;
+
+        public float Alt;
+
+        public Quaternion Ori;
+    }
+
+
     public class Harvester : DynamicObject
     {
         float longtitude;
         float latitude;
-
-        float altitude;
+        MoveNode src;
+        MoveNode target;
 
         Map map;
         PathFinder finder;
@@ -37,10 +48,9 @@ namespace Code2015.World
         int destX; 
         int destY;
 
-        Quaternion targetOri;
-        Quaternion srcOri;
 
         bool rotUpdated;
+        bool stateUpdated;
 
         float currentPrg;
         int currentNode;
@@ -139,13 +149,18 @@ namespace Code2015.World
             Map.GetCoord(pb.X, pb.Y, out blng, out blat);
 
             Vector3 n = PlanetEarth.GetNormal(alng, alat);
-            Vector3 posA = PlanetEarth.GetPosition(alng, alat);
-            Vector3 posB = PlanetEarth.GetPosition(blng, blat);
+
+            float altA = map.GetHeightBilinear(alng, alat);
+            Vector3 posA = PlanetEarth.GetPosition(alng, alat, altA + PlanetEarth.PlanetRadius);
+            float altB = map.GetHeightBilinear(blng, blat);
+            Vector3 posB = PlanetEarth.GetPosition(blng, blat, altB + PlanetEarth.PlanetRadius);
 
             Vector3 dir = posB - posA;
             dir.Normalize();
             Vector3 bi = Vector3.Cross(n, dir);
             bi.Normalize();
+            
+            n = Vector3.Cross(dir, bi);
 
             Matrix result = Matrix.Identity;
             result.Right = bi;
@@ -156,7 +171,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            Orientation = Matrix.Identity;
+            float altitude = map.GetHeightBilinear(longtitude, latitude);
 
             if (cuurentPath != null)
             {
@@ -195,30 +210,41 @@ namespace Code2015.World
                     Point np = cuurentPath[nextNode];
                     Point cp = cuurentPath[currentNode];
 
+
+                    if (!stateUpdated)
+                    {
+                        Map.GetCoord(cp.X, cp.Y, out src.Longitude, out src.Latitude);
+                        Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
+
+                        src.Alt = map.GetHeightBilinear(src.Longitude, src.Latitude);
+                        target.Alt = map.GetHeightBilinear(target.Longitude, target.Latitude);
+                        stateUpdated = true;
+                    }
+
                     if (currentPrg > 0.5f && !rotUpdated)
                     {
                         if (nextNode < cuurentPath.NodeCount - 1)
                         {
-                            srcOri = GetOrientation(cp, np);
-                            targetOri = GetOrientation(np, cuurentPath[nextNode + 1]);
+                            src.Ori = GetOrientation(cp, np);
+                            target.Ori = GetOrientation(np, cuurentPath[nextNode + 1]);
                         }
                         else
                         {
-                            targetOri = GetOrientation(cp, np);
-                            srcOri = targetOri;
+                            target.Ori = GetOrientation(cp, np);
+                            src.Ori = target.Ori;
                         }
                         rotUpdated = true;
                     }
-
 
                     float x = MathEx.LinearInterpose(cp.X, np.X, currentPrg);
                     float y = MathEx.LinearInterpose(cp.Y, np.Y, currentPrg);
 
                     Map.GetCoord(x, y, out longtitude, out latitude);
 
-                    
+                    altitude = MathEx.LinearInterpose(src.Alt, target.Alt, currentPrg);
+
                     Orientation = Matrix.RotationQuaternion(
-                        Quaternion.Slerp(srcOri, targetOri, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
+                        Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
 
                     currentPrg += 0.05f;
 
@@ -227,15 +253,16 @@ namespace Code2015.World
                         currentPrg = 0;
                         currentNode++;
                         rotUpdated = false;
+                        stateUpdated = false;
                     }
+
                 }
             }
 
 
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
-            altitude = map.GetHeightBilinear(longtitude, latitude);
-
+           
             Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
 
             base.Update(dt);
