@@ -14,9 +14,12 @@ namespace Code2015.BalanceSystem
         CityPluginType type;
         FastList<NaturalResource> resource = new FastList<NaturalResource>();
 
-        public CityPlugin(CityPluginType type, CityPluginTypeId typeId)
+        CityPluginFactory factory;
+
+        public CityPlugin(CityPluginFactory fac, CityPluginType type, CityPluginTypeId typeId)
         {
             this.Name = type.TypeName;
+            this.factory = fac;
             this.type = type;
             this.TypeId = typeId;
             this.HRPConvRate = type.HRPConvRate;
@@ -124,9 +127,31 @@ namespace Code2015.BalanceSystem
 
         public void Upgrade(float amount)
         {
+            if (HRPConvRate > 1 - float.Epsilon && TypeId == CityPluginTypeId.OilRefinary)
+            {
+                CityPlugin plugin = factory.MakeBioEnergeFactory();
+                HRPConvRate = plugin.HRPConvRate;
+                LRPConvRate = plugin.LRPConvRate;
+                FoodConvRate = plugin.FoodConvRate;
+                
+                Name = plugin.Name;
+                TypeId = plugin.TypeId;
+
+                HRCSpeed = plugin.HRCSpeed;
+                LRCSpeed = plugin.LRCSpeed;
+                HRPSpeed = plugin.HRPSpeed;
+                LRPSpeed = plugin.LRPSpeed;
+
+               
+
+                resource.Clear();
+            }
+
             HRPConvRate = MathEx.Saturate(amount + HRPConvRate);
             LRPConvRate = MathEx.Saturate(amount + LRPConvRate);
             FoodConvRate = MathEx.Saturate(amount + FoodConvRate);
+
+            
         }
 
         void FindResources()
@@ -256,6 +281,12 @@ namespace Code2015.BalanceSystem
         public void Update(GameTime time)
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
+
+            if (BuildProgress < 1) 
+            {
+                BuildProgress += 0.03f;
+                return;
+            }
 
             switch (type.Behaviour)
             {
