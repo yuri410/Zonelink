@@ -10,6 +10,7 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.Effects;
 using Code2015.EngineEx;
+using Code2015.ParticleSystem;
 using XI = Microsoft.Xna.Framework.Input;
 
 namespace ModelStudio
@@ -20,6 +21,8 @@ namespace ModelStudio
         SceneRenderer renderer;
         SceneManager sceneManager;
         ChaseCamera camera;
+
+        ParticleEffect effect;
 
         public RenderViewer(RenderSystem rs) 
         {
@@ -86,9 +89,10 @@ namespace ModelStudio
 
             renderer.RegisterCamera(camera);
 
+            effect = new ParticleEffect(renderSys, 100);
             //obj = new ModelWrapper();
 
-            //sceneManager.AddObjectToScene(obj);
+            sceneManager.AddObjectToScene(effect);
         }
 
         public void Unload()

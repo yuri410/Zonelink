@@ -25,3 +25,6 @@ fxc Effect\cityring.ps /T ps_2_0 /E main /O3 /Fo Effect\cityring.cps /Zpr
 
 fxc Effect\tree.vs /T vs_2_0 /E main /O3 /Fo Effect\tree.cvs /Zpr
 fxc Effect\tree.ps /T ps_2_0 /E main /O3 /Fo Effect\tree.cps /Zpr
+
+fxc Effect\particle.vs /T vs_2_0 /E main /O3 /Fo Effect\particle.cvs /Zpr
+fxc Effect\particle.ps /T ps_2_0 /E main /O3 /Fo Effect\particle.cps /Zpr

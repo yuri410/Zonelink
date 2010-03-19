@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Code2015.ParticleSystem
 {
-    class ParticleManager
+    public class ParticleManager
     {
         static ParticleManager singleton;
 

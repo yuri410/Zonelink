@@ -6,7 +6,7 @@ using Apoc3D.Collections;
 
 namespace Code2015.ParticleSystem
 {
-    class ParticleModifier
+    public class ParticleModifier
     {
         public void Update(FastList<Particle> particles, float dt)
         {

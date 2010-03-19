@@ -100,6 +100,7 @@
     <Compile Include="Effect\CityLinkEffect.cs" />
     <Compile Include="Effect\CityRingEffect.cs" />
     <Compile Include="Effect\EarthBaseEffect.cs" />
+    <Compile Include="Effect\ParticleEffect.cs" />
     <Compile Include="Effect\SkyboxEffect.cs" />
     <Compile Include="Effect\StandardEffect.cs" />
     <Compile Include="Effect\TerrainEffect.cs" />
@@ -607,6 +608,8 @@
     <None Include="Effect\water.vs" />
     <None Include="Effect\waterDepth.psh" />
     <None Include="Effect\waterDepth.vsh" />
+    <None Include="Effect\particle.ps" />
+    <None Include="Effect\particle.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

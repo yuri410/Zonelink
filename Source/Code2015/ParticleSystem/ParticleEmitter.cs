@@ -10,7 +10,7 @@ namespace Code2015.ParticleSystem
     /// <summary>
     ///  负责回收和创建粒子
     /// </summary>
-    class ParticleEmitter
+    public class ParticleEmitter
     {
         ParticleManager pmgr;
         float creationSpeed;
