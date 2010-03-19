@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.MathLib;
 
@@ -27,7 +28,12 @@ namespace Code2015.ParticleSystem
 
         Particle CreateParticle()
         {
-            return ParticleManager.Instance.CreateParticle();
+            Particle p = ParticleManager.Instance.CreateParticle();
+            p.Life = 5;
+            p.Alpha = 1;
+            p.Position = new Vector3();
+            p.Velocity = new Vector3(Randomizer.GetRandomSingle() * 3, Randomizer.GetRandomSingle() * 3, Randomizer.GetRandomSingle() * 3);
+            return p;
         }
 
         public void Update(FastList<Particle> particles, float dt)
@@ -38,7 +44,7 @@ namespace Code2015.ParticleSystem
             {
                 particles[i].ApplyMoment(new Vector3(0, -0.5f, 0));
 
-                if (particles[i].Life <= 0)
+                if (particles[i].Life <= float.Epsilon)
                 {
                     particles[i] = CreateParticle();
                     count--;
