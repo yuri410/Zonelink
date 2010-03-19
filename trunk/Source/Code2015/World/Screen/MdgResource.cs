@@ -335,15 +335,15 @@ namespace Code2015.World.Screen
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
-                if (object.ReferenceEquals(manager.GetPrimaryResource(type), this))
-                {
+                //if (object.ReferenceEquals(manager.GetPrimaryResource(type), this))
+                //{
                     sprite.Draw(image, 0, 0, ColorValue.White);
-                }
-                else
-                {
-                    ColorValue opa = new ColorValue(1, 1, 1, MdgPhysicsParams.InactiveAlpha);
-                    sprite.Draw(image, 0, 0, opa);
-                }
+                //}
+                //else
+                //{
+                    //ColorValue opa = new ColorValue(1, 1, 1, MdgPhysicsParams.InactiveAlpha);
+                    //sprite.Draw(image, 0, 0, opa);
+                //}
             }
 
         }
@@ -377,7 +377,7 @@ namespace Code2015.World.Screen
             float r2 = 1 - (rr / (physicsWorld.BoundsRadius * physicsWorld.BoundsRadius));
             r.Normalize();
 
-            body.CollisionEnabled = rr > (MdgPhysicsParams.BallRadius * MdgPhysicsParams.BallRadius);
+            body.CollisionEnabled = rr > (6 * MdgPhysicsParams.BallRadius * MdgPhysicsParams.BallRadius);
 
             if (r2 > float.Epsilon)
             {
@@ -421,13 +421,13 @@ namespace Code2015.World.Screen
         /// </summary>
         FastList<MdgResource>[] balls;
 
-        MdgResource[] primaryBall;
+        //MdgResource[] primaryBall;
         MdgPiece[][] primaryPiece;
 
         public MdgResourceManager()
         {
             pieces = new FastList<MdgPiece>[(int)MdgType.Count][];
-            primaryBall = new MdgResource[(int)MdgType.Count];
+            //primaryBall = new MdgResource[(int)MdgType.Count];
             primaryPiece = new MdgPiece[(int)MdgType.Count][];
 
             balls = new FastList<MdgResource>[(int)MdgType.Count];
@@ -476,10 +476,10 @@ namespace Code2015.World.Screen
         }
         public void Add(MdgResource res)
         {
-            if (balls[(int)res.Type].Count == 0)
-            {
-                primaryBall[(int)res.Type] = res;
-            }
+            //if (balls[(int)res.Type].Count == 0)
+            //{
+            //    primaryBall[(int)res.Type] = res;
+            //}
             balls[(int)res.Type].Add(res);
         }
         public void Remove(MdgPiece piece)
@@ -497,10 +497,10 @@ namespace Code2015.World.Screen
             balls[(int)res.Type].Remove(res);
             res.NotifyRemoved();
 
-            if (object.ReferenceEquals(primaryBall[(int)res.Type], res))
-            {
-                primaryBall[(int)res.Type] = null;
-            }
+            //if (object.ReferenceEquals(primaryBall[(int)res.Type], res))
+            //{
+            //    primaryBall[(int)res.Type] = null;
+            //}
         }
         public void SetPrimary(object obj)
         {
@@ -511,17 +511,17 @@ namespace Code2015.World.Screen
                 return;
             }
 
-            MdgResource r2 = obj as MdgResource;
-            if (r2 != null)
-            {
-                primaryBall[(int)r2.Type] = r2;
-            }
+            //MdgResource r2 = obj as MdgResource;
+            //if (r2 != null)
+            //{
+            //    primaryBall[(int)r2.Type] = r2;
+            //}
         }
 
-        public MdgResource GetPrimaryResource(MdgType type)
-        {
-            return primaryBall[(int)type];
-        }
+        //public MdgResource GetPrimaryResource(MdgType type)
+        //{
+        //    return primaryBall[(int)type];
+        //}
         public MdgPiece GetPrimaryPiece(MdgType type, int bitmask)
         {
             return primaryPiece[(int)type][bitmask];
