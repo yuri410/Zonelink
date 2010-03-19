@@ -150,9 +150,9 @@ namespace Code2015.World
 
             Vector3 n = PlanetEarth.GetNormal(alng, alat);
 
-            float altA = map.GetHeightBilinear(alng, alat);
+            float altA = map.GetHeight(pa);
             Vector3 posA = PlanetEarth.GetPosition(alng, alat, altA + PlanetEarth.PlanetRadius);
-            float altB = map.GetHeightBilinear(blng, blat);
+            float altB = map.GetHeight(pb);
             Vector3 posB = PlanetEarth.GetPosition(blng, blat, altB + PlanetEarth.PlanetRadius);
 
             Vector3 dir = posB - posA;
@@ -171,7 +171,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            float altitude = map.GetHeightBilinear(longtitude, latitude);
+            float altitude = map.GetHeight(longtitude, latitude);
 
             if (cuurentPath != null)
             {
@@ -216,8 +216,8 @@ namespace Code2015.World
                         Map.GetCoord(cp.X, cp.Y, out src.Longitude, out src.Latitude);
                         Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
 
-                        src.Alt = map.GetHeightBilinear(src.Longitude, src.Latitude);
-                        target.Alt = map.GetHeightBilinear(target.Longitude, target.Latitude);
+                        src.Alt = map.GetHeight(cp);
+                        target.Alt = map.GetHeight(np);
                         stateUpdated = true;
                     }
 
