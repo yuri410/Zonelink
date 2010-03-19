@@ -8,7 +8,7 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.Logic
 {
-    class Disaster
+    class Disaster : SimulateObject
     {
         float longitude;
         float latitude;
@@ -25,14 +25,6 @@ namespace Code2015.Logic
         float[] cityWeights;
         float[] resWeights;
 
-        public float Longitude
-        {
-            get { return longitude; }
-        }
-        public float Latitude 
-        {
-            get { return latitude; }
-        }
 
         public float Duration
         {
@@ -46,13 +38,14 @@ namespace Code2015.Logic
         }
 
         public Disaster(SimulationRegion world, float lng, float lat, float duration, float damage)
+            : base(world)
         {
             this.longitude = lng;
             this.latitude = lat;
             this.duration = duration;
             this.damage = damage;
             this.world = world;
-
+            this.radius = radius;
 
             FastList<City> cities = new FastList<City>();
             FastList<NaturalResource> resources = new FastList<NaturalResource>();
@@ -106,8 +99,10 @@ namespace Code2015.Logic
             this.resources = resources.Elements;
         }
 
-        public void Update(GameTime time)
+        public override void Update(GameTime time)
         {
+            CarbonProduceSpeed = 0;
+
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
             for (int i = 0; i < cities.Length; i++)
