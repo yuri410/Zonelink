@@ -7,6 +7,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Apoc3D.Core;
+using Code2015.ParticleSystem;
 
 namespace Code2015.Effects
 {
@@ -28,7 +29,7 @@ namespace Code2015.Effects
 
         public override Effect CreateInstance()
         {
-            return new PaticleRDEffect(device);
+            return new ParticleRDEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -37,7 +38,7 @@ namespace Code2015.Effects
         }
     }
 
-    class PaticleRDEffect : Effect
+    class ParticleRDEffect : Effect
     {
         RenderSystem renderSys;
 
@@ -45,7 +46,7 @@ namespace Code2015.Effects
         VertexShader vtxShader;
         Texture noTexture;
 
-        public unsafe PaticleRDEffect(RenderSystem rs)
+        public unsafe ParticleRDEffect(RenderSystem rs)
             : base(false, ParticleRDEffectFactory.Name)
         {
             this.renderSys = rs;
@@ -92,7 +93,9 @@ namespace Code2015.Effects
             vtxShader.SetValue("mvp",
                 view * EffectParams.CurrentCamera.ProjectionMatrix);
 
-            vtxShader.SetValue("size", 1f);
+            ParticleEffect partEff = op.Sender as ParticleEffect;
+
+            vtxShader.SetValue("size", partEff == null ? 1f : partEff.ParticleSize);
 
             ResourceHandle<Texture> clrTex = mat.GetTexture(0);
             if (clrTex == null)

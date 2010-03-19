@@ -90,6 +90,7 @@ namespace Code2015.ParticleSystem
             material.ZWriteEnabled = false;
             material.PriorityHint = RenderPriority.Third;
             material.IsTransparent = true;
+            material.Flags = MaterialFlags.BlendBright_Color;
             material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             material.Diffuse = new Color4F(1, 1f, 1, 1);
 
@@ -100,12 +101,13 @@ namespace Code2015.ParticleSystem
             geoData.VertexDeclaration = vtxDecl;
             geoData.VertexSize = Vertex.Size;
             geoData.IndexBuffer = idxBuffer;
-            renderOp = new RenderOperation[1];
 
+            renderOp = new RenderOperation[1];
             renderOp[0].Geomentry = geoData;
             renderOp[0].Material = material;
             
             BoundingSphere.Radius = float.MaxValue;
+            ParticleSize = 0.2f;
         }
 
         public ParticleEmitter Emitter 

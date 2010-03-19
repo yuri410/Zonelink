@@ -27,22 +27,22 @@ VSOutput main(VSInput ip)
 	if (idx == 0)
 	{
 		ip.Position.xyz += (up + right) * -size;
-		o.TexCoord1 = float2(0, 0);
+		o.TexCoord1 = float2(0, 1);
 	}
 	else if (idx == 1)
 	{
 		ip.Position.xyz += (right - up) * size;
-		o.TexCoord1 = float2(1, 0);
+		o.TexCoord1 = float2(1, 1);
 	}
 	else if (idx == 2)
 	{
 		ip.Position.xyz += (up + right) * size;
-		o.TexCoord1 = float2(1, 1);
+		o.TexCoord1 = float2(1, 0);
 	}
 	else
 	{
 		ip.Position.xyz += (right - up) * -size;
-		o.TexCoord1 = float2(0, 1);
+		o.TexCoord1 = float2(0, 0);
 	}
 	
     o.Position = mul(ip.Position, mvp);
