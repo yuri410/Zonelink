@@ -43,7 +43,7 @@ namespace Code2015.ParticleSystem
 
             for (int i = 0; i < particles.Count && count > 0; i++)
             {
-                particles[i].ApplyMoment(new Vector3(0, 0.5f, 0));
+                particles[i].ApplyMoment(new Vector3(0, 0.1f, 0));
 
                 if (particles[i].Life <= float.Epsilon)
                 {
