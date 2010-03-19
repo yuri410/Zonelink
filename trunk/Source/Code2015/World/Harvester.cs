@@ -150,16 +150,16 @@ namespace Code2015.World
 
             Vector3 n = PlanetEarth.GetNormal(alng, alat);
 
-            float altA = map.GetHeight(pa);
+            float altA = map.GetHeight(alng, alat);
             Vector3 posA = PlanetEarth.GetPosition(alng, alat, altA + PlanetEarth.PlanetRadius);
-            float altB = map.GetHeight(pb);
+            float altB = map.GetHeight(blng, blat);
             Vector3 posB = PlanetEarth.GetPosition(blng, blat, altB + PlanetEarth.PlanetRadius);
 
             Vector3 dir = posB - posA;
             dir.Normalize();
             Vector3 bi = Vector3.Cross(n, dir);
             bi.Normalize();
-            
+
             n = Vector3.Cross(dir, bi);
 
             Matrix result = Matrix.Identity;
@@ -216,8 +216,8 @@ namespace Code2015.World
                         Map.GetCoord(cp.X, cp.Y, out src.Longitude, out src.Latitude);
                         Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
 
-                        src.Alt = map.GetHeight(cp);
-                        target.Alt = map.GetHeight(np);
+                        src.Alt = map.GetHeight(src.Longitude, src.Latitude);
+                        target.Alt = map.GetHeight(target.Longitude, target.Latitude);
                         stateUpdated = true;
                     }
 

@@ -363,10 +363,10 @@ namespace Code2015.World.Screen
                     dragCenter = new Vector2(35, 350);
                     break;
                 case MdgType.Environment:
-                    dragCenter = new Vector2(35, 400);
+                    dragCenter = new Vector2(35, 500);
                     break;
                 case MdgType.Hunger:
-                    dragCenter = new Vector2(35, 550);
+                    dragCenter = new Vector2(35, 650);
                     break;
                 default:
                     throw new InvalidOperationException();
@@ -377,7 +377,7 @@ namespace Code2015.World.Screen
             float r2 = 1 - (rr / (physicsWorld.BoundsRadius * physicsWorld.BoundsRadius));
             r.Normalize();
 
-            body.CollisionEnabled = rr > (6 * MdgPhysicsParams.BallRadius * MdgPhysicsParams.BallRadius);
+            body.CollisionEnabled = rr > (9 * MdgPhysicsParams.BallRadius * MdgPhysicsParams.BallRadius);
 
             if (r2 > float.Epsilon)
             {
