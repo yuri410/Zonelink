@@ -92,7 +92,7 @@ namespace Code2015.Effects
             vtxShader.SetValue("mvp",
                 view * EffectParams.CurrentCamera.ProjectionMatrix);
 
-            vtxShader.SetValue("size", 1);
+            vtxShader.SetValue("size", 1f);
 
             ResourceHandle<Texture> clrTex = mat.GetTexture(0);
             if (clrTex == null)
