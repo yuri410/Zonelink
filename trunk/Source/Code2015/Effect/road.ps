@@ -44,6 +44,6 @@ PSOutput main(PSInput ip)
 	
     o.Color = tex2D(texDif, ip.TexCoord) * p + float4(spec.xyz,0);
   
-  
+	o.Color = 1 + 0.1*o.Color;
     return o;
 }
