@@ -660,6 +660,12 @@ namespace Code2015.BalanceSystem
         public event NearbyCityAddedHandler NearbyCityAdded;
         public event CityOwnerChanged CityOwnerChanged;
 
+        public void Damage(float pop, float dev)
+        {
+            Population -= pop;
+            Development -= dev;
+        }
+
         /// <summary>
         ///  给无家可归的城市一个主
         /// </summary>
