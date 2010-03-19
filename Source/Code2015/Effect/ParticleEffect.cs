@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
-using Apoc3D.Core;
 using Code2015.ParticleSystem;
 
 namespace Code2015.Effects
