@@ -23,6 +23,9 @@ namespace Code2015.World
         float longtitude;
         float latitude;
 
+        float altitude;
+
+        Map map;
         PathFinder finder;
         UnitState state;
 
@@ -33,7 +36,6 @@ namespace Code2015.World
 
         int destX; 
         int destY;
-
 
         Quaternion targetOri;
         Quaternion srcOri;
@@ -64,13 +66,14 @@ namespace Code2015.World
             private set;
         }
 
-        public Harvester(RenderSystem rs, Map map,  Model mdl)
+        public Harvester(RenderSystem rs, Map map, Model mdl)
         {
             finder = map.PathFinder.CreatePathFinder();
+            this.map = map;
 
             ModelL0 = mdl;
             BoundingSphere.Radius = 50;
-            
+
         }
 
         public void SetAuto(float tlng, float tlat, float slng, float slat)
@@ -99,6 +102,7 @@ namespace Code2015.World
 
             finder.Reset();
             cuurentPath = finder.FindPath(sx, sy, tx, ty);
+            
             currentNode = 0;
             currentPrg = 0;
         }
@@ -212,6 +216,7 @@ namespace Code2015.World
 
                     Map.GetCoord(x, y, out longtitude, out latitude);
 
+                    
                     Orientation = Matrix.RotationQuaternion(
                         Quaternion.Slerp(srcOri, targetOri, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
 
@@ -229,7 +234,9 @@ namespace Code2015.World
 
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
-            Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + 50);
+            altitude = map.GetHeightBilinear(longtitude, latitude);
+
+            Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
 
             base.Update(dt);
         }
