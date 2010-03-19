@@ -37,7 +37,7 @@ namespace Code2015.Logic
             get { return duration < float.Epsilon; }
         }
 
-        public Disaster(SimulationRegion world, float lng, float lat, float duration, float damage)
+        public Disaster(SimulationRegion world, float lng, float lat, float radius, float duration, float damage)
             : base(world)
         {
             this.longitude = lng;

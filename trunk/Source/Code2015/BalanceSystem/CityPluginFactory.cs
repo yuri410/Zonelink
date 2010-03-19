@@ -45,26 +45,26 @@ namespace Code2015.BalanceSystem
 
         public CityPlugin MakeOilRefinary()
         {
-            return new CityPlugin(oilRefinaryType, CityPluginTypeId.OilRefinary);
+            return new CityPlugin(this, oilRefinaryType, CityPluginTypeId.OilRefinary);
         }
         public CityPlugin MakeWoodFactory()
         {
-            return new CityPlugin(woodFactoryType, CityPluginTypeId.WoodFactory);
+            return new CityPlugin(this, woodFactoryType, CityPluginTypeId.WoodFactory);
         }
 
         public CityPlugin MakeBioEnergeFactory()
         {
-            return new CityPlugin(bioFuelFactoryType, CityPluginTypeId.BiofuelFactory);
+            return new CityPlugin(this, bioFuelFactoryType, CityPluginTypeId.BiofuelFactory);
         }
 
         public CityPlugin MakeHospital()
         {
-            return new CityPlugin(hospitalType, CityPluginTypeId.Hospital);
+            return new CityPlugin(this, hospitalType, CityPluginTypeId.Hospital);
         }
 
         public CityPlugin MakeEducationAgent()
         {
-            return new CityPlugin(educationOrganType, CityPluginTypeId.EducationOrg);
+            return new CityPlugin(this, educationOrganType, CityPluginTypeId.EducationOrg);
         }
     }
 }
