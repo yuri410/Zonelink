@@ -11,6 +11,7 @@ using Apoc3D.Graphics.Effects;
 using Code2015.EngineEx;
 using Code2015.Effects;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.Core;
 namespace ModelStudio
 {
     class ModelWrapper : Entity 
@@ -93,7 +94,7 @@ namespace ModelStudio
             camera = new ChaseCamera(clSize.Width / (float)clSize.Height);
             camera.ChaseDirection = new Vector3(0, 0, 1);
             camera.ChasePosition = new Vector3(0, 0, 0);
-            camera.DesiredPositionOffset = new Vector3(0, 0, 40);  
+            camera.DesiredPositionOffset = new Vector3(0, 0, 40);
             camera.Mode = RenderMode.Final;
             camera.FarPlane = 1000;
             camera.NearPlane = 0.5f;
@@ -103,7 +104,7 @@ namespace ModelStudio
             xang = MathEx.Degree2Radian(45);
 
             sceneManager = new SceneManager();
-            SceneRendererParameter sm = new SceneRendererParameter ();
+            SceneRendererParameter sm = new SceneRendererParameter();
             sm.PostRenderer = new DefaultPostRenderer();
             sm.SceneManager = sceneManager;
             sm.UseShadow = false;
@@ -116,6 +117,13 @@ namespace ModelStudio
             obj = new ModelWrapper();
 
             sceneManager.AddObjectToScene(obj);
+
+            ModelData mdlData = PathBuilder.BuildModel(renderSys, null, new Point[]
+            {
+                new Point(0,0), new Point(2,1), new Point(4,4), new Point(5,4), new Point(6,5), new Point(6,7), new Point(9,9)
+            });
+
+            CurrentModel = new Model(new ResourceHandle<ModelData>(mdlData, true));
         }
 
         public void Unload()

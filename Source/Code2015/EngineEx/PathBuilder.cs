@@ -6,10 +6,11 @@ using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.Graphics.Animation;
 
 namespace Code2015.EngineEx
 {
-    struct PathVertex
+    public struct PathVertex
     {
         public Vector3 Position;
         public Vector3 N;
@@ -39,7 +40,7 @@ namespace Code2015.EngineEx
    
     }
 
-    unsafe static class PathBuilder
+    public unsafe static class PathBuilder
     {
         static Vector3[] positionBuffer = new Vector3[1000];
 
@@ -48,7 +49,7 @@ namespace Code2015.EngineEx
         static Vector3[] rightBuffer = new Vector3[1000];
 
 
-        const float PathWidth = 5;
+        const float PathWidth = 0.5f;
 
         public static ModelData BuildModel(RenderSystem rs, Map map, Point[] points)
         {
@@ -62,29 +63,33 @@ namespace Code2015.EngineEx
             {
                 float lng;
                 float lat;
-                Map.GetCoord(points[i].X, points[i].Y, out lng, out lat);
+                //Map.GetCoord(points[i].X, points[i].Y, out lng, out lat);
 
-                positionBuffer[i] = PlanetEarth.GetPosition(lng, lat);
+                positionBuffer[i] = new Vector3(points[i].X, 0, points[i].Y);// PlanetEarth.GetPosition(lng, lat);
             }
 
             // 插值
-            for (int i = 1; i < vertexLen - 3; i++)
+            for (int i = 0; i < vertexLen; i++)
             {
+                int last = i - 1;
+                if (last < 0) last = 0;
+
+                int next1 = i + 1;
+                if (next1 >= vertexLen)
+                    next1 = vertexLen - 1;
+
+                int next2 = i + 2;
+                if (next2 >= vertexLen)
+                    next2 = vertexLen - 1;
+
+
                 positionBuffer2[i * 2] =
-                    MathEx.CatmullRom(positionBuffer[i - 1], positionBuffer[i], positionBuffer[i + 1], positionBuffer[i + 2], 0);
+                    MathEx.CatmullRom(positionBuffer[last], positionBuffer[i], positionBuffer[next1], positionBuffer[next2], 0);
                 positionBuffer2[i * 2 + 1] =
-                    MathEx.CatmullRom(positionBuffer[i - 1], positionBuffer[i], positionBuffer[i + 1], positionBuffer[i + 2], 0.5f);
+                    MathEx.CatmullRom(positionBuffer[last], positionBuffer[i], positionBuffer[next1], positionBuffer[next2], 0.5f);
             }
 
             vertexLen *= 2;
-
-            positionBuffer2[0] = positionBuffer[0];
-            positionBuffer2[vertexLen - 1] = positionBuffer2[vertexLen - 1];
-
-            int index = vertexLen - 2;
-            if (index > 0)
-                positionBuffer2[index] = MathEx.CatmullRom(positionBuffer2[index - 1],
-                    positionBuffer2[index], positionBuffer2[index + 1], positionBuffer2[index + 1], 0.5f);
 
 
             // 计算切线空间向量
@@ -95,6 +100,7 @@ namespace Code2015.EngineEx
 
                 Vector3 up = positionBuffer2[i];
                 up.Normalize();
+                up = Vector3.UnitY;
 
                 // Slop tangent matrix calculate
 
@@ -109,17 +115,17 @@ namespace Code2015.EngineEx
             for (int i = 0; i < vertexLen; i++)
             {
 
-                vertices[i].N = nrmBuffer[i];
-                vertices[i].Right = rightBuffer[i];
-                vertices[i].Position = positionBuffer2[i] - vertices[i].Right * PathWidth * 0.5f;
+                vertices[i * 2].N = nrmBuffer[i];
+                vertices[i * 2].Right = rightBuffer[i];
+                vertices[i * 2].Position = positionBuffer2[i] - vertices[i].Right * PathWidth * 0.5f;
 
-                vertices[i + 1].Position = positionBuffer2[i] + vertices[i].Right * PathWidth * 0.5f;
-                vertices[i + 1].N = vertices[i].N;
-                vertices[i + 1].Right = vertices[i].Right;
+                vertices[i * 2 + 1].Position = positionBuffer2[i] + vertices[i].Right * PathWidth * 0.5f;
+                vertices[i * 2 + 1].N = vertices[i].N;
+                vertices[i * 2 + 1].Right = vertices[i].Right;
 
 
-                vertices[i].Tex1 = new Vector2(0, texV);
-                vertices[i].Tex1 = new Vector2(1, texV);
+                vertices[i * 2].Tex1 = new Vector2(0, texV);
+                vertices[i * 2].Tex1 = new Vector2(1, texV);
 
                 texV += 0.1f;
             }
@@ -136,14 +142,14 @@ namespace Code2015.EngineEx
             for (int i = 0; i < faces.Length; i += 2)
             {
                 faces[i].MaterialIndex = 0;
-                faces[i].IndexA = i * 2;
-                faces[i].IndexB = i * 2 + 1;
-                faces[i].IndexC = i * 2 + 2;
+                faces[i].IndexA = i;
+                faces[i].IndexB = i + 1;
+                faces[i].IndexC = i + 2;
 
                 faces[i + 1].MaterialIndex = 0;
-                faces[i + 1].IndexA = i * 2 + 1;
-                faces[i + 1].IndexB = i * 2 + 2;
-                faces[i + 1].IndexC = i * 2 + 3;
+                faces[i + 1].IndexA = i + 1;
+                faces[i + 1].IndexB = i + 2;
+                faces[i + 1].IndexC = i + 3;
             }
             surface.Faces = faces;
             surface.Materials = new Material[1][];
@@ -158,12 +164,16 @@ namespace Code2015.EngineEx
             surfMtrl.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             surfMtrl.Diffuse = new Color4F(1, 1f, 1, 1);
             surfMtrl.Specular = new Color4F(1, 0.8f, 0.8f, 0.8f);
-            
+            surfMtrl.CullMode = CullMode.None;
+
             surfMtrl.SetEffect(EffectManager.Instance.GetModelEffect(StandardEffectFactory.Name));
-            
 
+            surface.MaterialAnimation = new MaterialAnimationInstance[]
+            {
+                new MaterialAnimationInstance(new MaterialAnimation(1, 1)) 
+            };
             surface.Materials[0][0] = surfMtrl;
-
+            
 
             Mesh surfaceMesh = new Mesh(rs, surface);
             ModelData result = new ModelData(rs, new Mesh[] { surfaceMesh });
