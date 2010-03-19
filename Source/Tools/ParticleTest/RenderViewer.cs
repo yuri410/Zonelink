@@ -2,51 +2,27 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Graphics;
-using Apoc3D.Scene;
-using Apoc3D.MathLib;
-using Apoc3D.Vfs;
 using Apoc3D.Config;
+using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
-using Code2015.EngineEx;
+using Apoc3D.MathLib;
+using Apoc3D.Scene;
+using Apoc3D.Vfs;
 using Code2015.Effects;
+using Code2015.EngineEx;
+using Code2015.ParticleSystem;
 using XI = Microsoft.Xna.Framework.Input;
+
 namespace ModelStudio
 {
-    class ModelWrapper : Entity 
-    {
-        
-
-        public ModelWrapper() 
-            : base(false)
-        {
-            Transformation = Matrix.Identity;
-            position = Vector3.Zero;
-        }
-
-        public void setmdl(Model mdl) 
-        {
-            ModelL0 = mdl;
-        }
-
-        public override bool IsSerializable
-        {
-            get { return false; }
-        }
-    }
     class RenderViewer : IRenderWindowHandler
     {
         RenderSystem renderSys;
         SceneRenderer renderer;
         SceneManager sceneManager;
         ChaseCamera camera;
-        ModelWrapper obj;
 
-        public Model CurrentModel
-        {
-            get { return obj.ModelL0; }
-            set { obj.setmdl(value); }
-        }
+        ParticleEffect peff;
 
         public RenderViewer(RenderSystem rs) 
         {
@@ -74,6 +50,7 @@ namespace ModelStudio
             EffectManager.Instance.RegisterModelEffectType(CityLinkEffectFactory.Name, new CityLinkEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CityRingEffectFactory.Name, new CityRingEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(TreeEffectFactory.Name, new TreeEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(ParticleRDEffectFactory.Name, new ParticleRDEffectFactory(renderSys));
 
             TextureManager.Initialize(1048576 * 100);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
@@ -113,9 +90,13 @@ namespace ModelStudio
 
             renderer.RegisterCamera(camera);
 
-            obj = new ModelWrapper();
+            
+            peff = new ParticleEffect(renderSys, 100);
+            peff.Emitter = new ParticleEmitter(10);
+            peff.Modifier = new ParticleModifier();
 
-            sceneManager.AddObjectToScene(obj);
+
+            sceneManager.AddObjectToScene(peff);
         }
 
         public void Unload()
@@ -144,7 +125,7 @@ namespace ModelStudio
             }
             else if (mstate.LeftButton == XI.ButtonState.Pressed) 
             {
-                obj.Orientation *= Matrix.RotationY(MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f);
+                //obj.Orientation *= Matrix.RotationY(MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f);
             }
 
             lastState = mstate;

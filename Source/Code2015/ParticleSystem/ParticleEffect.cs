@@ -6,6 +6,8 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Collections;
 using Apoc3D.Scene;
+using Apoc3D.Graphics.Effects;
+using Code2015.Effects;
 
 namespace Code2015.ParticleSystem
 {
@@ -15,7 +17,7 @@ namespace Code2015.ParticleSystem
         struct Vertex
         {
             public Vector3 Position;
-            public float Alpha;
+            public Vector2 AlphaIdx;
 
             static VertexElement[] elements;
 
@@ -24,13 +26,13 @@ namespace Code2015.ParticleSystem
                 elements = new VertexElement[2]
                 {
                     new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0),
-                    new VertexElement(1, VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 0)
+                    new VertexElement(Vector3.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0)
                 };
             }
 
             public static int Size
             {
-                get { return Vector3.SizeInBytes; }
+                get { return Vector3.SizeInBytes + Vector2.SizeInBytes; }
             }
 
             public static VertexElement[] Elements
@@ -41,6 +43,7 @@ namespace Code2015.ParticleSystem
         }
 
         VertexBuffer vtxBuffer;
+        IndexBuffer idxBuffer;
 
         VertexDeclaration vtxDecl;
         FastList<Particle> particles;
@@ -63,7 +66,23 @@ namespace Code2015.ParticleSystem
 
             particles = new FastList<Particle>(particleCount);
             dataBuffer = new Vertex[particleCount * 4];
-            vtxBuffer = fac.CreateVertexBuffer(particleCount, vtxDecl, BufferUsage.Dynamic);
+            vtxBuffer = fac.CreateVertexBuffer(dataBuffer.Length, vtxDecl, BufferUsage.Dynamic);
+
+            idxBuffer = fac.CreateIndexBuffer(IndexBufferType.Bit16, particleCount * 6, BufferUsage.Static);
+
+            ushort[] indices = new ushort[particleCount * 6];
+            for (int i = 0; i < particleCount; i++)
+            {
+                int ii = i * 6;
+                int idx = i * 4;
+                indices[ii] = (ushort)idx;
+                indices[ii + 1] = (ushort)(idx + 1);
+                indices[ii + 2] = (ushort)(idx + 2);
+                indices[ii + 3] = (ushort)idx;
+                indices[ii + 4] = (ushort)(idx + 2);
+                indices[ii + 5] = (ushort)(idx + 3);
+            }
+            idxBuffer.SetData<ushort>(indices);
 
             material = new Material(rs);
             material.CullMode = CullMode.None;
@@ -73,10 +92,14 @@ namespace Code2015.ParticleSystem
             material.IsTransparent = true;
             material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             material.Diffuse = new Color4F(1, 1f, 1, 1);
-            
+
+            material.SetEffect(EffectManager.Instance.GetModelEffect(ParticleRDEffectFactory.Name));
 
             geoData = new GeomentryData();
             geoData.VertexBuffer = vtxBuffer;
+            geoData.VertexDeclaration = vtxDecl;
+            geoData.VertexSize = Vertex.Size;
+            geoData.IndexBuffer = idxBuffer;
             renderOp = new RenderOperation[1];
 
             renderOp[0].Geomentry = geoData;
@@ -101,7 +124,11 @@ namespace Code2015.ParticleSystem
             get { return material; }
         }
 
-
+        public float ParticleSize
+        {
+            get;
+            private set;
+        }
 
         #region IRenderable 成员
 
@@ -110,13 +137,14 @@ namespace Code2015.ParticleSystem
             if (emitter != null)
             {
                 geoData.VertexCount = particles.Count * 4;
+                geoData.PrimCount = particles.Count * 2;
+
                 geoData.BaseVertex = 0;
                 geoData.BaseIndexStart = 0;
                 geoData.PrimitiveType = RenderPrimitiveType.TriangleList;
-                geoData.VertexSize = Vertex.Size;
-
+              
                 renderOp[0].Transformation = Matrix.Identity;
-
+                renderOp[0].Sender = this;
                 return renderOp;
             }
             return null;
@@ -152,19 +180,19 @@ namespace Code2015.ParticleSystem
                 {
                     int idx = i * 4;
                     dataBuffer[idx].Position = particles[i].Position;
-                    dataBuffer[idx].Alpha = particles[i].Alpha;
+                    dataBuffer[idx].AlphaIdx = new Vector2(particles[i].Alpha, 0);
 
                     idx++;
                     dataBuffer[idx].Position = particles[i].Position;
-                    dataBuffer[idx].Alpha = particles[i].Alpha;
+                    dataBuffer[idx].AlphaIdx = new Vector2(particles[i].Alpha, 1);
 
                     idx++;
                     dataBuffer[idx].Position = particles[i].Position;
-                    dataBuffer[idx].Alpha = particles[i].Alpha;
+                    dataBuffer[idx].AlphaIdx = new Vector2(particles[i].Alpha, 2);
 
                     idx++;
                     dataBuffer[idx].Position = particles[i].Position;
-                    dataBuffer[idx].Alpha = particles[i].Alpha;
+                    dataBuffer[idx].AlphaIdx = new Vector2(particles[i].Alpha, 3);
                 }
                 vtxBuffer.SetData(dataBuffer);
 

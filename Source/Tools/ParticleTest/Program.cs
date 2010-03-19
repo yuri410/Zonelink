@@ -48,8 +48,6 @@ namespace ModelStudio
             Viewer = new RenderViewer(dc.RenderSystem);
             wnd.EventHandler = Viewer;
             Window = wnd;
-            MainForm frm = new MainForm(dc.RenderSystem);
-            frm.Show();
             
             wnd.Run();
         }

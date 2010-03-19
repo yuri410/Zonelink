@@ -53,7 +53,7 @@ namespace Apoc3D.Graphics.Effects
         int sign = 1;
 
         public unsafe TreeEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+            : base(false, TreeEffectFactory.Name)
         {
             this.renderSys = rs;
 

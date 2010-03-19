@@ -53,7 +53,7 @@ namespace Apoc3D.Graphics.Effects
         float sign;
 
         public unsafe CityLinkEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+            : base(false, CityLinkEffectFactory.Name)
         {
             this.renderSys = rs;
 

@@ -51,7 +51,7 @@ namespace Apoc3D.Graphics.Effects
         VertexShader vtxShader;
 
         public unsafe CityRingEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+            : base(false, CityRingEffectFactory.Name)
         {
             this.renderSys = rs;
 

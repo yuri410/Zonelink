@@ -1,10 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.Graphics.Effects;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Apoc3D.Core;
 
 namespace Code2015.Effects
 {
@@ -41,9 +43,10 @@ namespace Code2015.Effects
 
         PixelShader pixShader;
         VertexShader vtxShader;
+        Texture noTexture;
 
         public unsafe PaticleRDEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+            : base(false, ParticleRDEffectFactory.Name)
         {
             this.renderSys = rs;
 
@@ -52,6 +55,9 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("particle.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
+
+            fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
+            noTexture = TextureManager.Instance.CreateInstance(fl);
         }
 
 
@@ -78,8 +84,25 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
+            Matrix view = EffectParams.CurrentCamera.ViewMatrix;
+            Vector3 tl = view.TranslationValue;
+            view = Matrix.Identity;
+            view.TranslationValue = tl;
+
             vtxShader.SetValue("mvp",
-                EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix);
+                view * EffectParams.CurrentCamera.ProjectionMatrix);
+
+            vtxShader.SetValue("size", 1);
+
+            ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+            if (clrTex == null)
+            {
+                pixShader.SetTexture("texDif", noTexture);
+            }
+            else
+            {
+                pixShader.SetTexture("texDif", clrTex);
+            }
         }
 
         protected override void Dispose(bool disposing)
