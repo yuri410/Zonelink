@@ -165,6 +165,8 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
+            resources.Update(time);
+
             if (MouseInput.IsMouseDownLeft)
             {
                 SelectedItem = HitTest(MouseInput.X, MouseInput.Y);

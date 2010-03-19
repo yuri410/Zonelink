@@ -111,6 +111,7 @@
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
+    <Compile Include="GUI\CityDesigner.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
     </Compile>
