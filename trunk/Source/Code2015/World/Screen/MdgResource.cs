@@ -348,10 +348,44 @@ namespace Code2015.World.Screen
 
         }
 
-        //public override void Update(GameTime time)
-        //{
+        public override void Update(GameTime time)
+        {
+            Vector2 dragCenter = new Vector2();
+            switch (type)
+            {
+                case MdgType.Diseases:
+                case MdgType.MaternalHealth:
+                case MdgType.ChildMortality:
+                    dragCenter = new Vector2(35, 200);
+                    break;
+                case MdgType.Education:
+                case MdgType.GenderEquality:
+                    dragCenter = new Vector2(35, 350);
+                    break;
+                case MdgType.Environment:
+                    dragCenter = new Vector2(35, 400);
+                    break;
+                case MdgType.Hunger:
+                    dragCenter = new Vector2(35, 550);
+                    break;
+                default:
+                    throw new InvalidOperationException();
+            }
 
-        //}
+            Vector2 r = (body.Position - dragCenter);
+            float rr = r.LengthSquared();
+            float r2 = 1 - (rr / (physicsWorld.BoundsRadius * physicsWorld.BoundsRadius));
+            r.Normalize();
+
+            body.CollisionEnabled = rr > (MdgPhysicsParams.BallRadius * MdgPhysicsParams.BallRadius);
+
+            if (r2 > float.Epsilon)
+            {
+                Vector2 f1 = r * (1 / r2);
+                body.Force -= f1;
+            }
+
+        }
         #region IMdgSelection 成员
 
         public MdgIconType IconType
@@ -511,9 +545,15 @@ namespace Code2015.World.Screen
             return balls[(int)type][index];
         }
 
-        //public void Update(GameTime time)
-        //{
-
-        //}
+        public void Update(GameTime time)
+        {
+            for (int i = 0; i < balls.Length; i++)
+            {
+                for (int j = 0; j < balls[i].Count; j++)
+                {
+                    balls[i][j].Update(time);
+                }
+            }
+        }
     }
 }

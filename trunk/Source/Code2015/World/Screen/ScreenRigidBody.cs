@@ -59,6 +59,12 @@ namespace Code2015.World.Screen
 
         float radius;
 
+        public ScreenRigidBody()
+        {
+            CollisionEnabled = true;
+
+        }
+
         public float Inertia
         {
             get { return inertia; }
@@ -87,7 +93,11 @@ namespace Code2015.World.Screen
             get;
             set;
         }
-
+        public bool CollisionEnabled
+        {
+            get;
+            set;
+        }
         public Vector2 Force
         {
             get { return force; }
