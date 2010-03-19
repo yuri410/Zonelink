@@ -106,6 +106,7 @@
     <Compile Include="Effect\TerrainEffect.cs" />
     <Compile Include="Effect\TreeEffect.cs" />
     <Compile Include="Effect\WaterEffect.cs" />
+    <Compile Include="Effect\RoadEffect.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
@@ -572,6 +573,8 @@
     <None Include="Effect\particle.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Effect\road.cps" />
+    <None Include="Effect\road.cvs" />
     <None Include="Effect\skybox.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -616,6 +619,8 @@
     <None Include="Effect\waterDepth.vsh" />
     <None Include="Effect\particle.ps" />
     <None Include="Effect\particle.vs" />
+    <None Include="Effect\road.ps" />
+    <None Include="Effect\road.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
