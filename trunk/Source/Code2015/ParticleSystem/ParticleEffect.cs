@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
+using Apoc3D.Collections;
 
 namespace Code2015.ParticleSystem
 {
@@ -41,7 +42,7 @@ namespace Code2015.ParticleSystem
         VertexBuffer vtxBuffer;
 
         VertexDeclaration vtxDecl;
-        Particle[] particles;
+        FastList<Particle> particles;
 
         Material material;
 
@@ -58,7 +59,7 @@ namespace Code2015.ParticleSystem
 
             vtxDecl = fac.CreateVertexDeclaration(Vertex.Elements);
 
-            particles = new Particle[particleCount];
+            particles = new FastList<Particle>(particleCount);
             dataBuffer = new Vertex[particleCount * 4];
             vtxBuffer = fac.CreateVertexBuffer(particleCount, vtxDecl, BufferUsage.Dynamic);
 
@@ -105,7 +106,7 @@ namespace Code2015.ParticleSystem
         {
             if (emitter != null)
             {
-                geoData.VertexCount = emitter.CurrentCount * 4;
+                geoData.VertexCount = particles.Count * 4;
                 geoData.BaseVertex = 0;
                 geoData.BaseIndexStart = 0;
                 geoData.PrimitiveType = RenderPrimitiveType.TriangleList;
@@ -141,10 +142,10 @@ namespace Code2015.ParticleSystem
 
                 if (modifier != null)
                 {
-                    modifier.Update(particles, emitter.CurrentCount, dt);
+                    modifier.Update(particles, dt);
                 }
 
-                for (int i = 0; i < emitter.CurrentCount; i++)
+                for (int i = 0; i < particles.Count; i++)
                 {
                     int idx = i * 4;
                     dataBuffer[idx].Position = particles[i].Position;
