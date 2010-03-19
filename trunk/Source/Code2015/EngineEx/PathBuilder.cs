@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Code2015.World;
@@ -157,6 +158,9 @@ namespace Code2015.EngineEx
             surfMtrl.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             surfMtrl.Diffuse = new Color4F(1, 1f, 1, 1);
             surfMtrl.Specular = new Color4F(1, 0.8f, 0.8f, 0.8f);
+            
+            surfMtrl.SetEffect(EffectManager.Instance.GetModelEffect(StandardEffectFactory.Name));
+            
 
             surface.Materials[0][0] = surfMtrl;
 

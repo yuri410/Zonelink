@@ -28,3 +28,6 @@ fxc Effect\tree.ps /T ps_2_0 /E main /O3 /Fo Effect\tree.cps /Zpr
 
 fxc Effect\particle.vs /T vs_2_0 /E main /O3 /Fo Effect\particle.cvs /Zpr
 fxc Effect\particle.ps /T ps_2_0 /E main /O3 /Fo Effect\particle.cps /Zpr
+
+fxc Effect\road.vs /T vs_2_0 /E main /O3 /Fo Effect\road.cvs /Zpr
+fxc Effect\road.ps /T ps_2_0 /E main /O3 /Fo Effect\road.cps /Zpr
