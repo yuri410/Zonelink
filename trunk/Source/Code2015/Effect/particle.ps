@@ -1,15 +1,15 @@
-#include "waterDepth.psh"
+
+sampler2D texDif : register(s0);
 
 struct PSOutput
 {
     float4 Color : COLOR;
 };
 
-PSOutput main()
+PSOutput main(float alpha : TEXCOORD0, float2 tex1 : TEXCOORD1)
 {
     PSOutput o;
-    o.Color.rgb = WaterDarkColor.rgb;
-    o.Color.a = 1;
-    
+    o.Color = 1+0.01*tex2D(texDif, tex1);
+    //o.Color.a *= alpha;
     return o;
 }

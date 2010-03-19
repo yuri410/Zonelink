@@ -14,7 +14,7 @@ namespace Code2015.ParticleSystem
             {
                 particles[i].Update(dt);
                 particles[i].Life -= dt;
-                particles[i].Alpha = MathEx.Saturate(particles[i].Life);
+                particles[i].Alpha = MathEx.Saturate(particles[i].Life / 5f);
             }
         }
     }

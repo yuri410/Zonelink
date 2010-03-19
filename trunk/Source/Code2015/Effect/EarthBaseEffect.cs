@@ -8,7 +8,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 
 namespace Code2015.Effects
-{ 
+{
     public class EarthBaseEffectFactory : EffectFactory
     {
         static readonly string typeName = "EarthBase";
@@ -44,7 +44,7 @@ namespace Code2015.Effects
         VertexShader vtxShader;
 
         public unsafe EarthBaseEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+            : base(false, EarthBaseEffectFactory.Name)
         {
             this.renderSys = rs;
 

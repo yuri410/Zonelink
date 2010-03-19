@@ -44,7 +44,7 @@ namespace Code2015.Effects
         VertexShader vtxShader;
 
         public unsafe AtmosphereEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+            : base(false, AtmosphereEffectFactory.Name)
         {
             this.renderSys = rs;
 

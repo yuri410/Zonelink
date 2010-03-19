@@ -608,11 +608,11 @@ namespace DataFixer
         }
         static void BuildLandArea() 
         {
-            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l1.tdmp");
+            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk\terrain_l0.tdmp");
             ContentBinaryReader br = new ContentBinaryReader(fl);
 
-            const int DW = 36 * 129;
-            const int DH = 14 * 129;
+            const int DW = 36 * 513;
+            const int DH = 14 * 513;
 
             ushort[,] data = new ushort[DH, DW];
 
@@ -624,7 +624,7 @@ namespace DataFixer
                     data[i, j] = (v > (ushort)(1640 * 7)) ? (ushort)0 : ushort.MaxValue;// br.ReadUInt16();
                 }
             }
-            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\land129.raw", FileMode.OpenOrCreate));
+            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\land.raw", FileMode.OpenOrCreate));
             for (int i = 0; i < DH; i++)
             {
                 for (int j = 0; j < DW; j++)
@@ -635,6 +635,37 @@ namespace DataFixer
             bw.Close();
 
         }
+
+        static void BuildLandAreaHeight()
+        {
+            FileLocation fl = new FileLocation(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain\terrain_l0.tdmp");
+            ContentBinaryReader br = new ContentBinaryReader(fl);
+
+            const int DW = 36 * 513;
+            const int DH = 14 * 513;
+
+            ushort[,] data = new ushort[DH, DW];
+
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    ushort v = br.ReadUInt16();
+                    data[i, j] = (v > (ushort)(1635 * 7)) ? v : (ushort)0;
+                }
+            }
+            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\land513.raw", FileMode.OpenOrCreate));
+            for (int i = 0; i < DH; i++)
+            {
+                for (int j = 0; j < DW; j++)
+                {
+                    bw.Write(data[i, j]);
+                }
+            }
+            bw.Close();
+
+        }
+
         static void BuildBitMap()
         {
             FileLocation fl = new FileLocation(@"E:\Desktop\terrain_l2副本.raw");
@@ -722,7 +753,7 @@ namespace DataFixer
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));
-            Build3();
+            BuildLandAreaHeight();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
             Console.ReadKey();

@@ -2,27 +2,51 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Config;
 using Apoc3D.Graphics;
-using Apoc3D.Graphics.Effects;
-using Apoc3D.MathLib;
 using Apoc3D.Scene;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.Effects;
+using Apoc3D.Config;
+using Apoc3D.Graphics.Effects;
 using Code2015.EngineEx;
-using Code2015.ParticleSystem;
+using Code2015.Effects;
 using XI = Microsoft.Xna.Framework.Input;
-
 namespace ModelStudio
 {
+    class ModelWrapper : Entity 
+    {
+        
+
+        public ModelWrapper() 
+            : base(false)
+        {
+            Transformation = Matrix.Identity;
+            position = Vector3.Zero;
+        }
+
+        public void setmdl(Model mdl) 
+        {
+            ModelL0 = mdl;
+        }
+
+        public override bool IsSerializable
+        {
+            get { return false; }
+        }
+    }
     class RenderViewer : IRenderWindowHandler
     {
         RenderSystem renderSys;
         SceneRenderer renderer;
         SceneManager sceneManager;
         ChaseCamera camera;
+        ModelWrapper obj;
 
-        ParticleEffect effect;
+        public Model CurrentModel
+        {
+            get { return obj.ModelL0; }
+            set { obj.setmdl(value); }
+        }
 
         public RenderViewer(RenderSystem rs) 
         {
@@ -89,10 +113,9 @@ namespace ModelStudio
 
             renderer.RegisterCamera(camera);
 
-            effect = new ParticleEffect(renderSys, 100);
-            //obj = new ModelWrapper();
+            obj = new ModelWrapper();
 
-            sceneManager.AddObjectToScene(effect);
+            sceneManager.AddObjectToScene(obj);
         }
 
         public void Unload()
@@ -121,7 +144,7 @@ namespace ModelStudio
             }
             else if (mstate.LeftButton == XI.ButtonState.Pressed) 
             {
-                //obj.Orientation *= Matrix.RotationY(MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f);
+                obj.Orientation *= Matrix.RotationY(MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f);
             }
 
             lastState = mstate;
