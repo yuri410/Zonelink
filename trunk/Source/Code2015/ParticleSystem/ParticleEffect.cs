@@ -5,10 +5,11 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Collections;
+using Apoc3D.Scene;
 
 namespace Code2015.ParticleSystem
 {
-    class ParticleEffect : IRenderable, IUpdatable
+    public class ParticleEffect : SceneObject
     {
         Vertex[] dataBuffer;
         struct Vertex
@@ -54,6 +55,7 @@ namespace Code2015.ParticleSystem
 
 
         public ParticleEffect(RenderSystem rs, int particleCount)
+            : base(false)
         {
             ObjectFactory fac = rs.ObjectFactory;
 
@@ -80,6 +82,7 @@ namespace Code2015.ParticleSystem
             renderOp[0].Geomentry = geoData;
             renderOp[0].Material = material;
             
+            BoundingSphere.Radius = float.MaxValue;
         }
 
         public ParticleEmitter Emitter 
@@ -102,7 +105,7 @@ namespace Code2015.ParticleSystem
 
         #region IRenderable 成员
 
-        public RenderOperation[] GetRenderOperation()
+        public override RenderOperation[] GetRenderOperation()
         {
             if (emitter != null)
             {
@@ -119,7 +122,7 @@ namespace Code2015.ParticleSystem
             return null;
         }
 
-        public RenderOperation[] GetRenderOperation(int level)
+        public override RenderOperation[] GetRenderOperation(int level)
         {
             if (level < 2)
                 return GetRenderOperation();
@@ -132,7 +135,7 @@ namespace Code2015.ParticleSystem
 
         #region IUpdatable 成员
 
-        public void Update(GameTime time)
+        public override void Update(GameTime time)
         {
             float dt = time.ElapsedGameTimeSeconds;
 
@@ -169,5 +172,10 @@ namespace Code2015.ParticleSystem
         }
 
         #endregion
+
+        public override bool IsSerializable
+        {
+            get { return false; }
+        }
     }
 }

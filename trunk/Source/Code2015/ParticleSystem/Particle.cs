@@ -5,7 +5,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.ParticleSystem
 {
-    class Particle
+    public class Particle
     {
         const float mass = 1;
 

@@ -1,0 +1,15 @@
+#include "waterDepth.psh"
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main()
+{
+    PSOutput o;
+    o.Color.rgb = WaterDarkColor.rgb;
+    o.Color.a = 1;
+    
+    return o;
+}
