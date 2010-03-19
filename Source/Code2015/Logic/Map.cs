@@ -6,6 +6,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Code2015.World;
 
 namespace Code2015.Logic
 {
@@ -13,8 +14,8 @@ namespace Code2015.Logic
     {
         public const int MapWidth = PathFinderManager.DW;
         public const int MapHeight = PathFinderManager.DH;
-        public const int HeightMapWidth = MapWidth * 2;
-        public const int HeightMapHeight = MapHeight * 2;
+        public const int HeightMapWidth = 64 * 36;
+        public const int HeightMapHeight = 64 * 14;
 
         SimulationRegion region;
         PathFinderManager pathFinder;
@@ -57,9 +58,14 @@ namespace Code2015.Logic
             
         }
 
+        public float GetHeight(Point pt)
+        {
 
+            return TerrainMeshManager.PostHeightScale * (heightData[pt.Y][pt.X] / 7f - TerrainMeshManager.PostZeroLevel);
 
-        public float GetHeightBilinear(float lng, float lat)
+        }
+
+        public float GetHeight(float lng, float lat)
         {
             float yspan = (14.0f / 18.0f) * MathEx.PIf;
 
@@ -72,18 +78,19 @@ namespace Code2015.Logic
             if (x < 0) x += HeightMapWidth;
             if (x >= HeightMapWidth) x -= HeightMapWidth;
 
-            int xx = (int)Math.Truncate(x);
-            int yy = (int)Math.Truncate(y);
+            //int xx = (int)Math.Truncate(x);
+            //int yy = (int)Math.Truncate(y);
 
-            float xlerp = x - xx;
-            float ylerp = y - yy;
-
-
-            float v1 = xx < HeightMapWidth - 1 ? MathEx.LinearInterpose(heightData[yy][xx], heightData[yy][xx + 1], xlerp) : heightData[yy][xx];
-            float v2 = yy < HeightMapHeight - 1 ? MathEx.LinearInterpose(heightData[yy][xx], heightData[yy + 1][xx], ylerp) : heightData[yy][xx];
+            //float xlerp = x - xx;
+            //float ylerp = y - yy;
 
 
-            return TerrainMeshManager.PostHeightScale * ((MathEx.LinearInterpose(v1, v2, xlerp * ylerp)) / 7f - TerrainMeshManager.PostZeroLevel);
+            //float v1 = xx < HeightMapWidth - 1 ? MathEx.LinearInterpose(heightData[yy][xx], heightData[yy][xx + 1], xlerp) : heightData[yy][xx];
+            //float v2 = yy < HeightMapHeight - 1 ? MathEx.LinearInterpose(heightData[yy][xx], heightData[yy + 1][xx], ylerp) : heightData[yy][xx];
+
+            return TerrainMeshManager.PostHeightScale * (heightData[(int)y][(int)x] / 7f - TerrainMeshManager.PostZeroLevel);
+
+            //return TerrainMeshManager.PostHeightScale * ((MathEx.LinearInterpose(v1, v2, xlerp * ylerp)) / 7f - TerrainMeshManager.PostZeroLevel);
         }
 
         public static void GetMapCoord(float lng, float lat, out float x, out float y)
