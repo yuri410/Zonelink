@@ -25,6 +25,11 @@ namespace Code2015.ParticleSystem
         public void Update(float dt)
         {
             Position += Velocity * dt;
+
+            if (Life < 0)
+            {
+                ParticleManager.Instance.Retire(this);
+            }
         }
     }
 }
