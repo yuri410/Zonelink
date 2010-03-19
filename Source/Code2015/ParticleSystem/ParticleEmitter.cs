@@ -22,13 +22,11 @@ namespace Code2015.ParticleSystem
         {
             get { return currentParticleCount; }
         }
-
+        
         Particle CreateParticle() 
         {
             return ParticleManager.Instance.CreateParticle();
         }
-
-
 
         public void Update(Particle[] particles, float dt)
         {

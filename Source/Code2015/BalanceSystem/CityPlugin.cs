@@ -71,6 +71,10 @@ namespace Code2015.BalanceSystem
             get;
             private  set;
         }
+        public bool IsBuilding 
+        {
+            get { return BuildProgress < 1; }
+        }
 
         public string Name
         {
@@ -282,7 +286,7 @@ namespace Code2015.BalanceSystem
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
-            if (BuildProgress < 1) 
+            if (IsBuilding) 
             {
                 BuildProgress += 0.03f;
                 return;
