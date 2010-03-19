@@ -122,7 +122,13 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
-       
+        public void Upgrade(float amount)
+        {
+            HRPConvRate = MathEx.Saturate(amount + HRPConvRate);
+            LRPConvRate = MathEx.Saturate(amount + LRPConvRate);
+            FoodConvRate = MathEx.Saturate(amount + FoodConvRate);
+        }
+
         void FindResources()
         {
             if (TypeId != CityPluginTypeId.WoodFactory && TypeId != CityPluginTypeId.OilRefinary)

@@ -13,6 +13,10 @@ namespace Code2015.World
         FarmLand farm;
         RenderSystem renderSys;
 
+
+        Model[] tiles;
+        Model house;
+
         public FarmObject(RenderSystem rs, FarmLand farm)
             : base(false)
         {
@@ -27,7 +31,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            throw new NotImplementedException();
+            
         }
 
         public override bool IsSerializable

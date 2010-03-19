@@ -138,6 +138,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\MouseInput.cs" />
+    <Compile Include="Logic\Disaster.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />
@@ -447,6 +448,7 @@
     <Compile Include="World\Harvester.cs" />
     <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\CityOwnerRing.cs" />
+    <Compile Include="World\LightningStrom.cs" />
     <Compile Include="World\Screen\MdgResource.cs">
     </Compile>
     <Compile Include="World\OceanWater.cs" />
