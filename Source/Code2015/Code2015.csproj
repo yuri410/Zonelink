@@ -566,6 +566,12 @@
     </None>
     <None Include="Effect\earthBase.ps" />
     <None Include="Effect\earthBase.vs" />
+    <None Include="Effect\particle.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect\particle.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Effect\skybox.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
