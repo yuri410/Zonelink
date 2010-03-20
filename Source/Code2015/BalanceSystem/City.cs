@@ -394,6 +394,26 @@ namespace Code2015.BalanceSystem
         FastList<City> nearbyCity = new FastList<City>();
         CityObject parent;
 
+
+        [SLGValue()]
+        const int RecentCarbonLength = 100;
+
+        FastQueue<float> recentCarbon = new FastQueue<float>(RecentCarbonLength);
+        int carbonAddCounter;
+
+        public float RecentCarbonAmount 
+        {
+            get
+            {
+                float r = 0;
+                for (int i = 0; i < recentCarbon.Count; i++)
+                {
+                    r += recentCarbon.GetElement(i);
+                }
+                return r;
+            }
+        }
+
         public CityObject Parent
         {
             get { return parent; }
@@ -1134,6 +1154,14 @@ namespace Code2015.BalanceSystem
             if (devIncr > 0)
             {
                 Population += (devIncr + foodLack) * 0.01f;
+            }
+
+            if (carbonAddCounter++ == 8)
+            {
+                recentCarbon.Enqueue(CarbonProduceSpeed * hours);
+                while (recentCarbon.Count > RecentCarbonLength)
+                    recentCarbon.Dequeue();
+                carbonAddCounter = 0;
             }
 
             base.Update(time);

@@ -651,7 +651,7 @@ namespace DataFixer
                 for (int j = 0; j < DW; j++)
                 {
                     ushort v = br.ReadUInt16();
-                    data[i, j] = (v > (ushort)(1635 * 7)) ? v : (ushort)0;
+                    data[i, j] = (v > (ushort)(1600 * 7)) ? v : (ushort)0;
                 }
             }
             ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\land513.raw", FileMode.OpenOrCreate));

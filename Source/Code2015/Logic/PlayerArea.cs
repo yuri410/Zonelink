@@ -23,6 +23,15 @@ namespace Code2015.Logic
 
         Player owner;
 
+        public int CityCount
+        {
+            get { return cities.Count; }
+        }
+
+        public City GetCity(int i) 
+        {
+            return cities[i];
+        }
 
 
         public PlayerArea(SimulationRegion region, Player player)
