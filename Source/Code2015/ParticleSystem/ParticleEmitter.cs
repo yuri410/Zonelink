@@ -27,7 +27,7 @@ namespace Code2015.ParticleSystem
         Particle CreateParticle()
         {
             Particle p = ParticleManager.Instance.CreateParticle();
-            p.Life = 9;
+            p.Life = 5;
             p.Alpha = 1;
             p.Position = new Vector3();
             p.Velocity = new Vector3(

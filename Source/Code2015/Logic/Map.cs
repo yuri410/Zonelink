@@ -64,7 +64,53 @@ namespace Code2015.Logic
         //    return TerrainMeshManager.PostHeightScale * (heightData[pt.Y][pt.X] / 7f - TerrainMeshManager.PostZeroLevel);
 
         //}
-       
+        public Matrix GetTangentSpaceMatrix(Vector2 pa, Vector2 pb)
+        {
+            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+
+            float y1 = ((yspan * 0.5f - pa.Y) / yspan) * HeightMapHeight;
+            float x1 = ((pa.X + MathEx.PIf) / (2 * MathEx.PIf)) * HeightMapWidth;
+
+            if (y1 < 0) y1 += HeightMapHeight;
+            if (y1 >= HeightMapHeight) y1 -= HeightMapHeight;
+
+            if (x1 < 0) x1 += HeightMapWidth;
+            if (x1 >= HeightMapWidth) x1 -= HeightMapWidth;
+
+
+            float y2 = ((yspan * 0.5f - pb.Y) / yspan) * HeightMapHeight;
+            float x2 = ((pb.X + MathEx.PIf) / (2 * MathEx.PIf)) * HeightMapWidth;
+
+            if (y2 < 0) y2 += HeightMapHeight;
+            if (y2 >= HeightMapHeight) y2 -= HeightMapHeight;
+
+            if (x2 < 0) x2 += HeightMapWidth;
+            if (x2 >= HeightMapWidth) x2 -= HeightMapWidth;
+
+            float h1 = TerrainMeshManager.PostHeightScale * (heightData[(int)y1][(int)x1] / 7f - TerrainMeshManager.PostZeroLevel);
+            float h2 = TerrainMeshManager.PostHeightScale * (heightData[(int)y2][(int)x2] / 7f - TerrainMeshManager.PostZeroLevel);
+
+            Vector3 p1 = PlanetEarth.GetPosition(pa.X, pa.Y, PlanetEarth.PlanetRadius + h1);
+            Vector3 p2 = PlanetEarth.GetPosition(pb.X, pb.Y, PlanetEarth.PlanetRadius + h2);
+
+            Vector3 dir = p2 - p1;
+            dir.Normalize();
+
+            Vector3 n = p1;
+            n.Normalize();
+
+            Vector3 bi = Vector3.Cross(dir, n);
+            bi.Normalize();
+
+            n = Vector3.Cross(dir, bi);
+            n.Normalize();
+
+            Matrix result = Matrix.Identity;
+            result.Right = bi;
+            result.Up = n;
+            result.Forward = -dir;
+            return result;
+        }
 
         public float GetHeight(float lng, float lat)
         {
