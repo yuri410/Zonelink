@@ -61,6 +61,8 @@ namespace Code2015.GUI
         Texture progressBarCmp;
 
 
+        LinkUI linkUI;
+
         Texture cursor;
         Texture lds_ball;
         Point mousePosition;
@@ -68,6 +70,7 @@ namespace Code2015.GUI
         InGameUI2 ingameui2;
 
         Player player;
+
 
         public ScreenPhysicsWorld PhysicsWorld
         {
@@ -113,6 +116,7 @@ namespace Code2015.GUI
 
 
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
+            this.linkUI = new LinkUI(game, parent, scene);
         }
 
         public override void Render(Sprite sprite)
@@ -193,18 +197,24 @@ namespace Code2015.GUI
             if (obj != null)
             {
                 ISelectableObject sel = obj as ISelectableObject;
-                if (MouseInput.IsMouseUpRight)
+                if (MouseInput.IsMouseDownLeft)
                 {
                     ingameui2.SelectedObject = sel;
+                    linkUI.HoverCity = sel as CityObject;
+                }
+                else
+                {
+                    linkUI.HoverCity = null;
                 }
                 MouseHoverCity = sel as CityObject;
             }
             else
             {
+                linkUI.HoverCity = null;
                 MouseHoverCity = null;
             }
 
-
+            linkUI.Update(time);
         }
     }
 }
