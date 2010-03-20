@@ -91,8 +91,8 @@ namespace ModelStudio
             renderer.RegisterCamera(camera);
 
             
-            peff = new ParticleEffect(renderSys, 100);
-            peff.Emitter = new ParticleEmitter(10);
+            peff = new ParticleEffect(renderSys, 320);
+            peff.Emitter = new ParticleEmitter(1);
             peff.Modifier = new ParticleModifier();
 
 

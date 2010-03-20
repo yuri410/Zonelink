@@ -22,26 +22,27 @@ VSOutput main(VSInput ip)
     VSOutput o;
 
 	float idx = ip.AlphaIdx.y;
-	float hsize = size * 0.5;
+	
+	float ss = size * (18-18*ip.AlphaIdx.x);
 	
 	if (idx == 0)
 	{
-		ip.Position.xyz += (up + right) * -size;
+		ip.Position.xyz += (up + right) * -ss;
 		o.TexCoord1 = float2(0, 1);
 	}
 	else if (idx == 1)
 	{
-		ip.Position.xyz += (right - up) * size;
+		ip.Position.xyz += (right - up) * ss;
 		o.TexCoord1 = float2(1, 1);
 	}
 	else if (idx == 2)
 	{
-		ip.Position.xyz += (up + right) * size;
+		ip.Position.xyz += (up + right) * ss;
 		o.TexCoord1 = float2(1, 0);
 	}
 	else
 	{
-		ip.Position.xyz += (right - up) * -size;
+		ip.Position.xyz += (right - up) * -ss;
 		o.TexCoord1 = float2(0, 0);
 	}
 	

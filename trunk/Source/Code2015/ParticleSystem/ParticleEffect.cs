@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Graphics;
-using Apoc3D.MathLib;
 using Apoc3D.Collections;
-using Apoc3D.Scene;
+using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
-using Code2015.Effects;
+using Apoc3D.MathLib;
+using Apoc3D.Scene;
 using Apoc3D.Vfs;
+using Code2015.Effects;
 using Code2015.EngineEx;
 
 namespace Code2015.ParticleSystem
@@ -92,11 +92,12 @@ namespace Code2015.ParticleSystem
             material.ZWriteEnabled = false;
             material.PriorityHint = RenderPriority.Third;
             material.IsTransparent = true;
-            material.Flags = MaterialFlags.BlendBright_Color;
+
+            //material.Flags = MaterialFlags.BlendBright_Color;
             material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             material.Diffuse = new Color4F(1, 1f, 1, 1);
 
-            FileLocation fl = FileSystem.Instance.Locate("sparks.tex", GameFileLocs.Texture);
+            FileLocation fl = FileSystem.Instance.Locate("clouds.tex", GameFileLocs.Texture);
             material.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
             material.SetEffect(EffectManager.Instance.GetModelEffect(ParticleRDEffectFactory.Name));
 
@@ -111,7 +112,7 @@ namespace Code2015.ParticleSystem
             renderOp[0].Material = material;
             
             BoundingSphere.Radius = float.MaxValue;
-            ParticleSize = 0.2f;
+            ParticleSize = 2f;
         }
 
         public ParticleEmitter Emitter 

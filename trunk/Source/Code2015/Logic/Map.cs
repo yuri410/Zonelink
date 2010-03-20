@@ -64,6 +64,7 @@ namespace Code2015.Logic
         //    return TerrainMeshManager.PostHeightScale * (heightData[pt.Y][pt.X] / 7f - TerrainMeshManager.PostZeroLevel);
 
         //}
+       
 
         public float GetHeight(float lng, float lat)
         {

@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Code2015.World;
-using Apoc3D.Graphics.Animation;
 
 namespace Code2015.EngineEx
 {
@@ -102,7 +102,7 @@ namespace Code2015.EngineEx
                 up.Normalize();
 
                 // Slop tangent matrix calculate
-
+                
 
                 nrmBuffer[i] = up;
                 Vector3.Cross(ref dir, ref up, out rightBuffer[i]);
