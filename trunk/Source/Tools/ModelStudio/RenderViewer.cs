@@ -118,12 +118,12 @@ namespace ModelStudio
 
             sceneManager.AddObjectToScene(obj);
 
-            ModelData mdlData = PathBuilder.BuildModel(renderSys, null, new Point[]
-            {
-                new Point(0,0), new Point(2,1), new Point(4,4), new Point(5,4), new Point(6,5), new Point(6,7), new Point(9,9)
-            });
+            //ModelData mdlData = PathBuilder.BuildModel(renderSys, null, new Point[]
+            //{
+            //    new Point(0,0), new Point(2,1), new Point(4,4), new Point(5,4), new Point(6,5), new Point(6,7), new Point(9,9)
+            //});
 
-            CurrentModel = new Model(new ResourceHandle<ModelData>(mdlData, true));
+            //CurrentModel = new Model(new ResourceHandle<ModelData>(mdlData, true));
         }
 
         public void Unload()
