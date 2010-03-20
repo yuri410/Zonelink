@@ -146,13 +146,24 @@ namespace GameTest
 
         unsafe static void Main(string[] args)
         {
-            ConfigurationManager.Initialize();
-            ConfigurationManager.Instance.Register(new GameConfigurationFormat());
+            //ConfigurationManager.Initialize();
+            //ConfigurationManager.Instance.Register(new GameConfigurationFormat());
 
-            Configuration config = ConfigurationManager.Instance.CreateInstance(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\Configs\cities.xml");
+            //Configuration config = ConfigurationManager.Instance.CreateInstance(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\Configs\cities.xml");
 
-            Console.WriteLine(config.Count);
+            //Console.WriteLine(config.Count);
 
+            Vector3 p = PlanetEarth.GetPosition(-3, 1);
+
+            Console.WriteLine(p.ToString());
+
+            float lat;
+            float lng;
+
+            PlanetEarth.GetCoord(p, out lng, out lat);
+
+            Console.WriteLine(lng.ToString() + "," + lat.ToString());
+            Console.ReadKey();
         }
     }
 }

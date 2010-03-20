@@ -5,6 +5,7 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.World;
+using Code2015.Logic;
 
 namespace Code2015.GUI
 {
@@ -15,17 +16,33 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
 
+        Map map;
+
+        CityObject hoverCity;
 
         public CityObject SelectedCity
         {
             get;
-            private set;
+            set;
         }
 
         public CityObject HoverCity
         {
-            get;
-            private set;
+            get { return hoverCity; }
+            set
+            {
+                hoverCity = null;
+                if (!object.ReferenceEquals(hoverCity, value))
+                {
+                    if (!object.ReferenceEquals(hoverCity, SelectedCity))
+                    {
+                        if (!object.ReferenceEquals(hoverCity, null) && !object.ReferenceEquals(SelectedCity, null))
+                        {
+                            hoverCity = value;
+                        }
+                    }
+                }
+            }
         }
 
         public Point HoverPoint
@@ -34,6 +51,12 @@ namespace Code2015.GUI
             private set;
         }
 
+        void UpdatePath()
+        {
+
+        }
+
+
         public LinkUI(Code2015 game, Game parent, GameScene scene)
         {
             this.parent = parent;
@@ -41,6 +64,7 @@ namespace Code2015.GUI
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.scene = scene;
+            this.map = parent.Map;
         }
 
         public override void Update(GameTime time)
