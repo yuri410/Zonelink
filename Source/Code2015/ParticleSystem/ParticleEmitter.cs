@@ -27,13 +27,15 @@ namespace Code2015.ParticleSystem
         Particle CreateParticle()
         {
             Particle p = ParticleManager.Instance.CreateParticle();
-            p.Life = 1 * Randomizer.GetRandomSingle();
+            p.Life = 9;
             p.Alpha = 1;
             p.Position = new Vector3();
             p.Velocity = new Vector3(
-                (Randomizer.GetRandomSingle() - 0.5f) * 4,
-                (Randomizer.GetRandomSingle() - 0.5f) * 4,
-                (Randomizer.GetRandomSingle() - 0.5f) * 4);
+                (Randomizer.GetRandomSingle() - 0.5f) * 8,
+                (Randomizer.GetRandomSingle() - 0.5f) * 8,
+                (Randomizer.GetRandomSingle() - 0.5f) * 8);
+            p.Velocity += new Vector3(18, 18, 0);
+
             return p;
         }
 
@@ -43,7 +45,7 @@ namespace Code2015.ParticleSystem
 
             for (int i = 0; i < particles.Count && count > 0; i++)
             {
-                particles[i].ApplyMoment(new Vector3(0, 0.3f, 0));
+                //particles[i].ApplyMoment(new Vector3(0, 0.8f, 0));
 
                 if (particles[i].Life <= float.Epsilon)
                 {

@@ -9,10 +9,10 @@ using System.Windows.Forms;
 using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Apoc3D.Vfs;
-using Apoc3D.Graphics.Effects;
 
 namespace ModelStudio
 {
