@@ -101,11 +101,11 @@ namespace Code2015.EngineEx
                 Vector3 up = positionBuffer2[i];
                 up.Normalize();
 
-                // Slop tangent matrix calculate
-                
+                Vector3.Cross(ref dir, ref up, out rightBuffer[i]);
+
+                Vector3.Cross(ref rightBuffer[i], ref dir, out up);
 
                 nrmBuffer[i] = up;
-                Vector3.Cross(ref dir, ref up, out rightBuffer[i]);
             }
 
             // 计算网格顶点
