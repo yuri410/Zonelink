@@ -110,6 +110,11 @@ namespace Code2015
             private set;
         }
 
+        public Map Map 
+        {
+            get { return map; }
+        }
+
         Player[] GetLocalPlayers(GameCreationParameters gcp)
         {
             List<Player> list = new List<Player>();

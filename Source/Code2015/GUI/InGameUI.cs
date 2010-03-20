@@ -83,7 +83,6 @@ namespace Code2015.GUI
             private set
             {
                 mouseHoverCity = value;
-                linkUI.HoverCity = value;
             }
         }
 
@@ -202,16 +201,16 @@ namespace Code2015.GUI
             if (obj != null)
             {
                 ISelectableObject sel = obj as ISelectableObject;
+
+                MouseHoverCity = sel as CityObject;
+
                 if (MouseInput.IsMouseDownLeft)
                 {
                     ingameui2.SelectedObject = sel;
-                    linkUI.HoverCity = sel as CityObject;
+                    linkUI.SelectedCity = MouseHoverCity;
                 }
-                else
-                {
-                    linkUI.HoverCity = null;
-                }
-                MouseHoverCity = sel as CityObject;
+
+                linkUI.HoverCity = MouseInput.IsLeftPressed ? MouseHoverCity : null;
             }
             else
             {

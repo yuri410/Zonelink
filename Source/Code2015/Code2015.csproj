@@ -456,7 +456,6 @@
     <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\CityOwnerRing.cs" />
     <Compile Include="World\LightningStrom.cs" />
-    <Compile Include="World\RoadObject.cs" />
     <Compile Include="World\Screen\MdgResource.cs">
     </Compile>
     <Compile Include="World\OceanWater.cs" />
