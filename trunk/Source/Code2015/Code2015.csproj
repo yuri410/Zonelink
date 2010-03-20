@@ -115,6 +115,8 @@
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\CityDesigner.cs" />
+    <Compile Include="GUI\CityFactoryPluginMeasure.cs" />
+    <Compile Include="GUI\CityMeasure.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -137,10 +139,12 @@
     <Compile Include="GUI\InGameUI2.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\LinkUI.cs" />
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\MouseInput.cs" />
+    <Compile Include="GUI\ResourceMeasure.cs" />
     <Compile Include="Logic\Disaster.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\Map.cs" />
@@ -452,6 +456,7 @@
     <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\CityOwnerRing.cs" />
     <Compile Include="World\LightningStrom.cs" />
+    <Compile Include="World\RoadObject.cs" />
     <Compile Include="World\Screen\MdgResource.cs">
     </Compile>
     <Compile Include="World\OceanWater.cs" />

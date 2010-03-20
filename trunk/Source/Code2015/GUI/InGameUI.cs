@@ -71,6 +71,7 @@ namespace Code2015.GUI
 
         Player player;
 
+        CityObject mouseHoverCity;
 
         public ScreenPhysicsWorld PhysicsWorld
         {
@@ -78,8 +79,12 @@ namespace Code2015.GUI
         }
         public CityObject MouseHoverCity
         {
-            get;
-            private set;
+            get { return mouseHoverCity; }
+            private set
+            {
+                mouseHoverCity = value;
+                linkUI.HoverCity = value;
+            }
         }
 
 
