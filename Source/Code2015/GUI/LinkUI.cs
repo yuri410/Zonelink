@@ -20,6 +20,12 @@ namespace Code2015.GUI
 
         CityObject hoverCity;
 
+        float longitude;
+        float latitude;
+        Vector3 hoverPt;
+
+        bool isDirty;
+
         public CityObject SelectedCity
         {
             get;
@@ -39,16 +45,21 @@ namespace Code2015.GUI
                         if (!object.ReferenceEquals(hoverCity, null) && !object.ReferenceEquals(SelectedCity, null))
                         {
                             hoverCity = value;
+                            isDirty = true;
                         }
                     }
                 }
             }
         }
 
-        public Point HoverPoint
+        public Vector3 HoverPoint
         {
-            get;
-            private set;
+            get { return hoverPt; }
+            set
+            {
+                hoverPt = value;
+                PlanetEarth.GetCoord(value, out longitude, out latitude);
+            }
         }
 
         void UpdatePath()
@@ -69,11 +80,15 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            base.Update(time);
+            if (SelectedCity != null && HoverCity !=null && isDirty )
+            {
+
+            } 
         }
         public override void Render(Sprite sprite)
         {
-            base.Render(sprite);
+            
+
         }
     }
 }
