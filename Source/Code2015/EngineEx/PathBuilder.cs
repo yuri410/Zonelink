@@ -63,9 +63,9 @@ namespace Code2015.EngineEx
             {
                 float lng;
                 float lat;
-                //Map.GetCoord(points[i].X, points[i].Y, out lng, out lat);
+                Map.GetCoord(points[i].X, points[i].Y, out lng, out lat);
 
-                positionBuffer[i] = new Vector3(points[i].X, 0, points[i].Y);// PlanetEarth.GetPosition(lng, lat);
+                positionBuffer[i] = PlanetEarth.GetPosition(lng, lat);
             }
 
             // 插值
@@ -100,7 +100,6 @@ namespace Code2015.EngineEx
 
                 Vector3 up = positionBuffer2[i];
                 up.Normalize();
-                up = Vector3.UnitY;
 
                 // Slop tangent matrix calculate
 
