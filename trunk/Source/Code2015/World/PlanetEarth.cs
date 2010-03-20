@@ -133,8 +133,7 @@ namespace Code2015.World
 
             lat = (float)Math.Asin(p.Y);
 
-            Vector2 latCir = new Vector2(p.X, p.Z);
-            col = (float)Math.Atan2(-latCir.Y, latCir.X);// MathEx.Vector2DirAngle(latCir);
+            col = (float)Math.Atan2(-p.Z, p.X);
         }
 
         public static Matrix GetOrientation(float x, float y)
@@ -147,14 +146,6 @@ namespace Code2015.World
             return Transformation;
         }
 
-        public static Vector2 Coord2Planar(float lng, float lat)
-        {
-            Vector2 result;
-
-            result.X = 0.5f * lng / MathEx.PIf;
-            result.Y = (-lat + MathEx.PiOver2) / MathEx.PIf;
-            return result;
-        }
 
         /// <summary>
         ///  计算球面上的点的坐标

@@ -209,14 +209,31 @@ namespace Code2015.GUI
                     ingameui2.SelectedObject = sel;
                     linkUI.SelectedCity = MouseHoverCity;
                 }
+                else if (MouseInput.IsLeftPressed)
+                {
+                    linkUI.HoverCity = MouseHoverCity;
 
-                linkUI.HoverCity = MouseInput.IsLeftPressed ? MouseHoverCity : null;
+                    BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
+
+                    Vector3 intersect;
+                    if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
+                    {
+                        linkUI.HoverPoint = intersect;
+                    }
+
+
+                }
+                else
+                {
+                    linkUI.HoverCity = null;
+                }
             }
             else
             {
                 linkUI.HoverCity = null;
                 MouseHoverCity = null;
             }
+
 
             linkUI.Update(time);
         }
