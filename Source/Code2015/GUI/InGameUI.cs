@@ -160,6 +160,7 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
+            // 调度控制
             physWorld.Update(time);
 
             mousePosition.X = MouseInput.X;

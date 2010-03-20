@@ -80,10 +80,11 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            if (SelectedCity != null && HoverCity !=null && isDirty )
+            if (SelectedCity != null && HoverCity != null && isDirty)
             {
 
-            } 
+                isDirty = false;
+            }
         }
         public override void Render(Sprite sprite)
         {
