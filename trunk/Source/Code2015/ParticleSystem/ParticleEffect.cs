@@ -8,6 +8,8 @@ using Apoc3D.Collections;
 using Apoc3D.Scene;
 using Apoc3D.Graphics.Effects;
 using Code2015.Effects;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
 
 namespace Code2015.ParticleSystem
 {
@@ -94,6 +96,8 @@ namespace Code2015.ParticleSystem
             material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             material.Diffuse = new Color4F(1, 1f, 1, 1);
 
+            FileLocation fl = FileSystem.Instance.Locate("sparks.tex", GameFileLocs.Texture);
+            material.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
             material.SetEffect(EffectManager.Instance.GetModelEffect(ParticleRDEffectFactory.Name));
 
             geoData = new GeomentryData();

@@ -27,7 +27,7 @@ namespace Code2015.ParticleSystem
         Particle CreateParticle()
         {
             Particle p = ParticleManager.Instance.CreateParticle();
-            p.Life = 5 * Randomizer.GetRandomSingle();
+            p.Life = 1 * Randomizer.GetRandomSingle();
             p.Alpha = 1;
             p.Position = new Vector3();
             p.Velocity = new Vector3(
@@ -43,7 +43,7 @@ namespace Code2015.ParticleSystem
 
             for (int i = 0; i < particles.Count && count > 0; i++)
             {
-                particles[i].ApplyMoment(new Vector3(0, 0.1f, 0));
+                particles[i].ApplyMoment(new Vector3(0, 0.3f, 0));
 
                 if (particles[i].Life <= float.Epsilon)
                 {
