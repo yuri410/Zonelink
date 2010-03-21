@@ -1,16 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
+using System.Drawing.Imaging;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
+using Apoc3D.Config;
 using Apoc3D.MathLib;
+using Code2015.EngineEx;
 using Code2015.World;
 using DevIl;
-using System.Threading;
-using System.Drawing;
-using System.Drawing.Imaging;
-using Apoc3D.Config;
-using Code2015.EngineEx;
 
 namespace GameTest
 {
@@ -27,7 +27,7 @@ namespace GameTest
 
             int mipCount = Il.ilGetInteger(Il.IL_NUM_MIPMAPS) + 1;
 
-           
+
             Console.WriteLine(" Format: {0}", Il.ilGetInteger(Il.IL_IMAGE_FORMAT).ToString());
 
             Console.WriteLine(" Type: {0}", Il.ilGetInteger(Il.IL_IMAGE_TYPE).ToString());
@@ -81,7 +81,7 @@ namespace GameTest
         {
             for (int i = 0; i < 90; i++)
             {
-                float deg =  MathEx.Degree2Radian(i);
+                float deg = MathEx.Degree2Radian(i);
 
                 Console.WriteLine("degree {0}: {1}", i, PlanetEarth.GetPosition(1, deg));
             }
@@ -153,17 +153,27 @@ namespace GameTest
 
             //Console.WriteLine(config.Count);
 
-            Vector3 p = PlanetEarth.GetPosition(-3, 1);
+            BoundingSphere bs = new BoundingSphere(new Vector3(), 1000);
+            Ray ray = new Ray(new Vector3(500, 0, 1500), -Vector3.UnitZ);
 
-            Console.WriteLine(p.ToString());
+            Vector3 icp;
+            Console.WriteLine(BoundingSphere.Intersects(bs, ray, out icp));
 
-            float lat;
-            float lng;
 
-            PlanetEarth.GetCoord(p, out lng, out lat);
+            Console.WriteLine(icp.ToString());
 
-            Console.WriteLine(lng.ToString() + "," + lat.ToString());
             Console.ReadKey();
+            //Vector3 p = PlanetEarth.GetPosition(-3, 1);
+
+            //Console.WriteLine(p.ToString());
+
+            //float lat;
+            //float lng;
+
+            //PlanetEarth.GetCoord(p, out lng, out lat);
+
+            //Console.WriteLine(lng.ToString() + "," + lat.ToString());
+            //Console.ReadKey();
         }
     }
 }

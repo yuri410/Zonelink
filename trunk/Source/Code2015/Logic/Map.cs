@@ -180,7 +180,7 @@ namespace Code2015.Logic
         {
             float yspan = (14.0f / 18.0f) * MathEx.PIf;
 
-            lat = yspan * 0.5f - y * MathEx.PIf / (float)MapHeight;
+            lat = yspan * 0.5f - y * yspan / (float)MapHeight;
             lng = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
         }
         
