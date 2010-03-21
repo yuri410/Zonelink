@@ -810,7 +810,7 @@ namespace Code2015.BalanceSystem
             {
                 if (!object.ReferenceEquals(Capture.NearbyCity1, null))
                 {
-                    if (!object.ReferenceEquals(Capture.NewOwner1, Capture.NearbyCity1.owner))
+                    if (object.ReferenceEquals(Capture.NewOwner1, Capture.NearbyCity1.owner))
                     {
                         float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
                         float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);

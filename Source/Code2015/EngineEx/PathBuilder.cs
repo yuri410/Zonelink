@@ -49,7 +49,7 @@ namespace Code2015.EngineEx
         static Vector3[] rightBuffer = new Vector3[1000];
 
 
-        const float PathWidth = 15f;
+        const float PathWidth = 30f;
 
         public static ModelData BuildModel(RenderSystem rs, Map map, Point[] points)
         {
@@ -116,11 +116,11 @@ namespace Code2015.EngineEx
 
                 vertices[i * 2].N = nrmBuffer[i];
                 vertices[i * 2].Right = rightBuffer[i];
-                vertices[i * 2].Position = positionBuffer2[i] - vertices[i].Right * PathWidth * 0.5f;
+                vertices[i * 2].Position = positionBuffer2[i] - rightBuffer[i] * PathWidth * 0.5f;
 
-                vertices[i * 2 + 1].Position = positionBuffer2[i] + vertices[i].Right * PathWidth * 0.5f;
-                vertices[i * 2 + 1].N = vertices[i].N;
-                vertices[i * 2 + 1].Right = vertices[i].Right;
+                vertices[i * 2 + 1].Position = positionBuffer2[i] + rightBuffer[i] * PathWidth * 0.5f;
+                vertices[i * 2 + 1].N = nrmBuffer[i];
+                vertices[i * 2 + 1].Right = rightBuffer[i];
 
 
                 vertices[i * 2].Tex1 = new Vector2(0, texV);

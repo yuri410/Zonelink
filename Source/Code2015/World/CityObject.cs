@@ -548,9 +548,7 @@ namespace Code2015.World
         {
             if (b != null)
             {
-                CityLink link = new CityLink(renderSys, a.Parent, b.Parent);
-
-                sceMgr.AddObjectToScene(link);           
+                     
             }
         }
         void City_PluginAdded(City city, CityPlugin plugin)
