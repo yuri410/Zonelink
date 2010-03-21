@@ -22,7 +22,8 @@ namespace Code2015.GUI
 
         float longitude;
         float latitude;
-        Vector3 hoverPt;
+        Vector3 hoverPosition;
+        Point hoverPoint;
 
         bool isDirty;
 
@@ -37,12 +38,18 @@ namespace Code2015.GUI
             get { return hoverCity; }
             set
             {
-                hoverCity = null;
+                if (object.ReferenceEquals(value, null))
+                {
+                    hoverCity = null;
+                    return;
+                }
+                isDirty = false;
+
                 if (!object.ReferenceEquals(hoverCity, value))
                 {
-                    if (!object.ReferenceEquals(hoverCity, SelectedCity))
+                    if (!object.ReferenceEquals(value, SelectedCity))
                     {
-                        if (!object.ReferenceEquals(hoverCity, null) && !object.ReferenceEquals(SelectedCity, null))
+                        if (!object.ReferenceEquals(value, null) && !object.ReferenceEquals(SelectedCity, null))
                         {
                             hoverCity = value;
                             isDirty = true;
@@ -54,11 +61,21 @@ namespace Code2015.GUI
 
         public Vector3 HoverPoint
         {
-            get { return hoverPt; }
+            get { return hoverPosition; }
             set
             {
-                hoverPt = value;
+                hoverPosition = value;
                 PlanetEarth.GetCoord(value, out longitude, out latitude);
+
+                int x, y;
+                Map.GetMapCoord(longitude, latitude, out x, out y);
+
+                if (hoverPoint.X != x && hoverPoint.Y != y)
+                {
+                    hoverPoint.X = x;
+                    hoverPoint.Y = y;
+                    isDirty = true;
+                }
             }
         }
 
@@ -82,7 +99,7 @@ namespace Code2015.GUI
         {
             if (SelectedCity != null && HoverCity != null && isDirty)
             {
-
+                UpdatePath();
                 isDirty = false;
             }
         }
