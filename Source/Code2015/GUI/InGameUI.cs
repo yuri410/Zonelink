@@ -137,8 +137,8 @@ namespace Code2015.GUI
 
                 Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
                 Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
-               
-                
+
+
                 sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
                 int x = srect.Width + 15 - 60;
                 ColorValue c = ColorValue.White;
@@ -166,77 +166,81 @@ namespace Code2015.GUI
             mousePosition.X = MouseInput.X;
             mousePosition.Y = MouseInput.Y;
 
-            icons.Update(time);
             ingameui2.Update(time);
-
-            RtsCamera camera = parent.Scene.Camera;
-
-            camera.Height += MouseInput.DScrollWheelValue * 0.05f;
-
-
-            if (MouseInput.X <= 0)
+            if (!ingameui2.IsMouseInteract)
             {
-                camera.MoveLeft();
-            }
-            if (MouseInput.X >= Program.Window.ClientSize.Width)
-            {
-                camera.MoveRight();
-            }
-            if (MouseInput.Y <= 0)
-            {
-                camera.MoveFront();
-            }
-            if (MouseInput.Y >= Program.Window.ClientSize.Height)
-            {
-                camera.MoveBack();
-            }
+                icons.Update(time);
 
-            Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
-            Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-            mp.Z = 1;
-            Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-            Vector3 dir = end - start;
-            dir.Normalize();
 
-            SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
-            if (obj != null)
-            {
-                ISelectableObject sel = obj as ISelectableObject;
+                RtsCamera camera = parent.Scene.Camera;
 
-                MouseHoverCity = sel as CityObject;
+                camera.Height += MouseInput.DScrollWheelValue * 0.05f;
 
-                if (MouseInput.IsMouseDownLeft)
+
+                if (MouseInput.X <= 0)
                 {
-                    ingameui2.SelectedObject = sel;
-                    linkUI.SelectedCity = MouseHoverCity;
+                    camera.MoveLeft();
                 }
-                else if (MouseInput.IsLeftPressed)
+                if (MouseInput.X >= Program.Window.ClientSize.Width)
                 {
-                    linkUI.HoverCity = MouseHoverCity;
+                    camera.MoveRight();
+                }
+                if (MouseInput.Y <= 0)
+                {
+                    camera.MoveFront();
+                }
+                if (MouseInput.Y >= Program.Window.ClientSize.Height)
+                {
+                    camera.MoveBack();
+                }
 
-                    BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
+                Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
+                Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                mp.Z = 1;
+                Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                Vector3 dir = end - start;
+                dir.Normalize();
 
-                    Vector3 intersect;
-                    if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
+                SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
+                if (obj != null)
+                {
+                    ISelectableObject sel = obj as ISelectableObject;
+
+                    MouseHoverCity = sel as CityObject;
+
+                    if (MouseInput.IsMouseDownLeft)
                     {
-                        linkUI.HoverPoint = intersect;
+                        ingameui2.SelectedObject = sel;
+                        linkUI.SelectedCity = MouseHoverCity;
                     }
+                    else if (MouseInput.IsLeftPressed)
+                    {
+                        linkUI.HoverCity = MouseHoverCity;
+
+                        BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
+
+                        Vector3 intersect;
+                        if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
+                        {
+                            linkUI.HoverPoint = intersect;
+                        }
 
 
+                    }
+                    else
+                    {
+                        linkUI.HoverCity = null;
+                    }
                 }
                 else
                 {
                     linkUI.HoverCity = null;
+                    MouseHoverCity = null;
                 }
-            }
-            else
-            {
-                linkUI.HoverCity = null;
-                MouseHoverCity = null;
-            }
 
 
-            linkUI.Update(time);
+                linkUI.Update(time);
+            }
         }
     }
 }
