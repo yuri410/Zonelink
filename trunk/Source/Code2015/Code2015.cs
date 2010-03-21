@@ -167,7 +167,7 @@ namespace Code2015
         /// </summary>
         public void Draw()
         {
-            //if (currentGame == null)
+            if (currentGame == null)
             {
                 renderSys.Clear(ClearFlags.Target, ColorValue.Black, 1, 0);
             }

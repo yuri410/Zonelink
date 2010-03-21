@@ -213,6 +213,11 @@ namespace Code2015.GUI
                         ingameui2.SelectedObject = sel;
                         linkUI.SelectedCity = MouseHoverCity;
                     }
+                    else if (MouseInput.IsMouseUpLeft) 
+                    {
+                        linkUI.HoverCity = MouseHoverCity;
+                        linkUI.Link();
+                    }
                     else if (MouseInput.IsLeftPressed)
                     {
                         linkUI.HoverCity = MouseHoverCity;

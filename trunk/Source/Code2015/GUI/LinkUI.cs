@@ -45,7 +45,7 @@ namespace Code2015.GUI
 
         Map map;
         PathFinder pathFinder;
-        
+        Player player;
 
         CityObject hoverCity;
         PreviewPath staticObject;
@@ -95,9 +95,6 @@ namespace Code2015.GUI
             get { return hoverPosition; }
             set
             {
-
-                // 计算结果有错
-
                 hoverPosition = value;
                 PlanetEarth.GetCoord(value, out longitude, out latitude);
 
@@ -162,27 +159,36 @@ namespace Code2015.GUI
             this.renderSys = game.RenderSystem;
             this.scene = scene;
             this.map = parent.Map;
+            this.player = parent.HumanPlayer;
 
             this.pathFinder = map.PathFinder.CreatePathFinder();
 
-            FileLocation fl = FileSystem.Instance.Locate("tree01_l0.mesh", GameFileLocs.Model);
-
             staticObject = new PreviewPath();
-
-            staticObject.SetModel0(new Model(ModelManager.Instance.CreateInstance(renderSys, fl)));
-            staticObject.ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(7, 7, 7));
             staticObject.BoundingSphere.Radius = float.MaxValue;
 
             scene.Scene.AddObjectToScene(staticObject);
         }
 
+        public void Link() 
+        {
+            if (SelectedCity != null && hoverCity != null)
+            {
+                hoverCity.Capture.SetCapture(player, SelectedCity.City);
+
+                CityLink link = new CityLink(renderSys, SelectedCity, hoverCity, staticObject.ModelL0);
+                staticObject.SetModel0(null);
+                scene.Scene.AddObjectToScene(link);
+            }
+        }
         public override void Update(GameTime time)
         {
-            if (SelectedCity != null && isDirty && MouseInput.IsRightPressed)
+            if (SelectedCity != null && isDirty)
             {
                 UpdatePath();
                 isDirty = false;
             }
+
+          
         }
         public override void Render(Sprite sprite)
         {

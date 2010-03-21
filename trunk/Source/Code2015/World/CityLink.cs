@@ -21,14 +21,20 @@ namespace Code2015.World
         CityObject start;
         CityObject end;
         Model link_e;
-        public CityLink(RenderSystem renderSys, CityObject a, CityObject b)
+
+        public CityLink(RenderSystem renderSys, CityObject a, CityObject b, Model road)
             : base(false)
         {
             start = a;
             end = b;
 
-            FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
-            ModelL0 = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
+            //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
+            ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
+
+            //ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY(MathEx.PiOver2) *
+            //    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
+
+
 
             Vector3 dir = b.Position - a.Position;
 
@@ -40,17 +46,6 @@ namespace Code2015.World
 
             float dist = Vector3.Distance(pa, pb);
 
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY(MathEx.PiOver2) *
-                Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
-
-
-
-            fl = FileSystem.Instance.Locate("link_e.mesh", GameFileLocs.Model);
-            link_e = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
-            link_e.CurrentAnimation =
-                new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
-
-
             float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
             float latitude = MathEx.Degree2Radian(0.5f * (a.Latitude + b.Latitude));
 
@@ -58,12 +53,20 @@ namespace Code2015.World
             ori.Right = Vector3.Normalize(pa - pb);
             ori.Up = PlanetEarth.GetNormal(longitude, latitude);
             ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
+            ori.TranslationValue = 0.5f * (pa + pb);
 
-            Orientation = ori;
 
-            Position = 0.5f * (pa + pb);
-            
-            BoundingSphere.Center = position;
+
+
+            FileLocation fl = FileSystem.Instance.Locate("link_e.mesh", GameFileLocs.Model);
+            link_e = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
+            link_e.CurrentAnimation =
+                new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) * ori);
+
+            orientation = Matrix.Identity;
+            position = Vector3.Zero;// 0.5f * (pa + pb);
+
+            BoundingSphere.Center = 0.5f * (pa + pb);
             BoundingSphere.Radius = dist * 0.5f;
         }
 
