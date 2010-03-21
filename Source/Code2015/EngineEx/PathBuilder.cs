@@ -49,7 +49,7 @@ namespace Code2015.EngineEx
         static Vector3[] rightBuffer = new Vector3[1000];
 
 
-        const float PathWidth = 0.5f;
+        const float PathWidth = 15f;
 
         public static ModelData BuildModel(RenderSystem rs, Map map, Point[] points)
         {
@@ -65,7 +65,7 @@ namespace Code2015.EngineEx
                 float lat;
                 Map.GetCoord(points[i].X, points[i].Y, out lng, out lat);
 
-                positionBuffer[i] = PlanetEarth.GetPosition(lng, lat);
+                positionBuffer[i] = PlanetEarth.GetPosition(lng, lat, PlanetEarth.PlanetRadius + 100);
             }
 
             // 插值

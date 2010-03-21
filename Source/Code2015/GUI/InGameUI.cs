@@ -216,16 +216,6 @@ namespace Code2015.GUI
                     else if (MouseInput.IsLeftPressed)
                     {
                         linkUI.HoverCity = MouseHoverCity;
-
-                        BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
-
-                        Vector3 intersect;
-                        if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
-                        {
-                            linkUI.HoverPoint = intersect;
-                        }
-
-
                     }
                     else
                     {
@@ -238,6 +228,16 @@ namespace Code2015.GUI
                     MouseHoverCity = null;
                 }
 
+                if (MouseInput.IsLeftPressed)
+                {
+                    BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
+
+                    Vector3 intersect;
+                    if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
+                    {
+                        linkUI.HoverPoint = intersect;
+                    }
+                }
 
                 linkUI.Update(time);
             }
