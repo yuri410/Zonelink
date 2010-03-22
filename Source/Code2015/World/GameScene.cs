@@ -20,7 +20,9 @@ namespace Code2015.World
         SceneRenderer renderer;
 
         FastList<CityObject> visibleList = new FastList<CityObject>();
-
+        FastList<IResourceObject> visibleResource = new FastList<IResourceObject>();
+       
+         
         public RtsCamera Camera
         {
             get { return camera; }
@@ -74,6 +76,10 @@ namespace Code2015.World
             visibleList.Add(obj);
         }
 
+        internal void Resource_Visible(IResourceObject obj)
+        {
+            visibleResource.Add(obj);
+        }
         public int VisibleCityCount 
         {
             get { return visibleList.Count; }
@@ -83,10 +89,20 @@ namespace Code2015.World
             return visibleList[i];
         }
 
+        public int VisibleResourceCount
+        {
+            get { return visibleResource.Count; }
+        }
+        public IResourceObject GetResourceObject(int i) 
+        {
+            return visibleResource[i];
+        }
+
 
         public void Update(GameTime time)
         {
             visibleList.Clear();
+            visibleResource.Clear();
             //XI.KeyboardState state = XI.Keyboard.GetState();
 
             //if (state.IsKeyDown(XI.Keys.W))

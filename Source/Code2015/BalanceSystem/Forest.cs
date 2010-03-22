@@ -29,7 +29,7 @@ namespace Code2015.BalanceSystem
         const float AbsorbCarbonRate = 1000;
 
         [SLGValue]
-        const float MaxAmount = 10000;
+        public const float MaxAmount = 10000;
 
         [SLGValue]
         const float RecoverRate = 0.015f;

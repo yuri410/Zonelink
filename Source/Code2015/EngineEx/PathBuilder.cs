@@ -65,7 +65,7 @@ namespace Code2015.EngineEx
                 float lat;
                 Map.GetCoord(points[i].X, points[i].Y, out lng, out lat);
 
-                positionBuffer[i] = PlanetEarth.GetPosition(lng, lat, PlanetEarth.PlanetRadius + 100);
+                positionBuffer[i] = PlanetEarth.GetPosition(lng, lat, Math.Max(0, PlanetEarth.PlanetRadius + map.GetHeight(lng, lat)) + 5);
             }
 
             // 插值
@@ -173,6 +173,14 @@ namespace Code2015.EngineEx
             };
             surface.Materials[0][0] = surfMtrl;
             
+            // 侧栏
+
+
+
+
+
+
+
 
             Mesh surfaceMesh = new Mesh(rs, surface);
             ModelData result = new ModelData(rs, new Mesh[] { surfaceMesh });

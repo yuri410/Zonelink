@@ -179,6 +179,7 @@ namespace Code2015
                 if (forest != null)
                 {
                     ForestObject forestObj = new ForestObject(renderSys, forest);
+                    forestObj.ResVisible += scene.Resource_Visible;
                     scene.Scene.AddObjectToScene(forestObj);
                     continue;
                 }
@@ -187,6 +188,7 @@ namespace Code2015
                 if (oilfld != null) 
                 {
                     OilFieldObject oilObj = new OilFieldObject(renderSys, oilfld);
+                    oilObj.ResVisible += scene.Resource_Visible;
                     scene.Scene.AddObjectToScene(oilObj);
                     continue;
                 }

@@ -116,6 +116,7 @@
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\CityDesigner.cs" />
     <Compile Include="GUI\CityFactoryPluginMeasure.cs" />
+    <Compile Include="GUI\InfoDisplay.cs" />
     <Compile Include="GUI\CityMeasure.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>

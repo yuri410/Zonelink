@@ -1145,7 +1145,7 @@ namespace Code2015.BalanceSystem
 
             CarbonProduceSpeed += lrDev / hours + hrDev / hours;
 
-            float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + 20 * DevBias / CityGrade.GetDevelopmentMult(Size));
+            float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + 5 * DevBias / CityGrade.GetDevelopmentMult(Size));
             Development += devIncr + foodLack;
             if (Development < 0)
             {
