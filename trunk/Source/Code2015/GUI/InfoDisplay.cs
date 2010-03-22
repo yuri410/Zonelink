@@ -21,6 +21,8 @@ namespace Code2015.GUI
         Font font;
         FastList<ProgressBar> prgBars = new FastList<ProgressBar>();
 
+        Texture[] brackets;
+
         public CityInfoDisplay(GameScene scene, RenderSystem rs)
         {
             this.scene = scene;
@@ -34,6 +36,10 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
             Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_bracket.tex", GameFileLocs.GUI);
+            brackets = new Texture[4];
+            brackets[0] = UITextureManager.Instance.CreateInstance(fl);
 
             for (int i = 0; i < 25; i++)
             {
@@ -49,6 +55,9 @@ namespace Code2015.GUI
 
         public void Render(Sprite sprite)
         {
+            Matrix proj = camera.ProjectionMatrix;
+            Matrix view = camera.ViewMatrix;
+
             int pidx = 0;
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
@@ -57,7 +66,7 @@ namespace Code2015.GUI
                 Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude));
 
                 Vector3 ppos = renderSys.Viewport.Project(cc.Position - tangy * (CityStyleTable.CityRadius[(int)cc.Size] + 5),
-                    camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                    proj, view, Matrix.Identity);
                 Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
                 Size strSize = font.MeasureString(cc.Name, 20, DrawTextFormat.Center);
@@ -75,6 +84,24 @@ namespace Code2015.GUI
                     prgBars[pidx].Value = cc.Satisfaction;
                     prgBars[pidx].Render(sprite);
                     pidx++;
+                }
+
+
+                if (cc.PluginCount > 0)
+                {
+                    Vector3 ppofs = new Vector3(0, 100, 0);
+                    Matrix ctrans = PlanetEarth.GetOrientation(cc.Longitude, cc.Latitude);
+
+                    for (int j = 0; j < cc.PluginCount; j++)
+                    {
+                        Matrix ptrans = cc.GetPluginTransform(j) * ctrans;
+                        Vector3 plpos;
+                        Vector3.TransformSimple(ref ppofs, ref ptrans, out plpos);
+
+                        plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
+
+                        sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, ColorValue.White);
+                    }
                 }
             }
         }

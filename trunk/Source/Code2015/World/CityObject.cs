@@ -14,6 +14,7 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Code2015.World.Screen;
 
 namespace Code2015.World
 {
@@ -400,7 +401,16 @@ namespace Code2015.World
         {
             public CityPlugin plugin;
             public PluginPositionFlag position;
+
+            /// <summary>
+            ///  附加物的变换矩阵
+            /// </summary>
             public Matrix transform;
+
+
+            public bool HasPiece;
+            public MdgType PieceType;
+
         }
 
         City city;
@@ -419,7 +429,6 @@ namespace Code2015.World
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         Vector3 position;
-
 
         bool isSelected;
 
@@ -492,6 +501,19 @@ namespace Code2015.World
         public Harvester GetHarvester(int idx) 
         {
             return harvesters[idx];
+        }
+
+        public int PluginCount
+        {
+            get { return city.PluginCount; }
+        }
+        public Matrix GetPluginTransform(int i)
+        {
+            return plugins[i].transform;
+        }
+        public CityPlugin GetPlugin(int i) 
+        {
+            return plugins[i].plugin;
         }
 
         bool ISelectableObject.IsSelected
