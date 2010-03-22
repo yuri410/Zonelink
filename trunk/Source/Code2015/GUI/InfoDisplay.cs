@@ -58,6 +58,7 @@ namespace Code2015.GUI
             Matrix proj = camera.ProjectionMatrix;
             Matrix view = camera.ViewMatrix;
 
+            
             int pidx = 0;
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
@@ -89,14 +90,15 @@ namespace Code2015.GUI
 
                 if (cc.PluginCount > 0)
                 {
-                    Vector3 ppofs = new Vector3(0, 100, 0);
-                    Matrix ctrans = PlanetEarth.GetOrientation(cc.Longitude, cc.Latitude);
 
+                    Matrix ctrans = cc.Transformation;
                     for (int j = 0; j < cc.PluginCount; j++)
                     {
-                        Matrix ptrans = cc.GetPluginTransform(j) * ctrans;
+                        Vector3 ppofs = new Vector3(50, 250, 0);
+                        ppofs += cc.GetPluginPosition(j);
+                        
                         Vector3 plpos;
-                        Vector3.TransformSimple(ref ppofs, ref ptrans, out plpos);
+                        Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
 
                         plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
 
