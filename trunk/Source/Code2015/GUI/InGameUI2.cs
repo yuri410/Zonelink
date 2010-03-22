@@ -96,7 +96,8 @@ namespace Code2015.GUI
         Texture co2bl_blue;
         Texture co2br_blue;
 
-
+        CityInfoDisplay cityInfoDisplay;
+        ResInfoDisplay resInfoDisplay;
 
         RtsCamera camera;
 
@@ -197,6 +198,9 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("Algerian.fnt", GameFileLocs.GUI);
             algerFont = FontManager.Instance.CreateInstance(renderSys, fl, "Algerian");
 
+
+            this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys);
+            this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
             ////读取纹理
             //fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             //cursor = UITextureManager.Instance.CreateInstance(fl);
@@ -456,25 +460,8 @@ namespace Code2015.GUI
         public override void Render(Sprite sprite)
         {
 
-         
-            for (int i = 0; i < scene.VisibleCityCount; i++)
-            {
-                CityObject cc = scene.GetVisibleCity(i);
-
-                Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude));
-
-                Vector3 ppos = renderSys.Viewport.Project(cc.Position - tangy * (CityStyleTable.CityRadius[(int)cc.Size] + 5),
-                    camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
-
-                Size strSize = font.MeasureString(cc.Name, 20, DrawTextFormat.Center);
-
-                //scrnPos.Y += strSize.Height;
-                scrnPos.X -= strSize.Width / 2;
-
-                font.DrawString(sprite, cc.Name, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
-            }
+            cityInfoDisplay.Render(sprite);
+            resInfoDisplay.Render(sprite);
 
             #region 渲染城市信息
             if (!object.ReferenceEquals(city, null))

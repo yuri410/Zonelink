@@ -11,7 +11,23 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
-    class ForestObject : SceneObject, ISelectableObject
+    public delegate void ResourceVisibleHander(IResourceObject obj);
+
+    public interface IResourceObject 
+    {
+        float AmountPer
+        {
+            get;
+        }
+        NaturalResourceType Type { get; }
+        Vector3 Position { get; }
+        float Longitude { get; }
+        float Latitude { get; }
+        float Radius { get; }
+        event ResourceVisibleHander ResVisible;
+    }
+
+    class ForestObject : SceneObject, ISelectableObject, IResourceObject
     {
         Forest forest;
         ResourceHandle<TreeBatchModel> model;
@@ -44,6 +60,10 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
+            if (ResVisible != null)
+            {
+                ResVisible(this);
+            }
             TreeBatchModel mdl = model;
 
             return mdl.GetRenderOperation();
@@ -70,6 +90,41 @@ namespace Code2015.World
         {
             get;
             set;
+        }
+
+        #endregion
+
+        #region IResourceObject 成员
+
+        public float AmountPer
+        {
+            get { return forest.CurrentAmount / BalanceSystem.Forest.MaxAmount; }
+        }
+        public NaturalResourceType Type
+        {
+            get { return forest.Type; }
+        }
+        public event ResourceVisibleHander ResVisible;
+
+
+        public Vector3 Position
+        {
+            get { return BoundingSphere.Center; }
+        }
+
+        public float Longitude
+        {
+            get { return forest.Longitude; }
+        }
+
+        public float Latitude
+        {
+            get { return forest.Latitude; }
+        }
+
+        public float Radius 
+        {
+            get { return forest.Radius; }
         }
 
         #endregion

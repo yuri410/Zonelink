@@ -11,7 +11,7 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
-    class OilFieldObject : StaticModelObject, ISelectableObject
+    class OilFieldObject : StaticModelObject, ISelectableObject, IResourceObject
     {
         OilField oilField;
 
@@ -49,12 +49,58 @@ namespace Code2015.World
             get { return oilField; }
         }
 
+        public override RenderOperation[] GetRenderOperation()
+        {
+            if (ResVisible != null)
+            {
+                ResVisible(this);
+            }
+            return base.GetRenderOperation();
+        }
+        public override RenderOperation[] GetRenderOperation(int level)
+        {
+            if (ResVisible != null)
+            {
+                ResVisible(this);
+            }
+            return base.GetRenderOperation(level);
+        }
         #region ISelectableObject 成员
 
         bool ISelectableObject.IsSelected
         {
             get;
             set;
+        }
+
+        #endregion
+
+        #region IResourceObject 成员
+
+        public float AmountPer
+        {
+            get { return oilField.CurrentAmount / BalanceSystem.Forest.MaxAmount; }
+        }
+
+        public NaturalResourceType Type
+        {
+            get { return oilField.Type; }
+        }
+        public event ResourceVisibleHander ResVisible;
+
+        public float Longitude
+        {
+            get { return oilField.Longitude; }
+        }
+
+        public float Latitude
+        {
+            get { return oilField.Latitude; }
+        }
+
+        public float Radius
+        {
+            get { return BoundingSphere.Radius; }
         }
 
         #endregion
