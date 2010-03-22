@@ -436,6 +436,10 @@ namespace Code2015.World
             get { return position; }
         }
 
+        public float Satisfaction
+        {
+            get { return city.Satisfaction; }
+        }
         public float Longitude
         {
             get { return city.Longitude; }
