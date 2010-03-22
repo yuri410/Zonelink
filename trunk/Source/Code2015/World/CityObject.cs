@@ -140,7 +140,7 @@ namespace Code2015.World
 
         public int PluginCount
         {
-            get { return city.PluginCount; }
+            get { return plugins.Count; }
         }
         public Matrix GetPluginTransform(int i)
         {
@@ -154,6 +154,37 @@ namespace Code2015.World
         public CityPlugin GetPlugin(int i) 
         {
             return plugins[i].plugin;
+        }
+        public bool MatchPiece(int i,MdgType type)
+        {
+            switch (plugins[i].plugin.TypeId) 
+            {
+                case CityPluginTypeId.EducationOrg:
+                    switch (type) 
+                    {
+                        case MdgType.GenderEquality:
+                        case MdgType.Education:
+                            return true;
+                    }
+                    return false;
+                case CityPluginTypeId.Hospital:
+                    switch (type) 
+                    {
+                        case MdgType.ChildMortality:
+                        case MdgType.Diseases:
+                            return true;        
+                    }
+                    return false;
+                case CityPluginTypeId.BiofuelFactory:
+                case CityPluginTypeId.OilRefinary:
+                case CityPluginTypeId.WoodFactory:
+                    return type == MdgType.Environment;
+            }
+            return false;
+        }
+        public void SetPiece(MdgResource res)
+        {
+
         }
 
         bool ISelectableObject.IsSelected
@@ -358,6 +389,20 @@ namespace Code2015.World
             BoundingSphere.Radius = CityStyleTable.CityRadius[(int)city.Size];
 
             sideRing.Update(dt);
+
+            bool passed = false;
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                passed |= plugins[i].HasPiece;
+            }
+            if (passed) 
+            {
+                // 升级
+                for (int i = 0; i < plugins.Count; i++) 
+                {
+                    plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                }
+            }
         }
 
         //public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
