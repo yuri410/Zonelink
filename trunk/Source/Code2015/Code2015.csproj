@@ -410,6 +410,7 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
     <Compile Include="ParticleSystem\ParticleModifier.cs" />
+    <Compile Include="World\CityStyle.cs" />
     <Compile Include="World\FarmObject.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\GoalIcons.cs" />
