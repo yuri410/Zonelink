@@ -511,6 +511,11 @@ namespace Code2015.World
         {
             return plugins[i].transform;
         }
+        public Vector3 GetPluginPosition(int i) 
+        {
+
+            return style.GetPluginTranslation(plugins[i].position, city.Size);
+        }
         public CityPlugin GetPlugin(int i) 
         {
             return plugins[i].plugin;
