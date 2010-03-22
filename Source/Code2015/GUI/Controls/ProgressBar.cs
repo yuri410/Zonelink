@@ -8,6 +8,12 @@ using Apoc3D.MathLib;
 
 namespace Code2015.GUI.Controls
 {
+    enum ControlDirection 
+    {
+        Hoz,
+        Vertical
+    }
+
     class ProgressBar : Control
     {
 
@@ -17,7 +23,12 @@ namespace Code2015.GUI.Controls
             set;
         }
 
-       
+        public ControlDirection Direction
+        {
+            get;
+            set;
+        }
+
         public Texture Background
         {
             get;
@@ -38,13 +49,23 @@ namespace Code2015.GUI.Controls
 
             if (ProgressImage != null)
             {
-                Rectangle rect = new Rectangle(X, Y, Width, Height);
-                rect.Width = (int)(rect.Width * Value);
-                Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
+                if (Direction == ControlDirection.Hoz)
+                {
+                    Rectangle rect = new Rectangle(X, Y, Width, Height);
+                    rect.Width = (int)(rect.Width * Value);
+                    Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
 
-                sprite.Draw(ProgressImage, rect, srect, ColorValue.White);
+                    sprite.Draw(ProgressImage, rect, srect, ColorValue.White);
+                }
+                else
+                {
+                    Rectangle rect = new Rectangle(X, Y, Width, Height);
+                    rect.Height = (int)(rect.Height * Value);
+                    Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
+
+                    sprite.Draw(ProgressImage, rect, srect, ColorValue.White);
+                }
             }
-
 
             base.Render(sprite);
         }
