@@ -5,7 +5,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.World.Screen
 {
-    class ScreenStaticBody : ScreenPhysicsObject
+    public class ScreenStaticBody : ScreenPhysicsObject
     {
         struct BoundingSphere2D
         {

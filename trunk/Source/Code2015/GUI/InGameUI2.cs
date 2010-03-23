@@ -483,7 +483,7 @@ namespace Code2015.GUI
                             }
                             else
                             {
-                                cityMeasure.Render(sprite,algerFont);//画城市具体信息
+                                cityMeasure.Render(sprite, algerFont);//画城市具体信息
 
                             }
                         }

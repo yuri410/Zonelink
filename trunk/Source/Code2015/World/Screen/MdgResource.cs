@@ -14,7 +14,7 @@ namespace Code2015.World.Screen
     /// <summary>
     ///  联合国八大问题
     /// </summary>
-    enum MdgType
+    public enum MdgType
     {
         /// <summary>
         ///  Eradicate extreme hunger and poverty
@@ -51,13 +51,13 @@ namespace Code2015.World.Screen
         Count = 8
     }
 
-    enum MdgIconType
+    public enum MdgIconType
     {
         Piece,
         Ball
     }
 
-    static class MdgPhysicsParams
+    public static class MdgPhysicsParams
     {
         public const float PieceRadius = 32;
         public const float PieceMass = 1;
@@ -78,7 +78,7 @@ namespace Code2015.World.Screen
 
 
 
-    interface IMdgSelection
+    public interface IMdgSelection
     {
         Vector2 Position { get; set; }
         Vector2 Velocity { get; set; }
@@ -89,7 +89,7 @@ namespace Code2015.World.Screen
     /// <summary>
     ///  表示一个MDG拼图碎片
     /// </summary>
-    class MdgPiece : UIComponent, IMdgSelection
+    public class MdgPiece : UIComponent, IMdgSelection
     {
         ScreenRigidBody body;
 
@@ -244,7 +244,7 @@ namespace Code2015.World.Screen
     /// <summary>
     ///  表示一个拼好的MDG图标
     /// </summary>
-    class MdgResource : UIComponent, IMdgSelection
+    public class MdgResource : UIComponent, IMdgSelection
     {
         public static Texture LoadImage(MdgType type, int bitmask)
         {
@@ -410,7 +410,7 @@ namespace Code2015.World.Screen
     ///  对拼图游戏中的各种物体的管理器
     ///  记录这种物品的数量，并维护他们在物理引擎的“是否激活”状态
     /// </summary>
-    class MdgResourceManager
+    public class MdgResourceManager
     {
         /// <summary>
         ///  第一个索引为MdgType，第二个为bitmask，第三个为list index
