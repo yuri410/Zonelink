@@ -42,6 +42,17 @@ namespace Code2015.GUI
         #endregion
     }
 
+    enum UIStates
+    {
+        Default,
+        Brackets,
+        Statbars,
+        Popup,
+        Icons,
+        Design,
+        Link
+    }
+
     /// <summary>
     ///  表示游戏过程中的界面
     /// </summary>
@@ -60,6 +71,7 @@ namespace Code2015.GUI
         Texture progressBarImp;
         Texture progressBarCmp;
 
+        UIStates currentState;
 
         LinkUI linkUI;
 
@@ -125,6 +137,13 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            /* 逻辑层级
+             *  
+             * 
+             * 
+             * 
+             */
+
             if (!parent.IsLoaded)
             {
                 sprite.Draw(background, 0, 0, ColorValue.LightGray);
@@ -148,7 +167,23 @@ namespace Code2015.GUI
             }
             else
             {
-
+                switch (currentState)
+                {
+                    case UIStates.Default:
+                        break;
+                    case UIStates.Brackets:
+                        break;
+                    case UIStates.Design:
+                        break;
+                    case UIStates.Icons:
+                        break;
+                    case UIStates.Link:
+                        break;
+                    case UIStates.Popup:
+                        break;
+                    case UIStates.Statbars:
+                        break;
+                }
                 icons.Render(sprite);
                 sprite.SetTransform(Matrix.Identity);
                 ingameui2.Render(sprite);
@@ -160,91 +195,113 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            // 调度控制
-            physWorld.Update(time);
-
-            mousePosition.X = MouseInput.X;
-            mousePosition.Y = MouseInput.Y;
-
-            ingameui2.Update(time);
-            if (!ingameui2.IsMouseInteract)
+            if (parent.IsLoaded)
             {
-                icons.Update(time);
-
-
-                RtsCamera camera = parent.Scene.Camera;
-
-                camera.Height += MouseInput.DScrollWheelValue * 0.05f;
-
-
-                if (MouseInput.X <= 0)
+                switch (currentState)
                 {
-                    camera.MoveLeft();
-                }
-                if (MouseInput.X >= Program.Window.ClientSize.Width)
-                {
-                    camera.MoveRight();
-                }
-                if (MouseInput.Y <= 0)
-                {
-                    camera.MoveFront();
-                }
-                if (MouseInput.Y >= Program.Window.ClientSize.Height)
-                {
-                    camera.MoveBack();
+                    case UIStates.Default:
+                        break;
+                    case UIStates.Brackets:
+                        break;
+                    case UIStates.Design:
+                        break;
+                    case UIStates.Icons:
+                        break;
+                    case UIStates.Link:
+                        break;
+                    case UIStates.Popup:
+                        break;
+                    case UIStates.Statbars:
+                        break;
                 }
 
-                Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
-                Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                mp.Z = 1;
-                Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                Vector3 dir = end - start;
-                dir.Normalize();
+                return;
+                // 调度控制
+                physWorld.Update(time);
 
-                SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
-                if (obj != null)
+                mousePosition.X = MouseInput.X;
+                mousePosition.Y = MouseInput.Y;
+
+                ingameui2.Update(time);
+                if (!ingameui2.IsMouseInteract)
                 {
-                    ISelectableObject sel = obj as ISelectableObject;
+                    icons.Update(time);
 
-                    MouseHoverCity = sel as CityObject;
 
-                    if (MouseInput.IsMouseDownLeft)
+                    RtsCamera camera = parent.Scene.Camera;
+
+                    camera.Height += MouseInput.DScrollWheelValue * 0.05f;
+
+
+                    if (MouseInput.X <= 0)
                     {
-                        ingameui2.SelectedObject = sel;
-                        linkUI.SelectedCity = MouseHoverCity;
+                        camera.MoveLeft();
                     }
-                    else if (MouseInput.IsMouseUpLeft) 
+                    if (MouseInput.X >= Program.Window.ClientSize.Width)
                     {
-                        linkUI.HoverCity = MouseHoverCity;
-                        linkUI.Link();
+                        camera.MoveRight();
                     }
-                    else if (MouseInput.IsLeftPressed)
+                    if (MouseInput.Y <= 0)
                     {
-                        linkUI.HoverCity = MouseHoverCity;
+                        camera.MoveFront();
+                    }
+                    if (MouseInput.Y >= Program.Window.ClientSize.Height)
+                    {
+                        camera.MoveBack();
+                    }
+
+                    Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
+                    Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                    mp.Z = 1;
+                    Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                    Vector3 dir = end - start;
+                    dir.Normalize();
+
+                    SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
+                    if (obj != null)
+                    {
+                        ISelectableObject sel = obj as ISelectableObject;
+
+                        MouseHoverCity = sel as CityObject;
+
+                        if (MouseInput.IsMouseDownLeft)
+                        {
+                            ingameui2.SelectedObject = sel;
+                            linkUI.SelectedCity = MouseHoverCity;
+                        }
+                        else if (MouseInput.IsMouseUpLeft)
+                        {
+                            linkUI.HoverCity = MouseHoverCity;
+                            linkUI.Link();
+                        }
+                        else if (MouseInput.IsLeftPressed)
+                        {
+                            linkUI.HoverCity = MouseHoverCity;
+                        }
+                        else
+                        {
+                            linkUI.HoverCity = null;
+                        }
                     }
                     else
                     {
                         linkUI.HoverCity = null;
+                        MouseHoverCity = null;
                     }
-                }
-                else
-                {
-                    linkUI.HoverCity = null;
-                    MouseHoverCity = null;
-                }
 
-                if (MouseInput.IsLeftPressed)
-                {
-                    BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
-
-                    Vector3 intersect;
-                    if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
+                    if (MouseInput.IsLeftPressed)
                     {
-                        linkUI.HoverPoint = intersect;
-                    }
-                }
+                        BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
 
-                linkUI.Update(time);
+                        Vector3 intersect;
+                        if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
+                        {
+                            linkUI.HoverPoint = intersect;
+                        }
+                    }
+
+                    linkUI.Update(time);
+                }
             }
         }
     }
