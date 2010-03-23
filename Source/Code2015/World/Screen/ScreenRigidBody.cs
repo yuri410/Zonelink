@@ -6,7 +6,7 @@ using Apoc3D.MathLib;
 
 namespace Code2015.World.Screen
 {
-    class ScreenPhysicsObject
+    public class ScreenPhysicsObject
     {
         float elasity;
         float friction;
@@ -45,7 +45,7 @@ namespace Code2015.World.Screen
 
     }
 
-    class ScreenRigidBody : ScreenPhysicsObject
+    public class ScreenRigidBody : ScreenPhysicsObject
     {
         float orientation;
 

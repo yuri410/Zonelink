@@ -43,8 +43,8 @@ namespace Code2015.World
             public Matrix transform;
 
 
-            public bool HasPiece;
-            public MdgType PieceType;
+            
+            public MdgResource CurrentPiece;
 
         }
 
@@ -155,12 +155,12 @@ namespace Code2015.World
         {
             return plugins[i].plugin;
         }
-        public bool MatchPiece(int i,MdgType type)
+        public bool MatchPiece(int i, MdgType type)
         {
-            switch (plugins[i].plugin.TypeId) 
+            switch (plugins[i].plugin.TypeId)
             {
                 case CityPluginTypeId.EducationOrg:
-                    switch (type) 
+                    switch (type)
                     {
                         case MdgType.GenderEquality:
                         case MdgType.Education:
@@ -168,11 +168,11 @@ namespace Code2015.World
                     }
                     return false;
                 case CityPluginTypeId.Hospital:
-                    switch (type) 
+                    switch (type)
                     {
                         case MdgType.ChildMortality:
                         case MdgType.Diseases:
-                            return true;        
+                            return true;
                     }
                     return false;
                 case CityPluginTypeId.BiofuelFactory:
@@ -182,9 +182,9 @@ namespace Code2015.World
             }
             return false;
         }
-        public void SetPiece(MdgResource res)
+        public void SetPiece(int i, MdgResource res)
         {
-
+            plugins.Elements[i].CurrentPiece = res;
         }
 
         bool ISelectableObject.IsSelected
@@ -393,7 +393,7 @@ namespace Code2015.World
             bool passed = false;
             for (int i = 0; i < plugins.Count; i++)
             {
-                passed |= plugins[i].HasPiece;
+                passed |= plugins[i].CurrentPiece != null;
             }
             if (passed) 
             {

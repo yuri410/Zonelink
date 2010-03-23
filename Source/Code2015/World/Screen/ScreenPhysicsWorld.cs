@@ -13,12 +13,12 @@ namespace Code2015.World.Screen
     /// <param name="a"></param>
     /// <param name="b"></param>
     /// <returns>返回true放弃碰撞处理</returns>
-    delegate bool CollisionHandler(ScreenRigidBody a, ScreenRigidBody b);
+    public delegate bool CollisionHandler(ScreenRigidBody a, ScreenRigidBody b);
 
     /// <summary>
     ///  表示屏幕空间2D物理世界环境
     /// </summary>
-    class ScreenPhysicsWorld
+    public class ScreenPhysicsWorld
     {
         FastList<ScreenRigidBody> bodies;
         FastList<ScreenStaticBody> statics;
