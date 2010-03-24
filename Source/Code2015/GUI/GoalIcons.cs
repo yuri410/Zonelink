@@ -163,49 +163,68 @@ namespace Code2015.GUI
         }
 
 
-        public override void Interact(GameTime time)
+        void MouseSelectItem()
+        {
+            SelectedItem = HitTest(MouseInput.X, MouseInput.Y);
+        }
+        void MouseDrag()
+        {
+            if (SelectedItem != null)
+            {
+                SelectedItem.Velocity = Vector2.Zero;
+                SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
+            }
+
+        }
+        void MouseDragEnd(GameTime time)
+        {
+            if (SelectedItem != null)
+            {
+                // 检查是否在城市之上
+                if (!object.ReferenceEquals(parent.MouseHoverCity, null))
+                {
+                    if (object.ReferenceEquals(parent.MouseHoverCity.Owner, player))
+                    {
+
+                        MdgResource piece = SelectedItem as MdgResource;
+                        if (piece != null)
+                        {
+                            resources.Remove(piece);
+                            parent.MouseHoverCity.Flash(60);
+                            return;
+                        }
+                    }
+                }
+                else
+                {
+                    float dt = time.ElapsedGameTimeSeconds;
+                    if (dt > float.Epsilon)
+                        SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
+
+                    SelectedItem = null;
+                }
+            }
+        }
+
+        public bool MouseHitTest(int x, int y)
+        {
+            MouseSelectItem();
+            return !object.ReferenceEquals(selectedItem, null);
+        }
+        public void Interact(GameTime time)
         {
             if (MouseInput.IsMouseDownLeft)
             {
-                SelectedItem = HitTest(MouseInput.X, MouseInput.Y);
+                MouseSelectItem();
             }
 
             if (MouseInput.IsLeftPressed)
             {
-                if (SelectedItem != null)
-                {
-                    SelectedItem.Velocity = Vector2.Zero;
-                    SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
-                }
+                MouseDrag();
             }
             else if (MouseInput.IsMouseUpLeft)
             {
-                if (SelectedItem != null)
-                {
-                    // 检查是否在城市之上
-                    if (!object.ReferenceEquals(parent.MouseHoverCity, null))
-                    {
-                        if (object.ReferenceEquals(parent.MouseHoverCity.Owner, player))
-                        {
-
-                            MdgResource piece = SelectedItem as MdgResource;
-                            if (piece != null)
-                            {
-                                resources.Remove(piece);
-                                parent.MouseHoverCity.Flash(60);
-                                return;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        float dt = time.ElapsedGameTimeSeconds;
-                        if (dt > float.Epsilon)
-                            SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
-
-                        SelectedItem = null;
-                    }
-                }
+                MouseDragEnd(time);
             }
         }
         public override void Update(GameTime time)
