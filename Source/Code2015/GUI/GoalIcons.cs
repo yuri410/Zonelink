@@ -163,10 +163,8 @@ namespace Code2015.GUI
         }
 
 
-        public override void Update(GameTime time)
+        public override void Interact(GameTime time)
         {
-            resources.Update(time);
-
             if (MouseInput.IsMouseDownLeft)
             {
                 SelectedItem = HitTest(MouseInput.X, MouseInput.Y);
@@ -175,7 +173,7 @@ namespace Code2015.GUI
             if (MouseInput.IsLeftPressed)
             {
                 if (SelectedItem != null)
-                {   
+                {
                     SelectedItem.Velocity = Vector2.Zero;
                     SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
                 }
@@ -209,6 +207,11 @@ namespace Code2015.GUI
                     }
                 }
             }
+        }
+        public override void Update(GameTime time)
+        {
+            resources.Update(time);
+
         }
     }
 }
