@@ -4,13 +4,13 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Core;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
+using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
-using Apoc3D.Vfs;
-using Apoc3D.Graphics.Animation;
 
 namespace Code2015.GUI
 {
@@ -180,6 +180,10 @@ namespace Code2015.GUI
                 scene.Scene.AddObjectToScene(link);
             }
         }
+        public override void Interact(GameTime time)
+        {
+
+        }
         public override void Update(GameTime time)
         {
             if (SelectedCity != null && isDirty)
@@ -187,9 +191,8 @@ namespace Code2015.GUI
                 UpdatePath();
                 isDirty = false;
             }
-
-          
         }
+
         public override void Render(Sprite sprite)
         {
             

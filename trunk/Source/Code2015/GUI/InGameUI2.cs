@@ -114,12 +114,6 @@ namespace Code2015.GUI
 
         Point selectedProjPos;
 
-        public bool IsMouseInteract
-        {
-            get;
-            private set;
-        }
-
         public ISelectableObject SelectedObject
         {
             get { return selected; }
@@ -459,7 +453,6 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-
             cityInfoDisplay.Render(sprite);
             resInfoDisplay.Render(sprite);
 
@@ -604,10 +597,13 @@ namespace Code2015.GUI
             sprite.Draw(ico_pill, -3, 429, ColorValue.White);
         }
 
+        public override void Interact(GameTime time, bool action)
+        {
+            base.Interact(time, action);
+        }
+
         public override void Update(GameTime time)
         {
-            IsMouseInteract = false;
-
             #region 城市
             if (!object.ReferenceEquals(city, null))
             {
@@ -634,9 +630,6 @@ namespace Code2015.GUI
                         btnHosp.Update(time);
                         btnOilref.Update(time);
                         btnWood.Update(time);
-
-                        IsMouseInteract |= btnEduorg.IsMouseOver || btnHosp.IsMouseOver || btnInfo.IsMouseOver
-                            || btnOilref.IsMouseOver || btnWood.IsMouseOver || buildBtn.IsMouseOver;
                     }
                 }
                 else
@@ -644,10 +637,10 @@ namespace Code2015.GUI
                     page = PanelPage.Info;
                     isCapturable = city.CanCapture(player);
                     isPlayerCapturing = city.IsPlayerCapturing(player);
+
                     if (isCapturable)
                     {
                         captureBtn.Update(time);
-                        IsMouseInteract |= captureBtn.IsMouseOver;
                     }
                 }
             }
