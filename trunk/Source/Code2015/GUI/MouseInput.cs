@@ -78,6 +78,11 @@ namespace Code2015.GUI
             get;
             private set;
         }
+        public static bool IsMouseMoving
+        {
+            get { return DX != 0 || DY != 0; }
+        }
+
         public static bool IsMouseDownLeft
         {
             get;

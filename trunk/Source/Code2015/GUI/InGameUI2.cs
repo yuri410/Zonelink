@@ -597,9 +597,17 @@ namespace Code2015.GUI
             sprite.Draw(ico_pill, -3, 429, ColorValue.White);
         }
 
-        public override void Interact(GameTime time, bool action)
+        public bool HitTest(int x, int y)
         {
-            base.Interact(time, action);
+            if (y > 595 && x > 420)
+            {
+                return true;
+            }
+            if (y > 168 && x < 155)
+            {
+                return true;
+            }
+            return false;
         }
 
         public override void Update(GameTime time)

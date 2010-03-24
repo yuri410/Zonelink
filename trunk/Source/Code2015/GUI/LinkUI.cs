@@ -42,12 +42,14 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
+        InGameUI igui;
 
         Map map;
         PathFinder pathFinder;
         Player player;
 
         CityObject hoverCity;
+        
         PreviewPath staticObject;
         ModelData pathMdlData;
 
@@ -58,6 +60,7 @@ namespace Code2015.GUI
 
         bool isDirty;
 
+        #region 属性
 
         public CityObject SelectedCity
         {
@@ -109,6 +112,7 @@ namespace Code2015.GUI
                 }
             }
         }
+        #endregion
 
         void UpdatePath()
         {
@@ -151,10 +155,10 @@ namespace Code2015.GUI
         }
 
 
-        public LinkUI(Code2015 game, Game parent, GameScene scene)
+        public LinkUI(Code2015 game, Game parent, GameScene scene, InGameUI igui)
         {
             this.parent = parent;
-
+            this.igui = igui;
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.scene = scene;
@@ -169,7 +173,7 @@ namespace Code2015.GUI
             scene.Scene.AddObjectToScene(staticObject);
         }
 
-        public void Link() 
+        void Link() 
         {
             if (SelectedCity != null && hoverCity != null)
             {
@@ -180,9 +184,28 @@ namespace Code2015.GUI
                 scene.Scene.AddObjectToScene(link);
             }
         }
-        public override void Interact(GameTime time)
+        public void Interact(GameTime time)
         {
+            if (MouseInput.IsMouseDownLeft)
+            {
+                SelectedCity = igui.MouseHoverCity;
+            }
+            if (MouseInput.IsMouseUpLeft)
+            {
+                Link();
+            }
+            else if (MouseInput.IsLeftPressed && MouseInput.IsMouseMoving)
+            {
+                HoverCity = igui.MouseHoverCity;
+                BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
 
+                Vector3 intersect;
+                if (BoundingSphere.Intersects(earthSphere, igui.SelectionRay, out intersect))
+                {
+                    HoverPoint = intersect;
+                }
+
+            }
         }
         public override void Update(GameTime time)
         {

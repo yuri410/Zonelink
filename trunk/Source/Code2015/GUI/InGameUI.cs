@@ -43,16 +43,11 @@ namespace Code2015.GUI
         #endregion
     }
 
-    //enum UIStates
-    //{
-    //    Default,
-    //    Brackets,
-    //    Statbars,
-    //    Popup,
-    //    Icons,
-    //    Design,
-    //    Link
-    //}
+    enum UIStates
+    {
+        Ingame,
+        CityDesign
+    }
 
     /// <summary>
     ///  表示游戏过程中的界面
@@ -85,6 +80,14 @@ namespace Code2015.GUI
 
         CityObject mouseHoverCity;
 
+        UIStates uistate;
+
+        Ray selectRay;
+
+        public Ray SelectionRay 
+        {
+            get { return selectRay; }
+        }
 
         public ScreenPhysicsWorld PhysicsWorld
         {
@@ -133,7 +136,7 @@ namespace Code2015.GUI
 
 
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
-            this.linkUI = new LinkUI(game, parent, scene);
+            this.linkUI = new LinkUI(game, parent, scene, this);
         }
 
         public override void Render(Sprite sprite)
@@ -170,31 +173,47 @@ namespace Code2015.GUI
         }
 
 
-        public override void Interact(GameTime time, bool action)
+        public void Interact(GameTime time)
         {
-            if (action)
+            #region 屏幕边缘滚动视野
+            RtsCamera camera = parent.Scene.Camera;
+
+            camera.Height += MouseInput.DScrollWheelValue * 0.05f;
+
+            if (MouseInput.X <= 0)
             {
-                RtsCamera camera = parent.Scene.Camera;
+                camera.MoveLeft();
+            }
+            if (MouseInput.X >= Program.Window.ClientSize.Width)
+            {
+                camera.MoveRight();
+            }
+            if (MouseInput.Y <= 0)
+            {
+                camera.MoveFront();
+            }
+            if (MouseInput.Y >= Program.Window.ClientSize.Height)
+            {
+                camera.MoveBack();
+            }
+            #endregion
 
-                camera.Height += MouseInput.DScrollWheelValue * 0.05f;
+            // 交互检查
+            //  界面
+            //  图标
+            //  场景
 
-                if (MouseInput.X <= 0)
-                {
-                    camera.MoveLeft();
-                }
-                if (MouseInput.X >= Program.Window.ClientSize.Width)
-                {
-                    camera.MoveRight();
-                }
-                if (MouseInput.Y <= 0)
-                {
-                    camera.MoveFront();
-                }
-                if (MouseInput.Y >= Program.Window.ClientSize.Height)
-                {
-                    camera.MoveBack();
-                }
 
+            if (ingameui2.HitTest(mousePosition.X, mousePosition.Y))
+            {
+                ingameui2.Update(time);
+            }
+            else if (icons.MouseHitTest(mousePosition.X, mousePosition.Y))
+            {
+                icons.Update(time);
+            }
+            else
+            {
                 Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
                 Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
                 mp.Z = 1;
@@ -202,67 +221,44 @@ namespace Code2015.GUI
                 Vector3 dir = end - start;
                 dir.Normalize();
 
-                SceneObject obj = parent.Scene.Scene.FindObject(new Ray(start, dir), SelFilter.Instance);
-                if (obj != null)
-                {
-                    ISelectableObject sel = obj as ISelectableObject;
+                selectRay = new Ray(start, dir);
 
-                    MouseHoverCity = sel as CityObject;
+                ISelectableObject sel = null;
+                SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
+                sel = obj as ISelectableObject;
+                MouseHoverCity = sel as CityObject;
 
-                    if (MouseInput.IsMouseDownLeft)
-                    {
-                        ingameui2.SelectedObject = sel;
-                        linkUI.SelectedCity = MouseHoverCity;
-                    }
-                    else if (MouseInput.IsMouseUpLeft)
-                    {
-                        linkUI.HoverCity = MouseHoverCity;
-                        linkUI.Link();
-                    }
-                    else if (MouseInput.IsLeftPressed)
-                    {
-                        linkUI.HoverCity = MouseHoverCity;
-                    }
-                    else
-                    {
-                        linkUI.HoverCity = null;
-                    }
-                }
-                else
+                if (MouseInput.IsMouseDownLeft)
                 {
-                    linkUI.HoverCity = null;
-                    MouseHoverCity = null;
+                    ingameui2.SelectedObject = sel;
                 }
 
-                if (MouseInput.IsLeftPressed)
-                {
-                    BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
-
-                    Vector3 intersect;
-                    if (BoundingSphere.Intersects(earthSphere, new Ray(start, dir), out intersect))
-                    {
-                        linkUI.HoverPoint = intersect;
-                    }
-                }
-
-                linkUI.Update(time);
-                ingameui2.Update(time);
-
-                icons.Update(time);
+                linkUI.Interact(time);
             }
 
+            linkUI.Update(time);
+            ingameui2.Update(time);
+            icons.Update(time);
         }
 
         public override void Update(GameTime time)
         {
             if (parent.IsLoaded)
             {
-                mousePosition.X = MouseInput.X;
-                mousePosition.Y = MouseInput.Y;
+                switch (uistate) 
+                {
+                    case UIStates.Ingame:
+                        mousePosition.X = MouseInput.X;
+                        mousePosition.Y = MouseInput.Y;
 
-                physWorld.Update(time);
+                        physWorld.Update(time);
 
-                Interact(time, true);
+                        Interact(time);
+                        break;
+                    case UIStates.CityDesign:
+                        break;
+                }
+                
             }
         }
     }
