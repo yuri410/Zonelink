@@ -132,12 +132,12 @@ namespace Code2015.GUI
                         selected.IsSelected = true;
 
                         city = selected as CityObject;
-                          
+
                         cityMeasure.Current = null;
                         pluginMeasure.Current = null;
                         resource = null;
                         resourceMeasure.Current = null;
-                        
+
                         if (city != null)
                         {
                             Vector3 ppos = renderSys.Viewport.Project(city.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
@@ -160,12 +160,16 @@ namespace Code2015.GUI
                         }
 
                         ForestObject forestObj = selected as ForestObject;
-                        if (forestObj != null) 
+                        if (forestObj != null)
                         {
                             resource = forestObj.Forest;
                             resourceMeasure.Current = resource;
                             return;
                         }
+                    }
+                    else 
+                    {
+                        city = null;
                     }
                 }
             }
@@ -599,15 +603,43 @@ namespace Code2015.GUI
 
         public bool HitTest(int x, int y)
         {
-            if (y > 595 && x > 420)
+            if (!object.ReferenceEquals(city, null) || !object.ReferenceEquals(resource, null))
             {
-                return true;
-            }
-            if (y > 168 && x < 155)
-            {
-                return true;
+                if (y > 595 && x > 420)
+                {
+                    return true;
+                }
+                //if (y > 168 && x < 155)
+                //{
+                //    return true;
+                //}
             }
             return false;
+        }
+
+        public void Interact(GameTime time)
+        {
+            if (!object.ReferenceEquals(city, null))
+            {
+                if (city.IsCaptured)
+                {
+                    if (object.ReferenceEquals(city.Owner, player))
+                    {
+                        btnInfo.Update(time);
+                        btnEduorg.Update(time);
+                        btnHosp.Update(time);
+                        btnOilref.Update(time);
+                        btnWood.Update(time);
+                    }
+                }
+                else
+                {
+                    if (isCapturable)
+                    {
+                        captureBtn.Update(time);
+                    }
+                }
+            }
         }
 
         public override void Update(GameTime time)
@@ -632,12 +664,6 @@ namespace Code2015.GUI
 
                                 break;
                         }
-
-                        btnInfo.Update(time);
-                        btnEduorg.Update(time);
-                        btnHosp.Update(time);
-                        btnOilref.Update(time);
-                        btnWood.Update(time);
                     }
                 }
                 else
@@ -646,10 +672,7 @@ namespace Code2015.GUI
                     isCapturable = city.CanCapture(player);
                     isPlayerCapturing = city.IsPlayerCapturing(player);
 
-                    if (isCapturable)
-                    {
-                        captureBtn.Update(time);
-                    }
+                    
                 }
             }
             #endregion

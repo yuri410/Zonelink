@@ -173,6 +173,11 @@ namespace Code2015.GUI
         }
 
 
+        public void SwitchView(UIStates state)
+        {
+            uistate = state;
+        }
+
         public void Interact(GameTime time)
         {
             #region 屏幕边缘滚动视野
@@ -203,42 +208,46 @@ namespace Code2015.GUI
             //  图标
             //  场景
 
-
-            if (ingameui2.HitTest(mousePosition.X, mousePosition.Y))
-            {
-                ingameui2.Update(time);
-            }
-            else if (icons.MouseHitTest(mousePosition.X, mousePosition.Y))
-            {
-                icons.Update(time);
-            }
-            else
-            {
-                Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
-                Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                mp.Z = 1;
-                Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                Vector3 dir = end - start;
-                dir.Normalize();
-
-                selectRay = new Ray(start, dir);
-
-                ISelectableObject sel = null;
-                SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
-                sel = obj as ISelectableObject;
-                MouseHoverCity = sel as CityObject;
-
-                if (MouseInput.IsMouseDownLeft)
-                {
-                    ingameui2.SelectedObject = sel;
-                }
-
-                linkUI.Interact(time);
-            }
-
             linkUI.Update(time);
             ingameui2.Update(time);
             icons.Update(time);
+
+            if (ingameui2.HitTest(mousePosition.X, mousePosition.Y))
+            {
+                ingameui2.Interact(time);
+            }
+            else //if (icons.MouseHitTest(mousePosition.X,mousePosition.Y))
+            {
+                icons.Interact(time);
+
+                if (!icons.MouseHitTest(mousePosition.X, mousePosition.Y))
+                {
+                    //}
+                    //else
+                    //{
+                    Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
+                    Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                    mp.Z = 1;
+                    Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                    Vector3 dir = end - start;
+                    dir.Normalize();
+
+                    selectRay = new Ray(start, dir);
+
+                    ISelectableObject sel = null;
+                    SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
+                    sel = obj as ISelectableObject;
+                    MouseHoverCity = sel as CityObject;
+
+                    if (MouseInput.IsMouseDownLeft)
+                    {
+                        ingameui2.SelectedObject = sel;
+                    }
+
+                    linkUI.Interact(time);
+                }
+            }
+
         }
 
         public override void Update(GameTime time)
