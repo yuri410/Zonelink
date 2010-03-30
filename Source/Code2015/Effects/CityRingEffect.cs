@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Core;
+using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
