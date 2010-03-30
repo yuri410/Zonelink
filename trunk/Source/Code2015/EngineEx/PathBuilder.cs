@@ -5,6 +5,7 @@ using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
+using Code2015.Effects;
 using Code2015.Logic;
 using Code2015.World;
 
