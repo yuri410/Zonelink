@@ -24,11 +24,11 @@ namespace Code2015.World
 
         
 
-        public CityLinkObject(RenderSystem renderSys, CityLink alink, CityLink blink, Model road)
+        public CityLinkObject(RenderSystem renderSys, CityObject a,CityObject b, CityLink alink, CityLink blink, Model road)
             : base(false)
         {
-            start = blink.Target.Parent;
-            end = alink.Target.Parent;
+            start = a;
+            end = b;
 
             //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
             ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));

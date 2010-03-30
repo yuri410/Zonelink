@@ -11,6 +11,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -179,7 +180,10 @@ namespace Code2015.GUI
             {
                 hoverCity.Capture.SetCapture(player, SelectedCity.City);
 
-                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity, staticObject.ModelL0);
+                City a = SelectedCity.City;
+                City b = hoverCity.City;
+
+                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity, a.GetLink(b), b.GetLink(a), staticObject.ModelL0);
                 staticObject.SetModel0(null);
                 scene.Scene.AddObjectToScene(link);
             }

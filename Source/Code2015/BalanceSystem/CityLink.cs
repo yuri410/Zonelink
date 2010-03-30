@@ -4,7 +4,7 @@ using System.Text;
 
 namespace Code2015.BalanceSystem
 {
-    class CityLink
+    public class CityLink
     {
         public City Target
         {
