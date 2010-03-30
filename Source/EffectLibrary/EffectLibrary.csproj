@@ -133,6 +133,8 @@
     <None Include="Effect\water.vs" />
     <None Include="Effect\waterDepth.psh" />
     <None Include="Effect\waterDepth.vsh" />
+    <None Include="Effect\cloud.ps" />
+    <None Include="Effect\cloud.vs" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />

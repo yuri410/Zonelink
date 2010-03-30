@@ -31,3 +31,6 @@ fxc Effect\particle.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\particle.cps
 
 fxc Effect\road.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\road.cvs /Zpr
 fxc Effect\road.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\road.cps /Zpr
+
+fxc Effect\cloud.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cvs /Zpr
+fxc Effect\cloud.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cps /Zpr
