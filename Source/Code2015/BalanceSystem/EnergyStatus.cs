@@ -12,18 +12,13 @@ namespace Code2015.BalanceSystem
     public class EnergyStatus : IConfigurable, IUpdatable
     {
         [SLGValue()]
-        const float InitHPEnergy = 1000000;
-        [SLGValue()]
-        const float InitLPEnergy = 1000000;
-
-        [SLGValue()]
         public const float HPLowThreshold = 300;
         [SLGValue()]
         public const float LPLowThreshold = 300;
         [SLGValue()]
         public const float FoodLowThreshold = 300;
 
-
+        #region 灾难参数
         [SLGValue]
         public const float SafeRatio = 0.2f;
 
@@ -44,6 +39,7 @@ namespace Code2015.BalanceSystem
         public const float MaxDamage = 100;
         [SLGValue]
         public const float MaxRadius = 60;
+        #endregion
 
         public SimulationRegion Region
         {
@@ -111,11 +107,6 @@ namespace Code2015.BalanceSystem
 
         public EnergyStatus(SimulationRegion region)
         {
-            this.CurrentHR = InitHPEnergy;
-            this.CurrentLR = InitLPEnergy;
-            this.CurrentFood = 10000;
-            //this.RemainingHPEnergy = CurrentHPEnergy;
-            //this.RemainingLPEnergy = CurrentLPEnergy;
             Region = region;
         }
 
