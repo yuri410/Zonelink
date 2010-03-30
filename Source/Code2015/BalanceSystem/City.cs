@@ -79,7 +79,7 @@ namespace Code2015.BalanceSystem
         Player owner;
         CultureId culture;
 
-        FastList<City> nearbyCity = new FastList<City>();
+        FastList<CityLink> nearbyCity = new FastList<CityLink>();
         CityObject parent;
 
 
@@ -478,10 +478,31 @@ namespace Code2015.BalanceSystem
             get { return plugins[i]; }
         }
 
+        public CityLink GetLink(City city) 
+        {
+            for (int i = 0; i < nearbyCity.Count; i++)
+            {
+                if (nearbyCity[i].Target == city)
+                    return nearbyCity[i];
+            }
+            return null;
+        }
 
+        public void RemoveNearbyCity(City city)
+        {
+            for (int i = 0; i < nearbyCity.Count; i++)
+            {
+                if (nearbyCity[i].Target == city)
+                {
+                    nearbyCity.RemoveAt(i);
+                    return;
+                }
+            }
+        }
         public void AddNearbyCity(City city)
         {
-            nearbyCity.Add(city);
+            CityLink link = new CityLink(city);
+            nearbyCity.Add(link);
             if (NearbyCityAdded != null)
                 NearbyCityAdded(this, city);
 
@@ -496,13 +517,15 @@ namespace Code2015.BalanceSystem
 
             if (Capture.IsCapturing && !IsCaptured)
             {
-                if (!object.ReferenceEquals(Capture.NearbyCity1, null))
+                if (Capture.NearbyCity1 != null)
                 {
-                    if (object.ReferenceEquals(Capture.NewOwner1, Capture.NearbyCity1.owner))
+                    if (Capture.NewOwner1 == Capture.NearbyCity1.owner)
                     {
                         float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
                         float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);
                         Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+
+
                     }
                     else
                     {
@@ -527,15 +550,17 @@ namespace Code2015.BalanceSystem
                     IsRecovering = false;
                 }
             }
-            else if (Satisfaction < float.Epsilon && !object.ReferenceEquals(Owner, null))
+            else if (Satisfaction < float.Epsilon && IsCaptured)
             {
                 CoolDownPlayer = Owner;
                 ChangeOwner(null);
+
+
                 IsRecovering = true;
                 recoverCooldown = CityGrade.GetRecoverCoolDown(Size);
             }
 
-            if (object.ReferenceEquals(Owner, null))
+            if (!IsCaptured)
             {
                 return;
             }
@@ -581,7 +606,8 @@ namespace Code2015.BalanceSystem
             for (int i = 0; i < nearbyCity.Count; i++)
             {
                 float transSpeed;
-                City sourceCity = nearbyCity[i];
+                City sourceCity = nearbyCity[i].Target;
+                nearbyCity[i].IsTransporting = false;
                 {
                     float requirement = localLr.StandardStorageBalance - localLr.Current;
                     transSpeed = Math.Min(CityGrade.GetLPTransportSpeed(Size), CityGrade.GetLPTransportSpeed(sourceCity.Size));
@@ -597,7 +623,9 @@ namespace Code2015.BalanceSystem
                             applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
                             localLr.Commit(applyAmount);
                         }
+                        nearbyCity[i].IsTransporting = true;
                     }
+                    
                     //else
                     //{
                     //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
@@ -621,6 +649,7 @@ namespace Code2015.BalanceSystem
                             applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
                             localHr.Commit(applyAmount);
                         }
+                        nearbyCity[i].IsTransporting = true;
                     }
                     //else
                     //{
@@ -645,6 +674,7 @@ namespace Code2015.BalanceSystem
                             applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
                             localFood.Commit(applyAmount);
                         }
+                        nearbyCity[i].IsTransporting = true;
                     }
                     //else
                     //{

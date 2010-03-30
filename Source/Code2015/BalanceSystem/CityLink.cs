@@ -6,23 +6,17 @@ namespace Code2015.BalanceSystem
 {
     class CityLink
     {
-        public City A
-        {
-            get;
-            private  set;
-        }
-        public City B
+        public City Target
         {
             get;
             private set;
         }
-
-        public CityLink(City a, City b)
+        
+        public CityLink(City a)
         {
-            A = a;
-            B = b;
+            Target = a;
         }
 
-
+        public bool IsTransporting;
     }
 }
