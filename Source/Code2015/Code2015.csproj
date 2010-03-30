@@ -497,7 +497,6 @@
     <Content Include="Engine\Apoc3D.Graphics\Effects\Post\note.txt" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
-    <None Include="GUI\TODOs.txt" />
   </ItemGroup>
   <ItemGroup>
     <BootstrapperPackage Include="Microsoft.Net.Client.3.5">

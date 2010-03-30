@@ -18,7 +18,6 @@ using Code2015.World.Screen;
 
 namespace Code2015.World
 {
-   
     public enum PluginPositionFlag
     {
         None = 0,
