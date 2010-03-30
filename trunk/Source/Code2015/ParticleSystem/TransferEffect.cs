@@ -13,6 +13,7 @@ namespace Code2015.ParticleSystem
         public TransferEffect(RenderSystem rs)
             : base(rs, 10)
         {
+            ParticleSize = 50f;
         }
 
 
@@ -21,7 +22,7 @@ namespace Code2015.ParticleSystem
     {
         Vector3 targetPosition;
 
-        public float NoiseScale = 1;
+        public float NoiseScale = 200;
 
         public Vector3 TargetPosition
         {
@@ -38,10 +39,10 @@ namespace Code2015.ParticleSystem
         {
             for (int i = 0; i < particles.Count; i++)
             {
-                Vector3 dir = new Vector3();
-                      //(Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
-                      //(Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
-                      //(Randomizer.GetRandomSingle() - 0.5f) * NoiseScale);
+                Vector3 dir = new Vector3(
+                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
+                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
+                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale);
 
                 Vector3 dist = targetPosition - particles[i].Position;
                 particles[i].Life = dist.LengthSquared() < 100 ? -1 : 1;
@@ -50,7 +51,7 @@ namespace Code2015.ParticleSystem
 
                 dir.Normalize();
 
-                particles[i].Velocity = dir;
+                particles[i].Velocity = 500* dir;
                 particles[i].Update(dt);
             }
         }
@@ -62,7 +63,7 @@ namespace Code2015.ParticleSystem
 
 
         public TransferEmitter(Vector3 pos)
-            : base(10)
+            : base(1)
         {
             srcPosition = pos;
         }
