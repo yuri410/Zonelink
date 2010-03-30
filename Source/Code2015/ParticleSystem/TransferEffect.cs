@@ -11,7 +11,7 @@ namespace Code2015.ParticleSystem
     class TransferEffect : ParticleEffect
     {
         public TransferEffect(RenderSystem rs)
-            : base(rs, 50)
+            : base(rs, 10)
         {
         }
 
@@ -38,10 +38,10 @@ namespace Code2015.ParticleSystem
         {
             for (int i = 0; i < particles.Count; i++)
             {
-                Vector3 dir = new Vector3(
-                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
-                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
-                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale);
+                Vector3 dir = new Vector3();
+                      //(Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
+                      //(Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
+                      //(Randomizer.GetRandomSingle() - 0.5f) * NoiseScale);
 
                 Vector3 dist = targetPosition - particles[i].Position;
                 particles[i].Life = dist.LengthSquared() < 100 ? -1 : 1;
@@ -50,7 +50,7 @@ namespace Code2015.ParticleSystem
 
                 dir.Normalize();
 
-                particles[i].Velocity += dir;
+                particles[i].Velocity = dir;
                 particles[i].Update(dt);
             }
         }

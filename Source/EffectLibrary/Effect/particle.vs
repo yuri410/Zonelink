@@ -23,7 +23,7 @@ VSOutput main(VSInput ip)
 
 	float idx = ip.AlphaIdx.y;
 	
-	float ss = size * (18-18*ip.AlphaIdx.x);
+	float ss = size;
 	
 	if (idx == 0)
 	{

@@ -10,6 +10,7 @@ PSOutput main(float alpha : TEXCOORD0, float2 tex1 : TEXCOORD1)
 {
     PSOutput o;
     o.Color = tex2D(texDif, tex1);
-    o.Color.a *= alpha;
+    o.Color.a =1;//*= alpha;
+    o.Color+=1;
     return o;
 }

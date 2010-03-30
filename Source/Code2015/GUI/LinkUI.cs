@@ -61,6 +61,9 @@ namespace Code2015.GUI
 
         bool isDirty;
         bool isLinking;
+
+
+        
         #region 属性
 
         public CityObject SelectedCity
@@ -74,17 +77,17 @@ namespace Code2015.GUI
             get { return hoverCity; }
             set
             {
-                if (object.ReferenceEquals(value, null))
+                if (value==null)
                 {
                     hoverCity = null;
                     return;
                 }
 
-                if (!object.ReferenceEquals(hoverCity, value))
+                if (hoverCity != value)
                 {
-                    if (!object.ReferenceEquals(value, SelectedCity))
+                    if (SelectedCity != value)
                     {
-                        if (!object.ReferenceEquals(value, null) && !object.ReferenceEquals(SelectedCity, null))
+                        if (SelectedCity != null)
                         {
                             hoverCity = value;
                             isDirty = true;
@@ -176,7 +179,7 @@ namespace Code2015.GUI
 
         void Link() 
         {
-            if (SelectedCity != null && hoverCity != null)
+            if (SelectedCity != null && hoverCity != null && SelectedCity != hoverCity)
             {
                 hoverCity.Capture.SetCapture(player, SelectedCity.City);
 
@@ -187,29 +190,37 @@ namespace Code2015.GUI
                 staticObject.SetModel0(null);
                 scene.Scene.AddObjectToScene(link);
             }
+            isLinking = false;
         }
         public void Interact(GameTime time)
         {
-            isLinking = false;
+
             if (MouseInput.IsMouseDownLeft)
             {
                 SelectedCity = igui.MouseHoverCity;
             }
-            if (MouseInput.IsMouseUpLeft)
+            if (MouseInput.IsMouseUpLeft && isLinking)
             {
                 Link();
             }
             else if (MouseInput.IsLeftPressed && MouseInput.IsMouseMoving)
             {
-                HoverCity = igui.MouseHoverCity;
-                BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
-
-                Vector3 intersect;
-                if (BoundingSphere.Intersects(earthSphere, igui.SelectionRay, out intersect))
+                if (!isLinking)
                 {
-                    HoverPoint = intersect;
+                    isLinking = MouseInput.DX > 5 || MouseInput.DY > 5;
                 }
-                isLinking = true;
+                else
+                {
+                    HoverCity = igui.MouseHoverCity;
+                    BoundingSphere earthSphere = new BoundingSphere(new Vector3(), PlanetEarth.PlanetRadius);
+
+                    Vector3 intersect;
+                    if (BoundingSphere.Intersects(earthSphere, igui.SelectionRay, out intersect))
+                    {
+                        HoverPoint = intersect;
+                    }
+
+                }
             }
         }
         public override void Update(GameTime time)
