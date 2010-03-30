@@ -2,6 +2,9 @@
 Microsoft Visual Studio Solution File, Format Version 10.00
 # Visual Studio 2008
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Code2015", "Code2015\Code2015.csproj", "{9CCB378A-849F-4578-BAE9-DAA749B63FAD}"
+	ProjectSection(ProjectDependencies) = postProject
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7} = {C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "IdePlugin", "IdePlugin", "{04E023DD-FE31-440C-9996-31D5B34EC376}"
 EndProject
@@ -45,6 +48,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 	ProjectSection(SolutionItems) = preProject
 		TODO.txt = TODO.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffectLibrary", "EffectLibrary\EffectLibrary.csproj", "{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -258,6 +263,18 @@ Global
 		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|Mixed Platforms.ActiveCfg = Release|x86
 		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|x86.ActiveCfg = Release|x86
 		{80EF2075-1A8E-4D44-BD76-8BAE1EA27F61}.Release|Xbox 360.ActiveCfg = Release|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Debug|Any CPU.ActiveCfg = Debug|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Debug|Mixed Platforms.Build.0 = Debug|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Debug|x86.ActiveCfg = Debug|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Debug|x86.Build.0 = Debug|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Debug|Xbox 360.ActiveCfg = Debug|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Release|Any CPU.ActiveCfg = Release|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Release|Mixed Platforms.ActiveCfg = Release|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Release|Mixed Platforms.Build.0 = Release|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Release|x86.ActiveCfg = Release|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Release|x86.Build.0 = Release|x86
+		{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}.Release|Xbox 360.ActiveCfg = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

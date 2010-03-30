@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionSystem\CycleJet.cs" />
+    <Compile Include="AI\AIPlayer.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\City.cs" />
     <Compile Include="BalanceSystem\CityGrade.cs" />
@@ -97,17 +98,18 @@
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />
-    <Compile Include="Effect\AtmosphereEffect.cs" />
-    <Compile Include="Effect\CityLinkEffect.cs" />
-    <Compile Include="Effect\CityRingEffect.cs" />
-    <Compile Include="Effect\EarthBaseEffect.cs" />
-    <Compile Include="Effect\ParticleEffect.cs" />
-    <Compile Include="Effect\SkyboxEffect.cs" />
-    <Compile Include="Effect\StandardEffect.cs" />
-    <Compile Include="Effect\TerrainEffect.cs" />
-    <Compile Include="Effect\TreeEffect.cs" />
-    <Compile Include="Effect\WaterEffect.cs" />
-    <Compile Include="Effect\RoadEffect.cs" />
+    <Compile Include="Effects\AtmosphereEffect.cs" />
+    <Compile Include="Effects\CityLinkEffect.cs" />
+    <Compile Include="Effects\CityRingEffect.cs" />
+    <Compile Include="Effects\EarthBaseEffect.cs" />
+    <Compile Include="Effects\ParticleEffect.cs" />
+    <Compile Include="Effects\SkyboxEffect.cs" />
+    <Compile Include="Effects\StandardEffect.cs" />
+    <Compile Include="Effects\TerrainEffect.cs" />
+    <Compile Include="Effects\TreeEffect.cs" />
+    <Compile Include="Effects\WaterEffect.cs" />
+    <Compile Include="Effects\RoadEffect.cs" />
+    <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
@@ -537,7 +539,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="CompileShader.bat" />
     <None Include="Configs\citiesold.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -547,32 +548,24 @@
     <None Include="Effect\atmosphere.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\atmosphere.ps" />
-    <None Include="Effect\atmosphere.vs" />
     <None Include="Effect\citylink.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\citylink.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\citylink.ps" />
-    <None Include="Effect\citylink.vs" />
     <None Include="Effect\cityring.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\cityring.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\cityring.ps" />
-    <None Include="Effect\cityring.vs" />
     <None Include="Effect\earthbase.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\earthbase.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\earthBase.ps" />
-    <None Include="Effect\earthBase.vs" />
     <None Include="Effect\particle.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -587,46 +580,30 @@
     <None Include="Effect\skybox.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\skybox.ps" />
-    <None Include="Effect\skybox.vs" />
     <None Include="Effect\standard.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\standard.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\standard.ps" />
-    <None Include="Effect\standard.vs" />
     <None Include="Effect\terrain.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\terrain.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\terrain.ps" />
-    <None Include="Effect\terrain.vs" />
     <None Include="Effect\tree.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\tree.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\tree.ps" />
-    <None Include="Effect\tree.vs" />
     <None Include="Effect\water.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\water.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\water.ps" />
-    <None Include="Effect\water.vs" />
-    <None Include="Effect\waterDepth.psh" />
-    <None Include="Effect\waterDepth.vsh" />
-    <None Include="Effect\particle.ps" />
-    <None Include="Effect\particle.vs" />
-    <None Include="Effect\road.ps" />
-    <None Include="Effect\road.vs" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -663,7 +640,7 @@
   <PropertyGroup>
     <PostBuildEvent>
     </PostBuildEvent>
-    <PreBuildEvent>chdir $(ProjectDir)
-CompileShader.bat</PreBuildEvent>
+    <PreBuildEvent>
+    </PreBuildEvent>
   </PropertyGroup>
 </Project>

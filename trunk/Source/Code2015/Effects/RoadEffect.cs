@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Core;
+using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 
-namespace Apoc3D.Graphics.Effects
+namespace Code2015.Effects
 {
-    public class StandardEffectFactory : EffectFactory
+    public class RoadEffectFactory : EffectFactory
     {
-        static readonly string typeName = "Standard";
+        static readonly string typeName = "Road";
 
 
         public static string Name
@@ -24,14 +26,14 @@ namespace Apoc3D.Graphics.Effects
 
         RenderSystem device;
 
-        public StandardEffectFactory(RenderSystem dev)
+        public RoadEffectFactory(RenderSystem dev)
         {
             device = dev;
         }
 
         public override Effect CreateInstance()
         {
-            return new StandardEffect(device);
+            return new RoadEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -40,7 +42,7 @@ namespace Apoc3D.Graphics.Effects
         }
     }
 
-    class StandardEffect : Effect
+    class RoadEffect : Effect
     {
         bool stateSetted;
 
@@ -51,8 +53,8 @@ namespace Apoc3D.Graphics.Effects
 
         Texture noTexture;
 
-        public unsafe StandardEffect(RenderSystem rs)
-            : base(false, StandardEffectFactory.Name)
+        public unsafe RoadEffect(RenderSystem rs)
+            : base(false, RoadEffectFactory.Name)
         {
             FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
             noTexture = TextureManager.Instance.CreateInstance(fl);// fac.CreateTexture(1, 1, 1, TextureUsage.Static, ImagePixelFormat.A8R8G8B8);
@@ -60,10 +62,10 @@ namespace Apoc3D.Graphics.Effects
 
             this.renderSys = rs;
 
-            fl = FileSystem.Instance.Locate("standard.cvs", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("road.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("standard.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("road.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
         }

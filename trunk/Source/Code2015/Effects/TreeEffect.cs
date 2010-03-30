@@ -2,18 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Core;
+using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
-using Code2015.World;
 
-namespace Apoc3D.Graphics.Effects
+namespace Code2015.Effects
 {
-    public class CityRingEffectFactory : EffectFactory
+    public class TreeEffectFactory : EffectFactory
     {
-        static readonly string typeName = "CityRing";
+        static readonly string typeName = "Tree";
 
 
         public static string Name
@@ -25,14 +26,14 @@ namespace Apoc3D.Graphics.Effects
 
         RenderSystem device;
 
-        public CityRingEffectFactory(RenderSystem dev)
+        public TreeEffectFactory(RenderSystem dev)
         {
             device = dev;
         }
 
         public override Effect CreateInstance()
         {
-            return new CityRingEffect(device);
+            return new TreeEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -41,7 +42,7 @@ namespace Apoc3D.Graphics.Effects
         }
     }
 
-    class CityRingEffect : Effect
+    class TreeEffect : Effect
     {
         bool stateSetted;
 
@@ -50,26 +51,43 @@ namespace Apoc3D.Graphics.Effects
         PixelShader pixShader;
         VertexShader vtxShader;
 
-        public unsafe CityRingEffect(RenderSystem rs)
-            : base(false, CityRingEffectFactory.Name)
+        float winding;
+        int sign = 1;
+
+        public unsafe TreeEffect(RenderSystem rs)
+            : base(false, TreeEffectFactory.Name)
         {
             this.renderSys = rs;
 
-            FileLocation fl = FileSystem.Instance.Locate("cityring.cvs", GameFileLocs.Effect);
+            FileLocation fl = FileSystem.Instance.Locate("tree.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("cityring.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("tree.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
         }
-
-        
 
         protected override int begin()
         {
             renderSys.BindShader(vtxShader);
             renderSys.BindShader(pixShader);
+            pixShader.SetValue("i_a", EffectParams.LightAmbient);
+            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
+            pixShader.SetValue("i_s", EffectParams.LightSpecular);
             pixShader.SetValue("lightDir", EffectParams.LightDir);
+            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+
+            winding += sign * 0.0033f;
+            if (winding > 2 * MathEx.PIf)
+                winding -= 2 * MathEx.PIf;
+            //if (winding > 1f)
+            //{
+            //    sign = -1;
+            //}
+            //else if (winding < 0f)
+            //{
+            //    sign = 1;
+            //}
 
             stateSetted = false;
             return 1;
@@ -95,30 +113,16 @@ namespace Apoc3D.Graphics.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
 
-            object sdr = op.Sender;
-            bool passed = false;
-            if (sdr != null)
+            TreeBatchModel mdl = op.Sender as TreeBatchModel;
+            if (mdl != null)
             {
-                CityOwnerRing ring = sdr as CityOwnerRing;
-
-                if (ring != null)
-                {
-                    pixShader.SetValue("weights", ring.GetWeights());
-
-                    pixShader.SetValue("ownerColors", ring.GetColorMatrix());
-                    passed = true;
-
-                }
+                vtxShader.SetValue("world", ref mdl.TreeOrientation);
             }
-            if (!passed)
+            else 
             {
-                pixShader.SetValue("weights", new Vector4());
-
-                pixShader.SetValue("ownerColors", CityOwnerRing.WhiteMatrix);
+                vtxShader.SetValue("world", ref op.Transformation);
             }
-            
 
             if (!stateSetted)
             {
@@ -132,25 +136,44 @@ namespace Apoc3D.Graphics.Effects
                 state.MaxAnisotropy = 8;
                 state.MipMapLODBias = 0;
 
-                //pixShader.SetValue("k_a", mat.Ambient);
-                //pixShader.SetValue("k_d", mat.Diffuse);
-                //pixShader.SetValue("k_s", mat.Specular);
-                //pixShader.SetValue("k_e", mat.Emissive);
-                //pixShader.SetValue("k_power", mat.Power);
+                pixShader.SetValue("k_a", mat.Ambient);
+                pixShader.SetValue("k_d", mat.Diffuse);
+                pixShader.SetValue("k_s", mat.Specular);
+                pixShader.SetValue("k_e", mat.Emissive);
+                pixShader.SetValue("k_power", mat.Power);
 
                 pixShader.SetSamplerState("texDif", ref state);
 
                 ResourceHandle<Texture> clrTex = mat.GetTexture(0);
-                pixShader.SetTexture("texDif", clrTex != null ? clrTex.Resource : null);
+                if (clrTex == null)
+                {
+                    pixShader.SetTexture("texDif", null);
+                }
+                else
+                {
+                    pixShader.SetTexture("texDif", clrTex);
+                }
+
+
+                Vector2 isVeg_wind = new Vector2();
+
+                if (mat.IsVegetation)
+                {
+                    isVeg_wind.X = 100;// vtxShader.SetValue("isVeg_wind", new Vector4(100, 100, 100, 100));
+                }
+                isVeg_wind.Y = winding;
+                vtxShader.SetValue("isVeg_wind", ref isVeg_wind);
+
 
                 stateSetted = true;
             }
         }
 
+        
 
         protected override void Dispose(bool disposing)
         {
-
+      
         }
     }
 }
