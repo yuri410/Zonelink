@@ -179,7 +179,7 @@ namespace Code2015.GUI
             {
                 hoverCity.Capture.SetCapture(player, SelectedCity.City);
 
-                CityLink link = new CityLink(renderSys, SelectedCity, hoverCity, staticObject.ModelL0);
+                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity, staticObject.ModelL0);
                 staticObject.SetModel0(null);
                 scene.Scene.AddObjectToScene(link);
             }

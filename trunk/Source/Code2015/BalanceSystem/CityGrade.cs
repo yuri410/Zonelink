@@ -90,11 +90,11 @@ namespace Code2015.BalanceSystem
 
         #region 参考发展度
         [SLGValue]
-        public const float SmallCityPointThreshold = 500;
+        public const float SmallCityPointThreshold = 300;
         [SLGValue]
-        public const float MediumCityPointThreshold = 5000;
+        public const float MediumCityPointThreshold = 3000;
         [SLGValue]
-        public const float LargeCityPointThreshold = 50000;
+        public const float LargeCityPointThreshold = 30000;
 
         #endregion
 

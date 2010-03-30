@@ -12,7 +12,7 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
-    class CityLink : Entity
+    class CityLinkObject : Entity
     {
         const float LinkBaseLength = 100;
         const float LinkWidthScale = 0.00065f;
@@ -22,7 +22,7 @@ namespace Code2015.World
         CityObject end;
         Model link_e;
 
-        public CityLink(RenderSystem renderSys, CityObject a, CityObject b, Model road)
+        public CityLinkObject(RenderSystem renderSys, CityObject a, CityObject b, Model road)
             : base(false)
         {
             start = a;
