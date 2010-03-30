@@ -9,6 +9,8 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
+using Code2015.ParticleSystem;
+using Apoc3D;
 
 namespace Code2015.World
 {
@@ -20,15 +22,30 @@ namespace Code2015.World
 
         CityObject start;
         CityObject end;
+        CityLink alink;
+        CityLink blink;
+
         Model link_e;
 
-        
+        TransferEffect effect;
+        TransferEmitter emitter;
+        TransferModifier modfier;
+
+        bool isVisible;
 
         public CityLinkObject(RenderSystem renderSys, CityObject a,CityObject b, CityLink alink, CityLink blink, Model road)
             : base(false)
         {
             start = a;
             end = b;
+            this.alink = alink;
+            this.blink = blink;
+
+            effect = new TransferEffect(renderSys);
+            emitter = new TransferEmitter(a.Position + PlanetEarth.GetNormal(a.Longitude, a.Latitude) * 100);
+            modfier = new TransferModifier(b.Position + PlanetEarth.GetNormal(b.Longitude, b.Latitude) * 100);
+            effect.Emitter = emitter;
+            effect.Modifier = modfier;
 
             //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
             ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
@@ -81,17 +98,16 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
+            isVisible = true;
+
+            opBuffer.FastClear();
+
             if (start.IsCapturing || end.IsCapturing)
             {
-                opBuffer.FastClear();
-
-
-                opBuffer.Trim();
-                return opBuffer.Elements;
+             
             }
 
 
-            opBuffer.FastClear();
             //return base.GetRenderOperation();
             RenderOperation[] ops = ModelL0.GetRenderOperation();
             if (ops != null)
@@ -103,6 +119,13 @@ namespace Code2015.World
             {
                 opBuffer.Add(ops);
             }
+
+            ops = effect.GetRenderOperation();
+            if (ops != null) 
+            {
+                opBuffer.Add(ops);
+            }
+
             opBuffer.Trim();
             return opBuffer.Elements;
 
@@ -110,6 +133,17 @@ namespace Code2015.World
         public override RenderOperation[] GetRenderOperation(int level)
         {
             return GetRenderOperation();
+        }
+
+        public override void Update(GameTime dt)
+        {
+            base.Update(dt);
+
+            if (isVisible)
+            {
+                effect.Update(dt);
+                isVisible = false;
+            }
         }
     }
 }
