@@ -2,17 +2,19 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Core;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.World;
 
-namespace Apoc3D.Graphics.Effects
+namespace Code2015.Effects
 {
-    public class CityLinkEffectFactory : EffectFactory
+    public class CityRingEffectFactory : EffectFactory
     {
-        static readonly string typeName = "CityLink";
+        static readonly string typeName = "CityRing";
 
 
         public static string Name
@@ -24,14 +26,14 @@ namespace Apoc3D.Graphics.Effects
 
         RenderSystem device;
 
-        public CityLinkEffectFactory(RenderSystem dev)
+        public CityRingEffectFactory(RenderSystem dev)
         {
             device = dev;
         }
 
         public override Effect CreateInstance()
         {
-            return new CityLinkEffect(device);
+            return new CityRingEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -40,7 +42,7 @@ namespace Apoc3D.Graphics.Effects
         }
     }
 
-    class CityLinkEffect : Effect
+    class CityRingEffect : Effect
     {
         bool stateSetted;
 
@@ -49,18 +51,15 @@ namespace Apoc3D.Graphics.Effects
         PixelShader pixShader;
         VertexShader vtxShader;
 
-        float move;
-        float sign;
-
-        public unsafe CityLinkEffect(RenderSystem rs)
-            : base(false, CityLinkEffectFactory.Name)
+        public unsafe CityRingEffect(RenderSystem rs)
+            : base(false, CityRingEffectFactory.Name)
         {
             this.renderSys = rs;
 
-            FileLocation fl = FileSystem.Instance.Locate("citylink.cvs", GameFileLocs.Effect);
+            FileLocation fl = FileSystem.Instance.Locate("cityring.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("citylink.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("cityring.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
         }
@@ -71,25 +70,7 @@ namespace Apoc3D.Graphics.Effects
         {
             renderSys.BindShader(vtxShader);
             renderSys.BindShader(pixShader);
-            pixShader.SetValue("i_a", EffectParams.LightAmbient);
-            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            pixShader.SetValue("i_s", EffectParams.LightSpecular);
             pixShader.SetValue("lightDir", EffectParams.LightDir);
-            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
-
-            move += sign * 0.01f;
-            if (move > 0.75f) 
-            {
-                sign = -1;
-            }
-            else if (move < 0.25f) 
-            {
-                sign = 1;
-            }
-
-            //if (move >= MathEx.PIf)
-            //    move -= MathEx.PIf;
-
 
             stateSetted = false;
             return 1;
@@ -116,8 +97,29 @@ namespace Apoc3D.Graphics.Effects
 
             vtxShader.SetValue("mvp", ref mvp);
             vtxShader.SetValue("world", ref op.Transformation);
-            pixShader.SetValue("move", move);
 
+            object sdr = op.Sender;
+            bool passed = false;
+            if (sdr != null)
+            {
+                CityOwnerRing ring = sdr as CityOwnerRing;
+
+                if (ring != null)
+                {
+                    pixShader.SetValue("weights", ring.GetWeights());
+
+                    pixShader.SetValue("ownerColors", ring.GetColorMatrix());
+                    passed = true;
+
+                }
+            }
+            if (!passed)
+            {
+                pixShader.SetValue("weights", new Vector4());
+
+                pixShader.SetValue("ownerColors", CityOwnerRing.WhiteMatrix);
+            }
+            
 
             if (!stateSetted)
             {
@@ -131,11 +133,11 @@ namespace Apoc3D.Graphics.Effects
                 state.MaxAnisotropy = 8;
                 state.MipMapLODBias = 0;
 
-                pixShader.SetValue("k_a", mat.Ambient);
-                pixShader.SetValue("k_d", mat.Diffuse);
-                pixShader.SetValue("k_s", mat.Specular);
-                pixShader.SetValue("k_e", mat.Emissive);
-                pixShader.SetValue("k_power", mat.Power);
+                //pixShader.SetValue("k_a", mat.Ambient);
+                //pixShader.SetValue("k_d", mat.Diffuse);
+                //pixShader.SetValue("k_s", mat.Specular);
+                //pixShader.SetValue("k_e", mat.Emissive);
+                //pixShader.SetValue("k_power", mat.Power);
 
                 pixShader.SetSamplerState("texDif", ref state);
 

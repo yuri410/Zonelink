@@ -8,6 +8,7 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
+    
     class LightningStrom : SceneObject
     {
         Disaster disaster;

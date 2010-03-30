@@ -59,7 +59,7 @@ namespace Code2015.GUI
         Point hoverPoint;
 
         bool isDirty;
-
+        bool isLinking;
         #region 属性
 
         public CityObject SelectedCity
@@ -186,6 +186,7 @@ namespace Code2015.GUI
         }
         public void Interact(GameTime time)
         {
+            isLinking = false;
             if (MouseInput.IsMouseDownLeft)
             {
                 SelectedCity = igui.MouseHoverCity;
@@ -204,7 +205,7 @@ namespace Code2015.GUI
                 {
                     HoverPoint = intersect;
                 }
-
+                isLinking = true;
             }
         }
         public override void Update(GameTime time)
@@ -218,7 +219,10 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            
+            if (isLinking) 
+            {
+                
+            }
 
         }
     }
