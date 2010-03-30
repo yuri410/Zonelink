@@ -112,7 +112,7 @@ namespace Code2015.ParticleSystem
             renderOp[0].Material = material;
             
             BoundingSphere.Radius = float.MaxValue;
-            ParticleSize = 10f;
+            ParticleSize = 5f;
         }
 
         public ParticleEmitter Emitter 
@@ -134,7 +134,7 @@ namespace Code2015.ParticleSystem
         public float ParticleSize
         {
             get;
-            private set;
+            protected set;
         }
 
         #region IRenderable 成员
