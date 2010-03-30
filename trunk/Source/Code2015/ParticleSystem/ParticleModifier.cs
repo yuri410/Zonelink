@@ -8,7 +8,7 @@ namespace Code2015.ParticleSystem
 {
     public class ParticleModifier
     {
-        public void Update(FastList<Particle> particles, float dt)
+        public virtual void Update(FastList<Particle> particles, float dt)
         {
             for (int i = 0; i < particles.Count; i++) 
             {

@@ -39,7 +39,7 @@ namespace Code2015.ParticleSystem
             return p;
         }
 
-        public void Update(FastList<Particle> particles, float dt)
+        public virtual void Update(FastList<Particle> particles, float dt)
         {
             int count = (int)(60 * creationSpeed * dt);
 

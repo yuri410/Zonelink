@@ -22,11 +22,13 @@ namespace Code2015.World
         CityObject end;
         Model link_e;
 
-        public CityLinkObject(RenderSystem renderSys, CityObject a, CityObject b, Model road)
+        
+
+        public CityLinkObject(RenderSystem renderSys, CityLink alink, CityLink blink, Model road)
             : base(false)
         {
-            start = a;
-            end = b;
+            start = blink.Target.Parent;
+            end = alink.Target.Parent;
 
             //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
             ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
@@ -36,18 +38,18 @@ namespace Code2015.World
 
 
 
-            Vector3 dir = b.Position - a.Position;
+            Vector3 dir = end.Position - start.Position;
 
             dir.Normalize();
 
-            Vector3 pa = a.Position + dir * CityStyleTable.CityRadius[(int)a.Size];
-            Vector3 pb = b.Position - dir * CityStyleTable.CityRadius[(int)b.Size];
+            Vector3 pa = start.Position + dir * CityStyleTable.CityRadius[(int)start.Size];
+            Vector3 pb = end.Position - dir * CityStyleTable.CityRadius[(int)end.Size];
 
 
             float dist = Vector3.Distance(pa, pb);
 
-            float longitude = MathEx.Degree2Radian(0.5f * (a.Longitude + b.Longitude));
-            float latitude = MathEx.Degree2Radian(0.5f * (a.Latitude + b.Latitude));
+            float longitude = MathEx.Degree2Radian(0.5f * (start.Longitude + end.Longitude));
+            float latitude = MathEx.Degree2Radian(0.5f * (start.Latitude + end.Latitude));
 
             Matrix ori = Matrix.Identity;
             ori.Right = Vector3.Normalize(pa - pb);
@@ -79,6 +81,16 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
+            if (start.IsCapturing || end.IsCapturing)
+            {
+                opBuffer.FastClear();
+
+
+                opBuffer.Trim();
+                return opBuffer.Elements;
+            }
+
+
             opBuffer.FastClear();
             //return base.GetRenderOperation();
             RenderOperation[] ops = ModelL0.GetRenderOperation();
@@ -87,12 +99,13 @@ namespace Code2015.World
                 opBuffer.Add(ops);
             }
             ops = link_e.GetRenderOperation();
-            if (ops != null) 
+            if (ops != null)
             {
                 opBuffer.Add(ops);
             }
             opBuffer.Trim();
             return opBuffer.Elements;
+
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
