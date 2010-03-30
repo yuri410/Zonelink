@@ -83,6 +83,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ActionSystem\CycleJet.cs" />
+    <Compile Include="AI\AIDecision.cs" />
     <Compile Include="AI\AIPlayer.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\City.cs" />

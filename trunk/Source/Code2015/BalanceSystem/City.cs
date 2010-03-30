@@ -24,7 +24,7 @@ namespace Code2015.BalanceSystem
     public class ResourceStorage
     {
         [SLGValue()]
-        const float SafeLimitRate = 0.5f;
+        const float SafeLimitRate = 0.15f;
         [SLGValue()]
         const float StandardStorageBallanceRate = 1;
 

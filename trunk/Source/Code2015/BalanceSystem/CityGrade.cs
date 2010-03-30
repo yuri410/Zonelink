@@ -41,42 +41,42 @@ namespace Code2015.BalanceSystem
 
         #region 能源使用速度
         [SLGValueAttribute()]
-        public const float SmallCityLPSpeed = -30;
+        public const float SmallCityLPSpeed = -10;
         [SLGValueAttribute()]
-        public const float MediumCityLPSpeed = -50;
+        public const float MediumCityLPSpeed = -17;
         [SLGValueAttribute()]
-        public const float LargeCityLPSpeed = -100;
+        public const float LargeCityLPSpeed = -33;
 
         [SLGValueAttribute()]
-        public const float SmallCityHPSpeed = -30;
+        public const float SmallCityHPSpeed = -15;
         [SLGValueAttribute()]
-        public const float MediumCityHPSpeed = -50;
+        public const float MediumCityHPSpeed = -25;
         [SLGValueAttribute()]
-        public const float LargeCityHPSpeed = -100;
+        public const float LargeCityHPSpeed = -50;
 
         #endregion
 
         #region 存储 最大量
         [SLGValue]
-        public const int SmallMaxLPStorage = 100;
+        public const int SmallMaxLPStorage = 500;
         [SLGValue]
-        public const int MediumMaxLPStorage = 1000;
+        public const int MediumMaxLPStorage = 3000;
         [SLGValue]
-        public const int LargeMaxLPStorage = 3000;
+        public const int LargeMaxLPStorage = 10000;
 
         [SLGValue]
-        public const int SmallMaxHPStorage = 100;
+        public const int SmallMaxHPStorage = 500;
         [SLGValue]
-        public const int MediumMaxHPStorage = 1000;
+        public const int MediumMaxHPStorage = 3000;
         [SLGValue]
-        public const int LargeMaxHPStorage = 3000;
+        public const int LargeMaxHPStorage = 10000;
 
         [SLGValue]
-        public const int SmallMaxFoodStorage = 100;
+        public const int SmallMaxFoodStorage = 500;
         [SLGValue]
-        public const int MediumMaxFoodStorage = 1000;
+        public const int MediumMaxFoodStorage = 3000;
         [SLGValue]
-        public const int LargeMaxFoodStorage = 3000;
+        public const int LargeMaxFoodStorage = 10000;
         #endregion
 
         #region 发展比
