@@ -87,10 +87,13 @@
     <Compile Include="AI\AIPlayer.cs" />
     <Compile Include="Attributes.cs" />
     <Compile Include="BalanceSystem\City.cs" />
+    <Compile Include="BalanceSystem\CityCaptureState.cs" />
     <Compile Include="BalanceSystem\CityGrade.cs" />
+    <Compile Include="BalanceSystem\CityLink.cs" />
     <Compile Include="BalanceSystem\CityPlugin.cs" />
     <Compile Include="BalanceSystem\CityPluginFactory.cs" />
     <Compile Include="BalanceSystem\CityPluginType.cs" />
+    <Compile Include="BalanceSystem\CityResourceStorage.cs" />
     <Compile Include="BalanceSystem\EnergyStatus.cs" />
     <Compile Include="BalanceSystem\FarmLand.cs">
       <SubType>Code</SubType>
@@ -425,7 +428,7 @@
     <Compile Include="ParticleSystem\ParticleEffect.cs" />
     <Compile Include="ParticleSystem\ParticleEmitter.cs" />
     <Compile Include="ParticleSystem\ParticleManager.cs" />
-    <Compile Include="World\CityLink.cs" />
+    <Compile Include="World\CityLinkObject.cs" />
     <Compile Include="World\CityObject.cs" />
     <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
