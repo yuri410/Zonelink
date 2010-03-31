@@ -41,7 +41,7 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         Font font;
-       
+
 
         Font algerFont;
         Player player;
@@ -119,7 +119,7 @@ namespace Code2015.GUI
             get { return selected; }
             set
             {
-                if (!object.ReferenceEquals(selected, value))
+                if (selected != value)
                 {
                     if (selected != null)
                     {
@@ -167,7 +167,7 @@ namespace Code2015.GUI
                             return;
                         }
                     }
-                    else 
+                    else
                     {
                         city = null;
                     }
@@ -243,8 +243,8 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_sidebar.tex", GameFileLocs.GUI);
             ico_sidebar = UITextureManager.Instance.CreateInstance(fl);
-            
-            
+
+
 
             #region 信息按钮
             fl = FileSystem.Instance.Locate("ig_btn_info.tex", GameFileLocs.GUI);
@@ -461,7 +461,7 @@ namespace Code2015.GUI
             resInfoDisplay.Render(sprite);
 
             #region 渲染城市信息
-            if (!object.ReferenceEquals(city, null))
+            if (city != null)
             {
                 switch (page)
                 {
@@ -474,7 +474,7 @@ namespace Code2015.GUI
 
                         if (city.IsCaptured)
                         {
-                            if (!object.ReferenceEquals(city.Owner, player))
+                            if (city.Owner != player)
                             {
                                 // 城市是别人的 
                             }
@@ -563,7 +563,7 @@ namespace Code2015.GUI
 
                 sprite.Draw(selimglarge, 785, 575, ColorValue.White);
 
-                if (object.ReferenceEquals(city.Owner, player))
+                if (city.Owner == player)
                 {
                     btnInfo.Render(sprite);
                     btnEduorg.Render(sprite);
@@ -575,7 +575,7 @@ namespace Code2015.GUI
             #endregion
 
             #region 资源信息
-            if (!object.ReferenceEquals(resource, null))
+            if (resource != null)
             {
                 sprite.Draw(greenPanel, 401, 580, ColorValue.White);
 
@@ -603,7 +603,7 @@ namespace Code2015.GUI
 
         public bool HitTest(int x, int y)
         {
-            if (!object.ReferenceEquals(city, null) || !object.ReferenceEquals(resource, null))
+            if (city != null || resource != null)
             {
                 if (y > 595 && x > 420)
                 {
@@ -619,11 +619,11 @@ namespace Code2015.GUI
 
         public void Interact(GameTime time)
         {
-            if (!object.ReferenceEquals(city, null))
+            if (city != null)
             {
                 if (city.IsCaptured)
                 {
-                    if (object.ReferenceEquals(city.Owner, player))
+                    if (city.Owner == player)
                     {
                         btnInfo.Update(time);
                         btnEduorg.Update(time);
@@ -645,11 +645,11 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
             #region 城市
-            if (!object.ReferenceEquals(city, null))
+            if (city != null)
             {
                 if (city.IsCaptured)
                 {
-                    if (object.ReferenceEquals(city.Owner, player))
+                    if (city.Owner == player)
                     {
                         switch (page)
                         {
@@ -672,13 +672,13 @@ namespace Code2015.GUI
                     isCapturable = city.CanCapture(player);
                     isPlayerCapturing = city.IsPlayerCapturing(player);
 
-                    
+
                 }
             }
             #endregion
 
             #region 资源
-            if (!object.ReferenceEquals(resource, null))
+            if (resource != null)
             {
                 resourceMeasure.Update(time);
             }
