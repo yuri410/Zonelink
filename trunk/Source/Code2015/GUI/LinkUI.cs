@@ -17,28 +17,6 @@ namespace Code2015.GUI
 {
     class LinkUI : UIComponent
     {
-        class PreviewPath : StaticModelObject
-        {
-
-            public override bool IsSerializable
-            {
-                get { return false; }
-            }
-
-            public void SetModel0(Model mdl)
-            {
-                ModelL0 = mdl;
-            }
-            public override RenderOperation[] GetRenderOperation()
-            {
-                return base.GetRenderOperation();
-            }
-            public override RenderOperation[] GetRenderOperation(int level)
-            {
-                return base.GetRenderOperation(level);
-            }
-        }
-
         GameScene scene;
         RenderSystem renderSys;
         Code2015 game;
@@ -51,8 +29,6 @@ namespace Code2015.GUI
 
         CityObject hoverCity;
         
-        PreviewPath staticObject;
-        ModelData pathMdlData;
 
         float longitude;
         float latitude;
@@ -118,47 +94,7 @@ namespace Code2015.GUI
         }
         #endregion
 
-        void UpdatePath()
-        {
-            int sx, sy;
-            Map.GetMapCoord(MathEx.Degree2Radian(SelectedCity.Longitude), MathEx.Degree2Radian(SelectedCity.Latitude), out sx, out sy);
-
-            int tx, ty;
-            if (!object.ReferenceEquals(hoverCity, null))
-            {
-                Map.GetMapCoord(MathEx.Degree2Radian(hoverCity.Longitude), MathEx.Degree2Radian(hoverCity.Latitude), out tx, out ty);
-            }
-            else
-            {
-                tx = hoverPoint.X;
-                ty = hoverPoint.Y;
-            }
-
-            pathFinder.Reset();
-
-            PathFinderResult result = pathFinder.FindPath(sx, sy, tx, ty);
-
-            if (result != null && result.NodeCount >0)
-            {
-                Point[] pts = new Point[result.NodeCount];
-                for (int i = 0; i < result.NodeCount; i++)
-                {
-                    pts[i] = result[i];
-                }
-                pathMdlData = PathBuilder.BuildModel(renderSys, map, pts);
-
-                staticObject.SetModel0(new Model(new ResourceHandle<ModelData>(pathMdlData, true)));
-
-            }
-            else if (!object.ReferenceEquals(staticObject.ModelL0, null))
-            {
-                staticObject.SetModel0(null);
-                pathMdlData.Dispose();
-            }
-            
-        }
-
-
+       
         public LinkUI(Code2015 game, Game parent, GameScene scene, InGameUI igui)
         {
             this.parent = parent;
@@ -170,11 +106,6 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
 
             this.pathFinder = map.PathFinder.CreatePathFinder();
-
-            staticObject = new PreviewPath();
-            staticObject.BoundingSphere.Radius = float.MaxValue;
-
-            scene.Scene.AddObjectToScene(staticObject);
         }
 
         void Link() 
@@ -186,9 +117,7 @@ namespace Code2015.GUI
                 City a = SelectedCity.City;
                 City b = hoverCity.City;
 
-
-                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity, staticObject.ModelL0);
-                staticObject.SetModel0(null);
+                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity);
                 scene.Scene.AddObjectToScene(link);
             }
             isLinking = false;
@@ -228,7 +157,6 @@ namespace Code2015.GUI
         {
             if (SelectedCity != null && isDirty)
             {
-                UpdatePath();
                 isDirty = false;
             }
         }
