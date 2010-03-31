@@ -58,6 +58,7 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
+        GameState logic;
         Font font;
 
         GoalIcons icons;
@@ -106,6 +107,7 @@ namespace Code2015.GUI
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.parent = parent;
+            this.logic = gamelogic;
 
             this.game = game;
             this.renderSys = game.RenderSystem;
@@ -164,6 +166,8 @@ namespace Code2015.GUI
             }
             else
             {
+                font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
+
                 icons.Render(sprite);
                 sprite.SetTransform(Matrix.Identity);
                 ingameui2.Render(sprite);

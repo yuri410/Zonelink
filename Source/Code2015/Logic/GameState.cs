@@ -102,12 +102,18 @@ namespace Code2015.World
     /// </summary>
     class GameState
     {
+        [SLGValue]
+        const float TotalTime = 300;
         SimulationWorld slgSystem;
 
-
+        float remainingTime;
         GameTime newTime;
         PlayerArea[] localPlayerArea;
 
+        public float RemainingTime
+        {
+            get { return remainingTime; }
+        }
         public CityPluginFactory PluginFactory
         {
             get;
@@ -142,11 +148,15 @@ namespace Code2015.World
             }
 
             newTime = new GameTime();
+
+            remainingTime = TotalTime;
         }
 
 
         public void Update(GameTime time)
         {
+            remainingTime -= time.ElapsedGameTimeSeconds;
+
             /////// 接受playerOperation，由127.0.0.1
             newTime.SetElapsedGameTime(TimeSpan.FromSeconds(time.ElapsedGameTimeSeconds * 3600));
             newTime.SetElapsedRealTime(time.ElapsedRealTime * 3600);
