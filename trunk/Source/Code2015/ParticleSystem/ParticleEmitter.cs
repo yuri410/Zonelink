@@ -24,9 +24,8 @@ namespace Code2015.ParticleSystem
             get { return creationSpeed; }
         }
 
-        Particle CreateParticle()
+        Particle CreateParticle(Particle p)
         {
-            Particle p = ParticleManager.Instance.CreateParticle();
             p.Life = 5;
             p.Alpha = 1;
             p.Position = new Vector3();
@@ -37,6 +36,11 @@ namespace Code2015.ParticleSystem
             p.Velocity += new Vector3(18, 18, 0);
 
             return p;
+        }
+        Particle CreateParticle()
+        {
+            Particle p = new Particle();// ParticleManager.Instance.CreateParticle();
+            return CreateParticle(p);
         }
 
         public virtual void Update(FastList<Particle> particles, float dt)

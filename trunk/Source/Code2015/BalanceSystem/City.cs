@@ -621,9 +621,9 @@ namespace Code2015.BalanceSystem
                         {
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
+                            nearbyCity[i].IsTransporting |= applyAmount > float.Epsilon;
                             localLr.Commit(applyAmount);
                         }
-                        nearbyCity[i].IsTransporting = true;
                     }
                     
                     //else
@@ -647,9 +647,9 @@ namespace Code2015.BalanceSystem
 
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
+                            nearbyCity[i].IsTransporting |= applyAmount > float.Epsilon;
                             localHr.Commit(applyAmount);
                         }
-                        nearbyCity[i].IsTransporting = true;
                     }
                     //else
                     //{
@@ -672,9 +672,9 @@ namespace Code2015.BalanceSystem
 
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
+                            nearbyCity[i].IsTransporting |= applyAmount > float.Epsilon;
                             localFood.Commit(applyAmount);
                         }
-                        nearbyCity[i].IsTransporting = true;
                     }
                     //else
                     //{

@@ -11,71 +11,99 @@ namespace Code2015.ParticleSystem
     class TransferEffect : ParticleEffect
     {
         public TransferEffect(RenderSystem rs)
-            : base(rs, 10)
+            : base(rs, 60)
         {
-            ParticleSize = 50f;
+            ParticleSize = 20f;
+            Material.ZEnabled = false;
+            Material.ZWriteEnabled = false;
         }
 
 
     }
     class TransferModifier : ParticleModifier
     {
-        Vector3 targetPosition;
-
-        public float NoiseScale = 200;
-
-        public Vector3 TargetPosition
-        {
-            get { return targetPosition; }
-            set { targetPosition = value; }
-        }
-
-        public TransferModifier(Vector3 targetPos) 
-        {
-            TargetPosition = targetPos;
-        }
+        //public TransferModifier(TransferEmitter emitter)
+        //{
+        //    this.emitter = emitter;
+        //}
 
         public override void Update(FastList<Particle> particles, float dt)
         {
             for (int i = 0; i < particles.Count; i++)
             {
-                Vector3 dir = new Vector3(
-                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
-                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
-                      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale);
+                //Vector3 dir = new Vector3(
+                //      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
+                //      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale,
+                //      (Randomizer.GetRandomSingle() - 0.5f) * NoiseScale);
 
-                Vector3 dist = targetPosition - particles[i].Position;
-                particles[i].Life = dist.LengthSquared() < 100 ? -1 : 1;
+                
+                particles[i].Life -= dt;
+                particles[i].Alpha = MathEx.Saturate(particles[i].Life * 5);
+                //Vector3 dir = particles[i].Velocity;
+                //dir.Normalize();
+                //particles[i].Velocity = Vector3.Zero;
+                //particles[i].Velocity -= direction * (100 * dt);
+                //particles[i].Velocity += tangent * (100 * dt);
 
-                dir += dist;
 
-                dir.Normalize();
 
-                particles[i].Velocity = 500* dir;
                 particles[i].Update(dt);
             }
         }
     }
-    class TransferEmitter : ParticleEmitter 
+    class TransferEmitter : ParticleEmitter
     {
+        Vector3 targetPosition;
 
         Vector3 srcPosition;
+        float distance;
 
+        Vector3 currentPosition;
+        Vector3 velocity;
+        Vector3 noise;
 
-        public TransferEmitter(Vector3 pos)
-            : base(1)
+        Vector3 direction;
+        Vector3 tangent;
+
+        public bool IsVisible
         {
-            srcPosition = pos;
+            get;
+            set;
         }
 
+        public TransferEmitter(Vector3 pos, Vector3 targetPos, Vector3 tangent)
+            : base(3)
+        {
+            this.srcPosition = pos;
+            this.targetPosition = targetPos;
+            distance = Vector3.Distance(ref srcPosition, ref targetPosition);
 
+            this.currentPosition = pos;
+            this.direction = targetPosition - srcPosition;
+            this.direction.Normalize();
+            this.tangent = tangent;
+            Reset();
+        }
+
+        void Reset()
+        {
+            currentPosition = srcPosition;
+            noise = Vector3.Zero;
+        }
 
         Particle CreateParticle()
         {
-            Particle p = ParticleManager.Instance.CreateParticle();
-            p.Life = 100;
+            Particle p = new Particle();
+
+            return CreateParticle(p);
+        }
+
+        Particle CreateParticle(Particle p)
+        {
+            p.Life = .2f;
             p.Alpha = 1;
-            p.Position = srcPosition;
+            p.Position = currentPosition;
+            p.Velocity = velocity * 0.5f;
 
             return p;
         }
@@ -83,15 +111,44 @@ namespace Code2015.ParticleSystem
 
         public override void Update(FastList<Particle> particles, float dt)
         {
+            Vector3 dist = targetPosition - currentPosition;
+
+
+            float currentDist = Vector3.Dot(ref direction, ref dist);
+            float distPer = MathEx.Saturate(currentDist / distance);
+
+            if (IsVisible && currentDist < 0)
+            {
+                Reset();
+                //particles.FastClear();
+                return;
+            }
+
+            dist.Normalize();
+
+            noise += new Vector3(
+                (Randomizer.GetRandomSingle() - 0.5f) * 25,
+                (Randomizer.GetRandomSingle() - 0.5f) * 25,
+                (Randomizer.GetRandomSingle() - 0.5f) * 25);
+            velocity = 800 * direction;
+            velocity += noise * dt;
+            velocity -= tangent * (500 * (float)Math.Cos(distPer * Math.PI));
+
+
+            currentPosition += velocity * dt;
+
+
+            
+
             int count = (int)(60 * CreationSpeed * dt);
 
             for (int i = 0; i < particles.Count && count > 0; i++)
             {
                 //particles[i].ApplyMoment(new Vector3(0, 0.8f, 0));
-                
+
                 if (particles[i].Life <= float.Epsilon)
                 {
-                    particles[i] = CreateParticle();
+                    particles[i] = CreateParticle(particles[i]);
                     count--;
                 }
             }
@@ -104,6 +161,7 @@ namespace Code2015.ParticleSystem
                     particles.Add(CreateParticle());
                 }
             }
+
         }
     }
 }

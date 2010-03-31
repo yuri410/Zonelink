@@ -85,25 +85,46 @@ namespace Code2015.World
 
         public float QueryHeight(float longtiude, float latitude)
         {
-            
+
             double yspan = (14.0 / 18.0) * Math.PI;
 
-            int y = (int)(((yspan * 0.5 - latitude) / yspan) * DataHeight0);
-            int x = (int)(((longtiude + Math.PI) / (2 * Math.PI)) * DataWidth0);
+            int y = (int)(((yspan * 0.5 - latitude) / yspan) * DataHeight1);
+            int x = (int)(((longtiude + Math.PI) / (2 * Math.PI)) * DataWidth1);
 
-            if (y < 0) y += DataHeight0;
-            if (y >= DataHeight0) y -= DataHeight0;
+            if (y < 0) y += DataHeight1;
+            if (y >= DataHeight1) y -= DataHeight1;
 
-            if (x < 0) x += DataWidth0;
-            if (x >= DataWidth0) x -= DataWidth0;
+            if (x < 0) x += DataWidth1;
+            if (x >= DataWidth1) x -= DataWidth1;
 
             lock (syncHelper)
             {
-                reader0.BaseStream.Position = sizeof(ushort) * (y * DataWidth0 + x);
+                reader1.BaseStream.Position = sizeof(ushort) * (y * DataWidth1 + x);
 
-                return (reader0.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
+                return (reader1.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
             }
         }
+        //public float QueryHeight(float longtiude, float latitude)
+        //{
+            
+        //    double yspan = (14.0 / 18.0) * Math.PI;
+
+        //    int y = (int)(((yspan * 0.5 - latitude) / yspan) * DataHeight0);
+        //    int x = (int)(((longtiude + Math.PI) / (2 * Math.PI)) * DataWidth0);
+
+        //    if (y < 0) y += DataHeight0;
+        //    if (y >= DataHeight0) y -= DataHeight0;
+
+        //    if (x < 0) x += DataWidth0;
+        //    if (x >= DataWidth0) x -= DataWidth0;
+
+        //    lock (syncHelper)
+        //    {
+        //        reader0.BaseStream.Position = sizeof(ushort) * (y * DataWidth0 + x);
+
+        //        return (reader0.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
+        //    }
+        //}
 
         public float[] GetData(int tx, int ty, int lod)
         {
