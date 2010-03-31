@@ -130,9 +130,9 @@ namespace Code2015.ParticleSystem
                 (Randomizer.GetRandomSingle() - 0.5f) * 25,
                 (Randomizer.GetRandomSingle() - 0.5f) * 25,
                 (Randomizer.GetRandomSingle() - 0.5f) * 25);
-            velocity = 800 * direction;
+            velocity = 900 * direction;
             velocity += noise * dt;
-            velocity -= tangent * (500 * (float)Math.Cos(distPer * Math.PI));
+            velocity -= tangent * (300 * (float)Math.Cos(distPer * Math.PI));
 
 
             currentPosition += velocity * dt;

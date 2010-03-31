@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
@@ -10,14 +11,13 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.ParticleSystem;
-using Apoc3D;
 
 namespace Code2015.World
 {
     class CityLinkObject : Entity
     {
         const float LinkBaseLength = 100;
-        const float LinkWidthScale = 0.00065f;
+        const float LinkWidthScale = 0.002f;
         const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
         CityObject start;
