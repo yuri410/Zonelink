@@ -26,10 +26,10 @@ namespace Code2015.ParticleSystem
         {
             Position += Velocity * dt;
 
-            if (Life < 0)
-            {
-                ParticleManager.Instance.Retire(this);
-            }
+            //if (Life < 0)
+            //{
+            //    ParticleManager.Instance.Retire(this);
+            //}
         }
     }
 }

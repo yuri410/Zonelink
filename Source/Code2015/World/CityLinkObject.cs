@@ -27,25 +27,18 @@ namespace Code2015.World
 
         Model link_e;
 
-        TransferEffect effect;
-        TransferEmitter emitter;
-        TransferModifier modfier;
+        TransferEffect atobEff;
+        TransferEffect btoaEff;
+        TransferEmitter emittera;
+        TransferEmitter emitterb;
 
         bool isVisible;
 
-        public CityLinkObject(RenderSystem renderSys, CityObject a,CityObject b, CityLink alink, CityLink blink, Model road)
+        public CityLinkObject(RenderSystem renderSys, CityObject a, CityObject b, Model road)
             : base(false)
         {
             start = a;
             end = b;
-            this.alink = alink;
-            this.blink = blink;
-
-            effect = new TransferEffect(renderSys);
-            emitter = new TransferEmitter(a.Position + PlanetEarth.GetNormal(a.Longitude, a.Latitude) * 100);
-            modfier = new TransferModifier(b.Position + PlanetEarth.GetNormal(b.Longitude, b.Latitude) * 100);
-            effect.Emitter = emitter;
-            effect.Modifier = modfier;
 
             //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
             ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
@@ -87,6 +80,25 @@ namespace Code2015.World
 
             BoundingSphere.Center = 0.5f * (pa + pb);
             BoundingSphere.Radius = dist * 0.5f;
+
+
+
+
+
+            atobEff = new TransferEffect(renderSys);
+            btoaEff = new TransferEffect(renderSys);
+
+            Vector3 startPos = a.Position;
+            Vector3 endPos = b.Position;
+
+            emittera = new TransferEmitter(startPos, endPos, ori.Forward);
+            emitterb = new TransferEmitter(endPos, startPos, -ori.Forward);
+
+            atobEff.Emitter = emittera;
+            atobEff.Modifier = new TransferModifier();
+
+            btoaEff.Emitter = emitterb;
+            btoaEff.Modifier = new TransferModifier();
         }
 
         public override bool IsSerializable
@@ -102,12 +114,6 @@ namespace Code2015.World
 
             opBuffer.FastClear();
 
-            if (start.IsCapturing || end.IsCapturing)
-            {
-             
-            }
-
-
             //return base.GetRenderOperation();
             RenderOperation[] ops = ModelL0.GetRenderOperation();
             if (ops != null)
@@ -120,8 +126,18 @@ namespace Code2015.World
                 opBuffer.Add(ops);
             }
 
-            ops = effect.GetRenderOperation();
-            if (ops != null) 
+
+
+            emittera.IsVisible = alink != null ? alink.IsTransporting : true;
+            ops = atobEff.GetRenderOperation();
+            if (ops != null)
+            {
+                opBuffer.Add(ops);
+            }
+
+            emitterb.IsVisible = blink != null ? blink.IsTransporting : true;
+            ops = btoaEff.GetRenderOperation();
+            if (ops != null)
             {
                 opBuffer.Add(ops);
             }
@@ -139,9 +155,17 @@ namespace Code2015.World
         {
             base.Update(dt);
 
+            if ((alink == null || blink == null) && (start.IsCaptured && end.IsCaptured))
+            {
+                blink = start.City.GetLink(end.City);
+                alink = end.City.GetLink(start.City);
+            }
+
+            
             if (isVisible)
             {
-                effect.Update(dt);
+                atobEff.Update(dt);
+                btoaEff.Update(dt);
                 isVisible = false;
             }
         }

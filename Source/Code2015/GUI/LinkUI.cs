@@ -186,7 +186,8 @@ namespace Code2015.GUI
                 City a = SelectedCity.City;
                 City b = hoverCity.City;
 
-                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity, a.GetLink(b), b.GetLink(a), staticObject.ModelL0);
+
+                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity, staticObject.ModelL0);
                 staticObject.SetModel0(null);
                 scene.Scene.AddObjectToScene(link);
             }

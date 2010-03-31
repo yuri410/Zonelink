@@ -428,7 +428,6 @@
     <Compile Include="ParticleSystem\Particle.cs" />
     <Compile Include="ParticleSystem\ParticleEffect.cs" />
     <Compile Include="ParticleSystem\ParticleEmitter.cs" />
-    <Compile Include="ParticleSystem\ParticleManager.cs" />
     <Compile Include="World\CityLinkObject.cs" />
     <Compile Include="World\CityObject.cs" />
     <Compile Include="World\ForestObject.cs" />
