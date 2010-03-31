@@ -195,6 +195,7 @@ namespace Code2015
             }
 
             slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
+            //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
 
             this.ingameUI = new InGameUI(game, this, scene, gameState);
         }
@@ -204,6 +205,7 @@ namespace Code2015
             LightningStrom strom = new LightningStrom(renderSys, d);
             scene.Scene.AddObjectToScene(strom);
         }
+
 
         public void Render(Sprite sprite)
         {

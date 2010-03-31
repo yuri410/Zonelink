@@ -8,6 +8,8 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.Logic
 {
+    public delegate void DisasterOverHandler(Disaster d);
+
     public class Disaster : SimulationObject
     {
         float radius;
@@ -40,6 +42,8 @@ namespace Code2015.Logic
         {
             get { return duration < float.Epsilon; }
         }
+
+        public event DisasterOverHandler Over;
 
         public Disaster(SimulationWorld world, float lng, float lat, float radius, float duration, float damage)
             : base(world)
