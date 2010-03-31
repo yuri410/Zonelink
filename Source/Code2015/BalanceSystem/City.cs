@@ -11,7 +11,6 @@ using Code2015.World;
 
 namespace Code2015.BalanceSystem
 {
-
     public enum CultureId
     {
         Asia = 0,
@@ -42,7 +41,6 @@ namespace Code2015.BalanceSystem
         Large = 2
     }
 
-
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
     public delegate void NearbyCityAddedHandler(City city, City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
@@ -64,7 +62,7 @@ namespace Code2015.BalanceSystem
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
         [SLGValue]
-        const float DevBias = -0.01f;
+        const float DevBias = -0.005f;
 
         float recoverCooldown;
         /// <summary>

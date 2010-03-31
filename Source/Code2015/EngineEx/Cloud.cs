@@ -18,6 +18,9 @@ namespace Code2015.EngineEx
         Model model;
 
         float scale;
+        Matrix trans;
+
+
 
         public Cloud(RenderSystem rs)
         {
@@ -30,18 +33,34 @@ namespace Code2015.EngineEx
             model.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale));
         }
 
+        void UpdateModelAnim()
+        {
+            if (model != null)
+            {
+                model.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * trans);
+            }
+        }
+
         public float Scale
         {
             get { return scale; }
             set
             {
                 scale = value;
-                if (model != null)
-                {
-                    model.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale));
-                }
+                UpdateModelAnim();
             }
         }
+
+        public Matrix Transform 
+        {
+            get { return trans; }
+            set
+            {
+                trans = value;
+                UpdateModelAnim();
+            }
+        }
+
 
         #region IRenderable 成员
 
