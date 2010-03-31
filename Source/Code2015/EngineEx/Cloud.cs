@@ -21,9 +21,10 @@ namespace Code2015.EngineEx
 
         float startTime;
 
+        bool isStriking;
         float strikeTime;
 
-        const float StrikeDuration = 0.3f;
+        const float StrikeDuration = 2;
         const float Duration = 10;
 
 
@@ -84,7 +85,7 @@ namespace Code2015.EngineEx
         #region IRenderable 成员
         public RenderOperation[] GetRenderOperation2()
         {
-            if (strikeTime < StrikeDuration)
+            if (strikeTime > StrikeDuration - 0.2f)
                 return strike.GetRenderOperation();
             return null;
         }
@@ -110,7 +111,13 @@ namespace Code2015.EngineEx
         public void Update(GameTime dt)
         {
             startTime -= dt.ElapsedGameTimeSeconds;
-            strikeTime += dt.ElapsedGameTimeSeconds;
+            
+            if (isStriking)
+            {
+                strikeTime = 0;
+                strikeTime += dt.ElapsedGameTimeSeconds;
+                isStriking = strikeTime > StrikeDuration;
+            }
         }
 
         #endregion
