@@ -62,7 +62,7 @@ namespace Code2015.BalanceSystem
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
         [SLGValue]
-        const float DevBias = -0.005f;
+        const float DevBias = -0.001f;
 
         float recoverCooldown;
         /// <summary>
@@ -391,6 +391,16 @@ namespace Code2015.BalanceSystem
 
             if (CityOwnerChanged != null)
                 CityOwnerChanged(player);
+
+            if (player == null)
+            {
+                for (int i = 0; i < nearbyCity.Count; i++) 
+                {
+                    nearbyCity[i].Target.RemoveNearbyCity(this);
+                    nearbyCity[i].Disable();
+                }
+                nearbyCity.Clear();
+            }
         }
 
         /// <summary>
@@ -492,6 +502,7 @@ namespace Code2015.BalanceSystem
             {
                 if (nearbyCity[i].Target == city)
                 {
+                    nearbyCity[i].Disable();
                     nearbyCity.RemoveAt(i);
                     return;
                 }
@@ -552,7 +563,7 @@ namespace Code2015.BalanceSystem
             {
                 CoolDownPlayer = Owner;
                 ChangeOwner(null);
-
+                
 
                 IsRecovering = true;
                 recoverCooldown = CityGrade.GetRecoverCoolDown(Size);

@@ -20,6 +20,8 @@ namespace Code2015.World
         const float LinkWidthScale = 0.002f;
         const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
+        SceneManagerBase sceneMgr;
+
         CityObject start;
         CityObject end;
         CityLink alink;
@@ -120,14 +122,7 @@ namespace Code2015.World
             {
                 opBuffer.Add(ops);
             }
-            ops = link_e.GetRenderOperation();
-            if (ops != null)
-            {
-                opBuffer.Add(ops);
-            }
-
-
-
+          
             emittera.IsVisible = alink != null ? alink.IsTransportingLR : true;
             ops = atobEff.GetRenderOperation();
             if (ops != null)
@@ -151,6 +146,12 @@ namespace Code2015.World
             return GetRenderOperation();
         }
 
+        public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
+        {
+            this.sceneMgr = sceneMgr;
+        }
+        
+
         public override void Update(GameTime dt)
         {
             base.Update(dt);
@@ -161,6 +162,13 @@ namespace Code2015.World
                 alink = end.City.GetLink(start.City);
             }
 
+            if (alink != null && blink != null && sceneMgr!=null )
+            {
+                if (alink.Disabled && blink.Disabled)
+                {
+                    sceneMgr.RemoveObjectFromScene(this);
+                }
+            }
             
             if (isVisible)
             {
