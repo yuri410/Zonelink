@@ -15,7 +15,7 @@ namespace Code2015.BalanceSystem
         public float Longitude
         {
             get;
-            private set;
+            protected set;
         }
         /// <summary>
         /// 纬度
@@ -23,7 +23,7 @@ namespace Code2015.BalanceSystem
         public float Latitude
         {
             get;
-            private set;
+            protected set;
         }
 
         /// <summary>
