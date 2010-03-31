@@ -34,14 +34,14 @@ namespace Code2015.World
 
         bool isVisible;
 
-        public CityLinkObject(RenderSystem renderSys, CityObject a, CityObject b, Model road)
+        public CityLinkObject(RenderSystem renderSys, CityObject a, CityObject b)
             : base(false)
         {
             start = a;
             end = b;
 
             //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
-            ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
+            //ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
 
             //ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY(MathEx.PiOver2) *
             //    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
@@ -81,7 +81,7 @@ namespace Code2015.World
             BoundingSphere.Center = 0.5f * (pa + pb);
             BoundingSphere.Radius = dist * 0.5f;
 
-
+            ModelL0 = link_e;
 
 
 
