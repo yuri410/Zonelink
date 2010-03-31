@@ -128,6 +128,22 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
+        public float GetLevelProgress()
+        {
+            switch (TypeId)
+            {
+                case CityPluginTypeId.BiofuelFactory:
+                    return FoodConvRate;
+                case CityPluginTypeId.OilRefinary:
+                    return HRPConvRate;
+                case CityPluginTypeId.WoodFactory:
+                    return LRPConvRate;
+                case CityPluginTypeId.EducationOrg:
+                case CityPluginTypeId.Hospital:
+                    return 0;
+            }
+            return 0;
+        }
 
         #endregion
 

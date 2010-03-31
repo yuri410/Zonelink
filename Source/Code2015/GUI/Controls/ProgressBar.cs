@@ -44,7 +44,7 @@ namespace Code2015.GUI.Controls
         {
             if (Background != null)
             {
-                sprite.Draw(Background, X, Y, ColorValue.White);
+                sprite.Draw(Background, X, Y, modColor);
             }
 
             if (ProgressImage != null)
@@ -55,7 +55,7 @@ namespace Code2015.GUI.Controls
                     rect.Width = (int)(rect.Width * Value);
                     Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
 
-                    sprite.Draw(ProgressImage, rect, srect, ColorValue.White);
+                    sprite.Draw(ProgressImage, rect, srect, modColor);
                 }
                 else
                 {
@@ -63,7 +63,7 @@ namespace Code2015.GUI.Controls
                     rect.Height = (int)(rect.Height * Value);
                     Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
 
-                    sprite.Draw(ProgressImage, rect, srect, ColorValue.White);
+                    sprite.Draw(ProgressImage, rect, srect, modColor);
                 }
             }
 
