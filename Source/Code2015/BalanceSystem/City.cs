@@ -607,7 +607,10 @@ namespace Code2015.BalanceSystem
             {
                 float transSpeed;
                 City sourceCity = nearbyCity[i].Target;
-                nearbyCity[i].IsTransporting = false;
+                nearbyCity[i].IsTransportingHR = false;
+                nearbyCity[i].IsTransportingLR = false;
+                nearbyCity[i].IsTransportingFood = false;
+
                 {
                     float requirement = localLr.StandardStorageBalance - localLr.Current;
                     transSpeed = Math.Min(CityGrade.GetLPTransportSpeed(Size), CityGrade.GetLPTransportSpeed(sourceCity.Size));
@@ -621,7 +624,7 @@ namespace Code2015.BalanceSystem
                         {
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
-                            nearbyCity[i].IsTransporting |= applyAmount > float.Epsilon;
+                            nearbyCity[i].IsTransportingLR |= applyAmount > float.Epsilon;
                             localLr.Commit(applyAmount);
                         }
                     }
@@ -647,7 +650,7 @@ namespace Code2015.BalanceSystem
 
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
-                            nearbyCity[i].IsTransporting |= applyAmount > float.Epsilon;
+                            nearbyCity[i].IsTransportingHR |= applyAmount > float.Epsilon;
                             localHr.Commit(applyAmount);
                         }
                     }
@@ -672,7 +675,7 @@ namespace Code2015.BalanceSystem
 
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
-                            nearbyCity[i].IsTransporting |= applyAmount > float.Epsilon;
+                            nearbyCity[i].IsTransportingFood |= applyAmount > float.Epsilon;
                             localFood.Commit(applyAmount);
                         }
                     }

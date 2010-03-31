@@ -128,14 +128,14 @@ namespace Code2015.World
 
 
 
-            emittera.IsVisible = alink != null ? alink.IsTransporting : true;
+            emittera.IsVisible = alink != null ? alink.IsTransportingLR : true;
             ops = atobEff.GetRenderOperation();
             if (ops != null)
             {
                 opBuffer.Add(ops);
             }
 
-            emitterb.IsVisible = blink != null ? blink.IsTransporting : true;
+            emitterb.IsVisible = blink != null ? blink.IsTransportingLR : true;
             ops = btoaEff.GetRenderOperation();
             if (ops != null)
             {

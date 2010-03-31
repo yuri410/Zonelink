@@ -17,6 +17,8 @@ namespace Code2015.BalanceSystem
             Target = a;
         }
 
-        public bool IsTransporting;
+        public bool IsTransportingHR;
+        public bool IsTransportingLR;
+        public bool IsTransportingFood;
     }
 }
