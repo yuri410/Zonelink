@@ -10,9 +10,6 @@ namespace Code2015.Logic
 {
     public class Disaster : SimulationObject
     {
-        float longitude;
-        float latitude;
-
         float radius;
 
         float duration;
@@ -47,8 +44,8 @@ namespace Code2015.Logic
         public Disaster(SimulationWorld world, float lng, float lat, float radius, float duration, float damage)
             : base(world)
         {
-            this.longitude = lng;
-            this.latitude = lat;
+            this.Longitude = lng;
+            this.Latitude = lat;
             this.duration = duration;
             this.damage = damage;
             this.world = world;
@@ -89,17 +86,17 @@ namespace Code2015.Logic
             for (int i = 0; i < cities.Count; i++)
             {
                 City cc = cities[i];
-                Vector2 d = new Vector2(longitude - cc.Longitude, latitude - cc.Latitude);
+                Vector2 d = new Vector2(Longitude - cc.Longitude, Latitude - cc.Latitude);
 
-                cityWeights[i] = MathEx.Sqr((d.Length() / radius));
+                cityWeights[i] = 1 - MathEx.Saturate(MathEx.Sqr((d.Length() / radius)));
             }
 
             for (int i = 0; i < resources.Count; i++)
             {
                 NaturalResource cc = resources[i];
-                Vector2 d = new Vector2(longitude - cc.Longitude, latitude - cc.Latitude);
+                Vector2 d = new Vector2(Longitude - cc.Longitude, Latitude - cc.Latitude);
 
-                resWeights[i] = MathEx.Sqr((d.Length() / radius));
+                resWeights[i] = 1 - MathEx.Saturate(MathEx.Sqr((d.Length() / radius)));
             }
 
             this.cities = cities.Elements;
@@ -112,11 +109,14 @@ namespace Code2015.Logic
 
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
-            for (int i = 0; i < cities.Length; i++)
+            if (duration > 0)
             {
-                float pop = cityWeights[i] * damage * 0.5f;
-                float dev = cityWeights[i] * damage;
-                cities[i].Damage(pop, dev);
+                for (int i = 0; i < cities.Length; i++)
+                {
+                    float pop = cityWeights[i] * damage * 0.5f;
+                    float dev = cityWeights[i] * damage;
+                    cities[i].Damage(pop, dev);
+                }
             }
             //for (int i = 0; i < resources.Length; i++) 
             //{

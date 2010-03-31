@@ -13,15 +13,19 @@ namespace Code2015.EngineEx
     {
         RenderSystem renderSys;
 
-        //VertexBuffer vtxBuffer;
-        //IndexBuffer idxBuffer;
-
+        Model strike;
         Model model;
 
         float scale;
         Matrix trans;
 
         float startTime;
+
+        float strikeTime;
+
+        const float StrikeDuration = 0.3f;
+        const float Duration = 10;
+
 
         public float StartTime
         {
@@ -32,13 +36,19 @@ namespace Code2015.EngineEx
         public Cloud(RenderSystem rs, float beginTime)
         {
             this.renderSys = rs;
-            this.scale = 1;
+            this.scale = 5;
             this.startTime = beginTime;
 
-            FileLocation fl = FileSystem.Instance.Locate("cloud_lgt.mesh", GameFileLocs.Model);
+            this.trans = Matrix.Identity;
 
+            FileLocation fl = FileSystem.Instance.Locate("cloud_lgt.mesh", GameFileLocs.Model);
             model = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            model.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale));
+
+
+            fl = FileSystem.Instance.Locate("strike_lgt.mesh", GameFileLocs.Model);
+            strike = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+
+            UpdateModelAnim();
         }
 
         void UpdateModelAnim()
@@ -46,6 +56,7 @@ namespace Code2015.EngineEx
             if (model != null)
             {
                 model.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * trans);
+                strike.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans);
             }
         }
 
@@ -59,7 +70,7 @@ namespace Code2015.EngineEx
             }
         }
 
-        public Matrix Transform 
+        public Matrix Transform
         {
             get { return trans; }
             set
@@ -71,17 +82,23 @@ namespace Code2015.EngineEx
 
 
         #region IRenderable 成员
+        public RenderOperation[] GetRenderOperation2()
+        {
+            if (strikeTime < StrikeDuration)
+                return strike.GetRenderOperation();
+            return null;
+        }
 
         public RenderOperation[] GetRenderOperation()
         {
-            if (startTime < 0)
+            if (startTime < 0 && startTime > -Duration)
                 return model.GetRenderOperation();
             return null;
         }
 
         public RenderOperation[] GetRenderOperation(int level)
         {
-            if (startTime < 0)
+            if (startTime < 0 && startTime > -Duration)
                 return model.GetRenderOperation();
             return null;
         }
@@ -93,6 +110,7 @@ namespace Code2015.EngineEx
         public void Update(GameTime dt)
         {
             startTime -= dt.ElapsedGameTimeSeconds;
+            strikeTime += dt.ElapsedGameTimeSeconds;
         }
 
         #endregion

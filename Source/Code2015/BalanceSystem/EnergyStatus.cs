@@ -31,7 +31,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float RefAmount = 50000;
         [SLGValue]
-        public const float DisasterPRatio = 0.005f;
+        public const float DisasterPRatio = 0.0005f;
         [SLGValue]
         public const float DisasterCountDown = 30;
         [SLGValue]
@@ -187,7 +187,7 @@ namespace Code2015.BalanceSystem
                 float p = e.Value / total;
                 carbonRatio[e.Key] = p;
 
-                if (p > SafeRatio)
+                if (p < SafeRatio)
                     continue;
 
                 p *= DisasterPRatio;
@@ -210,7 +210,7 @@ namespace Code2015.BalanceSystem
                         if (c > mostC)
                         {
                             mostC = c;
-                            cc = badCity;
+                            badCity = cc;
                         }
                     }
 
@@ -225,8 +225,8 @@ namespace Code2015.BalanceSystem
 
                         if (disaster.Duration > SafeTime)
                         {
-                            disaster.Damage = pp * MaxDuration * adj;
-                            disaster.Radius = pp * MaxDuration * adj;
+                            disaster.Damage = pp * MaxDamage * adj;
+                            disaster.Radius = pp * MaxRadius * adj;
 
                             incoming.Add(ref disaster);
                         }
