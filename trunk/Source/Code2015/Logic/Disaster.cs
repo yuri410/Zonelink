@@ -8,7 +8,7 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.Logic
 {
-    class Disaster : SimulationObject
+    public class Disaster : SimulationObject
     {
         float longitude;
         float latitude;

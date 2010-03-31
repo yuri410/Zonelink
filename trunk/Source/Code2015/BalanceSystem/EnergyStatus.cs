@@ -4,11 +4,12 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
-using Code2015.Logic;
 using Apoc3D.MathLib;
+using Code2015.Logic;
 
 namespace Code2015.BalanceSystem
 {
+    public delegate void DisasterArrivedHandler(Disaster disaster);
     public class EnergyStatus : IConfigurable, IUpdatable
     {
         [SLGValue()]
@@ -101,6 +102,8 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
+        public event DisasterArrivedHandler DisasterArrived;
+
         Dictionary<Player, float> carbonRatio = new Dictionary<Player, float>();
         Dictionary<Player, float> carbonWeight = new Dictionary<Player, float>();
         FastList<IncomingDisaster> incoming = new FastList<IncomingDisaster>();
@@ -120,20 +123,20 @@ namespace Code2015.BalanceSystem
             float hr = 0;
             float lr = 0;
             float food = 0;
-            SimulationWorld region  = Region;
+            SimulationWorld region = Region;
             // 已经采集的资源
             for (int i = 0; i < region.CityCount; i++)
             {
-                City city = region.GetCity (i);
+                City city = region.GetCity(i);
                 hr += city.LocalHR.Current;
                 lr += city.LocalLR.Current;
                 food += city.LocalFood.Current;
 
 
                 Player pl = city.Owner;
-                if (pl != null) 
+                if (pl != null)
                 {
-                    if (!carbonWeight.ContainsKey(pl)) 
+                    if (!carbonWeight.ContainsKey(pl))
                     {
                         carbonWeight.Add(pl, 0);
                     }
@@ -152,11 +155,11 @@ namespace Code2015.BalanceSystem
             for (int i = 0; i < region.ResourceCount; i++)
             {
                 NaturalResource res = region.GetResource(i);
-                if (res.Type == NaturalResourceType.Petro) 
+                if (res.Type == NaturalResourceType.Petro)
                 {
                     hr += res.CurrentAmount;
                 }
-                else if (res.Type == NaturalResourceType.Wood) 
+                else if (res.Type == NaturalResourceType.Wood)
                 {
                     lr += res.CurrentAmount;
                 }
@@ -169,7 +172,7 @@ namespace Code2015.BalanceSystem
 
             float total = 0;
             Dictionary<Player, float>.ValueCollection vals = carbonWeight.Values;
-            foreach (float e in vals) 
+            foreach (float e in vals)
             {
                 total += e;
             }
@@ -234,7 +237,7 @@ namespace Code2015.BalanceSystem
 
             #endregion
 
-            for (int i = incoming.Count-1; i >=0; i--) 
+            for (int i = incoming.Count - 1; i >= 0; i--)
             {
                 if (incoming[i].CountDown > 0)
                 {
@@ -243,14 +246,19 @@ namespace Code2015.BalanceSystem
                     if (incoming.Elements[i].CountDown < 0)
                     {
                         // 发生了
-                        Disaster d = new Disaster(region, 
-                            incoming[i].Longitude, incoming[i].Latitude, 
-                            incoming[i].Radius, 
+                        Disaster d = new Disaster(region,
+                            incoming[i].Longitude, incoming[i].Latitude,
+                            incoming[i].Radius,
                             incoming[i].Duration, incoming[i].Damage);
 
                         region.Add(d);
 
                         incoming.RemoveAt(i);
+
+                        if (DisasterArrived != null)
+                        {
+                            DisasterArrived(d);
+                        }
                     }
                 }
             }
