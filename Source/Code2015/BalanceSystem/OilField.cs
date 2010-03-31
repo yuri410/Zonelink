@@ -15,7 +15,7 @@ namespace Code2015.BalanceSystem
         const float RecoverBias = 10;
         public const float MaxAmount = 10000;
 
-        public OilField(SimulationRegion region)
+        public OilField(SimulationWorld region)
             : base(region, NaturalResourceType.Petro)
         {
            

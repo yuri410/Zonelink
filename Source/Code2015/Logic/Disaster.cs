@@ -8,7 +8,7 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.Logic
 {
-    class Disaster : SimulateObject
+    class Disaster : SimulationObject
     {
         float longitude;
         float latitude;
@@ -18,7 +18,7 @@ namespace Code2015.Logic
         float duration;
 
         float damage;
-        SimulationRegion world;
+        SimulationWorld world;
 
         City[] cities;
         NaturalResource[] resources;
@@ -44,7 +44,7 @@ namespace Code2015.Logic
             get { return duration < float.Epsilon; }
         }
 
-        public Disaster(SimulationRegion world, float lng, float lat, float radius, float duration, float damage)
+        public Disaster(SimulationWorld world, float lng, float lat, float radius, float duration, float damage)
             : base(world)
         {
             this.longitude = lng;

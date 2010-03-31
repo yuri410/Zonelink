@@ -41,7 +41,7 @@ namespace Code2015.BalanceSystem
         public const float MaxRadius = 60;
         #endregion
 
-        public SimulationRegion Region
+        public SimulationWorld Region
         {
             get;
             private set;
@@ -105,7 +105,7 @@ namespace Code2015.BalanceSystem
         Dictionary<Player, float> carbonWeight = new Dictionary<Player, float>();
         FastList<IncomingDisaster> incoming = new FastList<IncomingDisaster>();
 
-        public EnergyStatus(SimulationRegion region)
+        public EnergyStatus(SimulationWorld region)
         {
             Region = region;
         }
@@ -120,7 +120,7 @@ namespace Code2015.BalanceSystem
             float hr = 0;
             float lr = 0;
             float food = 0;
-            SimulationRegion region  = Region;
+            SimulationWorld region  = Region;
             // 已经采集的资源
             for (int i = 0; i < region.CityCount; i++)
             {

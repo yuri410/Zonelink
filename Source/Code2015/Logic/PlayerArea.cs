@@ -19,7 +19,7 @@ namespace Code2015.Logic
         FastList<City> cities = new FastList<City>();
 
         City rootCity;
-        SimulationRegion simulator;
+        SimulationWorld simulator;
 
         Player owner;
 
@@ -34,7 +34,7 @@ namespace Code2015.Logic
         }
 
 
-        public PlayerArea(SimulationRegion region, Player player)
+        public PlayerArea(SimulationWorld region, Player player)
         {
             this.simulator = region;
             this.owner = player;

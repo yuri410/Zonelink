@@ -17,12 +17,12 @@ namespace Code2015.Logic
         public const int HeightMapWidth = 64 * 36;
         public const int HeightMapHeight = 64 * 14;
 
-        SimulationRegion region;
+        SimulationWorld region;
         PathFinderManager pathFinder;
 
         ushort[][] heightData;
 
-        public Map(SimulationRegion region)
+        public Map(SimulationWorld region)
         {
             this.region = region;
 

@@ -10,9 +10,9 @@ namespace Code2015.BalanceSystem
     /// <summary>
     ///  表示一个区域
     /// </summary>
-    public class SimulationRegion : IUpdatable
+    public class SimulationWorld : IUpdatable
     {
-        FastList<SimulateObject> simulateObject = new FastList<SimulateObject>();
+        FastList<SimulationObject> simulateObject = new FastList<SimulationObject>();
         FastList<City> cities = new FastList<City>();
         FastList<NaturalResource> resources = new FastList<NaturalResource>();
 
@@ -49,12 +49,12 @@ namespace Code2015.BalanceSystem
         {
             get { return simulateObject.Count; }
         }
-        public SimulateObject this[int i]
+        public SimulationObject this[int i]
         {
             get { return simulateObject[i]; }
         }
 
-        public void Add(SimulateObject obj)
+        public void Add(SimulationObject obj)
         {
             simulateObject.Add(obj);
 
@@ -71,7 +71,7 @@ namespace Code2015.BalanceSystem
             }
         }
        
-        public void Remove(SimulateObject obj)
+        public void Remove(SimulationObject obj)
         {
             simulateObject.Remove(obj);
 
@@ -88,7 +88,7 @@ namespace Code2015.BalanceSystem
             }
         }
        
-        public SimulationRegion()
+        public SimulationWorld()
         {
             energyStatus = new EnergyStatus(this);
             societyStatus = new SocietyStatus(this);

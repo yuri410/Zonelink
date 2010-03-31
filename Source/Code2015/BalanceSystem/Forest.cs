@@ -59,7 +59,7 @@ namespace Code2015.BalanceSystem
         }
 
 
-        public Forest(SimulationRegion region)
+        public Forest(SimulationWorld region)
             : base(region, NaturalResourceType.Wood)
         {
 

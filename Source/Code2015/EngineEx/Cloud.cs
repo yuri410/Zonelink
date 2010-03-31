@@ -5,27 +5,35 @@ using Apoc3D.Graphics;
 using Apoc3D.Vfs;
 using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
+using Apoc3D;
 
 namespace Code2015.EngineEx
 {
-    class Cloud : IRenderable
+    class Cloud : IRenderable, IUpdatable
     {
         RenderSystem renderSys;
 
-        VertexBuffer vtxBuffer;
-        IndexBuffer idxBuffer;
+        //VertexBuffer vtxBuffer;
+        //IndexBuffer idxBuffer;
 
         Model model;
 
         float scale;
         Matrix trans;
 
+        float startTime;
 
+        public float StartTime
+        {
+            get { return startTime; }
+            set { startTime = value; }
+        }
 
-        public Cloud(RenderSystem rs)
+        public Cloud(RenderSystem rs, float beginTime)
         {
             this.renderSys = rs;
             this.scale = 1;
+            this.startTime = beginTime;
 
             FileLocation fl = FileSystem.Instance.Locate("cloud_lgt.mesh", GameFileLocs.Model);
 
@@ -66,12 +74,25 @@ namespace Code2015.EngineEx
 
         public RenderOperation[] GetRenderOperation()
         {
-            return model.GetRenderOperation();
+            if (startTime < 0)
+                return model.GetRenderOperation();
+            return null;
         }
 
         public RenderOperation[] GetRenderOperation(int level)
         {
-            return model.GetRenderOperation();
+            if (startTime < 0)
+                return model.GetRenderOperation();
+            return null;
+        }
+
+        #endregion
+
+        #region IUpdatable 成员
+
+        public void Update(GameTime dt)
+        {
+            startTime -= dt.ElapsedGameTimeSeconds;
         }
 
         #endregion
