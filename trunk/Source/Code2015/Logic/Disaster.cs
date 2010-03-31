@@ -25,7 +25,14 @@ namespace Code2015.Logic
         float[] cityWeights;
         float[] resWeights;
 
-
+        public float Radius
+        {
+            get { return radius; }
+        }
+        public float Damage
+        {
+            get { return damage; }
+        }
         public float Duration
         {
             get { return duration; }
