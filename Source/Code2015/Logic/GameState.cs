@@ -144,7 +144,7 @@ namespace Code2015.World
             newTime = new GameTime();
         }
 
-        //int test;
+
         public void Update(GameTime time)
         {
             /////// 接受playerOperation，由127.0.0.1
@@ -155,10 +155,7 @@ namespace Code2015.World
             newTime.SetTotalGameTime(TimeSpan.FromSeconds(time.TotalGameTime.TotalSeconds * 3600));
             newTime.SetTotalRealTime(time.TotalRealTime * 3600);
 
-            //if (test++ == 1000)
-            //{
-            //    slgSystem.GetCity(1).ChangeOwner(localPlayerArea[0].Owner);
-            //}
+
             slgSystem.Update(newTime);
         }
 
