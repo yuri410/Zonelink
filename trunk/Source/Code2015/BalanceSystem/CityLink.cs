@@ -17,6 +17,17 @@ namespace Code2015.BalanceSystem
             Target = a;
         }
 
+        public bool Disabled
+        {
+            get;
+            private set;
+        }
+
+        public void Disable()
+        {
+            Disabled = true;
+        }
+
         public bool IsTransportingHR;
         public bool IsTransportingLR;
         public bool IsTransportingFood;

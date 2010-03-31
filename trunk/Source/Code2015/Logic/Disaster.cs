@@ -119,7 +119,7 @@ namespace Code2015.Logic
                 {
                     float pop = cityWeights[i] * damage * 0.5f;
                     float dev = cityWeights[i] * damage;
-                    cities[i].Damage(pop, dev);
+                    cities[i].Damage(pop * hours, dev * hours);
                 }
             }
             //for (int i = 0; i < resources.Length; i++) 
