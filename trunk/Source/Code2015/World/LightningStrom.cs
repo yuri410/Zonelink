@@ -71,11 +71,17 @@ namespace Code2015.World
             for (int i = 0; i < clouds.Count; i++) 
             {
                 RenderOperation[] ops = clouds[i].GetRenderOperation();
-
                 if (ops != null) 
                 {
                     opBuffer.Add(ops);
-                }
+                } 
+                
+                ops = clouds[i].GetRenderOperation2();
+                if (ops != null)
+                {
+                    opBuffer.Add(ops);
+                } 
+                
             }
 
             return opBuffer.Elements;
