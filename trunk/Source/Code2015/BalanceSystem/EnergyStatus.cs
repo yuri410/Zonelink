@@ -103,6 +103,7 @@ namespace Code2015.BalanceSystem
         }
 
         public event DisasterArrivedHandler DisasterArrived;
+        public event DisasterOverHandler DisasterOver;
 
         Dictionary<Player, float> carbonRatio = new Dictionary<Player, float>();
         Dictionary<Player, float> carbonWeight = new Dictionary<Player, float>();
@@ -253,6 +254,8 @@ namespace Code2015.BalanceSystem
 
                         region.Add(d);
 
+                        d.Over += Disaster_Over;
+
                         incoming.RemoveAt(i);
 
                         if (DisasterArrived != null)
@@ -265,6 +268,14 @@ namespace Code2015.BalanceSystem
 
         }
 
+        void Disaster_Over(Disaster d)
+        {
+            if (DisasterOver != null)
+            {
+                DisasterOver(d);
+            }
+            Region.Remove(d);
+        }
 
         #region IConfigurable 成员
 

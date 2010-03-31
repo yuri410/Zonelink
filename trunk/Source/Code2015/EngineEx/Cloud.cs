@@ -49,6 +49,7 @@ namespace Code2015.EngineEx
             fl = FileSystem.Instance.Locate("strike_lgt.mesh", GameFileLocs.Model);
             strike = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
+            strikeTime = -2 * Randomizer.GetRandomSingle();
             UpdateModelAnim();
         }
 
@@ -85,7 +86,7 @@ namespace Code2015.EngineEx
         #region IRenderable 成员
         public RenderOperation[] GetRenderOperation2()
         {
-            if (strikeTime > StrikeDuration - 0.2f)
+            if (strikeTime > StrikeDuration - 0.2f && startTime < 0 && startTime > -Duration)
                 return strike.GetRenderOperation();
             return null;
         }
@@ -111,13 +112,12 @@ namespace Code2015.EngineEx
         public void Update(GameTime dt)
         {
             startTime -= dt.ElapsedGameTimeSeconds;
-            
-            if (isStriking)
-            {
+
+
+            strikeTime += dt.ElapsedGameTimeSeconds;
+            if (strikeTime > StrikeDuration)
                 strikeTime = 0;
-                strikeTime += dt.ElapsedGameTimeSeconds;
-                isStriking = strikeTime > StrikeDuration;
-            }
+
         }
 
         #endregion

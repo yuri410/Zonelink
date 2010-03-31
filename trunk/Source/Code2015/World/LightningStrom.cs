@@ -18,6 +18,8 @@ namespace Code2015.World
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
+        SceneManagerBase sceMgr;
+
         const float CloudHeight = 7500;
 
         public LightningStrom(RenderSystem rs, Disaster disaster)
@@ -57,7 +59,7 @@ namespace Code2015.World
 
                 clouds.Add(cld);
             }
-            
+
             Transformation = Matrix.Identity;
 
             this.BoundingSphere.Center = PlanetEarth.GetPosition(radlng, radlat);
@@ -68,20 +70,20 @@ namespace Code2015.World
         {
             opBuffer.Clear();
 
-            for (int i = 0; i < clouds.Count; i++) 
+            for (int i = 0; i < clouds.Count; i++)
             {
                 RenderOperation[] ops = clouds[i].GetRenderOperation();
-                if (ops != null) 
+                if (ops != null)
                 {
                     opBuffer.Add(ops);
-                } 
-                
+                }
+
                 ops = clouds[i].GetRenderOperation2();
                 if (ops != null)
                 {
                     opBuffer.Add(ops);
-                } 
-                
+                }
+
             }
 
             return opBuffer.Elements;
@@ -93,11 +95,22 @@ namespace Code2015.World
             {
                 clouds[i].Update(dt);
             }
+            if (sceMgr != null && disaster.IsOver)
+            {
+                sceMgr.RemoveObjectFromScene(this);
+            }
         }
 
         public override bool IsSerializable
         {
             get { return false; }
         }
+
+        public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
+        {
+            this.sceMgr = sceneMgr;
+        }
+
+
     }
 }
