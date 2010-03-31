@@ -476,7 +476,7 @@ namespace Code2015.BalanceSystem
             get { return plugins[i]; }
         }
 
-        public CityLink GetLink(City city) 
+        public CityLink GetLink(City city)
         {
             for (int i = 0; i < nearbyCity.Count; i++)
             {
@@ -626,7 +626,7 @@ namespace Code2015.BalanceSystem
                             localLr.Commit(applyAmount);
                         }
                     }
-                    
+
                     //else
                     //{
                     //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
