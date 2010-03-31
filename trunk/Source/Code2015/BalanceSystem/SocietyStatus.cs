@@ -8,7 +8,7 @@ namespace Code2015.BalanceSystem
 {
     public class SocietyStatus : IUpdatable
     {
-        public SocietyStatus(SimulationRegion region)
+        public SocietyStatus(SimulationWorld region)
         {
 
         }

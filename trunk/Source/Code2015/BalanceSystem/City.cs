@@ -45,7 +45,7 @@ namespace Code2015.BalanceSystem
     public delegate void NearbyCityAddedHandler(City city, City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
 
-    public class City : SimulateObject, IConfigurable, IUpdatable
+    public class City : SimulationObject, IConfigurable, IUpdatable
     {
         [SLGValue()]
         const float SatThreshold = 0.1f;
@@ -106,7 +106,7 @@ namespace Code2015.BalanceSystem
             set { parent = value; }
         }
 
-        public City(SimulationRegion sim)
+        public City(SimulationWorld sim)
             : base(sim)
         {
             localLr = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
@@ -117,12 +117,12 @@ namespace Code2015.BalanceSystem
             Capture = new CaptureState();
             UpgradeUpdate();
         }
-        public City(SimulationRegion sim, UrbanSize size)
+        public City(SimulationWorld sim, UrbanSize size)
             : this(sim)
         {
             this.Size = size;
         }
-        public City(SimulationRegion sim, string name)
+        public City(SimulationWorld sim, string name)
             : this(sim)
         {
             this.Name = name;

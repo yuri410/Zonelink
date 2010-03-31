@@ -165,7 +165,7 @@ namespace Code2015.BalanceSystem
             if (TypeId != CityPluginTypeId.WoodFactory && TypeId != CityPluginTypeId.OilRefinary)
                 return;
 
-            SimulationRegion region = parent.Region;
+            SimulationWorld region = parent.Region;
 
             Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
 

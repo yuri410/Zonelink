@@ -11,11 +11,12 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
-    
     class LightningStrom : SceneObject
     {
         Disaster disaster;
         FastList<Cloud> clouds = new FastList<Cloud>();
+
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         const float CloudHeight = 750;
 
@@ -29,7 +30,7 @@ namespace Code2015.World
             int cloudCount = (int)(disaster.Damage * disaster.Radius);
             for (int i = 0; i < cloudCount; i++)
             {
-                Cloud cld = new Cloud(rs);
+                Cloud cld = new Cloud(rs, Randomizer.GetRandomSingle() * disaster.Duration);
 
                 float rnd1 = Randomizer.GetRandomSingle();
                 float rnd2 = Randomizer.GetRandomSingle();
@@ -56,12 +57,26 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            throw new NotImplementedException();
+            opBuffer.TrimClear();
+            for (int i = 0; i < clouds.Count; i++) 
+            {
+                RenderOperation[] ops = clouds[i].GetRenderOperation();
+
+                if (ops != null) 
+                {
+                    opBuffer.Add(ops);
+                }
+            }
+
+            return opBuffer.Elements;
         }
 
         public override void Update(GameTime dt)
         {
-            
+            for (int i = 0; i < clouds.Count; i++)
+            {
+                clouds[i].Update(dt);
+            }
         }
 
         public override bool IsSerializable

@@ -25,7 +25,7 @@ namespace Code2015.World
             private set;
         }
 
-        public SimulationRegion SLGWorld
+        public SimulationWorld SLGWorld
         {
             get;
             private set;
@@ -33,7 +33,7 @@ namespace Code2015.World
 
         public GameStateBuilder()
         {
-            SLGWorld = new SimulationRegion();
+            SLGWorld = new SimulationWorld();
 
             PluginFactory = new CityPluginFactory();
 
@@ -102,7 +102,7 @@ namespace Code2015.World
     /// </summary>
     class GameState
     {
-        SimulationRegion slgSystem;
+        SimulationWorld slgSystem;
 
 
         GameTime newTime;
@@ -163,7 +163,7 @@ namespace Code2015.World
         }
 
 
-        public SimulationRegion SLGWorld
+        public SimulationWorld SLGWorld
         {
             get { return slgSystem; }
         }

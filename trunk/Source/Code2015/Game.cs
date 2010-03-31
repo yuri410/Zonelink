@@ -155,14 +155,14 @@ namespace Code2015
             this.cityStyles = new CityStyleTable(renderSys);
             this.scene = new GameScene(renderSys);
 
-            SimulationRegion slgSystem = gameState.SLGWorld;
+            SimulationWorld slgSystem = gameState.SLGWorld;
 
 
             map = new Map(slgSystem);
 
             for (int i = 0; i < slgSystem.Count; i++)
             {
-                SimulateObject obj = slgSystem[i];
+                SimulationObject obj = slgSystem[i];
                 City city = obj as City;
 
                 if (city != null)

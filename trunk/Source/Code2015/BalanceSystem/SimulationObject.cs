@@ -7,7 +7,7 @@ using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
-    public class SimulateObject :IConfigurable, IUpdatable
+    public class SimulationObject :IConfigurable, IUpdatable
     {
         /// <summary>
         /// 经度
@@ -35,13 +35,13 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
-        public SimulationRegion Region
+        public SimulationWorld Region
         {
             get;
             private set;
         }
 
-        public SimulateObject(SimulationRegion region)
+        public SimulationObject(SimulationWorld region)
         {
             Region = region;
         }

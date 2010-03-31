@@ -157,10 +157,10 @@
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
-    <Compile Include="BalanceSystem\SimulateObject.cs">
+    <Compile Include="BalanceSystem\SimulationObject.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="BalanceSystem\SimulationRegion.cs" />
+    <Compile Include="BalanceSystem\SimulationWorld.cs" />
     <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="Code2015.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />

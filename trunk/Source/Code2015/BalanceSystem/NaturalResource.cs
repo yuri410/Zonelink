@@ -19,10 +19,10 @@ namespace Code2015.BalanceSystem
     }
 
 
-    public abstract class NaturalResource : SimulateObject
+    public abstract class NaturalResource : SimulationObject
     {
        
-        protected NaturalResource(SimulationRegion region, NaturalResourceType type)
+        protected NaturalResource(SimulationWorld region, NaturalResourceType type)
             : base(region)
         {
             Type = type;
