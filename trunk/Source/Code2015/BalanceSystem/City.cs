@@ -43,6 +43,7 @@ namespace Code2015.BalanceSystem
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
     public delegate void NearbyCityAddedHandler(City city, City srcCity);
+    public delegate void NearbyCityRemovedHandler(City city,City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
 
     public class City : SimulationObject, IConfigurable, IUpdatable
@@ -364,6 +365,7 @@ namespace Code2015.BalanceSystem
         public event CitypluginEventHandle PluginAdded;
         public event CitypluginEventHandle PluginRemoved;
         public event NearbyCityAddedHandler NearbyCityAdded;
+        public event NearbyCityRemovedHandler NearbyCityRemoved;
         public event CityOwnerChanged CityOwnerChanged;
 
         public void Damage(float pop, float dev)
@@ -504,6 +506,9 @@ namespace Code2015.BalanceSystem
                 {
                     nearbyCity[i].Disable();
                     nearbyCity.RemoveAt(i);
+
+                    if (NearbyCityRemoved != null)
+                        NearbyCityRemoved(this, city);
                     return;
                 }
             }

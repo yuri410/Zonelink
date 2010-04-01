@@ -29,6 +29,12 @@ namespace Code2015.GUI
             this.duration = duration;
         }
 
+        public bool IsFinished
+        {
+            get { return time > duration; }
+        }
+
+
         public override void Render(Sprite sprite)
         {
             float alpha = MathEx.Saturate(time / duration);

@@ -6,10 +6,10 @@ using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.World;
-using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -22,6 +22,7 @@ namespace Code2015.GUI
         Font font;
         FastList<ProgressBar> prgBars = new FastList<ProgressBar>();
         FastList<ProgressBar> prgBars2 = new FastList<ProgressBar>();
+        FastList<Popup> popUps = new FastList<Popup>();
 
         Texture[] brackets;
 
@@ -72,6 +73,8 @@ namespace Code2015.GUI
                 bar.Background = prgBg1;
                 prgBars2.Add(bar);
             }
+
+            
         }
 
         public void Render(Sprite sprite)
@@ -108,6 +111,11 @@ namespace Code2015.GUI
                     pidx++;
                 }
 
+                if (cc.IsLinked) 
+                {
+                    popUps.Add(new Popup(renderSys, "Congratulations ", scrnPos.X, scrnPos.Y, 2));
+                    cc.IsLinked = false;
+                }
 
                 if (cc.PluginCount > 0)
                 {
@@ -172,6 +180,19 @@ namespace Code2015.GUI
                         }
                     }
                 }
+            }
+
+            for (int i = 0; i < popUps.Count; i++)
+            {
+                popUps[i].Render(sprite);
+            }
+        }
+
+        public void Update(GameTime time)
+        {
+            for (int i = 0; i < popUps.Count; i++)
+            {
+                popUps[i].Update(time);
             }
         }
     }

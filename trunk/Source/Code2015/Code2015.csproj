@@ -147,7 +147,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LinkUI.cs" />
-    <Compile Include="GUI\LoadingScreen.cs" />
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>
     </Compile>
