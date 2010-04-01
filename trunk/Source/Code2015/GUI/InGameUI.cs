@@ -139,7 +139,7 @@ namespace Code2015.GUI
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
             this.linkUI = new LinkUI(game, parent, scene, this);
 
-            this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, physWorld);
+            this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
         }
 
         public override void Render(Sprite sprite)

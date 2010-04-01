@@ -194,19 +194,20 @@ namespace Code2015.GUI
         {
             if (SelectedItem != null)
             {
+                MdgResource piece = SelectedItem as MdgResource;
+
                 for (int i = 0; i < scene.VisibleCityCount; i++)
                 {
-                    if (parent.MouseHoverCity.Owner == player)
+                    CityObject cc = scene.GetVisibleCity(i);
+                    if (cc.Owner == player)
                     {
-                        CityInfo info = cityInfo.GetCityInfo(parent.MouseHoverCity);
-
-                        MdgResource piece = SelectedItem as MdgResource;
+                        CityInfo info = cityInfo.GetCityInfo(cc);
                         if (piece != null)
                         {
                             if (info.Bracket.Accept(piece))
                             {
                                 resources.Remove(piece);
-                                parent.MouseHoverCity.Flash(60);
+                                cc.Flash(60);
                                 return;
                             }
                         }

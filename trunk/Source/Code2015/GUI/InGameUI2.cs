@@ -629,13 +629,6 @@ namespace Code2015.GUI
                         btnWood.Update(time);
                     }
                 }
-                //else
-                //{
-                    //if (isCapturable)
-                    //{
-                    //    captureBtn.Update(time);
-                    //}
-                //}
             }
         }
 
