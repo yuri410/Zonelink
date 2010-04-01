@@ -72,8 +72,8 @@ namespace Code2015.GUI
                 Point pt = GetPluginProjPosition(i);
 
                 Vector2 pos = res.Position;
-                float dx = pos.X - pt.X;
-                float dy = pos.Y - pt.Y;
+                float dx = pos.X - pt.X + MdgPhysicsParams.BallRadius;
+                float dy = pos.Y - pt.Y + MdgPhysicsParams.BallRadius;
 
                 float len = (float)Math.Sqrt(dx * dx + dy * dy);
 
