@@ -147,11 +147,15 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LinkUI.cs" />
+    <Compile Include="GUI\LoadingScreen.cs" />
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\MouseInput.cs" />
+    <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\ResourceMeasure.cs" />
+    <Compile Include="GUI\ScoreScreen.cs" />
+    <Compile Include="GUI\SelectScreen.cs" />
     <Compile Include="Logic\Disaster.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\Map.cs" />
