@@ -6,6 +6,7 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Code2015.World.Screen;
+using Code2015.World;
 
 namespace Code2015.GUI
 {
@@ -16,6 +17,7 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
 
+        GameScene scene;
         Player player;
         //Point lastMousePos;
         //bool lastMouseLeft;
@@ -45,7 +47,7 @@ namespace Code2015.GUI
 
         InGameUI parent;
 
-        public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, ScreenPhysicsWorld physWorld)
+        public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, GameScene scene, ScreenPhysicsWorld physWorld)
         {
             this.cityInfo = cityInfo;
             this.parent = parent;
@@ -53,6 +55,7 @@ namespace Code2015.GUI
             this.physWorld.BodyCollision += Phys_Collision;
             this.resources = new MdgResourceManager();
             this.player = game.HumanPlayer;
+            this.scene = scene;
 
             #region test
 
@@ -191,13 +194,12 @@ namespace Code2015.GUI
         {
             if (SelectedItem != null)
             {
-                // 检查是否在城市之上
-                if (parent.MouseHoverCity != null)
+                for (int i = 0; i < scene.VisibleCityCount; i++)
                 {
                     if (parent.MouseHoverCity.Owner == player)
                     {
                         CityInfo info = cityInfo.GetCityInfo(parent.MouseHoverCity);
-                       
+
                         MdgResource piece = SelectedItem as MdgResource;
                         if (piece != null)
                         {
@@ -210,14 +212,13 @@ namespace Code2015.GUI
                         }
                     }
                 }
-                else
-                {
-                    float dt = time.ElapsedGameTimeSeconds;
-                    if (dt > float.Epsilon)
-                        SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
 
-                    SelectedItem = null;
-                }
+                float dt = time.ElapsedGameTimeSeconds;
+                if (dt > float.Epsilon)
+                    SelectedItem.Velocity = new Vector2(MouseInput.DX, MouseInput.DY) / (2 * dt);
+
+                SelectedItem = null;
+
             }
         }
 
