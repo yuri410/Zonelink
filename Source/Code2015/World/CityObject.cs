@@ -66,6 +66,17 @@ namespace Code2015.World
 
         bool isSelected;
 
+        public bool IsLinked
+        {
+            get;
+            set;
+        }
+        public bool IsUnlinked
+        {
+            get;
+            set;
+        }
+
         public City City 
         {
             get { return city; }
@@ -209,6 +220,8 @@ namespace Code2015.World
             city.PluginAdded += City_PluginAdded;
             city.PluginRemoved += City_PluginRemoved;
             city.NearbyCityAdded += City_Linked;
+            city.NearbyCityRemoved += City_UnLinked;
+            
             city.CityOwnerChanged += City_OwnerChanged;
 
             float radLong = MathEx.Degree2Radian(city.Longitude);
@@ -240,12 +253,21 @@ namespace Code2015.World
             }
         }
 
+        void City_UnLinked(City a, City b)
+        {
+            if (b != null)
+            {
+                IsUnlinked = true;
+            }
+
+        }
         void City_Linked(City a, City b)
         {
             if (b != null)
             {
-                     
+                IsLinked = true;
             }
+            
         }
         void City_PluginAdded(City city, CityPlugin plugin)
         {
