@@ -41,10 +41,7 @@ namespace Code2015.World
             /// </summary>
             public Matrix transform;
 
-
-            
             public MdgResource CurrentPiece;
-
         }
 
         City city;

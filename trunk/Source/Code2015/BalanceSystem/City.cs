@@ -131,6 +131,7 @@ namespace Code2015.BalanceSystem
 
 
         #region  属性
+
         /// <summary>
         ///  获取该城市市民满意度
         /// </summary>
