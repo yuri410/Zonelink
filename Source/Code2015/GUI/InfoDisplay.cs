@@ -10,6 +10,7 @@ using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.World;
+using Code2015.Logic;
 
 namespace Code2015.GUI
 {
@@ -18,6 +19,7 @@ namespace Code2015.GUI
         GameScene scene;
         RenderSystem renderSys;
         RtsCamera camera;
+        Player player;
 
         Font font;
         FastList<ProgressBar> prgBars = new FastList<ProgressBar>();
@@ -26,13 +28,13 @@ namespace Code2015.GUI
 
         Texture[] brackets;
 
-        public CityInfoDisplay(GameScene scene, RenderSystem rs)
+        public CityInfoDisplay(GameScene scene, RenderSystem rs, Player player)
         {
             this.scene = scene;
             this.camera = scene.Camera;
             this.font = FontManager.Instance.GetFont("default");
             this.renderSys = rs;
-
+            this.player = player;
 
             FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
             Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
@@ -111,72 +113,75 @@ namespace Code2015.GUI
                     pidx++;
                 }
 
-                if (cc.IsLinked) 
+                if (cc.Owner == player)
                 {
-                    popUps.Add(new Popup(renderSys, "Congratulations ", scrnPos.X, scrnPos.Y, 2));
-                    cc.IsLinked = false;
-                }
-
-                if (cc.PluginCount > 0)
-                {
-                    float dist = Vector3.Distance(cc.Position, cpos);
-                    dist = 1 - MathEx.Saturate((dist - 1500) / 750);
-                    ColorValue color = ColorValue.White;
-                    color.A = (byte)(dist * byte.MaxValue);
-
-                    if (((ISelectableObject)cc).IsSelected)
+                    if (cc.IsLinked)
                     {
-                        int pid2 = 0;
-                        Matrix ctrans = cc.Transformation;
-                        for (int j = 0; j < cc.PluginCount; j++)
-                        {
-                            CityPlugin cplug = cc.GetPlugin(j);
-
-                            Vector3 ppofs = new Vector3(50, 250, 0);
-                            ppofs += cc.GetPluginPosition(j);
-
-                            Vector3 plpos;
-                            Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
-
-                            plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
-
-                            sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, color);
-
-
-
-
-                            ppofs = new Vector3(60, 0, 0);
-                            ppofs += cc.GetPluginPosition(j);
-
-                            Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
-
-                            plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
-
-                            prgBars2[pid2].X = (int)plpos.X;
-                            prgBars2[pid2].Y = (int)plpos.Y - 50;
-
-                            prgBars2[pid2].ModulateColor = color;
-                            prgBars2[pid2].Value = cplug.IsBuilding ? cplug.BuildProgress : cplug.GetLevelProgress();
-                            prgBars2[pid2].Render(sprite);
-                            pid2++;
-                        }
+                        popUps.Add(new Popup(renderSys, "Congratulations  ", scrnPos.X, scrnPos.Y, 1));
+                        cc.IsLinked = false;
                     }
-                    else 
+
+                    if (cc.PluginCount > 0)
                     {
-                        Matrix ctrans = cc.Transformation;
-                        for (int j = 0; j < cc.PluginCount; j++)
+                        float dist = Vector3.Distance(cc.Position, cpos);
+                        dist = 1 - MathEx.Saturate((dist - 1500) / 750);
+                        ColorValue color = ColorValue.White;
+                        color.A = (byte)(dist * byte.MaxValue);
+
+                        if (((ISelectableObject)cc).IsSelected)
                         {
-                            CityPlugin cplug = cc.GetPlugin(j);
+                            int pid2 = 0;
+                            Matrix ctrans = cc.Transformation;
+                            for (int j = 0; j < cc.PluginCount; j++)
+                            {
+                                CityPlugin cplug = cc.GetPlugin(j);
 
-                            Vector3 ppofs = new Vector3(50, 250, 0);
-                            ppofs += cc.GetPluginPosition(j);
+                                Vector3 ppofs = new Vector3(50, 250, 0);
+                                ppofs += cc.GetPluginPosition(j);
 
-                            Vector3 plpos;
-                            Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
+                                Vector3 plpos;
+                                Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
 
-                            plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
+                                plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
 
-                            sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, color);
+                                sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, color);
+
+
+
+
+                                ppofs = new Vector3(60, 0, 0);
+                                ppofs += cc.GetPluginPosition(j);
+
+                                Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
+
+                                plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
+
+                                prgBars2[pid2].X = (int)plpos.X;
+                                prgBars2[pid2].Y = (int)plpos.Y - 50;
+
+                                prgBars2[pid2].ModulateColor = color;
+                                prgBars2[pid2].Value = cplug.IsBuilding ? cplug.BuildProgress : cplug.GetLevelProgress();
+                                prgBars2[pid2].Render(sprite);
+                                pid2++;
+                            }
+                        }
+                        else
+                        {
+                            Matrix ctrans = cc.Transformation;
+                            for (int j = 0; j < cc.PluginCount; j++)
+                            {
+                                CityPlugin cplug = cc.GetPlugin(j);
+
+                                Vector3 ppofs = new Vector3(50, 250, 0);
+                                ppofs += cc.GetPluginPosition(j);
+
+                                Vector3 plpos;
+                                Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
+
+                                plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
+
+                                sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, color);
+                            }
                         }
                     }
                 }
@@ -190,9 +195,16 @@ namespace Code2015.GUI
 
         public void Update(GameTime time)
         {
-            for (int i = 0; i < popUps.Count; i++)
+            for (int i = popUps.Count - 1; i >= 0; i--)
             {
-                popUps[i].Update(time);
+                if (popUps[i].IsFinished)
+                {
+                    popUps.RemoveAt(i);
+                }
+                else
+                {
+                    popUps[i].Update(time);
+                }
             }
         }
     }
@@ -275,6 +287,11 @@ namespace Code2015.GUI
                     pidx++;
                 }
             }
+        }
+
+        public void Update(GameTime time)
+        {
+            
         }
     }
 }

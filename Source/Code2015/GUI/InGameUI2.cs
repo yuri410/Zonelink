@@ -197,7 +197,7 @@ namespace Code2015.GUI
             algerFont = FontManager.Instance.CreateInstance(renderSys, fl, "Algerian");
 
 
-            this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys);
+            this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
             ////读取纹理
             //fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
@@ -428,10 +428,10 @@ namespace Code2015.GUI
 
         void CaptureBtn_Click(object sender, MouseButtonFlags btn)
         {
-            if (btn == MouseButtonFlags.Left)
-            {
-                city.Capture.SetCapture(player, player.Area.GetNearestCity(city.City));
-            }
+            //if (btn == MouseButtonFlags.Left)
+            //{
+            //    city.Capture.SetCapture(player, player.Area.GetNearestCity(city.City));
+            //}
         }
         void InfoBtn_Click(object sender, MouseButtonFlags btn)
         {
@@ -644,6 +644,9 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
+            cityInfoDisplay.Update(time);
+            resInfoDisplay.Update(time);
+
             #region 城市
             if (city != null)
             {
