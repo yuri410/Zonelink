@@ -116,7 +116,6 @@ namespace Code2015.GUI
 
             this.player = parent.HumanPlayer;
 
-            this.icons = new GoalIcons(parent, this, physWorld);
 
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
@@ -139,6 +138,8 @@ namespace Code2015.GUI
 
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
             this.linkUI = new LinkUI(game, parent, scene, this);
+
+            this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, physWorld);
         }
 
         public override void Render(Sprite sprite)

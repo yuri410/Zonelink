@@ -12,6 +12,7 @@ namespace Code2015.GUI
     class GoalIcons : UIComponent
     {
         MdgResourceManager resources;
+        CityInfoDisplay cityInfo;
 
         ScreenPhysicsWorld physWorld;
 
@@ -44,8 +45,9 @@ namespace Code2015.GUI
 
         InGameUI parent;
 
-        public GoalIcons(Game game, InGameUI parent, ScreenPhysicsWorld physWorld)
+        public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, ScreenPhysicsWorld physWorld)
         {
+            this.cityInfo = cityInfo;
             this.parent = parent;
             this.physWorld = physWorld;
             this.physWorld.BodyCollision += Phys_Collision;
@@ -62,14 +64,14 @@ namespace Code2015.GUI
                     MdgResource res = new MdgResource(resources, physWorld, (MdgType)t, new Vector2(i * 100 + 400, j * 100), 0);
                     resources.Add(res);
                 }
-           
+
             #endregion
 
 
             panel = new ScreenStaticBody();
 
             statBar = new ScreenStaticBody();
-            
+
         }
 
         public override void Render(Sprite sprite)
@@ -190,17 +192,21 @@ namespace Code2015.GUI
             if (SelectedItem != null)
             {
                 // 检查是否在城市之上
-                if (!object.ReferenceEquals(parent.MouseHoverCity, null))
+                if (parent.MouseHoverCity != null)
                 {
-                    if (object.ReferenceEquals(parent.MouseHoverCity.Owner, player))
+                    if (parent.MouseHoverCity.Owner == player)
                     {
-
+                        CityInfo info = cityInfo.GetCityInfo(parent.MouseHoverCity);
+                       
                         MdgResource piece = SelectedItem as MdgResource;
                         if (piece != null)
                         {
-                            resources.Remove(piece);
-                            parent.MouseHoverCity.Flash(60);
-                            return;
+                            if (info.Bracket.Accept(piece))
+                            {
+                                resources.Remove(piece);
+                                parent.MouseHoverCity.Flash(60);
+                                return;
+                            }
                         }
                     }
                 }

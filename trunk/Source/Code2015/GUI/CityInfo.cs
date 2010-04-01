@@ -11,6 +11,7 @@ using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {
@@ -40,20 +41,52 @@ namespace Code2015.GUI
             darkPieces[0] = UITextureManager.Instance.CreateInstance(fl);
         }
 
+        Point GetPluginProjPosition(int i)
+        {
+            Vector3 ppofs = new Vector3(50, 250, 0);
+            ppofs += city.GetPluginPosition(i);
+
+            Vector3 plpos;
+            Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
+
+            plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
+            return new Point((int)plpos.X, (int)plpos.Y);
+        }
+
+
         public override void Render(Sprite sprite)
         {
             for (int i = 0; i < city.PluginCount; i++)
             {
-                Vector3 ppofs = new Vector3(50, 250, 0);
-                ppofs += city.GetPluginPosition(i);
+                Point pt = GetPluginProjPosition(i);
 
-                Vector3 plpos;
-                Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
-
-                plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
-
-                sprite.Draw(darkPieces[0], (int)plpos.X, (int)plpos.Y, parent.DistanceMod);
+                sprite.Draw(darkPieces[0], pt.X, pt.Y, parent.DistanceMod);
             }
+        }
+
+
+        public bool Accept(MdgResource res)
+        {
+            for (int i = 0; i < city.PluginCount; i++)
+            {
+                Point pt = GetPluginProjPosition(i);
+
+                Vector2 pos = res.Position;
+                float dx = pos.X - pt.X;
+                float dy = pos.Y - pt.Y;
+
+                float len = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                if (len < MdgPhysicsParams.BallRadius)
+                {
+                    if (city.MatchPiece(i, res.Type))
+                    {
+                        city.SetPiece(i, res);
+                        return true;
+                    }
+                }
+            }
+            return false;
         }
 
         public override void Update(GameTime time)
@@ -171,6 +204,11 @@ namespace Code2015.GUI
             {
                 pluginInfo[i] = new PluginInfo(info, this, rs, city);
             }
+        }
+
+        public Brackets Bracket 
+        {
+            get { return brackets; }
         }
 
         public override void Render(Sprite sprite)

@@ -39,6 +39,18 @@ namespace Code2015.GUI
             this.camera = scene.Camera;
         }
 
+        public CityInfo GetCityInfo(CityObject cc) 
+        {
+            CityInfo info;
+
+            if (!cityTable.TryGetValue(cc, out info))
+            {
+                info = new CityInfo(this, renderSys, cc, player);
+                cityTable.Add(cc, info);
+            }
+            return info;
+        }
+
         public override void Render(Sprite sprite)
         {
             Projection = camera.ProjectionMatrix;
