@@ -16,7 +16,6 @@ using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {
-
     class CityMeasure
     {
         Texture upArrowR;
