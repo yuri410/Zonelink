@@ -10,7 +10,7 @@ namespace Code2015.BalanceSystem
 {
     public class CityPlugin : IUpdatable
     {
-        public const float UpgradeAmount = 0.25f;
+        public const float UpgradeAmount = 0.2f;
 
         City parent;
         CityPluginType type;
