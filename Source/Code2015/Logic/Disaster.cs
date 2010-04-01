@@ -130,10 +130,11 @@ namespace Code2015.Logic
 
             duration -= hours;
 
-            //if (duration < 0)
-            //{
-
-            //}
+            if (duration < 0)
+            {
+                if (Over != null)
+                    Over(this);
+            }
         }
     }
 }

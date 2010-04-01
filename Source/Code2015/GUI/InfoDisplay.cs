@@ -14,178 +14,52 @@ using Code2015.World;
 
 namespace Code2015.GUI
 {
-    class CityInfoDisplay
+    class CityInfoDisplay : UIComponent
     {
+        Dictionary<CityObject, CityInfo> cityTable;
         GameScene scene;
-        RenderSystem renderSys;
         RtsCamera camera;
         Player player;
+        RenderSystem renderSys;
 
-        Font font;
-        FastList<ProgressBar> prgBars = new FastList<ProgressBar>();
-        FastList<ProgressBar> prgBars2 = new FastList<ProgressBar>();
         FastList<Popup> popUps = new FastList<Popup>();
 
-        Texture[] brackets;
+
+        public Matrix Projection;
+        public Matrix View;
+
+        public Vector3 CameraPosition;
 
         public CityInfoDisplay(GameScene scene, RenderSystem rs, Player player)
         {
             this.scene = scene;
-            this.camera = scene.Camera;
-            this.font = FontManager.Instance.GetFont("default");
+            this.cityTable = new Dictionary<CityObject, CityInfo>();
             this.renderSys = rs;
             this.player = player;
-
-            FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
-            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
-            Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_bracket.tex", GameFileLocs.GUI);
-            brackets = new Texture[4];
-            brackets[0] = UITextureManager.Instance.CreateInstance(fl);
-
-            for (int i = 0; i < 25; i++)
-            {
-                ProgressBar bar = new ProgressBar();
-               
-                bar.Height = 18;
-                bar.Width = 117;
-                bar.ProgressImage = prgBg;
-                bar.Background = prgBg1;
-                prgBars.Add(bar);
-            }
-
-            fl = FileSystem.Instance.Locate("ig_prgbar_vert_cmp.tex", GameFileLocs.GUI);
-            prgBg = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_prgbar_vert_imp.tex", GameFileLocs.GUI);
-            prgBg1 = UITextureManager.Instance.CreateInstance(fl);
-
-
-            for (int i = 0; i < 5; i++)
-            {
-                ProgressBar bar = new ProgressBar();
-
-                bar.Height = 117;
-                bar.Width = 18;
-                bar.Direction = ControlDirection.Vertical;
-                bar.ProgressImage = prgBg;
-                bar.Background = prgBg1;
-                prgBars2.Add(bar);
-            }
-
-            
+            this.camera = scene.Camera;
         }
 
-        public void Render(Sprite sprite)
+        public override void Render(Sprite sprite)
         {
-            Matrix proj = camera.ProjectionMatrix;
-            Matrix view = camera.ViewMatrix;
+            Projection = camera.ProjectionMatrix;
+            View = camera.ViewMatrix;
+            CameraPosition = camera.Position;
 
-            Vector3 cpos = camera.Position;
-            int pidx = 0;
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
                 CityObject cc = scene.GetVisibleCity(i);
 
-                Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude));
+                CityInfo info;
 
-                Vector3 ppos = renderSys.Viewport.Project(cc.Position - tangy * (CityStyleTable.CityRadius[(int)cc.Size] + 5),
-                    proj, view, Matrix.Identity);
-                Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
-
-                Size strSize = font.MeasureString(cc.Name, 20, DrawTextFormat.Center);
-
-                //scrnPos.Y += strSize.Height;
-                scrnPos.X -= strSize.Width / 2;
-
-                font.DrawString(sprite, cc.Name, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                font.DrawString(sprite, cc.Name, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
-
-                if (pidx < prgBars.Count && cc.IsCaptured)
+                if (!cityTable.TryGetValue(cc, out info))
                 {
-                    prgBars[pidx].X = scrnPos.X;
-                    prgBars[pidx].Y = scrnPos.Y - 30;
-                    prgBars[pidx].Value = cc.Satisfaction;
-                    prgBars[pidx].Render(sprite);
-                    pidx++;
+                    info = new CityInfo(this, renderSys, cc, player);
+                    cityTable.Add(cc, info);
                 }
 
-                if (cc.Owner == player)
-                {
-                    if (cc.IsLinked)
-                    {
-                        popUps.Add(new Popup(renderSys, "Congratulations  ", scrnPos.X, scrnPos.Y, 1));
-                        cc.IsLinked = false;
-                    }
-
-                    if (cc.PluginCount > 0)
-                    {
-                        float dist = Vector3.Distance(cc.Position, cpos);
-                        dist = 1 - MathEx.Saturate((dist - 1500) / 750);
-                        ColorValue color = ColorValue.White;
-                        color.A = (byte)(dist * byte.MaxValue);
-
-                        if (((ISelectableObject)cc).IsSelected)
-                        {
-                            int pid2 = 0;
-                            Matrix ctrans = cc.Transformation;
-                            for (int j = 0; j < cc.PluginCount; j++)
-                            {
-                                CityPlugin cplug = cc.GetPlugin(j);
-
-                                Vector3 ppofs = new Vector3(50, 250, 0);
-                                ppofs += cc.GetPluginPosition(j);
-
-                                Vector3 plpos;
-                                Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
-
-                                plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
-
-                                sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, color);
-
-
-
-
-                                ppofs = new Vector3(60, 0, 0);
-                                ppofs += cc.GetPluginPosition(j);
-
-                                Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
-
-                                plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
-
-                                prgBars2[pid2].X = (int)plpos.X;
-                                prgBars2[pid2].Y = (int)plpos.Y - 50;
-
-                                prgBars2[pid2].ModulateColor = color;
-                                prgBars2[pid2].Value = cplug.IsBuilding ? cplug.BuildProgress : cplug.GetLevelProgress();
-                                prgBars2[pid2].Render(sprite);
-                                pid2++;
-                            }
-                        }
-                        else
-                        {
-                            Matrix ctrans = cc.Transformation;
-                            for (int j = 0; j < cc.PluginCount; j++)
-                            {
-                                CityPlugin cplug = cc.GetPlugin(j);
-
-                                Vector3 ppofs = new Vector3(50, 250, 0);
-                                ppofs += cc.GetPluginPosition(j);
-
-                                Vector3 plpos;
-                                Vector3.TransformSimple(ref ppofs, ref ctrans, out plpos);
-
-                                plpos = renderSys.Viewport.Project(plpos, proj, view, Matrix.Identity);
-
-                                sprite.Draw(brackets[0], (int)plpos.X, (int)plpos.Y, color);
-                            }
-                        }
-                    }
-                }
+                info.Render(sprite);
             }
+
 
             for (int i = 0; i < popUps.Count; i++)
             {
@@ -193,7 +67,7 @@ namespace Code2015.GUI
             }
         }
 
-        public void Update(GameTime time)
+        public override void Update(GameTime time)
         {
             for (int i = popUps.Count - 1; i >= 0; i--)
             {
@@ -206,6 +80,11 @@ namespace Code2015.GUI
                     popUps[i].Update(time);
                 }
             }
+        }
+
+        public void AddPopup(Popup p)
+        {
+            popUps.Add(p);
         }
     }
 

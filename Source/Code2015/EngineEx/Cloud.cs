@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
 using Apoc3D.Graphics;
-using Apoc3D.Vfs;
 using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
-using Apoc3D;
+using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
@@ -21,7 +21,6 @@ namespace Code2015.EngineEx
 
         float startTime;
 
-        bool isStriking;
         float strikeTime;
 
         const float StrikeDuration = 2;
