@@ -69,21 +69,6 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            for (int i = 0; i < scene.VisibleCityCount; i++)
-            {
-                CityObject cc = scene.GetVisibleCity(i);
-
-                CityInfo info;
-
-                if (!cityTable.TryGetValue(cc, out info))
-                {
-                    info = new CityInfo(this, renderSys, cc, player);
-                    cityTable.Add(cc, info);
-                }
-
-                info.Update(time);
-            }
-
             for (int i = popUps.Count - 1; i >= 0; i--)
             {
                 if (popUps[i].IsFinished)
@@ -149,20 +134,7 @@ namespace Code2015.GUI
 
         public void Update(GameTime time)
         {
-            for (int i = 0; i < scene.VisibleResourceCount; i++)
-            {
-                IResourceObject res = scene.GetResourceObject(i);
-
-                ResourceInfo info;
-
-                if (!resTable.TryGetValue(res, out info))
-                {
-                    info = new ResourceInfo(this, renderSys, res);
-                    resTable.Add(res, info);
-                }
-
-                info.Update(time);
-            }
+           
         }
     }
 }
