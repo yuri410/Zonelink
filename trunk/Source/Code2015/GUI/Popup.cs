@@ -20,9 +20,9 @@ namespace Code2015.GUI
         float duration;
 
 
-        public  Popup(RenderSystem rs, string text, int x, int y, float duration)
+        public Popup(RenderSystem rs, string text, int x, int y, float duration)
         {
-            font = FontManager.Instance.GetFont("default");
+            this.font = FontManager.Instance.GetFont("default");
             this.x = x;
             this.y = y;
             this.text = text;
@@ -37,11 +37,13 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            float alpha = MathEx.Saturate(time / duration);
-            int ny = (int)(y - alpha * YShift);
+            float alpha = 1 - MathEx.Saturate(time / duration);
+            int ny = (int)(y - (1 - alpha) * YShift);
 
             ColorValue modClr = new ColorValue(1, 1, 1, alpha);
-            font.DrawString(sprite, text, x, ny, 24, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr.PackedValue);
+            ColorValue modClr2 = new ColorValue(0, 0, 0, alpha);
+            font.DrawString(sprite, text, x + 1, ny + 1, 15, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr2.PackedValue);
+            font.DrawString(sprite, text, x, ny, 15, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr.PackedValue);
         }
         public override void Update(GameTime time)
         {
