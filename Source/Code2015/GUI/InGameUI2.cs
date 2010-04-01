@@ -80,7 +80,7 @@ namespace Code2015.GUI
         RoundButton btnWood;
 
 
-        Button captureBtn;
+        //Button captureBtn;
         Button buildBtn;
 
 
@@ -354,18 +354,18 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_btn_capture.tex", GameFileLocs.GUI);
             btnbg = UITextureManager.Instance.CreateInstance(fl);
 
-            captureBtn = new Button();
-            captureBtn.X = 440;
-            captureBtn.Y = 630;
+            //captureBtn = new Button();
+            //captureBtn.X = 440;
+            //captureBtn.Y = 630;
 
-            captureBtn.Width = 256;
-            captureBtn.Height = 128;
-            captureBtn.Image = btnbg;
-            captureBtn.ImageMouseOver = btnbg;
-            captureBtn.IsValid = true;
-            captureBtn.Enabled = true;
+            //captureBtn.Width = 256;
+            //captureBtn.Height = 128;
+            //captureBtn.Image = btnbg;
+            //captureBtn.ImageMouseOver = btnbg;
+            //captureBtn.IsValid = true;
+            //captureBtn.Enabled = true;
 
-            captureBtn.MouseClick += this.CaptureBtn_Click;
+            //captureBtn.MouseClick += this.CaptureBtn_Click;
             #endregion
 
             #region 建造按钮
@@ -409,6 +409,11 @@ namespace Code2015.GUI
 
         }
 
+        public CityInfoDisplay CityInfoDisplay
+        {
+            get { return cityInfoDisplay; }
+        }
+
         void BuildBtn_Click(object sender, MouseButtonFlags btn)
         {
             switch (page)
@@ -424,14 +429,6 @@ namespace Code2015.GUI
                     pluginMeasure.UpdateInfo();
                     break;
             }
-        }
-
-        void CaptureBtn_Click(object sender, MouseButtonFlags btn)
-        {
-            //if (btn == MouseButtonFlags.Left)
-            //{
-            //    city.Capture.SetCapture(player, player.Area.GetNearestCity(city.City));
-            //}
         }
         void InfoBtn_Click(object sender, MouseButtonFlags btn)
         {
@@ -486,11 +483,11 @@ namespace Code2015.GUI
                         }
                         else
                         {
-                            if (isCapturable)
-                            {
-                                captureBtn.Render(sprite);
-                            }
-                            else if (isPlayerCapturing)
+                            //if (isCapturable)
+                            //{
+                            //    captureBtn.Render(sprite);
+                            //}
+                            if (isPlayerCapturing)
                             {
                                 font.DrawString(sprite, "Helping...", 470, 692, 14,
                                    DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
@@ -632,13 +629,13 @@ namespace Code2015.GUI
                         btnWood.Update(time);
                     }
                 }
-                else
-                {
-                    if (isCapturable)
-                    {
-                        captureBtn.Update(time);
-                    }
-                }
+                //else
+                //{
+                    //if (isCapturable)
+                    //{
+                    //    captureBtn.Update(time);
+                    //}
+                //}
             }
         }
 

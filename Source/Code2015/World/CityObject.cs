@@ -74,7 +74,7 @@ namespace Code2015.World
             set;
         }
 
-        public City City 
+        public City City
         {
             get { return city; }
         }
@@ -107,27 +107,27 @@ namespace Code2015.World
         {
             sideRing.Flash(duration);
         }
-        public bool IsPlayerCapturing(Player pl) 
+        public bool IsPlayerCapturing(Player pl)
         {
             return city.Capture.IsPlayerCapturing(pl);
         }
         public bool CanCapture(Player pl)
         {
-            if (Owner != null) 
+            if (Owner != null)
             {
                 return false;
             }
             return city.Capture.CanCapture(pl) && pl.Area.CanCapture(city);
         }
-        public bool IsCapturing 
+        public bool IsCapturing
         {
             get { return city.Capture.IsCapturing; }
         }
-        public bool IsCaptured 
+        public bool IsCaptured
         {
             get { return city.IsCaptured; }
         }
-        public CaptureState Capture 
+        public CaptureState Capture
         {
             get { return city.Capture; }
         }
@@ -140,7 +140,7 @@ namespace Code2015.World
         {
             get { return harvesters.Count; }
         }
-        public Harvester GetHarvester(int idx) 
+        public Harvester GetHarvester(int idx)
         {
             return harvesters[idx];
         }
@@ -153,12 +153,12 @@ namespace Code2015.World
         {
             return plugins[i].transform;
         }
-        public Vector3 GetPluginPosition(int i) 
+        public Vector3 GetPluginPosition(int i)
         {
 
             return style.GetPluginTranslation(plugins[i].position, city.Size);
         }
-        public CityPlugin GetPlugin(int i) 
+        public CityPlugin GetPlugin(int i)
         {
             return plugins[i].plugin;
         }
@@ -193,6 +193,10 @@ namespace Code2015.World
         {
             plugins.Elements[i].CurrentPiece = res;
         }
+        public MdgResource GetPiece(int i)
+        {
+            return plugins.Elements[i].CurrentPiece;
+        }
 
         bool ISelectableObject.IsSelected
         {
@@ -218,7 +222,7 @@ namespace Code2015.World
             city.PluginRemoved += City_PluginRemoved;
             city.NearbyCityAdded += City_Linked;
             city.NearbyCityRemoved += City_UnLinked;
-            
+
             city.CityOwnerChanged += City_OwnerChanged;
 
             float radLong = MathEx.Degree2Radian(city.Longitude);
@@ -234,9 +238,9 @@ namespace Code2015.World
             BoundingSphere.Center = pos;
             position = pos;
 
-                if (city.Owner != null)
-                    City_OwnerChanged(city.Owner);
-            
+            if (city.Owner != null)
+                City_OwnerChanged(city.Owner);
+
             sideRing = new CityOwnerRing(this, style);
         }
 
@@ -264,7 +268,7 @@ namespace Code2015.World
             {
                 IsLinked = true;
             }
-            
+
         }
         void City_PluginAdded(City city, CityPlugin plugin)
         {
@@ -413,10 +417,10 @@ namespace Code2015.World
             {
                 passed |= plugins[i].CurrentPiece != null;
             }
-            if (passed) 
+            if (passed)
             {
                 // 升级
-                for (int i = 0; i < plugins.Count; i++) 
+                for (int i = 0; i < plugins.Count; i++)
                 {
                     plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
                 }

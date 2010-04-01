@@ -112,13 +112,16 @@ namespace Code2015.GUI
         {
             if (SelectedCity != null && hoverCity != null && SelectedCity != hoverCity)
             {
-                hoverCity.Capture.SetCapture(player, SelectedCity.City);
+                if (!hoverCity.IsPlayerCapturing(player) && !hoverCity.IsCaptured)
+                {
+                    hoverCity.Capture.SetCapture(player, SelectedCity.City);
 
-                City a = SelectedCity.City;
-                City b = hoverCity.City;
+                    City a = SelectedCity.City;
+                    City b = hoverCity.City;
 
-                CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity);
-                scene.Scene.AddObjectToScene(link);
+                    CityLinkObject link = new CityLinkObject(renderSys, SelectedCity, hoverCity);
+                    scene.Scene.AddObjectToScene(link);
+                }
             }
             isLinking = false;
         }
