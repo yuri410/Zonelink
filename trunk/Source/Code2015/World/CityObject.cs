@@ -164,6 +164,9 @@ namespace Code2015.World
         }
         public bool MatchPiece(int i, MdgType type)
         {
+            if (plugins[i].CurrentPiece != null)
+                return false;
+
             switch (plugins[i].plugin.TypeId)
             {
                 case CityPluginTypeId.EducationOrg:
@@ -423,6 +426,7 @@ namespace Code2015.World
                 for (int i = 0; i < plugins.Count; i++)
                 {
                     plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                    plugins.Elements[i].CurrentPiece = null;
                 }
             }
         }
