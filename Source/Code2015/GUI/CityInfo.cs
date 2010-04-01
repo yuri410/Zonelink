@@ -193,6 +193,7 @@ namespace Code2015.GUI
             {
                 satisfy.X = scrnPos.X;
                 satisfy.Y = scrnPos.Y - 30;
+                satisfy.Value = city.Satisfaction; 
                 satisfy.Render(sprite);
             }
 
@@ -224,11 +225,6 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            if (city.IsCaptured)
-            {
-                satisfy.Value = city.Satisfaction;
-            }
-
             if (city.Owner == player)
             {
                 if (((ISelectableObject)city).IsSelected)

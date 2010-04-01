@@ -3,14 +3,81 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
+using Code2015.GUI.Controls;
+using Code2015.World;
 
 namespace Code2015.GUI
 {
     class ResourceInfo : UIComponent
     {
+        RenderSystem renderSys;
+        Font font;
+
+        ResInfoDisplay parent;
+
+        IResourceObject resource;
+
+        Texture background;
+        ProgressBar amountBar;
+
+
+
+        public ResourceInfo(ResInfoDisplay info, RenderSystem rs, IResourceObject res)
+        {
+            this.renderSys = rs;
+            this.font = FontManager.Instance.GetFont("default");
+            this.parent = info;
+            this.resource = res;
+
+            FileLocation fl = FileSystem.Instance.Locate("ig_resMeter.tex", GameFileLocs.GUI);
+            background = UITextureManager.Instance.CreateInstance(fl);
+            
+            fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
+            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
+            Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
+
+            amountBar = new ProgressBar();
+
+            amountBar.Height = 18;
+            amountBar.Width = 117;
+            amountBar.ProgressImage = prgBg;
+            amountBar.Background = prgBg1;
+
+        }
+
         public override void Render(Sprite sprite)
         {
+            Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(resource.Longitude), MathEx.Degree2Radian(resource.Latitude));
 
+            Vector3 pos = resource.Position;
+            Vector3 ppos = renderSys.Viewport.Project(pos - tangy * (resource.Radius + 5),
+                parent.Projection, parent.View, Matrix.Identity);
+
+            float dist = Vector3.Distance(ref pos, ref parent.CameraPosition);
+            dist = 1 - MathEx.Saturate((dist - 1000) / 1500);
+
+
+            Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
+
+            string title = resource.Type.ToString();
+            Size strSize = font.MeasureString(title, 20, DrawTextFormat.Center);
+
+            Rectangle rect = new Rectangle(scrnPos.X, scrnPos.Y, (int)(50 + 100 * dist), (int)(40 + 80 * dist));
+
+            sprite.Draw(background, rect, ColorValue.White);
+
+            font.DrawString(sprite, title, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+            font.DrawString(sprite, title, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
+
+            amountBar.X = scrnPos.X;
+            amountBar.Y = scrnPos.Y - 30;
+            amountBar.Value = resource.AmountPer;
+            amountBar.Render(sprite);
         }
 
         public override void Update(GameTime time)
