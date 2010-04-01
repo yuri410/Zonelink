@@ -101,59 +101,14 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
-            visibleList.Clear();
-            visibleResource.Clear();
-            //XI.KeyboardState state = XI.Keyboard.GetState();
-
-            //if (state.IsKeyDown(XI.Keys.W))
-            //{
-            //    camera.MoveFront();
-            //}
-
-            //if (state.IsKeyDown(XI.Keys.A))
-            //{
-            //    camera.MoveLeft();
-            //}
-            //if (state.IsKeyDown(XI.Keys.D))
-            //{
-            //    camera.MoveRight();
-            //}
-            //if (state.IsKeyDown(XI.Keys.S))
-            //{
-            //    camera.MoveBack();
-            //}
-
-
-            //if (state.IsKeyDown(XI.Keys.Space))
-            //{
-            //    camera.Height++;
-            //}
-            //if (state.IsKeyDown(XI.Keys.LeftControl))
-            //{
-            //    camera.Height--;
-            //}
-
-            //if (state.IsKeyDown(XI.Keys.Right))
-            //{
-            //    camera.TurnRight();
-            //}
-            //if (state.IsKeyDown(XI.Keys.Left))
-            //{
-            //    camera.TurnLeft();
-            //}
-            //if (state.IsKeyDown(XI.Keys.Up))
-            //{
-
-            //}
-            //if (state.IsKeyDown(XI.Keys.Down))
-            //{
-            //}
-
             renderer.Update(time);
         }
 
         public void RenderScene()
         {
+            visibleList.Clear();
+            visibleResource.Clear();
+
             renderer.RenderScene();
         }
 
