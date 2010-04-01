@@ -88,7 +88,7 @@ namespace Code2015.GUI
         }
     }
 
-    class ResInfoDisplay
+    class ResInfoDisplay : UIComponent
     {
         Dictionary<IResourceObject, ResourceInfo> resTable;
         GameScene scene;
@@ -110,7 +110,7 @@ namespace Code2015.GUI
             this.resTable = new Dictionary<IResourceObject, ResourceInfo>();
         }
 
-        public void Render(Sprite sprite)
+        public override void Render(Sprite sprite)
         {
             Projection = camera.ProjectionMatrix;
             View = camera.ViewMatrix;
@@ -132,7 +132,7 @@ namespace Code2015.GUI
             }
         }
 
-        public void Update(GameTime time)
+        public override void Update(GameTime time)
         {
            
         }
