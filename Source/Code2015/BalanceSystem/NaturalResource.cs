@@ -90,7 +90,7 @@ namespace Code2015.BalanceSystem
         {
             base.Parse(sect);
 
-            CurrentAmount = sect.GetSingle("Amount");
+            CurrentAmount = sect.GetSingle("Amount", 0);
         }
 
     }

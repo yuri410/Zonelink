@@ -4,12 +4,12 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
+using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
-using Apoc3D.MathLib;
-using Apoc3D.Graphics.Animation;
 
 namespace Code2015.World
 {
@@ -33,21 +33,27 @@ namespace Code2015.World
 
             float radLng = MathEx.Degree2Radian(farm.Longitude);
             float radLat = MathEx.Degree2Radian(farm.Latitude);
+            float radLen = MathEx.Degree2Radian(0.5f);
 
             FileLocation fl = FileSystem.Instance.Locate("farmtile.mesh", GameFileLocs.Model);
 
             tiles = new Model[farm.BaseHeight * farm.BaseWidth];
-            for (int i = 0; i < tiles.Length; i++)
+            int idx = 0;
+            for (int i = 0; i < farm.BaseHeight; i++)
             {
-                tiles[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                for (int j = 0; j < farm.BaseWidth; j++)
+                {
+                    tiles[idx] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
-                float nLng = radLng;
-                float nLat = radLat;
-                float alt = TerrainData.Instance.QueryHeight(nLng, nLat);
-                Matrix trans = PlanetEarth.GetOrientation(radLng, radLat);
-                trans.TranslationValue = PlanetEarth.GetPosition(nLng, nLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
+                    float nLng = radLng + i * radLen;
+                    float nLat = radLat + j * radLen;
+                    float alt = TerrainData.Instance.QueryHeight(nLng, nLat);
+                    Matrix trans = PlanetEarth.GetOrientation(radLng, radLat);
+                    trans.TranslationValue = PlanetEarth.GetPosition(nLng, nLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
 
-                tiles[i].CurrentAnimation = new NoAnimation(trans);
+                    tiles[idx].CurrentAnimation = new NoAnimation(trans);
+                    idx++;
+                }
             }
 
             Transformation = Matrix.Identity;
