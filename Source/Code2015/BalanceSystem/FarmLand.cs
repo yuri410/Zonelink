@@ -15,12 +15,13 @@ namespace Code2015.BalanceSystem
     }
     public class FarmLand : NaturalResource
     {
+        const float MaxAmount = 10000;
         //[SLGValueAttribute()]
         //const float INITFoodAmount = 100000;
-        [SLGValue]
-        const float ABSORBCarbonSpeed = 1000;
-        [SLGValue]
-        const float SOURCEProduceSpeed = 500;
+        //[SLGValue]
+        //const float ABSORBCarbonSpeed = 1000;
+        //[SLGValue]
+        //const float SOURCEProduceSpeed = 500;
 
         //FastList<PlantSpecies> foodPlants;
         public FarmLand(SimulationWorld region)
