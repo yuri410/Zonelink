@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
@@ -101,6 +102,12 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
+            //Matrix view = camera.ViewMatrix;
+
+            //view = Matrix.RotationY(MathEx.PiOver4) * view;
+            Matrix view = Matrix.RotationY(MathEx.PIf / 6) * Matrix.Invert(camera.ViewMatrix);
+            EffectParams.LightDir = -view.Forward;
+
             renderer.Update(time);
         }
 

@@ -350,23 +350,6 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ico_info.tex", GameFileLocs.GUI);
             ico_info = UITextureManager.Instance.CreateInstance(fl);
 
-            #region 占领按钮
-            fl = FileSystem.Instance.Locate("ig_btn_capture.tex", GameFileLocs.GUI);
-            btnbg = UITextureManager.Instance.CreateInstance(fl);
-
-            //captureBtn = new Button();
-            //captureBtn.X = 440;
-            //captureBtn.Y = 630;
-
-            //captureBtn.Width = 256;
-            //captureBtn.Height = 128;
-            //captureBtn.Image = btnbg;
-            //captureBtn.ImageMouseOver = btnbg;
-            //captureBtn.IsValid = true;
-            //captureBtn.Enabled = true;
-
-            //captureBtn.MouseClick += this.CaptureBtn_Click;
-            #endregion
 
             #region 建造按钮
             fl = FileSystem.Instance.Locate("btn_build.tex", GameFileLocs.GUI);

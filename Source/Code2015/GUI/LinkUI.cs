@@ -108,11 +108,11 @@ namespace Code2015.GUI
             this.pathFinder = map.PathFinder.CreatePathFinder();
         }
 
-        void Link() 
+        void Link()
         {
             if (SelectedCity != null && hoverCity != null && SelectedCity != hoverCity)
             {
-                if (!hoverCity.IsPlayerCapturing(player) && !hoverCity.IsCaptured)
+                if (SelectedCity.Owner == player && hoverCity.CanCapture(player))
                 {
                     hoverCity.Capture.SetCapture(player, SelectedCity.City);
 
