@@ -324,7 +324,7 @@ namespace Code2015.World
         {
             for (int i = 0; i < plugins.Count; i++)
             {
-                if (object.ReferenceEquals(plugin, plugins[i].plugin))
+                if (plugin == plugins[i].plugin)
                 {
                     pluginFlags ^= plugins[i].position;
                     break;
@@ -333,12 +333,43 @@ namespace Code2015.World
         }
         void City_OwnerChanged(Player owner)
         {
-            if (owner != null)
+            if (IsCaptured)
             {
                 //Color4F color = new Color4F(owner.SideColor);
                 //ringMaterial.Ambient *= color;
                 //ringMaterial.Diffuse *= color;
 
+                int hid = 0;
+                for (int i = 0; i < plugins.Count; i++)
+                {
+                    CityPlugin plugin = plugins[i].plugin;
+
+                    if (plugin.TypeId == CityPluginTypeId.OilRefinary ||
+                        plugin.TypeId == CityPluginTypeId.WoodFactory)
+                    {
+                        NaturalResource res = plugin.CurrentResource;
+                        if (res != null)
+                        {
+                            harvesters[hid++].SetAuto(
+                                MathEx.Degree2Radian(res.Longitude), MathEx.Degree2Radian(res.Latitude),
+                                MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
+                        }
+                    }
+                }
+            }
+            else
+            {
+                int hid = 0;
+                for (int i = 0; i < plugins.Count; i++)
+                {
+                    CityPlugin plugin = plugins[i].plugin;
+
+                    if ((plugin.TypeId == CityPluginTypeId.OilRefinary ||
+                        plugin.TypeId == CityPluginTypeId.WoodFactory))
+                    {
+                        harvesters[hid++].Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
+                    }
+                }
             }
         }
 
@@ -418,9 +449,9 @@ namespace Code2015.World
             bool passed = false;
             for (int i = 0; i < plugins.Count; i++)
             {
-                passed |= plugins[i].CurrentPiece != null;
+                passed |= plugins[i].CurrentPiece == null;
             }
-            if (passed)
+            if (!passed)
             {
                 // 升级
                 for (int i = 0; i < plugins.Count; i++)
