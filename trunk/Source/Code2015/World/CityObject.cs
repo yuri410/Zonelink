@@ -113,7 +113,7 @@ namespace Code2015.World
         }
         public bool CanCapture(Player pl)
         {
-            if (Owner != null)
+            if (IsCaptured)
             {
                 return false;
             }

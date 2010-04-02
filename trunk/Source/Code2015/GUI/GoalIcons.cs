@@ -63,8 +63,8 @@ namespace Code2015.GUI
             for (int i = 0; i < 5; i++)
                 for (int j = 0; j < 5; j++)
                 {
-                    int t = Randomizer.GetRandomInt((int)MdgType.Partnership);
-                    MdgResource res = new MdgResource(resources, physWorld, (MdgType)t, new Vector2(i * 100 + 400, j * 100), 0);
+                    //int t = Randomizer.GetRandomInt((int)MdgType.Partnership);
+                    MdgResource res = new MdgResource(resources, physWorld, (MdgType.Environment), new Vector2(i * 100 + 400, j * 100), 0);
                     resources.Add(res);
                 }
 
