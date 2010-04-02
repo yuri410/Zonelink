@@ -63,6 +63,13 @@ namespace Code2015.World
                     fld.Parse(sect);
                     resources.Add(fld);
                 }
+                else if (type == "farm")
+                {
+                    FarmLand frm = new FarmLand(SLGWorld);
+                    frm.Parse(sect);
+                    resources.Add(frm);
+                }
+
                 //}
                 //break;
             }
