@@ -14,8 +14,8 @@ namespace Code2015.AI
         {
             this.player = player;
             this.area = player.Area;
-
-
         }
+
+        
     }
 }

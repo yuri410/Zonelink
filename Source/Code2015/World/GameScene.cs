@@ -105,7 +105,7 @@ namespace Code2015.World
             //Matrix view = camera.ViewMatrix;
 
             //view = Matrix.RotationY(MathEx.PiOver4) * view;
-            Matrix view = Matrix.RotationY(MathEx.PIf / 6) * Matrix.Invert(camera.ViewMatrix);
+            Matrix view = Matrix.RotationY(-MathEx.PIf / 6) * Matrix.Invert(camera.ViewMatrix);
             EffectParams.LightDir = -view.Forward;
 
             renderer.Update(time);
