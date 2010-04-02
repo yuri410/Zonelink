@@ -159,40 +159,54 @@ namespace Code2015
 
 
             map = new Map(slgSystem);
-
-            for (int i = 0; i < slgSystem.Count; i++)
+            for (int i = 0; i < slgSystem.CityCount; i++)
             {
-                SimulationObject obj = slgSystem[i];
-                City city = obj as City;
+                City city = slgSystem.GetCity(i);
 
-                if (city != null)
+                CityObject cityObj = new CityObject(renderSys, map, scene.Scene, city, cityStyles);
+
+                cityObj.CityVisible += scene.City_Visible;
+
+                scene.Scene.AddObjectToScene(cityObj);
+            }
+
+            for (int i = 0; i < slgSystem.ResourceCount; i++) 
+            {
+                NaturalResource obj = slgSystem.GetResource(i);
+                switch (obj.Type)
                 {
-                    CityObject cityObj = new CityObject(renderSys, map, scene.Scene, city, cityStyles);
+                    case NaturalResourceType.Food:
+                        FarmLand farm = obj as FarmLand;
+                        if (farm != null)
+                        {
+                            FarmObject farmObj = new FarmObject(renderSys, farm);
+                            farmObj.ResVisible += scene.Resource_Visible;
+                            scene.Scene.AddObjectToScene(farmObj);
+                            continue;
+                        }
 
-                    cityObj.CityVisible += scene.City_Visible;
-
-                    scene.Scene.AddObjectToScene(cityObj);
-                    continue;
-                }
-
-                Forest forest = obj as Forest;
-                if (forest != null)
-                {
-                    ForestObject forestObj = new ForestObject(renderSys, forest);
-                    forestObj.ResVisible += scene.Resource_Visible;
-                    scene.Scene.AddObjectToScene(forestObj);
-                    continue;
-                }
-
-                OilField oilfld = obj as OilField;
-                if (oilfld != null) 
-                {
-                    OilFieldObject oilObj = new OilFieldObject(renderSys, oilfld);
-                    oilObj.ResVisible += scene.Resource_Visible;
-                    scene.Scene.AddObjectToScene(oilObj);
-                    continue;
+                        break;
+                    case NaturalResourceType.Petro:
+                        OilField oilfld = obj as OilField;
+                        if (oilfld != null)
+                        {
+                            OilFieldObject oilObj = new OilFieldObject(renderSys, oilfld);
+                            oilObj.ResVisible += scene.Resource_Visible;
+                            scene.Scene.AddObjectToScene(oilObj);
+                        }
+                        break;
+                    case NaturalResourceType.Wood:
+                        Forest forest = obj as Forest;
+                        if (forest != null)
+                        {
+                            ForestObject forestObj = new ForestObject(renderSys, forest);
+                            forestObj.ResVisible += scene.Resource_Visible;
+                            scene.Scene.AddObjectToScene(forestObj);
+                        }
+                        break;
                 }
             }
+
 
             slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
             //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
