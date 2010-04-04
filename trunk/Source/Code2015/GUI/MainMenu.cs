@@ -127,7 +127,7 @@ namespace Code2015.GUI
         {
             if (btn == MouseButtonFlags.Left)
             {
-                
+
             }
         }
         void StartButton_Click(object sender, MouseButtonFlags btn)
@@ -152,20 +152,19 @@ namespace Code2015.GUI
         {
             //sprite.SetTransform(Matrix.Identity);
 
-            if (!game.IsIngame)
-            {
-                sprite.SetTransform(Matrix.Identity);
 
-                sprite.Draw(background, 0, 0, ColorValue.White);
-                font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
+            sprite.SetTransform(Matrix.Identity);
 
-                startButton.Render(sprite);
-                creditButton.Render(sprite);
-                exitButton.Render(sprite);
-                helpButton.Render(sprite);
+            sprite.Draw(background, 0, 0, ColorValue.White);
+            font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
-                sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
-            }
+            startButton.Render(sprite);
+            creditButton.Render(sprite);
+            exitButton.Render(sprite);
+            helpButton.Render(sprite);
+
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+
 
         }
         public override void Update(GameTime time)
@@ -174,15 +173,12 @@ namespace Code2015.GUI
             mousePosition.Y = MouseInput.Y;
             fps = time.FramesPerSecond;
 
-            if (!game.IsIngame)
-            {
-                startButton.Update(time);
-                creditButton.Update(time);
-                exitButton.Update(time);
-                helpButton.Update(time);
-                fps = time.FramesPerSecond;
-            }
 
+            startButton.Update(time);
+            creditButton.Update(time);
+            exitButton.Update(time);
+            helpButton.Update(time);
+            fps = time.FramesPerSecond;
         }
     }
 }

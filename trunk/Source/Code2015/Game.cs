@@ -154,7 +154,11 @@ namespace Code2015
             // 初始化场景
             this.cityStyles = new CityStyleTable(renderSys);
             this.scene = new GameScene(renderSys);
-
+            {
+                City hstart = HumanPlayer.Area.RootCity;
+                this.scene.Camera.Longitude = MathEx.Degree2Radian(hstart.Longitude);
+                this.scene.Camera.Latitude = MathEx.Degree2Radian(hstart.Latitude);
+            }
             SimulationWorld slgSystem = gameState.SLGWorld;
 
 
@@ -170,7 +174,7 @@ namespace Code2015
                 scene.Scene.AddObjectToScene(cityObj);
             }
 
-            for (int i = 0; i < slgSystem.ResourceCount; i++) 
+            for (int i = 0; i < slgSystem.ResourceCount; i++)
             {
                 NaturalResource obj = slgSystem.GetResource(i);
                 switch (obj.Type)

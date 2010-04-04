@@ -150,8 +150,20 @@ namespace Code2015.World
 
                 localPlayer[i].SetArea(localPlayerArea[i]);
 
+                bool finished = false;
+                while (!finished)
+                {
+                    int idx = Randomizer.GetRandomInt(slgSystem.CityCount);
+
+                    City cc = slgSystem.GetCity(idx);
+                    if (cc.Size == UrbanSize.Large)
+                    {
+                        cc.ChangeOwner(localPlayer[i]);
+                        finished = true;
+                    }
+                }
                 // 测试
-                slgSystem.GetCity(0).ChangeOwner(localPlayer[i]);
+                //slgSystem.GetCity(0).ChangeOwner(localPlayer[i]);
             }
 
             newTime = new GameTime();

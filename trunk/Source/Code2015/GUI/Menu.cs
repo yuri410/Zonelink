@@ -50,16 +50,22 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            if (CurrentScreen != null)
+            if (!game.IsIngame)
             {
-                CurrentScreen.Render(sprite);
+                if (CurrentScreen != null)
+                {
+                    CurrentScreen.Render(sprite);
+                }
             }
         }
         public override void Update(GameTime time)
         {
-            if (CurrentScreen != null)
+            if (!game.IsIngame)
             {
-                CurrentScreen.Update(time);
+                if (CurrentScreen != null)
+                {
+                    CurrentScreen.Update(time);
+                }
             }
         }
     }
