@@ -150,6 +150,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LinkUI.cs" />
+    <Compile Include="GUI\MainMenu.cs" />
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>
     </Compile>
