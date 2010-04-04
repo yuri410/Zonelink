@@ -36,9 +36,9 @@ namespace Code2015.EngineEx
         public RtsCamera(float fovy, float aspect)
             : base(aspect)
         {
-            OrthoZoom = 65;
+            OrthoZoom = 2000;
             isPerspective = fovy < 175 && fovy > 5;
-            //FieldOfView = fovy;
+            FieldOfView = fovy;
             Height = 60;
 
 

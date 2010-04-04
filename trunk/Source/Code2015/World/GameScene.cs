@@ -51,7 +51,7 @@ namespace Code2015.World
             Viewport vp = rs.Viewport;
             float aspectRatio = vp.Width / (float)vp.Height;
 
-            camera = new RtsCamera(65, aspectRatio);
+            camera = new RtsCamera(45, aspectRatio);
             camera.NearPlane = 10;
             camera.FarPlane = 8000;
             camera.Mode = RenderMode.Final;
