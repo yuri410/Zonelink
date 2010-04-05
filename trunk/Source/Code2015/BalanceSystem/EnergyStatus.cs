@@ -37,7 +37,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float MaxDuration = 60;
         [SLGValue]
-        public const float MaxDamage = 100;
+        public const float MaxDamage = 40;
         [SLGValue]
         public const float MaxRadius = 60;
         #endregion

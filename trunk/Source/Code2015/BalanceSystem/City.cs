@@ -83,7 +83,7 @@ namespace Code2015.BalanceSystem
 
 
         [SLGValue()]
-        const int RecentCarbonLength = 100;
+        const int RecentCarbonLength = 5;
 
         FastQueue<float> recentCarbon = new FastQueue<float>(RecentCarbonLength);
         int carbonAddCounter;
