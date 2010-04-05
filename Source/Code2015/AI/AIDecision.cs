@@ -57,10 +57,17 @@ namespace Code2015.AI
 
                 if (ran < P)
                 {
-                    for (int i = 0; i < world.CityCount; i++)
-                    {
-
-                    }
+                    //for (int i = 0; i < world.CityCount; i++)
+                    //{
+                    //    City cc = world.GetCity(i);
+                    //    if (!cc.IsCaptured && cc.Owner != player)
+                    //    {
+                    //        if (area.CanCapture(cc))
+                    //        {
+                    //            cc.Capture.SetCapture (player , );
+                    //        }
+                    //    }
+                    //}
                 }
                 else
                 {
