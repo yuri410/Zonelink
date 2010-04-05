@@ -117,7 +117,7 @@ namespace Code2015.Logic
             {
                 for (int i = 0; i < cities.Length; i++)
                 {
-                    float pop = cityWeights[i] * damage * 0.5f;
+                    float pop = cityWeights[i] * damage * 0.1f;
                     float dev = cityWeights[i] * damage;
                     cities[i].Damage(pop * hours, dev * hours);
                 }

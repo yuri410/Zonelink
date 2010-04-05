@@ -116,6 +116,7 @@ namespace Code2015.World
         float remainingTime;
         GameTime newTime;
         PlayerArea[] localPlayerArea;
+        Player[] localPlayers;
 
         public float RemainingTime
         {
@@ -135,12 +136,12 @@ namespace Code2015.World
 
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
-            slgSystem = srcState.SLGWorld;
+            this.slgSystem = srcState.SLGWorld;
             PluginFactory = srcState.PluginFactory;
 
-            localPlayerArea = new PlayerArea[localPlayer.Length];
+            this.localPlayerArea = new PlayerArea[localPlayer.Length];
+            this.localPlayers = localPlayer;
 
-            //System.Diagnostics.Debug.Assert(localPlayer.Length == 1, "测试阶段仅支持一个本地玩家");
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
                 localPlayerArea[i] = new PlayerArea(slgSystem, localPlayer[i]);
@@ -174,6 +175,11 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
+            for (int i = 0; i < localPlayers.Length; i++)             
+            {
+                localPlayers[i].Update(time);
+            }
+
             remainingTime -= time.ElapsedGameTimeSeconds;
 
             /////// 接受playerOperation，由127.0.0.1
