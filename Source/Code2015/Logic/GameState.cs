@@ -140,7 +140,7 @@ namespace Code2015.World
 
             localPlayerArea = new PlayerArea[localPlayer.Length];
 
-            System.Diagnostics.Debug.Assert(localPlayer.Length == 1, "测试阶段仅支持一个本地玩家");
+            //System.Diagnostics.Debug.Assert(localPlayer.Length == 1, "测试阶段仅支持一个本地玩家");
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
                 localPlayerArea[i] = new PlayerArea(slgSystem, localPlayer[i]);
@@ -156,7 +156,7 @@ namespace Code2015.World
                     int idx = Randomizer.GetRandomInt(slgSystem.CityCount);
 
                     City cc = slgSystem.GetCity(idx);
-                    if (cc.Size == UrbanSize.Large)
+                    if (!cc.IsCaptured && cc.Size == UrbanSize.Large)
                     {
                         cc.ChangeOwner(localPlayer[i]);
                         finished = true;
