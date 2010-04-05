@@ -14,7 +14,7 @@ namespace Code2015.Logic
     /// </summary>
     public class PlayerArea : IUpdatable
     {
-        const float CaptureDistanceThreshold = 12;
+        public const float CaptureDistanceThreshold = 12;
 
         FastList<City> cities = new FastList<City>();
 
@@ -61,7 +61,7 @@ namespace Code2015.Logic
             City minCity = null;
             for (int i = 0; i < cities.Count; i++)
             {
-                if (!cities[i].IsRecovering && !object.ReferenceEquals(city, cities[i]))
+                if (!cities[i].IsRecovering && city != cities[i])
                 {
                     float cdist = new Vector2(cities[i].Longitude - city.Longitude, cities[i].Latitude - city.Latitude).Length();
 

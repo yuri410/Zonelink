@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Code2015.Logic;
+using Code2015.BalanceSystem;
+using Apoc3D.MathLib;
 
 namespace Code2015.AI
 {
@@ -13,17 +15,24 @@ namespace Code2015.AI
 
         float decisionTime;
 
-        
+        List<City> cityBuffer = new List<City>();
+
+        SimulationWorld world;
+        CityPluginFactory pluginFactory;
 
         [SLGValue]
         const float AIDecisionDelay = 8;
         [SLGValue]
         const float DecisionRandom = 4;
 
-        public AIDecision(AIPlayer player)
+        public AIDecision(SimulationWorld world, AIPlayer player)
         {
+            this.world = world;
             this.player = player;
             this.area = player.Area;
+
+            pluginFactory = new CityPluginFactory();
+            
         }
 
         public void Update(GameTime time)
@@ -48,11 +57,78 @@ namespace Code2015.AI
 
                 if (ran < P)
                 {
+                    for (int i = 0; i < world.CityCount; i++)
+                    {
 
+                    }
                 }
                 else
                 {
+                    bool finished = false;
+                    while (!finished)
+                    {
+                        int i = Randomizer.GetRandomInt(area.CityCount);
 
+                        City cc = area.GetCity(i);
+                        float r = CityGrade.GetGatherRadius(cc.Size);
+
+                        if (cc.CanAddPlugins)
+                        {
+                            Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
+
+                            for (int j = 0; j < world.ResourceCount; j++)
+                            {
+                                NaturalResource res = world.GetResource(j);
+                                if (!res.IsLow)
+                                {
+                                    Vector2 pos = new Vector2(res.Latitude, res.Longitude);
+                                    float dist = Vector2.Distance(pos, myPos);
+
+                                    if (dist <= r)
+                                    {
+                                        switch (res.Type)
+                                        {
+                                            case NaturalResourceType.Petro:
+                                                CityPlugin plugin = pluginFactory.MakeOilRefinary();
+                                                cc.Add(plugin);
+                                                break;
+                                            case NaturalResourceType.Wood:
+                                                plugin = pluginFactory.MakeWoodFactory();
+                                                cc.Add(plugin);
+                                                break;
+                                        }
+                                    }
+                                }
+                            }
+                            if (cc.CanAddPlugins) 
+                            {
+                                int rem = CityGrade.GetMaxPlugins(cc.Size) - cc.PluginCount;
+
+                                for (int j = 0; j < rem; j++)
+                                {
+                                    CityPlugin plugin;
+
+                                    bool k = Randomizer.GetRandomBool();
+
+                                    if (k)
+                                    {
+                                        plugin = pluginFactory.MakeHospital();
+                                    }
+                                    else
+                                    {
+                                        plugin = pluginFactory.MakeEducationAgent();
+                                    } 
+                                    cc.Add(plugin);
+                                }
+                            }
+                            finished = true;
+                        }
+                        else
+                        {
+                            cc.Parent.Upgrade();
+                            finished = true;
+                        }
+                    }
                 }
 
                 decisionTime = AIDecisionDelay + Randomizer.GetRandomSingle() * DecisionRandom;

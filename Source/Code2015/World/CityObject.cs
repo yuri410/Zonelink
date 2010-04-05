@@ -440,6 +440,15 @@ namespace Code2015.World
             return opBuffer.Elements;
         }
 
+        public void Upgrade()
+        {
+            // 升级
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                plugins.Elements[i].CurrentPiece = null;
+            }
+        }
         public override void Update(GameTime dt)
         {
             BoundingSphere.Radius = CityStyleTable.CityRadius[(int)city.Size];
@@ -453,12 +462,7 @@ namespace Code2015.World
             }
             if (!passed)
             {
-                // 升级
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
-                    plugins.Elements[i].CurrentPiece = null;
-                }
+                Upgrade();
             }
         }
 
