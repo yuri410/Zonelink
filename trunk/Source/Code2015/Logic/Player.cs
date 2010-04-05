@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
+using Code2015.World;
 
 namespace Code2015.Logic
 {
@@ -52,6 +53,7 @@ namespace Code2015.Logic
             private set;
         }
 
+        public virtual void SetParent(GameState state) { }
         public void SetArea(PlayerArea area)
         {
             if (Area == null) 
