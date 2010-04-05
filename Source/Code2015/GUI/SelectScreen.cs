@@ -9,6 +9,7 @@ using Apoc3D.Vfs;
 using Code2015.AI;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.GUI
 {
@@ -17,7 +18,6 @@ namespace Code2015.GUI
         static readonly ColorValue[] Colors = new ColorValue[] { ColorValue.Red, ColorValue.Yellow, ColorValue.Green, ColorValue.Blue };
 
         Code2015 game;
-
         RenderSystem renderSys;
 
         Texture backGround;
@@ -143,9 +143,9 @@ namespace Code2015.GUI
 
                 gcp.Player1 = new Player("Player");
                 gcp.Player1.SideColor = selectedColor;
-                gcp.Player2 = new Player("Computer 1");
-                gcp.Player3 = new Player("Computer 2");
-                gcp.Player4 = new Player("Computer 3");
+                gcp.Player2 = new AIPlayer();
+                gcp.Player3 = new AIPlayer();
+                gcp.Player4 = new AIPlayer();
 
 
                 int i = Randomizer.GetRandomInt(3);
