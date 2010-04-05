@@ -109,11 +109,19 @@ namespace Code2015.BalanceSystem
         Dictionary<Player, float> carbonWeight = new Dictionary<Player, float>();
         FastList<IncomingDisaster> incoming = new FastList<IncomingDisaster>();
 
+        public Dictionary<Player, float> GetCarbonRatios()
+        {
+            return carbonRatio;
+        }
+        public Dictionary<Player, float> GetCarbonWeights()
+        {
+            return carbonWeight;
+        }
+
         public EnergyStatus(SimulationWorld region)
         {
             Region = region;
         }
-
 
         public void Update(GameTime time)
         {
