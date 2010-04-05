@@ -892,7 +892,7 @@ namespace Code2015.BalanceSystem
                 Population += (devIncr + foodLack) * 0.01f;
             }
 
-            if (carbonAddCounter++ == 8)
+            if (carbonAddCounter++ == 60)
             {
                 recentCarbon.Enqueue(CarbonProduceSpeed * hours);
                 while (recentCarbon.Count > RecentCarbonLength)
