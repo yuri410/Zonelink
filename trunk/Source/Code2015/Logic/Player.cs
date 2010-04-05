@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
 
@@ -59,5 +60,6 @@ namespace Code2015.Logic
             }
         }
 
+        public virtual void Update(GameTime time) { }
     }
 }
