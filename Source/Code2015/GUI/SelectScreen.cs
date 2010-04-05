@@ -14,6 +14,8 @@ namespace Code2015.GUI
 {
     class SelectScreen : UIComponent
     {
+        static readonly ColorValue[] Colors = new ColorValue[] { ColorValue.Red, ColorValue.Yellow, ColorValue.Green, ColorValue.Blue };
+
         Code2015 game;
 
         RenderSystem renderSys;
@@ -26,6 +28,7 @@ namespace Code2015.GUI
         RoundButton side4;
 
         bool selected;
+        bool[] selectedTable = new bool[Colors.Length];
         ColorValue selectedColor;
 
         public bool Selected
@@ -110,22 +113,26 @@ namespace Code2015.GUI
             {
                 if (sender == side1)
                 {
-                    selectedColor = ColorValue.Red;
+                    selectedColor = Colors[0];
+                    selectedTable[0] = true;
                     selected = true;
                 }
                 else if (sender == side2)
                 {
-                    selectedColor = ColorValue.Yellow;
+                    selectedColor = Colors[1];
+                    selectedTable[1] = true;
                     selected = true;
                 }
                 else if (sender == side3)
                 {
-                    selectedColor = ColorValue.Green;
+                    selectedColor = Colors[2];
+                    selectedTable[2] = true;
                     selected = true;
                 }
                 else if (sender == side4)
                 {
-                    selectedColor = ColorValue.Blue;
+                    selectedColor = Colors[3];
+                    selectedTable[3] = true;
                     selected = true;
                 }
             }
@@ -133,16 +140,41 @@ namespace Code2015.GUI
             if (selected)
             {
                 GameCreationParameters gcp = new GameCreationParameters();
-                
+
                 gcp.Player1 = new Player("Player");
                 gcp.Player1.SideColor = selectedColor;
                 gcp.Player2 = new Player("Computer 1");
-                gcp.Player2.SideColor = selectedColor;
                 gcp.Player3 = new Player("Computer 2");
-                gcp.Player3.SideColor = selectedColor;
                 gcp.Player4 = new Player("Computer 3");
-                gcp.Player4.SideColor = selectedColor;
 
+
+                int i = Randomizer.GetRandomInt(3);
+
+                while (selectedTable[i])
+                {
+                    i++;
+                    i %= Colors.Length;
+                }
+                gcp.Player2.SideColor = Colors[i];
+
+
+                i = Randomizer.GetRandomInt(2);
+                while (selectedTable[i])
+                {
+                    i++;
+                    i %= Colors.Length;
+                }
+                gcp.Player3.SideColor = Colors[i];
+
+                while (selectedTable[i])
+                {
+                    i++;
+                    i %= Colors.Length;
+                }
+
+                gcp.Player4.SideColor = Colors[i];
+
+                selectedTable = new bool[Colors.Length];
                 game.StartNewGame(gcp);
             }
         }

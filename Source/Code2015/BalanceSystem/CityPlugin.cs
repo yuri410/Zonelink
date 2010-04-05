@@ -186,37 +186,31 @@ namespace Code2015.BalanceSystem
             Vector2 myPos = new Vector2(parent.Latitude, parent.Longitude);
 
             float r = CityGrade.GetGatherRadius(parent.Size);
-            for (int i = 0; i < region.Count; i++)
+            for (int i = 0; i < region.ResourceCount; i++)
             {
-                if (!object.ReferenceEquals(region[i], parent))
+                NaturalResource res = region.GetResource(i);
+
+                Vector2 pos = new Vector2(res.Latitude, res.Longitude);
+                float dist = Vector2.Distance(pos, myPos);
+
+                if (dist < r)
                 {
-                    NaturalResource res = region[i] as NaturalResource;
-
-                    if (res != null)
+                    switch (TypeId)
                     {
-                        Vector2 pos = new Vector2(res.Latitude, res.Longitude);
-                        float dist = Vector2.Distance(pos, myPos);
-
-                        if (dist < r)
-                        {
-                            switch (TypeId)
+                        case CityPluginTypeId.OilRefinary:
+                            if (res is OilField)
                             {
-                                case CityPluginTypeId.OilRefinary:
-                                    if (res is OilField)
-                                    {
-                                        resource.Add(res);
-                                    }
-                                    break;
-                                case CityPluginTypeId.WoodFactory:
-                                    if (res is Forest)
-                                    {
-                                        resource.Add(res);
-                                    }
-                                    break;
+                                resource.Add(res);
                             }
-                            
-                        }
+                            break;
+                        case CityPluginTypeId.WoodFactory:
+                            if (res is Forest)
+                            {
+                                resource.Add(res);
+                            }
+                            break;
                     }
+
                 }
             }
         }
