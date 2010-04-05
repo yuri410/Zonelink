@@ -10,7 +10,7 @@ namespace Code2015.AI
         public AIPlayer()
             : base("Computer")
         {
-
+            Type = PlayerType.LocalAI;
         }
 
 

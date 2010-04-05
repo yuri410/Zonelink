@@ -134,8 +134,14 @@ namespace Code2015.GUI
             {
                 GameCreationParameters gcp = new GameCreationParameters();
                 
-                gcp.Player1 = new Player("test");
+                gcp.Player1 = new Player("Player");
                 gcp.Player1.SideColor = selectedColor;
+                gcp.Player2 = new Player("Computer 1");
+                gcp.Player2.SideColor = selectedColor;
+                gcp.Player3 = new Player("Computer 2");
+                gcp.Player3.SideColor = selectedColor;
+                gcp.Player4 = new Player("Computer 3");
+                gcp.Player4.SideColor = selectedColor;
 
                 game.StartNewGame(gcp);
             }
