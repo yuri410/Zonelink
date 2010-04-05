@@ -582,9 +582,12 @@ namespace Code2015.GUI
             sprite.Draw(ico_pill, -3, 429, ColorValue.White);
 
             Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
+
+            int yy = 60;
             foreach (KeyValuePair<Player, float> e in list)
             {
-                font.DrawString(sprite, "CO2: " + e.Value.ToString("P"), 0, 60, 25, DrawTextFormat.Center, (int)ColorValue.White.PackedValue);
+                font.DrawString(sprite, e.Key.Name + " CO2: " + e.Value.ToString("P"), 0, yy, 25, DrawTextFormat.Center, (int)ColorValue.White.PackedValue);
+                yy += 30;
             }
 
         }

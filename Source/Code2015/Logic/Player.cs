@@ -33,7 +33,7 @@ namespace Code2015.Logic
         public PlayerType Type
         {
             get;
-            private set;
+            protected set;
         }
 
         public ColorValue SideColor
