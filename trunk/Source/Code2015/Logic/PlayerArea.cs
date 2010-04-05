@@ -75,6 +75,7 @@ namespace Code2015.Logic
             return minCity;
         }
 
+        
 
         /// <summary>
         ///  计算一个城市是否可以被占据

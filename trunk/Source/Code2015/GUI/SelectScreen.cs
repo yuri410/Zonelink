@@ -156,7 +156,7 @@ namespace Code2015.GUI
                     i %= Colors.Length;
                 }
                 gcp.Player2.SideColor = Colors[i];
-
+                selectedTable[i] = true;
 
                 i = Randomizer.GetRandomInt(2);
                 while (selectedTable[i])
@@ -165,14 +165,15 @@ namespace Code2015.GUI
                     i %= Colors.Length;
                 }
                 gcp.Player3.SideColor = Colors[i];
+                selectedTable[i] = true;
 
                 while (selectedTable[i])
                 {
                     i++;
                     i %= Colors.Length;
                 }
-
                 gcp.Player4.SideColor = Colors[i];
+                selectedTable[i] = true;
 
                 selectedTable = new bool[Colors.Length];
                 game.StartNewGame(gcp);
