@@ -437,6 +437,7 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            
             cityInfoDisplay.Render(sprite);
             resInfoDisplay.Render(sprite);
 
@@ -579,6 +580,13 @@ namespace Code2015.GUI
             sprite.Draw(ico_leaf, -3, 275, ColorValue.White);
             sprite.Draw(ico_book, -3, 358, ColorValue.White);
             sprite.Draw(ico_pill, -3, 429, ColorValue.White);
+
+            Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
+            foreach (KeyValuePair<Player, float> e in list)
+            {
+                font.DrawString(sprite, "CO2: " + e.Value.ToString("P"), 0, 60, 25, DrawTextFormat.Center, (int)ColorValue.White.PackedValue);
+            }
+
         }
 
         public bool HitTest(int x, int y)
