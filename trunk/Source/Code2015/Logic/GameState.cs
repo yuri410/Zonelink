@@ -14,7 +14,7 @@ namespace Code2015.World
     /// <summary>
     ///  随机构建场景
     /// </summary>
-    class GameStateBuilder
+    public class GameStateBuilder
     {
         const int MaxCities = 120;
         //const int MinCities = 85;
@@ -107,7 +107,7 @@ namespace Code2015.World
     /// <summary>
     ///  表示游戏逻辑状态。
     /// </summary>
-    class GameState
+    public class GameState
     {
         [SLGValue]
         const float TotalTime = 300;
@@ -150,6 +150,7 @@ namespace Code2015.World
                     LocalHumanPlayer = localPlayer[i];
 
                 localPlayer[i].SetArea(localPlayerArea[i]);
+                localPlayer[i].SetParent(this);
 
                 bool finished = false;
                 while (!finished)
