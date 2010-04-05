@@ -76,7 +76,8 @@ namespace Code2015.AI
                         {
                             Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
 
-                            for (int j = 0; j < world.ResourceCount; j++)
+                            
+                            for (int j = 0; j < world.ResourceCount && cc.CanAddPlugins; j++)
                             {
                                 NaturalResource res = world.GetResource(j);
                                 if (!res.IsLow)
