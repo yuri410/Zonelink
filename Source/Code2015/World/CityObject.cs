@@ -448,6 +448,11 @@ namespace Code2015.World
             {
                 opBuffer.Add(ops);
             }
+            ops = goalSite.GetRenderOperation();
+            if (ops != null)
+            {
+                opBuffer.Add(ops);
+            }
 
             opBuffer.Trim();
             return opBuffer.Elements;

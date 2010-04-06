@@ -3,6 +3,10 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Graphics;
 using Apoc3D.Scene;
+using Code2015.World.Screen;
+using Apoc3D.Collections;
+using Apoc3D.MathLib;
+using Code2015.BalanceSystem;
 
 namespace Code2015.World
 {
@@ -21,24 +25,39 @@ namespace Code2015.World
         bool isRotating;
         float rotation;
         float actuallRotation;
+
         GoalSite[] sites = new GoalSite[SiteCount];
+
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         public CityGoalSite(CityObject obj, CityStyle style)
         {
             this.parent = obj;
             this.style = style;
+
+            
         }
 
         #region IRenderable 成员
 
         public RenderOperation[] GetRenderOperation()
         {
-            throw new NotImplementedException();
+            opBuffer.TrimClear();
+            for (int i = 0; i < SiteCount; i++)
+            {
+                if (sites[i].HasPiece)
+                {
+                    RenderOperation[] ops = style.MdgBracket[(int)sites[i].Type].GetRenderOperation();
+
+                    opBuffer.Add(ops);
+                }
+            }
+            return opBuffer.Elements;
         }
 
         public RenderOperation[] GetRenderOperation(int level)
         {
-            throw new NotImplementedException();
+            return GetRenderOperation();
         }
 
         #endregion
@@ -73,7 +92,7 @@ namespace Code2015.World
 
             rotation = amount;
 
-            if (Size == UrbanSize.Large)
+            if (parent.Size == UrbanSize.Large)
             {
                 float s = Math.Sign(rotation);
                 float rem = Math.Abs(rotation) % MathEx.PiOver4;
@@ -98,7 +117,7 @@ namespace Code2015.World
         {
             isRotating = false;
 
-            if (Size == UrbanSize.Large)
+            if (parent.Size == UrbanSize.Large)
             {
                 const float Pi8 = MathEx.PiOver4 * 0.5f;
 
