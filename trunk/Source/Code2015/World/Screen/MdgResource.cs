@@ -133,7 +133,7 @@ namespace Code2015.World.Screen
         {
             physicsWorld.Remove(body);
         }
-
+        
         public int BitMask
         {
             get { return bitMask; }

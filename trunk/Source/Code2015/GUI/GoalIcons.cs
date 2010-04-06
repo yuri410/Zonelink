@@ -47,6 +47,16 @@ namespace Code2015.GUI
 
         InGameUI parent;
 
+        public MdgResourceManager Manager
+        {
+            get { return resources; }
+        }
+
+        public ScreenPhysicsWorld PhysicsWorld
+        {
+            get { return physWorld; }
+        }
+
         public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, GameScene scene, ScreenPhysicsWorld physWorld)
         {
             this.cityInfo = cityInfo;
