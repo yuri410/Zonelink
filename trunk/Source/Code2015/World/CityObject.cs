@@ -60,6 +60,10 @@ namespace Code2015.World
 
         FastList<Harvester> harvesters = new FastList<Harvester>();
         FastList<PluginEntry> plugins;
+
+        bool isRotating;
+        float rotation;
+        float actuallRotation;
         GoalSite[] sites = new GoalSite[4];
 
         PluginPositionFlag pluginFlags;
@@ -169,6 +173,140 @@ namespace Code2015.World
         {
             return plugins[i].plugin;
         }
+
+        public void BeginRotate()
+        {
+            isRotating = true;
+        }
+
+
+        public void Rotating(float amount)
+        {
+            const float GlueThreshold = 0.1f;
+
+            rotation = amount;
+
+            if (Size == UrbanSize.Large)
+            {
+                actuallRotation = rotation;
+                if (Math.Abs(rotation) < GlueThreshold)
+                {
+                    actuallRotation = 0;
+                }
+                else if (Math.Abs(rotation - MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = MathEx.PiOver4;
+                }
+                else if (Math.Abs(rotation - 2 * MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = 2 * MathEx.PiOver4;
+                }
+                else if (Math.Abs(rotation - 3 * MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = 3 * MathEx.PiOver4;
+                }
+                else if (Math.Abs(rotation - 4 * MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = 4 * MathEx.PiOver4;
+                }
+                else if (Math.Abs(rotation - 5 * MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = 5 * MathEx.PiOver4;
+                }
+                else if (Math.Abs(rotation - 6 * MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = 6 * MathEx.PiOver4;
+                }
+                else if (Math.Abs(rotation - 7 * MathEx.PiOver4) < GlueThreshold)
+                {
+                    actuallRotation = 7 * MathEx.PiOver4;
+                }
+                else
+                {
+                    actuallRotation = rotation;
+                }
+            }
+            else
+            {
+                if (Math.Abs(rotation) < GlueThreshold)
+                {
+                    actuallRotation = 0;
+                }
+                else if (Math.Abs(rotation - MathEx.PiOver2) < GlueThreshold)
+                {
+                    actuallRotation = MathEx.PiOver2;
+                }
+                else if (Math.Abs(rotation - MathEx.PIf) < GlueThreshold)
+                {
+                    actuallRotation = MathEx.PIf;
+                }
+                else if (Math.Abs(rotation - 3 * MathEx.PiOver2) < GlueThreshold)
+                {
+                    actuallRotation = 3 * MathEx.PiOver2;
+                }
+                else
+                {
+                    actuallRotation = rotation;
+                }
+            }
+        }
+        public void EndRotate()
+        {
+            isRotating = false;
+
+            if (Size == UrbanSize.Large)
+            {
+                const float Pi8 = MathEx.PiOver4 * 0.5f;
+                if (Math.Abs(actuallRotation) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - MathEx.PiOver4) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - 2 * MathEx.PiOver4) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - 3 * MathEx.PiOver4) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - 4 * MathEx.PiOver4) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - 5 * MathEx.PiOver4) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - 6 * MathEx.PiOver4) < Pi8)
+                {
+
+                }
+                else if (Math.Abs(actuallRotation - 7 * MathEx.PiOver4) < Pi8)
+                {
+
+                }
+            }
+            else
+            {
+                if (Math.Abs(actuallRotation) < MathEx.PiOver4)
+                {
+                }
+                else if (Math.Abs(actuallRotation - MathEx.PiOver2) < MathEx.PiOver4)
+                {
+                }
+                else if (Math.Abs(actuallRotation - MathEx.PIf) < MathEx.PiOver4)
+                {
+                }
+                else if (Math.Abs(actuallRotation - 3 * MathEx.PiOver2) < MathEx.PiOver4)
+                {
+                }
+            }
+        }
+
         public bool MatchPiece(int i, MdgType type)
         {
             if (plugins[i].CurrentPiece != null)
