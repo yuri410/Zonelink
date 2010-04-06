@@ -12,7 +12,6 @@ namespace Code2015.World
 {    
     class CityOwnerRing : IRenderable
     {
-
         public static readonly Matrix WhiteMatrix = 
             new Matrix(1, 1, 1, 1,
                        1, 1, 1, 1, 
@@ -55,7 +54,6 @@ namespace Code2015.World
             }
             return new Vector4(1,0,0,0);
         }
-
 
 
         public Matrix GetColorMatrix()

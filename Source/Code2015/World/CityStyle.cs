@@ -37,6 +37,8 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData>[] Ring;
         public ResourceHandle<ModelData>[] SelRing;
+
+        public ResourceHandle<ModelData>[] MdgBracket;
     }
     public struct CityStyle
     {
@@ -57,7 +59,11 @@ namespace Code2015.World
         public Model[] Ring;
         public Model[] SelRing;
 
+        public Model[] MdgBracket;
+
         public float[] PluginTranslate;
+
+        public const float BracketTranslate = 78;
 
         public CityStyle(ref CityStyleData data)
         {
@@ -90,7 +96,9 @@ namespace Code2015.World
             for (int i = 0; i < SelRing.Length; i++)
                 SelRing[i] = new Model(data.SelRing[i]);
 
-
+            MdgBracket = new Model[data.MdgBracket.Length];
+            for (int i = 0; i < MdgBracket.Length; i++)
+                MdgBracket[i] = new Model(data.MdgBracket[i]);
 
             PluginTranslate = new float[3];
 
@@ -99,6 +107,33 @@ namespace Code2015.World
             PluginTranslate[(int)UrbanSize.Small] = Game.ObjectScale * 40;
         }
 
+        public Vector3 GetBracketTranslation(int i)
+        {
+            switch (i)
+            {
+                case 0:
+                    return new Vector3(
+                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f, 
+                        0, 
+                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+                case 1:
+                    return new Vector3(
+                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+                        0,
+                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+                case 2:
+                    return new Vector3(
+                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+                        0,
+                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+                case 3:
+                    return new Vector3(
+                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+                        0,
+                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+            }
+            return Vector3.Zero;
+        }
         public Vector3 GetPluginTranslation(PluginPositionFlag p, UrbanSize size)
         {
             switch (p)
@@ -214,6 +249,11 @@ namespace Code2015.World
         static readonly string Ring_Inv = "cityring.mesh";
         static readonly string SelRing_Inv = "citysel.mesh";
 
+        static readonly string[] GoalSites = new string[] 
+        {
+            "goal1site.mesh", "goal2site.mesh", "goal3site.mesh", 
+            "goal4site.mesh", "goal5site.mesh", "goal6site.mesh", "goal7site.mesh"
+        };
 
         public const float SmallCityRadius = Game.ObjectScale * 48;
         public const float SmallCityRadiusRing = SmallCityRadius + Game.ObjectScale * 8;
@@ -284,6 +324,13 @@ namespace Code2015.World
             styles[0].SelRing[0] = ModelManager.Instance.CreateInstance(rs, fl);
             styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
             styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            styles[0].MdgBracket = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            for (int i = 0; i < 7; i++)
+            {
+                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
+                styles[0].MdgBracket[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
 
             #endregion
 

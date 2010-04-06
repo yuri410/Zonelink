@@ -44,6 +44,12 @@ namespace Code2015.World
             public MdgResource CurrentPiece;
         }
 
+        struct GoalSite
+        {
+            public bool HasPiece;
+            public MdgType Type;
+        }
+
         City city;
         CityStyle style;
         CityOwnerRing sideRing;
@@ -54,6 +60,7 @@ namespace Code2015.World
 
         FastList<Harvester> harvesters = new FastList<Harvester>();
         FastList<PluginEntry> plugins;
+        GoalSite[] sites = new GoalSite[4];
 
         PluginPositionFlag pluginFlags;
 
