@@ -27,7 +27,7 @@ namespace Code2015.GUI
                 return singleton;
             }
         }
-    
+
         #region IObjectFilter 成员
 
         public bool Check(SceneObject obj)
@@ -62,6 +62,7 @@ namespace Code2015.GUI
         Font font;
 
         GoalIcons icons;
+        GoalPieceMaker pieceMaker;
 
         ScreenPhysicsWorld physWorld;
         Texture background;
@@ -81,11 +82,9 @@ namespace Code2015.GUI
 
         CityObject mouseHoverCity;
 
-        UIStates uistate;
-
         Ray selectRay;
 
-        public Ray SelectionRay 
+        public Ray SelectionRay
         {
             get { return selectRay; }
         }
@@ -140,6 +139,7 @@ namespace Code2015.GUI
             this.linkUI = new LinkUI(game, parent, scene, this);
 
             this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
+            this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
         }
 
         public override void Render(Sprite sprite)
@@ -177,11 +177,6 @@ namespace Code2015.GUI
             }
         }
 
-
-        public void SwitchView(UIStates state)
-        {
-            uistate = state;
-        }
 
         public void Interact(GameTime time)
         {
@@ -259,20 +254,15 @@ namespace Code2015.GUI
         {
             if (parent.IsLoaded)
             {
-                switch (uistate) 
-                {
-                    case UIStates.Ingame:
-                        mousePosition.X = MouseInput.X;
-                        mousePosition.Y = MouseInput.Y;
+                mousePosition.X = MouseInput.X;
+                mousePosition.Y = MouseInput.Y;
 
-                        physWorld.Update(time);
+                physWorld.Update(time);
 
-                        Interact(time);
-                        break;
-                    case UIStates.CityDesign:
-                        break;
-                }
-                
+                pieceMaker.Update(time);
+
+                Interact(time);
+
             }
         }
     }
