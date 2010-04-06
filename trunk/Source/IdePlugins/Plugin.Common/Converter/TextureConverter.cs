@@ -147,12 +147,20 @@ namespace Plugin.Common
 
             Il.ilBindImage(image);
             Il.ilSetInteger(Il.IL_KEEP_DXTC_DATA, Il.IL_TRUE);
-
+            
             Il.ilLoadImage(rl.Path);
-
-            int mipCount = Il.ilGetInteger(Il.IL_NUM_MIPMAPS) + 1;
+            
+            
 
             int ilFormat = Il.ilGetInteger(Il.IL_IMAGE_FORMAT);
+
+            if (ilFormat == Il.IL_RGB)
+            {
+                Il.ilConvertImage(Il.IL_BGRA, Il.IL_UNSIGNED_BYTE);
+            }
+            ilFormat = Il.ilGetInteger(Il.IL_IMAGE_FORMAT);
+
+            int mipCount = Il.ilGetInteger(Il.IL_NUM_MIPMAPS) + 1;
             int dataType = Il.ilGetInteger(Il.IL_IMAGE_TYPE);
             int bytePP = Il.ilGetInteger(Il.IL_IMAGE_BYTES_PER_PIXEL);
 
@@ -268,6 +276,7 @@ namespace Plugin.Common
             {
                 texData.Format = ImagePixelFormat.A8R8G8B8;
             }
+
             texData.Save(dest.GetStream);
 
         }
