@@ -5,6 +5,7 @@ using Apoc3D.Collections;
 using Code2015.BalanceSystem;
 using Code2015.World;
 using Apoc3D.MathLib;
+using Code2015.Logic;
 
 namespace Code2015.AI
 {
@@ -18,6 +19,7 @@ namespace Code2015.AI
             public float LRCount;
             public float FoodCount;
 
+            public FastList<City> NearbyCity;
         }
 
         
@@ -66,6 +68,21 @@ namespace Code2015.AI
                     }
                 }
 
+                data.NearbyCity = new FastList<City>();
+                for (int j = 0; j < world.CityCount; j++)
+                {
+                    City cc2 = world.GetCity(j);
+                    if (cc != cc2)
+                    {
+                        Vector2 pos = new Vector2(cc2.Latitude, cc2.Longitude);
+                        float dist = Vector2.Distance(pos, myPos);
+
+                        if (dist < PlayerArea.CaptureDistanceThreshold)
+                        {
+                            data.NearbyCity.Add(cc2);
+                        }
+                    }
+                }
                 cityDataTable.Add(cc, data);
             }
         }
