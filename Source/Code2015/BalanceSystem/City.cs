@@ -46,6 +46,14 @@ namespace Code2015.BalanceSystem
     public delegate void NearbyCityRemovedHandler(City city,City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
 
+    public struct PieceCategoryProbability
+    {
+        public float Health;
+        public float Environment;
+        public float Education;
+        public float Hunger;
+    }
+
     public class City : SimulationObject, IConfigurable, IUpdatable
     {
         [SLGValue()]
@@ -58,7 +66,10 @@ namespace Code2015.BalanceSystem
         [SLGValue()]
         const float FoodLowThreshold = 0.15f;
 
-
+        [SLGValue ()]
+        const float ProbabilityDecr = 0.75f;
+        [SLGValue ]
+        const float MinProbability = 0.1f;
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
@@ -368,6 +379,61 @@ namespace Code2015.BalanceSystem
         public event NearbyCityAddedHandler NearbyCityAdded;
         public event NearbyCityRemovedHandler NearbyCityRemoved;
         public event CityOwnerChanged CityOwnerChanged;
+
+
+        public PieceCategoryProbability GetProbability()
+        {
+            PieceCategoryProbability r;
+            r.Education = 1;
+            r.Environment = 1;
+            r.Health = 1;
+            r.Hunger = 1;
+
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                switch (plugins[i].TypeId)
+                {
+                    case CityPluginTypeId.BiofuelFactory:
+                        r.Hunger -= ProbabilityDecr;
+                        break;
+                    case CityPluginTypeId.OilRefinary:
+                        r.Environment -= ProbabilityDecr;
+                        break;
+                    case CityPluginTypeId.WoodFactory:
+                        
+                        break;
+                    case CityPluginTypeId.Hospital:
+                        r.Health -= ProbabilityDecr;
+                        break;
+                    case CityPluginTypeId.EducationOrg:
+                        r.Education -= ProbabilityDecr;
+                        break;
+                }
+            }
+            
+            {
+                if (r.Education < MinProbability)
+                    r.Education = MinProbability;
+                if (r.Hunger < MinProbability)
+                    r.Hunger = MinProbability;
+                if (r.Environment < MinProbability)
+                    r.Environment = MinProbability;
+                if (r.Health < MinProbability)
+                    r.Health = MinProbability;
+                float len = r.Environment + r.Education + r.Hunger + r.Health;
+                if (len > float.Epsilon)
+                {
+                    len = 1.0f / len;
+                    r.Education *= len;
+                    r.Hunger *= len;
+                    r.Environment *= len;
+                    r.Health *= len;
+                }
+
+            }
+
+            return r;
+        }
 
         public void Damage(float pop, float dev)
         {

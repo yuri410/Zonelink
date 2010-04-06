@@ -164,6 +164,7 @@
     <Compile Include="GUI\ScoreScreen.cs" />
     <Compile Include="GUI\SelectScreen.cs" />
     <Compile Include="Logic\Disaster.cs" />
+    <Compile Include="Logic\GoalPieceMaker.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />

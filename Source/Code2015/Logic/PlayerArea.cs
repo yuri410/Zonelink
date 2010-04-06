@@ -50,6 +50,8 @@ namespace Code2015.Logic
             get { return rootCity; }
         }
 
+
+
         /// <summary>
         ///  获取此玩家所有的城市中离目标城市最近的一个
         /// </summary>
