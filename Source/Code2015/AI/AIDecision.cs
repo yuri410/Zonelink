@@ -48,6 +48,8 @@ namespace Code2015.AI
             // 选择一个城市。根据附近情况1对1建立工厂附加物。
             // 其余随机填充
 
+            if (area.CityCount == 0)
+                return;
 
             if (decisionTime < 0)
             {
