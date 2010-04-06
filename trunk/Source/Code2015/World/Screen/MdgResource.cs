@@ -105,6 +105,8 @@ namespace Code2015.World.Screen
         ScreenPhysicsWorld physicsWorld;
         MdgResourceManager manager;
 
+        float growup;
+
         public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int bitMask, Vector2 pos, float ori)
         {
             this.manager = manager;
@@ -120,6 +122,11 @@ namespace Code2015.World.Screen
             this.body.AngularDamp = MdgPhysicsParams.PieceAngularDamp;
             this.body.LinearDamp = MdgPhysicsParams.PieceLinearDamp;
             this.body.Tag = this;
+
+            if (bitMask == 1 || bitMask == 2 || bitMask == 4)            
+                growup = 0;            
+            else
+                growup = 1;
 
             world.Add(body);
 
@@ -188,18 +195,21 @@ namespace Code2015.World.Screen
 
         public override void Render(Sprite sprite)
         {
+            growup += 0.01f;
+            if (growup > 1) growup = 1;
+
             if (image != null)
             {
                 const float scaler = 0.21333f;
 
-                Vector2 rectr = new Vector2(image.Width * scaler, image.Height * scaler);
+                Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
                 body.Radius = rectr.Length() * 0.5f;
 
                 Vector2 pos = body.Position;
                 float r = body.Radius;
 
                 sprite.SetTransform(
-                    Matrix.Scaling(scaler, scaler, 1) *
+                    Matrix.Scaling(scaler * growup, scaler * growup, 1) *
                     Matrix.Translation(-rectr.X * 0.5f, -rectr.Y * 0.5f, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
                 if (object.ReferenceEquals(manager.GetPrimaryPiece(type, bitMask), this))
