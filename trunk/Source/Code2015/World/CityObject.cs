@@ -31,8 +31,6 @@ namespace Code2015.World
 
     public class CityObject : SceneObject, ISelectableObject
     {
-        const int SiteCount = 4;
-
         struct PluginEntry
         {
             public CityPlugin plugin;
@@ -46,15 +44,11 @@ namespace Code2015.World
             public MdgResource CurrentPiece;
         }
 
-        struct GoalSite
-        {
-            public bool HasPiece;
-            public MdgType Type;
-        }
-
         City city;
         CityStyle style;
         CityOwnerRing sideRing;
+
+        CityGoalSite goalSite;
 
         RenderSystem renderSys;
         SceneManagerBase sceMgr;
@@ -63,11 +57,7 @@ namespace Code2015.World
         FastList<Harvester> harvesters = new FastList<Harvester>();
         FastList<PluginEntry> plugins;
 
-        bool isRotating;
-        float rotation;
-        float actuallRotation;
-        GoalSite[] sites = new GoalSite[SiteCount];
-
+        
         PluginPositionFlag pluginFlags;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
@@ -76,6 +66,11 @@ namespace Code2015.World
 
         bool isSelected;
 
+        #region 属性
+        public CityGoalSite GoalSite
+        {
+            get { return goalSite; }
+        }
         public bool IsLinked
         {
             get;
@@ -162,6 +157,8 @@ namespace Code2015.World
         {
             get { return plugins.Count; }
         }
+        #endregion
+
         public Matrix GetPluginTransform(int i)
         {
             return plugins[i].transform;
@@ -176,75 +173,7 @@ namespace Code2015.World
             return plugins[i].plugin;
         }
 
-        public unsafe void Rotate(int span)
-        {
-            GoalSite* newSites = stackalloc GoalSite[SiteCount];
-
-            for (int i = 0; i < SiteCount; i++)
-            {
-                int n = (i + span) % SiteCount;
-
-                newSites[n] = sites[i];
-            }
-
-            for (int i = 0; i < SiteCount; i++)
-            {
-                sites[i] = newSites[i];
-            }
-        }
-        public void BeginRotate()
-        {
-            isRotating = true;
-        }
-
-
-        public void Rotating(float amount)
-        {
-            const float GlueThreshold = 0.1f;
-
-            rotation = amount;
-
-            if (Size == UrbanSize.Large)
-            {
-                float s = Math.Sign(rotation);
-                float rem = Math.Abs(rotation) % MathEx.PiOver4;
-
-                if (rem < GlueThreshold)
-                {
-                    actuallRotation = rotation - s * rem;
-                }
-            }
-            else
-            {
-                float s = Math.Sign(rotation);
-                float rem = Math.Abs(rotation) % MathEx.PiOver2;
-
-                if (rem < GlueThreshold)
-                {
-                    actuallRotation = rotation - s * rem;
-                }
-            }
-        }
-        public void EndRotate()
-        {
-            isRotating = false;
-
-            if (Size == UrbanSize.Large)
-            {
-                const float Pi8 = MathEx.PiOver4 * 0.5f;
-
-                int sp = (int)(actuallRotation / Pi8);
-                Rotate(sp);
-            }
-            else
-            {
-                const float Pi4 = MathEx.PiOver4;
-
-                int sp = (int)(actuallRotation / Pi4);
-                Rotate(sp);
-            }
-        }
-
+        
         public bool MatchPiece(int i, MdgType type)
         {
             if (plugins[i].CurrentPiece != null)
@@ -328,6 +257,7 @@ namespace Code2015.World
                 City_OwnerChanged(city.Owner);
 
             sideRing = new CityOwnerRing(this, style);
+            goalSite = new CityGoalSite(this, style);
         }
 
         protected override void Dispose(bool disposing)

@@ -429,6 +429,7 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
     <Compile Include="ParticleSystem\ParticleModifier.cs" />
     <Compile Include="ParticleSystem\TransferEffect.cs" />
+    <Compile Include="World\CityGoalSite.cs" />
     <Compile Include="World\CityStyle.cs" />
     <Compile Include="World\FarmObject.cs" />
     <Compile Include="World\GameScene.cs" />
