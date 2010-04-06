@@ -79,9 +79,10 @@ namespace Code2015.GUI
 
                 if (len < MdgPhysicsParams.BallRadius)
                 {
-                    if (city.MatchPiece(i, res.Type))
+                    CityGoalSite site = city.GoalSite;
+                    if (site.MatchPiece(i, res.Type))
                     {
-                        city.SetPiece(i, res);
+                        site.SetPiece(i, res.Type);
                         return true;
                     }
                 }

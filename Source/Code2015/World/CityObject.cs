@@ -41,7 +41,7 @@ namespace Code2015.World
             /// </summary>
             public Matrix transform;
 
-            public MdgResource CurrentPiece;
+            //public MdgResource CurrentPiece;
         }
 
         City city;
@@ -174,44 +174,6 @@ namespace Code2015.World
         }
 
         
-        public bool MatchPiece(int i, MdgType type)
-        {
-            if (plugins[i].CurrentPiece != null)
-                return false;
-
-            switch (plugins[i].plugin.TypeId)
-            {
-                case CityPluginTypeId.EducationOrg:
-                    switch (type)
-                    {
-                        case MdgType.GenderEquality:
-                        case MdgType.Education:
-                            return true;
-                    }
-                    return false;
-                case CityPluginTypeId.Hospital:
-                    switch (type)
-                    {
-                        case MdgType.ChildMortality:
-                        case MdgType.Diseases:
-                            return true;
-                    }
-                    return false;
-                case CityPluginTypeId.BiofuelFactory:
-                case CityPluginTypeId.OilRefinary:
-                case CityPluginTypeId.WoodFactory:
-                    return type == MdgType.Environment;
-            }
-            return false;
-        }
-        public void SetPiece(int i, MdgResource res)
-        {
-            plugins.Elements[i].CurrentPiece = res;
-        }
-        public MdgResource GetPiece(int i)
-        {
-            return plugins.Elements[i].CurrentPiece;
-        }
 
         bool ISelectableObject.IsSelected
         {
@@ -464,8 +426,12 @@ namespace Code2015.World
             for (int i = 0; i < plugins.Count; i++)
             {
                 plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
-                plugins.Elements[i].CurrentPiece = null;
+                //plugins.Elements[i].CurrentPiece = null;
             }
+        }
+        public bool MatchSite()
+        {
+            throw new NotImplementedException();
         }
         public override void Update(GameTime dt)
         {
@@ -473,15 +439,15 @@ namespace Code2015.World
 
             sideRing.Update(dt);
 
-            bool passed = false;
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                passed |= plugins[i].CurrentPiece == null;
-            }
-            if (!passed)
-            {
-                Upgrade();
-            }
+            //bool passed = false;
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    passed |= plugins[i].CurrentPiece == null;
+            //}
+            //if (!passed)
+            //{
+            //    Upgrade();
+            //}
         }
 
         //public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
