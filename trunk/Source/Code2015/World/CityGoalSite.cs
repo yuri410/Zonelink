@@ -10,7 +10,7 @@ using Code2015.World.Screen;
 
 namespace Code2015.World
 {
-    class CityGoalSite : IRenderable
+    public class CityGoalSite : IRenderable
     {
         const int SiteCount = 4;
 
@@ -18,6 +18,8 @@ namespace Code2015.World
         {
             public bool HasPiece;
             public MdgType Type;
+
+            public Vector3 Position;
         }
 
         CityObject parent;
@@ -35,7 +37,10 @@ namespace Code2015.World
             this.parent = obj;
             this.style = style;
 
-            
+            for (int i = 0; i < SiteCount; i++)
+            {
+                sites[i].Position = style.GetBracketTranslation(i);
+            }
         }
 
         #region IRenderable 成员
@@ -48,8 +53,10 @@ namespace Code2015.World
                 if (sites[i].HasPiece)
                 {
                     RenderOperation[] ops = style.MdgBracket[(int)sites[i].Type].GetRenderOperation();
-
-                    opBuffer.Add(ops);
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
             }
             return opBuffer.Elements;
@@ -133,5 +140,48 @@ namespace Code2015.World
             }
         }
 
+
+
+        public bool MatchPiece(int i, MdgType type)
+        {
+            if (sites[i].HasPiece)
+                return false;
+
+            //switch (sites[i].plugin.TypeId)
+            //{
+            //    case CityPluginTypeId.EducationOrg:
+            //        switch (type)
+            //        {
+            //            case MdgType.GenderEquality:
+            //            case MdgType.Education:
+            //                return true;
+            //        }
+            //        return false;
+            //    case CityPluginTypeId.Hospital:
+            //        switch (type)
+            //        {
+            //            case MdgType.ChildMortality:
+            //            case MdgType.Diseases:
+            //                return true;
+            //        }
+            //        return false;
+            //    case CityPluginTypeId.BiofuelFactory:
+            //    case CityPluginTypeId.OilRefinary:
+            //    case CityPluginTypeId.WoodFactory:
+            //        return type == MdgType.Environment;
+            //}
+            return true;
+        }
+        public void SetPiece(int i, MdgType res)
+        {
+            sites[i].HasPiece =true;
+            sites[i].Type = res;
+        }
+        public MdgType? GetPiece(int i)
+        {
+            if (!sites[i].HasPiece)
+                return null;
+            return sites[i].Type;
+        }
     }
 }
