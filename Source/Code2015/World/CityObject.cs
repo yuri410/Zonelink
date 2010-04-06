@@ -31,6 +31,8 @@ namespace Code2015.World
 
     public class CityObject : SceneObject, ISelectableObject
     {
+        const int SiteCount = 4;
+
         struct PluginEntry
         {
             public CityPlugin plugin;
@@ -64,7 +66,7 @@ namespace Code2015.World
         bool isRotating;
         float rotation;
         float actuallRotation;
-        GoalSite[] sites = new GoalSite[4];
+        GoalSite[] sites = new GoalSite[SiteCount];
 
         PluginPositionFlag pluginFlags;
 
@@ -174,6 +176,22 @@ namespace Code2015.World
             return plugins[i].plugin;
         }
 
+        public unsafe void Rotate(int span)
+        {
+            GoalSite* newSites = stackalloc GoalSite[SiteCount];
+
+            for (int i = 0; i < SiteCount; i++)
+            {
+                int n = (i + span) % SiteCount;
+
+                newSites[n] = sites[i];
+            }
+
+            for (int i = 0; i < SiteCount; i++)
+            {
+                sites[i] = newSites[i];
+            }
+        }
         public void BeginRotate()
         {
             isRotating = true;
@@ -188,65 +206,22 @@ namespace Code2015.World
 
             if (Size == UrbanSize.Large)
             {
-                actuallRotation = rotation;
-                if (Math.Abs(rotation) < GlueThreshold)
+                float s = Math.Sign(rotation);
+                float rem = Math.Abs(rotation) % MathEx.PiOver4;
+
+                if (rem < GlueThreshold)
                 {
-                    actuallRotation = 0;
-                }
-                else if (Math.Abs(rotation - MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = MathEx.PiOver4;
-                }
-                else if (Math.Abs(rotation - 2 * MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = 2 * MathEx.PiOver4;
-                }
-                else if (Math.Abs(rotation - 3 * MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = 3 * MathEx.PiOver4;
-                }
-                else if (Math.Abs(rotation - 4 * MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = 4 * MathEx.PiOver4;
-                }
-                else if (Math.Abs(rotation - 5 * MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = 5 * MathEx.PiOver4;
-                }
-                else if (Math.Abs(rotation - 6 * MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = 6 * MathEx.PiOver4;
-                }
-                else if (Math.Abs(rotation - 7 * MathEx.PiOver4) < GlueThreshold)
-                {
-                    actuallRotation = 7 * MathEx.PiOver4;
-                }
-                else
-                {
-                    actuallRotation = rotation;
+                    actuallRotation = rotation - s * rem;
                 }
             }
             else
             {
-                if (Math.Abs(rotation) < GlueThreshold)
+                float s = Math.Sign(rotation);
+                float rem = Math.Abs(rotation) % MathEx.PiOver2;
+
+                if (rem < GlueThreshold)
                 {
-                    actuallRotation = 0;
-                }
-                else if (Math.Abs(rotation - MathEx.PiOver2) < GlueThreshold)
-                {
-                    actuallRotation = MathEx.PiOver2;
-                }
-                else if (Math.Abs(rotation - MathEx.PIf) < GlueThreshold)
-                {
-                    actuallRotation = MathEx.PIf;
-                }
-                else if (Math.Abs(rotation - 3 * MathEx.PiOver2) < GlueThreshold)
-                {
-                    actuallRotation = 3 * MathEx.PiOver2;
-                }
-                else
-                {
-                    actuallRotation = rotation;
+                    actuallRotation = rotation - s * rem;
                 }
             }
         }
@@ -257,53 +232,16 @@ namespace Code2015.World
             if (Size == UrbanSize.Large)
             {
                 const float Pi8 = MathEx.PiOver4 * 0.5f;
-                if (Math.Abs(actuallRotation) < Pi8)
-                {
 
-                }
-                else if (Math.Abs(actuallRotation - MathEx.PiOver4) < Pi8)
-                {
-
-                }
-                else if (Math.Abs(actuallRotation - 2 * MathEx.PiOver4) < Pi8)
-                {
-
-                }
-                else if (Math.Abs(actuallRotation - 3 * MathEx.PiOver4) < Pi8)
-                {
-
-                }
-                else if (Math.Abs(actuallRotation - 4 * MathEx.PiOver4) < Pi8)
-                {
-
-                }
-                else if (Math.Abs(actuallRotation - 5 * MathEx.PiOver4) < Pi8)
-                {
-
-                }
-                else if (Math.Abs(actuallRotation - 6 * MathEx.PiOver4) < Pi8)
-                {
-
-                }
-                else if (Math.Abs(actuallRotation - 7 * MathEx.PiOver4) < Pi8)
-                {
-
-                }
+                int sp = (int)(actuallRotation / Pi8);
+                Rotate(sp);
             }
             else
             {
-                if (Math.Abs(actuallRotation) < MathEx.PiOver4)
-                {
-                }
-                else if (Math.Abs(actuallRotation - MathEx.PiOver2) < MathEx.PiOver4)
-                {
-                }
-                else if (Math.Abs(actuallRotation - MathEx.PIf) < MathEx.PiOver4)
-                {
-                }
-                else if (Math.Abs(actuallRotation - 3 * MathEx.PiOver2) < MathEx.PiOver4)
-                {
-                }
+                const float Pi4 = MathEx.PiOver4;
+
+                int sp = (int)(actuallRotation / Pi4);
+                Rotate(sp);
             }
         }
 
