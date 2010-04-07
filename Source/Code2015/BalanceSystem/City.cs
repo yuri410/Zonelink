@@ -791,7 +791,8 @@ namespace Code2015.BalanceSystem
 
 
                 hrChange = plugins[i].HRPSpeed * hours;
-                float actHrChange = localHr.Commit(hrChange);
+                if (hrChange > float.Epsilon)
+                    localHr.Commit(hrChange);
 
                 //if (actHrChange < hrChange) // 资源过剩，转为碳
                 //{
@@ -802,7 +803,9 @@ namespace Code2015.BalanceSystem
 
 
                 lrChange = plugins[i].LRPSpeed * hours;
-                float actLrChange = localLr.Commit(lrChange);
+
+                if (lrChange > float.Epsilon)
+                    localLr.Commit(lrChange);
 
                 //if (actLrChange < lrChange)// 资源过剩，转为碳
                 //{
