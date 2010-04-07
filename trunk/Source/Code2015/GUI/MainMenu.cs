@@ -54,8 +54,9 @@ namespace Code2015.GUI
         RoundButton creditButton;
         RoundButton helpButton;
 
-        public MainMenu(Code2015 game, Menu parent, RenderSystem rs)
+        public MainMenu(Code2015 game, Menu parent)
         {
+            RenderSystem rs = game.RenderSystem;
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(rs, fl, "default");
             this.game = game;

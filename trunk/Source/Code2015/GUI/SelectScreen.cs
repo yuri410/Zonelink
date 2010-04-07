@@ -18,6 +18,7 @@ namespace Code2015.GUI
         static readonly ColorValue[] Colors = new ColorValue[] { ColorValue.Red, ColorValue.Yellow, ColorValue.Green, ColorValue.Blue };
 
         Code2015 game;
+        Menu parent;
         RenderSystem renderSys;
 
         Texture backGround;
@@ -41,10 +42,11 @@ namespace Code2015.GUI
             get { return selectedColor; }
         }
 
-        public SelectScreen(Code2015 game)
+        public SelectScreen(Code2015 game, Menu parent)
         {
             this.renderSys = game.RenderSystem;
             this.game = game;
+            this.parent = parent;
 
             FileLocation fl = FileSystem.Instance.Locate("selectBg.tex", GameFileLocs.GUI);
             backGround = UITextureManager.Instance.CreateInstance(fl);
@@ -176,6 +178,7 @@ namespace Code2015.GUI
                 selectedTable[i] = true;
 
                 selectedTable = new bool[Colors.Length];
+                parent.CurrentScreen = parent.GetMainMenu();
                 game.StartNewGame(gcp);
             }
         }

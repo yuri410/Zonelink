@@ -282,11 +282,14 @@ namespace Code2015.GUI
             }
         }
 
-
+        public bool IsShowingScore
+        {
+            get { return scoreScreen != null; }
+        }
 
         public void ShowScore(ScoreEntry[] entries) 
         {
-            scoreScreen = new ScoreScreen(renderSys);
+            scoreScreen = new ScoreScreen(game);
             for (int i = 0; i < entries.Length; i++)
             {
                 scoreScreen.Add(entries[i]);
