@@ -61,6 +61,9 @@ namespace Code2015.GUI
         GameState logic;
         Font font;
 
+        ScoreScreen scoreScreen;
+
+
         GoalIcons icons;
         GoalPieceMaker pieceMaker;
 
@@ -263,6 +266,17 @@ namespace Code2015.GUI
 
                 Interact(time);
 
+            }
+        }
+
+
+
+        public void ShowScore(ScoreEntry[] entries) 
+        {
+            scoreScreen = new ScoreScreen(renderSys);
+            for (int i = 0; i < entries.Length; i++)
+            {
+                scoreScreen.Add(entries[i]);
             }
         }
     }

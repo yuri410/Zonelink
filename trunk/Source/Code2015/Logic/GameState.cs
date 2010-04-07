@@ -11,6 +11,15 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
+    public struct ScoreEntry
+    {
+        public Player Player;
+
+        public float Total;
+        public float Development;
+        public float CO2;
+    }
+
     /// <summary>
     ///  随机构建场景
     /// </summary>
@@ -44,7 +53,7 @@ namespace Code2015.World
 
             FastList<NaturalResource> resources = new FastList<NaturalResource>(MaxCities);
 
-            foreach (GameConfigurationSection sect in resVals) 
+            foreach (GameConfigurationSection sect in resVals)
             {
                 string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
                 //switch (type) 
@@ -57,7 +66,7 @@ namespace Code2015.World
                     resources.Add(forest);
 
                 }
-                else if (type == "petro") 
+                else if (type == "petro")
                 {
                     OilField fld = new OilField(SLGWorld);
                     fld.Parse(sect);
@@ -134,6 +143,11 @@ namespace Code2015.World
             private set;
         }
 
+        public bool IsTimeUp
+        {
+            get { return remainingTime < 0; }
+        }
+
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
             this.slgSystem = srcState.SLGWorld;
@@ -174,7 +188,7 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
-            for (int i = 0; i < localPlayers.Length; i++)             
+            for (int i = 0; i < localPlayers.Length; i++)
             {
                 localPlayers[i].Update(time);
             }
@@ -193,6 +207,19 @@ namespace Code2015.World
             slgSystem.Update(newTime);
         }
 
+        public ScoreEntry[] GetScores()
+        {
+            Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();
+
+            ScoreEntry[] result = new ScoreEntry[localPlayers.Length];
+            for (int i = 0; i < result.Length; i++)
+            {
+                result[i].Player = localPlayers[i];
+
+                co2s.TryGetValue(localPlayers[i], out result[i].CO2);
+            }
+            return result;
+        }
 
         public SimulationWorld SLGWorld
         {
