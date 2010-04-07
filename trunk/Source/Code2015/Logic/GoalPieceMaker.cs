@@ -129,7 +129,7 @@ namespace Code2015.Logic
 
                 MdgPiece piece = new MdgPiece(goalIcos.Manager, goalIcos.PhysicsWorld, pieceType, bitmask, new Vector2(ppos.X, ppos.Y), 0);
                 
-                piece.Velocity = velocity * 150;
+                piece.Velocity = velocity * 250;
                 goalIcos.Manager.Add(piece);
 
                 timeCounter = 0;
