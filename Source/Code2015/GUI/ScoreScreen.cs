@@ -26,7 +26,7 @@ namespace Code2015.GUI
         {
             this.renderSys = rs;
 
-            FileLocation fl = FileSystem.Instance.Locate("ss_background.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("ss_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
             font = FontManager.Instance.GetFont("default");
