@@ -20,6 +20,7 @@ namespace Code2015.World
             public MdgType Type;
 
             public Vector3 Position;
+            public Matrix Transform;
         }
 
         CityObject parent;
@@ -40,6 +41,8 @@ namespace Code2015.World
             for (int i = 0; i < SiteCount; i++)
             {
                 sites[i].Position = style.GetBracketTranslation(i);
+
+                sites[i].Transform = Matrix.Translation(sites[i].Position);
             }
         }
 
@@ -55,6 +58,10 @@ namespace Code2015.World
                     RenderOperation[] ops = style.MdgBracket[(int)sites[i].Type].GetRenderOperation();
                     if (ops != null)
                     {
+                        for (int j = 0; j < ops.Length; j++)
+                        {
+                            ops[j].Transformation *= sites[i].Transform;
+                        }
                         opBuffer.Add(ops);
                     }
                 }

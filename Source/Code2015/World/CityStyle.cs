@@ -63,7 +63,7 @@ namespace Code2015.World
 
         public float[] PluginTranslate;
 
-        public const float BracketTranslate = 78;
+        public const float BracketTranslate = 88;
 
         public CityStyle(ref CityStyleData data)
         {
@@ -114,22 +114,22 @@ namespace Code2015.World
                 case 0:
                     return new Vector3(
                         BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f, 
-                        0, 
+                        50, 
                         BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
                 case 1:
                     return new Vector3(
                         -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        0,
+                        50,
                         BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
                 case 2:
                     return new Vector3(
                         -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        0,
+                        50,
                         -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
                 case 3:
                     return new Vector3(
                         BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        0,
+                        50,
                         -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
             }
             return Vector3.Zero;
