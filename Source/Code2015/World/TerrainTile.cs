@@ -45,7 +45,7 @@ namespace Code2015.World
 
             if (lat > 5 && lat < 31)
             {
-                terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 0);
+                terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 1);
             }
             else
             {
