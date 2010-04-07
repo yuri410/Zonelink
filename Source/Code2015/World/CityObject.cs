@@ -431,7 +431,14 @@ namespace Code2015.World
         }
         public bool MatchSite()
         {
-            throw new NotImplementedException();
+            bool result = true;
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                result &= goalSite.Match(i, plugins[i].plugin.TypeId);
+                if (!result)
+                    break;
+            }
+            return result;
         }
         public override void Update(GameTime dt)
         {
@@ -439,6 +446,11 @@ namespace Code2015.World
 
             sideRing.Update(dt);
 
+            if (MatchSite())
+            {
+                Upgrade();
+                goalSite.Clear();
+            }
             //bool passed = false;
             //for (int i = 0; i < plugins.Count; i++)
             //{

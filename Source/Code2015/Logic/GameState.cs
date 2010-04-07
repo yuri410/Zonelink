@@ -164,8 +164,6 @@ namespace Code2015.World
                         finished = true;
                     }
                 }
-                // 测试
-                //slgSystem.GetCity(0).ChangeOwner(localPlayer[i]);
             }
 
             newTime = new GameTime();
