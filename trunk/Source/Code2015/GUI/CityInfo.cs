@@ -148,7 +148,7 @@ namespace Code2015.GUI
             upgrade.Y = (int)plpos.Y - 50;
 
             upgrade.ModulateColor = parent.DistanceMod;
-            upgrade.Value = cplug.IsBuilding ? cplug.BuildProgress : cplug.GetLevelProgress();
+            upgrade.Value = cplug.IsBuilding ? cplug.BuildProgress : cplug.UpgradePoint;
             upgrade.Render(sprite);
 
         }

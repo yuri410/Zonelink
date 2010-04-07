@@ -73,6 +73,55 @@ namespace Code2015.BalanceSystem
             get;
             private  set;
         }
+
+        float points;
+        public float UpgradePoint
+        {
+            get
+            {
+                switch (TypeId)
+                {
+                    case CityPluginTypeId.Hospital:
+                    case CityPluginTypeId.EducationOrg:
+                        return points;
+                    case CityPluginTypeId.OilRefinary:
+
+                        return HRPConvRate;
+                    case CityPluginTypeId.WoodFactory:
+                        return LRPConvRate;
+                    case CityPluginTypeId.BiofuelFactory:
+                        return FoodConvRate;
+                }
+                return 0;
+            }
+            protected set
+            {
+                if (value > 1)
+                    Level++;
+
+                value = MathEx.Saturate(value);
+
+                switch (TypeId)
+                {
+                    case CityPluginTypeId.Hospital:
+                    case CityPluginTypeId.EducationOrg:
+                        points = value;
+                        break;
+                    case CityPluginTypeId.OilRefinary:
+
+                        HRPConvRate = value;
+                        break;
+                    case CityPluginTypeId.WoodFactory:
+                        LRPConvRate = value;
+                        break;
+                    case CityPluginTypeId.BiofuelFactory:
+                        FoodConvRate = value;
+                        break;
+                }
+            }
+        }
+
+
         public bool IsBuilding 
         {
             get { return BuildProgress < 1; }
@@ -83,6 +132,13 @@ namespace Code2015.BalanceSystem
             get;
             protected set;
         }
+
+        public int Level
+        {
+            get;
+            protected set;
+        }
+
         /// <summary>
         ///  获取在当前状况下，高能资源消耗的速度
         /// </summary>
@@ -128,34 +184,21 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
-        public float GetLevelProgress()
-        {
-            switch (TypeId)
-            {
-                case CityPluginTypeId.BiofuelFactory:
-                    return FoodConvRate;
-                case CityPluginTypeId.OilRefinary:
-                    return HRPConvRate;
-                case CityPluginTypeId.WoodFactory:
-                    return LRPConvRate;
-                case CityPluginTypeId.EducationOrg:
-                case CityPluginTypeId.Hospital:
-                    return 0;
-            }
-            return 0;
-        }
-
         #endregion
 
         public void Upgrade(float amount)
         {
-            if (HRPConvRate > 1 - float.Epsilon && TypeId == CityPluginTypeId.OilRefinary)
+            HRPConvRate += amount;
+            LRPConvRate += amount;
+            FoodConvRate += amount;
+
+            if (TypeId == CityPluginTypeId.OilRefinary && Level > 0)
             {
                 CityPlugin plugin = factory.MakeBioEnergeFactory();
                 HRPConvRate = plugin.HRPConvRate;
                 LRPConvRate = plugin.LRPConvRate;
                 FoodConvRate = plugin.FoodConvRate;
-                
+
                 Name = plugin.Name;
                 TypeId = plugin.TypeId;
 
@@ -164,16 +207,9 @@ namespace Code2015.BalanceSystem
                 HRPSpeed = plugin.HRPSpeed;
                 LRPSpeed = plugin.LRPSpeed;
 
-               
-
                 resource.Clear();
             }
 
-            HRPConvRate = MathEx.Saturate(amount + HRPConvRate);
-            LRPConvRate = MathEx.Saturate(amount + LRPConvRate);
-            FoodConvRate = MathEx.Saturate(amount + FoodConvRate);
-
-            
         }
 
         void FindResources()
@@ -301,7 +337,6 @@ namespace Code2015.BalanceSystem
             if (IsBuilding)
             {
                 BuildProgress += hours / Type.BuildTime;
-                return;
             }
             else
             {
