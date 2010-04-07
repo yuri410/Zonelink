@@ -27,7 +27,10 @@ namespace Code2015.GUI
             get;
             set;
         }
-
+        public MainMenu GetMainMenu()
+        {
+            return mainMenu;
+        }
         public SelectScreen GetSelectScreen()
         {
             return sideSelect;
@@ -36,8 +39,8 @@ namespace Code2015.GUI
         public Menu(Code2015 game, RenderSystem rs)
         {
             this.game = game;
-            this.mainMenu = new MainMenu(game, this, rs);
-            this.sideSelect = new SelectScreen(game);
+            this.mainMenu = new MainMenu(game, this);
+            this.sideSelect = new SelectScreen(game, this);
 
             this.CurrentScreen = mainMenu;
         }

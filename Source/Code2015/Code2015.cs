@@ -125,6 +125,11 @@ namespace Code2015
         {
             currentGame = new Game(this, gcp);
         }
+        public void Back() 
+        {
+            currentGame = null;
+            
+        }
 
         #region unused
         /// <summary>

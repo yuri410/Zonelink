@@ -207,6 +207,11 @@ namespace Code2015.World
             slgSystem.Update(newTime);
         }
 
+        int Comparision(ScoreEntry a, ScoreEntry b)
+        {
+            return -a.Total.CompareTo(b.Total);
+        }
+
         public ScoreEntry[] GetScores()
         {
             Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();
@@ -218,7 +223,11 @@ namespace Code2015.World
                 result[i].Development = localPlayerArea[i].GetTotalDevelopment();
 
                 co2s.TryGetValue(localPlayers[i], out result[i].CO2);
+
+                result[i].Total += result[i].Development - 0.2f * result[i].CO2;
             }
+
+            Array.Sort<ScoreEntry>(result, Comparision);
             return result;
         }
 

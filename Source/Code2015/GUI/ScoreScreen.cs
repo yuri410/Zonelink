@@ -14,6 +14,7 @@ namespace Code2015.GUI
 {
     class ScoreScreen : UIComponent
     {
+        Code2015 parent;
         RenderSystem renderSys;
 
         FastList<ScoreEntry> scores = new FastList<ScoreEntry>();
@@ -22,9 +23,10 @@ namespace Code2015.GUI
 
         Font font;
 
-        public ScoreScreen(RenderSystem rs)
+        public ScoreScreen(Code2015 parent)
         {
-            this.renderSys = rs;
+            this.parent = parent;
+            this.renderSys = parent.RenderSystem;
 
             FileLocation fl = FileSystem.Instance.Locate("ss_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
@@ -62,18 +64,20 @@ namespace Code2015.GUI
             int y = 100;
             for (int i = 0; i < scores.Count; i++, y += 30)
             {
+                ftc = (int)scores.Elements[i].Player.SideColor.PackedValue;
+
                 font.DrawString(sprite, scores.Elements[i].Player.Name, 1, y + 1, FontSize, DrawTextFormat.Center, bgc);
                 font.DrawString(sprite, scores.Elements[i].Player.Name, 0, y, FontSize, DrawTextFormat.Center, ftc);
 
-                string msg = scores.Elements[i].Development.ToString("G");
+                string msg = ((int)Math.Round(scores.Elements[i].Development)).ToString("G");
                 font.DrawString(sprite, msg, 201, y + 1, FontSize, DrawTextFormat.Center, bgc);
                 font.DrawString(sprite, msg, 200, y, FontSize, DrawTextFormat.Center, ftc);
 
-                msg =  (-scores.Elements[i].CO2).ToString("G");
+                msg = ((int)Math.Round(scores.Elements[i].CO2)).ToString("G");
                 font.DrawString(sprite, msg, 401, y + 1, FontSize, DrawTextFormat.Center, bgc);
                 font.DrawString(sprite, msg, 400, y, FontSize, DrawTextFormat.Center, ftc);
 
-                msg = scores.Elements[i].Total.ToString("G");
+                msg = ((int)Math.Round(scores.Elements[i].Total)).ToString("G");
                 font.DrawString(sprite, msg, 601, y + 1, FontSize, DrawTextFormat.Center, bgc);
                 font.DrawString(sprite, msg, 600, y, FontSize, DrawTextFormat.Center, ftc);
             }
@@ -81,7 +85,10 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            
+            if (MouseInput.IsMouseUpLeft)
+            {
+                parent.Back();
+            }
         }
     }
 }
