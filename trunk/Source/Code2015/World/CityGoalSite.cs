@@ -50,6 +50,7 @@ namespace Code2015.World
 
         public RenderOperation[] GetRenderOperation()
         {
+            opBuffer.FastClear();
             opBuffer.TrimClear();
             for (int i = 0; i < SiteCount; i++)
             {
