@@ -467,7 +467,6 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
       <DependentUpon>Settings.settings</DependentUpon>
     </Compile>
-    <Compile Include="Score.cs" />
     <Compile Include="World\Atmosphere.cs" />
     <Compile Include="EngineEx\GameConfigurationSection.cs" />
     <Compile Include="Logic\GameState.cs" />
