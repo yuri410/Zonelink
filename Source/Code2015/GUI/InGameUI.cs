@@ -147,39 +147,45 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            if (!parent.IsLoaded)
+            if (scoreScreen != null)
             {
-                sprite.Draw(background, 0, 0, ColorValue.LightGray);
-
-                font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-
-
-                sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
-
-
-                Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
-                Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
-
-
-                sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
-                int x = srect.Width + 15 - 60;
-                ColorValue c = ColorValue.White;
-                c.A = 189;
-                sprite.Draw(lds_ball, x, 657, c);
-
+                scoreScreen.Render(sprite);
             }
             else
             {
-                font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
+                if (!parent.IsLoaded)
+                {
+                    sprite.Draw(background, 0, 0, ColorValue.LightGray);
 
-                icons.Render(sprite);
-                sprite.SetTransform(Matrix.Identity);
-                ingameui2.Render(sprite);
+                    font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
 
-                sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+
+                    sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
+
+
+                    Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
+                    Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
+
+
+                    sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
+                    int x = srect.Width + 15 - 60;
+                    ColorValue c = ColorValue.White;
+                    c.A = 189;
+                    sprite.Draw(lds_ball, x, 657, c);
+
+                }
+                else
+                {
+                    font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
+
+                    icons.Render(sprite);
+                    sprite.SetTransform(Matrix.Identity);
+                    ingameui2.Render(sprite);
+
+                    sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+                }
             }
         }
-
 
         public void Interact(GameTime time)
         {
@@ -255,17 +261,24 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            if (parent.IsLoaded)
+            if (scoreScreen != null)
             {
-                mousePosition.X = MouseInput.X;
-                mousePosition.Y = MouseInput.Y;
+                scoreScreen.Update(time);
+            }
+            else
+            {
+                if (parent.IsLoaded)
+                {
+                    mousePosition.X = MouseInput.X;
+                    mousePosition.Y = MouseInput.Y;
 
-                physWorld.Update(time);
+                    physWorld.Update(time);
 
-                pieceMaker.Update(time);
+                    pieceMaker.Update(time);
 
-                Interact(time);
+                    Interact(time);
 
+                }
             }
         }
 

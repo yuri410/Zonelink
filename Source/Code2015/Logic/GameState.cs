@@ -119,7 +119,7 @@ namespace Code2015.World
     public class GameState
     {
         [SLGValue]
-        const float TotalTime = 300;
+        const float TotalTime = 30;
         SimulationWorld slgSystem;
 
         float remainingTime;
@@ -215,6 +215,7 @@ namespace Code2015.World
             for (int i = 0; i < result.Length; i++)
             {
                 result[i].Player = localPlayers[i];
+                result[i].Development = localPlayerArea[i].GetTotalDevelopment();
 
                 co2s.TryGetValue(localPlayers[i], out result[i].CO2);
             }
