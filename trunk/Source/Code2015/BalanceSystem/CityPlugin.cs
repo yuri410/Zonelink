@@ -97,7 +97,13 @@ namespace Code2015.BalanceSystem
             protected set
             {
                 if (value > 1)
+                {
                     Level++;
+                    points = 0;
+                    //HRPConvRate *= 0.5f;
+                    //LRPConvRate *= 0.5f;
+                    //FoodConvRate *= 0.5f;
+                }
 
                 value = MathEx.Saturate(value);
 
@@ -188,9 +194,10 @@ namespace Code2015.BalanceSystem
 
         public void Upgrade(float amount)
         {
-            HRPConvRate += amount;
-            LRPConvRate += amount;
-            FoodConvRate += amount;
+            //HRPConvRate += amount;
+            //LRPConvRate += amount;
+            //FoodConvRate += amount;
+            UpgradePoint += amount;
 
             if (TypeId == CityPluginTypeId.OilRefinary && Level > 0)
             {
