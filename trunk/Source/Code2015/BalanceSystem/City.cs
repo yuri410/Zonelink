@@ -793,23 +793,23 @@ namespace Code2015.BalanceSystem
                 hrChange = plugins[i].HRPSpeed * hours;
                 float actHrChange = localHr.Commit(hrChange);
 
-                if (actHrChange < hrChange) // 资源过剩，转为碳
-                {
-                    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
+                //if (actHrChange < hrChange) // 资源过剩，转为碳
+                //{
+                //    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
                     //float actCmt = localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
-                }
+                //}
 
 
 
                 lrChange = plugins[i].LRPSpeed * hours;
                 float actLrChange = localLr.Commit(lrChange);
 
-                if (actLrChange < lrChange)// 资源过剩，转为碳
-                {
-                    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
+                //if (actLrChange < lrChange)// 资源过剩，转为碳
+                //{
+                //    CarbonProduceSpeed += (lrChange - actLrChange) / hours;
 
                     //localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
-                }
+                //}
 
 
                 CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
@@ -866,7 +866,7 @@ namespace Code2015.BalanceSystem
                 }
 
                 // 食物 碳排量计算
-                CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
+                //CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
 
                 // 计算疾病发生情况
                 foodLack = actFood + foodChange;
@@ -945,7 +945,7 @@ namespace Code2015.BalanceSystem
 
             }
 
-            CarbonProduceSpeed += lrDev / hours + hrDev / hours;
+            CarbonProduceSpeed +=  hrDev / hours;
 
             float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias / CityGrade.GetDevelopmentMult(Size));
             Development += devIncr + foodLack;
