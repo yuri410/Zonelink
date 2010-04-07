@@ -57,6 +57,7 @@ namespace Code2015.BalanceSystem
         public CityPluginType Type 
         {
             get { return type; }
+            private set { type = value; }
         }
 
         public CityPluginTypeId TypeId
@@ -208,6 +209,7 @@ namespace Code2015.BalanceSystem
 
                 Name = plugin.Name;
                 TypeId = plugin.TypeId;
+                Type = plugin.Type;
 
                 HRCSpeed = plugin.HRCSpeed;
                 LRCSpeed = plugin.LRCSpeed;
