@@ -298,109 +298,110 @@ namespace Code2015.BalanceSystem
         {
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
-            if (IsBuilding) 
+            if (IsBuilding)
             {
-                BuildProgress += 0.03f;
+                BuildProgress += hours / Type.BuildTime;
                 return;
             }
-
-            switch (type.Behaviour)
+            else
             {
-                case CityPluginBehaviourType.Hospital:
-                case CityPluginBehaviourType.Education:
-                    #region 处理消耗资源
+                switch (type.Behaviour)
+                {
+                    case CityPluginBehaviourType.Hospital:
+                    case CityPluginBehaviourType.Education:
+                        #region 处理消耗资源
 
-                    // 高能资源消耗量
-                   
-                    float hrChange = type.HRCSpeed * hours;
+                        // 高能资源消耗量
 
-
-                    if (hrChange < -float.Epsilon)
-                    {
-                        float actHrChange = parent.LocalHR.Apply(-hrChange);
-
-                        HRCSpeed = actHrChange / hours;
-                    }
-
-                    // 低能资源消耗量
-
-                    float lrChange = type.LRCSpeed * hours;
+                        float hrChange = type.HRCSpeed * hours;
 
 
-                    if (lrChange < -float.Epsilon)
-                    {
-                        float actLrChange = parent.LocalLR.Apply(-lrChange);
-
-                        LRCSpeed = actLrChange / hours;
-                    }
-
-                    CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
-                    #endregion
-
-                    break;
-                case CityPluginBehaviourType.CollectorFactory:
-
-                    // 如果没有采集目标，定下
-                    SelectResource();
-
-                    #region 处理采集自然资源
-
-                    float food = type.FoodCostSpeed * hours;
-                    float hpResource = type.HRCSpeed * hours;
-                    float lpResource = type.LRCSpeed * hours;
-
-                    CarbonProduceSpeed = 0;
-                    if (CurrentResource != null)
-                    {
-                        if (hpResource > float.Epsilon ||
-                            lpResource > float.Epsilon)
+                        if (hrChange < -float.Epsilon)
                         {
+                            float actHrChange = parent.LocalHR.Apply(-hrChange);
 
-                            NaturalResource res = CurrentResource;
-
-                            if (hpResource > 0)
-                            {
-                                if (res.Type == NaturalResourceType.Petro)
-                                {
-                                    //采集资源
-
-                                    float act = res.Exploit(hpResource);
-                                    float speed = act / hours;
-
-                                    HRPSpeed = speed * HRPConvRate;
-                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
-                                    hpResource -= act;
-                                }
-                            }
-                            if (lpResource > 0)
-                            {
-                                if (res.Type == NaturalResourceType.Wood)
-                                {
-                                    float act = res.Exploit(lpResource);
-                                    float speed = act / hours;
-
-                                    LRPSpeed = speed * LRPConvRate;
-                                    CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
-                                    lpResource -= act;
-                                }
-                            }
-
+                            HRCSpeed = actHrChange / hours;
                         }
-                    }
 
-                    if (food > float.Epsilon)
-                    {
-                        float act = parent.LocalFood.Apply(food);
+                        // 低能资源消耗量
 
-                        float speed = act / hours;
+                        float lrChange = type.LRCSpeed * hours;
 
-                        HRPSpeed = speed * FoodConvRate;
-                        CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
-                    }
-                    #endregion
-                    break;
+
+                        if (lrChange < -float.Epsilon)
+                        {
+                            float actLrChange = parent.LocalLR.Apply(-lrChange);
+
+                            LRCSpeed = actLrChange / hours;
+                        }
+
+                        CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
+                        #endregion
+
+                        break;
+                    case CityPluginBehaviourType.CollectorFactory:
+
+                        // 如果没有采集目标，定下
+                        SelectResource();
+
+                        #region 处理采集自然资源
+
+                        float food = type.FoodCostSpeed * hours;
+                        float hpResource = type.HRCSpeed * hours;
+                        float lpResource = type.LRCSpeed * hours;
+
+                        CarbonProduceSpeed = 0;
+                        if (CurrentResource != null)
+                        {
+                            if (hpResource > float.Epsilon ||
+                                lpResource > float.Epsilon)
+                            {
+
+                                NaturalResource res = CurrentResource;
+
+                                if (hpResource > 0)
+                                {
+                                    if (res.Type == NaturalResourceType.Petro)
+                                    {
+                                        //采集资源
+
+                                        float act = res.Exploit(hpResource);
+                                        float speed = act / hours;
+
+                                        HRPSpeed = speed * HRPConvRate;
+                                        CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
+                                        hpResource -= act;
+                                    }
+                                }
+                                if (lpResource > 0)
+                                {
+                                    if (res.Type == NaturalResourceType.Wood)
+                                    {
+                                        float act = res.Exploit(lpResource);
+                                        float speed = act / hours;
+
+                                        LRPSpeed = speed * LRPConvRate;
+                                        CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
+                                        lpResource -= act;
+                                    }
+                                }
+
+                            }
+                        }
+
+                        if (food > float.Epsilon)
+                        {
+                            float act = parent.LocalFood.Apply(food);
+
+                            float speed = act / hours;
+
+                            HRPSpeed = speed * FoodConvRate;
+                            CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
+                        }
+                        #endregion
+                        break;
+                }
             }
-
         }
 
         #endregion

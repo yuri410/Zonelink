@@ -92,6 +92,12 @@ namespace Code2015.BalanceSystem
             protected set;
         }
 
+        public float BuildTime
+        {
+            get;
+            protected set;
+        }
+
 
         //public float GetUpgradeCost(int level)
         //{
@@ -157,6 +163,8 @@ namespace Code2015.BalanceSystem
             Behaviour = (CityPluginBehaviourType)
                 Enum.Parse(typeof(CityPluginBehaviourType), 
                 sect.GetString("Behaviour", CityPluginBehaviourType.None.ToString()), true);
+
+            BuildTime = sect.GetSingle("BuildTime", 5);
         }
 
         #endregion
