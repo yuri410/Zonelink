@@ -7,6 +7,7 @@ struct VSInput
 struct VSOutput
 {
     float4 Position : POSITION0;
+    float2 Depth : TEXCOORD0;
 };
 
 VSOutput main(VSInput ip)
@@ -14,6 +15,7 @@ VSOutput main(VSInput ip)
     VSOutput o;
 
     o.Position = mul(ip.Position, mvp);
-
+	o.Depth = o.Position.zw;
+	
     return o;
 }
