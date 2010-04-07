@@ -77,6 +77,13 @@ namespace Code2015.World
         #endregion
 
 
+        public void Clear()
+        {
+            for (int i = 0; i < SiteCount; i++)
+            {
+                sites[i].HasPiece = false;
+            }
+        }
 
         public unsafe void Rotate(int span)
         {
@@ -147,8 +154,46 @@ namespace Code2015.World
             }
         }
 
+        public bool HasPiece(int i)
+        {
+            return sites[i].HasPiece;
+        }
+        public MdgType GetPieceType(int i)
+        {
+            return sites[i].Type;
+        }
 
+        public bool Match(int i, CityPluginTypeId cpltype)
+        {
+            if (!sites[i].HasPiece)
+                return false;
 
+            MdgType type = sites[i].Type;
+            switch (cpltype)
+            {
+                case CityPluginTypeId.EducationOrg:
+                    switch (type)
+                    {
+                        case MdgType.GenderEquality:
+                        case MdgType.Education:
+                            return true;
+                    }
+                    return false;
+                case CityPluginTypeId.Hospital:
+                    switch (type)
+                    {
+                        case MdgType.ChildMortality:
+                        case MdgType.Diseases:
+                            return true;
+                    }
+                    return false;
+                case CityPluginTypeId.BiofuelFactory:
+                case CityPluginTypeId.OilRefinary:
+                case CityPluginTypeId.WoodFactory:
+                    return type == MdgType.Environment;
+            }
+            return false;
+        }
         public bool MatchPiece(int i, MdgType type)
         {
             if (sites[i].HasPiece)

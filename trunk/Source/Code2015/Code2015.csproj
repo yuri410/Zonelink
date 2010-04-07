@@ -459,8 +459,6 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game.cs" />
-    <Compile Include="LevelSystem\Mission.cs" />
-    <Compile Include="LevelSystem\Task.cs" />
     <Compile Include="Logic\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
