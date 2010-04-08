@@ -13,7 +13,7 @@ namespace Code2015.EngineEx
     /// </summary>
     public class BloomPostRenderer : UnmanagedResource, IPostSceneRenderer
     {
-        const float BloomThreshold = 0.25f;
+        const float BloomThreshold = 0.67f;
         const float BlurAmount = 4;
 
         const float BloomIntensity = 1;
