@@ -11,10 +11,11 @@ namespace Code2015.Effects
         public GaussBlurX(RenderSystem rs)
             : base(rs)
         {
-            string filePath = "blurX.cps";
-            FileLocation fl = FileSystem.Instance.Locate(filePath, FileLocateRule.Effects);
-
+            FileLocation fl = FileSystem.Instance.Locate("blurX.cps", FileLocateRule.Effects);
             LoadPixelShader(rs, fl);
+
+            //fl = FileSystem.Instance.Locate("postQuad.cvs", FileLocateRule.Effects);
+            //LoadVertexShader(rs, fl);
         }
     }
 }

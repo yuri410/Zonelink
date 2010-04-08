@@ -137,9 +137,8 @@
     <None Include="Effect\cloud.vs" />
     <None Include="Post\edge.ps" />
     <None Include="Post\bloom.ps" />
-    <None Include="Post\blurX.ps" />
+    <None Include="Post\blur.ps" />
     <None Include="Post\postQuad.vs" />
-    <None Include="Post\blurY.ps" />
     <None Include="Post\composite.ps" />
     <None Include="ShadowMap\shadowMap.ps" />
     <None Include="ShadowMap\shadowMap.vs" />

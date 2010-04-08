@@ -37,7 +37,6 @@ fxc Effect\cloud.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cps /Zpr
 
 fxc Post\composite.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\composite.cps /Zpr
 fxc Post\bloom.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\bloom.cps /Zpr
-fxc Post\blurX.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\blurX.cps /Zpr
-fxc Post\blurY.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\blurY.cps /Zpr
+fxc Post\blur.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\blur.cps /Zpr
 fxc Post\edge.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\edge.cps /Zpr
 fxc Post\postQuad.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\postQuad.cvs /Zpr
