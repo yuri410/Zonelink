@@ -5,15 +5,8 @@ struct PSInput
 	float2 TexCoord : TEXCOORD0;
 };
 
-struct PSOutput
+float4 main(PSInput ip) : COLOR
 {
-    float4 Color : COLOR;
-};
-
-PSOutput main(PSInput ip)
-{
-    PSOutput o;
-    
 	float d = 1.0 / 512.0;
 
 	float4 color = 0;
@@ -30,6 +23,5 @@ PSOutput main(PSInput ip)
 	color += tex2D(tex, ip.TexCoord + float2(0.0,  4.0 * d )) * 0.22;
 	color += tex2D(tex, ip.TexCoord + float2(0.0,  5.0 * d )) * 0.1;
 
-	o.Color = color;
-    return o;
+	return color;
 }
