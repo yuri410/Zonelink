@@ -17,10 +17,21 @@ namespace Code2015.Effects
         {
             renderSys = rs;
         }
-
+        public void SetSamplerStateDirect(int si, ref ShaderSamplerState state)
+        {
+            pixShader.SetSamplerStateDirect(si, ref state);
+        }
+        public void SetSamplerState(string name, ref ShaderSamplerState state)
+        {
+            pixShader.SetSamplerState(name, ref state);
+        }
         public void SetTexture(string name, Texture tex)
         {
             pixShader.SetTexture(name, tex);
+        }
+        public void SetTextureDirect(int si, Texture tex)
+        {
+            pixShader.SetTextureDirect(si, tex);
         }
 
         public void Begin()
