@@ -34,3 +34,9 @@ fxc Effect\road.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\road.cps /Zpr
 
 fxc Effect\cloud.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cvs /Zpr
 fxc Effect\cloud.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cps /Zpr
+
+fxc Effect\bloom.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\bloom.cps /Zpr
+fxc Effect\blurX.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\blurX.cps /Zpr
+fxc Effect\blurY.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\blurY.cps /Zpr
+fxc Effect\edge.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\edge.cps /Zpr
+fxc Effect\postQuad.vs /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\postQuad.cvs /Zpr

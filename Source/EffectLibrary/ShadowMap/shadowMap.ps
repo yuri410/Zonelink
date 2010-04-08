@@ -1,0 +1,106 @@
+#include "waterDepth.psh"
+
+sampler2D texDet1 : register(s0);
+sampler2D texDet2 : register(s1);
+sampler2D texDet3 : register(s2);
+sampler2D texDet4 : register(s3);
+
+sampler2D texDif : register(s4);
+sampler2D texColor : register(s5);
+sampler2D texNrm : register(s6);
+
+float4 k_d : register(c0);
+float4 k_a : register(c1);
+float4 k_s : register(c2);
+float4 k_e : register(c3);
+float k_power : register(c4);
+
+float4 i_a : register(c5);
+float4 i_d : register(c6);
+float4 i_s : register(c7);
+
+struct PSInput
+{
+    float2 GlobeCoord : TEXCOORD0; 
+    float2 DetailCoord : TEXCOORD1; 
+    
+	float3 TangentSpaceVDir : TEXCOORD5;
+	float3 TangentSpaceLDir : TEXCOORD6;
+    float2 Height_Blend : TEXCOORD7;
+    
+    //float LODTest:TEXCOORD4;
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+    float3 N = 2 * (float3)tex2D(texNrm, ip.DetailCoord) - 1;
+    
+    //// 地形法线贴图要转换为切线空间的
+	//float tmp = N.z;
+	//N.z = N.y * 0.55;
+	//N.y = tmp;
+    //N = normalize(N);
+    
+    float ndl = dot(N, ip.TangentSpaceLDir);
+	
+	float4 index = tex2D(texDif, ip.GlobeCoord);
+	
+	float4 color = 0;
+	
+	if (index[0]>0.01)
+	{
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord*3);
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord*21);
+	}
+	if (index[1]>0.01)
+	{
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord*3);
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord*21);
+	}
+	if (index[2]>0.01)
+	{
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord*3);
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord*21);
+	}
+	if (index[3]>0.01)
+	{
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*3);
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*19);
+	}
+	
+    o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
+    
+	float4 amb = i_a * k_a;
+	float4 dif = i_d * k_d;
+	dif.xyz *= max(0, ndl);
+	
+	float3 R = reflect(ip.TangentSpaceLDir, N);
+	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
+
+    o.Color = o.Color * (amb + dif + k_e) + spec;
+    
+    o.Color = GetColor(o.Color, ip.Height_Blend.x);
+    
+    
+   /* if (abs(ip.LODTest)<0.01)
+    {
+		o.Color += ndl * float4(0.5,0,0,0);
+    }
+    else if(abs(ip.LODTest - 1)<0.01)
+    {
+		o.Color += ndl * float4(0,0.5,0,0);
+    }
+    else if (abs(ip.LODTest - 2)<0.01)
+    {
+		o.Color += ndl * float4(0,0,0.5,0);
+    }*/
+    
+    return o;
+}

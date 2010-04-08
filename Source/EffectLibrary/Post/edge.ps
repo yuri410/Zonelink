@@ -1,4 +1,4 @@
-sampler2D dudvMap : register(s0);
+sampler2D tex : register(s0);
 
 struct PSInput
 {
@@ -15,6 +15,6 @@ PSOutput main(PSInput ip)
     PSOutput o;
 
 	
-	
+	o.Color = tex2D(tex, ip.TecCoord);
     return o;
 }
