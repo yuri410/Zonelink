@@ -352,7 +352,7 @@
   <!--Zambia-->
   <Lusaka>
     <Name>Lusaka</Name>
-    <Longitude>23.280869</Longitude>
+    <Longitude>21.280869</Longitude>
     <Latitude>-15.410988</Latitude>
     <Size>Medium</Size>
     <Population>200</Population>
@@ -576,7 +576,7 @@
   <SanFrancisco>
     <Name>San Francisco</Name>
     <Longitude>-112.78894</Longitude>
-    <Latitude>37.173433</Latitude>
+    <Latitude>38.133433</Latitude>
     <Size>Large</Size>
     <Population>73</Population>
   </SanFrancisco>
