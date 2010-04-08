@@ -205,6 +205,7 @@ namespace Code2015.EngineEx
             Size blmSize = new Size(512, 512);
             Size scrnSize = new Size(vp.Width, vp.Height);
 
+            
 
             blmRt = factory.CreateRenderTarget(blmSize.Width, blmSize.Width, ImagePixelFormat.A8R8G8B8);
             clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
