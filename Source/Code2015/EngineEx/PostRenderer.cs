@@ -118,11 +118,11 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
-            RenderStateManager states = renderSys.RenderStates;
+            //RenderStateManager states = renderSys.RenderStates;
 
             renderer.RenderScene(clrRt, RenderMode.Final);
 
-            states.CullMode = CullMode.None;
+            //states.CullMode = CullMode.None;
 
             #region 分离高光
             renderSys.SetRenderTarget(0, blmRt);

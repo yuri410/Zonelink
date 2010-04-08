@@ -12,7 +12,7 @@ namespace Code2015.Effects
         public Composite(RenderSystem rs)
             : base(rs)
         {
-            string filePath = "composite.ps";
+            string filePath = "composite.cps";
             FileLocation fl = FileSystem.Instance.Locate(filePath, FileLocateRule.Effects);
 
             LoadPixelShader(rs, fl);
