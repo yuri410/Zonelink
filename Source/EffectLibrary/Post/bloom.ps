@@ -1,5 +1,8 @@
 sampler2D tex : register(s0);
 
+float BloomThreshold : register(c0);
+
+
 struct PSInput
 {
 	float2 TexCoord : TEXCOORD0;
@@ -7,18 +10,7 @@ struct PSInput
 
 float4 main(PSInput ip) : COLOR
 {
+    float4 c = tex2D(tex, ip.TexCoord);
 
-	//float e = log2(color.r * 0.3 + color.g * 0.59 + color.b * 0.11 + .75);
-	//if (e >= 0)
-	//{
-	//	return e * e;
-	//}
-	//return 0;
-	float3 color = tex2D(tex, ip.TexCoord).rgb;
-	float e = dot(color, float3(0.3, 0.59, 0.11)); //color.r * 0.3 + color.g * 0.59 + color.b * 0.11;;
-	if (e >= 1)
-	{
-		return 1;
-	}
-	return 0;
+    return saturate((c - BloomThreshold) / (1 - BloomThreshold));
 }
