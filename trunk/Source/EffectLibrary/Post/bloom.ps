@@ -5,14 +5,8 @@ struct PSInput
 	float2 TexCoord : TEXCOORD0;
 };
 
-struct PSOutput
+float4 main(PSInput ip) : COLOR
 {
-    float4 Color : COLOR;
-};
-
-PSOutput main(PSInput ip)
-{
-    PSOutput o;
 
 	//float e = log2(color.r * 0.3 + color.g * 0.59 + color.b * 0.11 + .75);
 	//if (e >= 0)
@@ -24,7 +18,7 @@ PSOutput main(PSInput ip)
 	float e = dot(color, float3(0.3, 0.59, 0.11)); //color.r * 0.3 + color.g * 0.59 + color.b * 0.11;;
 	if (e >= 1)
 	{
-		return 1
+		return 1;
 	}
 	return 0;
 }
