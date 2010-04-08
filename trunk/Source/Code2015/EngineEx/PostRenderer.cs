@@ -118,8 +118,6 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
-            //RenderStateManager states = renderSys.RenderStates;
-
             renderer.RenderScene(clrRt, RenderMode.Final);
 
             ShaderSamplerState sampler1;
@@ -147,8 +145,6 @@ namespace Code2015.EngineEx
             sampler2.MipMapLODBias = 0;
 
             renderSys.SetRenderTarget(0, null);
-
-
             #region 分离高光
             renderSys.SetRenderTarget(0, blmRt);
 
@@ -160,9 +156,7 @@ namespace Code2015.EngineEx
             bloomEff.End();
             #endregion
 
-
             renderSys.SetRenderTarget(0, null);
-
             #region 高斯X
             gaussXBlur.Begin();
             gaussXBlur.SetTexture("tex", blmRt.GetColorBufferTexture());
@@ -171,7 +165,6 @@ namespace Code2015.EngineEx
 
             gaussXBlur.End();
             #endregion
-
             renderSys.SetRenderTarget(0, null);
             #region 高斯Y
             gaussYBlur.Begin();
@@ -183,6 +176,8 @@ namespace Code2015.EngineEx
 
 
             #endregion
+
+
 
             renderSys.SetRenderTarget(0, null);
             #region 合成
@@ -210,10 +205,9 @@ namespace Code2015.EngineEx
             Size blmSize = new Size(512, 512);
             Size scrnSize = new Size(vp.Width, vp.Height);
 
-            renderSys.SetRenderTarget(0, null);
 
-            clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
             blmRt = factory.CreateRenderTarget(blmSize.Width, blmSize.Width, ImagePixelFormat.A8R8G8B8);
+            clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
 
             #region 建立屏幕quad
             quad = factory.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
