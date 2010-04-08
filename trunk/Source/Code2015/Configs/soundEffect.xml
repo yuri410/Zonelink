@@ -7,23 +7,23 @@
     <Type>Normal</Type>
   </city1>
   <city2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </city2a>
   <city2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </city2b>
   <city2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </city2c>
   <city2d>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </city2d>
   <city2e>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </city2e>
   <city3>
@@ -37,27 +37,27 @@
     <Type>Normal</Type>
   </farm1>
   <farm1>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </farm1>
   <farm2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </farm2a>
   <farm2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </farm2b>
   <farm2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </farm2c>
   <farm2d>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </farm2d>
   <farm2e>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </farm2e>
   <farm3>
@@ -70,7 +70,7 @@
     <Type>Normal</Type>
   </forest1>
   <forest2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </forest2a>
   <forest2b>
@@ -78,19 +78,19 @@
     <Type>Normal</Type>
   </forest2b>
   <forest2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </forest2c>
   <forest2d>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </forest2d>
   <forest2e>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </forest2e>
   <forest2f>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </forest2f>
   <forest3>
@@ -100,19 +100,19 @@
   
   <!--Lightning-->
   <lightninga>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </lightninga>
   <lightningb>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </lightningb>
   <lightningc>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </lightningc>
   <lightningd>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </lightningd>
   
@@ -122,15 +122,15 @@
     <Type>Normal</Type>
   </oil1>
   <oil2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </oil2a>
   <oil2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </oil2b>
   <oil2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </oil2c>
   <oil3>
@@ -144,15 +144,15 @@
     <Type>Normal</Type>
   </rain1>
   <rain2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </rain2a>
   <rain2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </rain2b>
   <rain2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </rain2c>
   <rain3>
@@ -166,11 +166,11 @@
     <Type>Normal</Type>
   </river1>
   <river2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </river2a>
   <river2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </river2b>
   <river3>
@@ -184,23 +184,23 @@
     <Type>Normal</Type>
   </sea1>
   <sea2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </sea2a>
   <sea2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </sea2b>
   <sea2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </sea2c>
   <sea2d>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </sea2d>
   <sea2e>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </sea2e>
   <sea3>
@@ -218,7 +218,7 @@
     <Type>Normal</Type>
   </truckStart>
   <truck2>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </truck2>
   <truck3>
@@ -228,35 +228,35 @@
   
   <!--Wind-->
   <wind1a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind1a>
   <wind1b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind1b>
   <wind1c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind1c>
   <wind1d>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind1d>
   <wind2a>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind2a>
   <wind2b>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind2b>
   <wind2c>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind2c>
   <wind2d>
-    <Control>Loop,Ramdom</Control>
+    <Control>Loop,Rondom</Control>
     <Type>Normal</Type>
   </wind2d>
   
