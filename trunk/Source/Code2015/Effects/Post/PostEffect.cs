@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D.Graphics;
 using Apoc3D.Vfs;
+using Apoc3D.MathLib;
 
 namespace Code2015.Effects
 {
@@ -33,6 +34,38 @@ namespace Code2015.Effects
         {
             pixShader.SetTextureDirect(si, tex);
         }
+
+        public void SetValue(string name, Vector2[] value)
+        {
+            pixShader.SetValue(name, value);
+        }
+        public void SetValue(string name, float[] value) 
+        {
+            pixShader.SetValue(name, value);
+        }
+
+        public void SetValue(string name, float  value)
+        {
+            pixShader.SetValue(name, value);
+        }
+        public void SetValue(int register, float value)
+        {
+            pixShader.SetValue(register, value);
+        }
+        public void SetValue(int register, ref Vector2 value)
+        {
+            pixShader.SetValue(register, ref value);
+        }
+        public void SetValueDirect(int register, float value)
+        {
+            pixShader.SetValueDirect(register, value);
+        }
+        public void SetValueDirect(int register, ref Vector2 value)
+        {
+            pixShader.SetValueDirect(register, ref value);
+        }
+
+
 
         public void Begin()
         {

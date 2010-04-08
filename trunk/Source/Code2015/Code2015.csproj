@@ -325,8 +325,7 @@
     <Compile Include="Engine\Apoc3D.Graphics\Effects\EffectParams.cs" />
     <Compile Include="Effects\Post\Bloom.cs" />
     <Compile Include="Effects\Post\Composite.cs" />
-    <Compile Include="Effects\Post\GaussBlurX.cs" />
-    <Compile Include="Effects\Post\GaussBlurY.cs" />
+    <Compile Include="Effects\Post\GaussBlur.cs" />
     <Compile Include="Effects\Post\PostEffect.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\FpsCounter.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Geometry\Sphere.cs" />
@@ -565,10 +564,7 @@
     <None Include="Effect\bloom.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\blurX.cps">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Effect\blurY.cps">
+    <None Include="Effect\blur.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\citylink.cps">

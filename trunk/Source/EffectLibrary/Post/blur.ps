@@ -4,8 +4,8 @@
 
 sampler2D tex : register(s0);
 
-float2 SampleOffsets[SAMPLE_COUNT];
-float SampleWeights[SAMPLE_COUNT];
+float2 SampleOffsets[SAMPLE_COUNT] : register(c0);
+float SampleWeights[SAMPLE_COUNT] : register(c15);
 
 struct PSInput
 {
