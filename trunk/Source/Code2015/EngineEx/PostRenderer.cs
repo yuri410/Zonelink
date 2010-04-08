@@ -13,7 +13,7 @@ namespace Code2015.EngineEx
     /// </summary>
     public class BloomPostRenderer : UnmanagedResource, IPostSceneRenderer
     {
-        const float BloomThreshold = 0.67f;
+        const float BloomThreshold = 0.25f;
         const float BlurAmount = 4;
 
         const float BloomIntensity = 1;
@@ -185,11 +185,16 @@ namespace Code2015.EngineEx
 
             ShaderSamplerState sampler2 = sampler1;
             //sampler2.BorderColor = ColorValue.Transparent;
+            sampler2.MagFilter = TextureFilter.Linear;
+            sampler2.MinFilter = TextureFilter.Linear;
+
 
             #region 分离高光
             renderSys.SetRenderTarget(0, blmRt1);
 
             bloomEff.Begin();
+
+            bloomEff.SetSamplerStateDirect(0, ref sampler1);
             bloomEff.SetTexture("tex", clrRt.GetColorBufferTexture());
             bloomEff.SetValue("BloomThreshold", BloomThreshold);
 
@@ -199,39 +204,41 @@ namespace Code2015.EngineEx
             #endregion
 
             #region 高斯X
-            //renderSys.SetRenderTarget(0, blmRt2);
+            renderSys.SetRenderTarget(0, blmRt2);
 
-            //gaussBlur.Begin();
-            //gaussBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
+            gaussBlur.Begin();
 
-            //for (int i = 0; i < SampleCount; i++)
-            //{
-            //    gaussBlur.SetValueDirect(i, ref SampleOffsetsX[i]);
-            //    gaussBlur.SetValueDirect(i + 15, SampleWeights[i]);
-            //}
-            ////gaussBlur.SetValue("SampleOffsets", SampleOffsetsX);
-            ////gaussBlur.SetValue("SampleWeights", SampleWeights);
+            
+            gaussBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
 
-            //DrawSmallQuad();
+            for (int i = 0; i < SampleCount; i++)
+            {
+                gaussBlur.SetValueDirect(i, ref SampleOffsetsX[i]);
+                gaussBlur.SetValueDirect(i + 15, SampleWeights[i]);
+            }
+            //gaussBlur.SetValue("SampleOffsets", SampleOffsetsX);
+            //gaussBlur.SetValue("SampleWeights", SampleWeights);
 
-            //gaussBlur.End();
+            DrawSmallQuad();
+
+            gaussBlur.End();
             #endregion
 
 
             #region 高斯Y
 
-            //renderSys.SetRenderTarget(0, blmRt1);
-            //gaussBlur.Begin();
-            //gaussBlur.SetTexture("tex", blmRt2.GetColorBufferTexture());
+            renderSys.SetRenderTarget(0, blmRt1);
+            gaussBlur.Begin();
+            gaussBlur.SetTexture("tex", blmRt2.GetColorBufferTexture());
 
-            //for (int i = 0; i < SampleCount; i++)
-            //{
-            //    gaussBlur.SetValueDirect(i, ref SampleOffsetsY[i]);
-            //    gaussBlur.SetValueDirect(i + 15, SampleWeights[i]);
-            //}
-            //DrawSmallQuad();
+            for (int i = 0; i < SampleCount; i++)
+            {
+                gaussBlur.SetValueDirect(i, ref SampleOffsetsY[i]);
+                gaussBlur.SetValueDirect(i + 15, SampleWeights[i]);
+            }
+            DrawSmallQuad();
 
-            //gaussBlur.End();
+            gaussBlur.End();
 
 
             #endregion
