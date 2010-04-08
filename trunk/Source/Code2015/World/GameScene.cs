@@ -41,7 +41,7 @@ namespace Code2015.World
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
             sm.UseShadow = false;
-            sm.PostRenderer = new DefaultPostRenderer();
+            sm.PostRenderer = new BloomPostRenderer(renderSys);
 
 
 

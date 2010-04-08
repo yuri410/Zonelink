@@ -140,6 +140,7 @@
     <None Include="Post\blurX.ps" />
     <None Include="Post\postQuad.vs" />
     <None Include="Post\blurY.ps" />
+    <None Include="Post\composite.ps" />
     <None Include="ShadowMap\shadowMap.ps" />
     <None Include="ShadowMap\shadowMap.vs" />
     <None Include="Standard\deferedNormal.ps" />
