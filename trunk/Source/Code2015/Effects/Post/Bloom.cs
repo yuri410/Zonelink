@@ -12,10 +12,11 @@ namespace Code2015.Effects
         public Bloom(RenderSystem rs)
             : base(rs)
         {
-            string filePath = "bloom.cps";
-            FileLocation fl = FileSystem.Instance.Locate(filePath, FileLocateRule.Effects);
-
+            FileLocation fl = FileSystem.Instance.Locate("bloom.cps", FileLocateRule.Effects);
             LoadPixelShader(rs, fl);
+
+            //fl = FileSystem.Instance.Locate("postQuad.cvs", FileLocateRule.Effects);
+            //LoadVertexShader(rs, fl);
         }
     }
 }

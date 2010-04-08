@@ -43,7 +43,8 @@ namespace Code2015.EngineEx
         RenderSystem renderSys;
 
         RenderTarget clrRt;
-        RenderTarget blmRt;
+        RenderTarget blmRt1;
+        RenderTarget blmRt2;
 
         Bloom bloomEff;
         Composite compEff;
@@ -63,17 +64,7 @@ namespace Code2015.EngineEx
         GeomentryData smallQuadOp;
         //Sprite spr;
 
-        //Effect LoadEffect(string fileName) 
-        //{
-        //    FileLocation fl = FileSystem.Instance.Locate(FileSystem.CombinePath(Paths.Effects, fileName), FileLocateRules.Default);
-        //    ContentStreamReader sr = new ContentStreamReader(fl);
-        //    string code = sr.ReadToEnd();
-        //    string err;
-        //    Effect effect = Effect.FromString(device, code, null, IncludeHandler.Instance, null, ShaderFlags.OptimizationLevel3, null, out err);
-        //    sr.Close();
 
-        //    return effect;
-        //}
 
         public BloomPostRenderer(RenderSystem rs)
         {
@@ -93,21 +84,10 @@ namespace Code2015.EngineEx
 
         void DrawBigQuad()
         {
-            //renderSys.SetStreamSource(0, quad, 0, RectVertex.Size);
-            //renderSys.VertexFormat = RectVertex.Format;
-            //renderSys.Indices = indexBuffer;
-            //renderSys.VertexDeclaration = vtxDecl;
-
-            //renderSys.DrawIndexedPrimitives(RenderPrimitiveType.TriangleList, 0, 0, 4, 0, 2);
             renderSys.RenderSimple(quadOp);
         }
         void DrawSmallQuad()
         {
-            //renderSys.SetStreamSource(0, smallQuad, 0, RectVertex.Size);
-            //renderSys.VertexFormat = RectVertex.Format;
-            //renderSys.VertexDeclaration = vtxDecl;
-            //renderSys.Indices = indexBuffer;
-            //renderSys.DrawIndexedPrimitives(RenderPrimitiveType.TriangleList, 0, 0, 4, 0, 2);
             renderSys.RenderSimple(smallQuadOp);
         }
 
@@ -119,6 +99,7 @@ namespace Code2015.EngineEx
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
             renderer.RenderScene(clrRt, RenderMode.Final);
+
 
             ShaderSamplerState sampler1;
             sampler1.AddressU = TextureAddressMode.Clamp;
@@ -133,20 +114,10 @@ namespace Code2015.EngineEx
             sampler1.MipMapLODBias = 0;
 
             ShaderSamplerState sampler2 = sampler1;
-            sampler2.AddressU = TextureAddressMode.Clamp;
-            sampler2.AddressV = TextureAddressMode.Clamp;
-            sampler2.AddressW = TextureAddressMode.Clamp;
-            sampler2.BorderColor = ColorValue.Transparent;
-            sampler2.MagFilter = TextureFilter.Point;
-            sampler2.MaxAnisotropy = 0;
-            sampler2.MaxMipLevel = 0;
-            sampler2.MinFilter = TextureFilter.Point;
-            sampler2.MipFilter = TextureFilter.None;
-            sampler2.MipMapLODBias = 0;
+            //sampler2.BorderColor = ColorValue.Transparent;
 
-            renderSys.SetRenderTarget(0, null);
             #region 分离高光
-            renderSys.SetRenderTarget(0, blmRt);
+            renderSys.SetRenderTarget(0, blmRt1);
 
             bloomEff.Begin();
             bloomEff.SetTexture("tex", clrRt.GetColorBufferTexture());
@@ -156,19 +127,23 @@ namespace Code2015.EngineEx
             bloomEff.End();
             #endregion
 
-            renderSys.SetRenderTarget(0, null);
             #region 高斯X
+            renderSys.SetRenderTarget(0, blmRt2);
+
             gaussXBlur.Begin();
-            gaussXBlur.SetTexture("tex", blmRt.GetColorBufferTexture());
+            gaussXBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
 
             DrawSmallQuad();
 
             gaussXBlur.End();
             #endregion
-            renderSys.SetRenderTarget(0, null);
+
+
             #region 高斯Y
+
+            renderSys.SetRenderTarget(0, blmRt1);
             gaussYBlur.Begin();
-            gaussYBlur.SetTexture("tex", blmRt.GetColorBufferTexture());
+            gaussYBlur.SetTexture("tex", blmRt2.GetColorBufferTexture());
 
             DrawSmallQuad();
 
@@ -178,10 +153,7 @@ namespace Code2015.EngineEx
             #endregion
 
 
-
-            renderSys.SetRenderTarget(0, null);
             #region 合成
-
 
             renderSys.SetRenderTarget(0, screenTarget);
 
@@ -190,7 +162,7 @@ namespace Code2015.EngineEx
             compEff.SetSamplerStateDirect(1, ref sampler2);
 
             compEff.SetTextureDirect(0, clrRt.GetColorBufferTexture());
-            compEff.SetTextureDirect(1, blmRt.GetColorBufferTexture());
+            compEff.SetTextureDirect(1, blmRt1.GetColorBufferTexture());
 
             DrawBigQuad();
 
@@ -202,25 +174,26 @@ namespace Code2015.EngineEx
         {
             Viewport vp = renderSys.Viewport;
 
-            Size blmSize = new Size(512, 512);
+            Size blmSize = new Size(vp.Width / 2, vp.Height / 2);
             Size scrnSize = new Size(vp.Width, vp.Height);
 
-            
-
-            blmRt = factory.CreateRenderTarget(blmSize.Width, blmSize.Width, ImagePixelFormat.A8R8G8B8);
+            blmRt1 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
+            blmRt2 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
             clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
 
             #region 建立屏幕quad
             quad = factory.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
 
+            float adj = -0.5f;
+
             RectVertex* vdst = (RectVertex*)quad.Lock(0, 0, LockMode.None);
-            vdst[0].Position = new Vector4(0, 0, 0, 1);
+            vdst[0].Position = new Vector4(adj, adj, 0, 1);
             vdst[0].TexCoord = new Vector2(0, 0);
-            vdst[1].Position = new Vector4(scrnSize.Width, 0, 0, 1);
+            vdst[1].Position = new Vector4(scrnSize.Width + adj, adj, 0, 1);
             vdst[1].TexCoord = new Vector2(1, 0);
-            vdst[2].Position = new Vector4(0, scrnSize.Height, 0, 1);
+            vdst[2].Position = new Vector4(adj, scrnSize.Height + adj, 0, 1);
             vdst[2].TexCoord = new Vector2(0, 1);
-            vdst[3].Position = new Vector4(scrnSize.Width, scrnSize.Height, 0, 1);
+            vdst[3].Position = new Vector4(scrnSize.Width + adj, scrnSize.Height + adj, 0, 1);
             vdst[3].TexCoord = new Vector2(1, 1);
             quad.Unlock();
             #endregion
@@ -229,13 +202,13 @@ namespace Code2015.EngineEx
 
             smallQuad = factory.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
             vdst = (RectVertex*)smallQuad.Lock(0, 0, LockMode.None);
-            vdst[0].Position = new Vector4(0, 0, 0, 1);
+            vdst[0].Position = new Vector4(adj, adj, 0, 1);
             vdst[0].TexCoord = new Vector2(0, 0);
-            vdst[1].Position = new Vector4(blmSize.Width, 0, 0, 1);
+            vdst[1].Position = new Vector4(blmSize.Width + adj, adj, 0, 1);
             vdst[1].TexCoord = new Vector2(1, 0);
-            vdst[2].Position = new Vector4(0, blmSize.Height, 0, 1);
+            vdst[2].Position = new Vector4(adj, blmSize.Height + adj, 0, 1);
             vdst[2].TexCoord = new Vector2(0, 1);
-            vdst[3].Position = new Vector4(blmSize.Width, blmSize.Height, 0, 1);
+            vdst[3].Position = new Vector4(blmSize.Width + adj, blmSize.Height + adj, 0, 1);
             vdst[3].TexCoord = new Vector2(1, 1);
             smallQuad.Unlock();
 
@@ -279,7 +252,7 @@ namespace Code2015.EngineEx
         protected override void unloadUnmanagedResources()
         {
             clrRt.Dispose();
-            blmRt.Dispose();
+            blmRt1.Dispose();
 
             indexBuffer.Dispose();
             quad.Dispose();
@@ -293,7 +266,7 @@ namespace Code2015.EngineEx
             indexBuffer = null;
 
             clrRt = null;
-            blmRt = null;
+            blmRt1 = null;
             //colorTarget = null;
             //bloom = null;
         }
