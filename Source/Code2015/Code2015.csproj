@@ -589,6 +589,9 @@
     <None Include="Effect\cloud.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Include="Effect\composite.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Effect\earthbase.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

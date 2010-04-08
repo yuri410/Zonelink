@@ -11,7 +11,7 @@ namespace Code2015.Effects
         public GaussBlurX(RenderSystem rs)
             : base(rs)
         {
-            string filePath = "gaussBlurX.cps";
+            string filePath = "blurX.cps";
             FileLocation fl = FileSystem.Instance.Locate(filePath, FileLocateRule.Effects);
 
             LoadPixelShader(rs, fl);

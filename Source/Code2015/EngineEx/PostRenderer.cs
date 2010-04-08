@@ -25,7 +25,7 @@ namespace Code2015.EngineEx
             {
                 elements = new VertexElement[2];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector4, VertexElementUsage.PositionTransformed);
-                elements[1] = new VertexElement(1, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
+                elements[1] = new VertexElement(Vector4.SizeInBytes, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
             }
 
             public static VertexElement[] Elements
@@ -122,83 +122,95 @@ namespace Code2015.EngineEx
 
             renderer.RenderScene(clrRt, RenderMode.Final);
 
-            //states.CullMode = CullMode.None;
+            ShaderSamplerState sampler1;
+            sampler1.AddressU = TextureAddressMode.Clamp;
+            sampler1.AddressV = TextureAddressMode.Clamp;
+            sampler1.AddressW = TextureAddressMode.Clamp;
+            sampler1.BorderColor = ColorValue.Transparent;
+            sampler1.MagFilter = TextureFilter.Point;
+            sampler1.MaxAnisotropy = 0;
+            sampler1.MaxMipLevel = 0;
+            sampler1.MinFilter = TextureFilter.Point;
+            sampler1.MipFilter = TextureFilter.None;
+            sampler1.MipMapLODBias = 0;
+
+            ShaderSamplerState sampler2 = sampler1;
+            sampler2.AddressU = TextureAddressMode.Clamp;
+            sampler2.AddressV = TextureAddressMode.Clamp;
+            sampler2.AddressW = TextureAddressMode.Clamp;
+            sampler2.BorderColor = ColorValue.Transparent;
+            sampler2.MagFilter = TextureFilter.Point;
+            sampler2.MaxAnisotropy = 0;
+            sampler2.MaxMipLevel = 0;
+            sampler2.MinFilter = TextureFilter.Point;
+            sampler2.MipFilter = TextureFilter.None;
+            sampler2.MipMapLODBias = 0;
+
+            renderSys.SetRenderTarget(0, null);
+
 
             #region 分离高光
             renderSys.SetRenderTarget(0, blmRt);
 
             bloomEff.Begin();
-            bloomEff.SetTexture("rt", clrRt.GetColorBufferTexture());
+            bloomEff.SetTexture("tex", clrRt.GetColorBufferTexture());
 
             DrawSmallQuad();
 
             bloomEff.End();
             #endregion
 
+
+            renderSys.SetRenderTarget(0, null);
+
             #region 高斯X
             gaussXBlur.Begin();
-            gaussXBlur.SetTexture("rt", blmRt.GetColorBufferTexture());
+            gaussXBlur.SetTexture("tex", blmRt.GetColorBufferTexture());
 
             DrawSmallQuad();
 
             gaussXBlur.End();
             #endregion
 
+            renderSys.SetRenderTarget(0, null);
             #region 高斯Y
             gaussYBlur.Begin();
-            gaussYBlur.SetTexture("rt", blmRt.GetColorBufferTexture());
+            gaussYBlur.SetTexture("tex", blmRt.GetColorBufferTexture());
 
             DrawSmallQuad();
 
             gaussYBlur.End();
-            
+
 
             #endregion
 
+            renderSys.SetRenderTarget(0, null);
             #region 合成
 
 
             renderSys.SetRenderTarget(0, screenTarget);
 
-
-            //device.VertexShader = null;
-            //device.PixelShader = null;
-
-            //spr.Transform = Matrix.Identity;
-
-            //spr.Begin(SpriteFlags.DoNotSaveState);
-            //spr.Draw(colorTarget, -1);
-            //spr.End();
-
-            //states.AlphaBlendEnable = true;
-            //states.BlendFunction = BlendFunction.Add;
-
-            //states.DestinationBlend = Blend.One;
-            //states.DestinationBlendAlpha = Blend.One;
-            //states.SourceBlend = Blend.One;
-            //states.SourceBlendAlpha = Blend.One;
-
-
-
             compEff.Begin();
-            compEff.SetTexture("rt", clrRt.GetColorBufferTexture());
-            compEff.SetTexture("blmRt", blmRt.GetColorBufferTexture());
+            compEff.SetSamplerStateDirect(0, ref sampler1);
+            compEff.SetSamplerStateDirect(1, ref sampler2);
+
+            compEff.SetTextureDirect(0, clrRt.GetColorBufferTexture());
+            compEff.SetTextureDirect(1, blmRt.GetColorBufferTexture());
 
             DrawBigQuad();
 
             compEff.End();
-
-
             #endregion
-
         }
 
         protected unsafe override void loadUnmanagedResources()
         {
-            RenderTarget s = renderSys.GetRenderTarget(0);
+            Viewport vp = renderSys.Viewport;
 
             Size blmSize = new Size(512, 512);
-            Size scrnSize = new Size(s.Width, s.Height);
+            Size scrnSize = new Size(vp.Width, vp.Height);
+
+            renderSys.SetRenderTarget(0, null);
 
             clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
             blmRt = factory.CreateRenderTarget(blmSize.Width, blmSize.Width, ImagePixelFormat.A8R8G8B8);
@@ -237,12 +249,12 @@ namespace Code2015.EngineEx
             indexBuffer = factory.CreateIndexBuffer(IndexBufferType.Bit32, 6, BufferUsage.Static);
             int* idst = (int*)indexBuffer.Lock(0, 0, LockMode.None);
 
-            idst[0] = 0;
+            idst[0] = 3;
             idst[1] = 1;
-            idst[2] = 3;
-            idst[3] = 0;
-            idst[4] = 2;
-            idst[5] = 3;
+            idst[2] = 0;
+            idst[3] = 2;
+            idst[4] = 3;
+            idst[5] = 0;
             indexBuffer.Unlock();
 
             quadOp = new GeomentryData();
@@ -255,7 +267,7 @@ namespace Code2015.EngineEx
             quadOp.VertexCount = 4;
             quadOp.VertexDeclaration = vtxDecl;
             quadOp.VertexSize = RectVertex.Size;
-        
+
             smallQuadOp = new GeomentryData();
             smallQuadOp.BaseIndexStart = 0;
             smallQuadOp.BaseVertex = 0;
