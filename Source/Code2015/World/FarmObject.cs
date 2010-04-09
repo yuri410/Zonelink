@@ -15,7 +15,7 @@ namespace Code2015.World
 {
     class FarmObject : SceneObject, ISelectableObject, IResourceObject
     {
-        const float TileLength = 50;
+        const float TileLength =50;
         FarmLand farm;
         RenderSystem renderSys;
 
@@ -33,7 +33,7 @@ namespace Code2015.World
 
             float radLng = MathEx.Degree2Radian(farm.Longitude);
             float radLat = MathEx.Degree2Radian(farm.Latitude);
-            float radLen = MathEx.Degree2Radian(0.5f);
+            float radLen = MathEx.Degree2Radian(2.5f);
 
             FileLocation fl = FileSystem.Instance.Locate("farmtile.mesh", GameFileLocs.Model);
 

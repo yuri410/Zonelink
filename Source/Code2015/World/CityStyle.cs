@@ -35,8 +35,8 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData> Cow;
 
-        public ResourceHandle<ModelData>[] Ring;
-        public ResourceHandle<ModelData>[] SelRing;
+        public ResourceHandle<ModelData> Ring;
+        public ResourceHandle<ModelData> SelRing;
 
         public ResourceHandle<ModelData>[] MdgBracket;
     }
@@ -56,12 +56,12 @@ namespace Code2015.World
 
         public Model Cow;
 
-        public Model[] Ring;
-        public Model[] SelRing;
+        public Model Ring;
+        public Model SelRing;
 
         public Model[] MdgBracket;
 
-        public float[] PluginTranslate;
+        public float PluginTranslate;
 
         public const float BracketTranslate = 88;
 
@@ -87,24 +87,18 @@ namespace Code2015.World
             EducationOrgan = new Model(data.EducationOrgan);
 
 
-            Ring = new Model[data.Ring.Length];
-            SelRing = new Model[data.SelRing.Length];
-
-            for (int i = 0; i < Ring.Length; i++)
-                Ring[i] = new Model(data.Ring[i]);
-
-            for (int i = 0; i < SelRing.Length; i++)
-                SelRing[i] = new Model(data.SelRing[i]);
+            Ring = new Model(data.Ring);
+            SelRing = new Model(data.SelRing);
 
             MdgBracket = new Model[data.MdgBracket.Length];
             for (int i = 0; i < MdgBracket.Length; i++)
                 MdgBracket[i] = new Model(data.MdgBracket[i]);
 
-            PluginTranslate = new float[3];
+            //PluginTranslate = new float[3];
 
-            PluginTranslate[(int)UrbanSize.Large] = Game.ObjectScale * 68;
-            PluginTranslate[(int)UrbanSize.Medium] = Game.ObjectScale * 47;
-            PluginTranslate[(int)UrbanSize.Small] = Game.ObjectScale * 40;
+            PluginTranslate = Game.ObjectScale * 68;
+            //PluginTranslate[(int)UrbanSize.Medium] = Game.ObjectScale * 47;
+            //PluginTranslate[(int)UrbanSize.Small] = Game.ObjectScale * 40;
         }
 
         public Vector3 GetBracketTranslation(int i)
@@ -113,8 +107,8 @@ namespace Code2015.World
             {
                 case 0:
                     return new Vector3(
-                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f, 
-                        50, 
+                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+                        50,
                         BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
                 case 1:
                     return new Vector3(
@@ -139,45 +133,25 @@ namespace Code2015.World
             switch (p)
             {
                 case PluginPositionFlag.P1:
-                    switch (size)
-                    {
-                        case UrbanSize.Medium:
-                            return new Vector3(PluginTranslate[(int)size], 0, 0);
-                        case UrbanSize.Small:
-                            return new Vector3(PluginTranslate[(int)size], 0, 0);
-                        case UrbanSize.Large:
-                            return new Vector3(-PluginTranslate[(int)size], 0, 0);
-                        default:
-                            throw new ArgumentException();
-                    }
+                    return new Vector3(
+                       PluginTranslate * MathEx.Root2 * 0.5f,
+                       0,
+                       PluginTranslate * MathEx.Root2 * 0.5f);
                 case PluginPositionFlag.P2:
-                    switch (size)
-                    {
-                        case UrbanSize.Medium:
-                            return new Vector3(-0.5f * PluginTranslate[(int)size], 0, MathEx.Root3 * 0.5f * PluginTranslate[(int)size]);
-                        case UrbanSize.Large:
-                            return new Vector3(0, 0, -PluginTranslate[(int)size]);
-                        default:
-                            throw new ArgumentException();
-                    }
+                    return new Vector3(
+                       -PluginTranslate * MathEx.Root2 * 0.5f,
+                       0,
+                       PluginTranslate * MathEx.Root2 * 0.5f);
                 case PluginPositionFlag.P3:
-                    switch (size)
-                    {
-                        case UrbanSize.Medium:
-                            return new Vector3(-0.5f * PluginTranslate[(int)size], 0, -MathEx.Root3 * 0.5f * PluginTranslate[(int)size]);
-                        case UrbanSize.Large:
-                            return new Vector3(PluginTranslate[(int)size], 0, 0);
-                        default:
-                            throw new ArgumentException();
-                    }
+                    return new Vector3(
+                        -PluginTranslate * MathEx.Root2 * 0.5f,
+                        0,
+                        -PluginTranslate * MathEx.Root2 * 0.5f);
                 case PluginPositionFlag.P4:
-                    switch (size)
-                    {
-                        case UrbanSize.Large:
-                            return new Vector3(0, 0, PluginTranslate[(int)size]);
-                        default:
-                            throw new ArgumentException();
-                    }
+                    return new Vector3(
+                        PluginTranslate * MathEx.Root2 * 0.5f,
+                        0,
+                        -PluginTranslate * MathEx.Root2 * 0.5f);
             }
             return Vector3.Zero;
         }
@@ -200,8 +174,8 @@ namespace Code2015.World
         public Matrix Hospital;
         public Matrix Biofuel;
         public Matrix Cow;
-        public Matrix[] Ring;
-        public Matrix[] SelRing;
+        public Matrix Ring;
+        public Matrix SelRing;
 
         public CityObjectTRAdjust(ref CityObjectTRAdjust src)
         {
@@ -218,11 +192,13 @@ namespace Code2015.World
             Base = new Matrix[src.Base.Length];
             Array.Copy(src.Base, Base, src.Base.Length);
 
-            Ring = new Matrix[src.Base.Length];
-            Array.Copy(src.Ring, Ring, src.Ring.Length);
+            Ring = src.Ring;
+            SelRing = src.SelRing;
+            //Ring = new Matrix[src.Base.Length];
+            //Array.Copy(src.Ring, Ring, src.Ring.Length);
 
-            SelRing = new Matrix[src.SelRing.Length];
-            Array.Copy(src.SelRing, SelRing, src.SelRing.Length);
+            //SelRing = new Matrix[src.SelRing.Length];
+            //Array.Copy(src.SelRing, SelRing, src.SelRing.Length);
 
             ID = src.ID;
         }
@@ -235,9 +211,9 @@ namespace Code2015.World
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";
         static readonly string LargeCityCenter_Inv = "large.mesh";
-        static readonly string SmallBase_Inv = "basesmall_l1.mesh";
-        static readonly string MediumBase_Inv = "basemedium_l1.mesh";
-        static readonly string LargeBase_Inv = "baselarge_l1.mesh";
+        static readonly string SmallBase_Inv = "basesmall.mesh";
+        static readonly string MediumBase_Inv = "basemedium.mesh";
+        static readonly string LargeBase_Inv = "baselarge.mesh";
 
 
         static readonly string OilRefinary_Inv = "oilref.mesh";
@@ -255,16 +231,16 @@ namespace Code2015.World
             "goal4site.mesh", "goal5site.mesh", "goal6site.mesh", "goal7site.mesh"
         };
 
-        public const float SmallCityRadius = Game.ObjectScale * 48;
-        public const float SmallCityRadiusRing = SmallCityRadius + Game.ObjectScale * 8;
-        public const float MediumCityRadius = Game.ObjectScale * 78;
-        public const float MediumCityRadiusRing = MediumCityRadius + Game.ObjectScale * 15;
-        public const float LargeCityRadius = Game.ObjectScale * 100;
-        public const float LargeCityRadiusRing = LargeCityRadius + Game.ObjectScale * 15;
+        //public const float SmallCityRadius = Game.ObjectScale * 48;
+        //public const float SmallCityRadiusRing = SmallCityRadius + Game.ObjectScale * 8;
+        //public const float MediumCityRadius = Game.ObjectScale * 78;
+        //public const float MediumCityRadiusRing = MediumCityRadius + Game.ObjectScale * 15;
+        public const float CityRadius = Game.ObjectScale * 100;
+        public const float CityRadiusRing = CityRadius + Game.ObjectScale * 15;
 
         public const float CitySelRingScale = 1.25f;
 
-        public static readonly float[] CityRadius = new float[] { SmallCityRadius, MediumCityRadius, LargeCityRadius };
+        //public static readonly float CityRadius = LargeCityRadius;// new float[] { SmallCityRadius, MediumCityRadius, LargeCityRadius };
 
         CityStyleData[] styles;
         CityObjectTRAdjust[] adjusts;
@@ -279,8 +255,6 @@ namespace Code2015.World
             styles[0].ID = CultureId.Asia;
             styles[0].Urban = new ResourceHandle<ModelData>[3];
             styles[0].Base = new ResourceHandle<ModelData>[3];
-            styles[0].Ring = new ResourceHandle<ModelData>[3];
-            styles[0].SelRing = new ResourceHandle<ModelData>[3];
 
             FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Inv, GameFileLocs.Model);
             styles[0].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
@@ -316,14 +290,14 @@ namespace Code2015.World
             styles[0].Cow = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
-            styles[0].Ring[0] = ModelManager.Instance.CreateInstance(rs, fl);
-            styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].Ring = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
-            styles[0].SelRing[0] = ModelManager.Instance.CreateInstance(rs, fl);
-            styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[0].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
             styles[0].MdgBracket = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
             for (int i = 0; i < 7; i++)
@@ -339,42 +313,52 @@ namespace Code2015.World
 
             adjusts[0].Base = new Matrix[3];
             adjusts[0].Urban = new Matrix[3];
-            adjusts[0].SelRing = new Matrix[3];
-            adjusts[0].Ring = new Matrix[3];
+            //adjusts[0].SelRing = new Matrix[3];
+            //adjusts[0].Ring = new Matrix[3];
 
 
-            Matrix scale = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale);
             for (int i = 0; i < adjusts[0].Base.Length; i++)
-                adjusts[0].Base[i] = scale;
-            for (int i = 0; i < adjusts[0].Urban.Length; i++)
-                adjusts[0].Urban[i] = scale;
+                adjusts[0].Base[i] = Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f);
+            //for (int i = 0; i < adjusts[0].Urban.Length; i++)
+            //    adjusts[0].Urban[i] = scale;
+            Matrix scale = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale);
 
-            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0) * Matrix.Scaling(Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f);
-            adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
-            adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
+            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(26, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f);
+            adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Scaling(Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f) * Matrix.Translation(-36, 3, 25);
+            adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
 
-            adjusts[0].WoodFactory = Matrix.Translation(0, 6.25f, 0) * scale;
-            adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
+            adjusts[0].WoodFactory = Matrix.Translation(0, 1, 0) * scale;
+            adjusts[0].EducationOrgan = Matrix.Translation(0, 1, 0);
             adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * scale; // Matrix.Scaling(0, 0, -1);
-            adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
+            adjusts[0].Hospital = Matrix.Translation(0, 1, 0);
             adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
-            adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
+            adjusts[0].Biofuel = Matrix.Translation(0, 1, 0) * scale;
+            //adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0) * Matrix.Scaling(Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f);
+            //adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
+            //adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
+
+            //adjusts[0].WoodFactory = Matrix.Translation(0, 6.25f, 0) * scale;
+            //adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
+            //adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * scale; // Matrix.Scaling(0, 0, -1);
+            //adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
+            //adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
+            //adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
 
             {
-                float s = (SmallCityRadiusRing) / RingRadius;
-                adjusts[0].Ring[(int)UrbanSize.Small] = Matrix.Translation(22f, 0, 0) * Matrix.Scaling(s, 1, s);
-                s = CitySelRingScale * (SmallCityRadiusRing) / RingRadius;
-                adjusts[0].SelRing[(int)UrbanSize.Small] = Matrix.Translation(22f, 0, 0) * Matrix.Scaling(s, 1, s);
+                float s = (CityRadiusRing) / RingRadius;
+                adjusts[0].Ring = Matrix.Scaling(s, 1, s);
+                s = CitySelRingScale * (CityRadiusRing) / RingRadius;
+                adjusts[0].SelRing = Matrix.Scaling(s, 1, s);
 
-                s = (MediumCityRadiusRing) / RingRadius;
-                adjusts[0].Ring[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
-                s = CitySelRingScale * (MediumCityRadiusRing) / RingRadius;
-                adjusts[0].SelRing[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
+                //s = (LargeCityRadiusRing) / RingRadius;
+                //adjusts[0].Ring[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
+                //s = CitySelRingScale * (LargeCityRadiusRing) / RingRadius;
+                //adjusts[0].SelRing[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
 
-                s = (LargeCityRadiusRing) / RingRadius;
-                adjusts[0].Ring[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
-                s = CitySelRingScale * (LargeCityRadiusRing) / RingRadius;
-                adjusts[0].SelRing[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
+                //s = (LargeCityRadiusRing) / RingRadius;
+                //adjusts[0].Ring[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
+                //s = CitySelRingScale * (LargeCityRadiusRing) / RingRadius;
+                //adjusts[0].SelRing[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
 
             }
 
@@ -419,14 +403,9 @@ namespace Code2015.World
             style.Hospital.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].Hospital);
             style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
 
-            for (int i = 0; i < style.Ring.Length; i++)
-            {
-                style.Ring[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Ring[i]);
-            }
-            for (int i = 0; i < style.SelRing.Length; i++)
-            {
-                style.SelRing[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].SelRing[i]);
-            }
+            style.Ring.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Ring);
+            style.SelRing.CurrentAnimation = new NoAnimation(adjusts[(int)culture].SelRing);
+
             return style;
         }
     }

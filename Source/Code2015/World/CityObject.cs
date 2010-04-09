@@ -211,7 +211,7 @@ namespace Code2015.World
             Transformation = PlanetEarth.GetOrientation(radLong, radLat);
 
             Transformation.TranslationValue = pos;
-            BoundingSphere.Radius = CityStyleTable.CityRadius[(int)city.Size];
+            BoundingSphere.Radius = CityStyleTable.CityRadius;
             BoundingSphere.Center = pos;
             position = pos;
 
@@ -398,7 +398,7 @@ namespace Code2015.World
 
             if (isSelected)
             {
-                ops = style.SelRing[(int)city.Size].GetRenderOperation();
+                ops = style.SelRing.GetRenderOperation();
                 if (ops != null)
                 {
                     opBuffer.Add(ops);
@@ -442,7 +442,7 @@ namespace Code2015.World
         }
         public override void Update(GameTime dt)
         {
-            BoundingSphere.Radius = CityStyleTable.CityRadius[(int)city.Size];
+            BoundingSphere.Radius = CityStyleTable.CityRadius;
 
             sideRing.Update(dt);
 
