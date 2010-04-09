@@ -119,7 +119,7 @@ namespace Code2015.World
     public class GameState
     {
         [SLGValue]
-        const float TotalTime = 30;
+        const float TotalTime = 300;
         SimulationWorld slgSystem;
 
         float remainingTime;

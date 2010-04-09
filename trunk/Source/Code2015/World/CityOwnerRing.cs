@@ -185,10 +185,13 @@ namespace Code2015.World
             }
 
 
-            RenderOperation[] ops = style.Ring[(int)parent.Size].GetRenderOperation();
-            for (int i = 0; i < ops.Length; i++)
+            RenderOperation[] ops = style.Ring.GetRenderOperation();
+            if (ops != null)
             {
-                ops[i].Sender = this;
+                for (int i = 0; i < ops.Length; i++)
+                {
+                    ops[i].Sender = this;
+                }
             }
             return ops;
         }

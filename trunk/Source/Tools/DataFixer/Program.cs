@@ -8,7 +8,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.World;
 using Plugin.GISTools;
-
+using System.Drawing.Imaging;
 namespace DataFixer
 {
     //class BitTable 
@@ -745,15 +745,48 @@ namespace DataFixer
             b.Save(File.Open(@"E:\Desktop\aa.bit", FileMode.OpenOrCreate));
         }
 
+        static unsafe void MergeAlpha(string path1, string path2)
+        {
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(path1);
+            System.Drawing.Bitmap alpha = new System.Drawing.Bitmap(path2);
+            System.Drawing.Bitmap res = new System.Drawing.Bitmap(bmp.Width, bmp.Height, PixelFormat.Format32bppArgb);
+
+            BitmapData data1 = bmp.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            BitmapData data2 = alpha.LockBits(new System.Drawing.Rectangle(0, 0, alpha.Width, alpha.Height), ImageLockMode.ReadOnly, PixelFormat.Format32bppArgb);
+            BitmapData data3 = res.LockBits(new System.Drawing.Rectangle(0, 0, bmp.Width, bmp.Height), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+            int* d1 = (int*)data1.Scan0;
+            int* d2 = (int*)data2.Scan0;
+            int* d3 = (int*)data3.Scan0;
+
+            unchecked
+            {
+                for (int i = 0; i < bmp.Height; i++)
+                {
+                    for (int j = 0; j < bmp.Width; j++)
+                    {
+                        *d3++ = ((*d2++ & 0x00ff0000) << 8) | (*d1++ & 0x00ffffff);
+                    }
+                }
+            }
+
+
+            bmp.UnlockBits(data1);
+            alpha.UnlockBits(data2);
+
+            res.Save(@"E:\Desktop\sss.png");
+        }
+
         static void Main(string[] args)
         {
+            MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
             //BuildBitMap();
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));
-            BuildLandAreaHeight();
+            //BuildLandAreaHeight();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
             Console.ReadKey();
