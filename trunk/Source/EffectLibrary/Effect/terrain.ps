@@ -1,4 +1,5 @@
 #include "waterDepth.psh"
+#include "ShadowMapping.psh"
 
 sampler2D texDet1 : register(s0);
 sampler2D texDet2 : register(s1);
@@ -8,6 +9,7 @@ sampler2D texDet4 : register(s3);
 sampler2D texDif : register(s4);
 sampler2D texColor : register(s5);
 sampler2D texNrm : register(s6);
+sampler2D texShd : register(s7);
 
 float4 k_d : register(c0);
 float4 k_a : register(c1);
@@ -23,7 +25,9 @@ struct PSInput
 {
     float2 GlobeCoord : TEXCOORD0; 
     float2 DetailCoord : TEXCOORD1; 
-    
+
+    float4 smLgtPos : TEXCOORD2;
+    float2 Depth : TEXCOORD3;
 	float3 TangentSpaceVDir : TEXCOORD5;
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
@@ -81,14 +85,23 @@ PSOutput main(PSInput ip)
 	float4 dif = i_d * k_d;
 	dif.xyz *= max(0, ndl);
 	
+	
+    float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
+    ShadowTexC.y = 1.0f - ShadowTexC.y;
+
+    float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
+   
+	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.0f: 1.0f; 
+	
+	
 	float3 R = reflect(ip.TangentSpaceLDir, N);
 	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
 
-    o.Color = o.Color * (amb + dif + k_e) + spec;
+    o.Color = o.Color * (amb + dif + k_e) * shd + spec;
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
-    
+    	
    /* if (abs(ip.LODTest)<0.01)
     {
 		o.Color += ndl * float4(0.5,0,0,0);

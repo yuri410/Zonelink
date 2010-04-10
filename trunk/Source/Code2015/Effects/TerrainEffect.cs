@@ -113,7 +113,7 @@ namespace Code2015.Effects
         }
     }
 
-    class TerrainEffect : Effect
+    class TerrainEffect : ShadowedEffect
     {
         RenderSystem renderSystem;
 
@@ -124,7 +124,7 @@ namespace Code2015.Effects
         bool stateSetted;
 
         public TerrainEffect(RenderSystem renderSystem, int ts)
-            : base(false, TerrainEffect513Factory.Name)
+            : base(renderSystem, TerrainEffect513Factory.Name, false)
         {
             this.terrSize = ts;
             this.renderSystem = renderSystem;
@@ -140,14 +140,77 @@ namespace Code2015.Effects
 
         protected override int begin()
         {
-            renderSystem.BindShader(vtxShader);
-            renderSystem.BindShader(pixShader);
-            vtxShader.SetValue("terrSize", (float)terrSize);
-            pixShader.SetValue("i_a", EffectParams.LightAmbient);
-            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            pixShader.SetValue("i_s", EffectParams.LightSpecular);
-            vtxShader.SetValue("lightDir", EffectParams.LightDir);
-            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+            if (mode == RenderMode.Depth)
+            {
+                renderSystem.BindShader(shdVtxShader);
+                renderSystem.BindShader(shdPixShader);
+            }
+            else
+            {
+                renderSystem.BindShader(vtxShader);
+                renderSystem.BindShader(pixShader);
+
+                vtxShader.SetValue("terrSize", (float)terrSize);
+                pixShader.SetValue("i_a", EffectParams.LightAmbient);
+                pixShader.SetValue("i_d", EffectParams.LightDiffuse);
+                pixShader.SetValue("i_s", EffectParams.LightSpecular);
+                vtxShader.SetValue("lightDir", EffectParams.LightDir);
+                vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+
+                pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
+
+
+                ShaderSamplerState state = new ShaderSamplerState();
+                state.AddressU = TextureAddressMode.Wrap;
+                state.AddressV = TextureAddressMode.Wrap;
+                state.AddressW = TextureAddressMode.Wrap;
+                state.MinFilter = TextureFilter.Anisotropic;
+                state.MagFilter = TextureFilter.Anisotropic;
+                state.MipFilter = TextureFilter.Anisotropic;
+                state.MaxAnisotropy = 8;
+                state.MipMapLODBias = -1;
+
+
+                pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
+
+                pixShader.SetSamplerState("texDif", ref state);
+                pixShader.SetSamplerState("texColor", ref state);
+
+
+                TerrainTexture tex;
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Snow");
+                pixShader.SetTexture("texDet1", tex.Texture);
+                pixShader.SetSamplerState("texDet1", ref state);
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Grass");
+                pixShader.SetTexture("texDet2", tex.Texture);
+                pixShader.SetSamplerState("texDet2", ref state);
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Sand");
+                pixShader.SetTexture("texDet3", tex.Texture);
+                pixShader.SetSamplerState("texDet3", ref state);
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Rock");
+                pixShader.SetTexture("texDet4", tex.Texture);
+                pixShader.SetSamplerState("texDet4", ref state);
+
+
+                state.AddressU = TextureAddressMode.Clamp;
+                state.AddressV = TextureAddressMode.Clamp;
+                state.AddressW = TextureAddressMode.Clamp;
+
+                pixShader.SetSamplerState("texNrm", ref state);
+
+
+                state.AddressU = TextureAddressMode.Border;
+                state.AddressV = TextureAddressMode.Border;
+                state.AddressW = TextureAddressMode.Border;
+                state.MinFilter = TextureFilter.Point;
+                state.MagFilter = TextureFilter.Point;
+                state.MipFilter = TextureFilter.None;
+                state.BorderColor = ColorValue.Transparent;
+                state.MaxAnisotropy = 0;
+                state.MipMapLODBias = 0;
+
+                pixShader.SetSamplerState("texShd", ref state);
+            }
             stateSetted = false;
             return 1;
         }
@@ -181,60 +244,39 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
-
-            vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
-
-            if (!stateSetted) 
+            if (mode == RenderMode.Depth)
             {
-                ShaderSamplerState state = new ShaderSamplerState();
-                state.AddressU = TextureAddressMode.Wrap;
-                state.AddressV = TextureAddressMode.Wrap;
-                state.AddressW = TextureAddressMode.Wrap;
-                state.MinFilter = TextureFilter.Anisotropic;
-                state.MagFilter = TextureFilter.Anisotropic;
-                state.MipFilter = TextureFilter.Anisotropic;
-                state.MaxAnisotropy = 8;
-                state.MipMapLODBias = -1;
+                Matrix lightPrjTrans;
+                Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
+                shdVtxShader.SetValue("mvp", ref lightPrjTrans);
+            }
+            else
+            {
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
-                pixShader.SetSamplerState("texDif", ref state);
-                pixShader.SetTexture("texDif", mat.GetTexture(0));
+                vtxShader.SetValue("mvp", ref mvp);
+                vtxShader.SetValue("world", ref op.Transformation);
 
-                pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
-                pixShader.SetSamplerState("texColor", ref state);
+                Matrix lightPrjTrans;
+                Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
 
+                vtxShader.SetValue("smTrans", lightPrjTrans);
 
-                TerrainTexture tex;
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Snow");
-                pixShader.SetTexture("texDet1", tex.Texture);
-                pixShader.SetSamplerState("texDet1", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Grass");
-                pixShader.SetTexture("texDet2", tex.Texture);
-                pixShader.SetSamplerState("texDet2", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Sand");
-                pixShader.SetTexture("texDet3", tex.Texture);
-                pixShader.SetSamplerState("texDet3", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Rock");
-                pixShader.SetTexture("texDet4", tex.Texture);
-                pixShader.SetSamplerState("texDet4", ref state);
+                if (!stateSetted)
+                {
+                    pixShader.SetTexture("texDif", mat.GetTexture(0));
 
 
-                state.AddressU = TextureAddressMode.Clamp;
-                state.AddressV = TextureAddressMode.Clamp;
-                state.AddressW = TextureAddressMode.Clamp;
+                    pixShader.SetTexture("texNrm", mat.GetTexture(1));
 
-                pixShader.SetSamplerState("texNrm", ref state);
-                pixShader.SetTexture("texNrm", mat.GetTexture(1));
+                    pixShader.SetValue("k_a", mat.Ambient);
+                    pixShader.SetValue("k_d", mat.Diffuse);
+                    pixShader.SetValue("k_s", mat.Specular);
+                    pixShader.SetValue("k_e", mat.Emissive);
+                    pixShader.SetValue("k_power", mat.Power);
 
-
-                pixShader.SetValue("k_a", mat.Ambient);
-                pixShader.SetValue("k_d", mat.Diffuse);
-                pixShader.SetValue("k_s", mat.Specular);
-                pixShader.SetValue("k_e", mat.Emissive);
-                pixShader.SetValue("k_power", mat.Power);
-
-                stateSetted = true;
+                    stateSetted = true;
+                }
             }
         }
 

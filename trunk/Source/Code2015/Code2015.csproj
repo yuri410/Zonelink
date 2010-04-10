@@ -110,10 +110,10 @@
     <Compile Include="Effects\CityRingEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
     <Compile Include="Effects\ParticleEffect.cs" />
+    <Compile Include="Effects\ShadowedEffect.cs" />
     <Compile Include="Effects\SkyboxEffect.cs" />
     <Compile Include="Effects\StandardEffect.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
-    <Compile Include="Effects\TreeEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
@@ -606,8 +606,12 @@
     <None Include="Effect\postQuad.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\shadowMap.cps" />
-    <None Include="Effect\shadowMap.cvs" />
+    <None Include="Effect\shadowMap.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect\shadowMap.cvs">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Effect\skybox.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
