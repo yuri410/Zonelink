@@ -1,5 +1,7 @@
+#include "ShadowMapping.psh"
 
 sampler2D texDif : register(s0);
+sampler2D texShd : register(s1);
 
 float4 k_d : register(c0);
 float4 k_a : register(c1);
@@ -16,6 +18,8 @@ struct PSInput
 {
     float2 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1; 
+    float4 smLgtPos : TEXCOORD2;
+    float2 Depth : TEXCOORD3;
     float3 ViewDir : TEXCOORD5;
     
 };
@@ -39,10 +43,18 @@ PSOutput main(PSInput ip)
 	
 	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.ViewDir)), k_power);
 	
+	
+    float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
+    ShadowTexC.y = 1.0f - ShadowTexC.y;
+
+    float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
+   
+	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.0f: 1.0f; 
+	
 	float4 p = amb+dif+k_e;
 	p.a = saturate(p.a);
 	
-    o.Color = tex2D(texDif, ip.TexCoord) * p + float4(spec.xyz,0);
+    o.Color = tex2D(texDif, ip.TexCoord) * p * shd + float4(spec.xyz,0);
   
   
     return o;
