@@ -55,6 +55,19 @@ namespace Code2015.Effects
             pixShader = LoadPixelShader(renderSys, fl);
         }
 
+        public override bool SupportsMode(RenderMode mode)
+        {
+            switch (mode)
+            {
+                case RenderMode.Depth:
+                    return false;
+                case RenderMode.Final:
+                case RenderMode.Simple:
+                case RenderMode.Wireframe:
+                    return true;
+            }
+            return false;
+        }
 
         protected override int begin()
         {

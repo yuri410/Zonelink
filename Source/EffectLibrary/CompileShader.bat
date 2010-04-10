@@ -29,9 +29,6 @@ fxc Effect\tree.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\tree.cps /Zpr
 fxc Effect\particle.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\particle.cvs /Zpr
 fxc Effect\particle.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\particle.cps /Zpr
 
-fxc Effect\road.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\road.cvs /Zpr
-fxc Effect\road.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\road.cps /Zpr
-
 fxc Effect\cloud.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cvs /Zpr
 fxc Effect\cloud.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\cloud.cps /Zpr
 
@@ -40,3 +37,8 @@ fxc Post\bloom.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\bloom.cps /Zpr
 fxc Post\blur.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\blur.cps /Zpr
 fxc Post\edge.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\edge.cps /Zpr
 fxc Post\postQuad.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\postQuad.cvs /Zpr
+
+
+
+fxc ShadowMap\shadowMap.ps /T ps_2_0 /E main /O3 /Fo ..\Code2015\Effect\shadowMap.cps /Zpr
+fxc ShadowMap\shadowMap.vs /T vs_2_0 /E main /O3 /Fo ..\Code2015\Effect\shadowMap.cvs /Zpr

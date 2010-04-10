@@ -62,6 +62,7 @@ namespace Code2015.EngineEx
         RenderTarget blmRt1;
         RenderTarget blmRt2;
 
+
         Bloom bloomEff;
         Composite compEff;
 
@@ -89,8 +90,6 @@ namespace Code2015.EngineEx
             gaussBlur = new GaussBlur(rs);
 
             vtxDecl = factory.CreateVertexDeclaration(RectVertex.Elements);
-
-           
 
             LoadUnmanagedResources();
         }
@@ -169,7 +168,6 @@ namespace Code2015.EngineEx
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
             renderer.RenderScene(clrRt, RenderMode.Final);
-
 
             ShaderSamplerState sampler1;
             sampler1.AddressU = TextureAddressMode.Clamp;
