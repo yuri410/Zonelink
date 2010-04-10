@@ -206,16 +206,16 @@ namespace Code2015.Effects
 
 
                 TerrainTexture tex;
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Snow0041_5");
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Snow");
                 pixShader.SetTexture("texDet1", tex.Texture);
                 pixShader.SetSamplerState("texDet1", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Grass0027_13");
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Grass");
                 pixShader.SetTexture("texDet2", tex.Texture);
                 pixShader.SetSamplerState("texDet2", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Sand0068_2");
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Sand");
                 pixShader.SetTexture("texDet3", tex.Texture);
                 pixShader.SetSamplerState("texDet3", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("RockLayered0023_2");
+                tex = TerrainMaterialLibrary.Instance.GetTexture("Rock");
                 pixShader.SetTexture("texDet4", tex.Texture);
                 pixShader.SetSamplerState("texDet4", ref state);
 
