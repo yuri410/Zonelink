@@ -119,8 +119,7 @@
     <None Include="Effect\earthBase.vs" />
     <None Include="Effect\particle.ps" />
     <None Include="Effect\particle.vs" />
-    <None Include="Effect\road.ps" />
-    <None Include="Effect\road.vs" />
+    <None Include="Effect\ShadowMapping.psh" />
     <None Include="Effect\skybox.ps" />
     <None Include="Effect\skybox.vs" />
     <None Include="Effect\standard.ps" />

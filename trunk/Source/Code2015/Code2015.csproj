@@ -115,7 +115,6 @@
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\TreeEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
-    <Compile Include="Effects\RoadEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
     <Compile Include="EngineEx\PostRenderer.cs" />
@@ -607,12 +606,8 @@
     <None Include="Effect\postQuad.cvs">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Effect\road.cps">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
-    <None Include="Effect\road.cvs">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
+    <None Include="Effect\shadowMap.cps" />
+    <None Include="Effect\shadowMap.cvs" />
     <None Include="Effect\skybox.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

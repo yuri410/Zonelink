@@ -1,0 +1,3 @@
+#define SHADOW_EPSILON 0.0001f
+#define SMAP_SIZE 1024
+

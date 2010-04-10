@@ -41,12 +41,6 @@ namespace Code2015.Effects
 
     class WaterEffect : Effect
     {
-        //public static RenderTarget Reflection
-        //{
-        //    get;
-        //    set;
-        //}
-
         RenderSystem renderSystem;
 
         PixelShader pixShader;
@@ -96,15 +90,19 @@ namespace Code2015.Effects
         {
         }
 
-        //public override void BeginShadowPass()
-        //{
-        //    throw new NotImplementedException();
-        //}
-
-        //public override void EndShadowPass()
-        //{
-        //    throw new NotImplementedException();
-        //}
+        public override bool SupportsMode(RenderMode mode)
+        {
+            switch (mode)
+            {
+                case RenderMode.Depth:
+                    return false;
+                case RenderMode.Final:
+                case RenderMode.Simple:
+                case RenderMode.Wireframe:
+                    return true;
+            }
+            return false;
+        }
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
@@ -124,11 +122,6 @@ namespace Code2015.Effects
 
             pixShader.SetValue("move", move);
         }
-
-        //public override void SetupShadowPass(Material mat, ref RenderOperation op)
-        //{
-        //    throw new NotImplementedException();
-        //}
 
         protected override void Dispose(bool disposing)
         {
