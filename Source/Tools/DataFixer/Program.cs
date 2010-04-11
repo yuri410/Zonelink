@@ -776,10 +776,85 @@ namespace DataFixer
 
             res.Save(@"E:\Desktop\sss.png");
         }
+        static unsafe void Grid()
+        {
+            //const int CellSpan = 3;
+            const string SrcDir = @"E:\Desktop\terrain_l0.raw";
+
+            ContentBinaryReader br = new ContentBinaryReader(new FileLocation(SrcDir));
+            const int DW = 513 * 36;
+            const int DH = 513 * 14;
+
+            ushort[] hgtData = new ushort[DW * DH];
+            for (int i = 0; i < DW * DH; i++)
+            {
+                hgtData[i] = br.ReadUInt16();
+            }
+            br.Close();
+
+            ushort[] result = new ushort[DW * DH];
+            bool[] setFlag = new bool[DW * DH];
+            for (int i = 0; i < DH-2; i ++)
+            {
+                int rem = i % 2;
+
+                int st = rem == 0 ? 0 : 1;
+                for (int j = st; j < DW - 2; j += 2)
+                {
+                    int top = i * DW + j + 1;
+                    int left = (i + 1) * DW + j;
+                    int right = (i + 1) * DW + j + 2;
+                    int bottom = (i + 2) * DW + j + 1;
+
+                    ushort vtop = setFlag[top] ? result[top] : hgtData[top];
+                    ushort vleft = setFlag[left] ? result[left] : hgtData[left];
+                    ushort vright = setFlag[right] ? result[right] : hgtData[right];
+                    ushort vbottom = setFlag[bottom] ? result[bottom] : hgtData[bottom];
+
+                    ushort vcenter = (ushort)((vtop + vleft + vright + vbottom) / 4);
+
+                    int v = vcenter + vcenter - vtop;
+
+                    if (v < 0) v = 0;
+                    else if (v > ushort.MaxValue) v = ushort.MaxValue;
+                    vbottom = (ushort)v;
+
+
+
+                    result[top] = vtop;
+                    setFlag[top] = true;
+
+                    result[left] = vleft;
+                    setFlag[left] = true;
+
+                    result[right] = vright;
+                    setFlag[right] = true;
+
+                    result[bottom] = vbottom;
+                    setFlag[bottom] = true;
+
+                    int center = (i + 1) * DW + j + 1;
+                    result[center] = vcenter;
+                    setFlag[center] = true;
+
+
+
+                }
+            }
+
+
+            ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\res.raw", FileMode.OpenOrCreate));
+            for (int i = 0; i < DW * DH; i++)
+            {
+                bw.Write(result[i]);
+            }
+
+            bw.Close();
+        }
 
         static void Main(string[] args)
         {
-            MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
+            //MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
             //BuildBitMap();
@@ -789,6 +864,7 @@ namespace DataFixer
             //BuildLandAreaHeight();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
+            Grid();
             Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";

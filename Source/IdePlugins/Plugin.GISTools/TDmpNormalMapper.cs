@@ -213,10 +213,10 @@ namespace Plugin.GISTools
             {
                 for (int ty = 5; ty < 33; ty += 2)
                 {
-                    string onm = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrainNormal.lpk\tile_" + tx.ToString("D2") + "_" + ty.ToString("D2") + "_0.tex";
+                    //string onm = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrainNormal.lpk\tile_" + tx.ToString("D2") + "_" + ty.ToString("D2") + "_0.tex";
 
-                    if (!File.Exists(onm))
-                        continue;
+                    //if (!File.Exists(onm))
+                    //    continue;
 
                     int baseI =  TL * (ty - 5) / 2;
                     int baseJ = TL * ((tx - 1) / 2);

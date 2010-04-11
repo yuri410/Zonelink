@@ -119,45 +119,85 @@ namespace Code2015.EngineEx
             //        throw new InvalidOperationException();
             //}
 
-            for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
+            int primCount = MathEx.Sqr(terrEdgeSize) * 2;
+            int indexCount = primCount * 3;
+            indexBuffer[0] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+            int[] indexArray = new int[indexCount];
+
+            int idx = 0;
+            for (int i = 0; i < terrEdgeSize; i++)
             {
-                int cellLength = blockEdgeLen / levelLength;
+                int remi = i % 2;
 
-
-                lodLevelThreshold[k] = 1.3f * (MaxTerrainSize / (float)terrEdgeSize) * (MaxTerrainSize * MathEx.Root2) / (float)(k + 1);
-                lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
-
-                cellSpan[k] = cellLength;
-                levelLengths[k] = levelLength;
-
-                int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
-
-                levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
-                levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
-
-                indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-
-                int[] indexArray = new int[indexCount];
-
-                int index = 0;
-                for (int i = 0; i < levelLength; i++)
+                for (int j = 0; j < terrEdgeSize; j++)
                 {
-                    for (int j = 0; j < levelLength; j++)
+                    int remj = j % 2;
+                    if (remi == remj)
                     {
-                        int x = i * cellLength;
-                        int y = j * cellLength;
+                        indexArray[idx++] = i * terrEdgeSize + j;
+                        indexArray[idx++] = i * terrEdgeSize + (j + 1);
+                        indexArray[idx++] = (i + 1) * terrEdgeSize + j;
 
-                        indexArray[index++] = y * terrEdgeSize + x;
-                        indexArray[index++] = y * terrEdgeSize + (x + cellLength);
-                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
 
-                        indexArray[index++] = y * terrEdgeSize + x;
-                        indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-                        indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
+                        indexArray[idx++] = i * terrEdgeSize + (j + 1);
+                        indexArray[idx++] = (i + 1) * terrEdgeSize + j;
+                        indexArray[idx++] = (i + 1) * terrEdgeSize + (j + 1);
+                    }
+                    else
+                    {
+                        indexArray[idx++] = i * terrEdgeSize + j;
+                        indexArray[idx++] = i * terrEdgeSize + (j + 1);
+                        indexArray[idx++] = (i + 1) * terrEdgeSize + (j + 1);
+
+                        indexArray[idx++] = j * terrEdgeSize + j;
+                        indexArray[idx++] = (j + 1) * terrEdgeSize + (j + 1);
+                        indexArray[idx++] = (j + 1) * terrEdgeSize + j;
                     }
                 }
-                indexBuffer[k].SetData<int>(indexArray);
             }
+            indexBuffer[0].SetData<int>(indexArray);
+
+
+
+            //for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
+            //{
+            //    int cellLength = blockEdgeLen / levelLength;
+
+
+            //    lodLevelThreshold[k] = 1.3f * (MaxTerrainSize / (float)terrEdgeSize) * (MaxTerrainSize * MathEx.Root2) / (float)(k + 1);
+            //    lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
+
+            //    cellSpan[k] = cellLength;
+            //    levelLengths[k] = levelLength;
+
+            //    int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
+
+            //    levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
+            //    levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
+
+            //    indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+
+            //    int[] indexArray = new int[indexCount];
+
+            //    int index = 0;
+            //    for (int i = 0; i < levelLength; i++)
+            //    {
+            //        for (int j = 0; j < levelLength; j++)
+            //        {
+            //            int x = i * cellLength;
+            //            int y = j * cellLength;
+
+            //            indexArray[index++] = y * terrEdgeSize + x;
+            //            indexArray[index++] = y * terrEdgeSize + (x + cellLength);
+            //            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+
+            //            indexArray[index++] = y * terrEdgeSize + x;
+            //            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
+            //            indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
+            //        }
+            //    }
+            //    indexBuffer[k].SetData<int>(indexArray);
+            //}
         }
 
         #region IDisposable 成员
