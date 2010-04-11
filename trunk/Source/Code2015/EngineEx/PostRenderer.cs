@@ -168,6 +168,7 @@ namespace Code2015.EngineEx
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
             renderer.RenderScene(clrRt, RenderMode.Final);
+            //renderSys.RenderStates.FillMode = FillMode.Solid;
 
             ShaderSamplerState sampler1;
             sampler1.AddressU = TextureAddressMode.Clamp;

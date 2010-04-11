@@ -48,7 +48,7 @@ PSOutput main(PSInput ip)
 
     float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
    
-	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.0f: 1.0f; 
+	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.5f: 1.0f; 
 	
 	float4 p = amb+dif+k_e;
 	p.a = saturate(p.a);

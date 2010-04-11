@@ -91,7 +91,7 @@ PSOutput main(PSInput ip)
 
     float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
    
-	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.0f: 1.0f; 
+	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth) ? 0.5f: 1.0f; 
 	
 	
 	float3 R = reflect(ip.TangentSpaceLDir, N);
