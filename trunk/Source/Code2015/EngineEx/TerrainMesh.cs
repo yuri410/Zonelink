@@ -18,8 +18,8 @@ namespace Code2015.EngineEx
 
     unsafe class TerrainMesh : Resource, IRenderable
     {
-        public const int TerrainBlockSize = 33;
-        public const int LocalLodCount = 4;
+        //public const int TerrainBlockSize = 33;
+        //public const int LocalLodCount = 4;
 
         const float PlanetRadius = PlanetEarth.PlanetRadius;
 
@@ -53,7 +53,7 @@ namespace Code2015.EngineEx
             }
         }
 
-        bool hasData;
+        //bool hasData;
         //FileLocation resLoc;
         FileLocation nrmMapLoc;
         Texture normalMap;
@@ -61,18 +61,13 @@ namespace Code2015.EngineEx
         /// <summary>
         ///  地形一条边上的顶点数
         /// </summary>
-        int terrEdgeSize;
+        const int terrEdgeSize = 33;
 
 
         VertexDeclaration vtxDecl;
         VertexBuffer vtxBuffer;
 
-        IndexBuffer[] indexBuffer;
-
-        /// <summary>
-        ///  世界LOD级别
-        /// </summary>
-        int dataLevel;
+        IndexBuffer indexBuffer;
 
         RenderSystem renderSystem;
         ObjectFactory factory;
@@ -86,52 +81,7 @@ namespace Code2015.EngineEx
         public Matrix Transformation = Matrix.Identity;
 
         /// <summary>
-        ///  表示地形是否是分块的
-        /// </summary>
-        bool isBlockTerrain;
-
-        #region 分块地形的数据
-        /// <summary>
-        ///  地形块的数量
-        /// </summary>
-        int blockCount;
-
-        /// <summary>
-        ///  地形分块的在地形的一条边上的数量
-        /// </summary>
-        int blockEdgeCount;
-
-        /// <summary>
-        ///  不同的lod级别下一个地形分块的长度
-        /// </summary>
-        int[] levelLengths;
-
-        /// <summary>
-        ///  在不同lod级别下一个单元的跨度
-        /// </summary>
-        int[] cellSpan;
-
-        /// <summary>
-        ///  lod 权值
-        /// </summary>
-        float[] lodLevelThreshold;
-
-        /// <summary>
-        ///  不同的lod级别下一个地形分块的三角形数量
-        /// </summary>
-        int[] levelPrimConut;
-
-        /// <summary>
-        ///  不同的lod级别下一个地形分块的顶点数量
-        /// </summary>
-        int[] levelVertexCount;
-
-        Queue<TerrainTreeNode> bfsQueue;
-        TerrainTreeNode rootNode;
-        #endregion
-
-        /// <summary>
-        ///  不是分块地形时，
+        ///  
         /// </summary>
         GeomentryData defGeometryData;
 
@@ -163,34 +113,31 @@ namespace Code2015.EngineEx
 
         public event ObjectSpaceChangedHandler ObjectSpaceChanged;
         
-        public static string GetHashString(int x, int y, int lod)
+        public static string GetHashString(int x, int y)
         {
-            return "TM" + x.ToString("D2") + y.ToString("D2") + lod.ToString("D1");
+            return "TM" + x.ToString("D2") + y.ToString("D2");
         }
 
 
 
-        public TerrainMesh(RenderSystem rs, int x, int y, int lod)
-            : base(TerrainMeshManager.Instance, GetHashString(x, y, lod))
+        public TerrainMesh(RenderSystem rs, int x, int y)
+            : base(TerrainMeshManager.Instance, GetHashString(x, y))
         {
-            this.bfsQueue = new Queue<TerrainTreeNode>();
             this.opBuffer = new FastList<RenderOperation>();
 
             this.tileX = x;
             this.tileY = y;
 
-            hasData = TerrainData.Instance.HasData(x, y);
             //resLoc = FileSystem.Instance.TryLocate(
             //    "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
             nrmMapLoc = FileSystem.Instance.TryLocate(
                 "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + TextureData.Extension, GameFileLocs.TerrainNormal);
 
-            dataLevel = lod;
             renderSystem = rs;
             factory = rs.ObjectFactory;
 
             material = new Material(rs);
-            material.CullMode = CullMode.CounterClockwise;
+            material.CullMode = CullMode.None;
 
             //material.Ambient = terrData.MaterialAmbient;
             //material.Diffuse = terrData.MaterialDiffuse;
@@ -205,22 +152,6 @@ namespace Code2015.EngineEx
             material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);
-
-            switch (lod)
-            {
-                case 0:
-                    terrEdgeSize = 513;
-                    break;
-                case 1:
-                    terrEdgeSize = 129;
-                    break;
-                case 2:
-                    terrEdgeSize = 33;
-                    break;
-                default:
-                    terrEdgeSize = 513;
-                    break;
-            }
 
             // 估算包围球
             {
@@ -240,24 +171,10 @@ namespace Code2015.EngineEx
         public override int GetSize()
         {
             int size = 0;
-            if (hasData)
-            {
-                switch (dataLevel)
-                {
-                    case 0:
-                        size += TerrainVertex.Size * 1025 * 1025;
-                        size += sizeof(int) * (32 * 32) * 6 * LocalLodCount;
-                        break;
-                    case 1:
-                        size += TerrainVertex.Size * 257 * 257;
-                        size += sizeof(int) * (8 * 8) * 6 * LocalLodCount;
-                        break;
-                    case 2:
-                        size += TerrainVertex.Size * 65 * 65;
-                        size += sizeof(int) * (2 * 2) * 6 * LocalLodCount;
-                        break;
-                }
-            }
+           
+                size += TerrainVertex.Size * 33 * 33;
+                size += sizeof(int) * (2 * 2) * 6;
+            
             if (nrmMapLoc != null)
             {
                 if (normalMap != null)
@@ -269,9 +186,7 @@ namespace Code2015.EngineEx
 
         protected override void load()
         {
-            if (!hasData)
-                return;
-
+          
             if (nrmMapLoc != null)
             {
                 normalMap = TextureManager.Instance.CreateInstanceUnmanaged(nrmMapLoc);
@@ -288,7 +203,7 @@ namespace Code2015.EngineEx
             //data.Load(resLoc);
             //tileCol = data.Xllcorner;// (float)Math.Round(data.Xllcorner);
             //tileLat = data.Yllcorner;// (float)Math.Round(data.Yllcorner);
-            float[] data = TerrainData.Instance.GetData(tileX, tileY, dataLevel);
+            float[] data = TerrainData.Instance.GetData(tileX, tileY);
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
@@ -298,21 +213,8 @@ namespace Code2015.EngineEx
 
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
-            isBlockTerrain = terrEdgeSize >= TerrainBlockSize;
 
-            switch (terrEdgeSize)
-            {
-                case 33:
-                    material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect33Factory.Name));
-                    break;
-                case 129:
-                    material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect129Factory.Name));
-                    break;
-                case 513:
-                default:
-                    material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect513Factory.Name));
-                    break;
-            }
+            material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect33Factory.Name));
 
             #region 顶点数据
 
@@ -371,89 +273,27 @@ namespace Code2015.EngineEx
 
             #endregion
 
-            if (isBlockTerrain)
-            {
-                #region 索引数据
-                int blockEdgeLen = TerrainBlockSize - 1;
-                this.blockEdgeCount = terrEdgeLen / blockEdgeLen;
-                this.blockCount = MathEx.Sqr(blockEdgeCount);
+            #region 索引数据
+            SharedIndexData sindexData = TerrainMeshManager.Instance.GetIndexData();
+            indexBuffer = sindexData.Index;
+            #endregion
 
-                SharedBlockIndexData sharedData = TerrainMeshManager.Instance.GetSharedIndexData(terrEdgeSize);
+            #region 构造GeomentryData
+            defGeometryData = new GeomentryData();
+            defGeometryData.VertexDeclaration = vtxDecl;
 
-                levelLengths = sharedData.LevelLength;
-                cellSpan = sharedData.CellSpan;
-                lodLevelThreshold = sharedData.LodLevelThreshold;
-                levelPrimConut = sharedData.LevelPrimCount;
-                levelVertexCount = sharedData.LevelVertexCount;
-                indexBuffer = sharedData.IndexBuffers;
+            defGeometryData.VertexSize = TerrainVertex.Size;
+            defGeometryData.VertexBuffer = vtxBuffer;
+            defGeometryData.IndexBuffer = indexBuffer;
+            defGeometryData.PrimCount = indexBuffer.IndexCount / 3;
+            defGeometryData.VertexCount = terrEdgeSize * terrEdgeSize;
 
-                #endregion
+            defGeometryData.PrimitiveType = RenderPrimitiveType.TriangleList;
 
-                BuildTerrainTree(vtxArray);
-            }
-            else
-            {
-                indexBuffer = new IndexBuffer[1];
+            defGeometryData.BaseVertex = 0;
 
-                #region 索引数据
-                this.blockEdgeCount = 1;
-                this.blockCount = 1;
+            #endregion
 
-                levelLengths = new int[1];
-                cellSpan = new int[1];
-                lodLevelThreshold = new float[1];
-
-                levelPrimConut = new int[1];
-                levelVertexCount = new int[1];
-
-
-                cellSpan[0] = 1;
-                levelLengths[0] = terrEdgeLen;
-
-                int indexCount = MathEx.Sqr(terrEdgeLen) * 2 * 3;
-
-                levelPrimConut[0] = MathEx.Sqr(terrEdgeLen) * 2;
-                levelVertexCount[0] = MathEx.Sqr(terrEdgeSize);
-
-                indexBuffer[0] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-
-                int[] indexArray = new int[indexCount];
-
-                for (int i = 0, index = 0; i < terrEdgeLen; i++)
-                {
-                    for (int j = 0; j < terrEdgeLen; j++)
-                    {
-                        int x = i;
-                        int y = j;
-
-                        indexArray[index++] = y * terrEdgeSize + x;
-                        indexArray[index++] = y * terrEdgeSize + (x + 1);
-                        indexArray[index++] = (y + 1) * terrEdgeSize + (x + 1);
-
-                        indexArray[index++] = y * terrEdgeSize + x;
-                        indexArray[index++] = (y + 1) * terrEdgeSize + (x + 1);
-                        indexArray[index++] = (y + 1) * terrEdgeSize + x;
-                    }
-                }
-                indexBuffer[0].SetData<int>(indexArray);
-                #endregion
-
-                #region 构造GeomentryData
-                defGeometryData = new GeomentryData();
-                defGeometryData.VertexDeclaration = vtxDecl;
-
-                defGeometryData.VertexSize = TerrainVertex.Size;
-                defGeometryData.VertexBuffer = vtxBuffer;
-                defGeometryData.IndexBuffer = indexBuffer[0];
-                defGeometryData.PrimCount = levelPrimConut[0];
-                defGeometryData.VertexCount = levelVertexCount[0];
-
-                defGeometryData.PrimitiveType = RenderPrimitiveType.TriangleList;
-
-                defGeometryData.BaseVertex = 0;
-
-                #endregion
-            }
             vtxBuffer.SetData<TerrainVertex>(vtxArray);
         }
 
@@ -475,117 +315,9 @@ namespace Code2015.EngineEx
                 normalMap = null;
             }
             indexBuffer = null;
-            if (rootNode != null)
-            {
-                rootNode.Dispose();
-                rootNode = null;
-            }
+
         }
         #endregion
-
-        /// <summary>
-        ///  构造地形树
-        /// </summary>
-        /// <param name="vertices">顶点数据</param>
-        void BuildTerrainTree(TerrainVertex[] vertices)
-        {
-            // 地块边的长度，边定点数减1
-            int blockEdgeLen = TerrainBlockSize - 1;
-            TerrainBlock[] blocks = new TerrainBlock[blockCount];
-
-            float halfTerrSize = terrEdgeSize * 0.5f;
-
-            int index = 0;
-
-            // 枚举每个地块
-            for (int i = 0; i < blockEdgeCount; i++)
-            {
-                for (int j = 0; j < blockEdgeCount; j++)
-                {
-                    Vector3 center = new Vector3();
-
-                    blocks[index] = new TerrainBlock(j * blockEdgeLen, i * blockEdgeLen);
-
-                    // 检查该块中是否有特殊单元
-                    if (!false)
-                    {
-                        blocks[index].IndexBuffers = indexBuffer;
-                    }
-                    else
-                    {
-                        // 为这个block创建特殊的IB
-                    }
-
-                    GeomentryData gd = new GeomentryData();
-                    gd.VertexDeclaration = vtxDecl;
-
-                    gd.VertexSize = TerrainVertex.Size;
-                    gd.VertexBuffer = vtxBuffer;
-                    gd.IndexBuffer = indexBuffer[0];
-                    gd.PrimCount = levelPrimConut[0];
-                    gd.VertexCount = levelVertexCount[0];
-
-                    gd.PrimitiveType = RenderPrimitiveType.TriangleList;
-
-                    int x = (j == 0) ? 0 : j * blockEdgeLen;
-                    int y = (i == 0) ? 0 : i * blockEdgeLen;
-
-                    gd.BaseVertex = y * terrEdgeSize + x;
-
-                    blocks[index].GeoData = gd;
-
-                    #region 计算包围球中心点
-                    for (int ii = 0; ii < TerrainBlockSize; ii++)
-                    {
-                        for (int jj = 0; jj < TerrainBlockSize; jj++)
-                        {
-                            int dmY = i * blockEdgeLen + ii;
-                            int dmX = j * blockEdgeLen + jj;
-
-                            center += vertices[dmY * terrEdgeSize + dmX].Position;
-                        }
-                    }
-
-                    float invVtxCount = 1f / (float)(TerrainBlockSize * TerrainBlockSize);
-                    center.X *= invVtxCount;
-                    center.Y *= invVtxCount;
-                    center.Z *= invVtxCount;
-
-                    #endregion
-
-                    #region 计算包围球半径
-
-                    float radius = 0;
-                    for (int ii = 0; ii < TerrainBlockSize; ii++)
-                    {
-                        for (int jj = 0; jj < TerrainBlockSize; jj++)
-                        {
-                            int dmY = i * blockEdgeLen + ii;
-                            int dmX = j * blockEdgeLen + jj;
-
-                            Vector3 vtxPos = vertices[dmY * terrEdgeSize + dmX].Position;
-
-                            float dist = Vector3.Distance(vtxPos, center);
-                            if (dist > radius)
-                            {
-                                radius = dist;
-                            }
-                        }
-                    }
-                    blocks[index].Radius = radius;
-                    blocks[index].Center = center;
-
-                    #endregion
-                    index++;
-                }
-            }
-            rootNode = new TerrainTreeNode(new FastList<TerrainBlock>(blocks), (terrEdgeSize - 1) / 2, (terrEdgeSize - 1) / 2, 1, terrEdgeSize);
-
-            //BoundingSphere = rootNode.BoundingVolume;
-            //BoundingSphere.Center = Vector3.TransformSimple(rootNode.BoundingVolume.Center, Transformation);
-            //if (ObjectSpaceChanged != null)
-            //    ObjectSpaceChanged(Transformation, BoundingSphere);
-        }
 
         /// <summary>
         ///  准备特定lod级别下的可见物体
@@ -594,96 +326,18 @@ namespace Code2015.EngineEx
         /// <param name="level"></param>
         public void PrepareVisibleObjects(ICamera cam, int level)
         {
-            if (!hasData)
-                return;
-
             if (State == ResourceState.Loaded)
             {
                 opBuffer.Clear();
 
-                if (isBlockTerrain)
-                {
-                    #region 分块地形的可见性测试
+                RenderOperation op;
 
-                    Frustum frus = cam.Frustum;
-                    Vector3 camPos = cam.Position;
+                op.Material = material;
+                op.Geomentry = defGeometryData;
 
-                    Vector3 c = rootNode.BoundingVolume.Center;
-
-                    if (frus.IntersectsSphere(ref c, rootNode.BoundingVolume.Radius))
-                    {
-                        bfsQueue.Enqueue(rootNode);
-
-                        while (bfsQueue.Count > 0)
-                        {
-                            TerrainTreeNode node = bfsQueue.Dequeue();
-                            TerrainTreeNode[] nodes = node.Children;
-
-                            if (nodes != null)
-                            {
-                                // 遍历子节点
-                                for (int i = 0; i < node.Children.Length; i++)
-                                {
-                                    c = node.Children[i].BoundingVolume.Center;
-
-                                    if (frus.IntersectsSphere(ref c, node.Children[i].BoundingVolume.Radius))
-                                    {
-                                        bfsQueue.Enqueue(node.Children[i]);
-                                    }
-                                }
-                            }
-                            else
-                            {
-                                if (node.Block != null)
-                                {
-                                    c = node.BoundingVolume.Center;
-
-                                    if (frus.IntersectsSphere(ref c, node.BoundingVolume.Radius))
-                                    {
-                                        float dist = MathEx.DistanceSquared(ref c, ref camPos);
-
-                                        RenderOperation op;
-
-                                        op.Material = material;
-                                        op.Geomentry = node.Block.GeoData;
-
-                                        int lodLevel = LocalLodCount - 1;
-
-                                        for (int lod = 0; lod < LocalLodCount; lod++)
-                                        {
-                                            if (dist <= lodLevelThreshold[LocalLodCount - lod - 1])
-                                            {
-                                                lodLevel = lod;
-                                                break;
-                                            }
-                                        }
-
-                                        op.Geomentry.IndexBuffer = node.Block.IndexBuffers[lodLevel];
-                                        op.Geomentry.PrimCount = levelPrimConut[lodLevel];
-                                        op.Geomentry.VertexCount = levelVertexCount[lodLevel];
-
-                                        op.Transformation = Matrix.Identity;
-                                        op.Sender = this;
-                                        opBuffer.Add(op);
-                                    }
-                                }
-                            }
-
-                        }
-                    }
-                    #endregion
-                }
-                else
-                {
-                    RenderOperation op;
-
-                    op.Material = material;
-                    op.Geomentry = defGeometryData;
-
-                    op.Transformation = Matrix.Identity;
-                    op.Sender = this; 
-                    opBuffer.Add(op);
-                }
+                op.Transformation = Matrix.Identity;
+                op.Sender = this;
+                opBuffer.Add(op);
             }
         }
 
@@ -693,10 +347,7 @@ namespace Code2015.EngineEx
         {
             if (State == ResourceState.Loaded)
             {
-                if (hasData)
-                {
-                    return opBuffer.Elements;
-                }
+                return opBuffer.Elements;
             }
             return null;
         }

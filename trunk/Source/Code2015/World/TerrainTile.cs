@@ -15,18 +15,7 @@ namespace Code2015.World
     /// </summary>
     class TerrainTile : SceneObject
     {
-        /// <summary>
-        ///  0级LOD地形
-        /// </summary>
-        ResourceHandle<TerrainMesh> terrain0;
-        /// <summary>
-        ///  1级LOD地形
-        /// </summary>
-        ResourceHandle<TerrainMesh> terrain1;
-        /// <summary>
-        ///  2级LOD地形
-        /// </summary>
-        ResourceHandle<TerrainMesh> terrain2;
+        ResourceHandle<TerrainMesh> terrain;
         //ResourceHandle<TerrainMesh> terrain3;
 
         ResourceHandle<TerrainMesh> activeTerrain;
@@ -40,23 +29,12 @@ namespace Code2015.World
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            terrain2 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-
-            if (lat > 5 && lat < 31)
-            {
-                terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            }
-            else
-            {
-                terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 2);
-            }
-
-            terrain2.Touch();
+            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat);
+            terrain.Touch();
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
-            Transformation = terrain1.GetWeakResource().Transformation;
-            BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
+            Transformation = terrain.GetWeakResource().Transformation;
+            BoundingSphere = terrain.GetWeakResource().BoundingSphere;
 
             //Transformation = terrain0.GetWeakResource().Transformation;
             //BoundingSphere = terrain0.GetWeakResource().BoundingSphere;
@@ -81,42 +59,13 @@ namespace Code2015.World
 
         public override void PrepareVisibleObjects(ICamera cam, int level)
         {
-            switch (level)
+            if (terrain.State == ResourceState.Loaded)
             {
-                case 0:
-                    if (terrain0.State == ResourceState.Loaded)
-                    {
-                        ActiveTerrain = terrain0;
-                    }
-                    else
-                    {
-                        terrain0.Touch();
-                    }
-                    break;
-                case 1:
-                    if (terrain1.State == ResourceState.Loaded)
-                    {
-                        ActiveTerrain = terrain1;
-                    }
-                    else
-                    {
-                        terrain1.Touch();
-                    }
-                    break;
-                case 2:
-                case 3:
-                    if (terrain2.State == ResourceState.Loaded)
-                    {
-                        ActiveTerrain = terrain2;
-                    }
-                    else
-                    {
-                        terrain2.Touch();
-                    }
-                    break;
-                default:
-                    ActiveTerrain = null;
-                    break;
+                ActiveTerrain = terrain;
+            }
+            else
+            {
+                terrain.Touch();
             }
 
             if (ActiveTerrain != null)
@@ -129,7 +78,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            BoundingSphere = terrain1.GetWeakResource().BoundingSphere;
+            BoundingSphere = terrain.GetWeakResource().BoundingSphere;
         }
 
         public override bool IsSerializable
@@ -143,12 +92,10 @@ namespace Code2015.World
 
             if (disposing)
             {
-                terrain0.Dispose();
-                terrain1.Dispose();
+                terrain.Dispose();
                 //terrain2.Dispose();
             }
-            terrain0 = null;
-            terrain1 = null;
+            terrain = null;
             //terrain2 = null;
         }
     }

@@ -8,245 +8,15 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-    /// <summary>
-    ///  表示共享的地形数据。用于节约内存。
-    ///  
-    ///  对于所有一定大小的地形，所使用的顶点数据是相同的。
-    /// </summary>
-    /// <remarks>如果必要的话可以将共享地形索引数据做成Resource管理</remarks>
-    class SharedBlockIndexData : IDisposable
+
+    class SharedIndexData
     {
-        const float MaxTerrainSize = 513;
+        IndexBuffer indexBuffer;
 
-        IndexBuffer[] indexBuffer;
-
-        /// <summary>
-        ///  不同的lod级别下一个地形分块的长度
-        /// </summary>
-        int[] levelLengths;
-
-        /// <summary>
-        ///  在不同lod级别下一个单元的跨度
-        /// </summary>
-        int[] cellSpan;
-
-        /// <summary>
-        ///  lod 权值
-        /// </summary>
-        float[] lodLevelThreshold;
-
-        /// <summary>
-        ///  不同的lod级别下一个地形分块的三角形数量
-        /// </summary>
-        int[] levelPrimConut;
-
-        /// <summary>
-        ///  不同的lod级别下一个地形分块的顶点数量
-        /// </summary>
-        int[] levelVertexCount;
-
-        public IndexBuffer[] IndexBuffers
+        public IndexBuffer Index
         {
             get { return indexBuffer; }
         }
-
-        public int[] LevelLength
-        {
-            get { return levelLengths; }
-        }
-        public int[] CellSpan
-        {
-            get { return cellSpan; }
-        }
-        public float[] LodLevelThreshold
-        {
-            get { return lodLevelThreshold; }
-        }
-        public int[] LevelPrimCount
-        {
-            get { return levelPrimConut; }
-        }
-        public int[] LevelVertexCount
-        {
-            get { return levelVertexCount; }
-        }
-        public int TerrainSize
-        {
-            get;
-            private set;
-        }
-        public SharedBlockIndexData(RenderSystem rs, int terrEdgeSize)
-        {
-            ObjectFactory factory = rs.ObjectFactory;
-            const int TerrainBlockSize = TerrainMesh.TerrainBlockSize;
-            const int LocalLodCount = TerrainMesh.LocalLodCount;
-
-            TerrainSize = terrEdgeSize;
-            int terrEdgeLen = terrEdgeSize - 1;
-
-            int blockEdgeLen = TerrainBlockSize - 1;
-
-            indexBuffer = new IndexBuffer[LocalLodCount];
-            levelLengths = new int[LocalLodCount];
-            cellSpan = new int[LocalLodCount];
-            lodLevelThreshold = new float[LocalLodCount];
-
-            levelPrimConut = new int[LocalLodCount];
-            levelVertexCount = new int[LocalLodCount];
-
-            //switch (terrEdgeSize)
-            //{
-            //    case 33:
-            //        lodLevelThreshold[0] = MathEx.Sqr(500);
-            //        lodLevelThreshold[1] = MathEx.Sqr(1000);
-            //        lodLevelThreshold[2] = MathEx.Sqr(1500);
-            //        lodLevelThreshold[3] = MathEx.Sqr(2000);
-            //        break;
-            //    case 129:
-            //        lodLevelThreshold[0] = MathEx.Sqr(250);
-            //        lodLevelThreshold[1] = MathEx.Sqr(500);
-            //        lodLevelThreshold[2] = MathEx.Sqr(750);
-            //        lodLevelThreshold[3] = MathEx.Sqr(1000);
-            //        break;
-            //    case 513:
-            //        lodLevelThreshold[0] = MathEx.Sqr(100);
-            //        lodLevelThreshold[1] = MathEx.Sqr(200);
-            //        lodLevelThreshold[2] = MathEx.Sqr(333);
-            //        lodLevelThreshold[3] = MathEx.Sqr(500);
-
-            //        break;
-            //    default:
-            //        throw new InvalidOperationException();
-            //}
-
-            int primCount = MathEx.Sqr(terrEdgeSize) * 2;
-            int indexCount = primCount * 3;
-            indexBuffer[0] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-            int[] indexArray = new int[indexCount];
-
-            int idx = 0;
-            for (int i = 0; i < terrEdgeSize; i++)
-            {
-                int remi = i % 2;
-
-                for (int j = 0; j < terrEdgeSize; j++)
-                {
-                    int remj = j % 2;
-                    if (remi == remj)
-                    {
-                        indexArray[idx++] = i * terrEdgeSize + j;
-                        indexArray[idx++] = i * terrEdgeSize + (j + 1);
-                        indexArray[idx++] = (i + 1) * terrEdgeSize + j;
-
-
-                        indexArray[idx++] = i * terrEdgeSize + (j + 1);
-                        indexArray[idx++] = (i + 1) * terrEdgeSize + j;
-                        indexArray[idx++] = (i + 1) * terrEdgeSize + (j + 1);
-                    }
-                    else
-                    {
-                        indexArray[idx++] = i * terrEdgeSize + j;
-                        indexArray[idx++] = i * terrEdgeSize + (j + 1);
-                        indexArray[idx++] = (i + 1) * terrEdgeSize + (j + 1);
-
-                        indexArray[idx++] = j * terrEdgeSize + j;
-                        indexArray[idx++] = (j + 1) * terrEdgeSize + (j + 1);
-                        indexArray[idx++] = (j + 1) * terrEdgeSize + j;
-                    }
-                }
-            }
-            indexBuffer[0].SetData<int>(indexArray);
-
-
-
-            //for (int k = 0, levelLength = blockEdgeLen; k < LocalLodCount; k++, levelLength /= 2)
-            //{
-            //    int cellLength = blockEdgeLen / levelLength;
-
-
-            //    lodLevelThreshold[k] = 1.3f * (MaxTerrainSize / (float)terrEdgeSize) * (MaxTerrainSize * MathEx.Root2) / (float)(k + 1);
-            //    lodLevelThreshold[k] = MathEx.Sqr(lodLevelThreshold[k]);
-
-            //    cellSpan[k] = cellLength;
-            //    levelLengths[k] = levelLength;
-
-            //    int indexCount = MathEx.Sqr(levelLength) * 2 * 3;
-
-            //    levelPrimConut[k] = MathEx.Sqr(levelLength) * 2;
-            //    levelVertexCount[k] = MathEx.Sqr(levelLength + 1);
-
-            //    indexBuffer[k] = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
-
-            //    int[] indexArray = new int[indexCount];
-
-            //    int index = 0;
-            //    for (int i = 0; i < levelLength; i++)
-            //    {
-            //        for (int j = 0; j < levelLength; j++)
-            //        {
-            //            int x = i * cellLength;
-            //            int y = j * cellLength;
-
-            //            indexArray[index++] = y * terrEdgeSize + x;
-            //            indexArray[index++] = y * terrEdgeSize + (x + cellLength);
-            //            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-
-            //            indexArray[index++] = y * terrEdgeSize + x;
-            //            indexArray[index++] = (y + cellLength) * terrEdgeSize + (x + cellLength);
-            //            indexArray[index++] = (y + cellLength) * terrEdgeSize + x;
-            //        }
-            //    }
-            //    indexBuffer[k].SetData<int>(indexArray);
-            //}
-        }
-
-        #region IDisposable 成员
-
-        object gcSyncHelper = new object();
-
-        public bool Disposed
-        {
-            get;
-            private set;
-        }
-        public void Dispose()
-        {
-            lock (gcSyncHelper)
-            {
-                if (!Disposed)
-                {
-                    if (indexBuffer != null)
-                    {
-                        for (int i = 0; i < indexBuffer.Length; i++)
-                        {
-                            if (indexBuffer[i] != null)
-                            {
-                                indexBuffer[i].Dispose();
-                                indexBuffer[i] = null;
-                            }
-                        }
-                        indexBuffer = null;
-                    }
-                    Disposed = true;
-                }
-            }
-        }
-
-        ~SharedBlockIndexData()
-        {
-            if (!Disposed)
-            {
-                try { Dispose(); }
-                catch { }
-            }
-        }
-
-        #endregion
-    }
-
-    [Obsolete("如果需要使用，删除该属性")]
-    class SharedIndexData
-    {
         public int TerrainSize
         {
             get;
@@ -255,8 +25,50 @@ namespace Code2015.EngineEx
         public SharedIndexData(RenderSystem rs, int terrSize)
         {
             TerrainSize = terrSize;
+
+            ObjectFactory factory = rs.ObjectFactory;
+
+            int primCount = MathEx.Sqr(terrSize) * 2;
+            int indexCount = primCount * 3;
+            indexBuffer = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+            int[] indexArray = new int[indexCount];
+
+            int idx = 0;
+            for (int i = 0; i < terrSize - 1; i++)
+            {
+                int remi = i % 2;
+
+                for (int j = 0; j < terrSize - 1; j++)
+                {
+                    int remj = j % 2;
+                    if (remi == remj)
+                    {
+                        indexArray[idx++] = i * terrSize + j;
+                        indexArray[idx++] = i * terrSize + (j + 1);
+                        indexArray[idx++] = (i + 1) * terrSize + j;
+
+
+                        indexArray[idx++] = i * terrSize + (j + 1);
+                        indexArray[idx++] = (i + 1) * terrSize + (j + 1);
+                        indexArray[idx++] = (i + 1) * terrSize + j;
+                    }
+                    else
+                    {
+                        indexArray[idx++] = i * terrSize + j;
+                        indexArray[idx++] = (i + 1) * terrSize + (j + 1);
+                        indexArray[idx++] = i * terrSize + (j + 1);
+
+                        indexArray[idx++] = i * terrSize + j;
+                        indexArray[idx++] = (i + 1) * terrSize + j;
+                        indexArray[idx++] = (i + 1) * terrSize + (j + 1);
+                    }
+                }
+            }
+            indexBuffer.SetData<int>(indexArray);
         }
     }
+
+
     class TerrainMeshManager : ResourceManager
     {
         static volatile TerrainMeshManager singleton;
@@ -289,25 +101,29 @@ namespace Code2015.EngineEx
 
         bool loaded;
         RenderSystem renderSystem;
-        Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
+        //Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
+        SharedIndexData index33;
 
         private TerrainMeshManager() { }
         private TerrainMeshManager(int cacheSize)
             : base(cacheSize)
         {
         }
-
-        public SharedBlockIndexData GetSharedIndexData(int terrEdgeSize) 
+        public SharedIndexData GetIndexData() 
         {
-            SharedBlockIndexData result;
-            if (!sharedIBCache.TryGetValue(terrEdgeSize, out result ))
-            {
-                result = new SharedBlockIndexData(renderSystem, terrEdgeSize);
-                sharedIBCache.Add(terrEdgeSize, result);
-            }
-            return result;
+            return index33;
         }
-        public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y, int lod)
+        //public SharedBlockIndexData GetSharedIndexData(int terrEdgeSize) 
+        //{
+        //    SharedBlockIndexData result;
+        //    if (!sharedIBCache.TryGetValue(terrEdgeSize, out result ))
+        //    {
+        //        result = new SharedBlockIndexData(renderSystem, terrEdgeSize);
+        //        sharedIBCache.Add(terrEdgeSize, result);
+        //    }
+        //    return result;
+        //}
+        public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y)
         {
             if (!loaded)
             {
@@ -317,19 +133,21 @@ namespace Code2015.EngineEx
                     {
                         loaded = true;
                         renderSystem = rs;
-                        SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 513);
-                        SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 129);
-                        SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 33);
-                        sharedIBCache.Add(513, sharedIdxBuffer1025);
-                        sharedIBCache.Add(129, sharedIdxBuffer257);
-                        sharedIBCache.Add(33, sharedIdxBuffer65);
+
+                        index33 = new SharedIndexData(rs, 33);
+                        //SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 513);
+                        //SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 129);
+                        //SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 33);
+                        //sharedIBCache.Add(513, sharedIdxBuffer1025);
+                        //sharedIBCache.Add(129, sharedIdxBuffer257);
+                        //sharedIBCache.Add(33, sharedIdxBuffer65);
                     }
                 }
             }
-            Resource retrived = base.Exists(TerrainMesh.GetHashString(x, y, lod));
+            Resource retrived = base.Exists(TerrainMesh.GetHashString(x, y));
             if (retrived == null)
             {
-                TerrainMesh mdl = new TerrainMesh(rs, x, y, lod);
+                TerrainMesh mdl = new TerrainMesh(rs, x, y);
                 retrived = mdl;
                 base.NotifyResourceNew(mdl);
             }
