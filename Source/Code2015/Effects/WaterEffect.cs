@@ -67,12 +67,30 @@ namespace Code2015.Effects
         {
             renderSystem.BindShader(vtxShader);
             renderSystem.BindShader(pixShader);
+
             vtxShader.SetValue("lightDir", EffectParams.LightDir);
+
+            ShaderSamplerState state = new ShaderSamplerState();
+            state.AddressU = TextureAddressMode.Wrap;
+            state.AddressV = TextureAddressMode.Wrap;
+            state.AddressW = TextureAddressMode.Wrap;
+            state.MinFilter = TextureFilter.Anisotropic;
+            state.MagFilter = TextureFilter.Anisotropic;
+            state.MipFilter = TextureFilter.Anisotropic;
+            state.MaxAnisotropy = 8;
+            state.MipMapLODBias = 0;
+
+
+            pixShader.SetSamplerState("dudvMap", ref state);
+            pixShader.SetSamplerState("normalMap", ref state);
+
+            pixShader.SetSamplerState("reflectionMap", ref state);
+
 
             move += 0.000033f;
             while (move > 1)
-                move--; 
-            
+                move--;
+
             return 1;
         }
 
@@ -115,10 +133,9 @@ namespace Code2015.Effects
 
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
-            if (reflection != null)
-            {
-                pixShader.SetTexture("reflectionMap", reflection);
-            }
+
+            pixShader.SetTexture("reflectionMap", reflection);
+
 
             pixShader.SetValue("move", move);
         }

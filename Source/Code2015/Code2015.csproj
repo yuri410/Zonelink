@@ -318,7 +318,6 @@
     <Compile Include="Engine\Apoc3D.Graphics\Collections\SamplerStateCollection.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Collections\TextureWrapCollection.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Desgin\MeshFaceConverter.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Effects\DefaultSMGenEffect.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Effects\Effect.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Effects\EffectManager.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Effects\EffectParams.cs" />
@@ -456,7 +455,6 @@
     <Compile Include="EngineEx\TerrainMeshManager.cs" />
     <Compile Include="EngineEx\TerrainTexture.cs" />
     <Compile Include="EngineEx\TerrainTextureManager.cs" />
-    <Compile Include="EngineEx\TerrainTreeNode.cs" />
     <Compile Include="EngineEx\TerrainMaterialLibrary.cs">
       <SubType>Code</SubType>
     </Compile>
