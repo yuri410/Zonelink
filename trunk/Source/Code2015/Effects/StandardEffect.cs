@@ -117,7 +117,7 @@ namespace Code2015.Effects
                 state.MinFilter = TextureFilter.Point;
                 state.MagFilter = TextureFilter.Point;
                 state.MipFilter = TextureFilter.None;
-                state.BorderColor = ColorValue.Transparent;
+                state.BorderColor = ColorValue.White;
                 state.MaxAnisotropy = 0;
                 state.MipMapLODBias = 0;
 

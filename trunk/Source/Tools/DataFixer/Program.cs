@@ -779,74 +779,86 @@ namespace DataFixer
         static unsafe void Grid()
         {
             //const int CellSpan = 3;
-            const string SrcDir = @"E:\Desktop\terrain_l0.raw";
+            const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain\terrain_l2.tdmp";
 
             ContentBinaryReader br = new ContentBinaryReader(new FileLocation(SrcDir));
-            const int DW = 513 * 36;
-            const int DH = 513 * 14;
+            const int DW = 33 * 36;
+            const int DH = 33 * 14;
 
-            ushort[] hgtData = new ushort[DW * DH];
+            byte[] hgtData = new byte[DW * DH];
             for (int i = 0; i < DW * DH; i++)
             {
-                hgtData[i] = br.ReadUInt16();
+                float h = br.ReadUInt16() / (float)ushort.MaxValue;
+                hgtData[i] = (byte)((byte)(h * 32) * 7);
+
             }
             br.Close();
 
-            ushort[] result = new ushort[DW * DH];
-            bool[] setFlag = new bool[DW * DH];
-            for (int i = 0; i < DH-2; i ++)
-            {
-                int rem = i % 2;
+            //ushort[] result = new ushort[DW * DH];
+            //bool[] setFlag = new bool[DW * DH];
+            //for (int i = 0; i < DH-2; i ++)
+            //{
+            //    int rem = i % 2;
 
-                int st = rem == 0 ? 0 : 1;
-                for (int j = st; j < DW - 2; j += 2)
-                {
-                    int top = i * DW + j + 1;
-                    int left = (i + 1) * DW + j;
-                    int right = (i + 1) * DW + j + 2;
-                    int bottom = (i + 2) * DW + j + 1;
+            //    int st = rem == 0 ? 0 : 1;
+            //    for (int j = st; j < DW - 2; j += 2)
+            //    {
+            //        int top = i * DW + j + 1;
+            //        int left = (i + 1) * DW + j;
+            //        int right = (i + 1) * DW + j + 2;
+            //        int bottom = (i + 2) * DW + j + 1;
 
-                    ushort vtop = setFlag[top] ? result[top] : hgtData[top];
-                    ushort vleft = setFlag[left] ? result[left] : hgtData[left];
-                    ushort vright = setFlag[right] ? result[right] : hgtData[right];
-                    ushort vbottom = setFlag[bottom] ? result[bottom] : hgtData[bottom];
+            //        ushort vtop = setFlag[top] ? result[top] : hgtData[top];
+            //        ushort vleft = setFlag[left] ? result[left] : hgtData[left];
+            //        ushort vright = setFlag[right] ? result[right] : hgtData[right];
+            //        ushort vbottom = setFlag[bottom] ? result[bottom] : hgtData[bottom];
 
-                    ushort vcenter = (ushort)((vtop + vleft + vright + vbottom) / 4);
+            //        ushort vcenter = (ushort)((vtop + vleft + vright + vbottom) / 4);
 
-                    int v = vcenter + vcenter - vtop;
+            //        int v = vcenter + vcenter - vtop;
 
-                    if (v < 0) v = 0;
-                    else if (v > ushort.MaxValue) v = ushort.MaxValue;
-                    vbottom = (ushort)v;
+            //        if (v < 0) v = 0;
+            //        else if (v > ushort.MaxValue) v = ushort.MaxValue;
+            //        vbottom = (ushort)v;
+
+            //        //if (!setFlag[top])
+            //        {
+            //            result[top] = vcenter;// vtop;
+            //            setFlag[top] = true;
+            //        }
+
+            //        //if (!setFlag[left])
+            //        {
+            //            result[left] = vcenter;//vleft;
+            //            setFlag[left] = true;
+            //        }
+
+            //        //if (!setFlag[right])
+            //        {
+            //            result[right] = vcenter;//vright;
+            //            setFlag[right] = true;
+            //        }
+
+            //        //if (!setFlag[bottom])
+            //        {
+            //            result[bottom] = vcenter;// vbottom;
+            //            setFlag[bottom] = true;
+            //        }
+
+            //        int center = (i + 1) * DW + j + 1;
+            //        result[center] = vcenter;
+            //        setFlag[center] = true;
 
 
 
-                    result[top] = vtop;
-                    setFlag[top] = true;
-
-                    result[left] = vleft;
-                    setFlag[left] = true;
-
-                    result[right] = vright;
-                    setFlag[right] = true;
-
-                    result[bottom] = vbottom;
-                    setFlag[bottom] = true;
-
-                    int center = (i + 1) * DW + j + 1;
-                    result[center] = vcenter;
-                    setFlag[center] = true;
-
-
-
-                }
-            }
+            //    }
+            //}
 
 
             ContentBinaryWriter bw = new ContentBinaryWriter(File.Open(@"E:\Desktop\res.raw", FileMode.OpenOrCreate));
             for (int i = 0; i < DW * DH; i++)
             {
-                bw.Write(result[i]);
+                bw.Write(hgtData[i]);
             }
 
             bw.Close();

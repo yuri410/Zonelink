@@ -47,12 +47,19 @@ namespace Code2015.EngineEx
             get { return defaultMap; }
             private set { defaultMap = value; }
         }
+
         public ResourceHandle<Texture> GlobalIndexTexture
         {
             get;
             private set;
         }
         public ResourceHandle<Texture> GlobalColorTexture
+        {
+            get;
+            private set;
+        }
+
+        public ResourceHandle<Texture> GlobalNormalTexture
         {
             get;
             private set;
@@ -97,6 +104,9 @@ namespace Code2015.EngineEx
             GlobalIndexTexture = TextureManager.Instance.CreateInstance(fl2);
             fl2 = FileSystem.Instance.Locate("planetClr.tex", GameFileLocs.TerrainTexture);
             GlobalColorTexture = TextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("normal.tex", GameFileLocs.TerrainTexture);
+            GlobalNormalTexture = TextureManager.Instance.CreateInstance(fl2);
 
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 

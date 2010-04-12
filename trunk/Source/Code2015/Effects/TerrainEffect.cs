@@ -172,6 +172,8 @@ namespace Code2015.Effects
 
 
                 pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
+                pixShader.SetTexture("texDif", TerrainMaterialLibrary.Instance.GlobalIndexTexture);
+                pixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalNormalTexture);
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texColor", ref state);
@@ -192,20 +194,20 @@ namespace Code2015.Effects
                 pixShader.SetSamplerState("texDet4", ref state);
 
 
+                //pixShader.SetSamplerState("texNrm", ref state);
+
+
+
                 state.AddressU = TextureAddressMode.Clamp;
                 state.AddressV = TextureAddressMode.Clamp;
                 state.AddressW = TextureAddressMode.Clamp;
-
-                pixShader.SetSamplerState("texNrm", ref state);
-
-
                 state.AddressU = TextureAddressMode.Border;
                 state.AddressV = TextureAddressMode.Border;
                 state.AddressW = TextureAddressMode.Border;
                 state.MinFilter = TextureFilter.Point;
                 state.MagFilter = TextureFilter.Point;
                 state.MipFilter = TextureFilter.None;
-                state.BorderColor = ColorValue.Transparent;
+                state.BorderColor = ColorValue.White;
                 state.MaxAnisotropy = 0;
                 state.MipMapLODBias = 0;
 
@@ -264,10 +266,10 @@ namespace Code2015.Effects
 
                 if (!stateSetted)
                 {
-                    pixShader.SetTexture("texDif", mat.GetTexture(0));
+                    //pixShader.SetTexture("texDif", mat.GetTexture(0));
 
 
-                    pixShader.SetTexture("texNrm", mat.GetTexture(1));
+                    //pixShader.SetTexture("texNrm", mat.GetTexture(1));
 
                     pixShader.SetValue("k_a", mat.Ambient);
                     pixShader.SetValue("k_d", mat.Diffuse);
