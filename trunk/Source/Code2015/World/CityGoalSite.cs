@@ -12,15 +12,15 @@ namespace Code2015.World
 {
     public class CityGoalSite : IRenderable
     {
-        const int SiteCount = 4;
+        public const int SiteCount = 4;
 
         struct GoalSite
         {
             public bool HasPiece;
             public MdgType Type;
 
-            public Vector3 Position;
-            public Matrix Transform;
+            //public Vector3 Position;
+            //public Matrix Transform;
         }
 
         CityObject parent;
@@ -38,12 +38,12 @@ namespace Code2015.World
             this.parent = obj;
             this.style = style;
 
-            for (int i = 0; i < SiteCount; i++)
-            {
-                sites[i].Position = style.GetBracketTranslation(i);
+            //for (int i = 0; i < SiteCount; i++)
+            //{
+            //    //sites[i].Position = style.GetBracketTranslation(i);
 
-                sites[i].Transform = Matrix.Translation(sites[i].Position);
-            }
+            //    //sites[i].Transform = Matrix.Translation(sites[i].Position);
+            //}
         }
 
         #region IRenderable 成员
@@ -53,17 +53,24 @@ namespace Code2015.World
             opBuffer.FastClear();
             for (int i = 0; i < SiteCount; i++)
             {
+                RenderOperation[] ops = null;
+
                 if (sites[i].HasPiece)
                 {
-                    RenderOperation[] ops = style.MdgBracket[(int)sites[i].Type].GetRenderOperation();
-                    if (ops != null)
+                    ops = style.MdgSite[(int)sites[i].Type].GetRenderOperation();
+                }
+                else 
+                {
+                    ops = style.MdgSiteInactive.GetRenderOperation();
+                }
+
+                if (ops != null)
+                {
+                    for (int j = 0; j < ops.Length; j++)
                     {
-                        for (int j = 0; j < ops.Length; j++)
-                        {
-                            ops[j].Transformation *= sites[i].Transform;
-                        }
-                        opBuffer.Add(ops);
+                        ops[j].Transformation *= CityStyleTable.SiteTransform[i];
                     }
+                    opBuffer.Add(ops);
                 }
             }
             opBuffer.TrimClear();

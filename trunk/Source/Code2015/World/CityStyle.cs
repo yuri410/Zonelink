@@ -41,7 +41,9 @@ namespace Code2015.World
         public ResourceHandle<ModelData> Ring;
         public ResourceHandle<ModelData> SelRing;
 
-        public ResourceHandle<ModelData>[] MdgBracket;
+        public ResourceHandle<ModelData> MdgSiteInactive;
+        public ResourceHandle<ModelData>[] MdgSiteEmpty;
+        public ResourceHandle<ModelData>[] MdgSite;
     }
 
     public struct CityStyle
@@ -65,7 +67,9 @@ namespace Code2015.World
         public Model Ring;
         public Model SelRing;
 
-        public Model[] MdgBracket;
+        public Model MdgSiteInactive;
+        public Model[] MdgSiteEmpty;
+        public Model[] MdgSite;
 
         public float PluginTranslate;
 
@@ -96,10 +100,15 @@ namespace Code2015.World
             Ring = new Model(data.Ring);
             SelRing = new Model(data.SelRing);
 
-            MdgBracket = new Model[data.MdgBracket.Length];
-            for (int i = 0; i < MdgBracket.Length; i++)
-                MdgBracket[i] = new Model(data.MdgBracket[i]);
+            MdgSite = new Model[data.MdgSite.Length];
+            for (int i = 0; i < MdgSite.Length; i++)
+                MdgSite[i] = new Model(data.MdgSite[i]);
 
+            MdgSiteEmpty = new Model[data.MdgSiteEmpty.Length];
+            for (int i = 0; i < MdgSiteEmpty.Length; i++)
+                MdgSiteEmpty[i] = new Model(data.MdgSiteEmpty[i]);
+
+            MdgSiteInactive = new Model(data.MdgSiteInactive);
             //PluginTranslate = new float[3];
 
             PluginTranslate = Game.ObjectScale * 68;
@@ -107,33 +116,33 @@ namespace Code2015.World
             //PluginTranslate[(int)UrbanSize.Small] = Game.ObjectScale * 40;
         }
 
-        public Vector3 GetBracketTranslation(int i)
-        {
-            switch (i)
-            {
-                case 0:
-                    return new Vector3(
-                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        50,
-                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-                case 1:
-                    return new Vector3(
-                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        50,
-                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-                case 2:
-                    return new Vector3(
-                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        50,
-                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-                case 3:
-                    return new Vector3(
-                        BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-                        50,
-                        -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-            }
-            return Vector3.Zero;
-        }
+        //public Vector3 GetBracketTranslation(int i)
+        //{
+        //    switch (i)
+        //    {
+        //        case 0:
+        //            return new Vector3(
+        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+        //                50,
+        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+        //        case 1:
+        //            return new Vector3(
+        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+        //                50,
+        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+        //        case 2:
+        //            return new Vector3(
+        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+        //                50,
+        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+        //        case 3:
+        //            return new Vector3(
+        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
+        //                50,
+        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
+        //    }
+        //    return Vector3.Zero;
+        //}
         public Vector3 GetPluginTranslation(PluginPositionFlag p, UrbanSize size)
         {
             switch (p)
@@ -213,6 +222,7 @@ namespace Code2015.World
     public class CityStyleTable
     {
         public static Matrix[] FarmTransform;
+        public static Matrix[] SiteTransform;
 
         static CityStyleTable()
         {
@@ -221,6 +231,12 @@ namespace Code2015.World
             for (int i = 0; i < City.MaxFarmLand; i++)
             {
                 FarmTransform[i] = Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2);
+            }
+
+            SiteTransform = new Matrix[CityGoalSite.SiteCount];
+            for (int i=0;i<CityGoalSite.SiteCount;i++)
+            {
+                FarmTransform[i] = Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
             }
         }
 
@@ -242,6 +258,7 @@ namespace Code2015.World
         static readonly string Cow_Inv = "cow.mesh";
         static readonly string Ring_Inv = "cityring.mesh";
         static readonly string SelRing_Inv = "citysel.mesh";
+        static readonly string SiteBase_Inv = "sitebase.mesh";
 
         static readonly string[] GoalSites = new string[] 
         {
@@ -320,11 +337,15 @@ namespace Code2015.World
             //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
             //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
-            styles[0].MdgBracket = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
+            styles[0].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
+
+            styles[0].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
             for (int i = 0; i < 7; i++)
             {
                 fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
-                styles[0].MdgBracket[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                styles[0].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                styles[0].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
             }
 
             #endregion
