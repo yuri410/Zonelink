@@ -55,7 +55,8 @@ namespace Code2015.World
             camera.NearPlane = 20;
             camera.FarPlane = 11000;
             camera.Mode = RenderMode.Final;
-          
+            camera.RenderTarget = renderSys.GetRenderTarget(0);
+
             renderer.RegisterCamera(camera);
 
 

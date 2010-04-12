@@ -76,7 +76,7 @@ namespace Code2015.Effects
             state.AddressW = TextureAddressMode.Wrap;
             state.MinFilter = TextureFilter.Anisotropic;
             state.MagFilter = TextureFilter.Anisotropic;
-            state.MipFilter = TextureFilter.Anisotropic;
+            state.MipFilter = TextureFilter.Linear;
             state.MaxAnisotropy = 8;
             state.MipMapLODBias = 0;
 
