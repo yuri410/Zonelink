@@ -13,7 +13,7 @@ using Code2015.EngineEx;
 
 namespace Code2015.ParticleSystem
 {
-    public class ParticleEffect : SceneObject
+    public abstract class ParticleEffect : SceneObject
     {
         Vertex[] dataBuffer;
         struct Vertex
@@ -86,33 +86,16 @@ namespace Code2015.ParticleSystem
             }
             idxBuffer.SetData<ushort>(indices);
 
-            material = new Material(rs);
-            material.CullMode = CullMode.None;
-            material.ZEnabled = true;
-            material.ZWriteEnabled = false;
-            material.PriorityHint = RenderPriority.Third;
-            material.IsTransparent = true;
-
-            //material.Flags = MaterialFlags.BlendBright_Color;
-            material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
-            material.Diffuse = new Color4F(1, 1f, 1, 1);
-
-            FileLocation fl = FileSystem.Instance.Locate("link_p_def.tex", GameFileLocs.Texture);
-            material.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
-            material.SetEffect(EffectManager.Instance.GetModelEffect(ParticleRDEffectFactory.Name));
-
             geoData = new GeomentryData();
             geoData.VertexBuffer = vtxBuffer;
             geoData.VertexDeclaration = vtxDecl;
             geoData.VertexSize = Vertex.Size;
             geoData.IndexBuffer = idxBuffer;
+            material = new Material(rs);
 
             renderOp = new RenderOperation[1];
             renderOp[0].Geomentry = geoData;
             renderOp[0].Material = material;
-            
-            BoundingSphere.Radius = float.MaxValue;
-            ParticleSize = 5f;
         }
 
         public ParticleEmitter Emitter 

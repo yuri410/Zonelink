@@ -9,60 +9,6 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    //public class TerrainEffect513Factory : EffectFactory
-    //{
-    //    static readonly string typeName = "Terrain513";
-
-
-    //    public static string Name
-    //    {
-    //        get { return typeName; }
-    //    }
-
-    //    RenderSystem renderSystem;
-
-    //    public TerrainEffect513Factory(RenderSystem rs)
-    //    {
-    //        renderSystem = rs;
-    //    }
-
-    //    public override Effect CreateInstance()
-    //    {
-    //        return new TerrainEffect513(renderSystem);
-    //    }
-
-    //    public override void DestroyInstance(Effect fx)
-    //    {
-    //        fx.Dispose();
-    //    }
-    //}
-    //public class TerrainEffect129Factory : EffectFactory
-    //{
-    //    static readonly string typeName = "Terrain129";
-
-
-    //    public static string Name
-    //    {
-    //        get { return typeName; }
-    //    }
-
-    //    RenderSystem renderSystem;
-
-    //    public TerrainEffect129Factory(RenderSystem rs)
-    //    {
-    //        renderSystem = rs;
-    //    }
-
-    //    public override Effect CreateInstance()
-    //    {
-    //        return new TerrainEffect129(renderSystem);
-    //    }
-
-    //    public override void DestroyInstance(Effect fx)
-    //    {
-    //        fx.Dispose();
-    //    }
-    //}
     public class TerrainEffect33Factory : EffectFactory
     {
         static readonly string typeName = "Terrain33";
@@ -90,21 +36,7 @@ namespace Code2015.Effects
             fx.Dispose();
         }
     }
-
-    //class TerrainEffect513 : TerrainEffect
-    //{
-    //    public TerrainEffect513(RenderSystem renderSystem)
-    //        : base(renderSystem, 513)
-    //    {
-    //    }
-    //}
-    //class TerrainEffect129 : TerrainEffect
-    //{
-    //    public TerrainEffect129(RenderSystem renderSystem)
-    //        : base(renderSystem, 129)
-    //    {
-    //    }
-    //}
+    
     class TerrainEffect33 : TerrainEffect
     {
         public TerrainEffect33(RenderSystem renderSystem)
@@ -195,9 +127,6 @@ namespace Code2015.Effects
                 pixShader.SetSamplerState("texDet4", ref state);
 
 
-                //pixShader.SetSamplerState("texNrm", ref state);
-
-
 
                 state.AddressU = TextureAddressMode.Clamp;
                 state.AddressV = TextureAddressMode.Clamp;
@@ -267,11 +196,6 @@ namespace Code2015.Effects
 
                 if (!stateSetted)
                 {
-                    //pixShader.SetTexture("texDif", mat.GetTexture(0));
-
-
-                    //pixShader.SetTexture("texNrm", mat.GetTexture(1));
-
                     pixShader.SetValue("k_a", mat.Ambient);
                     pixShader.SetValue("k_d", mat.Diffuse);
                     pixShader.SetValue("k_s", mat.Specular);

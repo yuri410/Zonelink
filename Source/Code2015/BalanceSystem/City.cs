@@ -707,9 +707,9 @@ namespace Code2015.BalanceSystem
             {
                 float transSpeed;
                 City sourceCity = nearbyCity[i].Target;
-                nearbyCity[i].IsTransportingHR = false;
-                nearbyCity[i].IsTransportingLR = false;
-                nearbyCity[i].IsTransportingFood = false;
+                nearbyCity[i].HR = 0;
+                nearbyCity[i].LR = 0;
+                nearbyCity[i].Food = 0;
 
                 {
                     float requirement = localLr.StandardStorageBalance - localLr.Current;
@@ -724,7 +724,7 @@ namespace Code2015.BalanceSystem
                         {
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
-                            nearbyCity[i].IsTransportingLR |= applyAmount > float.Epsilon;
+                            nearbyCity[i].LR += applyAmount;
                             localLr.Commit(applyAmount);
                         }
                     }
@@ -750,7 +750,7 @@ namespace Code2015.BalanceSystem
 
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
-                            nearbyCity[i].IsTransportingHR |= applyAmount > float.Epsilon;
+                            nearbyCity[i].HR += applyAmount;
                             localHr.Commit(applyAmount);
                         }
                     }
@@ -775,7 +775,7 @@ namespace Code2015.BalanceSystem
 
                             float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
                             applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
-                            nearbyCity[i].IsTransportingFood |= applyAmount > float.Epsilon;
+                            nearbyCity[i].Food += applyAmount;
                             localFood.Commit(applyAmount);
                         }
                     }

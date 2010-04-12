@@ -86,6 +86,22 @@ namespace Code2015.Effects
 
             pixShader.SetSamplerState("reflectionMap", ref state);
 
+            pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
+
+            state.AddressU = TextureAddressMode.Clamp;
+            state.AddressV = TextureAddressMode.Clamp;
+            state.AddressW = TextureAddressMode.Clamp;
+            state.AddressU = TextureAddressMode.Border;
+            state.AddressV = TextureAddressMode.Border;
+            state.AddressW = TextureAddressMode.Border;
+            state.MinFilter = TextureFilter.Linear;
+            state.MagFilter = TextureFilter.Linear;
+            state.MipFilter = TextureFilter.None;
+            state.BorderColor = ColorValue.White;
+            state.MaxAnisotropy = 0;
+            state.MipMapLODBias = 0;
+
+            pixShader.SetSamplerState("texShd", ref state);
 
             move += 0.000033f;
             while (move > 1)
@@ -130,13 +146,14 @@ namespace Code2015.Effects
             vtxShader.SetValue("mvp", ref mvp);
             vtxShader.SetValue("world", ref op.Transformation);
             vtxShader.SetValue("viewPos", ref vpos);
+            Matrix lightPrjTrans;
+            Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
+
+            vtxShader.SetValue("smTrans", lightPrjTrans);
 
             pixShader.SetTexture("dudvMap", mat.GetTexture(0));
             pixShader.SetTexture("normalMap", mat.GetTexture(1));
-
             pixShader.SetTexture("reflectionMap", reflection);
-
-
             pixShader.SetValue("move", move);
         }
 
