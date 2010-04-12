@@ -110,6 +110,7 @@
     <Compile Include="Effects\CityRingEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
     <Compile Include="Effects\ParticleEffect.cs" />
+    <Compile Include="Effects\Post\GaussBlurShd.cs" />
     <Compile Include="Effects\ShadowedEffect.cs" />
     <Compile Include="Effects\SkyboxEffect.cs" />
     <Compile Include="Effects\StandardEffect.cs" />
@@ -559,6 +560,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\blur.cps">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Effect\blurShd.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Effect\citylink.cps">

@@ -239,8 +239,8 @@ namespace Code2015.World
             SiteTransform = new Matrix[CityGoalSite.SiteCount];
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
-                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * 
-                    Matrix.Translation(CityRadius, 5, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
+                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale * 2, Game.ObjectScale * 2, Game.ObjectScale * 2) * 
+                    Matrix.Translation(CityRadiusRing, 5, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
             }
         }
 

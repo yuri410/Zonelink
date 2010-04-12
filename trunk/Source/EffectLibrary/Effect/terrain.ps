@@ -43,6 +43,7 @@ PSOutput main(PSInput ip)
     PSOutput o;
     
     float3 N = 2 * (float3)tex2D(texNorm, ip.GlobeCoord) - 1;
+    N.x = -N.x;
     
     float ndl = dot(N, ip.TangentSpaceLDir);
 	
@@ -89,7 +90,10 @@ PSOutput main(PSInput ip)
 	float3 R = reflect(ip.TangentSpaceLDir, N);
 	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
 
-    o.Color = o.Color * (amb + dif + k_e) * shd + spec;
+    o.Color = o.Color * (amb + dif + k_e);
+    o.Color.rgb *= shd;
+    
+    o.Color += spec;
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     

@@ -15,5 +15,5 @@ float VSM_FILTER(sampler2D sm, float2 tex, float fragDepth )
     float p = variance / (variance + mD_2 );
     lit = max( p, fragDepth <= moments.x );
     
-    return lit;
+    return min(lit+0.25, 1);
 }
