@@ -864,8 +864,29 @@ namespace DataFixer
             bw.Close();
         }
 
+        static void Input() 
+        {
+            Console.Clear();
+
+            Console.Write("x:");
+            int x = int.Parse(Console.ReadLine());
+            Console.Write("y:");
+            int y = int.Parse(Console.ReadLine());
+
+            float yspan =  MathEx.PIf;
+
+            const int MapHeight = 924;
+            const int MapWidth = 1848;
+
+            float lat = yspan * 0.5f - y * yspan / (float)MapHeight;
+            float lng = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
+
+            Console.WriteLine(MathEx.Radian2Degree(lat).ToString() + ", " + MathEx.Radian2Degree(lng).ToString());
+            Console.ReadKey();
+        }
         static void Main(string[] args)
         {
+            while (true) Input();
             //MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
@@ -876,7 +897,7 @@ namespace DataFixer
             //BuildLandAreaHeight();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
-            Grid();
+            
             Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
