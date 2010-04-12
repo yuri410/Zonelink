@@ -396,22 +396,20 @@ namespace Code2015.World
                 }
             }
 
-            if (city.FarmLandCount > 0)
+            for (int i = 0; i < city.FarmLandCount; i++)
             {
                 ops = style.FarmLand.GetRenderOperation();
                 if (ops != null)
                 {
-                    for (int i = 0; i < city.FarmLandCount; i++)
+                    for (int j = 0; j < ops.Length; j++)
                     {
-                        for (int j = 0; j < ops.Length; j++)
-                        {
-                            ops[j].Transformation *= CityStyleTable.FarmTransform[j];
-                        }
-
-                        opBuffer.Add(ops);
+                        ops[j].Transformation *= CityStyleTable.FarmTransform[i];
                     }
+
+                    opBuffer.Add(ops);
                 }
             }
+
 
             if (isSelected)
             {

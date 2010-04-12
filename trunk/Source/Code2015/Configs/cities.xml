@@ -86,6 +86,8 @@
     <Latitude>48.7013</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>1</StartUp>
   </C0101>
   <C0102>
     <Name>No City</Name>
@@ -149,6 +151,8 @@
     <Latitude>48.7013</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>2</StartUp>
   </C0110>
   <C0111>
     <Name>No City</Name>
@@ -165,6 +169,8 @@
     <Latitude>39.35065</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>1</StartUp>
   </C0200>
   <C0201>
     <Name>Moberly</Name>
@@ -172,6 +178,8 @@
     <Latitude>39.35065</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>1</StartUp>
   </C0201>
   <C0202>
     <Name>Washington</Name>
@@ -249,6 +257,8 @@
     <Latitude>39.35065</Latitude>
     <Size>Large</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>2</StartUp>
   </C0212>
   <C0213>
     <Name>Sokcho</Name>
@@ -256,6 +266,8 @@
     <Latitude>39.35065</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>2</StartUp>
   </C0213>
 
   <!--Line 3-->
@@ -265,6 +277,8 @@
     <Latitude>30.1948</Latitude>
     <Size>Large</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>1</StartUp>
   </C0300>
   <C0301>
     <Name>Tallahassee</Name>
@@ -342,6 +356,8 @@
     <Latitude>30.1948</Latitude>
     <Size>Large</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>2</StartUp>
   </C0311>
 
   <!--Line 4-->
@@ -409,6 +425,7 @@
     <Latitude>11.68831</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>4</Farm>
   </C0500>
   <C0501>
     <Name>Bamako</Name>
@@ -460,6 +477,7 @@
     <Latitude>2.337662</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>4</Farm>
   </C0600>
   <C0601>
     <Name>Anapi</Name>
@@ -562,6 +580,8 @@
     <Latitude>-15.97403</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>3</StartUp>
   </C0800>
   <C0801>
     <Name>Salvador</Name>
@@ -590,6 +610,8 @@
     <Latitude>-15.97403</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>4</StartUp>
   </C0804>
 
 
@@ -600,6 +622,8 @@
     <Latitude>-25.32467</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>3</StartUp>
   </C0900>
   <C0901>
     <Name>San Paulo</Name>
@@ -607,6 +631,8 @@
     <Latitude>-25.32467</Latitude>
     <Size>Large</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>3</StartUp>
   </C0901>
   <C0902>
     <Name>Pretoria</Name>
@@ -621,6 +647,8 @@
     <Latitude>-25.32467</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>4</StartUp>
   </C0903>
   <C0904>
     <Name>Mt Isa</Name>
@@ -628,6 +656,8 @@
     <Latitude>-25.32467</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>4</StartUp>
   </C0904>
 
   <!--Line 10-->
@@ -637,6 +667,8 @@
     <Latitude>-34.67532</Latitude>
     <Size>Medium</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>3</StartUp>
   </C1000>
   <C1001>
     <Name>Cape Town</Name>
@@ -651,6 +683,8 @@
     <Latitude>-34.67532</Latitude>
     <Size>Large</Size>
     <Population></Population>
+    <Farm>2</Farm>
+    <StartUp>4</StartUp>
   </C1002>
   
   <!--Line 11-->

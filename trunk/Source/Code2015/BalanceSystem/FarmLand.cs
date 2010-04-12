@@ -95,7 +95,7 @@ namespace Code2015.BalanceSystem
         
         public override void Update(GameTime time)
         {
-            float hours = (float)time.ElapsedGameTime.Hours;
+            float hours = (float)time.ElapsedGameTime.TotalHours;
 
             CarbonProduceSpeed = -AbsorbCarbonSpeed;
 
