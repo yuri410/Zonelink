@@ -183,6 +183,7 @@ namespace Code2015.World
         public Matrix[] Urban;
         public Matrix[] Base;
 
+        public Matrix Farm;
         public Matrix OilRefinary;
         public Matrix WoodFactory;
         public Matrix EducationOrgan;
@@ -200,6 +201,7 @@ namespace Code2015.World
             Hospital = src.Hospital;
             Biofuel = src.Biofuel;
             Cow = src.Cow;
+            Farm = src.Farm;
 
             Urban = new Matrix[src.Urban.Length];
             Array.Copy(src.Urban, Urban, src.Urban.Length);
@@ -230,13 +232,13 @@ namespace Code2015.World
 
             for (int i = 0; i < City.MaxFarmLand; i++)
             {
-                FarmTransform[i] = Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2);
+                FarmTransform[i] = Matrix.Translation(0, 5, CityRadius) * Matrix.RotationY(i * MathEx.PiOver2);
             }
 
             SiteTransform = new Matrix[CityGoalSite.SiteCount];
-            for (int i=0;i<CityGoalSite.SiteCount;i++)
+            for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
-                FarmTransform[i] = Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
+                SiteTransform[i] = Matrix.Identity;// Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
             }
         }
 
@@ -341,6 +343,7 @@ namespace Code2015.World
             styles[0].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
 
             styles[0].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            styles[0].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
             for (int i = 0; i < 7; i++)
             {
                 fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
@@ -369,6 +372,7 @@ namespace Code2015.World
             adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Scaling(Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f) * Matrix.Translation(-36, 3, 25);
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
 
+            adjusts[0].Farm = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(MathEx.PiOver2);
             adjusts[0].WoodFactory = Matrix.Translation(0, 1, 0) * scale;
             adjusts[0].EducationOrgan = Matrix.Translation(0, 1, 0);
             adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * scale; // Matrix.Scaling(0, 0, -1);
@@ -444,6 +448,7 @@ namespace Code2015.World
             style.EducationOrgan.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].EducationOrgan);
             style.Hospital.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].Hospital);
             style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
+            style.FarmLand.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Farm);
 
             style.Ring.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Ring);
             style.SelRing.CurrentAnimation = new NoAnimation(adjusts[(int)culture].SelRing);

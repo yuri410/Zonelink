@@ -1012,7 +1012,7 @@ namespace Code2015.BalanceSystem
             }
 
 
-            int farmCount = Math.Min(MaxFarmLand, sect.GetInt("FarmCount", 0));
+            int farmCount = Math.Min(MaxFarmLand, sect.GetInt("Farm", 0));
             for (int i = 0; i < farmCount; i++)
             {
                 farms.Add(new FarmLand(base.Region, this));
