@@ -18,9 +18,6 @@ namespace Code2015.EngineEx
 
     unsafe class TerrainMesh : Resource, IRenderable
     {
-        //public const int TerrainBlockSize = 33;
-        //public const int LocalLodCount = 4;
-
         const float PlanetRadius = PlanetEarth.PlanetRadius;
 
         struct TerrainVertex
@@ -29,6 +26,7 @@ namespace Code2015.EngineEx
             public float u;
             public float v;
             public float Index;
+
 
             static VertexElement[] elements;
             static int size = sizeof(TerrainVertex);
@@ -53,10 +51,7 @@ namespace Code2015.EngineEx
             }
         }
 
-        //bool hasData;
-        //FileLocation resLoc;
-        FileLocation nrmMapLoc;
-        Texture normalMap;
+
 
         /// <summary>
         ///  地形一条边上的顶点数
@@ -128,28 +123,18 @@ namespace Code2015.EngineEx
             this.tileX = x;
             this.tileY = y;
 
-            //resLoc = FileSystem.Instance.TryLocate(
-            //    "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_" + lod.ToString() + TDMPIO.Extension, GameFileLocs.Terrain);
-            nrmMapLoc = FileSystem.Instance.TryLocate(
-                "tile_" + x.ToString("D2") + "_" + y.ToString("D2") + "_0" + TextureData.Extension, GameFileLocs.TerrainNormal);
-
             renderSystem = rs;
             factory = rs.ObjectFactory;
 
             material = new Material(rs);
             material.CullMode = CullMode.None;
 
-            //material.Ambient = terrData.MaterialAmbient;
-            //material.Diffuse = terrData.MaterialDiffuse;
-            //material.Emissive = terrData.MaterialEmissive;
-            //material.Specular = terrData.MaterialSpecular;
-            //material.Power = terrData.MaterialPower;
+
             material.Ambient = new Color4F(1, 0.5f, 0.5f, 0.5f);
             material.Diffuse = new Color4F(1f, 1f, 1f, 1f);
             material.Specular = new Color4F(0, 0, 0, 0);
             material.Power = 1;
             material.PriorityHint = RenderPriority.Second;
-            material.SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
 
             PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);
 
@@ -171,43 +156,20 @@ namespace Code2015.EngineEx
         public override int GetSize()
         {
             int size = 0;
-           
-                size += TerrainVertex.Size * 33 * 33;
-                size += sizeof(int) * (2 * 2) * 6;
-            
-            if (nrmMapLoc != null)
-            {
-                if (normalMap != null)
-                    size += normalMap.ContentSize;
-            }
+
+            size += TerrainVertex.Size * 33 * 33;
+            size += sizeof(int) * (2 * 2) * 6;
 
             return size;
         }
 
         protected override void load()
         {
-          
-            if (nrmMapLoc != null)
-            {
-                normalMap = TextureManager.Instance.CreateInstanceUnmanaged(nrmMapLoc);
-            }
-            else
-            {
-                normalMap = PlanetEarth.DefaultNormalMap;
-            }
-            material.SetTexture(1, new ResourceHandle<Texture>(normalMap, true));
-
-
             // 读取地形数据
-            //TDMPIO data = new TDMPIO();
-            //data.Load(resLoc);
-            //tileCol = data.Xllcorner;// (float)Math.Round(data.Xllcorner);
-            //tileLat = data.Yllcorner;// (float)Math.Round(data.Yllcorner);
             float[] data = TerrainData.Instance.GetData(tileX, tileY);
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
-            //terrEdgeSize = data.Width;
 
             float radSpan = MathEx.Degree2Radian(10);
 
@@ -308,11 +270,6 @@ namespace Code2015.EngineEx
             {
                 vtxDecl.Dispose();
                 vtxDecl = null;
-            }
-            if (nrmMapLoc != null && normalMap != null)
-            {
-                normalMap.Dispose();
-                normalMap = null;
             }
             indexBuffer = null;
 

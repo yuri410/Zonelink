@@ -165,7 +165,7 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate("terrain_l2.tdmp", GameFileLocs.Terrain);
             reader2 = new ContentBinaryReader(fl);
 
-            fl = FileSystem.Instance.Locate("flags.dat", GameFileLocs.Terrain);
+            //fl = FileSystem.Instance.Locate("flags.dat", GameFileLocs.Terrain);
 
             //existData = new bool[36, 14];
             //ContentBinaryReader br = new ContentBinaryReader(fl);

@@ -8,7 +8,7 @@ sampler2D texDet4 : register(s3);
 
 sampler2D texDif : register(s4);
 sampler2D texColor : register(s5);
-sampler2D texNrm : register(s6);
+sampler2D texNorm : register(s6);
 sampler2D texShd : register(s7);
 
 float4 k_d : register(c0);
@@ -31,8 +31,6 @@ struct PSInput
 	float3 TangentSpaceVDir : TEXCOORD5;
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
-    
-    //float LODTest:TEXCOORD4;
 };
 
 struct PSOutput
@@ -44,13 +42,7 @@ PSOutput main(PSInput ip)
 {
     PSOutput o;
     
-    float3 N = 2 * (float3)tex2D(texNrm, ip.DetailCoord) - 1;
-    
-    //// 地形法线贴图要转换为切线空间的
-	//float tmp = N.z;
-	//N.z = N.y * 0.55;
-	//N.y = tmp;
-    //N = normalize(N);
+    float3 N = 2 * (float3)tex2D(texNorm, ip.GlobeCoord) - 1;
     
     float ndl = dot(N, ip.TangentSpaceLDir);
 	
@@ -101,19 +93,6 @@ PSOutput main(PSInput ip)
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
-    	
-   /* if (abs(ip.LODTest)<0.01)
-    {
-		o.Color += ndl * float4(0.5,0,0,0);
-    }
-    else if(abs(ip.LODTest - 1)<0.01)
-    {
-		o.Color += ndl * float4(0,0.5,0,0);
-    }
-    else if (abs(ip.LODTest - 2)<0.01)
-    {
-		o.Color += ndl * float4(0,0,0.5,0);
-    }*/
     
     return o;
 }
