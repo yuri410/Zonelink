@@ -29,6 +29,9 @@ namespace Code2015.World
         public ResourceHandle<ModelData> WoodFactory;
         public ResourceHandle<ModelData> BiofuelFactory;
 
+
+        public ResourceHandle<ModelData> FarmLand;
+
         public ResourceHandle<ModelData> EducationOrgan;
 
         public ResourceHandle<ModelData> Hospital;
@@ -40,6 +43,7 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData>[] MdgBracket;
     }
+
     public struct CityStyle
     {
         public CultureId ID;
@@ -51,6 +55,8 @@ namespace Code2015.World
         public Model WoodFactory;
         public Model BiofuelFactory;
         public Model EducationOrgan;
+
+        public Model FarmLand;
 
         public Model Hospital;
 
@@ -86,7 +92,7 @@ namespace Code2015.World
             Hospital = new Model(data.Hospital);
             EducationOrgan = new Model(data.EducationOrgan);
 
-
+            FarmLand = new Model(data.FarmLand);
             Ring = new Model(data.Ring);
             SelRing = new Model(data.SelRing);
 
@@ -206,6 +212,18 @@ namespace Code2015.World
 
     public class CityStyleTable
     {
+        public static Matrix[] FarmTransform;
+
+        static CityStyleTable()
+        {
+            FarmTransform = new Matrix[City.MaxFarmLand];
+
+            for (int i = 0; i < City.MaxFarmLand; i++)
+            {
+                FarmTransform[i] = Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2);
+            }
+        }
+
         const float RingRadius = 50;
 
         static readonly string SmallCityCenter_Inv = "small.mesh";
@@ -215,7 +233,7 @@ namespace Code2015.World
         static readonly string MediumBase_Inv = "basemedium.mesh";
         static readonly string LargeBase_Inv = "baselarge.mesh";
 
-
+        static readonly string FarmLand_Inv = "farm.mesh";
         static readonly string OilRefinary_Inv = "oilref.mesh";
         static readonly string WoodFactory_Inv = "woodfac.mesh";
         static readonly string BioFuelFactory_Inv = "biofuel.mesh";
@@ -270,6 +288,9 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
             styles[0].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
+
+            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
+            styles[0].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
 
             fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
             styles[0].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);

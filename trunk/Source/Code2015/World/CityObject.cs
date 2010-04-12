@@ -396,6 +396,23 @@ namespace Code2015.World
                 }
             }
 
+            if (city.FarmLandCount > 0)
+            {
+                ops = style.FarmLand.GetRenderOperation();
+                if (ops != null)
+                {
+                    for (int i = 0; i < city.FarmLandCount; i++)
+                    {
+                        for (int j = 0; j < ops.Length; j++)
+                        {
+                            ops[j].Transformation *= CityStyleTable.FarmTransform[j];
+                        }
+
+                        opBuffer.Add(ops);
+                    }
+                }
+            }
+
             if (isSelected)
             {
                 ops = style.SelRing.GetRenderOperation();

@@ -789,7 +789,7 @@ namespace DataFixer
             for (int i = 0; i < DW * DH; i++)
             {
                 float h = br.ReadUInt16() / (float)ushort.MaxValue;
-                hgtData[i] = (byte)((byte)(h * 32) * 7);
+                hgtData[i] = (byte)((byte)(h * 8) * 31);
 
             }
             br.Close();
@@ -886,7 +886,7 @@ namespace DataFixer
         }
         static void Main(string[] args)
         {
-            while (true) Input();
+            //while (true) Input();
             //MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
@@ -897,7 +897,7 @@ namespace DataFixer
             //BuildLandAreaHeight();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
-            
+            Grid();
             Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";

@@ -44,6 +44,7 @@ namespace Code2015.AI
 
                 CityData data = new CityData();
                 data.city = cc;
+                data.FoodCount = cc.FarmLandCount;
 
                 for (int j = 0; j < world.ResourceCount; j++)
                 {
@@ -55,9 +56,6 @@ namespace Code2015.AI
                     {
                         switch (res.Type)
                         {
-                            case NaturalResourceType.Food:
-                                data.FoodCount++;
-                                break;
                             case NaturalResourceType.Petro:
                                 data.HRCount++;
                                 break;

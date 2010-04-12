@@ -19,18 +19,38 @@ namespace Code2015.World
         {
             oilField = field;
 
-            FileLocation fl = FileSystem.Instance.Locate("oilderrick.mesh", GameFileLocs.Model);
-            ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            ModelL0.CurrentAnimation = new NoAnimation(
-                Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f));
-
+           
             float radLng = MathEx.Degree2Radian(field.Longitude);
             float radLat = MathEx.Degree2Radian(field.Latitude);
 
-            float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
-            if (alt < 0)
-                alt = 0;
+            bool isOcean = false;
 
+            float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
+
+            if (alt < 0)
+            {
+                alt = 0;
+                isOcean = true;
+            }
+            if (isOcean)
+            {
+                FileLocation fl = FileSystem.Instance.Locate("oilderrick_oc.mesh", GameFileLocs.Model);
+
+                ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                ModelL0.CurrentAnimation = new NoAnimation(
+                    Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
+            }
+            else
+            {
+                FileLocation fl = FileSystem.Instance.Locate("oilderrick.mesh", GameFileLocs.Model);
+
+                ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                ModelL0.CurrentAnimation = new NoAnimation(
+                    Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f) * Matrix.RotationY(-MathEx.PiOver4));
+            }
+
+
+          
             Position = PlanetEarth.GetPosition(radLng, radLat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
             BoundingSphere.Center = position;
 

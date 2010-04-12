@@ -91,10 +91,13 @@ namespace Code2015.BalanceSystem
 
         FastList<CityLink> nearbyCity = new FastList<CityLink>();
         CityObject parent;
-
+        FastList<FarmLand> farms = new FastList<FarmLand>();
 
         [SLGValue()]
         const int RecentCarbonLength = 5;
+
+        [SLGValue]
+        public const int MaxFarmLand = 4;
 
         FastQueue<float> recentCarbon = new FastQueue<float>(RecentCarbonLength);
         int carbonAddCounter;
@@ -141,8 +144,19 @@ namespace Code2015.BalanceSystem
         }
 
 
+        
+
         #region  属性
 
+        public bool IsFarmFull
+        {
+            get { return farms.Count < MaxFarmLand; }
+        }
+
+        public int FarmLandCount
+        {
+            get { return farms.Count; }
+        }
         /// <summary>
         ///  获取该城市市民满意度
         /// </summary>
@@ -850,10 +864,10 @@ namespace Code2015.BalanceSystem
 
                 float foodSpeedFull = GetSelfFoodCostSpeedFull();
 
-#warning 实现采集食物
-                // 仅仅测试
-                localFood.Commit(CityGrade.GetSelfFoodGatheringSpeed(Size) * hours);
-
+                for (int i = 0; i < farms.Count; i++)
+                {
+                    farms[i].Update(time);
+                }
 
                 float foodChange = (-foodSpeedFull) * hours;
 
@@ -869,7 +883,7 @@ namespace Code2015.BalanceSystem
                 }
 
                 // 食物 碳排量计算
-                //CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
+                CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
 
                 // 计算疾病发生情况
                 foodLack = actFood + foodChange;
@@ -979,7 +993,7 @@ namespace Code2015.BalanceSystem
             base.Parse(sect);
             Name = sect.GetString("Name", string.Empty);
             //Population = sect.GetSingle("Population");
-            Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", string.Empty));
+            Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", UrbanSize.Small.ToString()));
 
             switch (Size)
             {
@@ -996,6 +1010,14 @@ namespace Code2015.BalanceSystem
                     Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.LargeRefPop;
                     break;
             }
+
+
+            int farmCount = Math.Min(MaxFarmLand, sect.GetInt("FarmCount", 0));
+            for (int i = 0; i < farmCount; i++)
+            {
+                farms.Add(new FarmLand(base.Region, this));
+            }
+
             UpgradeUpdate();
         }
 
