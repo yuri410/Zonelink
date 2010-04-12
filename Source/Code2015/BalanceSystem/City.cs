@@ -247,6 +247,11 @@ namespace Code2015.BalanceSystem
             get { return localFood; }
         }
 
+        public int StartUp
+        {
+            get;
+            private set;
+        }
 
         /// <summary>
         ///  获取城市的名称
@@ -994,6 +999,8 @@ namespace Code2015.BalanceSystem
             Name = sect.GetString("Name", string.Empty);
             //Population = sect.GetSingle("Population");
             Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", UrbanSize.Small.ToString()));
+
+            StartUp = sect.GetInt("StartUp", -1);
 
             switch (Size)
             {

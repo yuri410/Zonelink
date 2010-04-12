@@ -461,6 +461,7 @@
     <Latitude>11.68831</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>4</Farm>
   </C0505>
   <C0506>
     <Name>Batangas</Name>
@@ -520,6 +521,7 @@
     <Latitude>2.337662</Latitude>
     <Size>Small</Size>
     <Population></Population>
+    <Farm>4</Farm>
   </C0606>
 
   <!--Line 7-->

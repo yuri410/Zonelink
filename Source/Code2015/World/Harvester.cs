@@ -217,7 +217,11 @@ namespace Code2015.World
                         Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
 
                         src.Alt = map.GetHeight(src.Longitude, src.Latitude);
+                        if (src.Alt < 0)
+                            src.Alt = 0;
                         target.Alt = map.GetHeight(target.Longitude, target.Latitude);
+                        if (target.Alt < 0)
+                            target.Alt = 0;
                         stateUpdated = true;
                     }
 

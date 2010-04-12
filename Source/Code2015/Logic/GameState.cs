@@ -56,9 +56,7 @@ namespace Code2015.World
             foreach (GameConfigurationSection sect in resVals)
             {
                 string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
-                //switch (type) 
-                //{
-                //    case "wood":
+               
                 if (type == "wood")
                 {
                     Forest forest = new Forest(SLGWorld);
@@ -72,15 +70,6 @@ namespace Code2015.World
                     fld.Parse(sect);
                     resources.Add(fld);
                 }
-                //else if (type == "farm")
-                //{
-                //    FarmLand frm = new FarmLand(SLGWorld);
-                //    frm.Parse(sect);
-                //    resources.Add(frm);
-                //}
-
-                //}
-                //break;
             }
             for (int i = 0; i < resources.Count; i++)
             {
@@ -156,6 +145,26 @@ namespace Code2015.World
             this.localPlayerArea = new PlayerArea[localPlayer.Length];
             this.localPlayers = localPlayer;
 
+            Dictionary<int, FastList<City>> startAreas = new Dictionary<int, FastList<City>>();
+            for (int i = 0; i < slgSystem.CityCount; i++)
+            {
+                City cc = slgSystem.GetCity(i);
+                if (cc.StartUp != -1)
+                {
+                    FastList<City > list;
+                    if (!startAreas.TryGetValue(cc.StartUp, out list))
+                    {
+                        list = new FastList<City>();
+                        startAreas.Add(cc.StartUp, list);
+                    }
+
+                    list.Add(cc);
+                }
+            }
+
+
+            ExistTable<int> startAreaTable = new ExistTable<int>(startAreas.Count);
+
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
                 localPlayerArea[i] = new PlayerArea(slgSystem, localPlayer[i]);
@@ -166,15 +175,21 @@ namespace Code2015.World
                 localPlayer[i].SetArea(localPlayerArea[i]);
                 localPlayer[i].SetParent(this);
 
+
+
                 bool finished = false;
                 while (!finished)
                 {
-                    int idx = Randomizer.GetRandomInt(slgSystem.CityCount);
+                    int area = Randomizer.GetRandomInt(startAreas.Count) + 1;
 
-                    City cc = slgSystem.GetCity(idx);
-                    if (!cc.IsCaptured && cc.Size == UrbanSize.Large)
+                    if (!startAreaTable.Exists(area))
                     {
-                        cc.ChangeOwner(localPlayer[i]);
+                        startAreaTable.Add(area);
+                        FastList<City> list = startAreas[area];
+
+                        int cidx = Randomizer.GetRandomInt(list.Count);
+
+                        list[cidx].ChangeOwner(localPlayer[i]);
                         finished = true;
                     }
                 }

@@ -97,7 +97,7 @@ namespace Code2015.ParticleSystem
             material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
             material.Diffuse = new Color4F(1, 1f, 1, 1);
 
-            FileLocation fl = FileSystem.Instance.Locate("clouds.tex", GameFileLocs.Texture);
+            FileLocation fl = FileSystem.Instance.Locate("link_p_def.tex", GameFileLocs.Texture);
             material.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
             material.SetEffect(EffectManager.Instance.GetModelEffect(ParticleRDEffectFactory.Name));
 
