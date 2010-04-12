@@ -27,7 +27,7 @@ struct PSInput
     float2 DetailCoord : TEXCOORD1; 
 
     float4 smLgtPos : TEXCOORD2;
-    float2 Depth : TEXCOORD3;
+    float Depth : TEXCOORD3;
 	float3 TangentSpaceVDir : TEXCOORD5;
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
@@ -81,10 +81,10 @@ PSOutput main(PSInput ip)
     float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
     ShadowTexC.y = 1.0f - ShadowTexC.y;
 
-    float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
+    //float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
    
-	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth) ? 0.5f: 1.0f; 
-	
+	//float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth) ? 0.5f: 1.0f; 
+	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
 	
 	float3 R = reflect(ip.TangentSpaceLDir, N);
 	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
