@@ -5,14 +5,55 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
+using Apoc3D.Graphics.Effects;
+using Code2015.EngineEx;
+using Code2015.Effects;
 
 namespace Code2015.ParticleSystem
 {
+    enum TransferType
+    {
+        Default,
+        Wood,
+        Food,
+        Oil
+    }
     class TransferEffect : ParticleEffect
     {
-        public TransferEffect(RenderSystem rs)
+        public TransferEffect(RenderSystem rs, TransferType type)
             : base(rs, 60)
         {
+            Material.CullMode = CullMode.None;
+            Material.ZEnabled = true;
+            Material.ZWriteEnabled = false;
+            Material.PriorityHint = RenderPriority.Third;
+            Material.IsTransparent = true;
+
+            //Material.Flags = MaterialFlags.BlendBright;
+            Material.Ambient = new Color4F(1, 0.4f, 0.4f, 0.4f);
+            Material.Diffuse = new Color4F(1, 1f, 1, 1);
+
+
+            string file = "link_p_def.tex";
+            switch (type) 
+            {
+                case TransferType.Food:
+                    file = "link_p_yellow.tex";
+                    break;
+                case TransferType.Oil:
+                    file = "link_p_red.tex";
+                    break;
+                case TransferType.Wood:
+                    file = "link_p_green.tex";
+                    break;
+            }
+            FileLocation fl = FileSystem.Instance.Locate(file, GameFileLocs.Texture);
+            Material.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
+            Material.SetEffect(EffectManager.Instance.GetModelEffect(ParticleRDEffectFactory.Name));
+
+            BoundingSphere.Radius = float.MaxValue;
+
             ParticleSize = 20f;
             Material.ZEnabled = false;
             Material.ZWriteEnabled = false;
@@ -117,12 +158,14 @@ namespace Code2015.ParticleSystem
             float currentDist = Vector3.Dot(ref direction, ref dist);
             float distPer = MathEx.Saturate(currentDist / distance);
 
-            if (IsVisible && currentDist < 0)
+            if (currentDist < 0)
             {
                 Reset();
-                //particles.FastClear();
                 return;
             }
+
+            if (!IsVisible)
+                return;
 
             dist.Normalize();
 
@@ -137,8 +180,6 @@ namespace Code2015.ParticleSystem
 
             currentPosition += velocity * dt;
 
-
-            
 
             int count = (int)(60 * CreationSpeed * dt);
 

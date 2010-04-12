@@ -28,8 +28,8 @@ namespace Code2015.BalanceSystem
             Disabled = true;
         }
 
-        public bool IsTransportingHR;
-        public bool IsTransportingLR;
-        public bool IsTransportingFood;
+        public float HR;
+        public float LR;
+        public float Food;
     }
 }
