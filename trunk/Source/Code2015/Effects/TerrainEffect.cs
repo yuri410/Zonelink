@@ -205,8 +205,8 @@ namespace Code2015.Effects
                 state.AddressU = TextureAddressMode.Border;
                 state.AddressV = TextureAddressMode.Border;
                 state.AddressW = TextureAddressMode.Border;
-                state.MinFilter = TextureFilter.Point;
-                state.MagFilter = TextureFilter.Point;
+                state.MinFilter = TextureFilter.Linear;
+                state.MagFilter = TextureFilter.Linear;
                 state.MipFilter = TextureFilter.None;
                 state.BorderColor = ColorValue.White;
                 state.MaxAnisotropy = 0;

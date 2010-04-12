@@ -19,7 +19,7 @@ struct VSOutput
     float2 GlobeCoord : TEXCOORD0;
     float2 DetailCoord : TEXCOORD1;
     float4 smLgtPos : TEXCOORD2;
-    float2 Depth : TEXCOORD3;
+    float Depth : TEXCOORD3;
     float3 TangentSpaceVDir : TEXCOORD5;
 	float3 TangentSpaceLDir : TEXCOORD6;
     float2 Height_Blend : TEXCOORD7;
@@ -61,7 +61,7 @@ VSOutput main(VSInput ip)
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
 	o.TangentSpaceVDir = (float3)mul(float4(normalize(wpos.xyz - viewPos),0), tanTrans);
 
-	o.Depth = o.Position.zw;
+	o.Depth = o.Position.z;
     o.smLgtPos = mul(ip.Position , smTrans);
 
     return o;

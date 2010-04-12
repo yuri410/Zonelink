@@ -19,7 +19,7 @@ struct PSInput
     float2 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1; 
     float4 smLgtPos : TEXCOORD2;
-    float2 Depth : TEXCOORD3;
+    float Depth : TEXCOORD3;
     float3 ViewDir : TEXCOORD5;
     
 };
@@ -46,9 +46,9 @@ PSOutput main(PSInput ip)
     float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
     ShadowTexC.y = 1.0f - ShadowTexC.y;
 
-    float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
+    //float pixDepth = ip.smLgtPos.z / ip.smLgtPos.w;
    
-	float shd = (tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.5f: 1.0f; 
+	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);  //(tex2D( texShd, ShadowTexC).r + SHADOW_EPSILON < pixDepth)? 0.5f: 1.0f; 
 	
 	float4 p = amb+dif+k_e;
 	p.a = saturate(p.a);
