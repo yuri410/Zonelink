@@ -536,7 +536,7 @@ namespace DataFixer
         static void Simplify()
         {
             const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";
-            const string OutDir = @"E:\Desktop\out";
+            //const string OutDir = @"E:\Desktop\out";
 
             for (int x = 1; x < 72; x += 2)
             {
