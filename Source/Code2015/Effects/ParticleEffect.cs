@@ -61,6 +61,10 @@ namespace Code2015.Effects
             noTexture = TextureManager.Instance.CreateInstance(fl);
         }
 
+        public override bool SupportsMode(RenderMode mode)
+        {
+            return mode != RenderMode.Depth;
+        }
 
         protected override int begin()
         {

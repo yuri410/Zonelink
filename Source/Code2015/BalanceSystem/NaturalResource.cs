@@ -14,7 +14,6 @@ namespace Code2015.BalanceSystem
     {
         None,
         Wood,
-        Food,
         Petro
     }
 

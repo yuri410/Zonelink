@@ -432,7 +432,6 @@
     <Compile Include="SoundObject.cs" />
     <Compile Include="World\CityGoalSite.cs" />
     <Compile Include="World\CityStyle.cs" />
-    <Compile Include="World\FarmObject.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
@@ -497,9 +496,6 @@
     <None Include="Configs\resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="Configs\action.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Configs\cityplugins.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
@@ -553,9 +549,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
-    <None Include="Configs\citiesold.xml">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
     <None Include="Effect\atmosphere.cps">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

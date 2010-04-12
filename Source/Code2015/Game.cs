@@ -179,17 +179,17 @@ namespace Code2015
                 NaturalResource obj = slgSystem.GetResource(i);
                 switch (obj.Type)
                 {
-                    case NaturalResourceType.Food:
-                        FarmLand farm = obj as FarmLand;
-                        if (farm != null)
-                        {
-                            FarmObject farmObj = new FarmObject(renderSys, farm);
-                            farmObj.ResVisible += scene.Resource_Visible;
-                            scene.Scene.AddObjectToScene(farmObj);
-                            continue;
-                        }
+                    //case NaturalResourceType.Food:
+                    //    FarmLand farm = obj as FarmLand;
+                    //    if (farm != null)
+                    //    {
+                    //        FarmObject farmObj = new FarmObject(renderSys, farm);
+                    //        farmObj.ResVisible += scene.Resource_Visible;
+                    //        scene.Scene.AddObjectToScene(farmObj);
+                    //        continue;
+                    //    }
 
-                        break;
+                    //    break;
                     case NaturalResourceType.Petro:
                         OilField oilfld = obj as OilField;
                         if (oilfld != null)

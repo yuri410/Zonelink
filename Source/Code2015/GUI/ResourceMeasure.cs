@@ -45,9 +45,9 @@ namespace Code2015.GUI
             {
                 switch (current.Type)
                 {
-                    case NaturalResourceType.Food:
-                        font.DrawString(sprite, "Farm", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-                        break;
+                    //case NaturalResourceType.Food:
+                    //    font.DrawString(sprite, "Farm", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+                    //    break;
                     case NaturalResourceType.Petro:
                         font.DrawString(sprite, "Oil Field", 457, 600, 14, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
                         break;
