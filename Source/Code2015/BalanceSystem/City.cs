@@ -978,19 +978,22 @@ namespace Code2015.BalanceSystem
         {
             base.Parse(sect);
             Name = sect.GetString("Name", string.Empty);
-            Population = sect.GetSingle("Population");
+            //Population = sect.GetSingle("Population");
             Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", string.Empty));
 
             switch (Size)
             {
                 case UrbanSize.Small:
-                    Development = 100;
+                    Development = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.SmallCityPointThreshold;
+                    Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.SmallRefPop;
                     break;
                 case UrbanSize.Medium:
-                    Development = 1000;
+                    Development = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.MediumCityPointThreshold;
+                    Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.MediumRefPop;
                     break;
                 case UrbanSize.Large:
-                    Development = 10000;
+                    Development = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.LargeCityPointThreshold;
+                    Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.LargeRefPop;
                     break;
             }
             UpgradeUpdate();
