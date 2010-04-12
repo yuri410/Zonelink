@@ -9,60 +9,60 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    public class TerrainEffect513Factory : EffectFactory
-    {
-        static readonly string typeName = "Terrain513";
+    //public class TerrainEffect513Factory : EffectFactory
+    //{
+    //    static readonly string typeName = "Terrain513";
 
 
-        public static string Name
-        {
-            get { return typeName; }
-        }
+    //    public static string Name
+    //    {
+    //        get { return typeName; }
+    //    }
 
-        RenderSystem renderSystem;
+    //    RenderSystem renderSystem;
 
-        public TerrainEffect513Factory(RenderSystem rs)
-        {
-            renderSystem = rs;
-        }
+    //    public TerrainEffect513Factory(RenderSystem rs)
+    //    {
+    //        renderSystem = rs;
+    //    }
 
-        public override Effect CreateInstance()
-        {
-            return new TerrainEffect513(renderSystem);
-        }
+    //    public override Effect CreateInstance()
+    //    {
+    //        return new TerrainEffect513(renderSystem);
+    //    }
 
-        public override void DestroyInstance(Effect fx)
-        {
-            fx.Dispose();
-        }
-    }
-    public class TerrainEffect129Factory : EffectFactory
-    {
-        static readonly string typeName = "Terrain129";
+    //    public override void DestroyInstance(Effect fx)
+    //    {
+    //        fx.Dispose();
+    //    }
+    //}
+    //public class TerrainEffect129Factory : EffectFactory
+    //{
+    //    static readonly string typeName = "Terrain129";
 
 
-        public static string Name
-        {
-            get { return typeName; }
-        }
+    //    public static string Name
+    //    {
+    //        get { return typeName; }
+    //    }
 
-        RenderSystem renderSystem;
+    //    RenderSystem renderSystem;
 
-        public TerrainEffect129Factory(RenderSystem rs)
-        {
-            renderSystem = rs;
-        }
+    //    public TerrainEffect129Factory(RenderSystem rs)
+    //    {
+    //        renderSystem = rs;
+    //    }
 
-        public override Effect CreateInstance()
-        {
-            return new TerrainEffect129(renderSystem);
-        }
+    //    public override Effect CreateInstance()
+    //    {
+    //        return new TerrainEffect129(renderSystem);
+    //    }
 
-        public override void DestroyInstance(Effect fx)
-        {
-            fx.Dispose();
-        }
-    }
+    //    public override void DestroyInstance(Effect fx)
+    //    {
+    //        fx.Dispose();
+    //    }
+    //}
     public class TerrainEffect33Factory : EffectFactory
     {
         static readonly string typeName = "Terrain33";
@@ -91,20 +91,20 @@ namespace Code2015.Effects
         }
     }
 
-    class TerrainEffect513 : TerrainEffect
-    {
-        public TerrainEffect513(RenderSystem renderSystem)
-            : base(renderSystem, 513)
-        {
-        }
-    }
-    class TerrainEffect129 : TerrainEffect
-    {
-        public TerrainEffect129(RenderSystem renderSystem)
-            : base(renderSystem, 129)
-        {
-        }
-    }
+    //class TerrainEffect513 : TerrainEffect
+    //{
+    //    public TerrainEffect513(RenderSystem renderSystem)
+    //        : base(renderSystem, 513)
+    //    {
+    //    }
+    //}
+    //class TerrainEffect129 : TerrainEffect
+    //{
+    //    public TerrainEffect129(RenderSystem renderSystem)
+    //        : base(renderSystem, 129)
+    //    {
+    //    }
+    //}
     class TerrainEffect33 : TerrainEffect
     {
         public TerrainEffect33(RenderSystem renderSystem)
@@ -124,7 +124,7 @@ namespace Code2015.Effects
         bool stateSetted;
 
         public TerrainEffect(RenderSystem renderSystem, int ts)
-            : base(renderSystem, TerrainEffect513Factory.Name, false)
+            : base(renderSystem, TerrainEffect33Factory.Name, false)
         {
             this.terrSize = ts;
             this.renderSystem = renderSystem;
@@ -177,6 +177,7 @@ namespace Code2015.Effects
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texColor", ref state);
+                pixShader.SetSamplerState("texNorm", ref state);
 
 
                 TerrainTexture tex;
