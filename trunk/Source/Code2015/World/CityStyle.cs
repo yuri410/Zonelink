@@ -228,17 +228,19 @@ namespace Code2015.World
 
         static CityStyleTable()
         {
+            const float FarmRadius = Game.ObjectScale * 75;
             FarmTransform = new Matrix[City.MaxFarmLand];
 
             for (int i = 0; i < City.MaxFarmLand; i++)
             {
-                FarmTransform[i] = Matrix.Translation(0, 5, CityRadius) * Matrix.RotationY(i * MathEx.PiOver2);
+                FarmTransform[i] = Matrix.Translation(0, 5, FarmRadius) * Matrix.RotationY(i * MathEx.PiOver2);
             }
 
             SiteTransform = new Matrix[CityGoalSite.SiteCount];
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
-                SiteTransform[i] = Matrix.Identity;// Matrix.Translation(CityRadius, 0, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
+                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * 
+                    Matrix.Translation(CityRadius, 5, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
             }
         }
 
