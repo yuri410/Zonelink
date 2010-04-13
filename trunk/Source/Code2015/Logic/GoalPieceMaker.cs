@@ -44,7 +44,7 @@ namespace Code2015.Logic
             float timeLine = 15f / (float)Math.Sqrt(area.CityCount) + 5;
             if (timeCounter > timeLine)
             {
-                int idx = Randomizer.GetRandomInt(area.CityCount);
+                int idx = Randomizer.GetRandomInt(area.CityCount) % area.CityCount;
 
                 int tries = 0;
                 while (passTable[idx] && tries < passTable.Count)
