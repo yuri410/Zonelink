@@ -98,6 +98,7 @@ namespace ModelStudio
             camera.Mode = RenderMode.Final;
             camera.FarPlane = 1000;
             camera.NearPlane = 0.5f;
+            camera.RenderTarget = renderSys.GetRenderTarget(0);
 
             distance = 40;
             yang = MathEx.Degree2Radian(30);

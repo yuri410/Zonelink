@@ -94,6 +94,7 @@ namespace Code2015.Logic
         ///  只有离玩家最近的城市才能占领，太远的，中间隔有更近的城市的无法占领
         /// </summary>
         /// <returns></returns>
+        [Obsolete]
         public bool CanCapture(City city)
         {
             if (cities.Count == 0)

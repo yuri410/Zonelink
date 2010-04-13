@@ -112,7 +112,8 @@ namespace Code2015.GUI
         {
             if (SelectedCity != null && hoverCity != null && SelectedCity != hoverCity)
             {
-                if (SelectedCity.Owner == player && hoverCity.CanCapture(player))
+                if (SelectedCity.Owner == player && hoverCity.CanCapture(player) &&
+                    hoverCity.City.IsInCaptureRange(SelectedCity.City))
                 {
                     hoverCity.Capture.SetCapture(player, SelectedCity.City);
 

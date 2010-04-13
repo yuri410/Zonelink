@@ -121,11 +121,7 @@ namespace Code2015.World
         }
         public bool CanCapture(Player pl)
         {
-            if (IsCaptured)
-            {
-                return false;
-            }
-            return city.Capture.CanCapture(pl) && pl.Area.CanCapture(city);
+            return city.CanCapture(pl);
         }
         public bool IsCapturing
         {

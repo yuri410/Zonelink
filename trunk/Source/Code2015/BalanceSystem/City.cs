@@ -89,6 +89,8 @@ namespace Code2015.BalanceSystem
         Player owner;
         CultureId culture;
 
+        string[] linkableCityName;
+        FastList<City> linkableCity = new FastList<City>();
         FastList<CityLink> nearbyCity = new FastList<CityLink>();
         CityObject parent;
         FastList<FarmLand> farms = new FastList<FarmLand>();
@@ -454,6 +456,18 @@ namespace Code2015.BalanceSystem
             return r;
         }
 
+        public bool IsInCaptureRange(City city)
+        {
+            return linkableCity.IndexOf(city) != -1;
+        }
+        public bool CanCapture(Player pl)
+        {
+            if (IsCaptured)
+            {
+                return false;
+            }
+            return Capture.CanCapture(pl);
+        }
         public void Damage(float pop, float dev)
         {
             Population -= pop;
@@ -991,6 +1005,15 @@ namespace Code2015.BalanceSystem
             base.Update(time);
         }
 
+        public void ResolveCities(Dictionary<string, City> table)
+        {
+            for (int i = 0; i < linkableCityName.Length; i++)
+            {
+                City city = table[linkableCityName[i]];
+                linkableCity.Add(city);
+            }
+        }
+
         #region IConfigurable 成员
 
         public override void Parse(ConfigurationSection sect)
@@ -1024,6 +1047,8 @@ namespace Code2015.BalanceSystem
             {
                 farms.Add(new FarmLand(base.Region, this));
             }
+
+            linkableCityName = sect.GetStringArray("Linkable", null);
 
             UpgradeUpdate();
         }
