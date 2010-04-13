@@ -443,13 +443,16 @@ namespace Code2015.World
 
         public void Upgrade()
         {
-            // 升级
-            for (int i = 0; i < plugins.Count; i++)
+            if (MatchSite())
             {
-                if (goalSite.Match(i, plugins[i].plugin.TypeId))
+                // 升级
+                for (int i = 0; i < plugins.Count; i++)
                 {
-                    plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
-                    goalSite.ClearAt(i);
+                    if (goalSite.Match(i, plugins[i].plugin.TypeId))
+                    {
+                        plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                        goalSite.ClearAt(i);
+                    }
                 }
             }
         }
