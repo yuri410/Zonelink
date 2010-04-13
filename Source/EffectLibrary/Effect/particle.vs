@@ -2,6 +2,8 @@
 
 float4x4 mvp : register(c0);
 float size : register(c4);
+float3 right : register(c5);
+float3 up : register(c6);
 
 struct VSInput
 {
@@ -17,8 +19,8 @@ struct VSOutput
 
 VSOutput main(VSInput ip)
 {
-	const float3 up = float3(0,1,0);
-	const float3 right = float3(1,0,0);
+	//const float3 up = float3(0,1,0);
+	//const float3 right = float3(1,0,0);
     VSOutput o;
 
 	float idx = ip.AlphaIdx.y;

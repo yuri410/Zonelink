@@ -101,10 +101,11 @@ namespace Code2015.World
 
         public void Update(GameTime time)
         {
+            EffectParams.InvView = Matrix.Invert(camera.ViewMatrix);
             //Matrix view = camera.ViewMatrix;
 
             //view = Matrix.RotationY(MathEx.PiOver4) * view;
-            Matrix view = Matrix.RotationY(-MathEx.PIf / 6) * Matrix.Invert(camera.ViewMatrix);
+            Matrix view = Matrix.RotationY(-MathEx.PIf / 6) * EffectParams.InvView;
             EffectParams.LightDir = -view.Forward;
 
             renderer.Update(time);

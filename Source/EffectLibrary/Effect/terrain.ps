@@ -43,7 +43,6 @@ PSOutput main(PSInput ip)
     PSOutput o;
     
     float3 N = 2 * (float3)tex2D(texNorm, ip.GlobeCoord) - 1;
-    N.x = -N.x;
     
     float ndl = dot(N, ip.TangentSpaceLDir);
 	

@@ -54,7 +54,7 @@ namespace Code2015.ParticleSystem
 
             BoundingSphere.Radius = float.MaxValue;
 
-            ParticleSize = 40f;
+            ParticleSize = 16f;
             Material.ZEnabled = false;
             Material.ZWriteEnabled = false;
         }
@@ -105,6 +105,13 @@ namespace Code2015.ParticleSystem
 
         Vector3 direction;
         Vector3 tangent;
+
+        bool isShutDown;
+
+        public bool IsShutDown 
+        {
+            get { return isShutDown; }
+        }
 
         public bool IsVisible
         {
@@ -158,21 +165,30 @@ namespace Code2015.ParticleSystem
             float currentDist = Vector3.Dot(ref direction, ref dist);
             float distPer = MathEx.Saturate(currentDist / distance);
 
-            if (currentDist < 0)
+            if (IsVisible)
+                isShutDown = false;            
+
+            if (currentDist < 0 && !isShutDown)
             {
+                if (!IsVisible)
+                {
+                    isShutDown = true;
+                }
                 Reset();
                 return;
             }
 
-            if (!IsVisible)
+            if (isShutDown) 
+            {
                 return;
+            }
 
             dist.Normalize();
 
             noise += new Vector3(
-                (Randomizer.GetRandomSingle() - 0.5f) * 25,
-                (Randomizer.GetRandomSingle() - 0.5f) * 25,
-                (Randomizer.GetRandomSingle() - 0.5f) * 25);
+                (Randomizer.GetRandomSingle() - 0.5f) * 550,
+                (Randomizer.GetRandomSingle() - 0.5f) * 550,
+                (Randomizer.GetRandomSingle() - 0.5f) * 550);
             velocity = 900 * direction;
             velocity += noise * dt;
             velocity -= tangent * (300 * (float)Math.Cos(distPer * Math.PI));
