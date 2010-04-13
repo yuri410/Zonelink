@@ -89,10 +89,13 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
+            //EffectParams.InvView.Right
             Matrix view = EffectParams.CurrentCamera.ViewMatrix;
             //Vector3 tl = view.TranslationValue;
             //view = Matrix.Identity;
             //view.TranslationValue = tl;
+            vtxShader.SetValue("right", EffectParams.InvView.Right);
+            vtxShader.SetValue("up", EffectParams.InvView.Up);
 
             vtxShader.SetValue("mvp",
                 view * EffectParams.CurrentCamera.ProjectionMatrix);

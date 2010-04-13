@@ -8,7 +8,6 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-
     class SharedIndexData
     {
         IndexBuffer indexBuffer;
@@ -68,7 +67,6 @@ namespace Code2015.EngineEx
         }
     }
 
-
     class TerrainMeshManager : ResourceManager
     {
         static volatile TerrainMeshManager singleton;
@@ -97,7 +95,7 @@ namespace Code2015.EngineEx
         //public const float HeightScale = 5500;
         public const float PostZeroLevel = 1600;
 
-        public const float PostHeightScale = 0.04f;
+        public const float PostHeightScale = 0.0534f;
 
         bool loaded;
         RenderSystem renderSystem;

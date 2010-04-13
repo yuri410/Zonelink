@@ -217,56 +217,74 @@ namespace Code2015.World
 
             for (int i = 0; i < MaxLevel; i++)
             {
-                ops = atobGreen[i].GetRenderOperation();
-                if (ops != null)
+                if (!atobGreenE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = atobGreen[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-
-                ops = atobRed[i].GetRenderOperation();
-                if (ops != null)
+                if (!atobRedE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = atobRed[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-
-                ops = atobYellow[i].GetRenderOperation();
-                if (ops != null)
+                if (!atobYellowE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = atobYellow[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-
-                ops = btoaGreen[i].GetRenderOperation();
-                if (ops != null)
+                if (!btoaGreenE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = btoaGreen[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-
-                ops = btoaRed[i].GetRenderOperation();
-                if (ops != null)
+                if (!btoaRedE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = btoaRed[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-
-                ops = btoaYellow[i].GetRenderOperation();
-                if (ops != null)
+                if (!btoaYellowE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = btoaYellow[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
             }
 
-            ops = atobEff.GetRenderOperation();
-            if (ops != null)
+            if (!emittera.IsShutDown)
             {
-                opBuffer.Add(ops);
+                ops = atobEff.GetRenderOperation();
+                if (ops != null)
+                {
+                    opBuffer.Add(ops);
+                }
             }
-
-            ops = btoaEff.GetRenderOperation();
-            if (ops != null)
+            if (!emitterb.IsShutDown)
             {
-                opBuffer.Add(ops);
+                ops = btoaEff.GetRenderOperation();
+                if (ops != null)
+                {
+                    opBuffer.Add(ops);
+                }
             }
 
-            opBuffer.Trim();
+            opBuffer.TrimClear();
             return opBuffer.Elements;
 
         }
