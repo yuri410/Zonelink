@@ -37,7 +37,6 @@ namespace Code2015.AI
 
         public void Update(GameTime time)
         {
-            return;
             // 电脑单一决策。
             // 每隔一段时间
 

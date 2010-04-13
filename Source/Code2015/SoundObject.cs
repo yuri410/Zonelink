@@ -1,187 +1,259 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
+using Apoc3D.Collections;
+using Apoc3D.MathLib;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
-using Apoc3D;
-using Apoc3D.MathLib;
 using MXF = Microsoft.Xna.Framework;
 
 namespace Code2015
 {
-
-    public enum SoundKind
+    /// <summary>
+    ///  提供SndObject所需信息
+    /// </summary>
+    public interface ISoundObjectParent
     {
-        city, farm, forest, lightning, oil, rain, river, sea, truck, wind
+        bool IsLocalHumanPlayer { get; }
     }
 
-    public class SoundObject
+
+    public abstract class SoundObject : IUpdatable
     {
-        /// <summary>
-        /// 发声物体的位置，使用物理引擎里的Vector3；
-        /// </summary>
+        ISoundObjectParent parent;
+
+        AudioEmitter emitter;
+
+        
+        protected float minVolume;
+        protected float maxVolume;
+        protected float radius;
+
+        protected SoundEffectGame soundEffectGame;
+        protected SoundEffectInstance currentInstance;
+        protected Vector3 cameraPosition;
+        Vector3 position;
+
+        public AudioEmitter Emitter
+        {
+            get { return emitter; }
+        }
+        public Vector3 ListenerPosition
+        {
+            get { return cameraPosition; }
+        }
+        public ISoundObjectParent Parent
+        {
+            get { return parent; }
+        }
+
+        protected SoundObject(ISoundObjectParent parent, SoundEffectGame sfx)
+        {
+            this.parent = parent;
+            this.soundEffectGame = sfx;
+            this.emitter = new AudioEmitter();
+        }
+
+        public float Volume
+        {
+            get;
+            protected set;
+        }
         public Vector3 Position
         {
-            get;
-            set;
-        }
-        public readonly float MinDistance = 50;
-        public readonly float MaxDistance = 100;
-        SoundEffectGame soundEffectGame;
-        List<SoundEffectGame> activeList = new List<SoundEffectGame>();
-        ContentManager contentManager;
-
-        public string Name
-        {
-            get;
-            set;
-        }
-        bool islooped = true;
-        public bool IsLooped
-        {
-            get { return islooped; }
-            set { islooped = value; }
+            get { return position; }
+            set { position = value; }
         }
 
-        string[,] SoundsName = new string[10, 10];//存储所有声音的名称
-        string[] ObjectName = new string[10];
-        public SoundObject(SoundManager sm, string name, Vector3 emitter)
+        #region IUpdatable 成员
+
+        public virtual void Update(GameTime dt)
         {
-            unsafe
+            float distance = Vector3.Distance(this.Position, cameraPosition);
+
+            float vol = MathEx.LinearInterpose(minVolume, maxVolume, distance / radius);
+            Volume = vol;
+
+            if (currentInstance == null || currentInstance.State == SoundState.Stopped)
             {
-                contentManager = sm.MakeContentManager();
-                this.IsLooped = sm.IsLoop;
-                this.Name = name;
-                GetFlag();
-                MXF.Vector3* tempPointer = (MXF.Vector3*)(&emitter);
-                this.soundEffectGame.Emitter.Position = *tempPointer;
-                this.Position = emitter;//代表发声物体的位置。
-                this.SoundsName = sm.SoundsName;
-                this.ObjectName = sm.ObjectName;
+                currentInstance = null;
+            }
+            if (currentInstance != null)
+            {
+                currentInstance.Volume = vol;
+            }
+
+            emitter.Position = new Microsoft.Xna.Framework.Vector3(position.X, position.Y, position.Z);
+        }
+
+        #endregion
+    }
+
+    public class NormalSoundObject : SoundObject
+    {
+        FastList<SoundEffectInstance> instance = new FastList<SoundEffectInstance>();
+
+        public NormalSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx)
+            : base(parent, sfx)
+        {
+            this.minVolume = 1;
+            this.maxVolume = 1;
+            this.radius = 1;
+        }
+
+
+        public void Fire(float volume)
+        {
+            Volume = volume;
+
+            instance.Add(soundEffectGame.Play(SoundEffectPart.Default, this));
+        }
+
+        public override void Update(GameTime dt)
+        {
+            for (int i = 0; i < instance.Count; i++)
+            {
+                if (instance[i].State == SoundState.Stopped)
+                {
+                    instance.RemoveAt(i);
+                }
             }
         }
-        public int Flag
+    }
+    public class Normal3DSoundObject : SoundObject
+    {
+        FastList<SoundEffectInstance> instance = new FastList<SoundEffectInstance>();
+
+        public Normal3DSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius, float minVolume, float maxVolume)
+            : base(parent, sfx)
         {
-            get { return GetFlag(); }
+            this.minVolume = minVolume;
+            this.maxVolume = maxVolume;
+            this.radius = radius;
+
+
         }
-        public int GetFlag()
+
+
+        public void Fire()
         {
-            int flag = 0;
-            for (int i = 0; i < 10; i++)
-            {
-                if (ObjectName[i].Contains(this.Name))
-                    flag = i;
+            instance.Add(soundEffectGame.Play(SoundEffectPart.Default, this));
+        }
+        public override void Update(GameTime dt)
+        {
+            base.Update(dt);
+
+            for (int i = 0; i < instance.Count; i++)
+            {                
+                if (instance[i].State == SoundState.Stopped)
+                {
+                    instance.RemoveAt(i);
+                }
             }
-            return flag;
+        }
+    }
+    public class AmbientSoundObject : SoundObject
+    {
+
+        public AmbientSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx,float radius, float minVolume, float maxVolume)
+            : base(parent, sfx)
+        {
+            this.minVolume = minVolume;
+            this.maxVolume = maxVolume;
+            this.radius = radius;
         }
 
-        public void Play(float disance, Vector3 camaraPosition)
+        public override void Update(GameTime dt)
         {
-            if (IsLooped)
+            base.Update(dt);
+
+            float distance = Vector3.Distance(this.Position, cameraPosition);
+
+            if (distance <= radius)
             {
-                Random r = new Random();
-                int length = 0;
-                for (int i = 0; i < 10; i++)
+                if (currentInstance == null)
                 {
-                    if (SoundsName[Flag, i] != null)
-                    {
-                        length = i;
-                    }
+                    currentInstance = soundEffectGame.Play(SoundEffectPart.Default, this);
                 }
-                while (activeList.Count < 4)
+            }
+        }
+    }
+
+    public class AmbientLoopSoundObject : SoundObject
+    {
+        struct PlayOp
+        {
+            public SoundEffectPart Part;
+        }
+
+        float lastDistance;
+
+        FastList<PlayOp> playList = new FastList<PlayOp>();
+
+
+        public AmbientLoopSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius, float minVolume, float maxVolume)
+            : base(parent, sfx)
+        {
+            this.minVolume = minVolume;
+            this.maxVolume = maxVolume;
+            this.radius = radius;
+        }
+
+
+        void AddToPlayList(SoundEffectPart category)
+        {
+            PlayOp op;
+            op.Part = category;
+            playList.Add(ref op);
+        }
+
+        public override void Update(GameTime time)
+        {
+            base.Update(time);
+
+            float distance = Vector3.Distance(this.Position, cameraPosition);
+
+            bool action = false;
+
+            if (distance <= radius)
+            {
+                if (lastDistance > radius)
                 {
-                    SoundEffectGame temp1 = contentManager.Load<SoundEffectGame>(SoundsName[Flag, 0].ToString());
-                    activeList.Add(temp1);
-                    int medium = r.Next(1, length);
-                    SoundEffectGame temp2 = contentManager.Load<SoundEffectGame>(SoundsName[Flag, medium].ToString());
-                    activeList.Add(temp2);
+                    AddToPlayList(SoundEffectPart.Fadein);
+                    action = true;
+                    // just in
                 }
-                if (disance < MaxDistance && disance > MinDistance)
-                {
-
-                    for (int index = 0; index < activeList.Count; index++)
-                    {
-                        SoundEffectInstance instance = activeList[index].Play(camaraPosition, this.Position, 0.9f, 0, false);
-                        instance.Pause();
-                        if (instance.State == SoundState.Stopped)
-                        {
-                            SoundEffectInstance instance1 = activeList[index].Play(camaraPosition, this.Position, 0.9f, 0, false);
-                            instance1.Play();
-                        }
-
-                    }
-
-                }
-                if (disance > MaxDistance)
-                {
-                    for (int index = 0; index < activeList.Count; index++)
-                    {
-                        SoundEffectInstance instance = activeList[index].Play(camaraPosition, this.Position, 0.4f, 0, false);
-                        instance.Pause();
-                        if (instance.State == SoundState.Stopped)
-                        {
-                            SoundEffectInstance instance1 = activeList[index].Play(camaraPosition, this.Position, 0.4f, 0, false);
-                            instance1.Play();
-                        }
-
-                    }
-                }
-
             }
             else
             {
-                Random r = new Random();
-                int length = 0;
-                for (int i = 0; i < 10; i++)
+                if (lastDistance <= radius)
                 {
-                    if (SoundsName[Flag, i] != null)
-                    {
-                        length = i;
-                    }
+                    AddToPlayList(SoundEffectPart.Fadeout);
+                    action = true;
+                    // just out
                 }
-                while (activeList.Count < 4)
-                {
-                    int medium = r.Next(0, length);
-                    SoundEffectGame temp = contentManager.Load<SoundEffectGame>(SoundsName[Flag, medium].ToString());
-                    activeList.Add(temp);
-                }
-                if (disance < MaxDistance && disance > MinDistance)
-                {
-
-                    for (int index = 0; index < activeList.Count; index++)
-                    {
-                        SoundEffectInstance instance = activeList[index].Play(camaraPosition, this.Position, 0.9f, 0, false);
-                        instance.Pause();
-                        if (instance.State == SoundState.Stopped)
-                        {
-                            SoundEffectInstance instance1 = activeList[index].Play(camaraPosition, this.Position, 0.9f, 0, false);
-                            instance1.Play();
-                        }
-
-                    }
-                }
-                if (disance > MaxDistance)
-                {
-
-                    for (int index = 0; index < activeList.Count; index++)
-                    {
-                        SoundEffectInstance instance = activeList[index].Play(camaraPosition, this.Position, 0.4f, 0, false);
-                        instance.Pause();
-                        if (instance.State == SoundState.Stopped)
-                        {
-                            SoundEffectInstance instance1 = activeList[index].Play(camaraPosition, this.Position, 0.4f, 0, false);
-                            instance1.Play();
-                        }
-
-                    }
-                }
-
             }
-        }
-        public void Update(GameTime time, Vector3 camaraPosition)
-        {
-            float distance = Vector3.Distance(this.Position, camaraPosition);
-            Play(distance, camaraPosition);
+
+            if (!action && distance <= radius)
+            {
+                if (playList.Count == 0)
+                {
+                    AddToPlayList(SoundEffectPart.Medium);
+                }
+            }
+
+
+            if (currentInstance == null)
+            {
+                if (playList.Count > 0)
+                {
+                    currentInstance = soundEffectGame.Play(playList[0].Part, this);
+
+                    playList.RemoveAt(0);
+                }
+            }
+            lastDistance = distance;
         }
     }
 }
