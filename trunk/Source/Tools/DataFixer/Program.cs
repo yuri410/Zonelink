@@ -897,7 +897,7 @@ namespace DataFixer
             //BuildLandAreaHeight();
             //BuildFlag();
             //Scan2(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk");
-            Grid();
+       
             Console.ReadKey();
 
             //const string SrcDir = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\terrain.lpk";

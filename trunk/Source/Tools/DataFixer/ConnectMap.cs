@@ -40,8 +40,8 @@ namespace ConnectMap
         //public float[] subMapData;//用于存储每个小图片的数组
         public int SubMapHAmount = 263169;//存储每张图片的高度值的数目
         public float[,][] totalsub;//用于存储总共图片数组的数组
-        public const int Height = 7182;
-        public const int Width = 18468;
+        public const int Height = 33*36;//7182;
+        public const int Width = 33*14;//18468;
         public int Amount = 432;//所有图片的数目
         public float[,] totalMapData;//用于存储所有图片的高度信息的数组
 

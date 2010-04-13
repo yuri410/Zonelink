@@ -155,7 +155,7 @@ namespace Code2015.GUI
             {
                 if (!parent.IsLoaded)
                 {
-                    sprite.Draw(background, 0, 0, ColorValue.LightGray);
+                    sprite.Draw(background, 0, 0, ColorValue.White);
 
                     font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
 
