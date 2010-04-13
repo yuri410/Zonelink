@@ -50,7 +50,7 @@ namespace Code2015.World
 
                 if (sites[i].IsTyped)
                 {
-                    ops = style.MdgSiteEmpty[(int)sites[i].Type].GetRenderOperation();
+                    ops = style.MdgSiteEmpty[(int)sites[i].Desired].GetRenderOperation();
                 }
                 else 
                 {
@@ -264,6 +264,11 @@ namespace Code2015.World
             sites[i].HasPiece = true;
             sites[i].Type = res;
         }
+        public void ClearAt(int i) 
+        {
+            sites[i].HasPiece = false;
+        }
+
         public MdgType? GetPiece(int i)
         {
             if (!sites[i].HasPiece)
