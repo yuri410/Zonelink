@@ -146,8 +146,6 @@ namespace Code2015.BalanceSystem
         }
 
 
-        
-
         #region  属性
 
         public bool IsFarmFull

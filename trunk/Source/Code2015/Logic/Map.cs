@@ -19,6 +19,7 @@ namespace Code2015.Logic
 
         SimulationWorld region;
         PathFinderManager pathFinder;
+        BitTable gradMap;
 
         ushort[][] heightData;
 
@@ -28,7 +29,7 @@ namespace Code2015.Logic
 
             FileLocation fl = FileSystem.Instance.Locate("grad.bit", GameFileLocs.Nature);
 
-            BitTable gradMap = new BitTable(32);
+            gradMap = new BitTable(32);
             gradMap.Load(fl);
 
             pathFinder = new PathFinderManager(gradMap);
@@ -55,9 +56,26 @@ namespace Code2015.Logic
 
         public void BlockArea(float lng, float lat, float r)
         {
-            
+            int x, y;
+            GetMapCoord(lng, lat, out x, out y);
+
+            int w = (int)(((r + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth - ((0 + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
+
+            for (int i = -w; i < w; i++) 
+            {
+                for (int j = -w; j < w; j++)
+                {
+                    float rr = (float)Math.Sqrt(MathEx.Sqr(i - y) + MathEx.Sqr(j - x));
+
+                    if (rr <= w)
+                    {
+                        gradMap.SetBit((i + y) * MapWidth + (j + x), true);
+                    }
+                }
+            }
         }
 
+        
         //public float GetHeight(Point pt)
         //{
 
