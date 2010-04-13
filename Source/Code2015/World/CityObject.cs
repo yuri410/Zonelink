@@ -440,8 +440,11 @@ namespace Code2015.World
             // 升级
             for (int i = 0; i < plugins.Count; i++)
             {
-                plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
-                //plugins.Elements[i].CurrentPiece = null;
+                if (goalSite.Match(i, plugins[i].plugin.TypeId))
+                {
+                    plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                    goalSite.ClearAt(i);
+                }
             }
         }
         public bool MatchSite()
@@ -464,26 +467,9 @@ namespace Code2015.World
 
             sideRing.Update(dt);
 
-            if (MatchSite())
-            {
-                Upgrade();
-                goalSite.Clear();
-            }
-            //bool passed = false;
-            //for (int i = 0; i < plugins.Count; i++)
-            //{
-            //    passed |= plugins[i].CurrentPiece == null;
-            //}
-            //if (!passed)
-            //{
-            //    Upgrade();
-            //}
+            Upgrade();
         }
 
-        //public override void OnAddedToScene(object sender, SceneManagerBase sceneMgr)
-        //{
-        //    base.OnAddedToScene(sender, sceneMgr);
-        //}
 
         public override bool IsSerializable
         {
