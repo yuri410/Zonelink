@@ -5,6 +5,7 @@ float4x4 mvp : register(c0);
 float4x4 world : register(c4);
 float3 viewPos : register(c8);
 float2 isVeg_wind : register(c9);
+float4x4 smTrans : register(c13);
 
 struct VSInput
 {
@@ -18,6 +19,7 @@ struct VSOutput
     float4 Position : POSITION0;
     float2 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1;
+    float4 smLgtPos : TEXCOORD2;
     float3 ViewDir : TEXCOORD5;
 };
 
@@ -54,5 +56,7 @@ VSOutput main(VSInput ip)
     float3 wpos = ip.Position.xyz;
     
 	o.ViewDir = normalize(wpos - viewPos);
-    return o;
+	
+	o.smLgtPos = mul(ip.Position , smTrans);
+   return o;
 }

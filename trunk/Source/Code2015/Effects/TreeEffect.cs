@@ -42,7 +42,7 @@ namespace Code2015.Effects
         }
     }
 
-    class TreeEffect : Effect
+    class TreeEffect : ShadowedEffect
     {
         bool stateSetted;
 
@@ -55,7 +55,7 @@ namespace Code2015.Effects
         int sign = 1;
 
         public unsafe TreeEffect(RenderSystem rs)
-            : base(false, TreeEffectFactory.Name)
+            : base(rs, TreeEffectFactory.Name, false)
         {
             this.renderSys = rs;
 
@@ -69,26 +69,60 @@ namespace Code2015.Effects
 
         protected override int begin()
         {
-            renderSys.BindShader(vtxShader);
-            renderSys.BindShader(pixShader);
-            pixShader.SetValue("i_a", EffectParams.LightAmbient);
-            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            pixShader.SetValue("i_s", EffectParams.LightSpecular);
-            pixShader.SetValue("lightDir", EffectParams.LightDir);
-            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+            if (mode == RenderMode.Depth)
+            {
+                renderSys.BindShader(shdVtxShader);
+                renderSys.BindShader(shdPixShader);
+            }
+            else
+            {
+                renderSys.BindShader(vtxShader);
+                renderSys.BindShader(pixShader);
+                pixShader.SetValue("i_a", EffectParams.LightAmbient);
+                pixShader.SetValue("i_d", EffectParams.LightDiffuse);
+                pixShader.SetValue("i_s", EffectParams.LightSpecular);
+                pixShader.SetValue("lightDir", EffectParams.LightDir);
+                vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+              
+                ShaderSamplerState state = new ShaderSamplerState();
+                state.AddressU = TextureAddressMode.Wrap;
+                state.AddressV = TextureAddressMode.Wrap;
+                state.AddressW = TextureAddressMode.Wrap;
+                state.MinFilter = TextureFilter.Anisotropic;
+                state.MagFilter = TextureFilter.Anisotropic;
+                state.MipFilter = TextureFilter.Anisotropic;
+                state.MaxAnisotropy = 8;
+                state.MipMapLODBias = 0;
 
-            winding += sign * 0.0033f;
-            if (winding > 2 * MathEx.PIf)
-                winding -= 2 * MathEx.PIf;
-            //if (winding > 1f)
-            //{
-            //    sign = -1;
-            //}
-            //else if (winding < 0f)
-            //{
-            //    sign = 1;
-            //}
 
+                pixShader.SetSamplerState("texDif", ref state);
+             
+                state.AddressU = TextureAddressMode.Border;
+                state.AddressV = TextureAddressMode.Border;
+                state.AddressW = TextureAddressMode.Border;
+                state.MinFilter = TextureFilter.Linear;
+                state.MagFilter = TextureFilter.Linear;
+                state.MipFilter = TextureFilter.None;
+                state.BorderColor = ColorValue.White;
+                state.MaxAnisotropy = 0;
+                state.MipMapLODBias = 0;
+
+                pixShader.SetSamplerState("texShd", ref state);
+                pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
+
+
+                winding += sign * 0.0033f;
+                if (winding > 2 * MathEx.PIf)
+                    winding -= 2 * MathEx.PIf;
+                //if (winding > 1f)
+                //{
+                //    sign = -1;
+                //}
+                //else if (winding < 0f)
+                //{
+                //    sign = 1;
+                //}
+            }
             stateSetted = false;
             return 1;
             //return effect.Begin(FX.DoNotSaveState | FX.DoNotSaveShaderState | FX.DoNotSaveSamplerState);
@@ -110,65 +144,67 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
-
-            vtxShader.SetValue("mvp", ref mvp);
-
-            TreeBatchModel mdl = op.Sender as TreeBatchModel;
-            if (mdl != null)
+            if (mode == RenderMode.Depth)
             {
-                vtxShader.SetValue("world", ref mdl.TreeOrientation);
+                Matrix lightPrjTrans;
+                Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
+                shdVtxShader.SetValue("mvp", ref lightPrjTrans);
             }
-            else 
+            else
             {
-                vtxShader.SetValue("world", ref op.Transformation);
-            }
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
-            if (!stateSetted)
-            {
-                ShaderSamplerState state = new ShaderSamplerState();
-                state.AddressU = TextureAddressMode.Wrap;
-                state.AddressV = TextureAddressMode.Wrap;
-                state.AddressW = TextureAddressMode.Wrap;
-                state.MinFilter = TextureFilter.Anisotropic;
-                state.MagFilter = TextureFilter.Anisotropic;
-                state.MipFilter = TextureFilter.Anisotropic;
-                state.MaxAnisotropy = 8;
-                state.MipMapLODBias = 0;
+                vtxShader.SetValue("mvp", ref mvp);
+               
+                Matrix lightPrjTrans;
+                Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
 
-                pixShader.SetValue("k_a", mat.Ambient);
-                pixShader.SetValue("k_d", mat.Diffuse);
-                pixShader.SetValue("k_s", mat.Specular);
-                pixShader.SetValue("k_e", mat.Emissive);
-                pixShader.SetValue("k_power", mat.Power);
+                vtxShader.SetValue("smTrans", lightPrjTrans);
 
-                pixShader.SetSamplerState("texDif", ref state);
-
-                ResourceHandle<Texture> clrTex = mat.GetTexture(0);
-                if (clrTex == null)
+                TreeBatchModel mdl = op.Sender as TreeBatchModel;
+                if (mdl != null)
                 {
-                    pixShader.SetTexture("texDif", null);
+                    vtxShader.SetValue("world", ref mdl.TreeOrientation);
                 }
                 else
                 {
-                    pixShader.SetTexture("texDif", clrTex);
+                    vtxShader.SetValue("world", ref op.Transformation);
                 }
 
-
-                Vector2 isVeg_wind = new Vector2();
-
-                if (mat.IsVegetation)
+                if (!stateSetted)
                 {
-                    isVeg_wind.X = 100;// vtxShader.SetValue("isVeg_wind", new Vector4(100, 100, 100, 100));
+
+                    pixShader.SetValue("k_a", mat.Ambient);
+                    pixShader.SetValue("k_d", mat.Diffuse);
+                    pixShader.SetValue("k_s", mat.Specular);
+                    pixShader.SetValue("k_e", mat.Emissive);
+                    pixShader.SetValue("k_power", mat.Power);
+
+                    ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+                    if (clrTex == null)
+                    {
+                        pixShader.SetTexture("texDif", null);
+                    }
+                    else
+                    {
+                        pixShader.SetTexture("texDif", clrTex);
+                    }
+
+
+                    Vector2 isVeg_wind = new Vector2();
+
+                    if (mat.IsVegetation)
+                    {
+                        isVeg_wind.X = 100;// vtxShader.SetValue("isVeg_wind", new Vector4(100, 100, 100, 100));
+                    }
+                    isVeg_wind.Y = winding;
+                    vtxShader.SetValue("isVeg_wind", ref isVeg_wind);
+
+
+                    stateSetted = true;
                 }
-                isVeg_wind.Y = winding;
-                vtxShader.SetValue("isVeg_wind", ref isVeg_wind);
-
-
-                stateSetted = true;
             }
         }
-
         
 
         protected override void Dispose(bool disposing)

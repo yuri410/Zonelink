@@ -115,6 +115,7 @@
     <Compile Include="Effects\SkyboxEffect.cs" />
     <Compile Include="Effects\StandardEffect.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
+    <Compile Include="Effects\TreeEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
