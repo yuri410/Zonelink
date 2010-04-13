@@ -145,7 +145,7 @@ namespace Code2015.World
                 atobGreenE[i] = abgE;
 
                 abg.Modifier = new TransferModifier();
-
+                abg.Emitter = abgE;
 
                 TransferEffect bag = new TransferEffect(renderSys, TransferType.Wood);
                 TransferEmitter bagE = new TransferEmitter(endPos, startPos, -ori.Forward);
@@ -154,6 +154,7 @@ namespace Code2015.World
                 btoaGreenE[i] = bagE;
 
                 bag.Modifier = new TransferModifier();
+                bag.Emitter = bagE;
 
                 TransferEffect abr = new TransferEffect(renderSys, TransferType.Oil);
                 TransferEmitter abrE = new TransferEmitter(startPos, endPos, ori.Forward);
@@ -161,7 +162,8 @@ namespace Code2015.World
                 atobRed[i] = abr;
                 atobRedE[i] = abrE;
 
-                abg.Modifier = new TransferModifier();
+                abr.Modifier = new TransferModifier();
+                abr.Emitter = abrE;
 
                 TransferEffect bar = new TransferEffect(renderSys, TransferType.Oil);
                 TransferEmitter barE = new TransferEmitter(endPos, startPos, -ori.Forward);
@@ -170,6 +172,7 @@ namespace Code2015.World
                 btoaRedE[i] = barE;
 
                 bar.Modifier = new TransferModifier();
+                bar.Emitter = barE;
 
 
                 TransferEffect aby = new TransferEffect(renderSys, TransferType.Food);
@@ -179,6 +182,7 @@ namespace Code2015.World
                 atobYellowE[i] = abyE;
 
                 aby.Modifier = new TransferModifier();
+                aby.Emitter = abyE;
 
 
                 TransferEffect bay = new TransferEffect(renderSys, TransferType.Food);
@@ -188,6 +192,7 @@ namespace Code2015.World
                 btoaYellowE[i] = bayE;
 
                 bay.Modifier = new TransferModifier();
+                bay.Emitter = bayE;
             }
 
         }
@@ -319,6 +324,8 @@ namespace Code2015.World
 
                             for (int i = 0; i < ABGreenLevel; i++)
                                 atobGreenE[i].IsVisible = true;
+                            for (int i = ABGreenLevel; i < MaxLevel; i++)
+                                atobGreenE[i].IsVisible = false;
                         }
 
                         bool bag = blink != null ? blink.LR > LRThreshold : true;
@@ -337,11 +344,13 @@ namespace Code2015.World
 
                             for (int i = 0; i < BAGreenLevel; i++)
                                 btoaGreenE[i].IsVisible = true;
+                            for (int i = BAGreenLevel; i < MaxLevel; i++)
+                                btoaGreenE[i].IsVisible = false;
                         }
                         #endregion
                         #region HR
                         bool abr = alink != null ? alink.HR > HRThreshold : true;
-                        if (!abg)
+                        if (!abr)
                         {
                             for (int i = 0; i < MaxLevel; i++)
                                 atobRedE[i].IsVisible = false;
@@ -356,10 +365,12 @@ namespace Code2015.World
 
                             for (int i = 0; i < ABRedLevel; i++)
                                 atobRedE[i].IsVisible = true;
+                            for (int i = ABRedLevel; i < MaxLevel; i++)
+                                atobRedE[i].IsVisible = false;
                         }
 
                         bool bar = blink != null ? blink.HR > HRThreshold : true;
-                        if (!bag)
+                        if (!bar)
                         {
                             for (int i = 0; i < MaxLevel; i++)
                                 btoaRedE[i].IsVisible = false;
@@ -374,11 +385,13 @@ namespace Code2015.World
 
                             for (int i = 0; i < BARedLevel; i++)
                                 btoaRedE[i].IsVisible = true;
+                            for (int i = BARedLevel; i < MaxLevel; i++)
+                                btoaRedE[i].IsVisible = false;
                         }
                         #endregion
                         #region Food
                         bool abry = alink != null ? alink.Food > FoodThreshold : true;
-                        if (!abg)
+                        if (!abry)
                         {
                             for (int i = 0; i < MaxLevel; i++)
                                 atobYellowE[i].IsVisible = false;
@@ -393,10 +406,12 @@ namespace Code2015.World
 
                             for (int i = 0; i < ABYellowLevel; i++)
                                 atobYellowE[i].IsVisible = true;
+                            for (int i = ABYellowLevel; i < MaxLevel; i++)
+                                atobYellowE[i].IsVisible = false;
                         }
 
                         bool bay = blink != null ? blink.Food > FoodThreshold : true;
-                        if (!bag)
+                        if (!bay)
                         {
                             for (int i = 0; i < MaxLevel; i++)
                                 btoaYellowE[i].IsVisible = false;
@@ -411,6 +426,8 @@ namespace Code2015.World
 
                             for (int i = 0; i < BAYellowLevel; i++)
                                 btoaYellowE[i].IsVisible = true;
+                            for (int i = BAYellowLevel; i < MaxLevel; i++)
+                                btoaYellowE[i].IsVisible = false;
                         }
                         #endregion
                     }

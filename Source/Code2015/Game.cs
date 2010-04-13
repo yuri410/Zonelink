@@ -172,6 +172,11 @@ namespace Code2015
                 cityObj.CityVisible += scene.City_Visible;
 
                 scene.Scene.AddObjectToScene(cityObj);
+
+                //map.BlockArea(
+                //    MathEx.Degree2Radian(city.Longitude),
+                //    MathEx.Degree2Radian(city.Latitude), 
+                //    MathEx.Degree2Radian(CityStyleTable.CityRadiusDeg));
             }
 
             for (int i = 0; i < slgSystem.ResourceCount; i++)
