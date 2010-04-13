@@ -48,7 +48,7 @@ namespace Code2015.GUI
             this.game = game;
             this.parent = parent;
 
-            FileLocation fl = FileSystem.Instance.Locate("selectBg.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("ssl_bg.tex", GameFileLocs.GUI);
             backGround = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("ssl_redBtn.tex", GameFileLocs.GUI);

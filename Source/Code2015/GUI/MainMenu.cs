@@ -75,7 +75,7 @@ namespace Code2015.GUI
             start = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("mm_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
             #region 配置按钮
