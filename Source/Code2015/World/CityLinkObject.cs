@@ -26,9 +26,9 @@ namespace Code2015.World
         const float HRThreshold = 0.1f;
         const float FoodThreshold = 0.1f;
 
-        const float LRUnit = 0.4f;
-        const float HRUnit = 0.4f;
-        const float FoodUnit = 0.4f;
+        const float LRUnit = 0.2f;
+        const float HRUnit = 0.2f;
+        const float FoodUnit = 0.2f;
 
         int updataCounter;
         SceneManagerBase sceneMgr;

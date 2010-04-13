@@ -190,23 +190,24 @@ namespace Code2015.GUI
         public void Interact(GameTime time)
         {
             #region 屏幕边缘滚动视野
+            const int ScrollPadding = 2;
             RtsCamera camera = parent.Scene.Camera;
 
             camera.Height += MouseInput.DScrollWheelValue * 0.05f;
 
-            if (MouseInput.X <= 0)
+            if (MouseInput.X <= ScrollPadding)
             {
                 camera.MoveLeft();
             }
-            if (MouseInput.X >= Program.Window.ClientSize.Width)
+            if (MouseInput.X >= Program.Window.ClientSize.Width - ScrollPadding)
             {
                 camera.MoveRight();
             }
-            if (MouseInput.Y <= 0)
+            if (MouseInput.Y <= ScrollPadding)
             {
                 camera.MoveFront();
             }
-            if (MouseInput.Y >= Program.Window.ClientSize.Height)
+            if (MouseInput.Y >= Program.Window.ClientSize.Height - ScrollPadding)
             {
                 camera.MoveBack();
             }
