@@ -102,6 +102,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="BalanceSystem\IncomingDisaster.cs" />
+    <Compile Include="BalanceSystem\MdgGoal.cs" />
     <Compile Include="BalanceSystem\NaturalResource.cs" />
     <Compile Include="BalanceSystem\Forest.cs" />
     <Compile Include="BalanceSystem\OilField.cs" />

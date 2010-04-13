@@ -70,6 +70,10 @@ namespace Code2015.BalanceSystem
         const float ProbabilityDecr = 0.75f;
         [SLGValue ]
         const float MinProbability = 0.1f;
+
+        [SLGValue]
+        const float DefaultProblemWeight = 0.5f;
+
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
         /// </summary>
@@ -147,6 +151,12 @@ namespace Code2015.BalanceSystem
 
 
         #region  属性
+
+        public MdgType MajorProblem
+        {
+            get;
+            private set;
+        }
 
         public bool IsFarmFull
         {
@@ -1047,6 +1057,64 @@ namespace Code2015.BalanceSystem
             }
 
             linkableCityName = sect.GetStringArray("Linkable", null);
+
+            float environment = sect.GetSingle("Environment", DefaultProblemWeight);
+            float disease = sect.GetSingle("Disease", DefaultProblemWeight);
+            float gender = sect.GetSingle("Gender", DefaultProblemWeight);
+            float hunger = sect.GetSingle("Hunger", DefaultProblemWeight);
+            float maternal = sect.GetSingle("Maternal", DefaultProblemWeight);
+            float child = sect.GetSingle("Child", DefaultProblemWeight);
+            float education = sect.GetSingle("Education", DefaultProblemWeight);
+
+            float total = environment + disease + gender + hunger + maternal + child + education;
+
+            total = 1 / total;
+
+            environment *= total;
+            disease *= total;
+            gender *= total;
+            hunger *= total;
+            maternal *= total;
+            child *= total;
+            education *= total;
+
+            disease += environment;
+            gender += disease;
+            hunger += gender;
+            maternal += hunger;
+            child += maternal;
+            education += child;
+
+            float p = Randomizer.GetRandomSingle();
+            if (p < environment)
+            {
+                MajorProblem = MdgType.Environment;
+            }
+            else if (p < disease)
+            {
+                MajorProblem = MdgType.Diseases;
+            }
+            else if (p < gender)
+            {
+                MajorProblem = MdgType.GenderEquality;
+            }
+            else if (p < hunger)
+            {
+                MajorProblem = MdgType.Hunger;
+            }
+            else if (p < maternal) 
+            {
+                MajorProblem = MdgType.MaternalHealth;
+            }
+            else if (p < child) 
+            {
+                MajorProblem = MdgType.ChildMortality;
+            }
+            else
+            {
+                MajorProblem = MdgType.Education;
+            }
+
 
             UpgradeUpdate();
         }

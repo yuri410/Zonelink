@@ -67,6 +67,12 @@ namespace Code2015.World
         bool isSelected;
 
         #region 属性
+
+        public MdgType MajorProblem
+        {
+            get { return city.MajorProblem; }
+        }
+
         public CityGoalSite GoalSite
         {
             get { return goalSite; }

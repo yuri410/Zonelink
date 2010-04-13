@@ -8,6 +8,9 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0107, C0108</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+
   </C0000>
 
   <!--Line 1-->
@@ -21,6 +24,7 @@
     <Farm>2</Farm>
     <StartUp>1</StartUp>
     <Linkable>C0200, C0201</Linkable>
+    <Environment>2</Environment>
   </C0100>
   <C0101>
     <Name>No City</Name>
@@ -29,6 +33,7 @@
     <Size></Size>
     <Population></Population>
     <Linkable>C0201, C0202</Linkable>
+    <Environment>2</Environment>
   </C0101>
   <C0102>
     <Name>Gaspe</Name>
@@ -37,6 +42,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0202, C0203</Linkable>
+    <Environment>2</Environment>
   </C0102>
   <C0103>
     <Name>Stuttgart</Name>
@@ -45,6 +51,7 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0206, C0207</Linkable>
+    <Environment>2</Environment>
   </C0103>
   <C0104>
     <Name>Sharhorod</Name>
@@ -53,6 +60,7 @@
     <Size></Size>
     <Population></Population>
     <Linkable>C0207, C0208</Linkable>
+    <Environment>2</Environment>
   </C0104>
   <C0105>
     <Name>Biyatov</Name>
@@ -61,6 +69,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0208, C0209</Linkable>
+    <Gender>1</Gender>
   </C0105>
   <C0106>
     <Name>Aksuat</Name>
@@ -69,6 +78,9 @@
     <Size>Large</Size>
     <Population>1500</Population>
     <Linkable>C0210, C0211</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Hunger>1</Hunger>
   </C0106>
   <C0107>
     <Name>Ulaanbaatar</Name>
@@ -77,6 +89,9 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0000, C0211, C0212</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Hunger>1</Hunger>
   </C0107>
   <C0108>
     <Name>Hulun Buir</Name>
@@ -87,6 +102,9 @@
     <Farm>2</Farm>
     <StartUp>2</StartUp>
     <Linkable>C0000, C0212, C0213</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Hunger>1</Hunger>
   </C0108>
   <C0109>
     <Name>No City</Name>
@@ -95,6 +113,7 @@
     <Size></Size>
     <Population></Population>
     <Linkable>C0213</Linkable>
+    <Disease>1</Disease>
   </C0109>
   
   <!--Line 2-->
@@ -107,6 +126,7 @@
     <Farm>2</Farm>
     <StartUp>1</StartUp>
     <Linkable>C0100, C0300</Linkable>
+    <Environment>2</Environment>
   </C0200>
   <C0201>
     <Name>Moberly</Name>
@@ -117,6 +137,7 @@
     <Farm>2</Farm>
     <StartUp>1</StartUp>
     <Linkable>C0101, C0102, C0300, C0301</Linkable>
+    <Environment>2</Environment>
   </C0201>
   <C0202>
     <Name>Washington</Name>
@@ -125,6 +146,7 @@
     <Size>Large</Size>
     <Population></Population>
     <Linkable>C0101, C0102, C0301</Linkable>
+    <Environment>2</Environment>
   </C0202>
   <C0203>
     <Name>No City</Name>
@@ -157,6 +179,7 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0304, C0305, C0103</Linkable>
+    <Environment>2</Environment>
   </C0206>
   <C0207>
     <Name>Argostoli</Name>
@@ -165,6 +188,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0305, C0306, C0103, C0104</Linkable>
+    <Environment>2</Environment>
   </C0207>
   <C0208>
     <Name>Sivas</Name>
@@ -173,6 +197,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0306, C0307, C0104, C0105</Linkable>
+    <Gender>1</Gender>
   </C0208>
   <C0209>
     <Name>Serder</Name>
@@ -181,6 +206,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0307, C0308, C0105</Linkable>
+    <Maternal>1</Maternal>
   </C0209>
   <C0210>
     <Name>Kaxgar</Name>
@@ -189,6 +215,10 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0308, C0309, C0106</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Gender>1</Gender>
+    <Hunger>1</Hunger>
   </C0210>
   <C0211>
     <Name>Jiayuguan</Name>
@@ -197,6 +227,9 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0309, C0310, C0106, C0107</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Hunger>1</Hunger>
   </C0211>
   <C0212>
     <Name>Beijing</Name>
@@ -207,6 +240,10 @@
     <Farm>2</Farm>
     <StartUp>2</StartUp>
     <Linkable>C0310, C0311, C0107, C0108</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Child>1</Child>
+    <Hunger>1</Hunger>
   </C0212>
   <C0213>
     <Name>Sokcho</Name>
@@ -217,6 +254,9 @@
     <Farm>2</Farm>
     <StartUp>2</StartUp>
     <Linkable>C0311, C0108, C0109</Linkable>
+    <Environment>2</Environment>
+    <Disease>1</Disease>
+    <Hunger>1</Hunger>
   </C0213>
 
   <!--Line 3-->
@@ -229,6 +269,8 @@
     <Farm>2</Farm>
     <StartUp>1</StartUp>
     <Linkable>C0200, C0201, C0400</Linkable>
+    <Disease>1</Disease>
+    <Maternal>1</Maternal>
   </C0300>
   <C0301>
     <Name>Tallahassee</Name>
@@ -237,6 +279,7 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0201, C0202, C0400</Linkable>
+    <Environment>2</Environment>
   </C0301>
   <C0302>
     <Name>No City</Name>
@@ -261,6 +304,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0205, C0206, C0401</Linkable>
+    <Education>1</Education>
   </C0304>
   <C0305>
     <Name>Gadamis</Name>
@@ -269,6 +313,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0206, C0207, C0401, C0402</Linkable>
+    <Disease>1</Disease>
   </C0305>
   <C0306>
     <Name>Cario</Name>
@@ -285,6 +330,7 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0208, C0209</Linkable>
+    <Disease>1</Disease>
   </C0307>
   <C0308>
     <Name>Mandi</Name>
@@ -293,6 +339,7 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0209, C0210</Linkable>
+    <Education>1</Education>
   </C0308>
   <C0309>
     <Name>Huoerba</Name>
@@ -301,6 +348,8 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0210, C0211, C0403</Linkable>
+    <Child>1</Child>
+    <Hunger>2</Hunger>
   </C0309>
   <C0310>
     <Name>Ya'an</Name>
@@ -309,6 +358,8 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0211, C0212, C0403, C0404</Linkable>
+    <Child>1</Child>
+    <Hunger>1</Hunger>
   </C0310>
   <C0311>
     <Name>Shanghai</Name>
@@ -319,6 +370,8 @@
     <Farm>2</Farm>
     <StartUp>2</StartUp>
     <Linkable>C0212, C0213, C0404</Linkable>
+    <Child>1</Child>
+    <Hunger>1</Hunger>
   </C0311>
 
   <!--Line 4-->
@@ -329,6 +382,9 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0300, C0301, C0500</Linkable>
+    <Disease>1</Disease>
+    <Maternal>1</Maternal>
+    <Child>1</Child>
   </C0400>
   <C0401>
     <Name>Mokhtar</Name>
@@ -337,6 +393,11 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0304, C0305, C0501</Linkable>
+    <Disease>2</Disease>
+    <Maternal>1</Maternal>
+    <Child>2</Child>
+    <Gender>2</Gender>
+    <Hunger>2</Hunger>
   </C0401>
   <C0402>
     <Name>Aouzou</Name>
@@ -345,6 +406,10 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0305, C0306, C0502</Linkable>
+    <Disease>2</Disease>
+    <Maternal>1</Maternal>
+    <Child>2</Child>
+    <Gender>2</Gender>
   </C0402>
   <C0403>
     <Name>Chittagong</Name>
@@ -353,6 +418,7 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0309, C0310, C0503, C0504</Linkable>
+    <Maternal>1</Maternal>
   </C0403>
   <C0404>
     <Name>Zhanjiang</Name>
@@ -361,6 +427,8 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0310, C0311, C0504, C0505</Linkable>
+    <Child>1</Child>
+    <Hunger>1</Hunger>
   </C0404>
   
   <!--Line 5-->
@@ -372,6 +440,8 @@
     <Population></Population>
     <Farm>4</Farm>
     <Linkable>C0400, C0600</Linkable>
+    <Disease>1</Disease>
+    <Hunger>2</Hunger>
   </C0500>
   <C0501>
     <Name>Bamako</Name>
@@ -380,6 +450,12 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0401, C0602</Linkable>
+    <Disease>2</Disease>
+    <Maternal>2</Maternal>
+    <Child>2</Child>
+    <Gender>2</Gender>
+    <Education>2</Education>
+    <Hunger>2</Hunger>
   </C0501>
   <C0502>
     <Name>EI Fula</Name>
@@ -388,6 +464,11 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0402, C0603, C0604</Linkable>
+    <Disease>2</Disease>
+    <Maternal>2</Maternal>
+    <Child>2</Child>
+    <Gender>2</Gender>
+    <Hunger>2</Hunger>
   </C0502>
   <C0503>
     <Name>Chennai</Name>
@@ -396,6 +477,8 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0403</Linkable>
+    <Maternal>1</Maternal>
+    <Hunger>2</Hunger>
   </C0503>
   <C0504>
     <Name>Koh Kong</Name>
@@ -405,6 +488,7 @@
     <Population></Population>
     <Farm>4</Farm>
     <Linkable>C0403, C0404, C0605</Linkable>
+    <Maternal>1</Maternal>
   </C0504>
   <C0505>
     <Name>Batangas</Name>
@@ -424,6 +508,8 @@
     <Population></Population>
     <Farm>4</Farm>
     <Linkable>C0500, C0700</Linkable>
+    <Disease>1</Disease>
+    <Hunger>1</Hunger>
   </C0600>
   <C0601>
     <Name>Anapi</Name>
@@ -432,6 +518,10 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0700, C0701</Linkable>
+    <Disease>1</Disease>
+    <Maternal>1</Maternal>
+    <Gender>1</Gender>
+    <Hunger>1</Hunger>
   </C0601>
   <C0602>
     <Name>No City</Name>
@@ -448,6 +538,11 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0502, C0703</Linkable>
+    <Disease>2</Disease>
+    <Maternal>2</Maternal>
+    <Child>2</Child>
+    <Gender>2</Gender>
+    <Hunger>1</Hunger>
   </C0603>
   <C0604>
     <Name>Marsabit</Name>
@@ -456,6 +551,11 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0502, C0703</Linkable>
+    <Disease>2</Disease>
+    <Maternal>2</Maternal>
+    <Child>2</Child>
+    <Education>2</Education>
+    <Hunger>1</Hunger>
   </C0604>
   <C0605>
     <Name>Woyla</Name>
@@ -483,6 +583,10 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0600, C0601, C0800</Linkable>
+    <Disease>1</Disease>
+    <Child>1</Child>
+    <Education>1</Education>
+    <Hunger>1</Hunger>
   </C0700>
   <C0701>
     <Name>Teresina</Name>
@@ -491,6 +595,11 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0601, C0800, C0801</Linkable>
+    <Disease>1</Disease>
+    <Maternal>1.5</Maternal>
+    <Child>1</Child>
+    <Gender>1</Gender>
+    <Hunger>1</Hunger>
   </C0701>
   <C0702>
     <Name>No City</Name>
@@ -507,6 +616,11 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0603, C0604, C0802, C0803</Linkable>
+    <Disease>2</Disease>
+    <Child>2</Child>
+    <Gender>1</Gender>
+    <Education>1</Education>
+    <Hunger>2</Hunger>
   </C0703>
   <C0704>
     <Name>Ruteng</Name>
@@ -523,6 +637,7 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0807</Linkable>
+    <Gender>2</Gender>
   </C0705>
 
   <!--Line 8-->
@@ -535,6 +650,9 @@
     <Farm>2</Farm>
     <StartUp>3</StartUp>
     <Linkable>C0700, C0701, C0900</Linkable>
+    <Maternal>1.5</Maternal>
+    <Child>1</Child>
+    <Hunger>2</Hunger>
   </C0800>
   <C0801>
     <Name>Salvador</Name>
@@ -543,6 +661,10 @@
     <Size>Medium</Size>
     <Population></Population>
     <Linkable>C0701, C0702</Linkable>
+    <Maternal>1</Maternal>
+    <Child>1</Child>
+    <Gender>1</Gender>
+    <Hunger>1</Hunger>
   </C0801>
   <C0802>
     <Name>Huambo</Name>
@@ -551,6 +673,11 @@
     <Size>Small</Size>
     <Population></Population>
     <Linkable>C0703, C0901</Linkable>
+    <Disease>2</Disease>
+    <Maternal>2</Maternal>
+    <Child>1</Child>
+    <Education>2</Education>
+    <Hunger>2</Hunger>
   </C0802>
   <C0803>
     <Name>Blantyre</Name>
@@ -559,6 +686,11 @@
     <Size>Medium</Size>
     <Population>270</Population>
     <Linkable>C0703, C0901, C0902</Linkable>
+    <Disease>2</Disease>
+    <Maternal>2</Maternal>
+    <Child>1.5</Child>
+    <Education>2</Education>
+    <Hunger>2</Hunger>
   </C0803>
   <C0804>
     <Name>C0804</Name>
@@ -593,6 +725,8 @@
     <Farm>2</Farm>
     <StartUp>4</StartUp>
     <Linkable>C0704, C0705, C0906, C0907</Linkable>
+    <Environment>2</Environment>
+     
   </C0807>
 
   <!--Line 9-->
@@ -605,6 +739,7 @@
     <Farm>2</Farm>
     <StartUp>3</StartUp>
     <Linkable>C0800, C1000</Linkable>
+    <Child>1</Child>
   </C0900>
 
   <C0901>
@@ -614,6 +749,10 @@
     <Size>Large</Size>
     <Population></Population>
     <Linkable>C0802, C0803, C1001</Linkable>
+    <Disease>2</Disease>
+    <Child>1</Child>
+    <Education>1</Education>
+    <Hunger>1</Hunger>
   </C0901>
 
   <C0902>
@@ -657,6 +796,8 @@
     <Farm>2</Farm>
     <StartUp>4</StartUp>
     <Linkable>C0806, C0807</Linkable>
+    <Environment>2</Environment>
+     
   </C0906>
   <C0907>
     <Name>Mt Isa</Name>
@@ -667,7 +808,8 @@
     <Farm>2</Farm>
     <StartUp>4</StartUp>
     <Linkable>C0807, C1003</Linkable>
-  </C0907>
+    <Environment>2</Environment>
+      </C0907>
 
   <!--Line 10-->
   <C1000>
@@ -679,6 +821,7 @@
     <Farm>2</Farm>
     <StartUp>3</StartUp>
     <Linkable>C0900, C1100</Linkable>
+    <Child>1</Child>
   </C1000>
   <C1001>
     <Name>Cape Town</Name>
@@ -687,6 +830,8 @@
     <Size>Large</Size>
     <Population></Population>
     <Linkable>C0901</Linkable>
+    <Disease>2</Disease>
+    <Hunger>1</Hunger>
   </C1001>
   <C1002>
     <Name>Sydney</Name>
@@ -705,6 +850,8 @@
     <Farm>2</Farm>
     <StartUp>4</StartUp>
     <Linkable>C0907</Linkable>
+    <Environment>2</Environment>
+     
   </C1003>
   
   <!--Line 11-->
