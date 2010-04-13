@@ -2,21 +2,18 @@
 
 <soundEffect>  
   <!--City-->
-
   <city> 
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>city1</Fadein>
     <Medium>city2a,city2b,city2c,city2d,city2e</Medium>
     <Fadeout>city3</Fadeout>  
   </city>
   
-  
-  
   <!--Farm-->
   <farm>
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>farm1</Fadein>
     <Medium>farm2a,farm2b,farm2c,farm2d,farm2e</Medium>
     <Fadeout>farm3</Fadeout>
@@ -26,7 +23,7 @@
   <!--Forest-->
   <forest>
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>forest1</Fadein>
     <Medium>forest2a,forest2b,forest2c,forest2d,forest2e,forest2f</Medium>
     <Fadeout>forest3</Fadeout>
@@ -35,7 +32,7 @@
   <!--Lightning-->
   <lightning>
     <Control>None</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Medium>lightninga,lightningb,lightningc,lightningd</Medium>   
   </lightning>
  
@@ -44,7 +41,7 @@
   <!--Oil-->
   <oil>
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>oil1</Fadein>
     <Medium>oil2a,oil2b,oil2c</Medium>
     <Fadeout>oil3</Fadeout>
@@ -55,7 +52,7 @@
   <!--Rain-->
   <rain> 
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>rain1</Fadein>
     <Medium>rain2a,rain2b,rain2c</Medium>
     <Fadeout>rain3</Fadeout>
@@ -65,7 +62,7 @@
   <!--River-->
   <river>
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>river1</Fadein>
     <Medium>river2a,river2b</Medium>
     <Fadeout>river3</Fadeout>
@@ -74,7 +71,7 @@
   <!--Sea-->
   <sea>
     <Control>Loop,Random</Control>
-    <Type>Normal</Type>
+    <Type>World</Type>
     <Fadein>sea1</Fadein>
     <Medium>sea2a,sea2b,sea2c,sea2d,sea2e</Medium>
     <Fadeout>sea3</Fadeout>
@@ -83,15 +80,15 @@
   <!--Truck-->
   <truck>
     <Control>None</Control>
-    <Type>Normal</Type>  
-    <Medium>truck1,truck2,truck3</Medium>
+    <Type>World</Type>  
+    <Sounds>truck1,truck2,truck3</Sounds>
   </truck>
   
   <!--Wind-->
   <wind>
-    <Control>None</Control>
-    <Type>Normal</Type> 
-    <Medium>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Medium> 
+    <Control>Ambient</Control>
+    <Type>World</Type>
+    <Sounds>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Sounds> 
   </wind>
   
 </soundEffect>
