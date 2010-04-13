@@ -186,11 +186,11 @@ namespace Code2015.ParticleSystem
             dist.Normalize();
 
             noise += new Vector3(
-                (Randomizer.GetRandomSingle() - 0.5f) * 550,
-                (Randomizer.GetRandomSingle() - 0.5f) * 550,
-                (Randomizer.GetRandomSingle() - 0.5f) * 550);
+                (Randomizer.GetRandomSingle() - 0.5f) * 50,
+                (Randomizer.GetRandomSingle() - 0.5f) * 50,
+                (Randomizer.GetRandomSingle() - 0.5f) * 50);
             velocity = 900 * direction;
-            velocity += noise * dt;
+            velocity += noise;
             velocity -= tangent * (300 * (float)Math.Cos(distPer * Math.PI));
 
 

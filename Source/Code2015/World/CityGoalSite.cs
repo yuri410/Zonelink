@@ -16,11 +16,11 @@ namespace Code2015.World
 
         struct GoalSite
         {
-            public bool HasPiece;
+            public bool HasPiece;           
             public MdgType Type;
 
-            //public Vector3 Position;
-            //public Matrix Transform;
+            public bool IsTyped;
+            public MdgType Desired;
         }
 
         CityObject parent;
@@ -37,13 +37,6 @@ namespace Code2015.World
         {
             this.parent = obj;
             this.style = style;
-
-            //for (int i = 0; i < SiteCount; i++)
-            //{
-            //    //sites[i].Position = style.GetBracketTranslation(i);
-
-            //    //sites[i].Transform = Matrix.Translation(sites[i].Position);
-            //}
         }
 
         #region IRenderable 成员
@@ -55,15 +48,14 @@ namespace Code2015.World
             {
                 RenderOperation[] ops = null;
 
-                if (sites[i].HasPiece)
+                if (sites[i].IsTyped)
                 {
-                    ops = style.MdgSite[(int)sites[i].Type].GetRenderOperation();
+                    ops = style.MdgSiteEmpty[(int)sites[i].Type].GetRenderOperation();
                 }
                 else 
                 {
                     ops = style.MdgSiteInactive.GetRenderOperation();
                 }
-
                 if (ops != null)
                 {
                     for (int j = 0; j < ops.Length; j++)
@@ -71,6 +63,20 @@ namespace Code2015.World
                         ops[j].Transformation *= CityStyleTable.SiteTransform[i];
                     }
                     opBuffer.Add(ops);
+                }
+
+                if (sites[i].HasPiece)
+                {
+                    ops = style.MdgSite[(int)sites[i].Type].GetRenderOperation();
+                   
+                    if (ops != null)
+                    {
+                        for (int j = 0; j < ops.Length; j++)
+                        {
+                            ops[j].Transformation *= CityStyleTable.SiteTransform[i];
+                        }
+                        opBuffer.Add(ops);
+                    }
                 }
             }
             opBuffer.TrimClear();
@@ -162,6 +168,13 @@ namespace Code2015.World
             }
         }
 
+
+        public void SetDesired(int i, MdgType type) 
+        {
+            sites[i].IsTyped = true;
+            sites[i].Desired = type;
+        }
+
         public bool HasPiece(int i)
         {
             return sites[i].HasPiece;
@@ -170,7 +183,21 @@ namespace Code2015.World
         {
             return sites[i].Type;
         }
-
+        public static MdgType GetDesired(CityPluginTypeId pltype) 
+        {
+            switch (pltype)
+            {
+                case CityPluginTypeId.EducationOrg:
+                    return MdgType.Education;
+                case CityPluginTypeId.Hospital:
+                    return MdgType.Diseases;
+                case CityPluginTypeId.BiofuelFactory:
+                case CityPluginTypeId.OilRefinary:
+                case CityPluginTypeId.WoodFactory:
+                    return MdgType.Environment;
+            }
+            return MdgType.Hunger;
+        }
         public bool Match(int i, CityPluginTypeId cpltype)
         {
             if (!sites[i].HasPiece)
@@ -234,7 +261,7 @@ namespace Code2015.World
         }
         public void SetPiece(int i, MdgType res)
         {
-            sites[i].HasPiece =true;
+            sites[i].HasPiece = true;
             sites[i].Type = res;
         }
         public MdgType? GetPiece(int i)

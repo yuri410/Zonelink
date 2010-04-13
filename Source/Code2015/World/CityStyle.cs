@@ -112,37 +112,8 @@ namespace Code2015.World
             //PluginTranslate = new float[3];
 
             PluginTranslate = Game.ObjectScale * 68;
-            //PluginTranslate[(int)UrbanSize.Medium] = Game.ObjectScale * 47;
-            //PluginTranslate[(int)UrbanSize.Small] = Game.ObjectScale * 40;
         }
 
-        //public Vector3 GetBracketTranslation(int i)
-        //{
-        //    switch (i)
-        //    {
-        //        case 0:
-        //            return new Vector3(
-        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-        //                50,
-        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-        //        case 1:
-        //            return new Vector3(
-        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-        //                50,
-        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-        //        case 2:
-        //            return new Vector3(
-        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-        //                50,
-        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-        //        case 3:
-        //            return new Vector3(
-        //                BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f,
-        //                50,
-        //                -BracketTranslate * Game.ObjectScale * MathEx.Root2 * 0.5f);
-        //    }
-        //    return Vector3.Zero;
-        //}
         public Vector3 GetPluginTranslation(PluginPositionFlag p, UrbanSize size)
         {
             switch (p)
@@ -151,22 +122,22 @@ namespace Code2015.World
                     return new Vector3(
                        PluginTranslate * MathEx.Root2 * 0.5f,
                        0,
-                       PluginTranslate * MathEx.Root2 * 0.5f);
+                       -PluginTranslate * MathEx.Root2 * 0.5f);
                 case PluginPositionFlag.P2:
                     return new Vector3(
                        -PluginTranslate * MathEx.Root2 * 0.5f,
                        0,
-                       PluginTranslate * MathEx.Root2 * 0.5f);
+                       -PluginTranslate * MathEx.Root2 * 0.5f);
                 case PluginPositionFlag.P3:
                     return new Vector3(
                         -PluginTranslate * MathEx.Root2 * 0.5f,
                         0,
-                        -PluginTranslate * MathEx.Root2 * 0.5f);
+                        PluginTranslate * MathEx.Root2 * 0.5f);
                 case PluginPositionFlag.P4:
                     return new Vector3(
                         PluginTranslate * MathEx.Root2 * 0.5f,
                         0,
-                        -PluginTranslate * MathEx.Root2 * 0.5f);
+                        PluginTranslate * MathEx.Root2 * 0.5f);
             }
             return Vector3.Zero;
         }

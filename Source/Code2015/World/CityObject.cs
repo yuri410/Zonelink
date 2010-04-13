@@ -273,6 +273,9 @@ namespace Code2015.World
             ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position, city.Size));
             plugins.Add(ent);
 
+            goalSite.SetDesired(plugins.Count - 1, CityGoalSite.GetDesired(plugin.TypeId));
+
+
             if (IsCaptured && (plugin.TypeId == CityPluginTypeId.OilRefinary ||
                 plugin.TypeId == CityPluginTypeId.WoodFactory))
             {
@@ -298,6 +301,7 @@ namespace Code2015.World
                 if (plugin == plugins[i].plugin)
                 {
                     pluginFlags ^= plugins[i].position;
+                    plugins.RemoveAt(i);
                     break;
                 }
             }
@@ -442,6 +446,9 @@ namespace Code2015.World
         }
         public bool MatchSite()
         {
+            if (plugins.Count == 0)
+                return false;
+
             bool result = true;
             for (int i = 0; i < plugins.Count; i++)
             {

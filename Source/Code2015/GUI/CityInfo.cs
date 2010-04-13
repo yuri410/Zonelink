@@ -41,10 +41,9 @@ namespace Code2015.GUI
             darkPieces[0] = UITextureManager.Instance.CreateInstance(fl);
         }
 
-        Point GetPluginProjPosition(int i)
+        Point GetSiteProjPosition(int i)
         {
-            Vector3 ppofs = new Vector3(50, 250, 0);
-            ppofs += city.GetPluginPosition(i);
+            Vector3 ppofs = CityStyleTable.SiteTransform[i].TranslationValue;
 
             Vector3 plpos;
             Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
@@ -56,30 +55,30 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            for (int i = 0; i < city.PluginCount; i++)
-            {
-                Point pt = GetPluginProjPosition(i);
+            //for (int i = 0; i < city.PluginCount; i++)
+            //{
+            //    Point pt = GetPluginProjPosition(i);
 
-                sprite.Draw(darkPieces[0], pt.X, pt.Y, parent.DistanceMod);
-            }
+            //    sprite.Draw(darkPieces[0], pt.X, pt.Y, parent.DistanceMod);
+            //}
         }
 
 
         public bool Accept(MdgResource res)
         {
-            for (int i = 0; i < city.PluginCount; i++)
+            CityGoalSite site = city.GoalSite;
+            for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
-                Point pt = GetPluginProjPosition(i);
+                Point pt = GetSiteProjPosition(i);
 
                 Vector2 pos = res.Position;
-                float dx = pos.X - pt.X - MdgPhysicsParams.BallRadius;
-                float dy = pos.Y - pt.Y - MdgPhysicsParams.BallRadius;
+                float dx = pos.X - pt.X;
+                float dy = pos.Y - pt.Y;
 
                 float len = (float)Math.Sqrt(dx * dx + dy * dy);
 
                 if (len < MdgPhysicsParams.BallRadius)
                 {
-                    CityGoalSite site = city.GoalSite;
                     if (site.MatchPiece(i, res.Type))
                     {
                         site.SetPiece(i, res.Type);
