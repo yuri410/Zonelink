@@ -83,17 +83,21 @@ namespace Code2015.World
             resVals = resCon.Values;
 
             FastList<City> cities = new FastList<City>(MaxCities);
+            Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
 
             foreach (GameConfigurationSection sect in resVals)
             {
                 City city = new City(SLGWorld);
                 city.Parse(sect);
                 cities.Add(city);
+
+                resolveTable.Add(sect.Name, city);
             }
 
 
             for (int i = 0; i < cities.Count; i++)
             {
+                cities[i].ResolveCities(resolveTable);
                 SLGWorld.Add(cities[i]);
             }
 

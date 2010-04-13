@@ -190,7 +190,7 @@ namespace Code2015.GUI
         public void Interact(GameTime time)
         {
             #region 屏幕边缘滚动视野
-            const int ScrollPadding = 2;
+            const int ScrollPadding = 3;
             RtsCamera camera = parent.Scene.Camera;
 
             camera.Height += MouseInput.DScrollWheelValue * 0.05f;
