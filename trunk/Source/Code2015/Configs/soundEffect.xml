@@ -2,262 +2,96 @@
 
 <soundEffect>  
   <!--City-->
-  <city1>
-    <Control>None</Control>
+
+  <city> 
+    <Control>Loop,Random</Control>
     <Type>Normal</Type>
-  </city1>
-  <city2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </city2a>
-  <city2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </city2b>
-  <city2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </city2c>
-  <city2d>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </city2d>
-  <city2e>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </city2e>
-  <city3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </city3>
+    <Fadein>city1</Fadein>
+    <Medium>city2a,city2b,city2c,city2d,city2e</Medium>
+    <Fadeout>city3</Fadeout>  
+  </city>
+  
+  
   
   <!--Farm-->
-  <farm1>
-    <Control>None</Control>
+  <farm>
+    <Control>Loop,Random</Control>
     <Type>Normal</Type>
-  </farm1>
-  <farm1>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </farm1>
-  <farm2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </farm2a>
-  <farm2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </farm2b>
-  <farm2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </farm2c>
-  <farm2d>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </farm2d>
-  <farm2e>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </farm2e>
-  <farm3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </farm3>
-  <!--Forest-->
-  <forest1>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </forest1>
-  <forest2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </forest2a>
-  <forest2b>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </forest2b>
-  <forest2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </forest2c>
-  <forest2d>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </forest2d>
-  <forest2e>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </forest2e>
-  <forest2f>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </forest2f>
-  <forest3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </forest3>
+    <Fadein>farm1</Fadein>
+    <Medium>farm2a,farm2b,farm2c,farm2d,farm2e</Medium>
+    <Fadeout>farm3</Fadeout>
+  </farm>
   
+ 
+  <!--Forest-->
+  <forest>
+    <Control>Loop,Random</Control>
+    <Type>Normal</Type>
+    <Fadein>forest1</Fadein>
+    <Medium>forest2a,forest2b,forest2c,forest2d,forest2e,forest2f</Medium>
+    <Fadeout>forest3</Fadeout>
+  </forest>
+
   <!--Lightning-->
-  <lightninga>
-    <Control>Loop,Rondom</Control>
+  <lightning>
+    <Control>None</Control>
     <Type>Normal</Type>
-  </lightninga>
-  <lightningb>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </lightningb>
-  <lightningc>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </lightningc>
-  <lightningd>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </lightningd>
+    <Medium>lightninga,lightningb,lightningc,lightningd</Medium>   
+  </lightning>
+ 
+  
   
   <!--Oil-->
-  <oil1>
-    <Control>None</Control>
+  <oil>
+    <Control>Loop,Random</Control>
     <Type>Normal</Type>
-  </oil1>
-  <oil2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </oil2a>
-  <oil2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </oil2b>
-  <oil2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </oil2c>
-  <oil3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </oil3>
+    <Fadein>oil1</Fadein>
+    <Medium>oil2a,oil2b,oil2c</Medium>
+    <Fadeout>oil3</Fadeout>
+  </oil>
+  
+  
   
   <!--Rain-->
-  <rain1>
-    <Control>None</Control>
+  <rain> 
+    <Control>Loop,Random</Control>
     <Type>Normal</Type>
-  </rain1>
-  <rain2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </rain2a>
-  <rain2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </rain2b>
-  <rain2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </rain2c>
-  <rain3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </rain3>
+    <Fadein>rain1</Fadein>
+    <Medium>rain2a,rain2b,rain2c</Medium>
+    <Fadeout>rain3</Fadeout>
+  </rain>
   
+ 
   <!--River-->
-  <river1>
-    <Control>None</Control>
+  <river>
+    <Control>Loop,Random</Control>
     <Type>Normal</Type>
-  </river1>
-  <river2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </river2a>
-  <river2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </river2b>
-  <river3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </river3>
+    <Fadein>river1</Fadein>
+    <Medium>river2a,river2b</Medium>
+    <Fadeout>river3</Fadeout>
+  </river>
   
   <!--Sea-->
-  <sea1>
-    <Control>None</Control>
+  <sea>
+    <Control>Loop,Random</Control>
     <Type>Normal</Type>
-  </sea1>
-  <sea2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </sea2a>
-  <sea2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </sea2b>
-  <sea2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </sea2c>
-  <sea2d>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </sea2d>
-  <sea2e>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </sea2e>
-  <sea3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </sea3>
+    <Fadein>sea1</Fadein>
+    <Medium>sea2a,sea2b,sea2c,sea2d,sea2e</Medium>
+    <Fadeout>sea3</Fadeout>
+  </sea>
   
   <!--Truck-->
-  <truck1>
+  <truck>
     <Control>None</Control>
-    <Type>Normal</Type>
-  </truck1>
-  <truckStart>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </truckStart>
-  <truck2>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </truck2>
-  <truck3>
-    <Control>None</Control>
-    <Type>Normal</Type>
-  </truck3>
+    <Type>Normal</Type>  
+    <Medium>truck1,truck2,truck3</Medium>
+  </truck>
   
   <!--Wind-->
-  <wind1a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind1a>
-  <wind1b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind1b>
-  <wind1c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind1c>
-  <wind1d>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind1d>
-  <wind2a>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind2a>
-  <wind2b>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind2b>
-  <wind2c>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind2c>
-  <wind2d>
-    <Control>Loop,Rondom</Control>
-    <Type>Normal</Type>
-  </wind2d>
+  <wind>
+    <Control>None</Control>
+    <Type>Normal</Type> 
+    <Medium>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Medium> 
+  </wind>
   
 </soundEffect>
