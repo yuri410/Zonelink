@@ -33,8 +33,8 @@ VSOutput main(VSInput ip)
     
     float4 wpos = mul(ip.Position, world);
     
-	o.Height_Blend.x = GetHeight((float3)mul(ip.Position, world));
-	o.Height_Blend.y = clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
+	o.Height_Blend.x = GetHeight(wpos.xyz);
+	o.Height_Blend.y = 0.6;//clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
     
     o.GlobeCoord = ip.GlobeCoord;
     

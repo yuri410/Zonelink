@@ -54,7 +54,7 @@ namespace Code2015.ParticleSystem
 
             BoundingSphere.Radius = float.MaxValue;
 
-            ParticleSize = 20f;
+            ParticleSize = 40f;
             Material.ZEnabled = false;
             Material.ZWriteEnabled = false;
         }
