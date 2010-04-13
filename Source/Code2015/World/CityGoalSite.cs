@@ -44,31 +44,50 @@ namespace Code2015.World
         public RenderOperation[] GetRenderOperation()
         {
             opBuffer.FastClear();
-            for (int i = 0; i < SiteCount; i++)
+
+            if (parent.IsCaptured)
             {
-                RenderOperation[] ops = null;
+                for (int i = 0; i < SiteCount; i++)
+                {
+                    RenderOperation[] ops = null;
 
-                if (sites[i].IsTyped)
-                {
-                    ops = style.MdgSiteEmpty[(int)sites[i].Desired].GetRenderOperation();
-                }
-                else 
-                {
-                    ops = style.MdgSiteInactive.GetRenderOperation();
-                }
-                if (ops != null)
-                {
-                    for (int j = 0; j < ops.Length; j++)
+                    if (sites[i].IsTyped)
                     {
-                        ops[j].Transformation *= CityStyleTable.SiteTransform[i];
+                        ops = style.MdgSiteEmpty[(int)sites[i].Desired].GetRenderOperation();
                     }
-                    opBuffer.Add(ops);
-                }
+                    else
+                    {
+                        ops = style.MdgSiteInactive.GetRenderOperation();
+                    }
+                    if (ops != null)
+                    {
+                        for (int j = 0; j < ops.Length; j++)
+                        {
+                            ops[j].Transformation *= CityStyleTable.SiteTransform[i];
+                        }
+                        opBuffer.Add(ops);
+                    }
 
-                if (sites[i].HasPiece)
+                    if (sites[i].HasPiece)
+                    {
+                        ops = style.MdgSite[(int)sites[i].Type].GetRenderOperation();
+
+                        if (ops != null)
+                        {
+                            for (int j = 0; j < ops.Length; j++)
+                            {
+                                ops[j].Transformation *= CityStyleTable.SiteTransform[i];
+                            }
+                            opBuffer.Add(ops);
+                        }
+                    }
+                }
+            }
+            else
+            {
+                for (int i = 0; i < SiteCount; i++)
                 {
-                    ops = style.MdgSite[(int)sites[i].Type].GetRenderOperation();
-                   
+                    RenderOperation[] ops = style.MdgSiteEmpty[(int)parent.MajorProblem].GetRenderOperation();
                     if (ops != null)
                     {
                         for (int j = 0; j < ops.Length; j++)
@@ -78,6 +97,7 @@ namespace Code2015.World
                         opBuffer.Add(ops);
                     }
                 }
+
             }
             opBuffer.TrimClear();
             return opBuffer.Elements;
