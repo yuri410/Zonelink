@@ -12,6 +12,8 @@ namespace Code2015
 {
     static class Program
     {
+        public const int ScreenWidth = 1280;
+        public const int ScreenHeight = 720;
         static DeviceContent devContent;
 
         static RenderWindow CreateRenderWindow()
@@ -23,9 +25,9 @@ namespace Code2015
             PresentParameters pm = new PresentParameters();
             
             pm.BackBufferFormat = ImagePixelFormat.X8R8G8B8;
-            pm.BackBufferWidth = Properties.Settings.Default.ScreenWidth;
-            pm.BackBufferHeight = Properties.Settings.Default.ScreenHeight;
-            pm.IsWindowed = Properties.Settings.Default.IsWindowed;
+            pm.BackBufferWidth = ScreenWidth;
+            pm.BackBufferHeight = ScreenHeight;
+            pm.IsWindowed = true;
             pm.DepthFormat = DepthFormat.Depth32;
             
 
@@ -58,7 +60,7 @@ namespace Code2015
                 Window = game;
                 game.Run();
             }
-            Properties.Settings.Default.Save();
+            //Properties.Settings.Default.Save();
         }
     }
 }

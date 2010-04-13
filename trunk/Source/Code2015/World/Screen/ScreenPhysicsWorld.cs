@@ -32,7 +32,7 @@ namespace Code2015.World.Screen
             statics = new FastList<ScreenStaticBody>();
             sleepBodies = new FastList<ScreenRigidBody>();
 
-            WorldBounds = new Rectangle(0, 0, Properties.Settings.Default.ScreenWidth, Properties.Settings.Default.ScreenHeight);
+            WorldBounds = new Rectangle(0, 0, Program.ScreenWidth, Program.ScreenHeight);
         }
 
         
