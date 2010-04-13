@@ -59,25 +59,33 @@ namespace Code2015.GUI
                 parent.Projection, parent.View, Matrix.Identity);
 
             float dist = Vector3.Distance(ref pos, ref parent.CameraPosition);
-            dist = 1 - MathEx.Saturate((dist - 1000) / 1500);
+            float d1 = 1 - MathEx.Saturate((dist - 1000) / 1500);
+            float d2 = 1 - MathEx.Saturate((dist - 3000) / 1000);
 
+            byte alpha = (byte)(d2 * byte.MaxValue);
 
-            Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
+            if (alpha > 5)
+            {
+                ColorValue modColor = new ColorValue(byte.MaxValue, byte.MaxValue, byte.MaxValue, alpha);
 
-            string title = resource.Type.ToString();
-            Size strSize = font.MeasureString(title, 20, DrawTextFormat.Center);
+                Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
-            Rectangle rect = new Rectangle(scrnPos.X, scrnPos.Y, (int)(50 + 100 * dist), (int)(40 + 80 * dist));
+                string title = resource.Type.ToString();
+                Size strSize = font.MeasureString(title, 20, DrawTextFormat.Center);
 
-            sprite.Draw(background, rect, ColorValue.White);
+                Rectangle rect = new Rectangle(scrnPos.X, scrnPos.Y, (int)(50 + 100 * d1), (int)(40 + 80 * d1));
 
-            font.DrawString(sprite, title, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-            font.DrawString(sprite, title, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
+                sprite.Draw(background, rect, modColor);
 
-            amountBar.X = scrnPos.X;
-            amountBar.Y = scrnPos.Y - 30;
-            amountBar.Value = resource.AmountPer;
-            amountBar.Render(sprite);
+                font.DrawString(sprite, title, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)(modColor.A << 24));
+                font.DrawString(sprite, title, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, (int)modColor.PackedValue);
+
+                amountBar.ModulateColor = modColor;
+                amountBar.X = scrnPos.X;
+                amountBar.Y = scrnPos.Y - 30;
+                amountBar.Value = resource.AmountPer;
+                amountBar.Render(sprite);
+            }
         }
 
         public override void Update(GameTime time)
