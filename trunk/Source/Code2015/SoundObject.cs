@@ -25,9 +25,7 @@ namespace Code2015
 
         AudioEmitter emitter;
 
-        
-        protected float minVolume;
-        protected float maxVolume;
+
         protected float radius;
 
         protected SoundEffectGame soundEffectGame;
@@ -100,8 +98,6 @@ namespace Code2015
         public NormalSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx)
             : base(parent, sfx)
         {
-            this.minVolume = 1;
-            this.maxVolume = 1;
             this.radius = 1;
         }
 
@@ -135,14 +131,10 @@ namespace Code2015
     {
         FastList<SoundEffectInstance> instance = new FastList<SoundEffectInstance>();
 
-        public Normal3DSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius, float minVolume, float maxVolume)
+        public Normal3DSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius)
             : base(parent, sfx)
         {
-            this.minVolume = minVolume;
-            this.maxVolume = maxVolume;
             this.radius = radius;
-
-
         }
 
 
@@ -170,11 +162,9 @@ namespace Code2015
     public class AmbientSoundObject : SoundObject
     {
 
-        public AmbientSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx,float radius, float minVolume, float maxVolume)
+        public AmbientSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius)
             : base(parent, sfx)
         {
-            this.minVolume = minVolume;
-            this.maxVolume = maxVolume;
             this.radius = radius;
         }
 
@@ -206,11 +196,11 @@ namespace Code2015
         FastList<PlayOp> playList = new FastList<PlayOp>();
 
 
-        public AmbientLoopSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius, float minVolume, float maxVolume)
+        public AmbientLoopSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius)
             : base(parent, sfx)
         {
-            this.minVolume = minVolume;
-            this.maxVolume = maxVolume;
+            this.lastDistance = float.MaxValue;
+
             this.radius = radius;
         }
 
@@ -227,6 +217,8 @@ namespace Code2015
             base.Update(time);
 
             float distance = Vector3.Distance(this.Position, cameraPosition);
+            if (distance < float.Epsilon)
+                return;
 
             bool action = false;
 
