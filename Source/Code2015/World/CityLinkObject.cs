@@ -16,19 +16,19 @@ namespace Code2015.World
 {
     class CityLinkObject : Entity
     {
-        const int MaxLevel = 4;
+        public const int MaxLevel = 4;
 
-        const float LinkBaseLength = 100;
-        const float LinkWidthScale = 0.002f;
-        const float LinkHeightScale = 4 * 1f / LinkBaseLength;
+        public const float LinkBaseLength = 100;
+        public const float LinkWidthScale = 0.002f;
+        public const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
-        const float LRThreshold = 0.1f;
-        const float HRThreshold = 0.1f;
-        const float FoodThreshold = 0.1f;
+        public const float LRThreshold = 0.1f;
+        public const float HRThreshold = 0.1f;
+        public const float FoodThreshold = 0.1f;
 
-        const float LRUnit = 0.2f;
-        const float HRUnit = 0.2f;
-        const float FoodUnit = 0.2f;
+        public const float LRUnit = 0.2f;
+        public const float HRUnit = 0.2f;
+        public const float FoodUnit = 0.2f;
 
         int updataCounter;
         SceneManagerBase sceneMgr;

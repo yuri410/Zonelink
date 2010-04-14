@@ -4,17 +4,21 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
+using Apoc3D.Scene;
+using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
+using Code2015.EngineEx;
 using Code2015.Logic;
 
 namespace Code2015.World
-{    
+{
     class CityOwnerRing : IRenderable
     {
-        public static readonly Matrix WhiteMatrix = 
+        public static readonly Matrix WhiteMatrix =
             new Matrix(1, 1, 1, 1,
-                       1, 1, 1, 1, 
+                       1, 1, 1, 1,
                        1, 1, 1, 1,
                        1, 1, 1, 1);
 
@@ -52,7 +56,7 @@ namespace Code2015.World
 
                 return result;
             }
-            return new Vector4(1,0,0,0);
+            return new Vector4(1, 0, 0, 0);
         }
 
 
