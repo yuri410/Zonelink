@@ -85,7 +85,9 @@ namespace Code2015
                 soundEffectGame.Update(this, currentInstance);
             }
            
-            emitter.Position = new Microsoft.Xna.Framework.Vector3(position.X, position.Y, position.Z);
+            emitter.Position = new MXF.Vector3(position.X, position.Y, position.Z);
+            emitter.Forward = MXF.Vector3.Normalize(emitter.Position);
+           
         }
 
         #endregion
@@ -222,7 +224,7 @@ namespace Code2015
 
             bool action = false;
 
-            float r = radius * 2;
+            float r = radius;
             if (distance <= r)
             {
                 if (lastDistance > r)
