@@ -280,9 +280,9 @@ namespace Code2015
                 {
                     gameState.Update(time);
 
-                    SoundManager.Instance.ListenerPosition = scene.Camera.Position;
-
                 }
+
+                SoundManager.Instance.ListenerPosition = scene.Camera.Position;
                 ingameUI.Update(time);
 
             }

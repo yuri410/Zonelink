@@ -110,7 +110,7 @@ namespace Code2015
         }
 
 
-        public SoundObject MakeSoundObjcet(string name, ISoundObjectParent parent,  float r, float min, float max)
+        public SoundObject MakeSoundObjcet(string name, ISoundObjectParent parent,  float r)
         {
             SoundEffectGame sfx = sfxTable[name];
             switch (sfx.Type)
@@ -119,13 +119,13 @@ namespace Code2015
                 case SoundType.World:
                     if ((sfx.Control & SoundControl.Loop) == SoundControl.Loop)
                     {
-                        return new AmbientLoopSoundObject(this, parent, sfx, r, min, max);
+                        return new AmbientLoopSoundObject(this, parent, sfx, r);
                     }
                     else if ((sfx.Control & SoundControl.Ambient) == SoundControl.Ambient)
                     {
-                        return new AmbientSoundObject(this, parent, sfx, r, min, max);
+                        return new AmbientSoundObject(this, parent, sfx, r);
                     }
-                    return new Normal3DSoundObject(this, parent, sfx, r, min, max);                  
+                    return new Normal3DSoundObject(this, parent, sfx, r);                  
                 case SoundType.Normal:
                 case SoundType.Player:
                     return new NormalSoundObject(this, parent, sfx);

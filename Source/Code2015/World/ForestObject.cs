@@ -31,6 +31,7 @@ namespace Code2015.World
     {
         Forest forest;
         ResourceHandle<TreeBatchModel> model;
+        SoundObject sound;
 
         public ForestObject(RenderSystem rs, Forest forest)
             : base(false)
@@ -47,8 +48,8 @@ namespace Code2015.World
             info.Category = forest.Category;
             info.Type = forest.PlantSize;
 
-            info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, PlantType.Subtropics);// info.Type);
-            info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, PlantType.Subtropics);// info.Type);
+            info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, PlantType.Subtropics);
+            info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, PlantType.Subtropics);
             model = TreeBatchModelManager.Instance.CreateInstance(rs, info);
 
             model.Touch();
@@ -56,6 +57,7 @@ namespace Code2015.World
             Transformation = model.GetWeakResource().Transformation;
             BoundingSphere = model.GetWeakResource().BoundingVolume;
 
+            sound = SoundManager.Instance.MakeSoundObjcet("forest", null, BoundingSphere.Radius * 5);
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -71,7 +73,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            //throw new NotImplementedException();
+            sound.Update(dt);
         }
 
         public override bool IsSerializable
