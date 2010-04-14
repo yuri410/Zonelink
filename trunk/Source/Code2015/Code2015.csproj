@@ -487,6 +487,7 @@
     <Compile Include="World\TerrainTile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="World\CityLinkableMark.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="BalanceSystem\BalanceSystemInfo.txt" />

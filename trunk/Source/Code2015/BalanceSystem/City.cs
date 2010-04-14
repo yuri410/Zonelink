@@ -152,6 +152,16 @@ namespace Code2015.BalanceSystem
 
         #region  属性
 
+        public int LinkableCityCount
+        {
+            get { return linkableCity.Count; }
+        }
+
+        public City GetLinkableCity(int i)
+        {
+            return linkableCity[i];
+        }
+
         public MdgType MajorProblem
         {
             get;

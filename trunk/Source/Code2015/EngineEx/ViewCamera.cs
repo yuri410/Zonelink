@@ -53,7 +53,8 @@ namespace Code2015.EngineEx
             axis.Normalize();
 
             //float sign = latitude > 0 ? 1 : -1;
-            Vector3 up = Vector3.UnitY;
+            Vector3 up = axis +Vector3.UnitY;
+            up.Normalize();
 
             Vector3 rotAxis = axis;
 
