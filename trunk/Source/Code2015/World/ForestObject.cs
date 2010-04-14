@@ -57,7 +57,8 @@ namespace Code2015.World
             Transformation = model.GetWeakResource().Transformation;
             BoundingSphere = model.GetWeakResource().BoundingVolume;
 
-            sound = SoundManager.Instance.MakeSoundObjcet("forest", null, BoundingSphere.Radius * 5);
+            sound = SoundManager.Instance.MakeSoundObjcet("forest", null, BoundingSphere.Radius * 3);
+            sound.Position = BoundingSphere.Center;
         }
 
         public override RenderOperation[] GetRenderOperation()
