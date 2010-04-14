@@ -47,7 +47,6 @@ namespace Code2015.World
         City city;
         CityStyle style;
         CityOwnerRing sideRing;
-        CityLinkableMark linkArrow;
 
 
         CityGoalSite goalSite;
@@ -185,17 +184,6 @@ namespace Code2015.World
             set
             {
                 isSelected = value;
-                if (value && linkArrow == null)
-                {
-                    CityObject[] nearby = new CityObject[city.LinkableCityCount];
-
-                    for (int i = 0; i < city.LinkableCityCount; i++)
-                    {
-                        nearby[i] = city.GetLinkableCity(i).Parent;
-                    }
-
-                    linkArrow = new CityLinkableMark(renderSys, this, nearby);
-                }
             }
         }
 
@@ -437,12 +425,6 @@ namespace Code2015.World
             if (isSelected)
             {
                 ops = style.SelRing.GetRenderOperation();
-                if (ops != null)
-                {
-                    opBuffer.Add(ops);
-                }
-
-                ops = linkArrow.GetRenderOperation();
                 if (ops != null)
                 {
                     opBuffer.Add(ops);
