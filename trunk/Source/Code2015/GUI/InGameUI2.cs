@@ -101,6 +101,7 @@ namespace Code2015.GUI
 
         RtsCamera camera;
 
+        CityLinkableMark linkArrow;
 
         ISelectableObject selected;
         CityObject city;
@@ -145,11 +146,23 @@ namespace Code2015.GUI
                             selectedProjPos.X = (int)ppos.X;
                             selectedProjPos.Y = (int)ppos.Y;
 
+                            City cc = city.City;
                             //isCapturable = city.CanCapture(player);
-                            cityMeasure.Current = city.City;
-                            pluginMeasure.Current = city.City;
+                            cityMeasure.Current = cc;
+                            pluginMeasure.Current = cc;
+
+                            CityObject[] nearby = new CityObject[cc.LinkableCityCount];
+
+                            for (int i = 0; i < cc.LinkableCityCount; i++)
+                            {
+                                nearby[i] = cc.GetLinkableCity(i).Parent;
+                            }
+
+                            linkArrow.SetCity(city, nearby);
+
                             return;
                         }
+                        else { linkArrow.SetCity(null, null); }
 
                         OilFieldObject oilObj = selected as OilFieldObject;
                         if (oilObj != null)
@@ -390,6 +403,9 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_co2_blue_br.tex", GameFileLocs.GUI);
             co2br_blue = UITextureManager.Instance.CreateInstance(fl);
 
+
+            linkArrow = new CityLinkableMark(renderSys);
+            scene.Scene.AddObjectToScene(linkArrow);
         }
 
         public CityInfoDisplay CityInfoDisplay

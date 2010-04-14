@@ -171,7 +171,7 @@ namespace Code2015.GUI
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
         Brackets brackets;
 
-
+        //CityLinkableMark linkArr;
 
         public ColorValue DistanceMod;
 
@@ -204,6 +204,8 @@ namespace Code2015.GUI
             {
                 pluginInfo[i] = new PluginInfo(info, this, rs, city);
             }
+            //linkArr = new CityLinkableMark(rs);
+
         }
 
         public Brackets Bracket 
@@ -266,7 +268,7 @@ namespace Code2015.GUI
             if (city.Owner == player)
             {
                 if (((ISelectableObject)city).IsSelected)
-                {
+                {                    
                     for (int i = 0; i < city.PluginCount; i++)
                     {
                         pluginInfo[i].Update(time);
