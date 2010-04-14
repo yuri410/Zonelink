@@ -230,7 +230,6 @@ namespace Code2015.World
             goalSite = new CityGoalSite(this, style);
 
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
-            sound.Position = pos;
             
         }
 
@@ -487,6 +486,8 @@ namespace Code2015.World
             sideRing.Update(dt);
 
             Upgrade();
+
+            sound.Position = position;
 
             sound.Update(dt);
         }
