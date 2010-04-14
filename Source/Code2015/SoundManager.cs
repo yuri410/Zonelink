@@ -48,6 +48,16 @@ namespace Code2015
         AudioListener listener;
         Dictionary<string, SoundEffectGame> sfxTable;
 
+        public Vector3 ListenerPosition
+        {
+            get
+            {
+                XF.Vector3 v = listener.Position;
+                return new Vector3(v.X, v.Y, v.X);
+            }
+            set { listener.Position = new XF.Vector3(value.X, value.Y, value.Z); }
+        }
+
         /// <summary>
         /// 需要提供一个service,以及音效所在文件夹的根目录
         /// </summary>

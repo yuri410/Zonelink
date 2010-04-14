@@ -110,7 +110,7 @@ namespace Code2015
             private set;
         }
 
-        public Map Map 
+        public Map Map
         {
             get { return map; }
         }
@@ -118,7 +118,7 @@ namespace Code2015
         Player[] GetLocalPlayers(GameCreationParameters gcp)
         {
             List<Player> list = new List<Player>();
-            if (gcp.Player1 !=null && gcp.Player1.Type != PlayerType.Remote) 
+            if (gcp.Player1 != null && gcp.Player1.Type != PlayerType.Remote)
             {
                 list.Add(gcp.Player1);
             }
@@ -130,7 +130,7 @@ namespace Code2015
             {
                 list.Add(gcp.Player3);
             }
-            if (gcp.Player4 != null && gcp.Player4.Type != PlayerType.Remote) 
+            if (gcp.Player4 != null && gcp.Player4.Type != PlayerType.Remote)
             {
                 list.Add(gcp.Player4);
             }
@@ -267,7 +267,7 @@ namespace Code2015
                 }
             }
             else
-            {                
+            {
                 if (gameState.IsTimeUp)
                 {
                     if (!ingameUI.IsShowingScore)
@@ -279,6 +279,9 @@ namespace Code2015
                 else
                 {
                     gameState.Update(time);
+
+                    SoundManager.Instance.ListenerPosition = scene.Camera.Position;
+
                 }
                 ingameUI.Update(time);
 
