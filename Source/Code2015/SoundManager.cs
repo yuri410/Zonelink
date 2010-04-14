@@ -60,7 +60,7 @@ namespace Code2015
             XMLUrl = xmlurl;
             listener = new AudioListener();
 
-            contentManager = new ContentManager(service);
+            contentManager = new ContentManager(service, root);
             FileLocation fl = FileSystem.Instance.Locate(this.XMLUrl, GameFileLocs.Config);
             Configuration conf = ConfigurationManager.Instance.CreateInstance(fl);
 
@@ -70,7 +70,7 @@ namespace Code2015
                 ConfigurationSection sect = c.Value;
                 SoundEffectGame sfx = new SoundEffectGame(listener, this, sect);
 
-                sfxTable.Add(sfx.Name, sfx);
+                sfxTable.Add(sect.Name, sfx);
             }
         }
 

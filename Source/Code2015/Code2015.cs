@@ -16,6 +16,7 @@ using Code2015.World;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
+using XFG = Microsoft.Xna.Framework.Graphics;
 
 namespace Code2015
 {
@@ -138,6 +139,7 @@ namespace Code2015
         public void Load()
         {
             // streaming 结构，不在此加载资源
+            SoundManager.Initialize(((X.Game)Program.Window.Tag).Services);
         }
 
         /// <summary>

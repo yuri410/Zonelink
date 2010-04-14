@@ -33,7 +33,7 @@
   <lightning>
     <Control>None</Control>
     <Type>World</Type>
-    <Medium>lightninga,lightningb,lightningc,lightningd</Medium>   
+    <Sounds>lightninga,lightningb,lightningc,lightningd</Sounds>   
   </lightning>
  
   
