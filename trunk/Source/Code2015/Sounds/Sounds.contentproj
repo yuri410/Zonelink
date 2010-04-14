@@ -367,11 +367,6 @@
       <Importer>WavImporter</Importer>
       <Processor>SoundEffectProcessor</Processor>
     </Compile>
-    <Compile Include="voc_unsatis.wav">
-      <Name>voc_unsatis</Name>
-      <Importer>WavImporter</Importer>
-      <Processor>SoundEffectProcessor</Processor>
-    </Compile>
     <Compile Include="voc_warnco2.wav">
       <Name>voc_warnco2</Name>
       <Importer>WavImporter</Importer>

@@ -35,13 +35,13 @@ namespace Code2015
         protected Vector3 cameraPosition;
         Vector3 position;
 
+        public float Radius 
+        {
+            get { return radius; }
+        }
         public AudioEmitter Emitter
         {
             get { return emitter; }
-        }
-        public Vector3 ListenerPosition
-        {
-            get { return cameraPosition; }
         }
         public ISoundObjectParent Parent
         {
@@ -53,6 +53,7 @@ namespace Code2015
             this.parent = parent;
             this.soundEffectGame = sfx;
             this.emitter = new AudioEmitter();
+            this.Volume = sfx.Volume;
         }
 
         public float Volume
@@ -70,10 +71,12 @@ namespace Code2015
 
         public virtual void Update(GameTime dt)
         {
-            float distance = Vector3.Distance(this.Position, cameraPosition);
+            cameraPosition = SoundManager.Instance.ListenerPosition;
 
-            float vol = MathEx.LinearInterpose(minVolume, maxVolume, distance / radius);
-            Volume = vol;
+            //float distance = Vector3.Distance(this.Position, cameraPosition);
+
+            //float vol = MathEx.LinearInterpose(minVolume, maxVolume, distance / radius);
+            //Volume = vol;
 
             if (currentInstance == null || currentInstance.State == SoundState.Stopped)
             {
@@ -81,9 +84,9 @@ namespace Code2015
             }
             if (currentInstance != null)
             {
-                currentInstance.Volume = vol;
+                soundEffectGame.Update(this, currentInstance);
             }
-
+           
             emitter.Position = new Microsoft.Xna.Framework.Vector3(position.X, position.Y, position.Z);
         }
 
@@ -102,7 +105,10 @@ namespace Code2015
             this.radius = 1;
         }
 
-
+        public void Fire()
+        {
+            instance.Add(soundEffectGame.Play(SoundEffectPart.Default, this));
+        }
         public void Fire(float volume)
         {
             Volume = volume;
@@ -117,6 +123,10 @@ namespace Code2015
                 if (instance[i].State == SoundState.Stopped)
                 {
                     instance.RemoveAt(i);
+                }
+                else
+                {
+                    soundEffectGame.Update(this, instance[i]);
                 }
             }
         }
@@ -145,10 +155,14 @@ namespace Code2015
             base.Update(dt);
 
             for (int i = 0; i < instance.Count; i++)
-            {                
+            {
                 if (instance[i].State == SoundState.Stopped)
                 {
                     instance.RemoveAt(i);
+                }
+                else 
+                {
+                    soundEffectGame.Update(this, instance[i]);
                 }
             }
         }
@@ -253,6 +267,7 @@ namespace Code2015
                     playList.RemoveAt(0);
                 }
             }
+
             lastDistance = distance;
         }
     }

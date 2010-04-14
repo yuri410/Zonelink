@@ -53,7 +53,7 @@ namespace Code2015
         public SoundEffectGame(AudioListener listener, SoundManager sm, ConfigurationSection sect)
         {
             this.contentManager = sm.Content;
-            this.listener = new AudioListener();
+            this.listener = listener;
 
 
             string[] control = sect.GetStringArray("Control");
@@ -114,23 +114,32 @@ namespace Code2015
             }
         }
 
+        public void Update(SoundObject soundObj, SoundEffectInstance inst)
+        {
+            inst.Volume = soundObj.Volume;
+
+            if (Type == SoundType.World || Type == SoundType.Global)
+            {
+                SoundEffect.DistanceScale = soundObj.Radius;
+                inst.Apply3D(listener, soundObj.Emitter);
+            }
+        }
+
         public SoundEffectInstance Play(SoundEffectPart category, SoundObject soundObj)
         {
             switch (Type)
             {
                 case SoundType.Normal:
-                    Play(category, soundObj.Volume);
-                    break;
+                    return Play(category, soundObj.Volume);
                 case SoundType.Player:
                     if (soundObj.Parent.IsLocalHumanPlayer)
                     {
-                        Play(category, soundObj.Volume);
+                        return Play(category, soundObj.Volume);
                     }
-                    break;
+                    return null;
                 case SoundType.Global:
                 case SoundType.World:
-                    Play3D(category, soundObj.Emitter);
-                    break;
+                    return Play3D(category, soundObj.Emitter);
             }
             throw new NotSupportedException();
         }

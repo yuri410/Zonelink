@@ -8,6 +8,7 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
@@ -194,6 +195,7 @@ namespace Code2015.World
                         int cidx = Randomizer.GetRandomInt(list.Count);
 
                         list[cidx].ChangeOwner(localPlayer[i]);
+
                         finished = true;
                     }
                 }
