@@ -44,6 +44,8 @@ namespace Code2015.World
             //public MdgResource CurrentPiece;
         }
 
+        SoundObject sound;
+
         City city;
         CityStyle style;
         CityOwnerRing sideRing;
@@ -226,7 +228,10 @@ namespace Code2015.World
 
             sideRing = new CityOwnerRing(this, style);
             goalSite = new CityGoalSite(this, style);
-          
+
+            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
+            sound.Position = pos;
+            
         }
 
         protected override void Dispose(bool disposing)
@@ -482,6 +487,8 @@ namespace Code2015.World
             sideRing.Update(dt);
 
             Upgrade();
+
+            sound.Update(dt);
         }
 
 

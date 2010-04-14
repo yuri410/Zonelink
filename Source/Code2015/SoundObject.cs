@@ -222,9 +222,10 @@ namespace Code2015
 
             bool action = false;
 
-            if (distance <= radius)
+            float r = radius * 2;
+            if (distance <= r)
             {
-                if (lastDistance > radius)
+                if (lastDistance > r)
                 {
                     AddToPlayList(SoundEffectPart.Fadein);
                     action = true;
@@ -233,7 +234,7 @@ namespace Code2015
             }
             else
             {
-                if (lastDistance <= radius)
+                if (lastDistance <= r)
                 {
                     AddToPlayList(SoundEffectPart.Fadeout);
                     action = true;
@@ -241,7 +242,7 @@ namespace Code2015
                 }
             }
 
-            if (!action && distance <= radius)
+            if (!action && distance <= r)
             {
                 if (playList.Count == 0)
                 {
