@@ -17,19 +17,12 @@ namespace MapEdit
 
     class MapSoundObject
     {
-        public float Longitude;
-        public float Latitude;
-
         public float Radius;
         public string SFXName;
-
     }
 
     class MapSceneObject
     {
-        public float Longitude;
-        public float Latitude;
-
         public float Radius;
 
         public bool IsForest;
@@ -65,7 +58,6 @@ namespace MapEdit
             lat = yspan * 0.5f - y * yspan / (float)MapHeight;
             lng = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
         }
-
 
         public bool Intersects(int x, int y)
         {
@@ -108,6 +100,8 @@ namespace MapEdit
                 return y;
             }
         }
+
+
         public string SectionName
         {
             get;
