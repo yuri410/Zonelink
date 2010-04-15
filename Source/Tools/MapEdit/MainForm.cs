@@ -65,17 +65,13 @@ namespace MapEdit
         {
 
         }
-<<<<<<< .mine
-=======
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
->>>>>>> .r836
+
                 #region city info
-<<<<<<< .mine
-=======
                 StreamWriter sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
@@ -88,11 +84,8 @@ namespace MapEdit
                     {
                         City city = (City)obj.Tag;
 
->>>>>>> .r836
                         sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
-<<<<<<< .mine
-=======
                         sw.Write("        ");
                         sw.Write("<Name>"); sw.Write(city.Name); sw.WriteLine(@"</Name>");
 
@@ -201,7 +194,6 @@ namespace MapEdit
                 sw.Close();
             }
 
->>>>>>> .r836
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
