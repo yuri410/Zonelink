@@ -141,7 +141,7 @@
             // 
             // folderBrowserDialog1
             // 
-            this.folderBrowserDialog1.SelectedPath = "E:\\Documents\\ic10gd\\Source\\Code2015";
+            this.folderBrowserDialog1.SelectedPath = "E:\\Documents\\ic10gd\\Source\\Code2015\\Configs";
             // 
             // openFileDialog1
             // 
