@@ -55,6 +55,12 @@ namespace MapEdit
             set;
         }
 
+        public object Tag
+        {
+            get;
+            set;
+        }
+
         public int X 
         {
             get

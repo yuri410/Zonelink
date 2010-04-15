@@ -3,11 +3,12 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Text;
 using System.Windows.Forms;
 using Apoc3D.Config;
 using Apoc3D.Vfs;
-using System.IO;
+using Code2015.BalanceSystem;
 
 namespace MapEdit
 {
@@ -38,12 +39,24 @@ namespace MapEdit
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
+            SimulationWorld sim = new SimulationWorld();
+
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
                 string dir = folderBrowserDialog1.SelectedPath;
 
                 Configuration config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "cities.xml")));
 
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+                    City city = new City(sim);
+                    city.Parse(sect);
+
+                    MapObject obj = new MapObject();
+                    obj.Longitude = city.Longitude;
+                    obj.Latitude = city.Latitude;
+                }
 
                 config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "sceneObjects.xml")));
 
