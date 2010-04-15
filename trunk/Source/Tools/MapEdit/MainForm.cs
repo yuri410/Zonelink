@@ -143,11 +143,16 @@ namespace MapEdit
                             sw.Write("<Farm>"); sw.Write(city.FarmLandCount); sw.WriteLine("</Farm>");
                         }
 
-                        sw.Write("        "); sw.Write("<Linkable>");
+
+
                         string[] linkable = city.LinkableCityName;
-                        for (int j = 0; j < linkable.Length; j++)
+                        if (linkable != null && linkable.Length > 0)
                         {
-                            sw.Write(linkable[i]);
+                            sw.Write("        "); sw.Write("<Linkable>");
+                            for (int j = 0; j < linkable.Length; j++)
+                            {
+                                sw.Write(linkable[i]);
+                            }
                         }
                         sw.Write("</Linkable>");
 
