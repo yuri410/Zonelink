@@ -32,6 +32,7 @@ namespace MapEdit
 
         Graphics g = null;
         Image cityImage, resWoodImage, resOilImage, soundImage, sceneImage;
+        Image ImageEx;
         Pen pen;
         Brush brush;
         Font font;
@@ -136,13 +137,7 @@ namespace MapEdit
             ConfigurationManager.Initialize();
             ConfigurationManager.Instance.Register(new GameConfigurationFormat());
         }
-        public void DrawCirlce(float r ,Color color)
-        {
-           
-            g.FillEllipse(new SolidBrush(Color.FromArgb(100,250,0,0)), rg);
-            g.Flush();
-            g.Dispose();
-        }
+       
 
         private void MainForm_Load(object sender, EventArgs e)
         {
@@ -155,10 +150,11 @@ namespace MapEdit
             soundImage = Image.FromFile("Sound.png");
             sceneImage = Image.FromFile("Scene.png");
           
+
             pen = new Pen(Color.Black);
             brush = pen.Brush;
             font = new Font("Arial", 7, FontStyle.Regular);
-<<<<<<< .mine
+
 
             red = new SolidBrush(Color.FromArgb(50, Color.Red));
             green=new SolidBrush(Color.FromArgb(50,Color.Green));
@@ -166,9 +162,9 @@ namespace MapEdit
             yellow = new SolidBrush(Color.FromArgb(50, Color.Yellow));
             purple = new SolidBrush(Color.FromArgb(50, Color.Purple));
            
-=======
+
             pictureBox1.Paint += DrawAll;
->>>>>>> .r880
+
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
@@ -218,6 +214,12 @@ namespace MapEdit
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
                             }
                         }
+                        g.DrawImage(ImageEx,new Point(5,5));
+                        if(m.X>=m.Radius&&m.Y>=m.Radius)
+                        {
+                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
+                            g.FillEllipse(red,rect );
+                        }
                         break;
                     case ObjectType.ResWood:
                         if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
@@ -229,6 +231,12 @@ namespace MapEdit
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
                             }
                         }
+                          if(m.X>=m.Radius&&m.Y>=m.Radius)
+                        {
+                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
+                            g.FillEllipse(yellow,rect );
+                        }
+                         g.DrawImage(ImageEx,new Point(5,5));
                         break;
                     case ObjectType.ResOil:
                         if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
@@ -240,6 +248,12 @@ namespace MapEdit
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
                             }
                         }
+                          if(m.X>=m.Radius&&m.Y>=m.Radius)
+                        {
+                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
+                            g.FillEllipse(blue,rect );
+                        }
+                         g.DrawImage(ImageEx,new Point(5,5));
                         break;
                     case ObjectType.Sound:
                         if ((filter & ObjectType.Sound) == ObjectType.Sound)
@@ -251,6 +265,12 @@ namespace MapEdit
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
                             }
                         }
+                          if(m.X>=m.Radius&&m.Y>=m.Radius)
+                        {
+                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
+                            g.FillEllipse(green,rect );
+                        }
+                         g.DrawImage(ImageEx,new Point(5,5));
                         break;
                     case ObjectType.Scene:
                         if ((filter & ObjectType.Scene) == ObjectType.Scene)
@@ -261,6 +281,12 @@ namespace MapEdit
                             {
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
                             }
+                        }
+                         g.DrawImage(ImageEx,new Point(5,5));
+                          if(m.X>=m.Radius&&m.Y>=m.Radius)
+                        {
+                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
+                            g.FillEllipse(purple,rect );
                         }
                         break;
 
