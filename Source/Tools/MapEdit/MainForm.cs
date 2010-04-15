@@ -32,6 +32,8 @@ namespace MapEdit
         Image cityImage, resWoodImage, resOilImage, soundImage, sceneImage;
         Pen pen;
         Brush brush;
+        Font font;
+        Rectangle rect;
         MapObject SelectedObject
         {
             get { return selectedObject; }
@@ -124,29 +126,29 @@ namespace MapEdit
         public MainForm()
         {
             InitializeComponent();
-
-            g = this.CreateGraphics();
+            g = pictureBox1.CreateGraphics();
             ConfigurationManager.Initialize();
-
 
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            pictureBox1.Load("City");
-            pictureBox1.Load("ResWood");
-            pictureBox1.Load("ResOil");
-            pictureBox1.Load("Sound");
-            pictureBox1.Load("Scene");
+            rect=new Rectangle(0,0,pictureBox1.Width,pictureBox1.Height);
 
+            if (currentImage != null)
+            { 
+                g.DrawImage(currentImage,rect);
+            }
             cityImage = Image.FromFile("City");
             resWoodImage = Image.FromFile("ResWood");
             resOilImage = Image.FromFile("ResOil");
             soundImage = Image.FromFile("Sound");
             sceneImage = Image.FromFile("Scene");
-
+          
             pen = new Pen(Color.Black);
             brush = pen.Brush;
+            font = new Font("Arial", 7, FontStyle.Regular);
+            
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
@@ -416,7 +418,7 @@ namespace MapEdit
                 {
                     if (m.IsDrawOrNot == true)
                     {
-                        g.DrawString(m.StringDisplay, new Font("Arial", 7, FontStyle.Regular), brush, m.X, m.Y);
+                        g.DrawString(m.StringDisplay,font , brush, m.X, m.Y);
                     }
                 }
             }
