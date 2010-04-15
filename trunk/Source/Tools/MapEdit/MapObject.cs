@@ -322,6 +322,17 @@ namespace MapEdit
             get;
             set;
         }
+        public float Radius
+        {
+            get;
+            set;
+        }
+
+        public bool IsSelected
+        {
+            get;
+            set;
+        }
 
     }
 }
