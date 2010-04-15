@@ -49,7 +49,8 @@ namespace MapEdit
 
         public bool Intersects(int x, int y)
         {
-
+            int dx = x - X + IconWidth / 2;
+            int dy = y - Y + IconWidth / 2;
         }
 
         public float Longitude
