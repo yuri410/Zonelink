@@ -150,7 +150,7 @@ namespace MapEdit
                                 sw.Write(linkable[i]);
                             }
                         }
-                        sw.Write("</Linkable>");
+                        sw.WriteLine("</Linkable>");
 
                         sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
                     }
@@ -193,6 +193,7 @@ namespace MapEdit
                             sw.Write("        ");
                             sw.Write("<Radius>"); sw.Write(fore.Radius); sw.WriteLine("</Radius>");
                         }
+                        sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
                     }
                 }
 
@@ -213,6 +214,15 @@ namespace MapEdit
                     MapObject obj = objectList[i];
                     if (obj.Type == ObjectType.Scene)
                     {
+                        sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
+
+                        sw.Write("        ");
+                        sw.Write("<Longitude>"); sw.Write(obj.Longitude); sw.WriteLine("</Longitude>");
+
+                        sw.Write("        ");
+                        sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
+                      
+                        sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
                     }
                 }
@@ -232,7 +242,15 @@ namespace MapEdit
                     MapObject obj = objectList[i];
                     if (obj.Type == ObjectType.Sound)
                     {
+                        sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
+                        sw.Write("        ");
+                        sw.Write("<Longitude>"); sw.Write(obj.Longitude); sw.WriteLine("</Longitude>");
+
+                        sw.Write("        ");
+                        sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
+
+                        sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
                     }
                 }
                 sw.WriteLine("</SoundObjects>");
