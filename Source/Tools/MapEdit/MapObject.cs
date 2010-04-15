@@ -18,6 +18,9 @@ namespace MapEdit
 
     class MapObject
     {
+        public const int IconHeight = 10;
+        public const int IconWidth = 10;
+
         public static int MapHeight = 1188;
         public static int MapWidth = 462;
 
@@ -41,7 +44,13 @@ namespace MapEdit
 
             lat = yspan * 0.5f - y * yspan / (float)MapHeight;
             lng = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
-        } 
+        }
+
+
+        public bool Intersects(int x, int y)
+        {
+
+        }
 
         public float Longitude
         {
