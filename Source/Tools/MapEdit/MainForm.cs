@@ -70,7 +70,7 @@ namespace MapEdit
                                         radioButton7.Checked = true;
                                         break;
                                 }
-
+                                panel1.Dock = DockStyle.Fill;
                                 panel1.Visible = true;
                                 break;
                             case ObjectType.ResOil:
@@ -87,14 +87,35 @@ namespace MapEdit
                                         radioButton6.Checked = true;
                                         break;
                                 }
-
+                                panel2.Dock = DockStyle.Fill;
                                 panel2.Visible = true;
                                 break;
                             case ObjectType.ResWood:
+                                Forest fore = (Forest)selectedObject.Tag;
+
+                                numericUpDown9.Value = (decimal)fore.CurrentAmount;
+                                numericUpDown10.Value = (decimal)fore.Radius;
+                                switch (fore.Type)
+                                {
+                                    case NaturalResourceType.Wood:
+                                        radioButton5.Checked = true;
+                                        break;
+                                    case NaturalResourceType.Petro:
+                                        radioButton6.Checked = true;
+                                        break;
+                                }
+                                panel2.Dock = DockStyle.Fill;
+                                panel2.Visible = true;
                                 break;
                             case ObjectType.Scene:
+                                panel4.Dock = DockStyle.Fill;
+                                panel4.Visible = true;
                                 break;
                             case ObjectType.Sound:
+
+
+                                panel3.Dock = DockStyle.Fill;
+                                panel3.Visible = true;
                                 break;
                         }
                     }

@@ -5,16 +5,36 @@ using Apoc3D.MathLib;
 
 namespace MapEdit
 {
-
+    [Flags]
     enum ObjectType
     {
-        City,
-        ResWood,
-        ResOil,
-        Sound,
-        Scene
+        City = 1,
+        ResWood = 1 << 1,
+        ResOil = 1 << 2,
+        Sound = 1 << 3,
+        Scene = 1 << 4
     }
 
+    class MapSoundObject
+    {
+        public float Longitude;
+        public float Latitude;
+
+        public float Radius;
+        public string SFXName;
+
+    }
+
+    class MapSceneObject
+    {
+        public float Longitude;
+        public float Latitude;
+
+        public float Radius;
+
+        public bool IsForest;
+        public float Amount;
+    }
 
     class MapObject
     {
