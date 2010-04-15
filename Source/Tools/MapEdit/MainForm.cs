@@ -22,6 +22,7 @@ namespace MapEdit
         MapObject selectedObject;
 
         ObjectType filter;
+        bool drawString;
         #endregion
 
 
@@ -382,45 +383,63 @@ namespace MapEdit
         {
             for (int i = 0; i < objectList.Count; i++)
             {
-                switch (objectList[i].Type)
+                MapObject m = objectList[i];
+
+                switch (m.Type)
                 {
                     case ObjectType.City:
                         if ((filter & ObjectType.City) == ObjectType.City)
-                            g.DrawImage(cityImage, new Point(objectList[i].X, objectList[i].Y));
+                        {
+                            g.DrawImage(cityImage, m.X, m.Y);
+                        }
+                        if (drawString)
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
                         break;
                     case ObjectType.ResWood:
                         if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
-                            g.DrawImage(resWoodImage, new Point(objectList[i].X, objectList[i].Y));
+                        {
+                            g.DrawImage(resWoodImage, m.X, m.Y);
+                        }
+                        if (drawString)
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
                         break;
                     case ObjectType.ResOil:
                         if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
-                            g.DrawImage(resOilImage, new Point(objectList[i].X, objectList[i].Y));
+                        {
+                            g.DrawImage(resOilImage, m.X, m.Y);
+                        }
+                        if (drawString)
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
                         break;
                     case ObjectType.Sound:
                         if ((filter & ObjectType.Sound) == ObjectType.Sound)
-                            g.DrawImage(soundImage, new Point(objectList[i].X, objectList[i].Y));
+                        {
+                            g.DrawImage(soundImage, m.X, m.Y);
+                        }
+                        if (drawString)
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
                         break;
                     case ObjectType.Scene:
                         if ((filter & ObjectType.Scene) == ObjectType.Scene)
-                            g.DrawImage(sceneImage, new Point(objectList[i].X, objectList[i].Y));
+                        {
+                            g.DrawImage(sceneImage, m.X, m.Y);
+                        }
+                        if (drawString)
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
                         break;
 
                 }
 
-            }
-        }
-
-        public void DrawString()
-        {
-            foreach (MapObject m in objectList)
-            {
-                if (!string.IsNullOrEmpty(m.StringDisplay))
-                {
-                    if (m.IsDrawOrNot == true)
-                    {
-                        g.DrawString(m.StringDisplay,font , brush, m.X, m.Y);
-                    }
-                }
             }
         }
 
@@ -616,10 +635,8 @@ namespace MapEdit
 
                         so.Amount = (float)numericUpDown12.Value;
                         so.Radius = (float)numericUpDown13.Value;
-                        if (string.IsNullOrEmpty(selectedObject.SectionName))
-                        {
-                            selectedObject.SectionName = city.Name;
-                        }
+                       
+
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
                             selectedObject.SectionName = "Scene" + Guid.NewGuid().ToString("N");
@@ -631,10 +648,6 @@ namespace MapEdit
                         sndObj.Radius = (float)numericUpDown11.Value;
                         sndObj.SFXName = textBox2.Text;
 
-                        if (string.IsNullOrEmpty(selectedObject.SectionName))
-                        {
-                            selectedObject.SectionName = city.Name;
-                        }
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
                             selectedObject.SectionName = "Sound" + Guid.NewGuid().ToString("N");
