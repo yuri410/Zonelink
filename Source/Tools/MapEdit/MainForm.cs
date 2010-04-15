@@ -15,16 +15,18 @@ namespace MapEdit
 {
     public partial class MainForm : Form
     {
-        #region joujia
         Image currentImage;
 
         List<MapObject> objectList = new List<MapObject>();
+        Dictionary<string, MapCity> cityTable = new Dictionary<string, MapCity>();
+
 
         MapObject selectedObject;
 
         ObjectType filter;
         bool drawString;
-        #endregion
+        bool drawRadius;
+      
 
         bool isDraging;
 
@@ -32,12 +34,13 @@ namespace MapEdit
 
         Graphics g = null;
         Image cityImage, resWoodImage, resOilImage, soundImage, sceneImage;
-        Image ImageEx;
+        Image imageEx;
         Pen pen;
         Brush brush;
         Font font;
 
         SolidBrush red, green, blue, yellow, purple;
+        
         MapObject SelectedObject
         {
             get { return selectedObject; }
@@ -49,11 +52,17 @@ namespace MapEdit
                     panel2.Visible = false;
                     panel3.Visible = false;
                     panel4.Visible = false;
+                    
+                    if (selectedObject != null)
+                    {
+                        selectedObject.IsSelected = false;
+                    }
 
                     selectedObject = value;
 
                     if (selectedObject != null)
                     {
+                        selectedObject.IsSelected = true;    
                         switch (selectedObject.Type)
                         {
                             case ObjectType.City:
@@ -69,7 +78,7 @@ namespace MapEdit
                                 numericUpDown6.Value = (decimal)city.ProblemMaternal;
                                 numericUpDown7.Value = (decimal)city.ProblemDisease;
                                 numericUpDown8.Value = (decimal)city.ProblemEnvironment;
-
+                                numericUpDown14.Value = (decimal)city.StartUp;
                                 switch (city.Size)
                                 {
                                     case UrbanSize.Small:
@@ -82,6 +91,15 @@ namespace MapEdit
                                         radioButton7.Checked = true;
                                         break;
                                 }
+
+                                string r = "";
+                                for (int i = 0; i < city.LinkableCity.Length; i++)
+                                {
+                                    r += city.LinkableCity[i];
+                                    if (i != city.LinkableCity.Length - 1)
+                                        r += ", ";
+                                } textBox4.Text = r;
+
                                 panel1.Dock = DockStyle.Fill;
                                 panel1.Visible = true;
                                 break;
@@ -119,7 +137,7 @@ namespace MapEdit
                             case ObjectType.Sound:
                                 MapSoundObject sndObj = (MapSoundObject)selectedObject.Tag;
 
-                                textBox2.Text = sndObj.SFXName;
+                                comboBox2.Text = sndObj.SFXName;
                                 numericUpDown11.Value = (decimal)sndObj.Radius;
 
                                 panel3.Dock = DockStyle.Fill;
@@ -137,31 +155,33 @@ namespace MapEdit
             ConfigurationManager.Initialize();
             ConfigurationManager.Instance.Register(new GameConfigurationFormat());
         }
-       
+
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            
+            imageEx = Image.FromFile("ImageEx.png");
 
-          
+
             cityImage = Image.FromFile("City.png");
             resWoodImage = Image.FromFile("ResWood.png");
             resOilImage = Image.FromFile("ResOil.png");
             soundImage = Image.FromFile("Sound.png");
             sceneImage = Image.FromFile("Scene.png");
-          
-            pen = new Pen(Color.Black);
 
+            pen = new Pen(Color.White, 3);
             brush = pen.Brush;
             font = new Font("Arial", 7, FontStyle.Regular);
 
 
-            red = new SolidBrush(Color.FromArgb(50, Color.Red));
-            green=new SolidBrush(Color.FromArgb(50,Color.Green));
-            blue = new SolidBrush(Color.FromArgb(50, Color.Blue));
-            yellow = new SolidBrush(Color.FromArgb(50, Color.Yellow));
-            purple = new SolidBrush(Color.FromArgb(50, Color.Purple));
-           
+            red = new SolidBrush(Color.FromArgb(120, Color.Red));
+            green = new SolidBrush(Color.FromArgb(120, Color.Yellow));
+            blue = new SolidBrush(Color.FromArgb(120, Color.Blue));
+            yellow = new SolidBrush(Color.FromArgb(120, Color.Purple));
+            purple = new SolidBrush(Color.FromArgb(120, Color.Green));
+
+            Image img = Image.FromFile("map_hcity.png");
+            checkedListBox1.Items.Add(img);
+            bgImages.Add(img);
 
             pictureBox1.Paint += DrawAll;
 
@@ -188,6 +208,38 @@ namespace MapEdit
 
         }
 
+        void DrawSelection(Graphics g, int x, int y)
+        {
+            const int AdjX = -MapObject.IconWidth;
+            const int AdjY = -MapObject.IconHeight;
+
+            g.DrawLine(pen, new Point(x + AdjX, y + AdjY), new Point(x + AdjX, y - AdjX));
+            g.DrawLine(pen, new Point(x + AdjX, y - AdjY), new Point(x - AdjX, y - AdjX));
+            g.DrawLine(pen, new Point(x + AdjX, y + AdjY), new Point(x - AdjX, y + AdjX));
+            g.DrawLine(pen, new Point(x - AdjX, y + AdjY), new Point(x - AdjX, y - AdjX));
+
+        }
+        void DrawLink(Graphics g, MapCity city, int x, int y)
+        {
+
+            string[] v = city.LinkableCity;
+            if (v != null)
+            {
+
+                for (int i = 0; i < v.Length; i++)
+                {
+                    int cx, cy;
+
+                    MapCity cc = cityTable[v[i]];
+
+
+                    MapObject.GetMapCoord(Apoc3D.MathLib.MathEx.Degree2Radian(cc.Longitude), Apoc3D.MathLib.MathEx.Degree2Radian(cc.Latitude), out cx, out cy);
+                    g.DrawLine(pen, new Point(x, y), new Point(cx, cy));
+
+                }
+            }
+        }
+
         private void DrawAll(object sender, PaintEventArgs e)
         {
             Graphics g = e.Graphics;
@@ -195,31 +247,44 @@ namespace MapEdit
             {
                 g.DrawImage(currentImage, new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height));
             }
+            g.DrawImage(imageEx, 5, 5);
             const int AdjX = -MapObject.IconWidth / 2;
             const int AdjY = -MapObject.IconHeight / 2;
+
+
+            float yscale = MapObject.MapHeight / 462f;
+            float xscale = MapObject.MapWidth / 1188f;
 
             for (int i = 0; i < objectList.Count; i++)
             {
                 MapObject m = objectList[i];
 
+                SolidBrush selectedRB = null;
+
+                if (m.IsSelected)
+                {
+                    DrawSelection(g, m.X, m.Y);
+                }
                 switch (m.Type)
                 {
                     case ObjectType.City:
                         if ((filter & ObjectType.City) == ObjectType.City)
                         {
-                            g.DrawImage(cityImage, m.X + AdjX, m.Y + AdjY);
+                            int x = m.X;
+                            int y = m.Y;
+                            if (m.IsSelected)
+                            {
+                                DrawLink(g, (MapCity)m.Tag, x, y);
+                            }
+
+                            g.DrawImage(cityImage, x + AdjX, y + AdjY);
 
                             if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                             {
-                                g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
-                            }
+                                g.DrawString(m.StringDisplay, font, brush, x + AdjX, y + AdjY);
+                            } if (drawRadius && m.Radius > float.Epsilon) selectedRB = red;
                         }
-                        g.DrawImage(ImageEx,new Point(5,5));
-                        if(m.X>=m.Radius&&m.Y>=m.Radius)
-                        {
-                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
-                            g.FillEllipse(red,rect );
-                        }
+
                         break;
                     case ObjectType.ResWood:
                         if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
@@ -229,14 +294,9 @@ namespace MapEdit
                             if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                             {
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
-                            }
+                            } if (drawRadius && m.Radius > float.Epsilon) selectedRB = green;
+
                         }
-                          if(m.X>=m.Radius&&m.Y>=m.Radius)
-                        {
-                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
-                            g.FillEllipse(yellow,rect );
-                        }
-                         g.DrawImage(ImageEx,new Point(5,5));
                         break;
                     case ObjectType.ResOil:
                         if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
@@ -246,14 +306,9 @@ namespace MapEdit
                             if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                             {
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
-                            }
+                            } if (drawRadius && m.Radius > float.Epsilon) selectedRB = blue;
+
                         }
-                          if(m.X>=m.Radius&&m.Y>=m.Radius)
-                        {
-                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
-                            g.FillEllipse(blue,rect );
-                        }
-                         g.DrawImage(ImageEx,new Point(5,5));
                         break;
                     case ObjectType.Sound:
                         if ((filter & ObjectType.Sound) == ObjectType.Sound)
@@ -263,14 +318,9 @@ namespace MapEdit
                             if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                             {
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
-                            }
+                            } if (drawRadius && m.Radius > float.Epsilon) selectedRB = yellow;
+
                         }
-                          if(m.X>=m.Radius&&m.Y>=m.Radius)
-                        {
-                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
-                            g.FillEllipse(green,rect );
-                        }
-                         g.DrawImage(ImageEx,new Point(5,5));
                         break;
                     case ObjectType.Scene:
                         if ((filter & ObjectType.Scene) == ObjectType.Scene)
@@ -280,18 +330,25 @@ namespace MapEdit
                             if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                             {
                                 g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
-                            }
-                        }
-                         g.DrawImage(ImageEx,new Point(5,5));
-                          if(m.X>=m.Radius&&m.Y>=m.Radius)
-                        {
-                            Rectangle rect=new Rectangle(m.X-m.Radius,m.Y-m.Radius,m.X+m.Radius,m.Y+m.Radius);
-                            g.FillEllipse(purple,rect );
+                            } if (drawRadius && m.Radius > float.Epsilon) selectedRB = purple;
+
                         }
                         break;
 
                 }
+                if (selectedRB != null)
+                {
+                    float r = Apoc3D.MathLib.MathEx.Degree2Radian(m.Radius);
+                    r = ((r + Apoc3D.MathLib.MathEx.PIf) / (2 * Apoc3D.MathLib.MathEx.PIf)) * 1188;
+                    r -= ((Apoc3D.MathLib.MathEx.PIf) / (2 * Apoc3D.MathLib.MathEx.PIf)) * 1188;
 
+                    float xr = r * xscale;
+                    float yr = r * yscale;
+
+                    RectangleF rect = new RectangleF(m.X - xr, m.Y - yr, xr * 2, yr * 2);
+
+                    g.FillEllipse(selectedRB, rect);
+                }
             }
         }
 
@@ -317,6 +374,10 @@ namespace MapEdit
                     obj.Tag = city;
                     obj.Type = ObjectType.City;
                     obj.StringDisplay = city.Name;
+                    obj.SectionName = sect.Name;
+                    
+                    cityTable.Add(sect.Name, city);
+
                     objectList.Add(obj);
                 }
 
@@ -332,6 +393,8 @@ namespace MapEdit
                     obj.Type = ObjectType.Scene;
                     obj.Tag = sceObj;
                     obj.StringDisplay = sceObj.Model;
+                    obj.Radius = sceObj.Radius;
+                    obj.SectionName = sect.Name;
                     objectList.Add(obj);
                 }
 
@@ -357,6 +420,8 @@ namespace MapEdit
                         obj.Type = ObjectType.ResOil;
                     }
                     obj.StringDisplay = (obj.Type == ObjectType.ResOil ? "O" : "W") + res.Amount.ToString();
+                    obj.Radius = res.Radius;
+                    obj.SectionName = sect.Name;
                     objectList.Add(obj);
                 }
 
@@ -375,15 +440,18 @@ namespace MapEdit
 
                     obj.Tag = sndObj;
                     obj.StringDisplay = sndObj.SFXName;
+                    obj.Radius = sndObj.Radius;
+                    obj.SectionName = sect.Name;
                     objectList.Add(obj);
                   
+                    
                 }
 
 
                 config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundEffect.xml")));
                 foreach (KeyValuePair<string, ConfigurationSection> s in config)
                 {
-                    comboBox1.Items.Add(s.Key);
+                    comboBox2.Items.Add(s.Key);
                 }
             }
             pictureBox1.Refresh();
@@ -397,6 +465,7 @@ namespace MapEdit
                 StreamWriter sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
+                sw.BaseStream.SetLength(0);
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
                 sw.WriteLine("<cities>");
                 for (int i = 0; i < objectList.Count; i++)
@@ -404,7 +473,7 @@ namespace MapEdit
                     MapObject obj = objectList[i];
                     if (obj.Type == ObjectType.City)
                     {
-                        City city = (City)obj.Tag;
+                        MapCity city = (MapCity)obj.Tag;
 
                         sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
@@ -460,21 +529,23 @@ namespace MapEdit
                             sw.Write("        ");
                             sw.Write("<StartUp>"); sw.Write(city.StartUp); sw.WriteLine("</StartUp>");
                         }
-                        if (city.FarmLandCount != -1)
+                        if (city.FarmCount != 0)
                         {
                             sw.Write("        ");
-                            sw.Write("<Farm>"); sw.Write(city.FarmLandCount); sw.WriteLine("</Farm>");
+                            sw.Write("<Farm>"); sw.Write(city.FarmCount); sw.WriteLine("</Farm>");
                         }
 
 
 
-                        string[] linkable = city.LinkableCityName;
+                        string[] linkable = city.LinkableCity;
                         if (linkable != null && linkable.Length > 0)
                         {
                             sw.Write("        "); sw.Write("<Linkable>");
                             for (int j = 0; j < linkable.Length; j++)
                             {
-                                sw.Write(linkable[i]);
+                                sw.Write(linkable[j]);
+                                if (j != linkable.Length - 1)
+                                    sw.Write(", ");
                             }
                         }
                         sw.WriteLine("</Linkable>");
@@ -490,6 +561,8 @@ namespace MapEdit
                 sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "resources.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
+
+                sw.BaseStream.SetLength(0);
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
                 sw.WriteLine("<Resources>");
                 for (int i = 0; i < objectList.Count; i++)
@@ -497,7 +570,7 @@ namespace MapEdit
                     MapObject obj = objectList[i];
                     if (obj.Type == ObjectType.ResOil || obj.Type == ObjectType.ResWood)
                     {
-                        NaturalResource res = (NaturalResource)obj.Tag;
+                        MapResource res = (MapResource)obj.Tag;
 
                         sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
@@ -508,17 +581,16 @@ namespace MapEdit
                         sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
 
                         sw.Write("        ");
-                        sw.Write("<Type>"); sw.Write(res.Type.ToString()); sw.WriteLine("</Latitude>");
+                        sw.Write("<Type>"); sw.Write(res.Type.ToString()); sw.WriteLine("</Type>");
 
                         sw.Write("        ");
-                        sw.Write("<Amount>"); sw.Write(res.CurrentAmount); sw.WriteLine("</Amount>");
+                        sw.Write("<Amount>"); sw.Write(res.Amount); sw.WriteLine("</Amount>");
 
 
                         if (res.Type == NaturalResourceType.Wood)
                         {
-                            Forest fore = (Forest)res;
                             sw.Write("        ");
-                            sw.Write("<Radius>"); sw.Write(fore.Radius); sw.WriteLine("</Radius>");
+                            sw.Write("<Radius>"); sw.Write(res.Radius); sw.WriteLine("</Radius>");
                         }
                         sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
                     }
@@ -534,6 +606,7 @@ namespace MapEdit
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "sceneObjects.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
 
+                sw.BaseStream.SetLength(0);
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
                 sw.WriteLine("<Scenery>");
                 for (int i = 0; i < objectList.Count; i++)
@@ -573,9 +646,10 @@ namespace MapEdit
 
                 #region
                 sw = new StreamWriter(
-                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "soundObject.xml"), FileMode.OpenOrCreate),
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "soundObjects.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
 
+                sw.BaseStream.SetLength(0);
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
                 sw.WriteLine("<SoundObjects>");
                 for (int i = 0; i < objectList.Count; i++)
@@ -610,101 +684,6 @@ namespace MapEdit
             }
         }
 
-        [Obsolete]
-        private void DrawAll()
-        {
-            if (currentImage != null)
-            {
-                g.DrawImage(currentImage, new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height));
-            }
-            for (int i = 0; i < objectList.Count; i++)
-            {
-                MapObject m = objectList[i];
-
-                switch (m.Type)
-                {
-                    case ObjectType.City:
-                        if ((filter & ObjectType.City) == ObjectType.City)
-                        {
-                            g.DrawImage(cityImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        if (m.X > m.Radius && m.Y > m.Radius)
-                        {
-                            Rectangle rect = new Rectangle(m.X - (int)m.Radius, m.Y - (int)m.Radius, m.X + (int)m.Radius, m.Y + (int)m.Radius);
-                            g.FillEllipse(red, rect);
-                        }
-                        break;
-                    case ObjectType.ResWood:
-                        if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
-                        {
-                            g.DrawImage(resWoodImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        if (m.X > m.Radius && m.Y > m.Radius)
-                        {
-                            Rectangle rect1 = new Rectangle(m.X - (int)m.Radius, m.Y - (int)m.Radius, m.X + (int)m.Radius, m.Y + (int)m.Radius);
-                            g.FillEllipse(yellow, rect1);
-                        }
-                        break;
-                    case ObjectType.ResOil:
-                        if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
-                        {
-                            g.DrawImage(resOilImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        if (m.X > m.Radius && m.Y > m.Radius)
-                        {
-                            Rectangle rect2 = new Rectangle(m.X - (int)m.Radius, m.Y - (int)m.Radius, m.X + (int)m.Radius, m.Y + (int)m.Radius);
-                            g.FillEllipse(blue, rect2);
-                        }
-                        break;
-                    case ObjectType.Sound:
-                        if ((filter & ObjectType.Sound) == ObjectType.Sound)
-                        {
-                            g.DrawImage(soundImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        if (m.X > m.Radius && m.Y > m.Radius)
-                        {
-                            Rectangle rect3 = new Rectangle(m.X - (int)m.Radius, m.Y - (int)m.Radius, m.X + (int)m.Radius, m.Y + (int)m.Radius);
-                            g.FillEllipse(green, rect3);
-                        }
-                        break;
-                    case ObjectType.Scene:
-                        if ((filter & ObjectType.Scene) == ObjectType.Scene)
-                        {
-                            g.DrawImage(sceneImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        if (m.X > m.Radius && m.Y > m.Radius)
-                        {
-                            Rectangle rect4 = new Rectangle(m.X - (int)m.Radius, m.Y - (int)m.Radius, m.X + (int)m.Radius, m.Y + (int)m.Radius);
-                            g.FillEllipse(purple, rect4);
-                        }
-                        break;
-
-                }
-
-            }
-        }
-
-
 
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -723,7 +702,7 @@ namespace MapEdit
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-          
+            drawRadius = toolStripButton4.Checked;
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -760,6 +739,9 @@ namespace MapEdit
                             city.Size = UrbanSize.Large;
                         }
 
+                        city.StartUp = (int)numericUpDown14.Value;
+                        city.LinkableCity = textBox4.Text.Split(new char[] { ',', ' ' }, StringSplitOptions.RemoveEmptyEntries);
+
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
                             selectedObject.SectionName = "City" + Guid.NewGuid().ToString("N");
@@ -786,6 +768,7 @@ namespace MapEdit
                             selectedObject.SectionName = "Resource" + Guid.NewGuid().ToString("N");
                         }
                         selectedObject.StringDisplay = (selectedObject.Type == ObjectType.ResOil ? "O" : "W") + oil.Amount.ToString();
+                        selectedObject.Radius = oil.Radius; 
                         break;
                     case ObjectType.Scene:
                         MapSceneObject so = (MapSceneObject)selectedObject.Tag;
@@ -801,18 +784,20 @@ namespace MapEdit
                             selectedObject.SectionName = "Scene" + Guid.NewGuid().ToString("N");
                         }
                         selectedObject.StringDisplay = so.Model;
+                        selectedObject.Radius = so.Radius; 
                         break;
                     case ObjectType.Sound:
                         MapSoundObject sndObj = (MapSoundObject)selectedObject.Tag;
 
                         sndObj.Radius = (float)numericUpDown11.Value;
-                        sndObj.SFXName = textBox2.Text;
+                        sndObj.SFXName = comboBox2.Text;
 
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
                             selectedObject.SectionName = "Sound" + Guid.NewGuid().ToString("N");
                         }
                         selectedObject.StringDisplay = sndObj.SFXName;
+                        selectedObject.Radius = sndObj.Radius; 
                         break;
                 }
 
@@ -917,6 +902,7 @@ namespace MapEdit
                 {
                     SelectedObject = obj;
                     isDraging = true;
+                    pictureBox1.Refresh(); 
                     return;
                 }
             }
@@ -935,7 +921,7 @@ namespace MapEdit
             MapObject obj = new MapObject();
 
             obj.Tag = new MapCity();
-            obj.SectionName = "City" + new Guid().ToString("D");
+            obj.SectionName = "City" + Guid.NewGuid().ToString("N");
             obj.Type = ObjectType.City;
             
             objectList.Add(obj);
@@ -949,7 +935,7 @@ namespace MapEdit
             MapResource mres = new MapResource();
             mres.Type = NaturalResourceType.Wood;
             obj.Tag = new MapResource();
-            obj.SectionName = "Resource" + new Guid().ToString("D");
+            obj.SectionName = "Resource" + Guid.NewGuid().ToString("N");
             obj.Type = ObjectType.ResWood;
 
             objectList.Add(obj);
@@ -963,7 +949,7 @@ namespace MapEdit
             MapResource mres = new MapResource();
             mres.Type = NaturalResourceType.Petro;
             obj.Tag = mres;
-            obj.SectionName = "Resource" + new Guid().ToString("D");
+            obj.SectionName = "Resource" + Guid.NewGuid().ToString("N");
             obj.Type = ObjectType.ResOil;
 
             objectList.Add(obj);
@@ -975,7 +961,7 @@ namespace MapEdit
             MapObject obj = new MapObject();
 
             obj.Tag = new MapSceneObject();
-            obj.SectionName = "Scene" + new Guid().ToString("D");
+            obj.SectionName = "Scene" + Guid.NewGuid().ToString("N");
             obj.Type = ObjectType.Scene;
 
             objectList.Add(obj);
@@ -987,11 +973,12 @@ namespace MapEdit
             MapObject obj = new MapObject();
 
             obj.Tag = new MapSoundObject();
-            obj.SectionName = "Sound" + new Guid().ToString("D");
+            obj.SectionName = "Sound" + Guid.NewGuid().ToString("N");
             obj.Type = ObjectType.Sound;
 
             objectList.Add(obj);
             pictureBox1.Refresh();
         }
+
     }
 }
