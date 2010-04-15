@@ -291,12 +291,6 @@ namespace MapEdit
             get;
             set;
         }
-        public bool IsDrawOrNot
-        {
-            get;
-            set;
-        }
-       
 
     }
 }
