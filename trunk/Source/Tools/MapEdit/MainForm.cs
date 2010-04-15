@@ -590,6 +590,10 @@ namespace MapEdit
                                 radioButton7.Checked = true;
                                 break;
                         }
+                        if (string.IsNullOrEmpty(selectedObject.SectionName))
+                        {
+                            selectedObject.SectionName = "Resource" + Guid.NewGuid().ToString("N");
+                        }
                         break;
                     case ObjectType.ResOil:
                         MapResource oil = (MapResource)selectedObject.Tag;
@@ -605,7 +609,11 @@ namespace MapEdit
                         {
                             oil.Type = NaturalResourceType.Petro;
                         }
-
+                        if (string.IsNullOrEmpty(selectedObject.SectionName))
+                        {
+                            selectedObject.SectionName = "Resource" + Guid.NewGuid().ToString("N");
+                        }
+                       
                         break;
                     case ObjectType.Scene:
                         MapSceneObject so = (MapSceneObject)selectedObject.Tag;
@@ -614,12 +622,29 @@ namespace MapEdit
 
                         so.Amount = (float)numericUpDown12.Value;
                         so.Radius = (float)numericUpDown13.Value;
+                        if (string.IsNullOrEmpty(selectedObject.SectionName))
+                        {
+                            selectedObject.SectionName = city.Name;
+                        }
+                        if (string.IsNullOrEmpty(selectedObject.SectionName))
+                        {
+                            selectedObject.SectionName = "Scene" + Guid.NewGuid().ToString("N");
+                        }
                         break;
                     case ObjectType.Sound:
                         MapSoundObject sndObj = (MapSoundObject)selectedObject.Tag;
 
                         sndObj.Radius = (float)numericUpDown11.Value;
                         sndObj.SFXName = textBox2.Text;
+
+                        if (string.IsNullOrEmpty(selectedObject.SectionName))
+                        {
+                            selectedObject.SectionName = city.Name;
+                        }
+                        if (string.IsNullOrEmpty(selectedObject.SectionName))
+                        {
+                            selectedObject.SectionName = "Sound" + Guid.NewGuid().ToString("N");
+                        }
                         break;
                 }
 
