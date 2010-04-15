@@ -88,6 +88,13 @@ namespace MapEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap CheckSpellingHS {
+            get {
+                object obj = ResourceManager.GetObject("CheckSpellingHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap City {
             get {
                 object obj = ResourceManager.GetObject("City", resourceCulture);
