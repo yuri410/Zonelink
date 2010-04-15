@@ -210,7 +210,11 @@ namespace MapEdit
                 sw.WriteLine("<Scenery>");
                 for (int i = 0; i < objectList.Count; i++)
                 {
+                    MapObject obj = objectList[i];
+                    if (obj.Type == ObjectType.Scene)
+                    {
 
+                    }
                 }
                 sw.WriteLine("</Scenery>");
                 sw.Close();
@@ -225,7 +229,11 @@ namespace MapEdit
                 sw.WriteLine("<SoundObjects>");
                 for (int i = 0; i < objectList.Count; i++)
                 {
+                    MapObject obj = objectList[i];
+                    if (obj.Type == ObjectType.Sound)
+                    {
 
+                    }
                 }
                 sw.WriteLine("</SoundObjects>");
                 sw.Close();
