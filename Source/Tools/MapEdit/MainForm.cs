@@ -64,9 +64,9 @@ namespace MapEdit
                                 numericUpDown3.Value = (decimal)city.ProblemEducation;
                                 numericUpDown4.Value = (decimal)city.ProblemGender;
                                 numericUpDown5.Value = (decimal)city.ProblemChild;
-                                numericUpDown5.Value = (decimal)city.ProblemMaternal;
-                                numericUpDown6.Value = (decimal)city.ProblemDisease;
-                                numericUpDown7.Value = (decimal)city.ProblemEnvironment;
+                                numericUpDown6.Value = (decimal)city.ProblemMaternal;
+                                numericUpDown7.Value = (decimal)city.ProblemDisease;
+                                numericUpDown8.Value = (decimal)city.ProblemEnvironment;
 
                                 switch (city.Size)
                                 {
@@ -92,10 +92,10 @@ namespace MapEdit
                                 switch (oil.Type)
                                 {
                                     case NaturalResourceType.Wood:
-                                        radioButton5.Checked = true;
+                                        radioButton1.Checked = true;
                                         break;
                                     case NaturalResourceType.Petro:
-                                        radioButton6.Checked = true;
+                                        radioButton2.Checked = true;
                                         break;
                                 }
                                 panel2.Dock = DockStyle.Fill;
@@ -597,16 +597,16 @@ namespace MapEdit
                         MapCity city = (MapCity)selectedObject.Tag;
 
                         city.Name = textBox1.Text;
-                        int numFarms = (int)numericUpDown2.Value;
+                        city.FarmCount = (int)numericUpDown2.Value;
 
 
                         city.ProblemHunger = (float)numericUpDown1.Value;
                         city.ProblemEducation = (float)numericUpDown3.Value;
                         city.ProblemGender = (float)numericUpDown4.Value;
                         city.ProblemChild = (float)numericUpDown5.Value;
-                        city.ProblemMaternal = (float)numericUpDown5.Value;
-                        city.ProblemDisease = (float)numericUpDown6.Value;
-                        city.ProblemEnvironment = (float)numericUpDown7.Value;
+                        city.ProblemMaternal = (float)numericUpDown6.Value;
+                        city.ProblemDisease = (float)numericUpDown7.Value;
+                        city.ProblemEnvironment = (float)numericUpDown8.Value;
 
                         switch (city.Size)
                         {
@@ -633,11 +633,11 @@ namespace MapEdit
                         oil.Amount = (float)numericUpDown9.Value;
                         oil.Radius = (float)numericUpDown10.Value;
 
-                        if (radioButton5.Checked)
+                        if (radioButton1.Checked)
                         {
                             oil.Type = NaturalResourceType.Wood;
                         }
-                        else if (radioButton6.Checked)
+                        else if (radioButton2.Checked)
                         {
                             oil.Type = NaturalResourceType.Petro;
                         }
