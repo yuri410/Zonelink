@@ -51,9 +51,9 @@ namespace MapEdit
                         {
                             case ObjectType.City:
 
-                                City city = (City)selectedObject.Tag;
+                                MapCity city = (MapCity)selectedObject.Tag;
                                 textBox1.Text = city.Name;
-                                numericUpDown2.Value = city.FarmLandCount;
+                                numericUpDown2.Value = city.FarmCount;
 
                                 numericUpDown1.Value = (decimal)city.ProblemHunger;
                                 numericUpDown3.Value = (decimal)city.ProblemEducation;
@@ -79,28 +79,11 @@ namespace MapEdit
                                 panel1.Visible = true;
                                 break;
                             case ObjectType.ResOil:
-                                OilField oil = (OilField)selectedObject.Tag;
+                                MapResource oil = (MapResource)selectedObject.Tag;
 
-                                numericUpDown9.Value = (decimal)oil.CurrentAmount;
-                                numericUpDown10.Value = 0;
+                                numericUpDown9.Value = (decimal)oil.Amount;
+                                numericUpDown10.Value = (decimal)oil.Radius;
                                 switch (oil.Type)
-                                {
-                                    case NaturalResourceType.Wood:
-                                        radioButton5.Checked = true;
-                                        break;
-                                    case NaturalResourceType.Petro:
-                                        radioButton6.Checked = true;
-                                        break;
-                                }
-                                panel2.Dock = DockStyle.Fill;
-                                panel2.Visible = true;
-                                break;
-                            case ObjectType.ResWood:
-                                Forest fore = (Forest)selectedObject.Tag;
-
-                                numericUpDown9.Value = (decimal)fore.CurrentAmount;
-                                numericUpDown10.Value = (decimal)fore.Radius;
-                                switch (fore.Type)
                                 {
                                     case NaturalResourceType.Wood:
                                         radioButton5.Checked = true;
@@ -124,7 +107,10 @@ namespace MapEdit
                                 panel4.Visible = true;
                                 break;
                             case ObjectType.Sound:
+                                MapSoundObject sndObj = (MapSoundObject)selectedObject.Tag;
 
+                                textBox2.Text = sndObj.SFXName;
+                                numericUpDown11.Value = (decimal)sndObj.Radius;
 
                                 panel3.Dock = DockStyle.Fill;
                                 panel3.Visible = true;
@@ -385,11 +371,6 @@ namespace MapEdit
                 sw.Close();
                 #endregion
             }
-
-        }
-
-        private void pictureBox1_Click(object sender, EventArgs e)
-        {
 
         }
 
