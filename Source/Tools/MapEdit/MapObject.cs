@@ -18,8 +18,8 @@ namespace MapEdit
 
     class MapObject
     {
-        const int MapHeight = 1188;
-        const int MapWidth = 462;
+        public static int MapHeight = 1188;
+        public static int MapWidth = 462;
 
         public static void GetMapCoord(float lng, float lat, out int x, out int y)
         {
