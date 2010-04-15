@@ -16,14 +16,23 @@ namespace MapEdit
     {
         Image currentImage;
         List<MapObject> objectList = new List<MapObject>();
+        Graphics g = null;
 
         public MainForm()
         {
             InitializeComponent();
 
+            g = this.CreateGraphics();
+
+
             ConfigurationManager.Initialize();
 
-           
+
+        }
+
+        private void DrawImage(Graphics g,string url,Point position)
+        {
+            g.DrawImage(Image.FromFile(url),position);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -35,7 +44,25 @@ namespace MapEdit
         {
             MapObject.MapWidth = pictureBox1.Width;
             MapObject.MapHeight = pictureBox1.Height;
+            
         }
+
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void pictureBox1_Click(object sender, EventArgs e)
+        {
+
+        }
+
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
@@ -67,5 +94,6 @@ namespace MapEdit
 
             }
         }
+
     }
 }
