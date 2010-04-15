@@ -72,7 +72,7 @@ namespace Code2015.BalanceSystem
         const float MinProbability = 0.1f;
 
         [SLGValue]
-        const float DefaultProblemWeight = 0.5f;
+        public const float DefaultProblemWeight = 0.5f;
 
         /// <summary>
         ///  发展增量的偏移值。无任何附加条件下的发展量。
@@ -152,6 +152,15 @@ namespace Code2015.BalanceSystem
 
         #region  属性
 
+        public string[] LinkableCityName 
+        {
+            get
+            {
+                string[] result = new string[linkableCityName.Length];
+                Array.Copy(linkableCityName, result, linkableCityName.Length);
+                return result;
+            }
+        }
         public int LinkableCityCount
         {
             get { return linkableCity.Count; }
@@ -1032,6 +1041,42 @@ namespace Code2015.BalanceSystem
             }
         }
 
+
+        public float ProblemEnvironment
+        {
+            get;
+            private set;
+        }
+        public float ProblemDisease
+        {
+            get;
+            private set;
+        }
+        public float ProblemGender
+        {
+            get;
+            private set;
+        }
+        public float ProblemHunger
+        {
+            get;
+            private set;
+        }
+        public float ProblemMaternal
+        {
+            get;
+            private set;
+        }
+        public float ProblemChild
+        {
+            get;
+            private set;
+        }
+        public float ProblemEducation
+        {
+            get;
+            private set;
+        }
         #region IConfigurable 成员
 
         public override void Parse(ConfigurationSection sect)
@@ -1076,6 +1121,15 @@ namespace Code2015.BalanceSystem
             float child = sect.GetSingle("Child", DefaultProblemWeight);
             float education = sect.GetSingle("Education", DefaultProblemWeight);
 
+
+            ProblemChild = child;
+            ProblemDisease = disease;
+            ProblemEducation = education;
+            ProblemEnvironment = environment;
+            ProblemGender = gender;
+            ProblemHunger = hunger;
+            ProblemMaternal = maternal;
+
             float total = environment + disease + gender + hunger + maternal + child + education;
 
             total = 1 / total;
@@ -1094,6 +1148,8 @@ namespace Code2015.BalanceSystem
             maternal += hunger;
             child += maternal;
             education += child;
+
+
 
             float p = Randomizer.GetRandomSingle();
             if (p < environment)

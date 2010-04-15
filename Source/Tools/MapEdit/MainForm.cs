@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Apoc3D.Config;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
+using System.Xml;
 
 namespace MapEdit
 {
@@ -60,14 +61,74 @@ namespace MapEdit
 
         }
 
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
-        }
-
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
+
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                
+                StreamWriter sw = new StreamWriter(
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate), 
+                    Encoding.UTF8);
+                sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+                sw.WriteLine("<cities>");
+                for (int i = 0; i < objectList.Count; i++)
+                {
+                    MapObject obj = objectList[i];
+
+                    if (objectList[i].Type == ObjectType.City)
+                    {
+                        City city = (City)objectList[i].Tag;
+                        sw.Write("    "); sw.Write("<"); sw.Write(objectList[i].SectionName); sw.WriteLine(">");
+
+                        sw.Write("        ");
+                        sw.Write("<Name>"); sw.Write(city.Name); sw.WriteLine(@"</Name>");
+
+                        sw.Write("        "); 
+                        sw.Write("<Longitude>"); sw.Write(city.Longitude); sw.WriteLine("</Longitude>");
+
+                        sw.Write("        "); 
+                        sw.Write("<Latitude>"); sw.Write(city.Latitude); sw.WriteLine("</Latitude>");
+
+                        sw.Write("        ");
+                        sw.Write("<Size>"); sw.Write(city.Size.ToString()); sw.WriteLine("</Size>");
+
+                        sw.Write("        ");
+                        sw.Write("<"); sw.Write(objectList[i].SectionName); sw.WriteLine(">");
+
+                        
+                        sw.Write("    "); sw.Write("<"); sw.Write(objectList[i]..SectionName); sw.WriteLine(@"/>");
+
+                    }
+                }
+                sw.WriteLine("</cities>");
+                sw.Close();
+
+                sw = new StreamWriter(
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "resources.xml"), FileMode.OpenOrCreate),
+                    Encoding.UTF8);
+                for (int i = 0; i < objectList.Count; i++)
+                {
+
+                }
+                sw.Close();
+                sw = new StreamWriter(
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "sceneObjects.xml"), FileMode.OpenOrCreate), 
+                    Encoding.UTF8);
+                for (int i = 0; i < objectList.Count; i++)
+                {
+
+                }
+                sw.Close();
+                sw = new StreamWriter(
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "soundObject.xml"), FileMode.OpenOrCreate), 
+                    Encoding.UTF8);
+                for (int i = 0; i < objectList.Count; i++)
+                {
+
+                }
+                sw.Close();
+            }
 
         }
 
@@ -124,7 +185,7 @@ namespace MapEdit
                     obj.Latitude = city.Latitude;
                     obj.Tag = city;
                     obj.Type = ObjectType.City;
-
+                    obj.SectionName = sect.Name;
                     objectList.Add(obj);
                 }
 
@@ -137,6 +198,7 @@ namespace MapEdit
                     obj.Longitude = sect.GetSingle("Longitude");
                     obj.Latitude = sect.GetSingle("Latitude");
                     obj.Type = ObjectType.Scene;
+                    obj.SectionName = sect.Name; 
                     objectList.Add(obj);
                 }
 
@@ -175,7 +237,7 @@ namespace MapEdit
                     {
                         obj.Type = ObjectType.ResOil;
                     }
-
+                    obj.SectionName = sect.Name;
                     objectList.Add(obj);
                 }
 
@@ -189,6 +251,7 @@ namespace MapEdit
                     obj.Latitude = sect.GetSingle("Latitude");
 
                     obj.Type = ObjectType.Sound;
+                    obj.SectionName = sect.Name; 
                     objectList.Add(obj);
                 }
             }
