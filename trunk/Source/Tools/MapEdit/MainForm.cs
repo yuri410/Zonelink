@@ -454,7 +454,7 @@ namespace MapEdit
                     MapResource res = new MapResource(sim, sect);
 
                     MapObject obj = new MapObject();
-                    
+
                     obj.Longitude = res.Longitude;
                     obj.Latitude = res.Latitude;
                     obj.Tag = res;
@@ -539,8 +539,7 @@ namespace MapEdit
                 switch (selectedObject.Type)
                 {
                     case ObjectType.City:
-
-                        City city = (City)selectedObject.Tag;
+                        MapCity city = (MapCity)selectedObject.Tag;
 
                         city.Name = textBox1.Text;
                         int numFarms = (int)numericUpDown2.Value;
@@ -566,59 +565,36 @@ namespace MapEdit
                                 radioButton7.Checked = true;
                                 break;
                         }
-                        panel1.Dock = DockStyle.Fill;
-                        panel1.Visible = true;
                         break;
                     case ObjectType.ResOil:
-                        OilField oil = (OilField)selectedObject.Tag;
+                        MapResource oil = (MapResource)selectedObject.Tag;
 
-                        numericUpDown9.Value = (decimal)oil.CurrentAmount;
-                        numericUpDown10.Value = 0;
-                        switch (oil.Type)
-                        {
-                            case NaturalResourceType.Wood:
-                                radioButton5.Checked = true;
-                                break;
-                            case NaturalResourceType.Petro:
-                                radioButton6.Checked = true;
-                                break;
-                        }
-                        panel2.Dock = DockStyle.Fill;
-                        panel2.Visible = true;
-                        break;
-                    case ObjectType.ResWood:
-                        Forest fore = (Forest)selectedObject.Tag;
+                        oil.Amount = (float)numericUpDown9.Value;
+                        oil.Radius = (float)numericUpDown10.Value;
 
-                        numericUpDown9.Value = (decimal)fore.CurrentAmount;
-                        numericUpDown10.Value = (decimal)fore.Radius;
-                        switch (fore.Type)
+                        if (radioButton5.Checked)
                         {
-                            case NaturalResourceType.Wood:
-                                radioButton5.Checked = true;
-                                break;
-                            case NaturalResourceType.Petro:
-                                radioButton6.Checked = true;
-                                break;
+                            oil.Type = NaturalResourceType.Wood;
                         }
-                        panel2.Dock = DockStyle.Fill;
-                        panel2.Visible = true;
+                        else if (radioButton6.Checked)
+                        {
+                            oil.Type = NaturalResourceType.Petro;
+                        }
+
                         break;
                     case ObjectType.Scene:
                         MapSceneObject so = (MapSceneObject)selectedObject.Tag;
 
-                        checkBox1.Checked = so.IsForest;
+                        so.IsForest = checkBox1.Checked;
 
-                        numericUpDown12.Value = (decimal)so.Amount;
-                        numericUpDown13.Value = (decimal)so.Radius;
-
-                        panel4.Dock = DockStyle.Fill;
-                        panel4.Visible = true;
+                        so.Amount = (float)numericUpDown12.Value;
+                        so.Radius = (float)numericUpDown13.Value;
                         break;
                     case ObjectType.Sound:
+                        MapSoundObject sndObj = (MapSoundObject)selectedObject.Tag;
 
-
-                        panel3.Dock = DockStyle.Fill;
-                        panel3.Visible = true;
+                        sndObj.Radius = (float)numericUpDown11.Value;
+                        sndObj.SFXName = textBox2.Text;
                         break;
                 }
 
