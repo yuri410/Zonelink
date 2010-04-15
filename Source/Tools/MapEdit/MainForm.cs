@@ -368,18 +368,23 @@ namespace MapEdit
                 switch (objectList[i].Type)
                 {
                     case ObjectType.City:
+                        if(filter!=ObjectType.City)
                         g.DrawImage(cityImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResWood:
+                        if(filter!=ObjectType.ResWood)
                         g.DrawImage(resWoodImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResOil:
+                        if (filter != ObjectType.ResOil)
                         g.DrawImage(resOilImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Sound:
+                        if (filter != ObjectType.Sound)
                         g.DrawImage(soundImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Scene:
+                        if (filter != ObjectType.Scene)
                         g.DrawImage(sceneImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
 
