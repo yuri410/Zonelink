@@ -14,11 +14,14 @@ namespace MapEdit
 {
     public partial class MainForm : Form
     {
+        #region joujia
         Image currentImage;
+
+        List<MapObject> objectList = new List<MapObject>();
+        #endregion
 
         List<Image> bgImages = new List<Image>();
 
-        List<MapObject> objectList = new List<MapObject>();
         Graphics g = null;
 
         public MainForm()
