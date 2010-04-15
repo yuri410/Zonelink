@@ -773,7 +773,7 @@ namespace MapEdit
             for (int i = 0; i < objectList.Count; i++)
             {
                 MapObject obj = objectList[i];
-                if (obj.Intersects(e.X, e.Y))
+                if ((obj.Type & filter) == obj.Type && obj.Intersects(e.X, e.Y))
                 {
                     SelectedObject = obj;
                     isDraging = true;
