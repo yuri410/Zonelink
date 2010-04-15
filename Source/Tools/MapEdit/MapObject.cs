@@ -286,17 +286,17 @@ namespace MapEdit
             get;
             set;
         }
-
-        public bool IsDrawCityName
+        public string StringDisplay
         {
             get;
             set;
         }
-        public bool IsDrawObjectAmount
+        public bool IsDrawOrNot
         {
             get;
             set;
         }
+       
 
     }
 }

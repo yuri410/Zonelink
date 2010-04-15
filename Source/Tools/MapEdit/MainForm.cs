@@ -408,24 +408,16 @@ namespace MapEdit
             }
         }
 
-        public void DrawCityName()
+        public void DrawString()
         {
             foreach (MapObject m in objectList)
             {
-                if (m.IsDrawCityName == true)
+                if (!string.IsNullOrEmpty(m.StringDisplay))
                 {
-                    g.DrawString(m.SectionName, new Font("Arial", 18, FontStyle.Regular), brush, m.X, m.Y);
-                }
-            }
-        }
-
-        public void DrawObjectAmount()
-        {
-            foreach (MapObject m in objectList)
-            {
-                if (m.IsDrawObjectAmount==true)
-                { 
-                    
+                    if (m.IsDrawOrNot == true)
+                    {
+                        g.DrawString(m.StringDisplay, new Font("Arial", 7, FontStyle.Regular), brush, m.X, m.Y);
+                    }
                 }
             }
         }
