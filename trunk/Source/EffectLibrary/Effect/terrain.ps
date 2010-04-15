@@ -13,13 +13,9 @@ sampler2D texShd : register(s7);
 
 float4 k_d : register(c0);
 float4 k_a : register(c1);
-float4 k_s : register(c2);
-float4 k_e : register(c3);
-float k_power : register(c4);
 
-float4 i_a : register(c5);
-float4 i_d : register(c6);
-float4 i_s : register(c7);
+float4 i_a : register(c2);
+float4 i_d : register(c3);
 
 struct PSInput
 {
@@ -28,9 +24,8 @@ struct PSInput
 
     float4 smLgtPos : TEXCOORD2;
     float Depth : TEXCOORD3;
-	float3 TangentSpaceVDir : TEXCOORD5;
-	float3 TangentSpaceLDir : TEXCOORD6;
-    float2 Height_Blend : TEXCOORD7;
+	float3 TangentSpaceLDir : TEXCOORD4;
+    float2 Height_Blend : TEXCOORD5;
 };
 
 struct PSOutput
@@ -77,22 +72,17 @@ PSOutput main(PSInput ip)
 	float4 dif = i_d * k_d;
 	dif.xyz *= max(0, ndl);
 	
-	
     float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
     ShadowTexC.y = 1.0f - ShadowTexC.y;
 
 	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
 	
-	float3 R = reflect(ip.TangentSpaceLDir, N);
-	float4 spec = i_s * k_s * pow(max(0, dot(R, ip.TangentSpaceVDir)), k_power);
-
-    o.Color = o.Color * (amb + dif + k_e);
+    o.Color = o.Color * (amb + dif );
     o.Color.rgb *= shd;
-    
-    o.Color += spec;
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
+    o.Color.rgb = lerp(float3(1,0,0), o.Color.rgb, saturate(N.z));
     
     return o;
 }
