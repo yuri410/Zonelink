@@ -26,7 +26,7 @@ namespace MapEdit
         List<Image> bgImages = new List<Image>();
 
         Graphics g = null;
-        Image City, ResWood, ResOil, Sound, Scene;
+        Image CityImage, ResWoodImage, ResOilImage, SoundImage, SceneImage;
         public MainForm()
         {
             InitializeComponent();
@@ -45,11 +45,11 @@ namespace MapEdit
             pictureBox1.Load("Sound");
             pictureBox1.Load("Scene");
 
-             City = Image.FromFile("City");
-             ResWood = Image.FromFile("ResWood");
-             ResOil = Image.FromFile("ResOil");
-             Sound = Image.FromFile("Sound");
-             Scene = Image.FromFile("Scene");
+             CityImage = Image.FromFile("City");
+             ResWoodImage = Image.FromFile("ResWood");
+             ResOilImage = Image.FromFile("ResOil");
+             SoundImage = Image.FromFile("Sound");
+             SceneImage = Image.FromFile("Scene");
 
             
         }
@@ -144,19 +144,19 @@ namespace MapEdit
                 switch (objectList[i].Type)
                 { 
                     case ObjectType.City:
-                        g.DrawImage(City,new Point(objectList[i].X,objectList[i].Y));
+                        g.DrawImage(CityImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResWood:
-                        g.DrawImage(ResWood, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(ResWoodImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResOil:
-                        g.DrawImage(ResOil, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(ResOilImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Sound:
-                        g.DrawImage(Sound, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(SoundImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Scene:
-                        g.DrawImage(Scene, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(SceneImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
 
                 }
