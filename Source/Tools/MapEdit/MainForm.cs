@@ -22,11 +22,6 @@ namespace MapEdit
 
         List<Image> bgImages = new List<Image>();
 
-<<<<<<< .mine
-
-        List<MapObject> objectList = new List<MapObject>();
-=======
->>>>>>> .r824
         Graphics g = null;
 
         public MainForm()
@@ -39,10 +34,6 @@ namespace MapEdit
 
         }
 
-<<<<<<< .mine
-
-=======
->>>>>>> .r824
         private void MainForm_Load(object sender, EventArgs e)
         {
             pictureBox1.Load("City");
