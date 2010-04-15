@@ -39,7 +39,7 @@ namespace Map
 
         private void DrawMap(Graphics g)
         {
-            g.DrawImage(Image.FromFile(@"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Tools\Map\world.png"), new Point(0, 0));
+            g.DrawImage(Image.FromFile(@"G:\lrvbsvnicg\Source\Tools\Map\world.png"), new Point(0, 0));
             
         }
 
