@@ -99,8 +99,23 @@
     <None Include="boldhs.png" />
     <None Include="AddTableHS.png" />
     <None Include="DeleteHS.png" />
+    <None Include="City.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <None Include="Sound.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Scene.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ResWood.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="ResOil.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Resources\goal7_lg.gif" />
     <None Include="Resources\goal6_lg.gif" />
     <None Include="Resources\goal5_lg.gif" />
