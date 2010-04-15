@@ -15,6 +15,9 @@ namespace MapEdit
     public partial class MainForm : Form
     {
         Image currentImage;
+
+        List<Image> bgImages = new List<Image>();
+
         List<MapObject> objectList = new List<MapObject>();
         Graphics g = null;
 
@@ -98,6 +101,7 @@ namespace MapEdit
                     obj.Longitude = sect.GetSingle("Longitude");
                     obj.Latitude = sect.GetSingle("Latitude");
                     obj.Type = ObjectType.Scene;
+                    objectList.Add(obj);
                 }
 
                 config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "resources.xml")));
@@ -149,7 +153,16 @@ namespace MapEdit
                     obj.Latitude = sect.GetSingle("Latitude");
                     
                     obj.Type = ObjectType.Sound;
+                    objectList.Add(obj);
                 }
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                bgImages.Add(Image.FromFile(openFileDialog1.FileName));
             }
         }
 
