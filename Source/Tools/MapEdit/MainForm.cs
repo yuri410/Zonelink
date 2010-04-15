@@ -83,15 +83,73 @@ namespace MapEdit
                     MapObject obj = new MapObject();
                     obj.Longitude = city.Longitude;
                     obj.Latitude = city.Latitude;
+                    obj.Tag = city;
+                    obj.Type = ObjectType.City;
+
+                    objectList.Add(obj);
                 }
 
                 config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "sceneObjects.xml")));
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
 
-
+                    MapObject obj = new MapObject();
+                    obj.Longitude = sect.GetSingle("Longitude");
+                    obj.Latitude = sect.GetSingle("Latitude");
+                    obj.Type = ObjectType.Scene;
+                }
 
                 config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "resources.xml")));
 
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+                    string type = sect["Type"];
 
+                    NaturalResource res = null;
+
+                    MapObject obj = new MapObject();
+                    switch (type)
+                    {
+                        case "petro":
+                            OilField oil = new OilField(sim);
+                            oil.Parse(sect);
+                            res = oil;
+                            break;
+                        case "wood":
+                            Forest fores = new Forest(sim);
+                            fores.Parse(sect);
+                            res = fores;
+                            break;
+                    }
+
+                    obj.Longitude = res.Longitude;
+                    obj.Latitude = res.Latitude;
+                    obj.Tag = res;
+                    if (res.Type == NaturalResourceType.Wood)
+                    {
+                        obj.Type = ObjectType.ResWood;
+                    }
+                    else if (res.Type == NaturalResourceType.Petro)
+                    {
+                        obj.Type = ObjectType.ResOil;
+                    }
+
+                    objectList.Add(obj);
+                }
+
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundObjects.xml")));
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+
+                    MapObject obj = new MapObject();
+                    obj.Longitude = sect.GetSingle("Longitude");
+                    obj.Latitude = sect.GetSingle("Latitude");
+                    
+                    obj.Type = ObjectType.Sound;
+                }
             }
         }
 
