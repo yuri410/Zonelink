@@ -198,9 +198,6 @@ namespace Code2015.Effects
                 {
                     pixShader.SetValue("k_a", mat.Ambient);
                     pixShader.SetValue("k_d", mat.Diffuse);
-                    //pixShader.SetValue("k_s", mat.Specular);
-                    //pixShader.SetValue("k_e", mat.Emissive);
-                    //pixShader.SetValue("k_power", mat.Power);
 
                     stateSetted = true;
                 }
