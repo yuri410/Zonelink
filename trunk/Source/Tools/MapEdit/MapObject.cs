@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D.Config;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
-using Apoc3D.Config;
 
 namespace MapEdit
 {
