@@ -82,6 +82,7 @@ namespace MapEdit
                                 panel1.Dock = DockStyle.Fill;
                                 panel1.Visible = true;
                                 break;
+                            case ObjectType.ResWood:
                             case ObjectType.ResOil:
                                 MapResource oil = (MapResource)selectedObject.Tag;
 
@@ -106,6 +107,8 @@ namespace MapEdit
 
                                 numericUpDown12.Value = (decimal)so.Amount;
                                 numericUpDown13.Value = (decimal)so.Radius;
+
+                                textBox3.Text = so.Model;
 
                                 panel4.Dock = DockStyle.Fill;
                                 panel4.Visible = true;
@@ -331,6 +334,9 @@ namespace MapEdit
                         sw.Write("        ");
                         sw.Write("<Amount>"); sw.Write(sceObj.Amount); sw.WriteLine("</Amount>");
 
+                        sw.Write("        ");
+                        sw.Write("<Model>"); sw.Write(sceObj.Model); sw.WriteLine("</Model>");
+
                         sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
                     }
@@ -392,7 +398,7 @@ namespace MapEdit
                         {
                             g.DrawImage(cityImage, m.X, m.Y);
                         }
-                        if (drawString)
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                         {
                             g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
                         }
@@ -402,7 +408,7 @@ namespace MapEdit
                         {
                             g.DrawImage(resWoodImage, m.X, m.Y);
                         }
-                        if (drawString)
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                         {
                             g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
                         }
@@ -412,7 +418,7 @@ namespace MapEdit
                         {
                             g.DrawImage(resOilImage, m.X, m.Y);
                         }
-                        if (drawString)
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                         {
                             g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
                         }
@@ -422,7 +428,7 @@ namespace MapEdit
                         {
                             g.DrawImage(soundImage, m.X, m.Y);
                         }
-                        if (drawString)
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                         {
                             g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
                         }
@@ -432,7 +438,7 @@ namespace MapEdit
                         {
                             g.DrawImage(sceneImage, m.X, m.Y);
                         }
-                        if (drawString)
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
                         {
                             g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
                         }
@@ -464,7 +470,7 @@ namespace MapEdit
                     obj.Latitude = city.Latitude;
                     obj.Tag = city;
                     obj.Type = ObjectType.City;
-
+                    obj.StringDisplay = city.Name;
                     objectList.Add(obj);
                 }
 
@@ -479,7 +485,7 @@ namespace MapEdit
                     obj.Latitude = sect.GetSingle("Latitude");
                     obj.Type = ObjectType.Scene;
                     obj.Tag = sceObj;
-
+                    obj.StringDisplay = sceObj.Model;
                     objectList.Add(obj);
                 }
 
@@ -504,7 +510,7 @@ namespace MapEdit
                     {
                         obj.Type = ObjectType.ResOil;
                     }
-
+                    obj.StringDisplay = obj.Type == ObjectType.ResOil ? "O" : "W" + res.Amount.ToString();
                     objectList.Add(obj);
                 }
 
@@ -522,8 +528,9 @@ namespace MapEdit
                     obj.Type = ObjectType.Sound;
 
                     obj.Tag = sndObj;
+                    obj.StringDisplay = sndObj.SFXName;
                     objectList.Add(obj);
-
+                  
                 }
             }
         }
@@ -605,10 +612,12 @@ namespace MapEdit
                         }
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
-                            selectedObject.SectionName = "Resource" + Guid.NewGuid().ToString("N");
+                            selectedObject.SectionName = "City" + Guid.NewGuid().ToString("N");
                         }
+                        selectedObject.StringDisplay = city.Name;
                         break;
                     case ObjectType.ResOil:
+                    case ObjectType.ResWood:
                         MapResource oil = (MapResource)selectedObject.Tag;
 
                         oil.Amount = (float)numericUpDown9.Value;
@@ -626,7 +635,7 @@ namespace MapEdit
                         {
                             selectedObject.SectionName = "Resource" + Guid.NewGuid().ToString("N");
                         }
-                       
+                        selectedObject.StringDisplay = selectedObject.Type == ObjectType.ResOil ? "O" : "W" + oil.Amount.ToString();
                         break;
                     case ObjectType.Scene:
                         MapSceneObject so = (MapSceneObject)selectedObject.Tag;
@@ -635,12 +644,13 @@ namespace MapEdit
 
                         so.Amount = (float)numericUpDown12.Value;
                         so.Radius = (float)numericUpDown13.Value;
-                       
-
+                        so.Model = textBox3.Text;
+                        
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
                             selectedObject.SectionName = "Scene" + Guid.NewGuid().ToString("N");
                         }
+                        selectedObject.StringDisplay = so.Model;
                         break;
                     case ObjectType.Sound:
                         MapSoundObject sndObj = (MapSoundObject)selectedObject.Tag;
@@ -652,6 +662,7 @@ namespace MapEdit
                         {
                             selectedObject.SectionName = "Sound" + Guid.NewGuid().ToString("N");
                         }
+                        selectedObject.StringDisplay = sndObj.SFXName;
                         break;
                 }
 
@@ -660,7 +671,7 @@ namespace MapEdit
 
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
-
+            drawString = toolStripButton11.Checked;
         }
 
         #region filter
