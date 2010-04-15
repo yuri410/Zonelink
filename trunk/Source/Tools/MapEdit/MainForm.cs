@@ -13,7 +13,7 @@ namespace MapEdit
 {
     public partial class MainForm : Form
     {
-
+        Image currentImage;
         List<MapObject> objectList = new List<MapObject>();
 
         public MainForm()
