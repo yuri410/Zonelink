@@ -100,7 +100,7 @@ namespace MapEdit
     {
         public MapResource(SimulationWorld world, ConfigurationSection sect)
         {
-            string type = sect["Type"];
+            string type = sect["Type"].ToLowerInvariant();
 
             switch (type)
             {
@@ -268,19 +268,19 @@ namespace MapEdit
             get
             {
                 int x, y;
-                GetMapCoord(Longitude, Latitude, out x, out y);
+                GetMapCoord(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude), out x, out y);
                 return x;
             }
             set
             {
                 int x, y;
-                GetMapCoord(Longitude, Latitude, out x, out y);
+                GetMapCoord(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude), out x, out y);
 
                 float lng, lat;
                 GetCoord(value, y, out lng, out lat);
 
-                Longitude = lng;
-                Latitude = lat;
+                Longitude = MathEx.Radian2Degree(lng);
+                Latitude = MathEx.Radian2Degree(lat);
             }
         }
         
@@ -289,19 +289,19 @@ namespace MapEdit
             get
             {
                 int x, y;
-                GetMapCoord(Longitude, Latitude, out x, out y);
+                GetMapCoord(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude), out x, out y);
                 return y;
             }
             set
             {
                 int x, y;
-                GetMapCoord(Longitude, Latitude, out x, out y);
+                GetMapCoord(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude), out x, out y);
 
                 float lng, lat;
                 GetCoord(x, value, out lng, out lat);
 
-                Longitude = lng;
-                Latitude = lat;
+                Longitude = MathEx.Radian2Degree(lng);
+                Latitude = MathEx.Radian2Degree(lat);
             }
         }
 
