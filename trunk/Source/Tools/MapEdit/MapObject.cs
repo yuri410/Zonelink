@@ -19,7 +19,7 @@ namespace MapEdit
 
     class MapCity
     {
-
+        public MapCity() { }
         public MapCity(SimulationWorld world, ConfigurationSection sect)
         {
             City city = new City(world);
@@ -99,6 +99,7 @@ namespace MapEdit
 
     class MapResource
     {
+        public MapResource() { }
         public MapResource(SimulationWorld world, ConfigurationSection sect)
         {
             string type = sect["Type"].ToLowerInvariant();
@@ -154,6 +155,7 @@ namespace MapEdit
     }
     class MapSoundObject
     {
+        public MapSoundObject() { }
         public MapSoundObject(ConfigurationSection sect)
         {
             Radius = sect.GetSingle("Radius", 0);
@@ -176,6 +178,7 @@ namespace MapEdit
 
     class MapSceneObject
     {
+        public MapSceneObject() { }
         public MapSceneObject(ConfigurationSection sect)
         {
             Radius = sect.GetSingle("Radius", 0);

@@ -150,8 +150,8 @@ namespace MapEdit
             soundImage = Image.FromFile("Sound.png");
             sceneImage = Image.FromFile("Scene.png");
           
-
             pen = new Pen(Color.Black);
+
             brush = pen.Brush;
             font = new Font("Arial", 7, FontStyle.Regular);
 
@@ -356,7 +356,7 @@ namespace MapEdit
                     {
                         obj.Type = ObjectType.ResOil;
                     }
-                    obj.StringDisplay = obj.Type == ObjectType.ResOil ? "O" : "W" + res.Amount.ToString();
+                    obj.StringDisplay = (obj.Type == ObjectType.ResOil ? "O" : "W") + res.Amount.ToString();
                     objectList.Add(obj);
                 }
 
@@ -412,10 +412,10 @@ namespace MapEdit
                         sw.Write("<Name>"); sw.Write(city.Name); sw.WriteLine(@"</Name>");
 
                         sw.Write("        ");
-                        sw.Write("<Longitude>"); sw.Write(city.Longitude); sw.WriteLine("</Longitude>");
+                        sw.Write("<Longitude>"); sw.Write(obj.Longitude); sw.WriteLine("</Longitude>");
 
                         sw.Write("        ");
-                        sw.Write("<Latitude>"); sw.Write(city.Latitude); sw.WriteLine("</Latitude>");
+                        sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
 
                         sw.Write("        ");
                         sw.Write("<Size>"); sw.Write(city.Size.ToString()); sw.WriteLine("</Size>");
@@ -502,10 +502,10 @@ namespace MapEdit
                         sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
                         sw.Write("        ");
-                        sw.Write("<Longitude>"); sw.Write(res.Longitude); sw.WriteLine("</Longitude>");
+                        sw.Write("<Longitude>"); sw.Write(obj.Longitude); sw.WriteLine("</Longitude>");
 
                         sw.Write("        ");
-                        sw.Write("<Latitude>"); sw.Write(res.Latitude); sw.WriteLine("</Latitude>");
+                        sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
 
                         sw.Write("        ");
                         sw.Write("<Type>"); sw.Write(res.Type.ToString()); sw.WriteLine("</Latitude>");
@@ -610,7 +610,7 @@ namespace MapEdit
             }
         }
 
-<<<<<<< .mine
+        [Obsolete]
         private void DrawAll()
         {
             if (currentImage != null)
@@ -705,103 +705,7 @@ namespace MapEdit
         }
 
 
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            SimulationWorld sim = new SimulationWorld();
 
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string dir = folderBrowserDialog1.SelectedPath;
-
-                Configuration config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "cities.xml")));
-
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-                    MapCity city = new MapCity(sim, sect);
-
-                    MapObject obj = new MapObject();
-                    obj.Longitude = city.Longitude;
-                    obj.Latitude = city.Latitude;
-                    obj.Tag = city;
-                    obj.Type = ObjectType.City;
-                    obj.StringDisplay = city.Name;
-                    objectList.Add(obj);
-                }
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "sceneObjects.xml")));
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-
-                    MapSceneObject sceObj = new MapSceneObject(sect);
-                    MapObject obj = new MapObject();
-                    obj.Longitude = sect.GetSingle("Longitude");
-                    obj.Latitude = sect.GetSingle("Latitude");
-                    obj.Type = ObjectType.Scene;
-                    obj.Tag = sceObj;
-                    obj.StringDisplay = sceObj.Model;
-                    objectList.Add(obj);
-                }
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "resources.xml")));
-
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-
-                    MapResource res = new MapResource(sim, sect);
-
-                    MapObject obj = new MapObject();
-
-                    obj.Longitude = res.Longitude;
-                    obj.Latitude = res.Latitude;
-                    obj.Tag = res;
-                    if (res.Type == NaturalResourceType.Wood)
-                    {
-                        obj.Type = ObjectType.ResWood;
-                    }
-                    else if (res.Type == NaturalResourceType.Petro)
-                    {
-                        obj.Type = ObjectType.ResOil;
-                    }
-                    obj.StringDisplay = obj.Type == ObjectType.ResOil ? "O" : "W" + res.Amount.ToString();
-                    objectList.Add(obj);
-                }
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundObjects.xml")));
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-
-                    MapSoundObject sndObj = new MapSoundObject(sect);
-
-                    MapObject obj = new MapObject();
-                    obj.Longitude = sect.GetSingle("Longitude");
-                    obj.Latitude = sect.GetSingle("Latitude");
-
-                    obj.Type = ObjectType.Sound;
-
-                    obj.Tag = sndObj;
-                    obj.StringDisplay = sndObj.SFXName;
-                    objectList.Add(obj);
-                  
-                }
-            }
-        }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image img = Image.FromFile(openFileDialog1.FileName);
-                checkedListBox1.Items.Add(img);
-                bgImages.Add(img);
-            }
-        }
-
-=======
->>>>>>> .r880
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentImage = (Image)checkedListBox1.SelectedItem;
@@ -819,8 +723,7 @@ namespace MapEdit
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
-            objectList.Add(new MapObject());
-            pictureBox1.Refresh();
+          
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -844,18 +747,19 @@ namespace MapEdit
                         city.ProblemDisease = (float)numericUpDown7.Value;
                         city.ProblemEnvironment = (float)numericUpDown8.Value;
 
-                        switch (city.Size)
+                        if (radioButton5.Checked)
                         {
-                            case UrbanSize.Small:
-                                radioButton5.Checked = true;
-                                break;
-                            case UrbanSize.Medium:
-                                radioButton6.Checked = true;
-                                break;
-                            case UrbanSize.Large:
-                                radioButton7.Checked = true;
-                                break;
+                            city.Size = UrbanSize.Small;
                         }
+                        else if (radioButton6.Checked) 
+                        {
+                            city.Size = UrbanSize.Medium;
+                        }
+                        else if (radioButton7.Checked)
+                        {
+                            city.Size = UrbanSize.Large;
+                        }
+
                         if (string.IsNullOrEmpty(selectedObject.SectionName))
                         {
                             selectedObject.SectionName = "City" + Guid.NewGuid().ToString("N");
@@ -881,7 +785,7 @@ namespace MapEdit
                         {
                             selectedObject.SectionName = "Resource" + Guid.NewGuid().ToString("N");
                         }
-                        selectedObject.StringDisplay = selectedObject.Type == ObjectType.ResOil ? "O" : "W" + oil.Amount.ToString();
+                        selectedObject.StringDisplay = (selectedObject.Type == ObjectType.ResOil ? "O" : "W") + oil.Amount.ToString();
                         break;
                     case ObjectType.Scene:
                         MapSceneObject so = (MapSceneObject)selectedObject.Tag;
@@ -1024,6 +928,70 @@ namespace MapEdit
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
         {
             isDraging = false;
+        }
+
+        private void toolStripButton12_Click(object sender, EventArgs e)
+        {
+            MapObject obj = new MapObject();
+
+            obj.Tag = new MapCity();
+            obj.SectionName = "City" + new Guid().ToString("D");
+            obj.Type = ObjectType.City;
+            
+            objectList.Add(obj);
+            pictureBox1.Refresh();
+        }
+
+        private void toolStripButton13_Click(object sender, EventArgs e)
+        {
+            MapObject obj = new MapObject();
+
+            MapResource mres = new MapResource();
+            mres.Type = NaturalResourceType.Wood;
+            obj.Tag = new MapResource();
+            obj.SectionName = "Resource" + new Guid().ToString("D");
+            obj.Type = ObjectType.ResWood;
+
+            objectList.Add(obj);
+            pictureBox1.Refresh();
+        }
+
+        private void toolStripButton14_Click(object sender, EventArgs e)
+        {
+            MapObject obj = new MapObject();
+
+            MapResource mres = new MapResource();
+            mres.Type = NaturalResourceType.Petro;
+            obj.Tag = mres;
+            obj.SectionName = "Resource" + new Guid().ToString("D");
+            obj.Type = ObjectType.ResOil;
+
+            objectList.Add(obj);
+            pictureBox1.Refresh();
+        }
+
+        private void toolStripButton15_Click(object sender, EventArgs e)
+        {
+            MapObject obj = new MapObject();
+
+            obj.Tag = new MapSceneObject();
+            obj.SectionName = "Scene" + new Guid().ToString("D");
+            obj.Type = ObjectType.Scene;
+
+            objectList.Add(obj);
+            pictureBox1.Refresh();
+        }
+
+        private void toolStripButton16_Click(object sender, EventArgs e)
+        {
+            MapObject obj = new MapObject();
+
+            obj.Tag = new MapSoundObject();
+            obj.SectionName = "Sound" + new Guid().ToString("D");
+            obj.Type = ObjectType.Sound;
+
+            objectList.Add(obj);
+            pictureBox1.Refresh();
         }
     }
 }
