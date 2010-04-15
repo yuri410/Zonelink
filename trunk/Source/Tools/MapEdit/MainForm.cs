@@ -25,7 +25,7 @@ namespace MapEdit
         List<Image> bgImages = new List<Image>();
 
         Graphics g = null;
-
+        Image City, ResWood, ResOil, Sound, Scene;
         public MainForm()
         {
             InitializeComponent();
@@ -43,6 +43,14 @@ namespace MapEdit
             pictureBox1.Load("ResOil");
             pictureBox1.Load("Sound");
             pictureBox1.Load("Scene");
+
+             City = Image.FromFile("City");
+             ResWood = Image.FromFile("ResWood");
+             ResOil = Image.FromFile("ResOil");
+             Sound = Image.FromFile("Sound");
+             Scene = Image.FromFile("Scene");
+
+            
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
@@ -71,7 +79,26 @@ namespace MapEdit
         private void DrawAll()
         {
             for (int i = 0; i < objectList.Count; i++)
-            { 
+            {
+                switch (objectList[i].Type)
+                { 
+                    case ObjectType.City:
+                        g.DrawImage(City,new Point(objectList[i].X,objectList[i].Y));
+                        break;
+                    case ObjectType.ResWood:
+                        g.DrawImage(ResWood, new Point(objectList[i].X, objectList[i].Y));
+                        break;
+                    case ObjectType.ResOil:
+                        g.DrawImage(ResOil, new Point(objectList[i].X, objectList[i].Y));
+                        break;
+                    case ObjectType.Sound:
+                        g.DrawImage(Sound, new Point(objectList[i].X, objectList[i].Y));
+                        break;
+                    case ObjectType.Scene:
+                        g.DrawImage(Scene, new Point(objectList[i].X, objectList[i].Y));
+                        break;
+
+                }
                 
             }
         }
