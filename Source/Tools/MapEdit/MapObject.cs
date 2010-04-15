@@ -47,11 +47,10 @@ namespace MapEdit
         }
 
 
-        //public bool Intersects(int x, int y)
-        //{
-        //    int dx = x - X + IconWidth / 2;
-        //    int dy = y - Y + IconWidth / 2;
-        //}
+        public bool Intersects(int x, int y)
+        {
+            return Math.Abs(x - X) < IconWidth / 2 && Math.Abs(y - Y) < IconHeight / 2;
+        }
 
         public float Longitude
         {
