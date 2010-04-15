@@ -11,7 +11,7 @@ namespace MapEdit
     public partial class MainForm : Form
     {
 
-        List<MapObject>
+        List<MapObject> objectList = new List<MapObject>();
 
         public MainForm()
         {
@@ -21,6 +21,12 @@ namespace MapEdit
         private void MainForm_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void pictureBox1_Resize(object sender, EventArgs e)
+        {
+            MapObject.MapWidth = pictureBox1.Width;
+            MapObject.MapHeight = pictureBox1.Height;
         }
     }
 }
