@@ -18,6 +18,8 @@ namespace MapEdit
         Image currentImage;
 
         List<MapObject> objectList = new List<MapObject>();
+
+        MapObject selectedObject;
         #endregion
 
         List<Image> bgImages = new List<Image>();
@@ -63,7 +65,7 @@ namespace MapEdit
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-
+            
         }
 
         private void DrawAll()
@@ -178,6 +180,19 @@ namespace MapEdit
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentImage = (Image)checkedListBox1.SelectedItem;
+        }
+
+        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < objectList.Count; i++)
+            {
+                MapObject obj = objectList[i];
+                if (obj.Intersects(e.X, e.Y))
+                {
+                    selectedObject = obj;
+                    return;
+                }
+            }
         }
 
     }
