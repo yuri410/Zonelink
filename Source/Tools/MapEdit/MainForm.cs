@@ -25,7 +25,7 @@ namespace MapEdit
         bool drawString;
         #endregion
 
-
+        bool isDraging;
 
         List<Image> bgImages = new List<Image>();
 
@@ -550,20 +550,6 @@ namespace MapEdit
             currentImage = (Image)checkedListBox1.SelectedItem;
         }
 
-        private void pictureBox1_MouseClick(object sender, MouseEventArgs e)
-        {
-            for (int i = 0; i < objectList.Count; i++)
-            {
-                MapObject obj = objectList[i];
-                if (obj.Intersects(e.X, e.Y))
-                {
-                    SelectedObject = obj;
-                    return;
-                }
-            }
-            SelectedObject = null;
-        }
-
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
             if (SelectedObject != null)
@@ -735,5 +721,34 @@ namespace MapEdit
             }
         }
         #endregion
+
+        private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (isDraging && selectedObject != null) 
+            {
+
+            }   
+        }
+
+        private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
+        {
+            for (int i = 0; i < objectList.Count; i++)
+            {
+                MapObject obj = objectList[i];
+                if (obj.Intersects(e.X, e.Y))
+                {
+                    SelectedObject = obj;
+                    isDraging = true;
+                    return;
+                }
+            }
+            SelectedObject = null;
+            isDraging = false;
+        }
+
+        private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
+        {
+            isDraging = false;
+        }
     }
 }
