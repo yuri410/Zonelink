@@ -3,77 +3,79 @@
 <soundEffect>  
   <!--City-->
   <city> 
-    <Control>Loop,Random</Control>
+    <Control>Loop, Random</Control>
     <Type>World</Type>
-    <Fadein>oil1</Fadein>
-    <Medium>oil2a,oil2b,oil2c</Medium>
-    <Fadeout>oil3</Fadeout>
-    <!--<Fadein>city1</Fadein>
-    <Medium>city2a,city2b,city2c,city2d,city2e</Medium>
-    <Fadeout>city3</Fadeout>-->  
+    <Fadein></Fadein>
+    <Medium>sfx-city1,sfx-city2,sfx-city3,sfx-city4</Medium>
+    <Fadeout></Fadeout>
+    <Volume>0.5</Volume>
   </city>
   
   <!--Forest-->
   <forest>
-    <Control>Loop,Random</Control>
+    <Control>Loop, Random</Control>
     <Type>World</Type>
-    <Fadein>oil1</Fadein>
-    <Medium>oil2a,oil2b,oil2c</Medium>
-    <Fadeout>oil3</Fadeout>
-    <!--<Fadein>forest1</Fadein>
-    <Medium>forest2a,forest2b,forest2c,forest2d,forest2e,forest2f</Medium>
-    <Fadeout>forest3</Fadeout>-->
+    <Fadein></Fadein>
+    <Medium>a_forest1,a_forest2,a_forest3</Medium>
+    <Fadeout></Fadeout>
+    <Volume>0.5</Volume>
   </forest>
 
-  <!--Lightning--><!--
+  <!--Lightning-->
   <lightning>
-    <Control>None</Control>
+    <Control>Random</Control>
     <Type>World</Type>
     <Sounds>lightninga,lightningb,lightningc,lightningd</Sounds>   
   </lightning>
  
 
-  --><!--Oil--><!--
+  <!--Oil-->
   <oil>
-    <Control>Loop,Random</Control>
+    <Control>Loop, Random</Control>
     <Type>World</Type>
     <Fadein>oil1</Fadein>
     <Medium>oil2a,oil2b,oil2c</Medium>
     <Fadeout>oil3</Fadeout>
-  </oil>-->
+    <Volume>0.5</Volume>
+  </oil>
   
  
  
-  <!--River--><!--
+  <!--River-->
   <river>
-    <Control>Loop,Random</Control>
+    <Control>Loop, Random</Control>
     <Type>World</Type>
-    <Fadein>river1</Fadein>
-    <Medium>river2a,river2b</Medium>
-    <Fadeout>river3</Fadeout>
-  </river>-->
+    <Fadein></Fadein>
+    <Medium>sfx-water1, sfx-water2, sfx-water3</Medium>
+    <Fadeout></Fadeout>
+    <Volume>0.5</Volume>
+  </river>
   
-  <!--Sea--><!--
+  <!--Sea-->
   <sea>
-    <Control>Loop,Random</Control>
+    <Control>Random, Ambient</Control>
     <Type>World</Type>
-    <Fadein>sea1</Fadein>
-    <Medium>sea2a,sea2b,sea2c,sea2d,sea2e</Medium>
-    <Fadeout>sea3</Fadeout>
+    <Fadein></Fadein>
+    <Medium>waterb1, waterb2, waterb3</Medium>
+    <Fadeout></Fadeout>
   </sea>
   
-  --><!--Truck--><!--
-  <truck>
-    <Control>None</Control>
-    <Type>World</Type>  
-    <Sounds>truck1,truck2,truck3</Sounds>
-  </truck>
-  
-  --><!--Wind--><!--
+  <!--Wind-->
   <wind>
-    <Control>Ambient</Control>
+    <Control>Random, Ambient</Control>
     <Type>World</Type>
     <Sounds>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Sounds> 
-  </wind>-->
+  </wind>
   
+  <wolf>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>wolf1,wolf2,wolf3,wolf4,wolf5</Sounds>
+  </wolf>
+  <wuya>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>wuya1, wuya2</Sounds>
+  </wuya>
+
 </soundEffect>
