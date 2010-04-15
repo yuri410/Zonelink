@@ -104,6 +104,9 @@
     </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <None Include="ImageEx.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="map_hcity.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -20,6 +20,14 @@
     <Fadeout></Fadeout>
     <Volume>0.5</Volume>
   </forest>
+  
+  <!--bird-->
+  <bird>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Medium>birda1,birda2,birda3,birda4,birda5,birda6,birda7,birda8,birda9,birdb1,birdb2,birdb3</Medium>
+    <Volume>0.5</Volume>
+  </bird>
 
   <!--Lightning-->
   <lightning>

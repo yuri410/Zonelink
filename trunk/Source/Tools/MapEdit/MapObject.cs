@@ -25,6 +25,7 @@ namespace MapEdit
             City city = new City(world);
             city.Parse(sect);
 
+            LinkableCity = city.LinkableCityName;
             FarmCount = city.FarmLandCount;
             ProblemEnvironment = city.ProblemEnvironment;
             ProblemEducation = city.ProblemEducation;
@@ -39,8 +40,15 @@ namespace MapEdit
 
             Longitude = city.Longitude;
             Latitude = city.Latitude;
+
+            StartUp = city.StartUp;
         }
 
+        public int StartUp
+        {
+            get;
+            set;
+        }
         public UrbanSize Size { get; set; }
         public string Name
         {
@@ -91,6 +99,11 @@ namespace MapEdit
             set;
         }
         public float ProblemEducation
+        {
+            get;
+            set;
+        }
+        public string[] LinkableCity
         {
             get;
             set;
@@ -159,7 +172,7 @@ namespace MapEdit
         public MapSoundObject(ConfigurationSection sect)
         {
             Radius = sect.GetSingle("Radius", 0);
-            SFXName = sect.GetString("SFXName", string.Empty);
+            SFXName = sect.GetString("SFX", string.Empty);
         }
 
         public float Radius
