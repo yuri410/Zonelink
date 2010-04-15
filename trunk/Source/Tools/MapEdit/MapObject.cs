@@ -7,6 +7,11 @@ namespace MapEdit
 
     enum ObjectType
     {
+        City,
+        ResWood,
+        ResOil,
+        Sound,
+        Scene
     }
 
 
