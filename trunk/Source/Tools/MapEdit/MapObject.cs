@@ -27,13 +27,14 @@ namespace MapEdit
 
             FarmCount = city.FarmLandCount;
             ProblemEnvironment = city.ProblemEnvironment;
+            ProblemEducation = city.ProblemEducation;
             ProblemDisease = city.ProblemDisease;
             ProblemChild = city.ProblemChild;
             ProblemGender = city.ProblemGender;
             ProblemHunger = city.ProblemHunger;
             ProblemMaternal = city.ProblemMaternal;
 
-            Name = Name;
+            Name = city.Name;
             Size = city.Size;
 
             Longitude = city.Longitude;
