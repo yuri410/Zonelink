@@ -33,9 +33,9 @@ namespace MapEdit
 
         }
 
-        private void DrawImage(Graphics g,string url,Point position)
+        private void DrawImage(Graphics g, string url, Point position)
         {
-            g.DrawImage(Image.FromFile(url),position);
+            g.DrawImage(Image.FromFile(url), position);
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -47,7 +47,7 @@ namespace MapEdit
         {
             MapObject.MapWidth = pictureBox1.Width;
             MapObject.MapHeight = pictureBox1.Height;
-            
+
         }
 
 
@@ -151,7 +151,7 @@ namespace MapEdit
                     MapObject obj = new MapObject();
                     obj.Longitude = sect.GetSingle("Longitude");
                     obj.Latitude = sect.GetSingle("Latitude");
-                    
+
                     obj.Type = ObjectType.Sound;
                     objectList.Add(obj);
                 }
@@ -162,8 +162,15 @@ namespace MapEdit
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                bgImages.Add(Image.FromFile(openFileDialog1.FileName));
+                Image img = (Image.FromFile(openFileDialog1.FileName));
+                checkedListBox1.Items.Add(img);
+                bgImages.Add(img);
             }
+        }
+
+        private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            currentImage = (Image)checkedListBox1.SelectedItem;
         }
 
     }

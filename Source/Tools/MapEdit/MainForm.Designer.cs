@@ -116,7 +116,7 @@
             this.toolStripButton3});
             this.toolStrip1.Location = new System.Drawing.Point(3, 0);
             this.toolStrip1.Name = "toolStrip1";
-            this.toolStrip1.Size = new System.Drawing.Size(118, 25);
+            this.toolStrip1.Size = new System.Drawing.Size(87, 25);
             this.toolStrip1.TabIndex = 0;
             // 
             // toolStripButton1
@@ -199,6 +199,7 @@
             this.checkedListBox1.Name = "checkedListBox1";
             this.checkedListBox1.Size = new System.Drawing.Size(271, 260);
             this.checkedListBox1.TabIndex = 0;
+            this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
             // MainForm
             // 
