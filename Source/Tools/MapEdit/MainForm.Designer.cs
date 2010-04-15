@@ -821,6 +821,7 @@
             // 
             // toolStripButton6
             // 
+            this.toolStripButton6.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton6.CheckOnClick = true;
             this.toolStripButton6.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton6.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton6.Image")));
@@ -831,6 +832,7 @@
             // 
             // toolStripButton7
             // 
+            this.toolStripButton7.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton7.CheckOnClick = true;
             this.toolStripButton7.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton7.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton7.Image")));
@@ -841,6 +843,7 @@
             // 
             // toolStripButton8
             // 
+            this.toolStripButton8.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton8.CheckOnClick = true;
             this.toolStripButton8.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton8.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton8.Image")));
@@ -851,6 +854,7 @@
             // 
             // toolStripButton9
             // 
+            this.toolStripButton9.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton9.CheckOnClick = true;
             this.toolStripButton9.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton9.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton9.Image")));
@@ -861,6 +865,7 @@
             // 
             // toolStripButton10
             // 
+            this.toolStripButton10.Alignment = System.Windows.Forms.ToolStripItemAlignment.Right;
             this.toolStripButton10.CheckOnClick = true;
             this.toolStripButton10.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
             this.toolStripButton10.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton10.Image")));
