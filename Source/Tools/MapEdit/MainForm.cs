@@ -26,21 +26,27 @@ namespace MapEdit
             InitializeComponent();
 
             g = this.CreateGraphics();
-
-
             ConfigurationManager.Initialize();
 
 
         }
 
+<<<<<<< .mine
+       
+=======
         private void DrawImage(Graphics g, string url, Point position)
         {
             g.DrawImage(Image.FromFile(url), position);
         }
+>>>>>>> .r820
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-
+            pictureBox1.Load("City");
+            pictureBox1.Load("ResWood");
+            pictureBox1.Load("ResOil");
+            pictureBox1.Load("Sound");
+            pictureBox1.Load("Scene");
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
