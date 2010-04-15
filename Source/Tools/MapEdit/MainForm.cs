@@ -643,5 +643,71 @@ namespace MapEdit
             }
         }
 
+        private void toolStripButton11_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        #region filter
+        private void toolStripButton10_Click(object sender, EventArgs e)
+        {
+            if (toolStripButton10.Checked)
+            {
+                filter |= ObjectType.City;
+            }
+            else
+            {
+                filter ^= ObjectType.City;
+            }
+        }
+
+        private void toolStripButton9_Click(object sender, EventArgs e)
+        {
+            if (toolStripButton9.Checked)
+            {
+                filter |= ObjectType.ResWood;
+            }
+            else
+            {
+                filter ^= ObjectType.ResWood;
+            }
+        }
+
+        private void toolStripButton8_Click(object sender, EventArgs e)
+        {
+            if (toolStripButton8.Checked)
+            {
+                filter |= ObjectType.ResOil;
+            }
+            else
+            {
+                filter ^= ObjectType.ResOil;
+            }
+        }
+
+        private void toolStripButton7_Click(object sender, EventArgs e)
+        {
+            if (toolStripButton7.Checked)
+            {
+                filter |= ObjectType.Scene;
+            }
+            else 
+            {
+                filter ^= ObjectType.Scene;
+            }
+        }
+
+        private void toolStripButton6_Click(object sender, EventArgs e)
+        {
+            if (toolStripButton6.Checked)
+            {
+                filter |= ObjectType.Sound;
+            }
+            else
+            {
+                filter ^= ObjectType.Sound;
+            }
+        }
+        #endregion
     }
 }
