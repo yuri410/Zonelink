@@ -533,6 +533,13 @@ namespace MapEdit
                     objectList.Add(obj);
                   
                 }
+
+
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundEffects.xml")));
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    comboBox1.Items.Add(s.Key);
+                }
             }
         }
 
@@ -725,11 +732,14 @@ namespace MapEdit
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDraging && selectedObject != null) 
+            if (isDraging && selectedObject != null)
             {
                 selectedObject.X = e.X;
                 selectedObject.Y = e.Y;
-            }   
+            }
+            float lng, lat;
+            MapObject.GetCoord(e.X, e.Y, out lng, out lat);
+            toolStripStatusLabel1.Text = lat.ToString("F2") + ", " + lng.ToString("F2");
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
