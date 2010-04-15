@@ -66,9 +66,9 @@ namespace MapEdit
 
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-                
+
                 StreamWriter sw = new StreamWriter(
-                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate), 
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
                 sw.WriteLine("<cities>");
@@ -84,20 +84,30 @@ namespace MapEdit
                         sw.Write("        ");
                         sw.Write("<Name>"); sw.Write(city.Name); sw.WriteLine(@"</Name>");
 
-                        sw.Write("        "); 
+                        sw.Write("        ");
                         sw.Write("<Longitude>"); sw.Write(city.Longitude); sw.WriteLine("</Longitude>");
 
-                        sw.Write("        "); 
+                        sw.Write("        ");
                         sw.Write("<Latitude>"); sw.Write(city.Latitude); sw.WriteLine("</Latitude>");
 
                         sw.Write("        ");
                         sw.Write("<Size>"); sw.Write(city.Size.ToString()); sw.WriteLine("</Size>");
 
-                        sw.Write("        ");
-                        sw.Write("<"); sw.Write(objectList[i].SectionName); sw.WriteLine(">");
-
-                        
-                        sw.Write("    "); sw.Write("<"); sw.Write(objectList[i]..SectionName); sw.WriteLine(@"/>");
+                        if (city.ProblemChild != City.DefaultProblemWeight)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Child>"); sw.Write(city.ProblemChild); sw.WriteLine("</Child>");
+                        }
+                        if (city.ProblemDisease != City.DefaultProblemWeight)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Disease>"); sw.Write(city.ProblemDisease); sw.WriteLine("</Disease>");
+                        }
+                        if (city.ProblemEducation != City.DefaultProblemWeight) 
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Education>"); sw.Write(city.ProblemDisease); sw.WriteLine("</Education>");
+                        }
 
                     }
                 }
@@ -113,7 +123,7 @@ namespace MapEdit
                 }
                 sw.Close();
                 sw = new StreamWriter(
-                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "sceneObjects.xml"), FileMode.OpenOrCreate), 
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "sceneObjects.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
                 for (int i = 0; i < objectList.Count; i++)
                 {
@@ -121,7 +131,7 @@ namespace MapEdit
                 }
                 sw.Close();
                 sw = new StreamWriter(
-                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "soundObject.xml"), FileMode.OpenOrCreate), 
+                    File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "soundObject.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
                 for (int i = 0; i < objectList.Count; i++)
                 {
