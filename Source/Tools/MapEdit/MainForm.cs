@@ -34,7 +34,7 @@ namespace MapEdit
         Pen pen;
         Brush brush;
         Font font;
-        Rectangle rect;
+       
         MapObject SelectedObject
         {
             get { return selectedObject; }
@@ -134,11 +134,11 @@ namespace MapEdit
 
         private void MainForm_Load(object sender, EventArgs e)
         {
-            rect=new Rectangle(0,0,pictureBox1.Width,pictureBox1.Height);
+            
 
             if (currentImage != null)
             { 
-                g.DrawImage(currentImage,rect);
+                g.DrawImage(currentImage,new Rectangle(0,0,pictureBox1.Width,pictureBox1.Height));
             }
             cityImage = Image.FromFile("City");
             resWoodImage = Image.FromFile("ResWood");
