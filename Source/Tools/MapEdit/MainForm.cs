@@ -195,5 +195,18 @@ namespace MapEdit
             }
         }
 
+        private void toolStripButton5_Click(object sender, EventArgs e)
+        {
+            if (selectedObject != null)
+            {
+                objectList.Remove(selectedObject);
+            }
+        }
+
+        private void toolStripButton4_Click(object sender, EventArgs e)
+        {
+            objectList.Add(new MapObject());
+        }
+
     }
 }

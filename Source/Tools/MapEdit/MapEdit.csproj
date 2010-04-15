@@ -97,8 +97,13 @@
     <None Include="AudioHS.png" />
     <None Include="BarCodeHS.png" />
     <None Include="boldhs.png" />
+    <None Include="AddTableHS.png" />
+    <None Include="DeleteHS.png" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <None Include="SaveAllHS.png" />
+    <None Include="OpenSelectedItemHS.png" />
+    <None Include="openfolderHS.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MainForm.resx">
