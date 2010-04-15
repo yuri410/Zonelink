@@ -95,6 +95,55 @@ namespace MapEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap goal1_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal1_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap goal2_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal2_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap goal3_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal3_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap goal4_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal4_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap goal5_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal5_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap goal6_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal6_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap goal7_lg {
+            get {
+                object obj = ResourceManager.GetObject("goal7_lg", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap openfolderHS {
             get {
                 object obj = ResourceManager.GetObject("openfolderHS", resourceCulture);
