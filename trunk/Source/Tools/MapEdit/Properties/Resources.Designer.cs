@@ -60,6 +60,13 @@ namespace MapEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap AddTableHS {
+            get {
+                object obj = ResourceManager.GetObject("AddTableHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap AudioHS {
             get {
                 object obj = ResourceManager.GetObject("AudioHS", resourceCulture);
@@ -77,6 +84,34 @@ namespace MapEdit.Properties {
         internal static System.Drawing.Bitmap boldhs {
             get {
                 object obj = ResourceManager.GetObject("boldhs", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap DeleteHS {
+            get {
+                object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap openfolderHS {
+            get {
+                object obj = ResourceManager.GetObject("openfolderHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap OpenSelectedItemHS {
+            get {
+                object obj = ResourceManager.GetObject("OpenSelectedItemHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap SaveAllHS {
+            get {
+                object obj = ResourceManager.GetObject("SaveAllHS", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
