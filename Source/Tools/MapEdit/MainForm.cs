@@ -164,11 +164,11 @@ namespace MapEdit
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "resources.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
                 sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
-                sw.WriteLine("<Resources>"); 
+                sw.WriteLine("<Resources>");
                 for (int i = 0; i < objectList.Count; i++)
                 {
                     MapObject obj = objectList[i];
-                    if (obj.Type == ObjectType.City)
+                    if (obj.Type == ObjectType.ResOil || obj.Type == ObjectType.ResWood)
                     {
                         NaturalResource res = (NaturalResource)obj.Tag;
 
@@ -187,7 +187,7 @@ namespace MapEdit
                         sw.Write("<Amount>"); sw.Write(res.CurrentAmount); sw.WriteLine("</Amount>");
 
 
-                        if (res.Type == NaturalResourceType.Wood) 
+                        if (res.Type == NaturalResourceType.Wood)
                         {
                             Forest fore = (Forest)res;
                             sw.Write("        ");
@@ -196,27 +196,40 @@ namespace MapEdit
                     }
                 }
 
-                sw.WriteLine("</Resources>"); 
+                sw.WriteLine("</Resources>");
                 sw.Close();
 
                 #endregion
 
+                #region
                 sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "sceneObjects.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
+
+                sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+                sw.WriteLine("<Scenery>");
                 for (int i = 0; i < objectList.Count; i++)
                 {
 
                 }
+                sw.WriteLine("</Scenery>");
                 sw.Close();
+                #endregion
+
+                #region
                 sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "soundObject.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
+
+                sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+                sw.WriteLine("<SoundObjects>");
                 for (int i = 0; i < objectList.Count; i++)
                 {
 
                 }
+                sw.WriteLine("</SoundObjects>");
                 sw.Close();
+                #endregion
             }
 
         }
