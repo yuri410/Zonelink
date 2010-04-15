@@ -140,11 +140,11 @@ namespace MapEdit
             
 
           
-            cityImage = Image.FromFile("City");
-            resWoodImage = Image.FromFile("ResWood");
-            resOilImage = Image.FromFile("ResOil");
-            soundImage = Image.FromFile("Sound");
-            sceneImage = Image.FromFile("Scene");
+            cityImage = Image.FromFile("City.png");
+            resWoodImage = Image.FromFile("ResWood.png");
+            resOilImage = Image.FromFile("ResOil.png");
+            soundImage = Image.FromFile("Sound.png");
+            sceneImage = Image.FromFile("Scene.png");
           
             pen = new Pen(Color.Black);
             brush = pen.Brush;
@@ -161,6 +161,179 @@ namespace MapEdit
 
 
         private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                Image img = Image.FromFile(openFileDialog1.FileName);
+                checkedListBox1.Items.Add(img);
+                bgImages.Add(img);
+            }
+         
+
+        }
+
+        private void DrawAll()
+        {
+            if (currentImage != null)
+            {
+                g.DrawImage(currentImage, new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height));
+            }
+            for (int i = 0; i < objectList.Count; i++)
+            {
+                MapObject m = objectList[i];
+
+                switch (m.Type)
+                {
+                    case ObjectType.City:
+                        if ((filter & ObjectType.City) == ObjectType.City)
+                        {
+                            g.DrawImage(cityImage, m.X, m.Y);
+                        }
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
+                        break;
+                    case ObjectType.ResWood:
+                        if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
+                        {
+                            g.DrawImage(resWoodImage, m.X, m.Y);
+                        }
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
+                        break;
+                    case ObjectType.ResOil:
+                        if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
+                        {
+                            g.DrawImage(resOilImage, m.X, m.Y);
+                        }
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
+                        break;
+                    case ObjectType.Sound:
+                        if ((filter & ObjectType.Sound) == ObjectType.Sound)
+                        {
+                            g.DrawImage(soundImage, m.X, m.Y);
+                        }
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
+                        break;
+                    case ObjectType.Scene:
+                        if ((filter & ObjectType.Scene) == ObjectType.Scene)
+                        {
+                            g.DrawImage(sceneImage, m.X, m.Y);
+                        }
+                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                        {
+                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                        }
+                        break;
+
+                }
+
+            }
+        }
+
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            SimulationWorld sim = new SimulationWorld();
+
+            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string dir = folderBrowserDialog1.SelectedPath;
+
+                Configuration config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "cities.xml")));
+
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+                    MapCity city = new MapCity(sim, sect);
+
+                    MapObject obj = new MapObject();
+                    obj.Longitude = city.Longitude;
+                    obj.Latitude = city.Latitude;
+                    obj.Tag = city;
+                    obj.Type = ObjectType.City;
+                    obj.StringDisplay = city.Name;
+                    objectList.Add(obj);
+                }
+
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "sceneObjects.xml")));
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+
+                    MapSceneObject sceObj = new MapSceneObject(sect);
+                    MapObject obj = new MapObject();
+                    obj.Longitude = sect.GetSingle("Longitude");
+                    obj.Latitude = sect.GetSingle("Latitude");
+                    obj.Type = ObjectType.Scene;
+                    obj.Tag = sceObj;
+                    obj.StringDisplay = sceObj.Model;
+                    objectList.Add(obj);
+                }
+
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "resources.xml")));
+
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+
+                    MapResource res = new MapResource(sim, sect);
+
+                    MapObject obj = new MapObject();
+
+                    obj.Longitude = res.Longitude;
+                    obj.Latitude = res.Latitude;
+                    obj.Tag = res;
+                    if (res.Type == NaturalResourceType.Wood)
+                    {
+                        obj.Type = ObjectType.ResWood;
+                    }
+                    else if (res.Type == NaturalResourceType.Petro)
+                    {
+                        obj.Type = ObjectType.ResOil;
+                    }
+                    obj.StringDisplay = obj.Type == ObjectType.ResOil ? "O" : "W" + res.Amount.ToString();
+                    objectList.Add(obj);
+                }
+
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundObjects.xml")));
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    ConfigurationSection sect = s.Value;
+
+                    MapSoundObject sndObj = new MapSoundObject(sect);
+
+                    MapObject obj = new MapObject();
+                    obj.Longitude = sect.GetSingle("Longitude");
+                    obj.Latitude = sect.GetSingle("Latitude");
+
+                    obj.Type = ObjectType.Sound;
+
+                    obj.Tag = sndObj;
+                    obj.StringDisplay = sndObj.SFXName;
+                    objectList.Add(obj);
+                  
+                }
+
+
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundEffects.xml")));
+                foreach (KeyValuePair<string, ConfigurationSection> s in config)
+                {
+                    comboBox1.Items.Add(s.Key);
+                }
+            }
+        }
+
+        private void toolStripButton3_Click(object sender, EventArgs e)
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
@@ -378,178 +551,6 @@ namespace MapEdit
                 sw.WriteLine("</SoundObjects>");
                 sw.Close();
                 #endregion
-            }
-
-        }
-
-        private void DrawAll()
-        {
-            if (currentImage != null)
-            {
-                g.DrawImage(currentImage, new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height));
-            }
-            for (int i = 0; i < objectList.Count; i++)
-            {
-                MapObject m = objectList[i];
-
-                switch (m.Type)
-                {
-                    case ObjectType.City:
-                        if ((filter & ObjectType.City) == ObjectType.City)
-                        {
-                            g.DrawImage(cityImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        break;
-                    case ObjectType.ResWood:
-                        if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
-                        {
-                            g.DrawImage(resWoodImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        break;
-                    case ObjectType.ResOil:
-                        if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
-                        {
-                            g.DrawImage(resOilImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        break;
-                    case ObjectType.Sound:
-                        if ((filter & ObjectType.Sound) == ObjectType.Sound)
-                        {
-                            g.DrawImage(soundImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        break;
-                    case ObjectType.Scene:
-                        if ((filter & ObjectType.Scene) == ObjectType.Scene)
-                        {
-                            g.DrawImage(sceneImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
-                        }
-                        break;
-
-                }
-
-            }
-        }
-
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-            SimulationWorld sim = new SimulationWorld();
-
-            if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
-            {
-                string dir = folderBrowserDialog1.SelectedPath;
-
-                Configuration config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "cities.xml")));
-
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-                    MapCity city = new MapCity(sim, sect);
-
-                    MapObject obj = new MapObject();
-                    obj.Longitude = city.Longitude;
-                    obj.Latitude = city.Latitude;
-                    obj.Tag = city;
-                    obj.Type = ObjectType.City;
-                    obj.StringDisplay = city.Name;
-                    objectList.Add(obj);
-                }
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "sceneObjects.xml")));
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-
-                    MapSceneObject sceObj = new MapSceneObject(sect);
-                    MapObject obj = new MapObject();
-                    obj.Longitude = sect.GetSingle("Longitude");
-                    obj.Latitude = sect.GetSingle("Latitude");
-                    obj.Type = ObjectType.Scene;
-                    obj.Tag = sceObj;
-                    obj.StringDisplay = sceObj.Model;
-                    objectList.Add(obj);
-                }
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "resources.xml")));
-
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-
-                    MapResource res = new MapResource(sim, sect);
-
-                    MapObject obj = new MapObject();
-
-                    obj.Longitude = res.Longitude;
-                    obj.Latitude = res.Latitude;
-                    obj.Tag = res;
-                    if (res.Type == NaturalResourceType.Wood)
-                    {
-                        obj.Type = ObjectType.ResWood;
-                    }
-                    else if (res.Type == NaturalResourceType.Petro)
-                    {
-                        obj.Type = ObjectType.ResOil;
-                    }
-                    obj.StringDisplay = obj.Type == ObjectType.ResOil ? "O" : "W" + res.Amount.ToString();
-                    objectList.Add(obj);
-                }
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundObjects.xml")));
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    ConfigurationSection sect = s.Value;
-
-                    MapSoundObject sndObj = new MapSoundObject(sect);
-
-                    MapObject obj = new MapObject();
-                    obj.Longitude = sect.GetSingle("Longitude");
-                    obj.Latitude = sect.GetSingle("Latitude");
-
-                    obj.Type = ObjectType.Sound;
-
-                    obj.Tag = sndObj;
-                    obj.StringDisplay = sndObj.SFXName;
-                    objectList.Add(obj);
-                  
-                }
-
-
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundEffects.xml")));
-                foreach (KeyValuePair<string, ConfigurationSection> s in config)
-                {
-                    comboBox1.Items.Add(s.Key);
-                }
-            }
-        }
-
-        private void toolStripButton3_Click(object sender, EventArgs e)
-        {
-            if (openFileDialog1.ShowDialog() == DialogResult.OK)
-            {
-                Image img = Image.FromFile(openFileDialog1.FileName);
-                checkedListBox1.Items.Add(img);
-                bgImages.Add(img);
             }
         }
 
