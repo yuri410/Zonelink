@@ -108,6 +108,13 @@ namespace MapEdit
                                 panel2.Visible = true;
                                 break;
                             case ObjectType.Scene:
+                                MapSceneObject so = (MapSceneObject)selectedObject.Tag;
+
+                                checkBox1.Checked = so.IsForest;
+
+                                numericUpDown12.Value = (decimal)so.Amount;
+                                numericUpDown13.Value = (decimal)so.Radius;
+
                                 panel4.Dock = DockStyle.Fill;
                                 panel4.Visible = true;
                                 break;
@@ -310,6 +317,8 @@ namespace MapEdit
                     MapObject obj = objectList[i];
                     if (obj.Type == ObjectType.Scene)
                     {
+                        MapSceneObject sceObj = (MapSceneObject)obj.Tag;
+
                         sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
                         sw.Write("        ");
@@ -338,6 +347,8 @@ namespace MapEdit
                     MapObject obj = objectList[i];
                     if (obj.Type == ObjectType.Sound)
                     {
+                        MapSoundObject sndObj = (MapSoundObject)obj.Tag;
+
                         sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
                         sw.Write("        ");
@@ -345,6 +356,14 @@ namespace MapEdit
 
                         sw.Write("        ");
                         sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
+                        
+                        sw.Write("        ");
+                        sw.Write("<SFX>"); sw.Write(sndObj.SFXName); sw.WriteLine("</SFX>");
+
+                        sw.Write("        ");
+                        sw.Write("<Radius>"); sw.Write(sndObj.Radius); sw.WriteLine("</Radius>");
+
+
 
                         sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
                     }
