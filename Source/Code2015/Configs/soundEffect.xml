@@ -5,9 +5,9 @@
   <city> 
     <Control>Loop, Random</Control>
     <Type>World</Type>
-    <Fadein></Fadein>
+    <Fadein>sfx-cityin</Fadein>
     <Medium>sfx-city1,sfx-city2,sfx-city3,sfx-city4</Medium>
-    <Fadeout></Fadeout>
+    <Fadeout>sfx-cityout</Fadeout>
     <Volume>0.5</Volume>
   </city>
   
@@ -15,9 +15,9 @@
   <forest>
     <Control>Loop, Random</Control>
     <Type>World</Type>
-    <Fadein></Fadein>
+    <Fadein>sfx-forestin</Fadein>
     <Medium>a_forest1,a_forest2,a_forest3</Medium>
-    <Fadeout></Fadeout>
+    <Fadeout>sfx-forestout</Fadeout>
     <Volume>0.5</Volume>
   </forest>
   
@@ -25,7 +25,7 @@
   <bird>
     <Control>Random</Control>
     <Type>World</Type>
-    <Medium>birda1,birda2,birda3,birda4,birda5,birda6,birda7,birda8,birda9,birdb1,birdb2,birdb3</Medium>
+    <Sounds>birda1,birda2,birda3,birda4,birda5,birda6,birda7,birda8,birda9,birdb1,birdb2,birdb3</Sounds>
     <Volume>0.5</Volume>
   </bird>
 
@@ -53,9 +53,9 @@
   <river>
     <Control>Loop, Random</Control>
     <Type>World</Type>
-    <Fadein></Fadein>
+    <Fadein>sfx-waterin</Fadein>
     <Medium>sfx-water1, sfx-water2, sfx-water3</Medium>
-    <Fadeout></Fadeout>
+    <Fadeout>sfx-waterout</Fadeout>
     <Volume>0.5</Volume>
   </river>
   
@@ -63,9 +63,7 @@
   <sea>
     <Control>Random, Ambient</Control>
     <Type>World</Type>
-    <Fadein></Fadein>
-    <Medium>waterb1, waterb2, waterb3</Medium>
-    <Fadeout></Fadeout>
+    <Sounds>waterb1, waterb2, waterb3</Sounds>
   </sea>
   
   <!--Wind-->
