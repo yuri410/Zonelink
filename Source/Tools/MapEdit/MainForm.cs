@@ -24,7 +24,7 @@ namespace MapEdit
         ObjectType filter;
         #endregion
 
-        
+
 
         List<Image> bgImages = new List<Image>();
 
@@ -38,6 +38,11 @@ namespace MapEdit
             {
                 if (selectedObject != value)
                 {
+                    panel1.Visible = false;
+                    panel2.Visible = false;
+                    panel3.Visible = false;
+                    panel4.Visible = false;
+
                     selectedObject = value;
 
                     if (selectedObject != null)
@@ -45,7 +50,7 @@ namespace MapEdit
                         switch (selectedObject.Type)
                         {
                             case ObjectType.City:
-                                
+
                                 City city = (City)selectedObject.Tag;
                                 textBox1.Text = city.Name;
                                 numericUpDown2.Value = city.FarmLandCount;
@@ -58,7 +63,7 @@ namespace MapEdit
                                 numericUpDown6.Value = (decimal)city.ProblemDisease;
                                 numericUpDown7.Value = (decimal)city.ProblemEnvironment;
 
-                                switch (city.Size) 
+                                switch (city.Size)
                                 {
                                     case UrbanSize.Small:
                                         radioButton5.Checked = true;
@@ -80,7 +85,7 @@ namespace MapEdit
                                 numericUpDown10.Value = 0;
                                 switch (oil.Type)
                                 {
-                                    case  NaturalResourceType.Wood:
+                                    case NaturalResourceType.Wood:
                                         radioButton5.Checked = true;
                                         break;
                                     case NaturalResourceType.Petro:
@@ -126,7 +131,7 @@ namespace MapEdit
                                 break;
                         }
                     }
-                }                
+                }
             }
         }
         public MainForm()
@@ -168,7 +173,6 @@ namespace MapEdit
         {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-
                 #region city info
                 StreamWriter sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate),
@@ -326,7 +330,16 @@ namespace MapEdit
 
                         sw.Write("        ");
                         sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
-                      
+
+                        sw.Write("        ");
+                        sw.Write("<IsForest>"); sw.Write(sceObj.IsForest); sw.WriteLine("</IsForest>");
+
+                        sw.Write("        ");
+                        sw.Write("<Radius>"); sw.Write(sceObj.Radius); sw.WriteLine("</Radius>");
+
+                        sw.Write("        ");
+                        sw.Write("<Amount>"); sw.Write(sceObj.Amount); sw.WriteLine("</Amount>");
+
                         sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
                     }
@@ -356,7 +369,7 @@ namespace MapEdit
 
                         sw.Write("        ");
                         sw.Write("<Latitude>"); sw.Write(obj.Latitude); sw.WriteLine("</Latitude>");
-                        
+
                         sw.Write("        ");
                         sw.Write("<SFX>"); sw.Write(sndObj.SFXName); sw.WriteLine("</SFX>");
 
@@ -387,24 +400,24 @@ namespace MapEdit
                 switch (objectList[i].Type)
                 {
                     case ObjectType.City:
-                        if((filter&ObjectType.City)==ObjectType.City)
-                        g.DrawImage(cityImage, new Point(objectList[i].X, objectList[i].Y));
+                        if ((filter & ObjectType.City) == ObjectType.City)
+                            g.DrawImage(cityImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResWood:
-                        if((filter&ObjectType.ResWood)==ObjectType.ResWood)
-                        g.DrawImage(resWoodImage, new Point(objectList[i].X, objectList[i].Y));
+                        if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
+                            g.DrawImage(resWoodImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResOil:
-                        if ((filter&ObjectType.ResOil)==ObjectType.ResOil)
-                        g.DrawImage(resOilImage, new Point(objectList[i].X, objectList[i].Y));
+                        if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
+                            g.DrawImage(resOilImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Sound:
-                        if ((filter& ObjectType.Sound)==ObjectType.Sound)
-                        g.DrawImage(soundImage, new Point(objectList[i].X, objectList[i].Y));
+                        if ((filter & ObjectType.Sound) == ObjectType.Sound)
+                            g.DrawImage(soundImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Scene:
-                        if ((filter & ObjectType.Scene)==ObjectType.Scene)
-                        g.DrawImage(sceneImage, new Point(objectList[i].X, objectList[i].Y));
+                        if ((filter & ObjectType.Scene) == ObjectType.Scene)
+                            g.DrawImage(sceneImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
 
                 }
@@ -425,8 +438,7 @@ namespace MapEdit
                 foreach (KeyValuePair<string, ConfigurationSection> s in config)
                 {
                     ConfigurationSection sect = s.Value;
-                    City city = new City(sim);
-                    city.Parse(sect);
+                    MapCity city = new MapCity(sim, sect);
 
                     MapObject obj = new MapObject();
                     obj.Longitude = city.Longitude;
@@ -442,10 +454,13 @@ namespace MapEdit
                 {
                     ConfigurationSection sect = s.Value;
 
+                    MapSceneObject sceObj = new MapSceneObject(sect);
                     MapObject obj = new MapObject();
                     obj.Longitude = sect.GetSingle("Longitude");
                     obj.Latitude = sect.GetSingle("Latitude");
                     obj.Type = ObjectType.Scene;
+                    obj.Tag = sceObj;
+
                     objectList.Add(obj);
                 }
 
@@ -454,25 +469,11 @@ namespace MapEdit
                 foreach (KeyValuePair<string, ConfigurationSection> s in config)
                 {
                     ConfigurationSection sect = s.Value;
-                    string type = sect["Type"];
 
-                    NaturalResource res = null;
+                    MapResource res = new MapResource(sim, sect);
 
                     MapObject obj = new MapObject();
-                    switch (type)
-                    {
-                        case "petro":
-                            OilField oil = new OilField(sim);
-                            oil.Parse(sect);
-                            res = oil;
-                            break;
-                        case "wood":
-                            Forest fores = new Forest(sim);
-                            fores.Parse(sect);
-                            res = fores;
-                            break;
-                    }
-
+                    
                     obj.Longitude = res.Longitude;
                     obj.Latitude = res.Latitude;
                     obj.Tag = res;
@@ -493,12 +494,17 @@ namespace MapEdit
                 {
                     ConfigurationSection sect = s.Value;
 
+                    MapSoundObject sndObj = new MapSoundObject(sect);
+
                     MapObject obj = new MapObject();
                     obj.Longitude = sect.GetSingle("Longitude");
                     obj.Latitude = sect.GetSingle("Latitude");
 
                     obj.Type = ObjectType.Sound;
+
+                    obj.Tag = sndObj;
                     objectList.Add(obj);
+
                 }
             }
         }
@@ -507,7 +513,7 @@ namespace MapEdit
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
-                Image img = (Image.FromFile(openFileDialog1.FileName));
+                Image img = Image.FromFile(openFileDialog1.FileName);
                 checkedListBox1.Items.Add(img);
                 bgImages.Add(img);
             }
@@ -529,6 +535,7 @@ namespace MapEdit
                     return;
                 }
             }
+            SelectedObject = null;
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
@@ -546,7 +553,95 @@ namespace MapEdit
 
         private void button1_Click(object sender, EventArgs e)
         {
-            
+            if (selectedObject != null)
+            {
+                switch (selectedObject.Type)
+                {
+                    case ObjectType.City:
+
+                        City city = (City)selectedObject.Tag;
+
+                        city.Name = textBox1.Text;
+                        int numFarms = (int)numericUpDown2.Value;
+
+
+                        city.ProblemHunger = (float)numericUpDown1.Value;
+                        city.ProblemEducation = (float)numericUpDown3.Value;
+                        city.ProblemGender = (float)numericUpDown4.Value;
+                        city.ProblemChild = (float)numericUpDown5.Value;
+                        city.ProblemMaternal = (float)numericUpDown5.Value;
+                        city.ProblemDisease = (float)numericUpDown6.Value;
+                        city.ProblemEnvironment = (float)numericUpDown7.Value;
+
+                        switch (city.Size)
+                        {
+                            case UrbanSize.Small:
+                                radioButton5.Checked = true;
+                                break;
+                            case UrbanSize.Medium:
+                                radioButton6.Checked = true;
+                                break;
+                            case UrbanSize.Large:
+                                radioButton7.Checked = true;
+                                break;
+                        }
+                        panel1.Dock = DockStyle.Fill;
+                        panel1.Visible = true;
+                        break;
+                    case ObjectType.ResOil:
+                        OilField oil = (OilField)selectedObject.Tag;
+
+                        numericUpDown9.Value = (decimal)oil.CurrentAmount;
+                        numericUpDown10.Value = 0;
+                        switch (oil.Type)
+                        {
+                            case NaturalResourceType.Wood:
+                                radioButton5.Checked = true;
+                                break;
+                            case NaturalResourceType.Petro:
+                                radioButton6.Checked = true;
+                                break;
+                        }
+                        panel2.Dock = DockStyle.Fill;
+                        panel2.Visible = true;
+                        break;
+                    case ObjectType.ResWood:
+                        Forest fore = (Forest)selectedObject.Tag;
+
+                        numericUpDown9.Value = (decimal)fore.CurrentAmount;
+                        numericUpDown10.Value = (decimal)fore.Radius;
+                        switch (fore.Type)
+                        {
+                            case NaturalResourceType.Wood:
+                                radioButton5.Checked = true;
+                                break;
+                            case NaturalResourceType.Petro:
+                                radioButton6.Checked = true;
+                                break;
+                        }
+                        panel2.Dock = DockStyle.Fill;
+                        panel2.Visible = true;
+                        break;
+                    case ObjectType.Scene:
+                        MapSceneObject so = (MapSceneObject)selectedObject.Tag;
+
+                        checkBox1.Checked = so.IsForest;
+
+                        numericUpDown12.Value = (decimal)so.Amount;
+                        numericUpDown13.Value = (decimal)so.Radius;
+
+                        panel4.Dock = DockStyle.Fill;
+                        panel4.Visible = true;
+                        break;
+                    case ObjectType.Sound:
+
+
+                        panel3.Dock = DockStyle.Fill;
+                        panel3.Visible = true;
+                        break;
+                }
+
+            }
         }
 
     }

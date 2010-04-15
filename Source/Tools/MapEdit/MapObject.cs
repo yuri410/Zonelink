@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D.MathLib;
+using Code2015.BalanceSystem;
+using Apoc3D.Config;
 
 namespace MapEdit
 {
@@ -15,18 +17,190 @@ namespace MapEdit
         Scene = 1 << 4
     }
 
+    class MapCity
+    {
+
+        public MapCity(SimulationWorld world, ConfigurationSection sect)
+        {
+            City city = new City(world);
+            city.Parse(sect);
+
+            FarmCount = city.FarmLandCount;
+            ProblemEnvironment = city.ProblemEnvironment;
+            ProblemDisease = city.ProblemDisease;
+            ProblemChild = city.ProblemChild;
+            ProblemGender = city.ProblemGender;
+            ProblemHunger = city.ProblemHunger;
+            ProblemMaternal = city.ProblemMaternal;
+
+            Name = Name;
+            Size = city.Size;
+
+            Longitude = city.Longitude;
+            Latitude = city.Latitude;
+        }
+
+        public UrbanSize Size { get; set; }
+        public string Name
+        {
+            get;
+            set;
+        }
+        public int FarmCount
+        {
+            get;
+            set;
+        }
+
+        public float Longitude
+        {
+            get;
+            set;
+        }
+        public float Latitude { get; set; }
+
+        public float ProblemEnvironment
+        {
+            get;
+            set;
+        }
+        public float ProblemDisease
+        {
+            get;
+            set;
+        }
+        public float ProblemGender
+        {
+            get;
+            set;
+        }
+        public float ProblemHunger
+        {
+            get;
+            set;
+        }
+        public float ProblemMaternal
+        {
+            get;
+            set;
+        }
+        public float ProblemChild
+        {
+            get;
+            set;
+        }
+        public float ProblemEducation
+        {
+            get;
+            set;
+        }
+    }
+
+    class MapResource
+    {
+        public MapResource(SimulationWorld world, ConfigurationSection sect)
+        {
+            string type = sect["Type"];
+
+            switch (type)
+            {
+                case "petro":
+                    OilField oil = new OilField(world);
+                    oil.Parse(sect);
+
+                    Longitude = oil.Longitude;
+                    Latitude = oil.Latitude;
+
+                    Type = NaturalResourceType.Petro;
+                    Amount = oil.CurrentAmount;
+
+                    break;
+                case "wood":
+                    Forest fores = new Forest(world);
+                    fores.Parse(sect);
+
+                    Longitude = fores.Longitude;
+                    Latitude = fores.Latitude;
+
+                    Type = NaturalResourceType.Wood;
+                    Amount = fores.CurrentAmount;
+                    Radius = fores.Radius;
+                    break;
+            }
+
+        }
+
+        public float Longitude { get; set; }
+        public float Latitude { get; set; }
+        public NaturalResourceType Type
+        {
+            get;
+            set;
+        }
+
+        public float Amount
+        {
+            get;
+            set;
+        }
+
+        public float Radius
+        {
+            get;
+            set;
+        }
+
+    }
     class MapSoundObject
     {
-        public float Radius;
-        public string SFXName;
+        public MapSoundObject(ConfigurationSection sect)
+        {
+            Radius = sect.GetSingle("Radius", 0);
+            SFXName = sect.GetString("SFXName", string.Empty);
+        }
+
+        public float Radius
+        {
+            get;
+            set;
+        }
+
+        public string SFXName
+        {
+            get;
+            set;
+        }
+
     }
 
     class MapSceneObject
     {
-        public float Radius;
+        public MapSceneObject(ConfigurationSection sect)
+        {
+            Radius = sect.GetSingle("Radius", 0);
+            IsForest = sect.GetBool("IsForest", false);
+            Amount = sect.GetSingle("Amount", 0);
+        }
 
-        public bool IsForest;
-        public float Amount;
+        public float Radius
+        {
+            get;
+            set;
+        }
+
+
+        public bool IsForest
+        {
+            get;
+            set;
+        }
+
+        public float Amount
+        {
+            get;
+            set;
+        }
+
     }
 
     class MapObject
@@ -82,7 +256,7 @@ namespace MapEdit
             set;
         }
 
-        public int X 
+        public int X
         {
             get
             {
