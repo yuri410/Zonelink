@@ -5,70 +5,55 @@
   <city> 
     <Control>Loop,Random</Control>
     <Type>World</Type>
-    <Fadein>city1</Fadein>
+    <Fadein>oil1</Fadein>
+    <Medium>oil2a,oil2b,oil2c</Medium>
+    <Fadeout>oil3</Fadeout>
+    <!--<Fadein>city1</Fadein>
     <Medium>city2a,city2b,city2c,city2d,city2e</Medium>
-    <Fadeout>city3</Fadeout>  
+    <Fadeout>city3</Fadeout>-->  
   </city>
   
-  <!--Farm-->
-  <farm>
-    <Control>Loop,Random</Control>
-    <Type>World</Type>
-    <Fadein>farm1</Fadein>
-    <Medium>farm2a,farm2b,farm2c,farm2d,farm2e</Medium>
-    <Fadeout>farm3</Fadeout>
-  </farm>
-  
- 
   <!--Forest-->
   <forest>
     <Control>Loop,Random</Control>
     <Type>World</Type>
-    <Fadein>forest1</Fadein>
+    <Fadein>oil1</Fadein>
+    <Medium>oil2a,oil2b,oil2c</Medium>
+    <Fadeout>oil3</Fadeout>
+    <!--<Fadein>forest1</Fadein>
     <Medium>forest2a,forest2b,forest2c,forest2d,forest2e,forest2f</Medium>
-    <Fadeout>forest3</Fadeout>
+    <Fadeout>forest3</Fadeout>-->
   </forest>
 
-  <!--Lightning-->
+  <!--Lightning--><!--
   <lightning>
     <Control>None</Control>
     <Type>World</Type>
     <Sounds>lightninga,lightningb,lightningc,lightningd</Sounds>   
   </lightning>
  
-  
-  
-  <!--Oil-->
+
+  --><!--Oil--><!--
   <oil>
     <Control>Loop,Random</Control>
     <Type>World</Type>
     <Fadein>oil1</Fadein>
     <Medium>oil2a,oil2b,oil2c</Medium>
     <Fadeout>oil3</Fadeout>
-  </oil>
-  
-  
-  
-  <!--Rain-->
-  <rain> 
-    <Control>Loop,Random</Control>
-    <Type>World</Type>
-    <Fadein>rain1</Fadein>
-    <Medium>rain2a,rain2b,rain2c</Medium>
-    <Fadeout>rain3</Fadeout>
-  </rain>
+  </oil>-->
   
  
-  <!--River-->
+ 
+  <!--River--><!--
   <river>
     <Control>Loop,Random</Control>
     <Type>World</Type>
     <Fadein>river1</Fadein>
     <Medium>river2a,river2b</Medium>
     <Fadeout>river3</Fadeout>
-  </river>
+  </river>-->
   
-  <!--Sea-->
+  <!--Sea--><!--
   <sea>
     <Control>Loop,Random</Control>
     <Type>World</Type>
@@ -77,18 +62,18 @@
     <Fadeout>sea3</Fadeout>
   </sea>
   
-  <!--Truck-->
+  --><!--Truck--><!--
   <truck>
     <Control>None</Control>
     <Type>World</Type>  
     <Sounds>truck1,truck2,truck3</Sounds>
   </truck>
   
-  <!--Wind-->
+  --><!--Wind--><!--
   <wind>
     <Control>Ambient</Control>
     <Type>World</Type>
     <Sounds>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Sounds> 
-  </wind>
+  </wind>-->
   
 </soundEffect>

@@ -85,9 +85,9 @@ namespace Code2015.Effects
                 vtxShader.SetValue("terrSize", (float)terrSize);
                 pixShader.SetValue("i_a", EffectParams.LightAmbient);
                 pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-                pixShader.SetValue("i_s", EffectParams.LightSpecular);
+                //pixShader.SetValue("i_s", EffectParams.LightSpecular);
                 vtxShader.SetValue("lightDir", EffectParams.LightDir);
-                vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+                //vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
                 pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
 
@@ -198,9 +198,9 @@ namespace Code2015.Effects
                 {
                     pixShader.SetValue("k_a", mat.Ambient);
                     pixShader.SetValue("k_d", mat.Diffuse);
-                    pixShader.SetValue("k_s", mat.Specular);
-                    pixShader.SetValue("k_e", mat.Emissive);
-                    pixShader.SetValue("k_power", mat.Power);
+                    //pixShader.SetValue("k_s", mat.Specular);
+                    //pixShader.SetValue("k_e", mat.Emissive);
+                    //pixShader.SetValue("k_power", mat.Power);
 
                     stateSetted = true;
                 }
