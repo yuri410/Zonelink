@@ -96,6 +96,8 @@
             this.textBox1 = new System.Windows.Forms.TextBox();
             this.button1 = new System.Windows.Forms.Button();
             this.checkedListBox1 = new System.Windows.Forms.CheckedListBox();
+            this.textBox3 = new System.Windows.Forms.TextBox();
+            this.label13 = new System.Windows.Forms.Label();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
@@ -367,6 +369,8 @@
             // 
             // panel4
             // 
+            this.panel4.Controls.Add(this.label13);
+            this.panel4.Controls.Add(this.textBox3);
             this.panel4.Controls.Add(this.checkBox1);
             this.panel4.Controls.Add(this.numericUpDown13);
             this.panel4.Controls.Add(this.label11);
@@ -891,6 +895,22 @@
             this.checkedListBox1.TabIndex = 0;
             this.checkedListBox1.SelectedIndexChanged += new System.EventHandler(this.checkedListBox1_SelectedIndexChanged);
             // 
+            // textBox3
+            // 
+            this.textBox3.Location = new System.Drawing.Point(82, 89);
+            this.textBox3.Name = "textBox3";
+            this.textBox3.Size = new System.Drawing.Size(120, 21);
+            this.textBox3.TabIndex = 8;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(21, 92);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(47, 12);
+            this.label13.TabIndex = 9;
+            this.label13.Text = "label13";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
@@ -1016,5 +1036,7 @@
         private System.Windows.Forms.ToolStripButton toolStripButton9;
         private System.Windows.Forms.ToolStripButton toolStripButton10;
         private System.Windows.Forms.ToolStripButton toolStripButton11;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox textBox3;
     }
 }

@@ -180,6 +180,7 @@ namespace MapEdit
             Radius = sect.GetSingle("Radius", 0);
             IsForest = sect.GetBool("IsForest", false);
             Amount = sect.GetSingle("Amount", 0);
+            Model = sect.GetString("Model", string.Empty);
         }
 
         public float Radius
@@ -196,6 +197,12 @@ namespace MapEdit
         }
 
         public float Amount
+        {
+            get;
+            set;
+        }
+
+        public string Model
         {
             get;
             set;
