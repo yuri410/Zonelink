@@ -9,7 +9,6 @@ using System.Windows.Forms;
 using Apoc3D.Config;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
-using System.Xml;
 
 namespace MapEdit
 {
@@ -26,7 +25,7 @@ namespace MapEdit
         List<Image> bgImages = new List<Image>();
 
         Graphics g = null;
-        Image CityImage, ResWoodImage, ResOilImage, SoundImage, SceneImage;
+        Image cityImage, resWoodImage, resOilImage,soundImage, sceneImage;
         public MainForm()
         {
             InitializeComponent();
@@ -45,11 +44,11 @@ namespace MapEdit
             pictureBox1.Load("Sound");
             pictureBox1.Load("Scene");
 
-             CityImage = Image.FromFile("City");
-             ResWoodImage = Image.FromFile("ResWood");
-             ResOilImage = Image.FromFile("ResOil");
-             SoundImage = Image.FromFile("Sound");
-             SceneImage = Image.FromFile("Scene");
+             cityImage = Image.FromFile("City");
+             resWoodImage = Image.FromFile("ResWood");
+             resOilImage = Image.FromFile("ResOil");
+             soundImage = Image.FromFile("Sound");
+             sceneImage = Image.FromFile("Scene");
 
             
         }
@@ -61,9 +60,13 @@ namespace MapEdit
 
         }
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
         {
 
+<<<<<<< .mine
+        }
+=======
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
 
@@ -75,12 +78,13 @@ namespace MapEdit
                 for (int i = 0; i < objectList.Count; i++)
                 {
                     MapObject obj = objectList[i];
+>>>>>>> .r833
 
-                    if (objectList[i].Type == ObjectType.City)
-                    {
-                        City city = (City)objectList[i].Tag;
-                        sw.Write("    "); sw.Write("<"); sw.Write(objectList[i].SectionName); sw.WriteLine(">");
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
 
+<<<<<<< .mine
+=======
                         sw.Write("        ");
                         sw.Write("<Name>"); sw.Write(city.Name); sw.WriteLine(@"</Name>");
 
@@ -140,6 +144,7 @@ namespace MapEdit
                 sw.Close();
             }
 
+>>>>>>> .r833
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
@@ -154,19 +159,19 @@ namespace MapEdit
                 switch (objectList[i].Type)
                 { 
                     case ObjectType.City:
-                        g.DrawImage(CityImage, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(cityImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResWood:
-                        g.DrawImage(ResWoodImage, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(resWoodImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.ResOil:
-                        g.DrawImage(ResOilImage, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(resOilImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Sound:
-                        g.DrawImage(SoundImage, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(soundImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
                     case ObjectType.Scene:
-                        g.DrawImage(SceneImage, new Point(objectList[i].X, objectList[i].Y));
+                        g.DrawImage(sceneImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
 
                 }
@@ -195,7 +200,7 @@ namespace MapEdit
                     obj.Latitude = city.Latitude;
                     obj.Tag = city;
                     obj.Type = ObjectType.City;
-                    obj.SectionName = sect.Name;
+
                     objectList.Add(obj);
                 }
 
@@ -208,7 +213,6 @@ namespace MapEdit
                     obj.Longitude = sect.GetSingle("Longitude");
                     obj.Latitude = sect.GetSingle("Latitude");
                     obj.Type = ObjectType.Scene;
-                    obj.SectionName = sect.Name; 
                     objectList.Add(obj);
                 }
 
@@ -247,7 +251,7 @@ namespace MapEdit
                     {
                         obj.Type = ObjectType.ResOil;
                     }
-                    obj.SectionName = sect.Name;
+
                     objectList.Add(obj);
                 }
 
@@ -261,7 +265,6 @@ namespace MapEdit
                     obj.Latitude = sect.GetSingle("Latitude");
 
                     obj.Type = ObjectType.Sound;
-                    obj.SectionName = sect.Name; 
                     objectList.Add(obj);
                 }
             }
