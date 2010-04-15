@@ -64,12 +64,13 @@ namespace MapEdit
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
 
-<<<<<<< .mine
         }
-=======
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
             if (folderBrowserDialog1.ShowDialog() == DialogResult.OK)
             {
-
+                #region city info
                 StreamWriter sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "cities.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
@@ -78,13 +79,12 @@ namespace MapEdit
                 for (int i = 0; i < objectList.Count; i++)
                 {
                     MapObject obj = objectList[i];
->>>>>>> .r833
+                    if (obj.Type == ObjectType.City)
+                    {
+                        City city = (City)obj.Tag;
 
-        private void toolStripButton2_Click(object sender, EventArgs e)
-        {
+                        sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
 
-<<<<<<< .mine
-=======
                         sw.Write("        ");
                         sw.Write("<Name>"); sw.Write(city.Name); sw.WriteLine(@"</Name>");
 
@@ -107,17 +107,58 @@ namespace MapEdit
                             sw.Write("        ");
                             sw.Write("<Disease>"); sw.Write(city.ProblemDisease); sw.WriteLine("</Disease>");
                         }
-                        if (city.ProblemEducation != City.DefaultProblemWeight) 
+                        if (city.ProblemEducation != City.DefaultProblemWeight)
                         {
                             sw.Write("        ");
-                            sw.Write("<Education>"); sw.Write(city.ProblemDisease); sw.WriteLine("</Education>");
+                            sw.Write("<Education>"); sw.Write(city.ProblemEducation); sw.WriteLine("</Education>");
+                        }
+                        if (city.ProblemEnvironment != City.DefaultProblemWeight)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Environment>"); sw.Write(city.ProblemEnvironment); sw.WriteLine("</Environment>");
+                        }
+                        if (city.ProblemGender != City.DefaultProblemWeight)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Gender>"); sw.Write(city.ProblemGender); sw.WriteLine("</Gender>");
+                        }
+                        if (city.ProblemHunger != City.DefaultProblemWeight)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Hunger>"); sw.Write(city.ProblemHunger); sw.WriteLine("</Hunger>");
+                        }
+                        if (city.ProblemMaternal != City.DefaultProblemWeight)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Maternal>"); sw.Write(city.ProblemMaternal); sw.WriteLine("</Maternal>");
+                        }
+                        if (city.StartUp != -1)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<StartUp>"); sw.Write(city.StartUp); sw.WriteLine("</StartUp>");
+                        }
+                        if (city.FarmLandCount != -1)
+                        {
+                            sw.Write("        ");
+                            sw.Write("<Farm>"); sw.Write(city.FarmLandCount); sw.WriteLine("</Farm>");
                         }
 
+                        sw.Write("        "); sw.Write("<Linkable>");
+                        string[] linkable = city.LinkableCityName;
+                        for (int j = 0; j < linkable.Length; j++)
+                        {
+                            sw.Write(linkable[i]);
+                        }
+                        sw.Write("</Linkable>");
+
+                        sw.Write("    </"); sw.Write(obj.SectionName); sw.WriteLine(@">");
                     }
                 }
                 sw.WriteLine("</cities>");
                 sw.Close();
+                #endregion
 
+                #region resource
                 sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "resources.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
@@ -126,6 +167,9 @@ namespace MapEdit
 
                 }
                 sw.Close();
+
+                #endregion
+
                 sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "sceneObjects.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
@@ -144,7 +188,6 @@ namespace MapEdit
                 sw.Close();
             }
 
->>>>>>> .r833
         }
 
         private void pictureBox1_Click(object sender, EventArgs e)
