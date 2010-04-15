@@ -20,12 +20,87 @@ namespace MapEdit
         List<MapObject> objectList = new List<MapObject>();
 
         MapObject selectedObject;
+
+        ObjectType filter;
         #endregion
+
+        
 
         List<Image> bgImages = new List<Image>();
 
         Graphics g = null;
         Image cityImage, resWoodImage, resOilImage, soundImage, sceneImage;
+
+        MapObject SelectedObject
+        {
+            get { return selectedObject; }
+            set
+            {
+                if (selectedObject != value)
+                {
+                    selectedObject = value;
+
+                    if (selectedObject != null)
+                    {
+                        switch (selectedObject.Type)
+                        {
+                            case ObjectType.City:
+                                
+                                City city = (City)selectedObject.Tag;
+                                textBox1.Text = city.Name;
+                                numericUpDown2.Value = city.FarmLandCount;
+
+                                numericUpDown1.Value = (decimal)city.ProblemHunger;
+                                numericUpDown3.Value = (decimal)city.ProblemEducation;
+                                numericUpDown4.Value = (decimal)city.ProblemGender;
+                                numericUpDown5.Value = (decimal)city.ProblemChild;
+                                numericUpDown5.Value = (decimal)city.ProblemMaternal;
+                                numericUpDown6.Value = (decimal)city.ProblemDisease;
+                                numericUpDown7.Value = (decimal)city.ProblemEnvironment;
+
+                                switch (city.Size) 
+                                {
+                                    case UrbanSize.Small:
+                                        radioButton5.Checked = true;
+                                        break;
+                                    case UrbanSize.Medium:
+                                        radioButton6.Checked = true;
+                                        break;
+                                    case UrbanSize.Large:
+                                        radioButton7.Checked = true;
+                                        break;
+                                }
+
+                                panel1.Visible = true;
+                                break;
+                            case ObjectType.ResOil:
+                                OilField oil = (OilField)selectedObject.Tag;
+
+                                numericUpDown9.Value = (decimal)oil.CurrentAmount;
+                                numericUpDown10.Value = 0;
+                                switch (oil.Type)
+                                {
+                                    case  NaturalResourceType.Wood:
+                                        radioButton5.Checked = true;
+                                        break;
+                                    case NaturalResourceType.Petro:
+                                        radioButton6.Checked = true;
+                                        break;
+                                }
+
+                                panel2.Visible = true;
+                                break;
+                            case ObjectType.ResWood:
+                                break;
+                            case ObjectType.Scene:
+                                break;
+                            case ObjectType.Sound:
+                                break;
+                        }
+                    }
+                }                
+            }
+        }
         public MainForm()
         {
             InitializeComponent();
@@ -405,7 +480,7 @@ namespace MapEdit
                 MapObject obj = objectList[i];
                 if (obj.Intersects(e.X, e.Y))
                 {
-                    selectedObject = obj;
+                    SelectedObject = obj;
                     return;
                 }
             }
@@ -413,15 +488,20 @@ namespace MapEdit
 
         private void toolStripButton5_Click(object sender, EventArgs e)
         {
-            if (selectedObject != null)
+            if (SelectedObject != null)
             {
-                objectList.Remove(selectedObject);
+                objectList.Remove(SelectedObject);
             }
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             objectList.Add(new MapObject());
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            
         }
 
     }
