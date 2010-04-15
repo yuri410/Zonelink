@@ -9,6 +9,7 @@ using System.Windows.Forms;
 using Apoc3D.Config;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
+using Code2015.EngineEx;
 
 namespace MapEdit
 {
@@ -132,7 +133,7 @@ namespace MapEdit
             InitializeComponent();
             g = pictureBox1.CreateGraphics();
             ConfigurationManager.Initialize();
-
+            ConfigurationManager.Instance.Register(new GameConfigurationFormat());
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -149,14 +150,14 @@ namespace MapEdit
             pen = new Pen(Color.Black);
             brush = pen.Brush;
             font = new Font("Arial", 7, FontStyle.Regular);
-            
+            pictureBox1.Paint += DrawAll;
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
         {
             MapObject.MapWidth = pictureBox1.Width;
             MapObject.MapHeight = pictureBox1.Height;
-
+            pictureBox1.Refresh();
         }
 
 
@@ -168,16 +169,21 @@ namespace MapEdit
                 checkedListBox1.Items.Add(img);
                 bgImages.Add(img);
             }
-         
+
+            pictureBox1.Refresh();
 
         }
 
-        private void DrawAll()
+        private void DrawAll(object sender, PaintEventArgs e)
         {
+            Graphics g = e.Graphics;
             if (currentImage != null)
             {
                 g.DrawImage(currentImage, new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height));
             }
+            const int AdjX = -MapObject.IconWidth / 2;
+            const int AdjY = -MapObject.IconHeight / 2;
+
             for (int i = 0; i < objectList.Count; i++)
             {
                 MapObject m = objectList[i];
@@ -187,51 +193,56 @@ namespace MapEdit
                     case ObjectType.City:
                         if ((filter & ObjectType.City) == ObjectType.City)
                         {
-                            g.DrawImage(cityImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                            g.DrawImage(cityImage, m.X + AdjX, m.Y + AdjY);
+
+                            if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                            {
+                                g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
+                            }
                         }
                         break;
                     case ObjectType.ResWood:
                         if ((filter & ObjectType.ResWood) == ObjectType.ResWood)
                         {
-                            g.DrawImage(resWoodImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                            g.DrawImage(resWoodImage, m.X + AdjX, m.Y + AdjY);
+
+                            if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                            {
+                                g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
+                            }
                         }
                         break;
                     case ObjectType.ResOil:
                         if ((filter & ObjectType.ResOil) == ObjectType.ResOil)
                         {
-                            g.DrawImage(resOilImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                            g.DrawImage(resOilImage, m.X + AdjX, m.Y + AdjY);
+
+                            if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                            {
+                                g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
+                            }
                         }
                         break;
                     case ObjectType.Sound:
                         if ((filter & ObjectType.Sound) == ObjectType.Sound)
                         {
-                            g.DrawImage(soundImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                            g.DrawImage(soundImage, m.X + AdjX, m.Y + AdjY);
+
+                            if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                            {
+                                g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
+                            }
                         }
                         break;
                     case ObjectType.Scene:
                         if ((filter & ObjectType.Scene) == ObjectType.Scene)
                         {
-                            g.DrawImage(sceneImage, m.X, m.Y);
-                        }
-                        if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
-                        {
-                            g.DrawString(m.StringDisplay, font, brush, m.X, m.Y);
+                            g.DrawImage(sceneImage, m.X + AdjX, m.Y + AdjY);
+
+                            if (drawString && !string.IsNullOrEmpty(m.StringDisplay))
+                            {
+                                g.DrawString(m.StringDisplay, font, brush, m.X + AdjX, m.Y + AdjY);
+                            }
                         }
                         break;
 
@@ -325,12 +336,13 @@ namespace MapEdit
                 }
 
 
-                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundEffects.xml")));
+                config = ConfigurationManager.Instance.CreateInstance(new FileLocation(Path.Combine(dir, "soundEffect.xml")));
                 foreach (KeyValuePair<string, ConfigurationSection> s in config)
                 {
                     comboBox1.Items.Add(s.Key);
                 }
             }
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton3_Click(object sender, EventArgs e)
@@ -557,6 +569,7 @@ namespace MapEdit
         private void checkedListBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             currentImage = (Image)checkedListBox1.SelectedItem;
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton5_Click(object sender, EventArgs e)
@@ -565,11 +578,13 @@ namespace MapEdit
             {
                 objectList.Remove(SelectedObject);
             }
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton4_Click(object sender, EventArgs e)
         {
             objectList.Add(new MapObject());
+            pictureBox1.Refresh();
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -667,6 +682,7 @@ namespace MapEdit
         private void toolStripButton11_Click(object sender, EventArgs e)
         {
             drawString = toolStripButton11.Checked;
+            pictureBox1.Refresh();
         }
 
         #region filter
@@ -680,6 +696,7 @@ namespace MapEdit
             {
                 filter ^= ObjectType.City;
             }
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton9_Click(object sender, EventArgs e)
@@ -692,6 +709,7 @@ namespace MapEdit
             {
                 filter ^= ObjectType.ResWood;
             }
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton8_Click(object sender, EventArgs e)
@@ -704,6 +722,7 @@ namespace MapEdit
             {
                 filter ^= ObjectType.ResOil;
             }
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton7_Click(object sender, EventArgs e)
@@ -716,6 +735,7 @@ namespace MapEdit
             {
                 filter ^= ObjectType.Scene;
             }
+            pictureBox1.Refresh();
         }
 
         private void toolStripButton6_Click(object sender, EventArgs e)
@@ -728,19 +748,24 @@ namespace MapEdit
             {
                 filter ^= ObjectType.Sound;
             }
+            pictureBox1.Refresh();
         }
         #endregion
 
         private void pictureBox1_MouseMove(object sender, MouseEventArgs e)
         {
-            if (isDraging && selectedObject != null)
+            if (e.Button == MouseButtons.Right)
             {
-                selectedObject.X = e.X;
-                selectedObject.Y = e.Y;
+                if (isDraging && selectedObject != null)
+                {
+                    selectedObject.X = e.X;
+                    selectedObject.Y = e.Y;
+                    pictureBox1.Refresh();
+                }
             }
             float lng, lat;
             MapObject.GetCoord(e.X, e.Y, out lng, out lat);
-            toolStripStatusLabel1.Text = lat.ToString("F2") + ", " + lng.ToString("F2");
+            toolStripStatusLabel1.Text = Apoc3D.MathLib.MathEx.Radian2Degree(lat).ToString("F2") + ", " + Apoc3D.MathLib.MathEx.Radian2Degree(lng).ToString("F2");
         }
 
         private void pictureBox1_MouseDown(object sender, MouseEventArgs e)
@@ -757,6 +782,7 @@ namespace MapEdit
             }
             SelectedObject = null;
             isDraging = false;
+            pictureBox1.Refresh();
         }
 
         private void pictureBox1_MouseUp(object sender, MouseEventArgs e)
