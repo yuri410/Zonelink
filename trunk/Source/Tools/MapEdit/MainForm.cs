@@ -727,7 +727,8 @@ namespace MapEdit
         {
             if (isDraging && selectedObject != null) 
             {
-
+                selectedObject.X = e.X;
+                selectedObject.Y = e.Y;
             }   
         }
 
