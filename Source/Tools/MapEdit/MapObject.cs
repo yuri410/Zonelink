@@ -271,7 +271,19 @@ namespace MapEdit
                 GetMapCoord(Longitude, Latitude, out x, out y);
                 return x;
             }
+            set
+            {
+                int x, y;
+                GetMapCoord(Longitude, Latitude, out x, out y);
+
+                float lng, lat;
+                GetCoord(value, y, out lng, out lat);
+
+                Longitude = lng;
+                Latitude = lat;
+            }
         }
+        
         public int Y
         {
             get
@@ -279,6 +291,17 @@ namespace MapEdit
                 int x, y;
                 GetMapCoord(Longitude, Latitude, out x, out y);
                 return y;
+            }
+            set
+            {
+                int x, y;
+                GetMapCoord(Longitude, Latitude, out x, out y);
+
+                float lng, lat;
+                GetCoord(x, value, out lng, out lat);
+
+                Longitude = lng;
+                Latitude = lat;
             }
         }
 
