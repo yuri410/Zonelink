@@ -88,6 +88,13 @@ namespace MapEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap City {
+            get {
+                object obj = ResourceManager.GetObject("City", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap DeleteHS {
             get {
                 object obj = ResourceManager.GetObject("DeleteHS", resourceCulture);
@@ -158,9 +165,37 @@ namespace MapEdit.Properties {
             }
         }
         
+        internal static System.Drawing.Bitmap ResOil {
+            get {
+                object obj = ResourceManager.GetObject("ResOil", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap ResWood {
+            get {
+                object obj = ResourceManager.GetObject("ResWood", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
         internal static System.Drawing.Bitmap SaveAllHS {
             get {
                 object obj = ResourceManager.GetObject("SaveAllHS", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Scene {
+            get {
+                object obj = ResourceManager.GetObject("Scene", resourceCulture);
+                return ((System.Drawing.Bitmap)(obj));
+            }
+        }
+        
+        internal static System.Drawing.Bitmap Sound {
+            get {
+                object obj = ResourceManager.GetObject("Sound", resourceCulture);
                 return ((System.Drawing.Bitmap)(obj));
             }
         }
