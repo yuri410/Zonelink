@@ -89,7 +89,11 @@ namespace MapEdit
                 return y;
             }
         }
-
+        public string SectionName
+        {
+            get;
+            set;
+        }
         public ObjectType Type
         {
             get;
