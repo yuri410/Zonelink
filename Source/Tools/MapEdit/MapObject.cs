@@ -287,6 +287,16 @@ namespace MapEdit
             set;
         }
 
+        public bool IsDrawCityName
+        {
+            get;
+            set;
+        }
+        public bool IsDrawObjectAmount
+        {
+            get;
+            set;
+        }
 
     }
 }

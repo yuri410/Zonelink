@@ -30,7 +30,8 @@ namespace MapEdit
 
         Graphics g = null;
         Image cityImage, resWoodImage, resOilImage, soundImage, sceneImage;
-
+        Pen pen;
+        Brush brush;
         MapObject SelectedObject
         {
             get { return selectedObject; }
@@ -144,7 +145,8 @@ namespace MapEdit
             soundImage = Image.FromFile("Sound");
             sceneImage = Image.FromFile("Scene");
 
-
+            pen = new Pen(Color.Black);
+            brush = pen.Brush;
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
@@ -405,6 +407,29 @@ namespace MapEdit
 
             }
         }
+
+        public void DrawCityName()
+        {
+            foreach (MapObject m in objectList)
+            {
+                if (m.IsDrawCityName == true)
+                {
+                    g.DrawString(m.SectionName, new Font("Arial", 18, FontStyle.Regular), brush, m.X, m.Y);
+                }
+            }
+        }
+
+        public void DrawObjectAmount()
+        {
+            foreach (MapObject m in objectList)
+            {
+                if (m.IsDrawObjectAmount==true)
+                { 
+                    
+                }
+            }
+        }
+
 
         private void toolStripButton1_Click(object sender, EventArgs e)
         {
