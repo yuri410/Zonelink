@@ -139,10 +139,7 @@ namespace MapEdit
         {
             
 
-            if (currentImage != null)
-            { 
-                g.DrawImage(currentImage,new Rectangle(0,0,pictureBox1.Width,pictureBox1.Height));
-            }
+          
             cityImage = Image.FromFile("City");
             resWoodImage = Image.FromFile("ResWood");
             resOilImage = Image.FromFile("ResOil");
@@ -387,6 +384,10 @@ namespace MapEdit
 
         private void DrawAll()
         {
+            if (currentImage != null)
+            {
+                g.DrawImage(currentImage, new Rectangle(0, 0, pictureBox1.Width, pictureBox1.Height));
+            }
             for (int i = 0; i < objectList.Count; i++)
             {
                 MapObject m = objectList[i];
