@@ -101,6 +101,13 @@
     <None Include="DeleteHS.png" />
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
+    <None Include="Resources\goal7_lg.gif" />
+    <None Include="Resources\goal6_lg.gif" />
+    <None Include="Resources\goal5_lg.gif" />
+    <None Include="Resources\goal4_lg.gif" />
+    <None Include="Resources\goal3_lg.gif" />
+    <None Include="Resources\goal2_lg.gif" />
+    <None Include="Resources\goal1_lg.gif" />
     <None Include="SaveAllHS.png" />
     <None Include="OpenSelectedItemHS.png" />
     <None Include="openfolderHS.png" />
