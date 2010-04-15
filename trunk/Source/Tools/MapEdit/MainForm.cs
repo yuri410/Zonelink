@@ -31,15 +31,6 @@ namespace MapEdit
 
         }
 
-<<<<<<< .mine
-       
-=======
-        private void DrawImage(Graphics g, string url, Point position)
-        {
-            g.DrawImage(Image.FromFile(url), position);
-        }
->>>>>>> .r820
-
         private void MainForm_Load(object sender, EventArgs e)
         {
             pictureBox1.Load("City");
