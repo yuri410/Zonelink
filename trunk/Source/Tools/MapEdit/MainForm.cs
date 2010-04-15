@@ -25,7 +25,7 @@ namespace MapEdit
         List<Image> bgImages = new List<Image>();
 
         Graphics g = null;
-        Image cityImage, resWoodImage, resOilImage,soundImage, sceneImage;
+        Image cityImage, resWoodImage, resOilImage, soundImage, sceneImage;
         public MainForm()
         {
             InitializeComponent();
@@ -44,13 +44,13 @@ namespace MapEdit
             pictureBox1.Load("Sound");
             pictureBox1.Load("Scene");
 
-             cityImage = Image.FromFile("City");
-             resWoodImage = Image.FromFile("ResWood");
-             resOilImage = Image.FromFile("ResOil");
-             soundImage = Image.FromFile("Sound");
-             sceneImage = Image.FromFile("Scene");
+            cityImage = Image.FromFile("City");
+            resWoodImage = Image.FromFile("ResWood");
+            resOilImage = Image.FromFile("ResOil");
+            soundImage = Image.FromFile("Sound");
+            sceneImage = Image.FromFile("Scene");
 
-            
+
         }
 
         private void pictureBox1_Resize(object sender, EventArgs e)
@@ -60,11 +60,6 @@ namespace MapEdit
 
         }
 
-
-        private void toolStripButton1_Click(object sender, EventArgs e)
-        {
-
-        }
 
         private void toolStripButton2_Click(object sender, EventArgs e)
         {
@@ -168,10 +163,40 @@ namespace MapEdit
                 sw = new StreamWriter(
                     File.Open(Path.Combine(folderBrowserDialog1.SelectedPath, "resources.xml"), FileMode.OpenOrCreate),
                     Encoding.UTF8);
+                sw.WriteLine("<?xml version=\"1.0\" encoding=\"utf-8\" ?>");
+                sw.WriteLine("<Resources>"); 
                 for (int i = 0; i < objectList.Count; i++)
                 {
+                    MapObject obj = objectList[i];
+                    if (obj.Type == ObjectType.City)
+                    {
+                        NaturalResource res = (NaturalResource)obj.Tag;
 
+                        sw.Write("    <"); sw.Write(obj.SectionName); sw.WriteLine(@">");
+
+                        sw.Write("        ");
+                        sw.Write("<Longitude>"); sw.Write(res.Longitude); sw.WriteLine("</Longitude>");
+
+                        sw.Write("        ");
+                        sw.Write("<Latitude>"); sw.Write(res.Latitude); sw.WriteLine("</Latitude>");
+
+                        sw.Write("        ");
+                        sw.Write("<Type>"); sw.Write(res.Type.ToString()); sw.WriteLine("</Latitude>");
+
+                        sw.Write("        ");
+                        sw.Write("<Amount>"); sw.Write(res.CurrentAmount); sw.WriteLine("</Amount>");
+
+
+                        if (res.Type == NaturalResourceType.Wood) 
+                        {
+                            Forest fore = (Forest)res;
+                            sw.Write("        ");
+                            sw.Write("<Radius>"); sw.Write(fore.Radius); sw.WriteLine("</Radius>");
+                        }
+                    }
                 }
+
+                sw.WriteLine("</Resources>"); 
                 sw.Close();
 
                 #endregion
@@ -198,7 +223,7 @@ namespace MapEdit
 
         private void pictureBox1_Click(object sender, EventArgs e)
         {
-            
+
         }
 
         private void DrawAll()
@@ -206,7 +231,7 @@ namespace MapEdit
             for (int i = 0; i < objectList.Count; i++)
             {
                 switch (objectList[i].Type)
-                { 
+                {
                     case ObjectType.City:
                         g.DrawImage(cityImage, new Point(objectList[i].X, objectList[i].Y));
                         break;
@@ -224,7 +249,7 @@ namespace MapEdit
                         break;
 
                 }
-                
+
             }
         }
 
