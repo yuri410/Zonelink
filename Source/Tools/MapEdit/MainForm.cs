@@ -10,9 +10,17 @@ namespace MapEdit
 {
     public partial class MainForm : Form
     {
+
+        List<MapObject>
+
         public MainForm()
         {
             InitializeComponent();
+        }
+
+        private void MainForm_Load(object sender, EventArgs e)
+        {
+
         }
     }
 }
