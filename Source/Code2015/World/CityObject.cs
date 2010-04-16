@@ -463,6 +463,10 @@ namespace Code2015.World
                 }
             }
         }
+        public bool TryLink() 
+        {
+            return false;
+        }
         public bool TryUpgrade()
         {
             if (MatchSite())

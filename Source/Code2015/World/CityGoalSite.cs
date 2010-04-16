@@ -284,8 +284,10 @@ namespace Code2015.World
             sites[i].HasPiece = true;
             sites[i].Type = res;
 
-
-            parent.TryUpgrade();
+            if (!parent.TryLink())
+            {
+                parent.TryUpgrade();
+            }
         }
         public void ClearAt(int i) 
         {
