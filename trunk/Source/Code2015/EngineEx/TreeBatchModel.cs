@@ -12,24 +12,7 @@ using Code2015.World;
 
 namespace Code2015.EngineEx
 {
-    struct TreeModelData
-    {
-        public PlantType Type;
-        public PlantCategory Category;
 
-        public Material[] Materials;
-        public int[][] Indices;
-        public int[] PartVtxCount;
-
-        public byte[] VertexData;
-
-        public int VertexCount;
-
-        //public int VertexSize
-        //{
-        //    get { return VertexPNT1.Size; }
-        //}
-    }
 
     struct ForestInfo
     {
@@ -39,8 +22,8 @@ namespace Code2015.EngineEx
 
         public float Amount;
 
-        public PlantType Type;
-        public PlantCategory Category;
+        //public PlantType Type;
+        //public PlantCategory Category;
 
         public TreeModelData[] BigPlants;
         public TreeModelData[] SmallPlants;
@@ -128,17 +111,7 @@ namespace Code2015.EngineEx
             int vtxOffset = 0;
 
             int plantCount = (int)(info.Amount * 0.05f);
-            int treeCount = 0;
-            int smvCount = 0;
-            switch (info.Category)
-            {
-                case PlantCategory.Grass:
-                case PlantCategory.Bush:
-                case PlantCategory.Forest:
-                    treeCount = (int)(plantCount * 0.6f);
-                    smvCount = (int)(plantCount * 0.4f);
-                    break;
-            }
+           
 
             FastList<byte> vertices = new FastList<byte>(plantCount * 2500);
             Dictionary<Material, FastList<int>> indices = new Dictionary<Material, FastList<int>>();
@@ -241,11 +214,6 @@ namespace Code2015.EngineEx
                 }
                 vtxOffset += meshData.VertexCount;
             }
-
-            //for (int i = 0; i < smvCount; i++)
-            //{
-            //    int idx = Randomizer.GetRandomInt(info.SmallPlants.Length);
-            //}
 
             // ============================================================================
 

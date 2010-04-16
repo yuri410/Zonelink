@@ -45,8 +45,8 @@ namespace Code2015.World
             info.Radius = forest.Radius;
 
             info.Amount = forest.CurrentAmount;
-            info.Category = forest.Category;
-            info.Type = forest.PlantSize;
+            //info.Category = forest.Category;
+            //info.Type = forest.PlantSize;
 
             info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, PlantType.Subtropics);
             info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, PlantType.Subtropics);
@@ -101,7 +101,7 @@ namespace Code2015.World
 
         public float AmountPer
         {
-            get { return forest.CurrentAmount / BalanceSystem.Forest.MaxAmount; }
+            get { return forest.CurrentAmount / forest.MaxAmount; }
         }
         public NaturalResourceType Type
         {

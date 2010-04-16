@@ -131,6 +131,7 @@
     <Compile Include="GUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\CreditScreen.cs" />
     <Compile Include="GUI\InfoDisplay.cs" />
     <Compile Include="GUI\CityMeasure.cs" />
     <Compile Include="GUI\Controls\Control.cs">
@@ -156,6 +157,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LinkUI.cs" />
+    <Compile Include="GUI\LoadingScreen.cs" />
     <Compile Include="GUI\MainMenu.cs" />
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>

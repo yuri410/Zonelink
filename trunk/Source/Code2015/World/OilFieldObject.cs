@@ -108,7 +108,7 @@ namespace Code2015.World
 
         public float AmountPer
         {
-            get { return oilField.CurrentAmount / BalanceSystem.Forest.MaxAmount; }
+            get { return oilField.CurrentAmount / oilField.MaxAmount; }
         }
 
         public NaturalResourceType Type

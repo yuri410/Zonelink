@@ -28,30 +28,39 @@ namespace Code2015.BalanceSystem
         [SLGValueAttribute()]
         const float AbsorbCarbonRate = 1000;
 
-        [SLGValue]
-        public const float MaxAmount = 10000;
+        //[SLGValue]
+        //public const float MaxAmount = 10000;
 
         [SLGValue]
         const float RecoverRate = 0.015f;
         [SLGValue]
         const float RecoverBias = 2f;
 
-        public float AbsorbCarbonSpeed
+        [SLGValue]
+        const float TimesMaxAmount = 2;
+
+        public float MaxAmount
         {
             get;
             private set;
         }
 
-        public PlantCategory Category
-        {
-            get;
-            private set;
-        }
-        public PlantType PlantSize
-        {
-            get;
-            private set;
-        }
+        //public float AbsorbCarbonSpeed
+        //{
+        //    get;
+        //    private set;
+        //}
+
+        //public PlantCategory Category
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public PlantType PlantSize
+        //{
+        //    get;
+        //    private set;
+        //}
         public float Radius
         {
             get;
@@ -74,6 +83,8 @@ namespace Code2015.BalanceSystem
             //Category = (PlantCategory)Enum.Parse(typeof(PlantType), sect.GetString("Category", ""));
             //PlantSize = (PlantType)Enum.Parse(typeof(PlantCategory), sect.GetString("Kind", ""));
             Radius = sect.GetSingle("Radius");
+
+            MaxAmount = CurrentAmount * TimesMaxAmount;
         }
 
 
