@@ -82,14 +82,32 @@ namespace Code2015.World
             if (targets != null)
             {
                 opBuffer.FastClear();
-                for (int i = 0; i < targets.Length; i++)
+
+                if (start.IsCaptured)
                 {
-                    if (!targets[i].IsCaptured)
+                    for (int i = 0; i < targets.Length; i++)
                     {
-                        RenderOperation[] ops = linkArrow[i].GetRenderOperation();
-                        if (ops != null)
+                        if (!targets[i].IsCaptured)
                         {
-                            opBuffer.Add(ops);
+                            RenderOperation[] ops = linkArrow[i].GetRenderOperation();
+                            if (ops != null)
+                            {
+                                opBuffer.Add(ops);
+                            }
+                        }
+                    }
+                }
+                else 
+                {
+                    for (int i = 0; i < targets.Length; i++)
+                    {
+                        if (!targets[i].IsCaptured || targets[i].Owner == start.Owner)
+                        {
+                            RenderOperation[] ops = linkArrow[i].GetRenderOperation();
+                            if (ops != null)
+                            {
+                                opBuffer.Add(ops);
+                            }
                         }
                     }
                 }
