@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
-using Apoc3D.MathLib;
 using Apoc3D.Config;
-using Code2015.World;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.World;
 
 namespace Code2015
 {
@@ -18,6 +18,7 @@ namespace Code2015
         float radius;
 
         SoundObject sound;
+        //float probability;
 
         public float Radius
         {
@@ -47,10 +48,14 @@ namespace Code2015
 
             radius = sect.GetSingle("Radius");
 
+            radius = PlanetEarth.GetTileHeight(MathEx.Degree2Radian(radius));
+
             string sfxName = sect["SFX"];
 
             sound = SoundManager.Instance.MakeSoundObjcet(sfxName, null, radius);
             sound.Position = position;
+
+            //probability = sect.GetSingle("Probability", 1);
         }
 
         #endregion

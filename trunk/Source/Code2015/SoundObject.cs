@@ -163,20 +163,34 @@ namespace Code2015
     }
     public class AmbientSoundObject : SoundObject
     {
-
+        public float Probability
+        {
+            get;
+            set;
+        }
         public AmbientSoundObject(SoundManager sm, ISoundObjectParent parent, SoundEffectGame sfx, float radius)
             : base(parent, sfx)
         {
             this.radius = radius;
+            this.Probability = sfx.Probability;
         }
 
         public override void Update(GameTime dt)
         {
+            if (Probability < 1)
+            {
+                float rnd = Randomizer.GetRandomSingle();
+                if (rnd > Probability)
+                {
+                    return;
+                }
+            }
+
             base.Update(dt);
 
             float distance = Vector3.Distance(this.Position, SoundManager.Instance.ListenerPosition);
 
-            if (distance <= radius)
+            if (distance <= radius * 3)
             {
                 if (currentInstance == null)
                 {

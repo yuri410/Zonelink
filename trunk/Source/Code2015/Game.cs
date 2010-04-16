@@ -232,6 +232,7 @@ namespace Code2015
         public void Update(GameTime time)
         {
             scene.Update(time);
+            soundWorld.Update(time);
 
             RtsCamera camera = scene.Camera;
 
