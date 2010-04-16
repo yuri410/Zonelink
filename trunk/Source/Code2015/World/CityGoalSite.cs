@@ -23,6 +23,8 @@ namespace Code2015.World
             public MdgType Desired;
         }
 
+        RenderSystem renderSys;
+
         CityObject parent;
         CityStyle style;
         bool isRotating;
@@ -33,8 +35,9 @@ namespace Code2015.World
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
-        public CityGoalSite(CityObject obj, CityStyle style)
+        public CityGoalSite(RenderSystem rs, CityObject obj, CityStyle style)
         {
+            this.renderSys = rs;
             this.parent = obj;
             this.style = style;
         }
@@ -284,7 +287,21 @@ namespace Code2015.World
             sites[i].HasPiece = true;
             sites[i].Type = res;
 
-            if (!parent.TryLink())
+            bool passed = false;
+            City target;
+            if (parent.TryLink(i, res, out target))
+            {
+                if (parent.IsCaptured && target.CanCapture(parent.Owner))
+                {
+                    target.Capture.SetCapture(parent.Owner, parent.City);
+
+
+                    CityLinkObject link = new CityLinkObject(renderSys, parent, target.Parent);
+                    parent.SceneManager.AddObjectToScene(link);
+                    passed = true;
+                }
+            }
+            if (!passed)
             {
                 parent.TryUpgrade();
             }
