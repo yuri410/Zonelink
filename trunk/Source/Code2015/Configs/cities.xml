@@ -1,870 +1,764 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <cities>
-  <!--Line 0-->
-  <C0000>
-    <Name>Sogdiondon</Name>
-    <Longitude>111.2338</Longitude>
-    <Latitude>57.85714</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0107, C0108</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-
-  </C0000>
-
-  <!--Line 1-->
-
-  <C0100>
-    <Name>Mohall</Name>
-    <Longitude>-101.6883</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>1</StartUp>
-    <Linkable>C0200, C0201</Linkable>
-    <Environment>2</Environment>
-  </C0100>
-  <C0101>
-    <Name>No City</Name>
-    <Longitude>-83.18182</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0201, C0202</Linkable>
-    <Environment>2</Environment>
-  </C0101>
-  <C0102>
-    <Name>Gaspe</Name>
-    <Longitude>-64.67532</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0202, C0203</Linkable>
-    <Environment>2</Environment>
-  </C0102>
-  <C0103>
-    <Name>Stuttgart</Name>
-    <Longitude>9.350649</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0206, C0207</Linkable>
-    <Environment>2</Environment>
-  </C0103>
-  <C0104>
-    <Name>Sharhorod</Name>
-    <Longitude>27.85714</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0207, C0208</Linkable>
-    <Environment>2</Environment>
-  </C0104>
-  <C0105>
-    <Name>Biyatov</Name>
-    <Longitude>46.36364</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0208, C0209</Linkable>
-    <Gender>1</Gender>
-  </C0105>
-  <C0106>
-    <Name>Aksuat</Name>
-    <Longitude>83.37662</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Large</Size>
-    <Population>1500</Population>
-    <Linkable>C0210, C0211</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Hunger>1</Hunger>
-  </C0106>
-  <C0107>
-    <Name>Ulaanbaatar</Name>
-    <Longitude>101.8831</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0000, C0211, C0212</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Hunger>1</Hunger>
-  </C0107>
-  <C0108>
-    <Name>Hulun Buir</Name>
-    <Longitude>120.3896</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>2</StartUp>
-    <Linkable>C0000, C0212, C0213</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Hunger>1</Hunger>
-  </C0108>
-  <C0109>
-    <Name>No City</Name>
-    <Longitude>138.8961</Longitude>
-    <Latitude>48.7013</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0213</Linkable>
-    <Disease>1</Disease>
-  </C0109>
-  
-  <!--Line 2-->
-  <C0200>
-    <Name>Price</Name>
-    <Longitude>-110.8442</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>1</StartUp>
-    <Linkable>C0100, C0300</Linkable>
-    <Environment>2</Environment>
-  </C0200>
-  <C0201>
-    <Name>Moberly</Name>
-    <Longitude>-92.33765</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>1</StartUp>
-    <Linkable>C0101, C0102, C0300, C0301</Linkable>
-    <Environment>2</Environment>
-  </C0201>
-  <C0202>
-    <Name>Washington</Name>
-    <Longitude>-73.83116</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0101, C0102, C0301</Linkable>
-    <Environment>2</Environment>
-  </C0202>
-  <C0203>
-    <Name>No City</Name>
-    <Longitude>-55.32467</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0102, C0302</Linkable>
-  </C0203>
-  <C0204>
-    <Name>No City</Name>
-    <Longitude>-36.81818</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0302, C0303</Linkable>
-  </C0204>
-  <C0205>
-    <Name>No City</Name>
-    <Longitude>-18.31169</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0303, C0304</Linkable>
-  </C0205>
-  <C0206>
-    <Name>Barcelona</Name>
-    <Longitude>0.1948052</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0304, C0305, C0103</Linkable>
-    <Environment>2</Environment>
-  </C0206>
-  <C0207>
-    <Name>Argostoli</Name>
-    <Longitude>18.7013</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0305, C0306, C0103, C0104</Linkable>
-    <Environment>2</Environment>
-  </C0207>
-  <C0208>
-    <Name>Sivas</Name>
-    <Longitude>37.20779</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0306, C0307, C0104, C0105</Linkable>
-    <Gender>1</Gender>
-  </C0208>
-  <C0209>
-    <Name>Serder</Name>
-    <Longitude>55.71428</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0307, C0308, C0105</Linkable>
-    <Maternal>1</Maternal>
-  </C0209>
-  <C0210>
-    <Name>Kaxgar</Name>
-    <Longitude>74.22078</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0308, C0309, C0106</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Gender>1</Gender>
-    <Hunger>1</Hunger>
-  </C0210>
-  <C0211>
-    <Name>Jiayuguan</Name>
-    <Longitude>92.72727</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0309, C0310, C0106, C0107</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Hunger>1</Hunger>
-  </C0211>
-  <C0212>
-    <Name>Beijing</Name>
-    <Longitude>111.2338</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>2</StartUp>
-    <Linkable>C0310, C0311, C0107, C0108</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Child>1</Child>
-    <Hunger>1</Hunger>
-  </C0212>
-  <C0213>
-    <Name>Sokcho</Name>
-    <Longitude>129.7402</Longitude>
-    <Latitude>39.35065</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>2</StartUp>
-    <Linkable>C0311, C0108, C0109</Linkable>
-    <Environment>2</Environment>
-    <Disease>1</Disease>
-    <Hunger>1</Hunger>
-  </C0213>
-
-  <!--Line 3-->
-  <C0300>
-    <Name>Dallas</Name>
-    <Longitude>-101.6883</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>1</StartUp>
-    <Linkable>C0200, C0201, C0400</Linkable>
-    <Disease>1</Disease>
-    <Maternal>1</Maternal>
-  </C0300>
-  <C0301>
-    <Name>Tallahassee</Name>
-    <Longitude>-83.18182</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0201, C0202, C0400</Linkable>
-    <Environment>2</Environment>
-  </C0301>
-  <C0302>
-    <Name>No City</Name>
-    <Longitude>-46.16883</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0203, C0204</Linkable>
-  </C0302>
-  <C0303>
-    <Name>No City</Name>
-    <Longitude>-27.66234</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Small</Size>
-    <Population>270</Population>
-    <Linkable>C0204, C0205</Linkable>
-  </C0303>
-  <C0304>
-    <Name>Marrakech</Name>
-    <Longitude>-9.155844</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0205, C0206, C0401</Linkable>
-    <Education>1</Education>
-  </C0304>
-  <C0305>
-    <Name>Gadamis</Name>
-    <Longitude>9.350649</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0206, C0207, C0401, C0402</Linkable>
-    <Disease>1</Disease>
-  </C0305>
-  <C0306>
-    <Name>Cario</Name>
-    <Longitude>27.85714</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0207, C0208, C0402</Linkable>
-  </C0306>
-  <C0307>
-    <Name>AI Basrah</Name>
-    <Longitude>46.36364</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0208, C0209</Linkable>
-    <Disease>1</Disease>
-  </C0307>
-  <C0308>
-    <Name>Mandi</Name>
-    <Longitude>64.87012</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0209, C0210</Linkable>
-    <Education>1</Education>
-  </C0308>
-  <C0309>
-    <Name>Huoerba</Name>
-    <Longitude>83.37662</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0210, C0211, C0403</Linkable>
-    <Child>1</Child>
-    <Hunger>2</Hunger>
-  </C0309>
-  <C0310>
-    <Name>Ya'an</Name>
-    <Longitude>101.8831</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0211, C0212, C0403, C0404</Linkable>
-    <Child>1</Child>
-    <Hunger>1</Hunger>
-  </C0310>
-  <C0311>
-    <Name>Shanghai</Name>
-    <Longitude>120.3896</Longitude>
-    <Latitude>30.1948</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>2</StartUp>
-    <Linkable>C0212, C0213, C0404</Linkable>
-    <Child>1</Child>
-    <Hunger>1</Hunger>
-  </C0311>
-
-  <!--Line 4-->
-  <C0400>
-    <Name>San Luis</Name>
-    <Longitude>-92.33765</Longitude>
-    <Latitude>21.03896</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0300, C0301, C0500</Linkable>
-    <Disease>1</Disease>
-    <Maternal>1</Maternal>
-    <Child>1</Child>
-  </C0400>
-  <C0401>
-    <Name>Mokhtar</Name>
-    <Longitude>0.1948052</Longitude>
-    <Latitude>21.03896</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0304, C0305, C0501</Linkable>
-    <Disease>2</Disease>
-    <Maternal>1</Maternal>
-    <Child>2</Child>
-    <Gender>2</Gender>
-    <Hunger>2</Hunger>
-  </C0401>
-  <C0402>
-    <Name>Aouzou</Name>
-    <Longitude>18.7013</Longitude>
-    <Latitude>21.03896</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0305, C0306, C0502</Linkable>
-    <Disease>2</Disease>
-    <Maternal>1</Maternal>
-    <Child>2</Child>
-    <Gender>2</Gender>
-  </C0402>
-  <C0403>
-    <Name>Chittagong</Name>
-    <Longitude>92.72727</Longitude>
-    <Latitude>21.03896</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0309, C0310, C0503, C0504</Linkable>
-    <Maternal>1</Maternal>
-  </C0403>
-  <C0404>
-    <Name>Zhanjiang</Name>
-    <Longitude>111.2338</Longitude>
-    <Latitude>21.03896</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0310, C0311, C0504, C0505</Linkable>
-    <Child>1</Child>
-    <Hunger>1</Hunger>
-  </C0404>
-  
-  <!--Line 5-->
-  <C0500>
-    <Name>Panama</Name>
-    <Longitude>-83.18182</Longitude>
-    <Latitude>11.68831</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>4</Farm>
-    <Linkable>C0400, C0600</Linkable>
-    <Disease>1</Disease>
-    <Hunger>2</Hunger>
-  </C0500>
-  <C0501>
-    <Name>Bamako</Name>
-    <Longitude>-9.155844</Longitude>
-    <Latitude>11.68831</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0401, C0602</Linkable>
-    <Disease>2</Disease>
-    <Maternal>2</Maternal>
-    <Child>2</Child>
-    <Gender>2</Gender>
-    <Education>2</Education>
-    <Hunger>2</Hunger>
-  </C0501>
-  <C0502>
-    <Name>EI Fula</Name>
-    <Longitude>27.85714</Longitude>
-    <Latitude>11.68831</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0402, C0603, C0604</Linkable>
-    <Disease>2</Disease>
-    <Maternal>2</Maternal>
-    <Child>2</Child>
-    <Gender>2</Gender>
-    <Hunger>2</Hunger>
-  </C0502>
-  <C0503>
-    <Name>Chennai</Name>
-    <Longitude>83.37662</Longitude>
-    <Latitude>11.68831</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0403</Linkable>
-    <Maternal>1</Maternal>
-    <Hunger>2</Hunger>
-  </C0503>
-  <C0504>
-    <Name>Koh Kong</Name>
-    <Longitude>101.8831</Longitude>
-    <Latitude>11.68831</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>4</Farm>
-    <Linkable>C0403, C0404, C0605</Linkable>
-    <Maternal>1</Maternal>
-  </C0504>
-  <C0505>
-    <Name>Batangas</Name>
-    <Longitude>120.3896</Longitude>
-    <Latitude>11.68831</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0404, C0606</Linkable>
-  </C0505>
-
-  <!--Line 6-->
-  <C0600>
-    <Name>Bogota</Name>
-    <Longitude>-73.83116</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>4</Farm>
-    <Linkable>C0500, C0700</Linkable>
-    <Disease>1</Disease>
-    <Hunger>1</Hunger>
-  </C0600>
-  <C0601>
-    <Name>Anapi</Name>
-    <Longitude>-55.32467</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0700, C0701</Linkable>
-    <Disease>1</Disease>
-    <Maternal>1</Maternal>
-    <Gender>1</Gender>
-    <Hunger>1</Hunger>
-  </C0601>
-  <C0602>
-    <Name>No City</Name>
-    <Longitude>-18.31169</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0501, C0702</Linkable>
-  </C0602>
-  <C0603>
-    <Name>Gemena</Name>
-    <Longitude>18.7013</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0502, C0703</Linkable>
-    <Disease>2</Disease>
-    <Maternal>2</Maternal>
-    <Child>2</Child>
-    <Gender>2</Gender>
-    <Hunger>1</Hunger>
-  </C0603>
-  <C0604>
-    <Name>Marsabit</Name>
-    <Longitude>37.20779</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0502, C0703</Linkable>
-    <Disease>2</Disease>
-    <Maternal>2</Maternal>
-    <Child>2</Child>
-    <Education>2</Education>
-    <Hunger>1</Hunger>
-  </C0604>
-  <C0605>
-    <Name>Woyla</Name>
-    <Longitude>111.2338</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0504, C0505, C0704</Linkable>
-  </C0605>
-  <C0606>
-    <Name>Sarikei</Name>
-    <Longitude>129.7402</Longitude>
-    <Latitude>2.337662</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>4</Farm>
-    <Linkable>C0505, C0704, C0705</Linkable>
-  </C0606>
-
-  <!--Line 7-->
-  <C0700>
-    <Name>Porto Velho</Name>
-    <Longitude>-64.67532</Longitude>
-    <Latitude>-6.818182</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0600, C0601, C0800</Linkable>
-    <Disease>1</Disease>
-    <Child>1</Child>
-    <Education>1</Education>
-    <Hunger>1</Hunger>
-  </C0700>
-  <C0701>
-    <Name>Teresina</Name>
-    <Longitude>-46.16883</Longitude>
-    <Latitude>-6.818182</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0601, C0800, C0801</Linkable>
-    <Disease>1</Disease>
-    <Maternal>1.5</Maternal>
-    <Child>1</Child>
-    <Gender>1</Gender>
-    <Hunger>1</Hunger>
-  </C0701>
-  <C0702>
-    <Name>No City</Name>
-    <Longitude>-27.66234</Longitude>
-    <Latitude>-6.818182</Latitude>
-    <Size></Size>
-    <Population></Population>
-    <Linkable>C0602, C0801</Linkable>
-  </C0702>
-  <C0703>
-    <Name>Manono</Name>
-    <Longitude>27.85714</Longitude>
-    <Latitude>-6.818182</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0603, C0604, C0802, C0803</Linkable>
-    <Disease>2</Disease>
-    <Child>2</Child>
-    <Gender>1</Gender>
-    <Education>1</Education>
-    <Hunger>2</Hunger>
-  </C0703>
-  <C0704>
-    <Name>Ruteng</Name>
-    <Longitude>120.3896</Longitude>
-    <Latitude>-6.818182</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0605, C0606, C0806, C0807</Linkable>
-  </C0704>
-  <C0705>
-    <Name>Gahgo</Name>
-    <Longitude>138.8961</Longitude>
-    <Latitude>-6.818182</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0807</Linkable>
-    <Gender>2</Gender>
-  </C0705>
-
-  <!--Line 8-->
-  <C0800>
-    <Name>Cuiaba</Name>
-    <Longitude>-55.32467</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>3</StartUp>
-    <Linkable>C0700, C0701, C0900</Linkable>
-    <Maternal>1.5</Maternal>
-    <Child>1</Child>
-    <Hunger>2</Hunger>
-  </C0800>
-  <C0801>
-    <Name>Salvador</Name>
-    <Longitude>-36.81818</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0701, C0702</Linkable>
-    <Maternal>1</Maternal>
-    <Child>1</Child>
-    <Gender>1</Gender>
-    <Hunger>1</Hunger>
-  </C0801>
-  <C0802>
-    <Name>Huambo</Name>
-    <Longitude>18.7013</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C0703, C0901</Linkable>
-    <Disease>2</Disease>
-    <Maternal>2</Maternal>
-    <Child>1</Child>
-    <Education>2</Education>
-    <Hunger>2</Hunger>
-  </C0802>
-  <C0803>
-    <Name>Blantyre</Name>
-    <Longitude>37.20779</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population>270</Population>
-    <Linkable>C0703, C0901, C0902</Linkable>
-    <Disease>2</Disease>
-    <Maternal>2</Maternal>
-    <Child>1.5</Child>
-    <Education>2</Education>
-    <Hunger>2</Hunger>
-  </C0803>
-  <C0804>
-    <Name>C0804</Name>
-    <Longitude>55.71428</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0902, C0903</Linkable>
-  </C0804>
-  <C0805>
-    <Name>C0805</Name>
-    <Longitude>74.22078</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0903, C0904</Linkable>
-  </C0805>
-  <C0806>
-    <Name>C0806</Name>
-    <Longitude>111.2338</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Linkable>C0704, C0905, C0906</Linkable>
-  </C0806>
-  <C0807>
-    <Name>Darwin</Name>
-    <Longitude>129.7402</Longitude>
-    <Latitude>-15.97403</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>4</StartUp>
-    <Linkable>C0704, C0705, C0906, C0907</Linkable>
-    <Environment>2</Environment>
-     
-  </C0807>
-
-  <!--Line 9-->
-  <C0900>
-    <Name>Salta</Name>
-    <Longitude>-64.67532</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>3</StartUp>
-    <Linkable>C0800, C1000</Linkable>
-    <Child>1</Child>
-  </C0900>
-
-  <C0901>
-    <Name>Pretoria</Name>
-    <Longitude>27.85714</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0802, C0803, C1001</Linkable>
-    <Disease>2</Disease>
-    <Child>1</Child>
-    <Education>1</Education>
-    <Hunger>1</Hunger>
-  </C0901>
-
-  <C0902>
-    <Name>C0902</Name>
-    <Longitude>46.36364</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0803, C0804</Linkable>
-  </C0902>
-  <C0903>
-    <Name>C0903</Name>
-    <Longitude>64.87012</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0804, C0805</Linkable>
-  </C0903>
-  <C0904>
-    <Name>C0904</Name>
-    <Longitude>83.37662</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0805, C1002</Linkable>
-  </C0904>
-  <C0905>
-    <Name>C0905</Name>
-    <Longitude>101.8831</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0806, C1002</Linkable>
-  </C0905>
-  <C0906>
-    <Name>Meekatharra</Name>
-    <Longitude>120.3896</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>4</StartUp>
-    <Linkable>C0806, C0807</Linkable>
-    <Environment>2</Environment>
-     
-  </C0906>
-  <C0907>
-    <Name>Mt Isa</Name>
-    <Longitude>138.8961</Longitude>
-    <Latitude>-25.32467</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>4</StartUp>
-    <Linkable>C0807, C1003</Linkable>
-    <Environment>2</Environment>
-      </C0907>
-
-  <!--Line 10-->
-  <C1000>
-    <Name>Montevideo</Name>
-    <Longitude>-55.32467</Longitude>
-    <Latitude>-34.67532</Latitude>
-    <Size>Medium</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>3</StartUp>
-    <Linkable>C0900, C1100</Linkable>
-    <Child>1</Child>
-  </C1000>
-  <C1001>
-    <Name>Cape Town</Name>
-    <Longitude>18.7013</Longitude>
-    <Latitude>-34.67532</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0901</Linkable>
-    <Disease>2</Disease>
-    <Hunger>1</Hunger>
-  </C1001>
-  <C1002>
-    <Name>Sydney</Name>
-    <Longitude>92.72727</Longitude>
-    <Latitude>-34.67532</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Linkable>C0904, C0905</Linkable>
-  </C1002>
-  <C1003>
-    <Name>Sydney</Name>
-    <Longitude>148.2467</Longitude>
-    <Latitude>-34.67532</Latitude>
-    <Size>Large</Size>
-    <Population></Population>
-    <Farm>2</Farm>
-    <StartUp>4</StartUp>
-    <Linkable>C0907</Linkable>
-    <Environment>2</Environment>
-     
-  </C1003>
-  
-  <!--Line 11-->
-  <C1100>
-    <Name>Trelew</Name>
-    <Longitude>-64.67532</Longitude>
-    <Latitude>-43.63636</Latitude>
-    <Size>Small</Size>
-    <Population></Population>
-    <Linkable>C1000</Linkable>
-    <Farm>2</Farm>
-    <StartUp>3</StartUp>
-  </C1100>
-
-
+    <C0000>
+        <Name>Sogdiondon</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>57.85714</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Linkable>C0107, C0108</Linkable>
+    </C0000>
+    <C0100>
+        <Name>Mohall</Name>
+        <Longitude>-101.6883</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <StartUp>1</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0200, C0201</Linkable>
+    </C0100>
+    <C0101>
+        <Name>No City</Name>
+        <Longitude>-83.18182</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <Linkable>C0201, C0202</Linkable>
+    </C0101>
+    <C0102>
+        <Name>Gaspe</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <Linkable>C0202, C0203</Linkable>
+    </C0102>
+    <C0103>
+        <Name>Stuttgart</Name>
+        <Longitude>9.350649</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Medium</Size>
+        <Environment>2</Environment>
+        <Linkable>C0206, C0207</Linkable>
+    </C0103>
+    <C0104>
+        <Name>Sharhorod</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <Linkable>C0207, C0208</Linkable>
+    </C0104>
+    <C0105>
+        <Name>Biyatov</Name>
+        <Longitude>46.36364</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Gender>1</Gender>
+        <Linkable>C0208, C0209</Linkable>
+    </C0105>
+    <C0106>
+        <Name>Aksuat</Name>
+        <Longitude>83.37662</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Large</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Hunger>1</Hunger>
+        <Linkable>C0210, C0211</Linkable>
+    </C0106>
+    <C0107>
+        <Name>Ulaanbaatar</Name>
+        <Longitude>101.8831</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Medium</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Hunger>1</Hunger>
+        <Linkable>C0000, C0211, C0212</Linkable>
+    </C0107>
+    <C0108>
+        <Name>Hulun Buir</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Hunger>1</Hunger>
+        <StartUp>2</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0000, C0212, C0213</Linkable>
+    </C0108>
+    <C0109>
+        <Name>No City</Name>
+        <Longitude>138.8961</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Linkable>C0213</Linkable>
+    </C0109>
+    <C0200>
+        <Name>Price</Name>
+        <Longitude>-110.8442</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <StartUp>1</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0100, C0300</Linkable>
+    </C0200>
+    <C0201>
+        <Name>Moberly</Name>
+        <Longitude>-92.33765</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <StartUp>1</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0100, C0101, C0300, C0301</Linkable>
+    </C0201>
+    <C0202>
+        <Name>Washington</Name>
+        <Longitude>-73.83116</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Large</Size>
+        <Environment>2</Environment>
+        <Linkable>C0101, C0102, C0301</Linkable>
+    </C0202>
+    <C0203>
+        <Name>C0203</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0102, C0302</Linkable>
+    </C0203>
+    <C0204>
+        <Name>C0204</Name>
+        <Longitude>-36.81818</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0302, C0303</Linkable>
+    </C0204>
+    <C0205>
+        <Name>C0205</Name>
+        <Longitude>-18.31169</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0303, C0304</Linkable>
+    </C0205>
+    <C0206>
+        <Name>Barcelona</Name>
+        <Longitude>0.1948052</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Medium</Size>
+        <Environment>2</Environment>
+        <Farm>2</Farm>
+        <Linkable>C0304, C0305, C0103</Linkable>
+    </C0206>
+    <C0207>
+        <Name>Argostoli</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <Linkable>C0305, C0306, C0103, C0104</Linkable>
+    </C0207>
+    <C0208>
+        <Name>Sivas</Name>
+        <Longitude>37.20779</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Gender>1</Gender>
+        <Linkable>C0306, C0307, C0104, C0105</Linkable>
+    </C0208>
+    <C0209>
+        <Name>Serder</Name>
+        <Longitude>55.71428</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Maternal>1</Maternal>
+        <Farm>1</Farm>
+        <Linkable>C0307, C0308, C0105</Linkable>
+    </C0209>
+    <C0210>
+        <Name>Kaxgar</Name>
+        <Longitude>74.22078</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Medium</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Gender>1</Gender>
+        <Hunger>1</Hunger>
+        <Linkable>C0308, C0309, C0106</Linkable>
+    </C0210>
+    <C0211>
+        <Name>Jiayuguan</Name>
+        <Longitude>92.72727</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Hunger>1</Hunger>
+        <Linkable>C0309, C0310, C0106, C0107</Linkable>
+    </C0211>
+    <C0212>
+        <Name>Beijing</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Large</Size>
+        <Child>1</Child>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Hunger>1</Hunger>
+        <StartUp>2</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0310, C0311, C0107, C0108</Linkable>
+    </C0212>
+    <C0213>
+        <Name>Sokcho</Name>
+        <Longitude>129.7402</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Environment>2</Environment>
+        <Hunger>1</Hunger>
+        <StartUp>2</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0311, C0108, C0109</Linkable>
+    </C0213>
+    <C0300>
+        <Name>Dallas</Name>
+        <Longitude>-101.6883</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Large</Size>
+        <Disease>1</Disease>
+        <Maternal>1</Maternal>
+        <StartUp>1</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0200, C0201, C0400</Linkable>
+    </C0300>
+    <C0301>
+        <Name>Tallahassee</Name>
+        <Longitude>-83.18182</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Medium</Size>
+        <Environment>2</Environment>
+        <Linkable>C0201, C0202, C0400</Linkable>
+    </C0301>
+    <C0302>
+        <Name>C0302</Name>
+        <Longitude>-46.16883</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0203, C0204</Linkable>
+    </C0302>
+    <C0303>
+        <Name>C0303</Name>
+        <Longitude>-27.66234</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0204, C0205</Linkable>
+    </C0303>
+    <C0304>
+        <Name>Marrakech</Name>
+        <Longitude>-9.155844</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Small</Size>
+        <Education>1</Education>
+        <Linkable>C0205, C0206, C0401</Linkable>
+    </C0304>
+    <C0305>
+        <Name>Gadamis</Name>
+        <Longitude>9.350649</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Linkable>C0206, C0207, C0401, C0402</Linkable>
+    </C0305>
+    <C0306>
+        <Name>Cario</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Medium</Size>
+        <Farm>4</Farm>
+        <Linkable>C0207, C0208, C0402</Linkable>
+    </C0306>
+    <C0307>
+        <Name>AI Basrah</Name>
+        <Longitude>46.36364</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Medium</Size>
+        <Disease>1</Disease>
+        <Linkable>C0208, C0209</Linkable>
+    </C0307>
+    <C0308>
+        <Name>Mandi</Name>
+        <Longitude>64.87012</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Medium</Size>
+        <Education>1</Education>
+        <Linkable>C0209, C0210</Linkable>
+    </C0308>
+    <C0309>
+        <Name>Huoerba</Name>
+        <Longitude>83.37662</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Small</Size>
+        <Child>1</Child>
+        <Hunger>2</Hunger>
+        <Linkable>C0210, C0211, C0403</Linkable>
+    </C0309>
+    <C0310>
+        <Name>Ya'an</Name>
+        <Longitude>101.8831</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Hunger>1</Hunger>
+        <Linkable>C0211, C0212, C0403, C0404</Linkable>
+    </C0310>
+    <C0311>
+        <Name>Shanghai</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Size>Large</Size>
+        <Child>1</Child>
+        <Hunger>1</Hunger>
+        <StartUp>2</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0212, C0213, C0404</Linkable>
+    </C0311>
+    <C0400>
+        <Name>San Luis</Name>
+        <Longitude>-92.33765</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Disease>1</Disease>
+        <Maternal>1</Maternal>
+        <Linkable>C0300, C0301, C0500</Linkable>
+    </C0400>
+    <C0401>
+        <Name>Mokhtar</Name>
+        <Longitude>0.1948052</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Size>Small</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Gender>2</Gender>
+        <Hunger>2</Hunger>
+        <Maternal>1</Maternal>
+        <Farm>1</Farm>
+        <Linkable>C0304, C0305, C0501</Linkable>
+    </C0401>
+    <C0402>
+        <Name>Aouzou</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Size>Small</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Gender>2</Gender>
+        <Maternal>1</Maternal>
+        <Linkable>C0305, C0306, C0502</Linkable>
+    </C0402>
+    <C0403>
+        <Name>Chittagong</Name>
+        <Longitude>92.72727</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Size>Medium</Size>
+        <Maternal>1</Maternal>
+        <Linkable>C0309, C0310, C0503, C0504</Linkable>
+    </C0403>
+    <C0404>
+        <Name>Zhanjiang</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Hunger>1</Hunger>
+        <Linkable>C0310, C0311, C0504, C0505</Linkable>
+    </C0404>
+    <C0500>
+        <Name>Panama</Name>
+        <Longitude>-83.18182</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Size>Medium</Size>
+        <Disease>1</Disease>
+        <Hunger>2</Hunger>
+        <Farm>4</Farm>
+        <Linkable>C0400, C0600</Linkable>
+    </C0500>
+    <C0501>
+        <Name>Bamako</Name>
+        <Longitude>-9.155844</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Size>Medium</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Education>2</Education>
+        <Gender>2</Gender>
+        <Hunger>2</Hunger>
+        <Maternal>2</Maternal>
+        <Farm>1</Farm>
+        <Linkable>C0401, C0602</Linkable>
+    </C0501>
+    <C0502>
+        <Name>EI Fula</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Size>Small</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Gender>2</Gender>
+        <Hunger>2</Hunger>
+        <Maternal>2</Maternal>
+        <Linkable>C0402, C0603, C0604</Linkable>
+    </C0502>
+    <C0503>
+        <Name>Chennai</Name>
+        <Longitude>83.37662</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Size>Medium</Size>
+        <Hunger>2</Hunger>
+        <Maternal>1</Maternal>
+        <Farm>4</Farm>
+        <Linkable>C0403</Linkable>
+    </C0503>
+    <C0504>
+        <Name>Koh Kong</Name>
+        <Longitude>101.8831</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Size>Small</Size>
+        <Maternal>1</Maternal>
+        <Farm>4</Farm>
+        <Linkable>C0403, C0404, C0605</Linkable>
+    </C0504>
+    <C0505>
+        <Name>Batangas</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Size>Medium</Size>
+        <Linkable>C0404, C0606</Linkable>
+    </C0505>
+    <C0600>
+        <Name>Bogota</Name>
+        <Longitude>-73.83116</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Medium</Size>
+        <Disease>1</Disease>
+        <Hunger>1</Hunger>
+        <Farm>4</Farm>
+        <Linkable>C0500, C0700</Linkable>
+    </C0600>
+    <C0601>
+        <Name>Anapi</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Small</Size>
+        <Disease>1</Disease>
+        <Gender>1</Gender>
+        <Hunger>1</Hunger>
+        <Maternal>1</Maternal>
+        <Linkable>C0700, C0701</Linkable>
+    </C0601>
+    <C0602>
+        <Name>C0602</Name>
+        <Longitude>-18.31169</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0501, C0702</Linkable>
+    </C0602>
+    <C0603>
+        <Name>Gemena</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Medium</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Gender>2</Gender>
+        <Hunger>1</Hunger>
+        <Maternal>2</Maternal>
+        <Linkable>C0502, C0703</Linkable>
+    </C0603>
+    <C0604>
+        <Name>Marsabit</Name>
+        <Longitude>37.20779</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Small</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Education>2</Education>
+        <Hunger>1</Hunger>
+        <Maternal>2</Maternal>
+        <Linkable>C0502, C0703</Linkable>
+    </C0604>
+    <C0605>
+        <Name>Woyla</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0504, C0505, C0704</Linkable>
+    </C0605>
+    <C0606>
+        <Name>Sarikei</Name>
+        <Longitude>129.7402</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Size>Small</Size>
+        <Farm>4</Farm>
+        <Linkable>C0505, C0704, C0705</Linkable>
+    </C0606>
+    <C0700>
+        <Name>Porto Velho</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Disease>1</Disease>
+        <Education>1</Education>
+        <Hunger>1</Hunger>
+        <Linkable>C0600, C0601, C0800</Linkable>
+    </C0700>
+    <C0701>
+        <Name>Teresina</Name>
+        <Longitude>-46.16883</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Disease>1</Disease>
+        <Gender>1</Gender>
+        <Hunger>1</Hunger>
+        <Maternal>1.5</Maternal>
+        <Linkable>C0601, C0800, C0801</Linkable>
+    </C0701>
+    <C0702>
+        <Name>C0702</Name>
+        <Longitude>-27.66234</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0602, C0801</Linkable>
+    </C0702>
+    <C0703>
+        <Name>Manono</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Size>Medium</Size>
+        <Child>2</Child>
+        <Disease>2</Disease>
+        <Education>1</Education>
+        <Gender>1</Gender>
+        <Hunger>2</Hunger>
+        <Linkable>C0603, C0604, C0802, C0803</Linkable>
+    </C0703>
+    <C0704>
+        <Name>Ruteng</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Size>Small</Size>
+        <Linkable>C0605, C0606, C0806, C0807</Linkable>
+    </C0704>
+    <C0705>
+        <Name>Gahgo</Name>
+        <Longitude>138.8961</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Size>Small</Size>
+        <Gender>2</Gender>
+        <Linkable>C0606, C0807</Linkable>
+    </C0705>
+    <C0800>
+        <Name>Cuiaba</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Hunger>2</Hunger>
+        <Maternal>1.5</Maternal>
+        <StartUp>3</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0700, C0701, C0900</Linkable>
+    </C0800>
+    <C0801>
+        <Name>Salvador</Name>
+        <Longitude>-36.81818</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <Gender>1</Gender>
+        <Hunger>1</Hunger>
+        <Maternal>1</Maternal>
+        <Linkable>C0701, C0702</Linkable>
+    </C0801>
+    <C0802>
+        <Name>Huambo</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Small</Size>
+        <Child>1</Child>
+        <Disease>2</Disease>
+        <Education>2</Education>
+        <Hunger>2</Hunger>
+        <Maternal>2</Maternal>
+        <Farm>2</Farm>
+        <Linkable>C0703, C0901</Linkable>
+    </C0802>
+    <C0803>
+        <Name>Blantyre</Name>
+        <Longitude>37.20779</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Child>1.5</Child>
+        <Disease>2</Disease>
+        <Education>2</Education>
+        <Hunger>2</Hunger>
+        <Maternal>2</Maternal>
+        <Linkable>C0703, C0901, C0902</Linkable>
+    </C0803>
+    <C0804>
+        <Name>C0804</Name>
+        <Longitude>55.71428</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Linkable>C0902, C0903</Linkable>
+    </C0804>
+    <C0805>
+        <Name>C0805</Name>
+        <Longitude>74.22078</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Linkable>C0903, C0904</Linkable>
+    </C0805>
+    <C0806>
+        <Name>C0806</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Linkable>C0704, C0905, C0906</Linkable>
+    </C0806>
+    <C0807>
+        <Name>Darwin</Name>
+        <Longitude>129.7402</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Size>Medium</Size>
+        <Environment>2</Environment>
+        <StartUp>4</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0704, C0705, C0906, C0907</Linkable>
+    </C0807>
+    <C0900>
+        <Name>Salta</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <StartUp>3</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0800, C1000</Linkable>
+    </C0900>
+    <C0901>
+        <Name>Pretoria</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Large</Size>
+        <Child>1</Child>
+        <Disease>2</Disease>
+        <Education>1</Education>
+        <Hunger>1</Hunger>
+        <Linkable>C0802, C0803, C1001</Linkable>
+    </C0901>
+    <C0902>
+        <Name>C0902</Name>
+        <Longitude>46.36364</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Large</Size>
+        <Linkable>C0803, C0804</Linkable>
+    </C0902>
+    <C0903>
+        <Name>C0903</Name>
+        <Longitude>64.87012</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Large</Size>
+        <Linkable>C0804, C0805</Linkable>
+    </C0903>
+    <C0904>
+        <Name>C0904</Name>
+        <Longitude>83.37662</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Large</Size>
+        <Linkable>C0805, C1002</Linkable>
+    </C0904>
+    <C0905>
+        <Name>C0905</Name>
+        <Longitude>101.8831</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Large</Size>
+        <Linkable>C0806, C1002</Linkable>
+    </C0905>
+    <C0906>
+        <Name>Meekatharra</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Small</Size>
+        <Environment>2</Environment>
+        <StartUp>4</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0806, C0807</Linkable>
+    </C0906>
+    <C0907>
+        <Name>Mt Isa</Name>
+        <Longitude>138.8961</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Size>Medium</Size>
+        <Environment>2</Environment>
+        <StartUp>4</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0807, C1003</Linkable>
+    </C0907>
+    <C1000>
+        <Name>Montevideo</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Size>Medium</Size>
+        <Child>1</Child>
+        <StartUp>3</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0900, C1100</Linkable>
+    </C1000>
+    <C1001>
+        <Name>Cape Town</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Size>Large</Size>
+        <Disease>2</Disease>
+        <Hunger>1</Hunger>
+        <Farm>2</Farm>
+        <Linkable>C0901</Linkable>
+    </C1001>
+    <C1002>
+        <Name>C1002</Name>
+        <Longitude>92.72727</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Size>Large</Size>
+        <Linkable>C0904, C0905</Linkable>
+    </C1002>
+    <C1003>
+        <Name>Sydney</Name>
+        <Longitude>148.2467</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Size>Large</Size>
+        <Environment>2</Environment>
+        <StartUp>4</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C0907</Linkable>
+    </C1003>
+    <C1100>
+        <Name>Trelew</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>-43.63636</Latitude>
+        <Size>Small</Size>
+        <StartUp>3</StartUp>
+        <Farm>2</Farm>
+        <Linkable>C1000</Linkable>
+    </C1100>
 </cities>
