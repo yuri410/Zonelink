@@ -224,7 +224,7 @@ namespace Code2015
 
             bool action = false;
 
-            float r = radius;
+            float r = radius * 4;
             if (distance <= r)
             {
                 if (lastDistance > r)
