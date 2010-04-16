@@ -44,11 +44,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapRepair", "Tools\MapRepai
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ParticleTest", "Tools\ParticleTest\ParticleTest.csproj", "{01EDAD52-3AD7-4514-A316-489A6C0498F8}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4BD9BAE7-289A-4010-8228-A89DCB46D73C}"
-	ProjectSection(SolutionItems) = preProject
-		TODO.txt = TODO.txt
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EffectLibrary", "EffectLibrary\EffectLibrary.csproj", "{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapEdit", "Tools\MapEdit\MapEdit.csproj", "{68B78010-56AF-446A-9BB2-C39ADA08C350}"
