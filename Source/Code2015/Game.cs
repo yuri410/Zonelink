@@ -230,6 +230,7 @@ namespace Code2015
         public void Update(GameTime time)
         {
             scene.Update(time);
+            SoundManager.Instance.ListenerPosition = scene.Camera.Position;
 
             if (!IsLoaded)
             {
@@ -282,7 +283,6 @@ namespace Code2015
 
                 }
 
-                SoundManager.Instance.ListenerPosition = scene.Camera.Position;
                 ingameUI.Update(time);
 
             }

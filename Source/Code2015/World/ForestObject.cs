@@ -73,9 +73,9 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            sound.Position = BoundingSphere.Center;
+            //sound.Position = BoundingSphere.Center;
 
-            sound.Update(dt);
+            //sound.Update(dt);
         }
 
         public override bool IsSerializable

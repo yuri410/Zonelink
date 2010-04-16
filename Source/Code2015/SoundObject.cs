@@ -30,7 +30,7 @@ namespace Code2015
 
         protected SoundEffectGame soundEffectGame;
         protected SoundEffectInstance currentInstance;
-        protected Vector3 cameraPosition;
+        //protected Vector3 cameraPosition;
         Vector3 position;
 
         public float Radius 
@@ -69,7 +69,7 @@ namespace Code2015
 
         public virtual void Update(GameTime dt)
         {
-            cameraPosition = SoundManager.Instance.ListenerPosition;
+            //cameraPosition = SoundManager.Instance.ListenerPosition;
 
             //float distance = Vector3.Distance(this.Position, cameraPosition);
 
@@ -86,7 +86,7 @@ namespace Code2015
             }
            
             emitter.Position = new MXF.Vector3(position.X, position.Y, position.Z);
-            emitter.Forward = MXF.Vector3.Normalize(emitter.Position);
+            //emitter.Forward = MXF.Vector3.Normalize(emitter.Position);
            
         }
 
@@ -174,7 +174,7 @@ namespace Code2015
         {
             base.Update(dt);
 
-            float distance = Vector3.Distance(this.Position, cameraPosition);
+            float distance = Vector3.Distance(this.Position, SoundManager.Instance.ListenerPosition);
 
             if (distance <= radius)
             {
@@ -218,7 +218,7 @@ namespace Code2015
         {
             base.Update(time);
 
-            float distance = Vector3.Distance(this.Position, cameraPosition);
+            float distance = Vector3.Distance(this.Position, SoundManager.Instance.ListenerPosition);
             if (distance < float.Epsilon)
                 return;
 
