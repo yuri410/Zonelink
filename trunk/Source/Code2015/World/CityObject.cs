@@ -451,20 +451,26 @@ namespace Code2015.World
             return opBuffer.Elements;
         }
 
-        public void Upgrade()
+        public void Upgrade() 
+        {
+            // 升级
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                if (goalSite.Match(i, plugins[i].plugin.TypeId))
+                {
+                    plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                    goalSite.ClearAt(i);
+                }
+            }
+        }
+        public bool TryUpgrade()
         {
             if (MatchSite())
             {
-                // 升级
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    if (goalSite.Match(i, plugins[i].plugin.TypeId))
-                    {
-                        plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
-                        goalSite.ClearAt(i);
-                    }
-                }
+                Upgrade();
+                return true;
             }
+            return false;
         }
         public bool MatchSite()
         {
@@ -480,13 +486,13 @@ namespace Code2015.World
             }
             return result;
         }
+
         public override void Update(GameTime dt)
         {
             BoundingSphere.Radius = CityStyleTable.CityRadius;
 
             sideRing.Update(dt);
 
-            Upgrade();
 
             //if (isVisible)
             //{
