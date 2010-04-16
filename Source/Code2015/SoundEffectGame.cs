@@ -47,7 +47,11 @@ namespace Code2015
             get { return (Control & SoundControl.Loop) == SoundControl.Loop; }
         }
 
-
+        public float Probability
+        {
+            get;
+            set;
+        }
         ContentManager contentManager;
 
         public SoundEffectGame(AudioListener listener, SoundManager sm, ConfigurationSection sect)
@@ -73,6 +77,7 @@ namespace Code2015
                         break;
                 }
             }
+            Probability = sect.GetSingle("Probability", 1);
             Volume = sect.GetSingle("Volume", 1);
             Type = (SoundType)Enum.Parse(typeof(SoundType), sect.GetString("Type", SoundType.Normal.ToString()), true);
             //this.soundEffect = contentManager.Load<SoundEffect>(sect.Name);

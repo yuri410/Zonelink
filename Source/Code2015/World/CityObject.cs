@@ -229,7 +229,7 @@ namespace Code2015.World
             sideRing = new CityOwnerRing(this, style);
             goalSite = new CityGoalSite(this, style);
 
-            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 3);
+            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
             sound.Position = pos;
         }
 
