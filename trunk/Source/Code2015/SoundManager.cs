@@ -65,7 +65,7 @@ namespace Code2015
         /// <param name="root"></param>
         private SoundManager(IServiceProvider service, string root, string xmlurl)
         {
-            SoundEffect.DistanceScale = 1000;
+            SoundEffect.DistanceScale = 10000;
             Service = service;
             RootDirectory = root;
             XMLUrl = xmlurl;

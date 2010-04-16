@@ -68,7 +68,7 @@ namespace Code2015.World
         Vector3 position;
 
         bool isSelected;
-
+        bool isVisible;
         #region 属性
 
         public MdgType MajorProblem
@@ -230,7 +230,7 @@ namespace Code2015.World
             goalSite = new CityGoalSite(this, style);
 
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
-            
+            sound.Position = position;
         }
 
         protected override void Dispose(bool disposing)
@@ -365,6 +365,7 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
+            isVisible = true;
             opBuffer.FastClear();
             if (CityVisible != null)
             {
@@ -487,9 +488,12 @@ namespace Code2015.World
 
             Upgrade();
 
-            sound.Position = position;
+            if (isVisible)
+            {
 
-            sound.Update(dt);
+                sound.Update(dt);
+                isVisible = true;
+            }
         }
 
 
