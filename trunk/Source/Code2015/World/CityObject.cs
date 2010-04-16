@@ -68,7 +68,7 @@ namespace Code2015.World
         Vector3 position;
 
         bool isSelected;
-        bool isVisible;
+        //bool isVisible;
         #region 属性
 
         public MdgType MajorProblem
@@ -229,8 +229,8 @@ namespace Code2015.World
             sideRing = new CityOwnerRing(this, style);
             goalSite = new CityGoalSite(this, style);
 
-            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
-            sound.Position = position;
+            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 3);
+            sound.Position = pos;
         }
 
         protected override void Dispose(bool disposing)
@@ -365,7 +365,7 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            isVisible = true;
+            //isVisible = true;
             opBuffer.FastClear();
             if (CityVisible != null)
             {
@@ -488,12 +488,12 @@ namespace Code2015.World
 
             Upgrade();
 
-            if (isVisible)
-            {
+            //if (isVisible)
+            //{
 
                 sound.Update(dt);
-                isVisible = true;
-            }
+                //isVisible = true;
+            //}
         }
 
 

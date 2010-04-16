@@ -120,7 +120,7 @@ namespace Code2015
 
             if (Type == SoundType.World || Type == SoundType.Global)
             {
-                
+                SoundEffect.DistanceScale = soundObj.Radius;
                 inst.Apply3D(listener, soundObj.Emitter);
             }
         }

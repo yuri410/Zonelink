@@ -56,6 +56,8 @@ namespace Code2015
 
         Code2015 game;
 
+        SoundObjectWorld soundWorld;
+
         #region 界面/呈现
         InGameUI ingameUI;
 
@@ -142,7 +144,7 @@ namespace Code2015
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.parameters = gcp;
-
+            this.soundWorld = new SoundObjectWorld();
 
             // 初始化GameState
             GameStateBuilder stateBuilder = new GameStateBuilder();
@@ -230,7 +232,11 @@ namespace Code2015
         public void Update(GameTime time)
         {
             scene.Update(time);
-            SoundManager.Instance.ListenerPosition = scene.Camera.Position;
+
+            RtsCamera camera = scene.Camera;
+
+            SoundManager.Instance.ListenerPosition = camera.Position;// PlanetEarth.GetPosition(camera.Longitude, camera.Latitude);
+            // scene.Camera.ViewMatrix.TranslationValue;
 
             if (!IsLoaded)
             {

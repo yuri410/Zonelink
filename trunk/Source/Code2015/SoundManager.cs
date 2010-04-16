@@ -53,7 +53,7 @@ namespace Code2015
             get
             {
                 XF.Vector3 v = listener.Position;
-                return new Vector3(v.X, v.Y, v.X);
+                return new Vector3(v.X, v.Y, v.Z);
             }
             set { listener.Position = new XF.Vector3(value.X, value.Y, value.Z); }
         }
@@ -65,7 +65,6 @@ namespace Code2015
         /// <param name="root"></param>
         private SoundManager(IServiceProvider service, string root, string xmlurl)
         {
-            SoundEffect.DistanceScale = 10000;
             Service = service;
             RootDirectory = root;
             XMLUrl = xmlurl;

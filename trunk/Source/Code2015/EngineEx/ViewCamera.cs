@@ -27,7 +27,7 @@ namespace Code2015.EngineEx
             get { return latitude; }
             set { latitude = value; }
         }
-        public float Longitude 
+        public float Longitude
         {
             get { return longitude; }
             set { longitude = value; }
@@ -53,7 +53,7 @@ namespace Code2015.EngineEx
             axis.Normalize();
 
             //float sign = latitude > 0 ? 1 : -1;
-            Vector3 up = axis +Vector3.UnitY;
+            Vector3 up = axis + Vector3.UnitY;
             up.Normalize();
 
             Vector3 rotAxis = axis;
@@ -61,12 +61,10 @@ namespace Code2015.EngineEx
             Vector3 yawAxis = Vector3.Cross(axis, up);
             yawAxis.Normalize();
 
-            Quaternion rotTrans = Quaternion.RotationAxis(rotAxis, rotation);
-            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw) * rotTrans);
+            axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw));
 
             position = target + axis * height * 35;
-            Matrix viewTrans = Matrix.LookAtRH(position, target,
-                Vector3.TransformSimple(up, rotTrans));
+            Matrix viewTrans = Matrix.LookAtRH(position, target, up);
 
             Frustum.View = viewTrans;
             Frustum.Update();

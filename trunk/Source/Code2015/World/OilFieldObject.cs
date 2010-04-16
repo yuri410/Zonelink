@@ -15,6 +15,7 @@ namespace Code2015.World
     {
         OilField oilField;
 
+        SoundObject sound;
         public OilFieldObject(RenderSystem rs, OilField field)
         {
             oilField = field;
@@ -56,6 +57,9 @@ namespace Code2015.World
 
             BoundingSphere.Radius = 50;
             Orientation = PlanetEarth.GetOrientation(radLng, radLat);
+
+            sound = SoundManager.Instance.MakeSoundObjcet("oil", null, BoundingSphere.Radius * 8);
+            sound.Position = position;
         }
 
         public override bool IsSerializable
@@ -84,6 +88,11 @@ namespace Code2015.World
                 ResVisible(this);
             }
             return base.GetRenderOperation(level);
+        }
+        public override void Update(Apoc3D.GameTime dt)
+        {
+            base.Update(dt);
+            sound.Update(dt);
         }
         #region ISelectableObject 成员
 

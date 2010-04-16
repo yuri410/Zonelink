@@ -4,9 +4,11 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
 using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
+using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
 
@@ -22,8 +24,7 @@ namespace Code2015.World
 
         FastList<CityObject> visibleList = new FastList<CityObject>();
         FastList<IResourceObject> visibleResource = new FastList<IResourceObject>();
-       
-         
+
         public RtsCamera Camera
         {
             get { return camera; }
@@ -69,6 +70,7 @@ namespace Code2015.World
 
             Atmosphere atmos = new Atmosphere(renderSys);
             sm.SceneManager.AddObjectToScene(atmos);
+
         }
 
         internal void City_Visible(CityObject obj) 
@@ -115,6 +117,8 @@ namespace Code2015.World
         {
             visibleList.Clear();
             visibleResource.Clear();
+
+
 
             renderer.RenderScene();
         }
