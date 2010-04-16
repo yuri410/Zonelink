@@ -61,22 +61,17 @@ namespace Code2015.GUI
         GameState logic;
         Font font;
 
+        LoadingScreen loadScreen;
         ScoreScreen scoreScreen;
-
 
         GoalIcons icons;
         GoalPieceMaker pieceMaker;
 
         ScreenPhysicsWorld physWorld;
-        Texture background;
-        Texture progressBarImp;
-        Texture progressBarCmp;
-
-
+      
         LinkUI linkUI;
 
         Texture cursor;
-        Texture lds_ball;
         Point mousePosition;
 
         InGameUI2 ingameui2;
@@ -125,24 +120,14 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
-            background = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("lds_prgcmp.tex", GameFileLocs.GUI);
-            progressBarCmp = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("lds_prgimp.tex", GameFileLocs.GUI);
-            progressBarImp = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("lds_ball.tex", GameFileLocs.GUI);
-            lds_ball = UITextureManager.Instance.CreateInstance(fl);
-
+           
 
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
             this.linkUI = new LinkUI(game, parent, scene, this);
 
             this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
+            this.loadScreen = new LoadingScreen(renderSys);
         }
 
         public override void Render(Sprite sprite)
@@ -155,27 +140,17 @@ namespace Code2015.GUI
             {
                 if (!parent.IsLoaded)
                 {
-                    sprite.Draw(background, 0, 0, ColorValue.White);
-
-                    font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-
-
-                    sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
-
-
-                    Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * parent.LoadingProgress), progressBarCmp.Height);
-                    Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
-
-
-                    sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
-                    int x = srect.Width + 15 - 60;
-                    ColorValue c = ColorValue.White;
-                    c.A = 189;
-                    sprite.Draw(lds_ball, x, 657, c);
+                    loadScreen.Progress = parent.LoadingProgress;
+                    loadScreen.Render(sprite);
 
                 }
                 else
                 {
+                    if (loadScreen != null)
+                    {
+                        loadScreen.Dispose();
+                    }
+
                     font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
 
                     icons.Render(sprite);
