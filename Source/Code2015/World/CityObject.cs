@@ -227,7 +227,7 @@ namespace Code2015.World
                 City_OwnerChanged(city.Owner);
 
             sideRing = new CityOwnerRing(this, style);
-            goalSite = new CityGoalSite(this, style);
+            goalSite = new CityGoalSite(rs, this, style);
 
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
             sound.Position = pos;
@@ -463,8 +463,23 @@ namespace Code2015.World
                 }
             }
         }
-        public bool TryLink() 
+        public bool TryLink(int goalIdx, MdgType type, out City target)
         {
+            Vector3 t = CityStyleTable.SiteTransform[goalIdx].TranslationValue;
+
+            for (int i = 0; i < city.LinkableCityCount; i++) 
+            {
+                Vector3 dir = city.GetLinkableCity(i).Parent.position - position;
+                dir.Normalize();
+
+                float dot = Vector3.Dot(ref t, ref dir);
+                if (dot > 0.5f)
+                {
+                    target = city.GetLinkableCity(i);
+                    return (target.MajorProblem == type);
+                }
+            }
+            target = null;
             return false;
         }
         public bool TryUpgrade()
@@ -476,6 +491,7 @@ namespace Code2015.World
             }
             return false;
         }
+
         public bool MatchSite()
         {
             if (plugins.Count == 0)
