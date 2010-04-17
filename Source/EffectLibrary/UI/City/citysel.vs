@@ -1,8 +1,7 @@
 #include "waterDepth.vsh"
 
 float4x4 mvp : register(c0);
-float4x4 world : register(c4);
-float3 viewPos : register(c8);
+float3 viewPos : register(c4);
 
 struct VSInput
 {
