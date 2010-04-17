@@ -93,6 +93,12 @@ namespace EffectLibrary
             string res = p.StandardOutput.ReadToEnd();
             Console.WriteLine(res);
 
+            res = p.StandardError.ReadToEnd();
+            if (!string.IsNullOrEmpty(res))
+            {
+                Console.Error.Write(res);
+            }
+
             return p.ExitCode == 0;
         }
         static void Main(string[] args)

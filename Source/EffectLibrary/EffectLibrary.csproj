@@ -122,7 +122,7 @@
     <None Include="Scene\earthBase.vs" />
     <None Include="Particle\particle.ps" />
     <None Include="Particle\particle.vs" />
-    <None Include="Scene\ShadowMapping.psh" />
+    <None Include="ShadowMap\ShadowMapping.psh" />
     <None Include="Scene\standard.ps" />
     <None Include="Scene\standard.vs" />
     <None Include="Scene\terrain.ps" />
