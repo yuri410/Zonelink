@@ -43,12 +43,6 @@ namespace Code2015.GUI
         #endregion
     }
 
-    enum UIStates
-    {
-        Ingame,
-        CityDesign
-    }
-
     /// <summary>
     ///  表示游戏过程中的界面
     /// </summary>
@@ -123,7 +117,6 @@ namespace Code2015.GUI
            
 
             this.ingameui2 = new CityUI(game, parent, scene, gamelogic);
-                //this.linkUI = new LinkUI(game, parent, scene, this);
 
             this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
@@ -151,8 +144,6 @@ namespace Code2015.GUI
                         loadScreen.Dispose();
                         loadScreen = null;
                     }
-
-                    //font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
 
                     icons.Render(sprite);
                     sprite.SetTransform(Matrix.Identity);
