@@ -21,6 +21,9 @@ namespace Code2015.World
 
             public bool IsTyped;
             public MdgType Desired;
+
+            public bool IsCapturePiece;
+            public City TargetCity;
         }
 
         RenderSystem renderSys;
@@ -304,6 +307,7 @@ namespace Code2015.World
         {
             sites[i].HasPiece = true;
             sites[i].Type = res;
+            sites[i].TargetCity = null;
 
             bool passed = false;
             City target;
@@ -316,6 +320,8 @@ namespace Code2015.World
 
                     CityLinkObject link = new CityLinkObject(renderSys, parent, target.Parent);
                     parent.SceneManager.AddObjectToScene(link);
+                    sites[i].IsCapturePiece = true;
+                    sites[i].TargetCity = target;
                     passed = true;
                 }
             }

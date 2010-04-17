@@ -12,14 +12,15 @@ namespace Code2015.AI
     {
         AIDecision decision;
 
-        public AIPlayer()
-            : base("Computer")
+        public AIPlayer(GameGoal goal)
+            : base("Computer", goal)
         {
             Type = PlayerType.LocalAI;
         }
 
         public override void Update(GameTime time)
         {
+            base.Update(time);
             if (decision != null)
                 decision.Update(time);
         }
