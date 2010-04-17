@@ -45,8 +45,11 @@ namespace EffectLibrary
             }
         }
 
-        public bool IsOutDated(string file)
+        public bool IsOutDated(string file, string target)
         {
+            if (!File.Exists(target))
+                return true;
+
             FileInfo fi = new FileInfo(file);
 
             DateTime time;
@@ -63,7 +66,7 @@ namespace EffectLibrary
 
             string[] files = Directory.GetFiles(src, "*.*", SearchOption.AllDirectories);
             bw.Write(files.Length);
-            for (int i=0;i<files.Length;i++)
+            for (int i = 0; i < files.Length; i++)
             {
                 bw.Write(files[i].ToLowerInvariant());
                 bw.Write(new FileInfo(files[i]).LastWriteTime.ToBinary());
@@ -107,7 +110,7 @@ namespace EffectLibrary
             //string taget = @"E:\Desktop\ssssss";// args[1];
             string src = args[0];
             string taget = args[1];
-            //TimeStamp ts = new TimeStamp();
+            TimeStamp ts = new TimeStamp();
 
             string[] files = Directory.GetFiles(src, "*.vs", SearchOption.AllDirectories);
             string[] dirs = Directory.GetDirectories(src, "*", SearchOption.AllDirectories);
@@ -124,14 +127,17 @@ namespace EffectLibrary
 
             for (int i = 0; i < files.Length; i++)
             {
-                //if (ts.IsOutDated(files[i]))
-
                 string output = Path.Combine(taget, Path.GetFileNameWithoutExtension(files[i]) + ".cvs");
 
-                if (!Compile(files[i], output, argi, true))
+                if (ts.IsOutDated(files[i], output))
                 {
-                    Environment.ExitCode = 1;
-                    return;
+
+                    
+                    if (!Compile(files[i], output, argi, true))
+                    {
+                        Environment.ExitCode = 1;
+                        return;
+                    }
                 }
             }
 
@@ -139,17 +145,20 @@ namespace EffectLibrary
 
             for (int i = 0; i < files.Length; i++)
             {
-                //if (ts.IsOutDated(files[i]))
-
                 string output = Path.Combine(taget, Path.GetFileNameWithoutExtension(files[i]) + ".cps");
-                if (!Compile(files[i], output, argi, false))
-                {
-                    Environment.ExitCode = 1;
-                    return;
-                }
-            } 
 
-            //ts.Save(src);
+                if (ts.IsOutDated(files[i], output))
+                {
+
+                    if (!Compile(files[i], output, argi, false))
+                    {
+                        Environment.ExitCode = 1;
+                        return;
+                    }
+                }
+            }
+
+            ts.Save(src);
 
         }
 

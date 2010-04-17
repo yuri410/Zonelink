@@ -153,7 +153,7 @@
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\InGameUI2.cs">
+    <Compile Include="GUI\CityUI.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LoadingScreen.cs" />
