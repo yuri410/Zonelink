@@ -85,6 +85,8 @@ namespace Code2015.Effects
             renderSys.BindShader(vtxShader);
             renderSys.BindShader(pixShader);
             pixShader.SetValue("lightDir", EffectParams.LightDir);
+            pixShader.SetValue("i_a", EffectParams.LightAmbient);
+            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
 
             stateSetted = false;
             return 1;
@@ -110,10 +112,13 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
+            //vtxShader.SetValue("world", ref op.Transformation);
 
             if (!stateSetted)
             {
+                pixShader.SetValue("k_a", mat.Ambient);
+                pixShader.SetValue("k_d", mat.Diffuse);
+
                 ShaderSamplerState state = new ShaderSamplerState();
                 state.AddressU = TextureAddressMode.Wrap;
                 state.AddressV = TextureAddressMode.Wrap;
