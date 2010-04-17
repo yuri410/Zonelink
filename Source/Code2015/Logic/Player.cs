@@ -17,10 +17,15 @@ namespace Code2015.Logic
 
     public class Player
     {
-    
-
-        public Player(string name)
+        public GameGoal Goal
         {
+            get;
+            private set;
+        }
+
+        public Player(string name, GameGoal goal)
+        {
+            this.Goal = goal;
             this.Name = name;
             this.Type = PlayerType.LocalHuman;
         }
@@ -62,6 +67,19 @@ namespace Code2015.Logic
             }
         }
 
-        public virtual void Update(GameTime time) { }
+        public bool Win
+        {
+            get;
+            private set;
+        }
+
+
+        public virtual void Update(GameTime time)
+        {
+            if (Goal != null)
+            {
+                Goal.Check(this);
+            }
+        }
     }
 }

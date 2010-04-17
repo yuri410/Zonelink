@@ -25,7 +25,7 @@ namespace Code2015.Logic
 
         public void Check(Player player)
         {
-            DevelopmentPercentage = player.Area.GetTotalDevelopment();
+            DevelopmentPercentage = player.Area.GetTotalDevelopment() / Development;
         }
     }
 }
