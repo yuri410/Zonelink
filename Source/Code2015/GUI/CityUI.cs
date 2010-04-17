@@ -59,7 +59,7 @@ namespace Code2015.GUI
 
         ISelectableObject selected;
         CityObject city;
-        NaturalResource resource;
+       
 
         bool isCapturable;
         bool isPlayerCapturing;
@@ -95,8 +95,6 @@ namespace Code2015.GUI
                             selectedProjPos.Y = (int)ppos.Y;
 
                             City cc = city.City;
-                            //isCapturable = city.CanCapture(player);
-
                             CityObject[] nearby = new CityObject[cc.LinkableCityCount];
 
                             for (int i = 0; i < cc.LinkableCityCount; i++)
@@ -105,8 +103,6 @@ namespace Code2015.GUI
                             }
 
                             linkArrow.SetCity(city, nearby);
-
-                            return;
                         }
                         else
                         {
@@ -336,7 +332,7 @@ namespace Code2015.GUI
 
         public bool HitTest(int x, int y)
         {
-            if (city != null || resource != null)
+            if (city != null)
             {
                 if (y > 595 && x > 420)
                 {
