@@ -79,6 +79,8 @@ namespace Code2015.Logic
             if (Goal != null)
             {
                 Goal.Check(this);
+
+                Win |= Goal.DevelopmentPercentage >= 1;
             }
         }
     }

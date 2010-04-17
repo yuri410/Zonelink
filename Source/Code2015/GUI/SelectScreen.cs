@@ -10,6 +10,7 @@ using Code2015.AI;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -109,6 +110,14 @@ namespace Code2015.GUI
             side4.MouseClick += Button_Click;
         }
 
+
+        GameGoal CreateGoal()
+        {
+            GameGoal goal = new GameGoal(CityGrade.LargeCityRefSat * 20);
+
+            return goal;
+        }
+
         void Button_Click(object sender, MouseButtonFlags btn)
         {
             if (!selected && btn == MouseButtonFlags.Left)
@@ -143,11 +152,11 @@ namespace Code2015.GUI
             {
                 GameCreationParameters gcp = new GameCreationParameters();
 
-                gcp.Player1 = new Player("Player");
+                gcp.Player1 = new Player("Player", CreateGoal());
                 gcp.Player1.SideColor = selectedColor;
-                gcp.Player2 = new AIPlayer();
-                gcp.Player3 = new AIPlayer();
-                gcp.Player4 = new AIPlayer();
+                gcp.Player2 = new AIPlayer(CreateGoal());
+                gcp.Player3 = new AIPlayer(CreateGoal());
+                gcp.Player4 = new AIPlayer(CreateGoal());
 
 
                 int i = Randomizer.GetRandomInt(3);
