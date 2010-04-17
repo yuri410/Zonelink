@@ -37,6 +37,8 @@ namespace Code2015.GUI
         Texture ico_hosp;
         Texture ico_oil;
 
+        
+
         //侧边栏图标
         Texture ico_book;
         Texture ico_buger;

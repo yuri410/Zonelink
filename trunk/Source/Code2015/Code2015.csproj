@@ -129,6 +129,7 @@
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\CityDesigner.cs" />
+    <Compile Include="GUI\CityEditPanel.cs" />
     <Compile Include="GUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
