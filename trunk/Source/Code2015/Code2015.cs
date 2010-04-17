@@ -88,6 +88,7 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(CityRingEffectFactory.Name, new CityRingEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(TreeEffectFactory.Name, new TreeEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(ParticleRDEffectFactory.Name, new ParticleRDEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(CloudEffectFactory.Name, new CloudEffectFactory(renderSys));
             
             TextureManager.Initialize(1048576 * 100);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
