@@ -129,6 +129,8 @@
     <None Include="Scene\terrain.vs" />
     <None Include="Scene\tree.ps" />
     <None Include="Scene\tree.vs" />
+    <None Include="UI\City\citysel.ps" />
+    <None Include="UI\City\citysel.vs" />
     <None Include="UI\pieGraph.ps" />
     <None Include="Scene\water.ps" />
     <None Include="Scene\water.vs" />
