@@ -19,7 +19,7 @@ namespace Code2015.GUI
     /// <summary>
     ///  用于显示游戏中已选择物体的信息
     /// </summary>
-    class InGameUI2 : UIComponent
+    class CityUI : UIComponent
     {
         GameScene scene;
         GameState gameLogic;
@@ -121,7 +121,7 @@ namespace Code2015.GUI
             }
         }
 
-        public InGameUI2(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        public CityUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.parent = parent;
             this.game = game;

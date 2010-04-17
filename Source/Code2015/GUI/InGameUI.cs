@@ -74,7 +74,7 @@ namespace Code2015.GUI
         Texture cursor;
         Point mousePosition;
 
-        InGameUI2 ingameui2;
+        CityUI ingameui2;
 
         Player player;
 
@@ -122,7 +122,7 @@ namespace Code2015.GUI
 
            
 
-            this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
+            this.ingameui2 = new CityUI(game, parent, scene, gamelogic);
                 //this.linkUI = new LinkUI(game, parent, scene, this);
 
             this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
