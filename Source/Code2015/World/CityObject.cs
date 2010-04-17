@@ -54,7 +54,6 @@ namespace Code2015.World
         CityGoalSite goalSite;
 
         RenderSystem renderSys;
-        SceneManagerBase sceMgr;
         Map map;
 
         FastList<Harvester> harvesters = new FastList<Harvester>();
@@ -196,7 +195,7 @@ namespace Code2015.World
         {
             this.city = city;
             this.city.Parent = this;
-            this.sceMgr = sceMgr;
+            base.SceneManager = sceMgr;
             this.map = map;
 
             this.plugins = new FastList<PluginEntry>();
@@ -298,7 +297,7 @@ namespace Code2015.World
                 harv.Latitude = MathEx.Degree2Radian(Latitude - 2);
                 harv.Longtitude = MathEx.Degree2Radian(Longitude);
                 harvesters.Add(harv);
-                sceMgr.AddObjectToScene(harv);
+                base.SceneManager.AddObjectToScene(harv);
 
                 NaturalResource res = plugin.CurrentResource;
                 if (res != null)
@@ -466,8 +465,10 @@ namespace Code2015.World
         public bool TryLink(int goalIdx, MdgType type, out City target)
         {
             Vector3 t = CityStyleTable.SiteTransform[goalIdx].TranslationValue;
+            t = Vector3.TransformNormal(t, Transformation);
+            t.Normalize();
 
-            for (int i = 0; i < city.LinkableCityCount; i++) 
+            for (int i = 0; i < city.LinkableCityCount; i++)
             {
                 Vector3 dir = city.GetLinkableCity(i).Parent.position - position;
                 dir.Normalize();
@@ -476,7 +477,10 @@ namespace Code2015.World
                 if (dot > 0.5f)
                 {
                     target = city.GetLinkableCity(i);
-                    return (target.MajorProblem == type);
+                    if (CityGoalSite.CompareCategory(target.MajorProblem, type))
+                    {
+                        return true;
+                    }
                 }
             }
             target = null;

@@ -149,9 +149,10 @@ namespace Code2015.GUI
                     if (loadScreen != null)
                     {
                         loadScreen.Dispose();
+                        loadScreen = null;
                     }
 
-                    font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
+                    //font.DrawString(sprite, "Time  " + ((int)logic.RemainingTime).ToString(), 5, 5, 24, DrawTextFormat.Left, -1);
 
                     icons.Render(sprite);
                     sprite.SetTransform(Matrix.Identity);

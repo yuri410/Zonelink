@@ -96,6 +96,8 @@ namespace Code2015.GUI
 
                 progressBarCmp.Dispose();
                 progressBarCmp = null;
+
+                Disposed = true;
             }
             else
             {
