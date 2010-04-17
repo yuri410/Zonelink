@@ -303,6 +303,19 @@ namespace Code2015.World
             //}
             return true;
         }
+
+        public void ClearCapturePiece(City city)
+        {
+            for (int i = 0; i < SiteCount; i++)
+            {
+                if (sites[i].IsCapturePiece && sites[i].TargetCity == city) 
+                {
+                    sites[i].HasPiece = false;
+                    sites[i].IsCapturePiece = false;
+                    sites[i].TargetCity = null;                    
+                }
+            }
+        }
         public void SetPiece(int i, MdgType res)
         {
             sites[i].HasPiece = true;
