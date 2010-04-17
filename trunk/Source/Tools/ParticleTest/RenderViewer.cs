@@ -74,6 +74,7 @@ namespace ModelStudio
             camera.Mode = RenderMode.Final;
             camera.FarPlane = 1000;
             camera.NearPlane = 0.5f;
+            camera.RenderTarget = renderSys.GetRenderTarget(0);
 
             distance = 40;
             yang = MathEx.Degree2Radian(30);
@@ -90,10 +91,10 @@ namespace ModelStudio
 
             renderer.RegisterCamera(camera);
 
-            
-            //peff = new ParticleEffect(renderSys, 320);
-            //peff.Emitter = new ParticleEmitter(1);
-            //peff.Modifier = new ParticleModifier();
+
+            peff = new SmokeEffect(renderSys);
+            peff.Emitter = new ParticleEmitter(1);
+            peff.Modifier = new ParticleModifier();
 
 
             sceneManager.AddObjectToScene(peff);

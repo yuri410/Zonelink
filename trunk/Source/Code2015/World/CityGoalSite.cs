@@ -127,7 +127,7 @@ namespace Code2015.World
 
         public unsafe void Rotate(int span)
         {
-            GoalSite* newSites = stackalloc GoalSite[SiteCount];
+            GoalSite[] newSites = new GoalSite[SiteCount];
 
             for (int i = 0; i < SiteCount; i++)
             {
