@@ -69,7 +69,7 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
       
-        LinkUI linkUI;
+        //LinkUI linkUI;
 
         Texture cursor;
         Point mousePosition;
@@ -123,7 +123,7 @@ namespace Code2015.GUI
            
 
             this.ingameui2 = new InGameUI2(game, parent, scene, gamelogic);
-            this.linkUI = new LinkUI(game, parent, scene, this);
+                //this.linkUI = new LinkUI(game, parent, scene, this);
 
             this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
@@ -194,7 +194,7 @@ namespace Code2015.GUI
             //  图标
             //  场景
 
-            linkUI.Update(time);
+            //linkUI.Update(time);
             ingameui2.Update(time);
             icons.Update(time);
 
@@ -230,7 +230,7 @@ namespace Code2015.GUI
                         ingameui2.SelectedObject = sel;
                     }
 
-                    linkUI.Interact(time);
+                    //linkUI.Interact(time);
                 }
             }
 
