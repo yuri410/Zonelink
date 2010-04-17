@@ -432,6 +432,7 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
     <Compile Include="ParticleSystem\ParticleModifier.cs" />
+    <Compile Include="ParticleSystem\SmokeEffect.cs" />
     <Compile Include="ParticleSystem\TransferEffect.cs" />
     <Compile Include="SoundEffectGame.cs" />
     <Compile Include="SoundManager.cs" />

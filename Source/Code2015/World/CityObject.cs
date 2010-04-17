@@ -255,6 +255,8 @@ namespace Code2015.World
             if (b != null)
             {
                 IsLinked = true;
+
+                goalSite.ClearCapturePiece(b);
             }
 
         }
@@ -517,13 +519,7 @@ namespace Code2015.World
 
             sideRing.Update(dt);
 
-
-            //if (isVisible)
-            //{
-
-                sound.Update(dt);
-                //isVisible = true;
-            //}
+            sound.Update(dt);
         }
 
 
