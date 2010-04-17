@@ -129,13 +129,11 @@
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\CityDesigner.cs" />
-    <Compile Include="GUI\CityFactoryPluginMeasure.cs" />
     <Compile Include="GUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\CreditScreen.cs" />
     <Compile Include="GUI\InfoDisplay.cs" />
-    <Compile Include="GUI\CityMeasure.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -158,7 +156,6 @@
     <Compile Include="GUI\InGameUI2.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\LinkUI.cs" />
     <Compile Include="GUI\LoadingScreen.cs" />
     <Compile Include="GUI\MainMenu.cs" />
     <Compile Include="GUI\Menu.cs">
@@ -167,7 +164,6 @@
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\ResourceInfo.cs" />
-    <Compile Include="GUI\ResourceMeasure.cs" />
     <Compile Include="GUI\ScoreScreen.cs" />
     <Compile Include="GUI\SelectScreen.cs" />
     <Compile Include="Logic\Disaster.cs" />
