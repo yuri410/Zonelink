@@ -4,11 +4,11 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
@@ -112,19 +112,12 @@ namespace Code2015.World
     /// </summary>
     public class GameState
     {
-        [SLGValue]
-        const float TotalTime = 300;
         SimulationWorld slgSystem;
 
-        float remainingTime;
         GameTime newTime;
         PlayerArea[] localPlayerArea;
         Player[] localPlayers;
 
-        public float RemainingTime
-        {
-            get { return remainingTime; }
-        }
         public CityPluginFactory PluginFactory
         {
             get;
@@ -135,11 +128,6 @@ namespace Code2015.World
         {
             get;
             private set;
-        }
-
-        public bool IsTimeUp
-        {
-            get { return remainingTime < 0; }
         }
 
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
@@ -203,7 +191,7 @@ namespace Code2015.World
 
             newTime = new GameTime();
 
-            remainingTime = TotalTime;
+            //remainingTime = TotalTime;
         }
 
 
@@ -214,7 +202,7 @@ namespace Code2015.World
                 localPlayers[i].Update(time);
             }
 
-            remainingTime -= time.ElapsedGameTimeSeconds;
+            //remainingTime -= time.ElapsedGameTimeSeconds;
 
             /////// 接受playerOperation，由127.0.0.1
             newTime.SetElapsedGameTime(TimeSpan.FromSeconds(time.ElapsedGameTimeSeconds * 3600));

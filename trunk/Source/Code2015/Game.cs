@@ -276,15 +276,15 @@ namespace Code2015
             }
             else
             {
-                if (gameState.IsTimeUp)
-                {
-                    if (!ingameUI.IsShowingScore)
-                    {
-                        ScoreEntry[] entries = gameState.GetScores();
-                        ingameUI.ShowScore(entries);
-                    }
-                }
-                else
+                //if (gameState.IsTimeUp)
+                //{
+                //    if (!ingameUI.IsShowingScore)
+                //    {
+                //        ScoreEntry[] entries = gameState.GetScores();
+                //        ingameUI.ShowScore(entries);
+                //    }
+                //}
+                //else
                 {
                     gameState.Update(time);
 

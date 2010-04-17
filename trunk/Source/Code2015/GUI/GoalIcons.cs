@@ -68,18 +68,21 @@ namespace Code2015.GUI
             this.player = game.HumanPlayer;
             this.scene = scene;
 
-            #region test
+
+            MdgResource res = new MdgResource(resources, physWorld, (MdgType.Environment), new Vector2(400, 100), 0);
+            resources.Add(res);
+
+            res = new MdgResource(resources, physWorld, (MdgType.Diseases), new Vector2(400, 250), 0);
+            resources.Add(res);
+
+            res = new MdgResource(resources, physWorld, (MdgType.Education), new Vector2(400, 400), 0);
+            resources.Add(res);
+
+            res = new MdgResource(resources, physWorld, (MdgType.Hunger), new Vector2(400, 550), 0);
+            resources.Add(res);
 
 
-            for (int i = 0; i < 5; i++)
-                for (int j = 0; j < 5; j++)
-                {
-                    //int t = Randomizer.GetRandomInt((int)MdgType.Partnership);
-                    MdgResource res = new MdgResource(resources, physWorld, (MdgType.Environment), new Vector2(i * 100 + 400, j * 100), 0);
-                    resources.Add(res);
-                }
 
-            #endregion
 
 
             panel = new ScreenStaticBody();

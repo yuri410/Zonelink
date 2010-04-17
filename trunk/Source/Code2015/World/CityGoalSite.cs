@@ -206,6 +206,24 @@ namespace Code2015.World
         {
             return sites[i].Type;
         }
+        public static bool CompareCategory(MdgType a, MdgType b) 
+        {
+            switch (a) 
+            {
+                case MdgType.Hunger:
+                    return b == MdgType.Hunger;
+                case MdgType.ChildMortality:
+                case MdgType.Diseases:
+                case MdgType.MaternalHealth:
+                    return b == MdgType.ChildMortality || b == MdgType.Diseases || b == MdgType.MaternalHealth;
+                case MdgType.Environment:
+                    return b == MdgType.Environment;
+                case MdgType.GenderEquality:
+                case MdgType.Education:
+                    return b == MdgType.GenderEquality || b == MdgType.Education;
+            }
+            return false;
+        }
         public static MdgType GetDesired(CityPluginTypeId pltype) 
         {
             switch (pltype)
