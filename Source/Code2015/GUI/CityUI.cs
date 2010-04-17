@@ -85,8 +85,6 @@ namespace Code2015.GUI
 
                         city = selected as CityObject;
 
-                        resource = null;
-
                         if (city != null)
                         {
                             Vector3 ppos = renderSys.Viewport.Project(city.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
@@ -266,10 +264,6 @@ namespace Code2015.GUI
         //            break;
         //    }
         //}
-        void InfoBtn_Click(object sender, MouseButtonFlags btn)
-        {
-            //page = PanelPage.Info;
-        }
         void EduBtn_Click(object sender, MouseButtonFlags btn)
         {
             //page = PanelPage.EduOrg;
