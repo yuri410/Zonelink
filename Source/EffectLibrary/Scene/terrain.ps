@@ -11,6 +11,8 @@ sampler2D texColor : register(s5);
 sampler2D texNorm : register(s6);
 sampler2D texShd : register(s7);
 
+sampler2D texCliff : register(s8);
+
 float4 k_d : register(c0);
 float4 k_a : register(c1);
 
@@ -47,27 +49,34 @@ PSOutput main(PSInput ip)
 	
 	if (index[0]>0.01)
 	{
-		color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
+		//color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
 		color += (index[0]) * tex2D(texDet1, ip.DetailCoord*7);
 	}
 	if (index[1]>0.01)
 	{
-		color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
+		//color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
 		color += (index[1]) * tex2D(texDet2, ip.DetailCoord*7);
 	}
 	if (index[2]>0.01)
 	{
-		color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
+		//color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
 		color += (index[2]) * tex2D(texDet3, ip.DetailCoord*7);
 	}
 	if (index[3]>0.01)
 	{
-		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
+		//color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*7);
 	}
 	//color *= 0.5f;
     o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
 
+    float wgt = saturate(N.z);
+    
+    if (wgt > 0.1f)
+    {
+		o.Color.rgb = lerp(tex2D(texCliff, ip.DetailCoord*1).rgb, o.Color.rgb, wgt);
+    }
+    
     
 	float4 amb = i_a * k_a;
 	float4 dif = i_d * k_d;
@@ -79,11 +88,11 @@ PSOutput main(PSInput ip)
 	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
 	
     o.Color = o.Color * (amb + dif );
+   
+   
     o.Color.rgb *= shd;
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
-    
-    o.Color.rgb = lerp(float3(1,0,0), o.Color.rgb, saturate(N.z));
     
     return o;
 }

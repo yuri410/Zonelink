@@ -9,6 +9,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -49,7 +50,7 @@ namespace Code2015.GUI
         Texture background;
 
 
-        
+
 
         public CityObject SelectedCity
         {
@@ -172,18 +173,21 @@ namespace Code2015.GUI
 
         void EduBtn_Click(object sender, MouseButtonFlags btn)
         {
+            selectCity.City.Add(gameLogic.PluginFactory.MakeEducationAgent());
 
         }
         void OilBtn_Click(object sender, MouseButtonFlags btn)
         {
+            selectCity.City.Add(gameLogic.PluginFactory.MakeOilRefinary());
 
         }
         void WoodBtn_Click(object sender, MouseButtonFlags btn)
         {
-
+            selectCity.City.Add(gameLogic.PluginFactory.MakeWoodFactory());
         }
         void HospBtn_Click(object sender, MouseButtonFlags btn)
         {
+            selectCity.City.Add(gameLogic.PluginFactory.MakeHospital());
 
         }
 
@@ -215,7 +219,7 @@ namespace Code2015.GUI
             if (state == AnimState.Out)
             {
                 cx += (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
-                if (cx >= PanelX) 
+                if (cx >= PanelX)
                 {
                     cx = PanelX;
                     state = AnimState.Outside;
@@ -244,7 +248,22 @@ namespace Code2015.GUI
             btnWood.X = (int)(cx + 277);
             btnWood.Y = PanelY + 41;
 
-           
+
+            bool enable;
+
+            if (selectCity != null)
+            {
+                enable = selectCity.City.CanAddPlugins;
+            }
+            else
+            {
+                enable = false;
+            }
+
+            btnEduorg.Enabled = enable;
+            btnHosp.Enabled = enable;
+            btnOilref.Enabled = enable;
+            btnWood.Enabled = enable;
         }
     }
 }
