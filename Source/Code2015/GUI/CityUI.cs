@@ -28,19 +28,15 @@ namespace Code2015.GUI
         Game parent;
         Font font;
 
-
         Font algerFont;
         Player player;
 
-
-        
-
         //侧边栏图标
-        Texture ico_book;
-        Texture ico_buger;
-        Texture ico_pill;
-        Texture ico_leaf;
-        Texture ico_sidebar;
+        Texture ico_box1;
+        Texture ico_box2;
+        Texture ico_box3;
+        Texture ico_box4;
+        Texture ico_exchange;
 
         CityInfoDisplay cityInfoDisplay;
         ResInfoDisplay resInfoDisplay;
@@ -48,6 +44,7 @@ namespace Code2015.GUI
         RtsCamera camera;
 
         CityLinkableMark linkArrow;
+        CityEditPanel cityEdit;
 
         ISelectableObject selected;
         CityObject city;
@@ -94,15 +91,18 @@ namespace Code2015.GUI
 
                             linkArrow.SetCity(city, nearby);
                         }
-                        else
-                        {
-                            linkArrow.SetCity(null, null);
-                        }
                     }
                     else
                     {
                         city = null;
                     }
+
+                    if (city == null)
+                    {
+                        linkArrow.SetCity(null, null);
+                    }
+
+                    cityEdit.SelectedCity = city;
                 }
             }
         }
@@ -130,20 +130,20 @@ namespace Code2015.GUI
 
 
             //侧边栏
-            fl = FileSystem.Instance.Locate("ico_book.tex", GameFileLocs.GUI);
-            ico_book = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ico_box1.tex", GameFileLocs.GUI);
+            ico_box1 = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ico_buger.tex", GameFileLocs.GUI);
-            ico_buger = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ico_box2.tex", GameFileLocs.GUI);
+            ico_box2 = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ico_pill.tex", GameFileLocs.GUI);
-            ico_pill = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ico_box3.tex", GameFileLocs.GUI);
+            ico_box3 = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ico_leaf.tex", GameFileLocs.GUI);
-            ico_leaf = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ico_box4.tex", GameFileLocs.GUI);
+            ico_box4 = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_sidebar.tex", GameFileLocs.GUI);
-            ico_sidebar = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            ico_exchange = UITextureManager.Instance.CreateInstance(fl);
 
 
             //fl = FileSystem.Instance.Locate("ico_oilref.tex", GameFileLocs.GUI);
@@ -158,7 +158,7 @@ namespace Code2015.GUI
             //fl = FileSystem.Instance.Locate("ico_woodfac.tex", GameFileLocs.GUI);
             //ico_wood = UITextureManager.Instance.CreateInstance(fl);
 
-
+            cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
             linkArrow = new CityLinkableMark(renderSys);
             scene.Scene.AddObjectToScene(linkArrow);
         }
@@ -227,11 +227,11 @@ namespace Code2015.GUI
             #endregion
 
 
-            sprite.Draw(ico_sidebar, 0, 168, ColorValue.White);
-            sprite.Draw(ico_buger, -3, 197, ColorValue.White);
-            sprite.Draw(ico_leaf, -3, 275, ColorValue.White);
-            sprite.Draw(ico_book, -3, 358, ColorValue.White);
-            sprite.Draw(ico_pill, -3, 429, ColorValue.White);
+            sprite.Draw(ico_exchange, 1177, 619, ColorValue.White);
+            sprite.Draw(ico_box1, 614, 606, ColorValue.White);
+            sprite.Draw(ico_box2, 729, 606, ColorValue.White);
+            sprite.Draw(ico_box3, 844, 606, ColorValue.White);
+            sprite.Draw(ico_box4, 959, 606, ColorValue.White);
 
             Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
 

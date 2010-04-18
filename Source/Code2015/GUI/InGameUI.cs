@@ -69,11 +69,14 @@ namespace Code2015.GUI
         Point mousePosition;
 
         CityUI ingameui2;
+        MiniMap miniMap;
+        NoticeBar noticeBar;
+        
 
         Player player;
 
         CityObject mouseHoverCity;
-
+        
         Ray selectRay;
 
         public Ray SelectionRay
