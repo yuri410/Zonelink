@@ -157,6 +157,7 @@ namespace Code2015.GUI
         CityObject city;
         Player player;
 
+        Texture popu;
         Texture happy;
         Texture angry;
         ProgressBar satisfy;
@@ -183,11 +184,13 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
             Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
-           
+
             fl = FileSystem.Instance.Locate("happy.tex", GameFileLocs.GUI);
             happy = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("angry.tex", GameFileLocs.GUI);
             angry = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("human.tex", GameFileLocs.GUI);
+            popu = UITextureManager.Instance.CreateInstance(fl);
 
             satisfy = new ProgressBar();
 
@@ -233,13 +236,28 @@ namespace Code2015.GUI
                 satisfy.Value = city.Satisfaction;
                 satisfy.Render(sprite);
 
-                sprite.Draw(angry, scrnPos.X - 32, scrnPos.Y - 45, ColorValue.White);
+                sprite.Draw(angry, scrnPos.X - angry.Width, scrnPos.Y - 45, ColorValue.White);
                 sprite.Draw(happy, scrnPos.X + satisfy.Width, scrnPos.Y - 45, ColorValue.White);
 
                 float mult = city.City.AdditionalDevMult;
                 if (mult > 1)
                 {
                     font.DrawString(sprite, mult.ToString("F1") + "X", scrnPos.X + satisfy.Width + 32, scrnPos.Y - 45, 20, DrawTextFormat.Center, -1);
+                }
+
+                float count = (5 * city.City.Population / CityGrade.GetRefPopulation(city.Size));
+                int count2 = (int)Math.Truncate(count);
+                float rem = count - count2;
+
+                int i;
+                for (i = 0; i < count2; i++)
+                {
+                    sprite.Draw(popu, scrnPos.X + i * 20, scrnPos.Y - 64, ColorValue.White);
+                }
+                if (rem > float.Epsilon)
+                {
+                    sprite.Draw(popu,
+                        new Rectangle(scrnPos.X + i * 20, scrnPos.Y - 64 + popu.Height - (int)(rem * popu.Height), (int)(rem * popu.Width), (int)(rem * popu.Height)), ColorValue.White);
                 }
             }
 
