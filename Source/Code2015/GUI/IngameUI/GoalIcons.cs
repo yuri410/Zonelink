@@ -30,11 +30,6 @@ namespace Code2015.GUI
             set
             {
                 selectedItem = value;
-                if (value != null)
-                {
-                    resources.SetPrimary(value);
-                }
-
             }
         }
        
@@ -99,7 +94,7 @@ namespace Code2015.GUI
                     res.Render(sprite);
                 }
 
-                for (int k = 1; k < 8; k++)
+                for (int k = 0; k < 3; k++)
                 {
                     cnt = resources.GetPieceCount(i, k);
                     for (int j = 0; j < cnt; j++)
@@ -133,7 +128,7 @@ namespace Code2015.GUI
                 if (passed)
                     break;
 
-                for (int k = 1; k < 8; k++)
+                for (int k = 0; k < 3; k++)
                 {
                     cnt = resources.GetPieceCount(i, k);
                     for (int j = 0; j < cnt; j++)

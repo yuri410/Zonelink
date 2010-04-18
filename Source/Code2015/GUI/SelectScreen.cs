@@ -113,7 +113,7 @@ namespace Code2015.GUI
 
         GameGoal CreateGoal()
         {
-            GameGoal goal = new GameGoal(CityGrade.LargeCityRefSat * 5);
+            GameGoal goal = new GameGoal(CityGrade.LargeCityRefSat);
 
             return goal;
         }

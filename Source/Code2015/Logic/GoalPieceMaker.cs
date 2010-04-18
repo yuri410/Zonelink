@@ -113,21 +113,7 @@ namespace Code2015.Logic
                     velocity.Normalize();
                 }
 
-                int bitmask = Randomizer.GetRandomInt(3);
-                switch (bitmask)
-                {
-                    case 0:
-                        bitmask = 1;
-                        break;
-                    case 1:
-                        bitmask = 2;
-                        break;
-                    case 2:
-                        bitmask = 4;
-                        break;
-                }
-
-                MdgPiece piece = new MdgPiece(goalIcos.Manager, goalIcos.PhysicsWorld, pieceType, bitmask, new Vector2(ppos.X, ppos.Y), 0);
+                MdgPiece piece = new MdgPiece(goalIcos.Manager, goalIcos.PhysicsWorld, pieceType, 0, new Vector2(ppos.X, ppos.Y), 0);
                 
                 piece.Velocity = velocity * 250;
                 goalIcos.Manager.Add(piece);
