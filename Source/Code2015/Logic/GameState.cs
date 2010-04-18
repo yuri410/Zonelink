@@ -221,6 +221,14 @@ namespace Code2015.World
             return -a.Total.CompareTo(b.Total);
         }
 
+        public int LocalPlayerCount
+        {
+            get { return localPlayers.Length; }
+        }
+        public Player GetLocalPlayer(int i) 
+        {
+            return localPlayers[i];
+        }
         public ScoreEntry[] GetScores()
         {
             Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();

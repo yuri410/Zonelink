@@ -132,7 +132,9 @@
     <Compile Include="GUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\CO2PieGraph.cs" />
     <Compile Include="GUI\CreditScreen.cs" />
+    <Compile Include="GUI\DevelopmentMeter.cs" />
     <Compile Include="GUI\InfoDisplay.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
