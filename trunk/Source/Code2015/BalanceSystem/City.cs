@@ -43,7 +43,7 @@ namespace Code2015.BalanceSystem
 
     public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
     public delegate void NearbyCityAddedHandler(City city, City srcCity);
-    public delegate void NearbyCityRemovedHandler(City city,City srcCity);
+    public delegate void NearbyCityRemovedHandler(City city, City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
 
     public struct PieceCategoryProbability
@@ -66,9 +66,9 @@ namespace Code2015.BalanceSystem
         [SLGValue()]
         const float FoodLowThreshold = 0.15f;
 
-        [SLGValue ()]
+        [SLGValue()]
         const float ProbabilityDecr = 0.75f;
-        [SLGValue ]
+        [SLGValue]
         const float MinProbability = 0.1f;
 
         [SLGValue]
@@ -152,7 +152,7 @@ namespace Code2015.BalanceSystem
 
         #region  属性
 
-        public string[] LinkableCityName 
+        public string[] LinkableCityName
         {
             get
             {
@@ -196,17 +196,22 @@ namespace Code2015.BalanceSystem
                 switch (Size)
                 {
                     case UrbanSize.Small:
-                        float v = Population < CityGrade.SmallRefPop ?
-                            Development * Population : Development * (2 * CityGrade.SmallRefPop - Population);
-                        return MathEx.Saturate(v / CityGrade.SmallRefSat);
+                        //float v = Population < CityGrade.SmallRefPop ?
+                        //    Development * MathEx.Saturate(Population / CityGrade.SmallRefPop) : 
+                        //    Development * MathEx.Saturate((2 * CityGrade.SmallRefPop - Population) / CityGrade.SmallRefPop);
+
+                        return MathEx.Saturate(Development / CityGrade.SmallCityPointThreshold);
                     case UrbanSize.Medium:
-                        v = Population < CityGrade.MediumRefPop ?
-                           Development * Population : Development * (2 * CityGrade.MediumRefPop - Population);
-                        return MathEx.Saturate(v / CityGrade.MediumRefSat);
+                        //v = Population < CityGrade.MediumRefPop ?
+                        //   Development * MathEx.Saturate(Population / CityGrade.MediumRefPop) :
+                        //   Development * MathEx.Saturate((2 * CityGrade.MediumRefPop - Population) / CityGrade.MediumRefPop);
+
+                        return MathEx.Saturate(Development / CityGrade.MediumCityPointThreshold);
                     case UrbanSize.Large:
-                        v = Population < CityGrade.LargeRefPop ?
-                           Development * Population : Development * (2 * CityGrade.LargeRefPop - Population);
-                        return MathEx.Saturate(v / CityGrade.LargeCityRefSat);
+                        //v = Population < CityGrade.LargeRefPop ?
+                        //   Development * MathEx.Saturate(Population / CityGrade.LargeRefPop) :
+                        //   Development * MathEx.Saturate((2 * CityGrade.LargeRefPop - Population) / CityGrade.LargeRefPop);
+                        return MathEx.Saturate(Development / CityGrade.LargeCityPointThreshold);
                 }
                 return 0;
             }
@@ -321,6 +326,19 @@ namespace Code2015.BalanceSystem
             if (res < 0)
                 res = 0;
             return res;
+        }
+
+
+        public float AdditionalDevMult
+        {
+            get;
+            private set;
+        }
+
+        public float HealthCare
+        {
+            get;
+            private set;
         }
 
         /// <summary>
@@ -448,7 +466,7 @@ namespace Code2015.BalanceSystem
                         r.Environment -= ProbabilityDecr;
                         break;
                     case CityPluginTypeId.WoodFactory:
-                        
+
                         break;
                     case CityPluginTypeId.Hospital:
                         r.Health -= ProbabilityDecr;
@@ -458,7 +476,7 @@ namespace Code2015.BalanceSystem
                         break;
                 }
             }
-            
+
             {
                 if (r.Education < MinProbability)
                     r.Education = MinProbability;
@@ -523,13 +541,18 @@ namespace Code2015.BalanceSystem
 
             if (player == null)
             {
-                for (int i = 0; i < nearbyCity.Count; i++) 
+                for (int i = 0; i < nearbyCity.Count; i++)
                 {
                     nearbyCity[i].Target.RemoveNearbyCity(this);
                     nearbyCity[i].Disable();
                 }
                 nearbyCity.Clear();
             }
+        }
+
+        public void AddFarm()
+        {
+            farms.Add(new FarmLand(Region, this));
         }
 
         /// <summary>
@@ -655,6 +678,8 @@ namespace Code2015.BalanceSystem
 
             CarbonProduceSpeed = 0;
 
+            
+
 
             if (Capture.IsCapturing && !IsCaptured)
             {
@@ -665,15 +690,12 @@ namespace Code2015.BalanceSystem
                         float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
                         float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);
                         Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
-
-
                     }
                     else
                     {
                         Capture.CancelCapture(Capture.NewOwner1);
                     }
                 }
-
 
 
                 Player player = Capture.CheckCapture();
@@ -695,7 +717,7 @@ namespace Code2015.BalanceSystem
             {
                 CoolDownPlayer = Owner;
                 ChangeOwner(null);
-                
+
 
                 IsRecovering = true;
                 recoverCooldown = CityGrade.GetRecoverCoolDown(Size);
@@ -837,7 +859,9 @@ namespace Code2015.BalanceSystem
 
             // 严禁使用旧的模式，属性泛滥
             #region 资源消耗计算
-
+            AdditionalDevMult = 1;
+            HealthCare = 1;
+            
             // 计算插件
             for (int i = 0; i < plugins.Count; i++)
             {
@@ -857,7 +881,7 @@ namespace Code2015.BalanceSystem
                 //if (actHrChange < hrChange) // 资源过剩，转为碳
                 //{
                 //    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
-                    //float actCmt = localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
+                //float actCmt = localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
                 //}
 
 
@@ -871,11 +895,20 @@ namespace Code2015.BalanceSystem
                 //{
                 //    CarbonProduceSpeed += (lrChange - actLrChange) / hours;
 
-                    //localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
+                //localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
                 //}
 
 
                 CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
+
+                if (plugins[i].TypeId == CityPluginTypeId.EducationOrg)
+                {
+                    AdditionalDevMult *= (1 + plugins[i].UpgradePoint);
+                }
+                else if (plugins[i].TypeId == CityPluginTypeId.Hospital)
+                {
+                    HealthCare *= (1 + plugins[i].UpgradePoint);
+                }
             }
 
 
@@ -954,11 +987,13 @@ namespace Code2015.BalanceSystem
             }
             #endregion
 
-
+            
             // 疾病发展传播计算
             if (Disease > 0)
             {
                 Disease += Disease * (float)Math.Log(Population, 1000) * 0.001f;
+                if (HealthCare > float.Epsilon)
+                    Disease /= HealthCare;
             }
             else
             {
@@ -1008,10 +1043,10 @@ namespace Code2015.BalanceSystem
 
             }
 
-            CarbonProduceSpeed +=  hrDev / hours;
+            CarbonProduceSpeed += hrDev / hours;
 
             float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias / CityGrade.GetDevelopmentMult(Size));
-            Development += devIncr + foodLack;
+            Development += AdditionalDevMult * (devIncr + foodLack);
             if (Development < 0)
             {
                 Development = 0;
@@ -1168,11 +1203,11 @@ namespace Code2015.BalanceSystem
             {
                 MajorProblem = MdgType.Hunger;
             }
-            else if (p < maternal) 
+            else if (p < maternal)
             {
                 MajorProblem = MdgType.MaternalHealth;
             }
-            else if (p < child) 
+            else if (p < child)
             {
                 MajorProblem = MdgType.ChildMortality;
             }

@@ -41,18 +41,18 @@ namespace Code2015.BalanceSystem
 
         #region 能源使用速度
         [SLGValueAttribute()]
-        public const float SmallCityLPSpeed = -10;
+        public const float SmallCityLPSpeed = -1;
         [SLGValueAttribute()]
-        public const float MediumCityLPSpeed = -17;
+        public const float MediumCityLPSpeed = -2;
         [SLGValueAttribute()]
-        public const float LargeCityLPSpeed = -33;
+        public const float LargeCityLPSpeed = -3;
 
         [SLGValueAttribute()]
-        public const float SmallCityHPSpeed = -15;
+        public const float SmallCityHPSpeed = -1.5f;
         [SLGValueAttribute()]
-        public const float MediumCityHPSpeed = -25;
+        public const float MediumCityHPSpeed = -3;
         [SLGValueAttribute()]
-        public const float LargeCityHPSpeed = -50;
+        public const float LargeCityHPSpeed = -4.5f;
 
         #endregion
 
@@ -83,9 +83,9 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float SmallDevMult = 1;
         [SLGValue]
-        public const float MediumDevMult = 0.25f;
+        public const float MediumDevMult = 2;
         [SLGValue]
-        public const float LargeDevMult = 0.05f;
+        public const float LargeDevMult = 3;
         #endregion
 
         #region 参考发展度
@@ -98,15 +98,15 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
-        #region 参考满意度
-        [SLGValue]
-        public const float SmallRefSat = SmallRefPop * SmallCityPointThreshold;
-        [SLGValue]
-        public const float MediumRefSat = MediumRefPop * MediumCityPointThreshold;
-        [SLGValue]
-        public const float LargeCityRefSat = LargeRefPop * LargeCityPointThreshold;
+        //#region 参考满意度
+        //[SLGValue]
+        //public const float SmallRefSat = SmallRefPop * SmallCityPointThreshold;
+        //[SLGValue]
+        //public const float MediumRefSat = MediumRefPop * MediumCityPointThreshold;
+        //[SLGValue]
+        //public const float LargeCityRefSat = LargeRefPop * LargeCityPointThreshold;
 
-        #endregion
+        //#endregion
 
         #region 参考人口
         [SLGValue]

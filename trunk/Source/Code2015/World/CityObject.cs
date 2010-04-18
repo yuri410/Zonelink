@@ -452,7 +452,7 @@ namespace Code2015.World
             return opBuffer.Elements;
         }
 
-        public void Upgrade() 
+        public void Upgrade()
         {
             // 升级
             for (int i = 0; i < plugins.Count; i++)
@@ -488,8 +488,24 @@ namespace Code2015.World
             target = null;
             return false;
         }
+
+        void TryFarm()
+        {
+            for (int i = 0; i < CityGoalSite.SiteCount; i++)
+            {
+                if (goalSite.GetPieceType(i) != MdgType.Hunger || !goalSite.HasPiece(i))
+                {
+                    return;
+                }
+            }
+
+            goalSite.Clear();
+            city.AddFarm();
+        }
+
         public bool TryUpgrade()
         {
+            TryFarm();
             if (MatchSite())
             {
                 Upgrade();

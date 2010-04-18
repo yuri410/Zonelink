@@ -34,7 +34,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float RecoverRate = 0.015f;
         [SLGValue]
-        const float RecoverBias = 17f;
+        const float RecoverBias = 20f;
 
         [SLGValue]
         const float TimesMaxAmount = 2;
