@@ -51,15 +51,26 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_minimap.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            const int SWBRadius = 16;
+            const int SWBRadius = 32;
             switchButton = new RoundButton();
             switchButton.X = -SWBRadius;
             switchButton.Y = -SWBRadius;
             switchButton.Radius = SWBRadius;
-            
+
+            switchButton.MouseClick += SwitchButton_MouseClick;
         }
 
-
+        void SwitchButton_MouseClick(object sender, MouseButtonFlags btn)
+        {
+            if (state != AnimState.In)
+            {
+                state = AnimState.In;
+            }
+            else if (state != AnimState.Out)
+            {
+                state = AnimState.Out;
+            }
+        }
 
         public override void Render(Sprite sprite)
         {

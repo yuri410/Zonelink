@@ -191,7 +191,7 @@ namespace Code2015.GUI
         {
             if (state == AnimState.Out)
             {
-                cx += (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds;
+                cx += (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
                 if (cx >= PanelX) 
                 {
                     cx = PanelX;
@@ -201,7 +201,7 @@ namespace Code2015.GUI
             }
             else if (state == AnimState.In)
             {
-                cx -= (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds;
+                cx -= (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
                 if (cx < -PanelWidth)
                 {
                     cx = -PanelWidth;
