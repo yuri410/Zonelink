@@ -68,10 +68,10 @@ namespace Code2015.GUI
         Texture cursor;
         Point mousePosition;
 
-        CityUI ingameui2;
+        CityUI cityUI;
         MiniMap miniMap;
         NoticeBar noticeBar;
-        
+        DevelopmentMeter playerProgress;
 
         Player player;
 
@@ -119,11 +119,15 @@ namespace Code2015.GUI
 
            
 
-            this.ingameui2 = new CityUI(game, parent, scene, gamelogic);
+            this.cityUI = new CityUI(game, parent, scene, gamelogic);
 
-            this.icons = new GoalIcons(parent, this, ingameui2.CityInfoDisplay, scene, physWorld);
+            this.icons = new GoalIcons(parent, this, cityUI.CityInfoDisplay, scene, physWorld);
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
             this.loadScreen = new LoadingScreen(renderSys);
+            this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
+            this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
+            this.miniMap = new MiniMap(game, parent, scene, gamelogic);
+
         }
 
         public override void Render(Sprite sprite)
@@ -150,7 +154,11 @@ namespace Code2015.GUI
 
                     icons.Render(sprite);
                     sprite.SetTransform(Matrix.Identity);
-                    ingameui2.Render(sprite);
+                    cityUI.Render(sprite);
+
+                    playerProgress.Render(sprite);
+                    miniMap.Render(sprite);
+                    noticeBar.Render(sprite);
 
                     sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
                 }
@@ -189,12 +197,12 @@ namespace Code2015.GUI
             //  场景
 
             //linkUI.Update(time);
-            ingameui2.Update(time);
+            cityUI.Update(time);
             icons.Update(time);
 
-            if (ingameui2.HitTest(mousePosition.X, mousePosition.Y))
+            if (cityUI.HitTest(mousePosition.X, mousePosition.Y))
             {
-                ingameui2.Interact(time);
+                cityUI.Interact(time);
             }
             else //if (icons.MouseHitTest(mousePosition.X,mousePosition.Y))
             {
@@ -221,7 +229,7 @@ namespace Code2015.GUI
 
                     if (MouseInput.IsMouseDownLeft)
                     {
-                        ingameui2.SelectedObject = sel;
+                        cityUI.SelectedObject = sel;
                     }
 
                     //linkUI.Interact(time);
@@ -246,6 +254,12 @@ namespace Code2015.GUI
                     physWorld.Update(time);
 
                     pieceMaker.Update(time);
+
+
+                    playerProgress.Update(time);
+                    miniMap.Update(time);
+                    noticeBar.Update(time);
+
 
                     Interact(time);
 
