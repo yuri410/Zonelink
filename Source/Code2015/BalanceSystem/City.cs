@@ -1053,7 +1053,7 @@ namespace Code2015.BalanceSystem
             }
             if (devIncr > 0)
             {
-                Population += (devIncr + foodLack) * 0.01f;
+                Population += (devIncr + foodLack) * 0.05f;
             }
 
             if (carbonAddCounter++ == 60)
