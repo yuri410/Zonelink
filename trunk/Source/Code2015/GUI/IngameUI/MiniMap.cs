@@ -37,7 +37,7 @@ namespace Code2015.GUI
 
         AnimState state;
 
-        float rot = RotIn;
+        float rot;
 
         public MiniMap(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {

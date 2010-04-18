@@ -330,9 +330,9 @@ namespace Code2015.World
                 {
                     target.Capture.SetCapture(parent.Owner, parent.City);
 
+                    parent.MakeLinkWith(target.Parent);
 
-                    CityLinkObject link = new CityLinkObject(renderSys, parent, target.Parent);
-                    parent.SceneManager.AddObjectToScene(link);
+
                     sites[i].IsCapturePiece = true;
                     sites[i].TargetCity = target;
                     passed = true;

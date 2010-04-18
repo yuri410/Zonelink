@@ -22,18 +22,12 @@ namespace Code2015.AI
             public FastList<City> NearbyCity;
         }
 
-        
-        GameState gameLogic;
 
         Dictionary<City, CityData> cityDataTable;
 
-        public AIDecisionHelper(GameState state)
+        public AIDecisionHelper(SimulationWorld world)
         {
-            this.gameLogic = state;
-            
             float r = CityGrade.GetGatherRadius(UrbanSize.Large);
-
-            SimulationWorld world = state.SLGWorld;
 
             cityDataTable = new Dictionary<City, CityData>(world.CityCount);
 

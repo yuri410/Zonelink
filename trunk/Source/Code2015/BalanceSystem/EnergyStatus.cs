@@ -31,13 +31,13 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float RefAmount = 50000;
         [SLGValue]
-        public const float DisasterPRatio = 0.0005f;
+        public const float DisasterPRatio = 0.001f;
         [SLGValue]
-        public const float DisasterCountDown = 30;
+        public const float DisasterCountDown = 10;
         [SLGValue]
         public const float MaxDuration = 60;
         [SLGValue]
-        public const float MaxDamage = 40;
+        public const float MaxDamage = 1300;
         [SLGValue]
         public const float MaxRadius = 60;
         #endregion
