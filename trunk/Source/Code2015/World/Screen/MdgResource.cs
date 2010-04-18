@@ -55,10 +55,6 @@ namespace Code2015.World.Screen
     {
         ScreenRigidBody body;
 
-        /// <summary>
-        ///  either 4,2 or 1
-        /// </summary>
-        int bitMask;
 
         MdgType type;
 
@@ -69,7 +65,7 @@ namespace Code2015.World.Screen
 
         float growup;
 
-        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int bitMask, Vector2 pos, float ori)
+        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int level, Vector2 pos, float ori)
         {
             this.manager = manager;
             this.physicsWorld = world;
@@ -85,7 +81,7 @@ namespace Code2015.World.Screen
             this.body.LinearDamp = MdgPhysicsParams.PieceLinearDamp;
             this.body.Tag = this;
 
-            if (bitMask == 1 || bitMask == 2 || bitMask == 4)            
+            if (level == 0)            
                 growup = 0;            
             else
                 growup = 1;
@@ -93,19 +89,20 @@ namespace Code2015.World.Screen
             world.Add(body);
 
             this.type = type;
-            this.bitMask = bitMask;
+            //this.bitMask = bitMask;
 
-            this.image = MdgResource.LoadImage(type, bitMask);
+            this.image = MdgResource.LoadImage(type, level);
         }
 
         public void NotifyRemoved()
         {
             physicsWorld.Remove(body);
         }
-        
-        public int BitMask
+
+        public int Level
         {
-            get { return bitMask; }
+            get;
+            private set;
         }
 
         public MdgType Type
@@ -125,9 +122,13 @@ namespace Code2015.World.Screen
         {
             if (CheckMerge(other))
             {
-                int bit = other.bitMask | bitMask;
+                int nextLevel = 0;
+                if (Level == 0 && other.Level == 0)
+                    nextLevel = 1;
+                if (Level == 1 || other.Level == 1)
+                    nextLevel = 2;
 
-                if (bit == 7)
+                if (nextLevel == 2)
                 {
                     MdgResource res = new MdgResource(manager, physicsWorld, type, body.Position, body.Orientation);
 
@@ -137,7 +138,7 @@ namespace Code2015.World.Screen
                     return res;
                 }
 
-                MdgPiece piece = new MdgPiece(manager, physicsWorld, type, bit, body.Position, body.Orientation);
+                MdgPiece piece = new MdgPiece(manager, physicsWorld, type, nextLevel, body.Position, body.Orientation);
                 manager.Remove(this);
                 manager.Remove(other);
                 manager.Add(piece);
@@ -148,9 +149,9 @@ namespace Code2015.World.Screen
 
         public bool CheckMerge(MdgPiece other)
         {
-            if (other.type == type)
+            if (CityGoalSite.CompareCategory(other.type, type))
             {
-                return (other.bitMask | bitMask) > bitMask && (other.bitMask & bitMask) == 0;
+                return (Level == 0 && other.Level == 0) || (Level == 0 && other.Level == 1) || (Level == 1 && other.Level == 0);
             }
             return false;
         }
@@ -174,16 +175,9 @@ namespace Code2015.World.Screen
                     Matrix.Scaling(scaler * growup, scaler * growup, 1) *
                     Matrix.Translation(-rectr.X * 0.5f, -rectr.Y * 0.5f, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
-                if (object.ReferenceEquals(manager.GetPrimaryPiece(type, bitMask), this))
-                {
-                    sprite.Draw(image, 0, 0, ColorValue.White);
-                }
-                else
-                {
-                    ColorValue opa = new ColorValue(1, 1, 1, MdgPhysicsParams.InactiveAlpha);
 
-                    sprite.Draw(image, 0, 0, opa);
-                }
+                sprite.Draw(image, 0, 0, ColorValue.White);
+
             }
 
         }
@@ -224,23 +218,11 @@ namespace Code2015.World.Screen
 
             switch (bitmask)
             {
-                case 1:
+                case 0:
                     suffix = "_1";
                     break;
-                case 2:
-                    suffix = "_2";
-                    break;
-                case 3:
+                case 1:
                     suffix = "_12";
-                    break;
-                case 4:
-                    suffix = "_3";
-                    break;
-                case 5:
-                    suffix = "_31";
-                    break;
-                case 6:
-                    suffix = "_23";
                     break;
             }
 
@@ -290,7 +272,7 @@ namespace Code2015.World.Screen
             world.Add(body);
 
             this.type = type;
-            this.image = LoadImage(type, 7);
+            this.image = LoadImage(type, 2);
         }
         public void NotifyRemoved()
         {
@@ -328,17 +310,17 @@ namespace Code2015.World.Screen
                 case MdgType.Diseases:
                 case MdgType.MaternalHealth:
                 case MdgType.ChildMortality:
-                    dragCenter = new Vector2(35, 200);
+                    dragCenter = new Vector2(675, 659);
                     break;
                 case MdgType.Education:
                 case MdgType.GenderEquality:
-                    dragCenter = new Vector2(35, 350);
+                    dragCenter = new Vector2(790, 659);
                     break;
                 case MdgType.Environment:
-                    dragCenter = new Vector2(35, 500);
+                    dragCenter = new Vector2(905, 659);
                     break;
                 case MdgType.Hunger:
-                    dragCenter = new Vector2(35, 650);
+                    dragCenter = new Vector2(1020, 659);
                     break;
                 default:
                     throw new InvalidOperationException();
@@ -394,43 +376,45 @@ namespace Code2015.World.Screen
         FastList<MdgResource>[] balls;
 
         //MdgResource[] primaryBall;
-        MdgPiece[][] primaryPiece;
+        //MdgPiece[] primaryPiece;
 
         public MdgResourceManager()
         {
             pieces = new FastList<MdgPiece>[(int)MdgType.Count][];
             //primaryBall = new MdgResource[(int)MdgType.Count];
-            primaryPiece = new MdgPiece[(int)MdgType.Count][];
+            //primaryPiece = new MdgPiece[(int)MdgType.Count];
 
             balls = new FastList<MdgResource>[(int)MdgType.Count];
 
             for (int i = 0; i < pieces.Length; i++)
             {
-                pieces[i] = new FastList<MdgPiece>[8];
-                primaryPiece[i] = new MdgPiece[8];
+                pieces[i] = new FastList<MdgPiece>[3];
+                //primaryPiece[i] = new MdgPiece[8];
 
-                pieces[i][0] = null;
+                //pieces[i][0] = null;
+
+                // 0
+                pieces[i][0] = new FastList<MdgPiece>();
 
                 // 1
                 pieces[i][1] = new FastList<MdgPiece>();
-
                 // 2
                 pieces[i][2] = new FastList<MdgPiece>();
 
-                // 4
-                pieces[i][4] = new FastList<MdgPiece>();
+                //// 4
+                //pieces[i][4] = new FastList<MdgPiece>();
 
-                // 1, 2
-                pieces[i][3] = new FastList<MdgPiece>();
+                //// 1, 2
+                //pieces[i][3] = new FastList<MdgPiece>();
 
-                // 1, 4
-                pieces[i][5] = new FastList<MdgPiece>();
+                //// 1, 4
+                //pieces[i][5] = new FastList<MdgPiece>();
 
-                // 2, 6
-                pieces[i][6] = new FastList<MdgPiece>();
+                //// 2, 6
+                //pieces[i][6] = new FastList<MdgPiece>();
 
-                // 1,2,4
-                pieces[i][7] = new FastList<MdgPiece>();
+                //// 1,2,4
+                //pieces[i][7] = new FastList<MdgPiece>();
 
 
                 balls[i] = new FastList<MdgResource>();
@@ -440,11 +424,11 @@ namespace Code2015.World.Screen
 
         public void Add(MdgPiece piece)
         {
-            if (pieces[(int)piece.Type][piece.BitMask].Count == 0)
-            {
-                primaryPiece[(int)piece.Type][piece.BitMask] = piece;
-            }
-            pieces[(int)piece.Type][piece.BitMask].Add(piece);
+            //if (pieces[(int)piece.Type][piece.BitMask].Count == 0)
+            //{
+            //    primaryPiece[(int)piece.Type][piece.BitMask] = piece;
+            //}
+            pieces[(int)piece.Type][piece.Level].Add(piece);
         }
         public void Add(MdgResource res)
         {
@@ -456,13 +440,9 @@ namespace Code2015.World.Screen
         }
         public void Remove(MdgPiece piece)
         {
-            pieces[(int)piece.Type][piece.BitMask].Remove(piece);
+            pieces[(int)piece.Type][piece.Level].Remove(piece);
             piece.NotifyRemoved();
 
-            if (object.ReferenceEquals(primaryPiece[(int)piece.Type][piece.BitMask], piece))
-            {
-                primaryPiece[(int)piece.Type][piece.BitMask] = null;
-            }
         }
         public void Remove(MdgResource res)
         {
@@ -474,30 +454,12 @@ namespace Code2015.World.Screen
             //    primaryBall[(int)res.Type] = null;
             //}
         }
-        public void SetPrimary(object obj)
-        {
-            MdgPiece r1 = obj as MdgPiece;
-            if (r1 != null)
-            {
-                primaryPiece[(int)r1.Type][r1.BitMask] = r1;
-                return;
-            }
 
-            //MdgResource r2 = obj as MdgResource;
-            //if (r2 != null)
-            //{
-            //    primaryBall[(int)r2.Type] = r2;
-            //}
-        }
 
         //public MdgResource GetPrimaryResource(MdgType type)
         //{
         //    return primaryBall[(int)type];
         //}
-        public MdgPiece GetPrimaryPiece(MdgType type, int bitmask)
-        {
-            return primaryPiece[(int)type][bitmask];
-        }
 
         public int GetPieceCount(MdgType type, int bitmask)
         {
