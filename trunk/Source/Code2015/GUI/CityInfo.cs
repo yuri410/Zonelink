@@ -23,8 +23,6 @@ namespace Code2015.GUI
         CityInfo parent;
         CityObject city;
 
-        Texture[] darkPieces;
-        Texture[] pieces;
 
         public Brackets(CityInfoDisplay info, CityInfo parent, RenderSystem rs, CityObject city)
         {
@@ -32,13 +30,6 @@ namespace Code2015.GUI
             this.parent = parent;
             this.city = city;
             this.renderSys = rs;
-
-            FileLocation fl = FileSystem.Instance.Locate("ig_bracket.tex", GameFileLocs.GUI);
-            pieces = new Texture[4];
-            pieces[0] = UITextureManager.Instance.CreateInstance(fl);
-
-            darkPieces = new Texture[4];
-            darkPieces[0] = UITextureManager.Instance.CreateInstance(fl);
         }
 
         Point GetSiteProjPosition(int i)

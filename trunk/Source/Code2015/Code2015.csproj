@@ -128,7 +128,6 @@
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
-    <Compile Include="GUI\CityDesigner.cs" />
     <Compile Include="GUI\CityEditPanel.cs" />
     <Compile Include="GUI\CityInfo.cs">
       <SubType>Code</SubType>
@@ -518,6 +517,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Configs\soundObjects.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Configs\tips.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Game.ico" />
