@@ -89,7 +89,7 @@ namespace Code2015.World.Screen
             world.Add(body);
 
             this.type = type;
-            //this.bitMask = bitMask;
+            this.Level = level;
 
             this.image = MdgResource.LoadImage(type, level);
         }

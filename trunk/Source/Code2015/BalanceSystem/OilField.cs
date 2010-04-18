@@ -15,7 +15,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float TimesMaxAmount = 2;
         [SLGValue]
-        const float RecoverBias = 10;
+        const float RecoverBias = 30;
         //public const float MaxAmount = 10000;
 
         public OilField(SimulationWorld region)
