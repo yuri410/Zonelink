@@ -28,6 +28,10 @@ namespace Apoc3D.GUI.Controls
             }
         }
 
+        public override bool HitTest(int x, int y)
+        {
+            return IsInBounds(x, y);
+        }
         protected override bool IsInBounds(int x, int y)
         {
             int cx = X + radius;

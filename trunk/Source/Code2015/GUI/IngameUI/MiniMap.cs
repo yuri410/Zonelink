@@ -87,7 +87,7 @@ namespace Code2015.GUI
                 Rectangle rect = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
                 return Control.IsInBounds(x, y, ref rect);
             }
-            return false;
+            return switchButton.HitTest(x, y);
         }
         
         public override void Render(Sprite sprite)
