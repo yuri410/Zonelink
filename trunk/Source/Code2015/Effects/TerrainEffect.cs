@@ -106,10 +106,12 @@ namespace Code2015.Effects
                 pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
                 pixShader.SetTexture("texDif", TerrainMaterialLibrary.Instance.GlobalIndexTexture);
                 pixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalNormalTexture);
+                pixShader.SetTexture("texCliff", TerrainMaterialLibrary.Instance.CliffColor);
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texColor", ref state);
                 pixShader.SetSamplerState("texNorm", ref state);
+                pixShader.SetSamplerState("texCliff", ref state);
 
 
                 TerrainTexture tex;

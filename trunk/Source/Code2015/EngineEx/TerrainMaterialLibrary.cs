@@ -58,7 +58,11 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
-
+        public ResourceHandle<Texture> CliffColor
+        {
+            get;
+            private set;
+        }
         public ResourceHandle<Texture> GlobalNormalTexture
         {
             get;
@@ -107,6 +111,9 @@ namespace Code2015.EngineEx
 
             fl2 = FileSystem.Instance.Locate("normal.tex", GameFileLocs.TerrainTexture);
             GlobalNormalTexture = TextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("cliff.tex", GameFileLocs.TerrainTexture);
+            CliffColor = TextureManager.Instance.CreateInstance(fl2);
 
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 

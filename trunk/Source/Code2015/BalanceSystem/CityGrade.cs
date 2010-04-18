@@ -117,21 +117,13 @@ namespace Code2015.BalanceSystem
         public const float LargeRefPop = 1000;
         #endregion
 
-        #region 食物自采集速度
         [SLGValue]
-        public const int SmallFoodCollectSpeed = 10;
+        public const float SmallGatherRadius = 13;
         [SLGValue]
-        public const int MediumFoodCollectSpeed = 20;
+        public const float MediumGatherRadius = 14;
         [SLGValue]
-        public const int LargeFoodCollectSpeed = 50;
-
-        [SLGValue]
-        public const float SmallGatherRadius = 7;
-        [SLGValue]
-        public const float MediumGatherRadius = 9;
-        [SLGValue]
-        public const float LargeGatherRadius = 10;
-        #endregion
+        public const float LargeGatherRadius = 15;
+       
 
         #region 城市占领分数
         [SLGValue()]
@@ -167,7 +159,6 @@ namespace Code2015.BalanceSystem
         static readonly float[] HPTSpeed = { SmallCityHPTranportSpeed, MediumCityHPTranportSpeed, LargeCityHPTranportSpeed };
         static readonly float[] FoodTSpeed = { SmallFoodTranportSpeed, MediumFoodTranportSpeed, LargeFoodTranportSpeed };
 
-        static readonly float[] FoodCollSpeed = { SmallFoodCollectSpeed, MediumFoodCollectSpeed, LargeFoodCollectSpeed };
 
         [SLGValue]
         public const float FoodCostPerPeople = 0.05f;
@@ -225,10 +216,6 @@ namespace Code2015.BalanceSystem
         public static float GetFoodTransportSpeed(UrbanSize grade)
         {
             return FoodTSpeed[(int)grade];
-        }
-        public static float GetSelfFoodGatheringSpeed(UrbanSize grade)
-        {
-            return FoodCollSpeed[(int)grade];
         }
 
         /// <summary>
