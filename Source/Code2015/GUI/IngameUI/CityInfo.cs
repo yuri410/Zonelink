@@ -163,7 +163,7 @@ namespace Code2015.GUI
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
         Brackets brackets;
 
-        //CityLinkableMark linkArr;
+
 
         public ColorValue DistanceMod;
 
@@ -235,6 +235,12 @@ namespace Code2015.GUI
 
                 sprite.Draw(angry, scrnPos.X - 32, scrnPos.Y - 45, ColorValue.White);
                 sprite.Draw(happy, scrnPos.X + satisfy.Width, scrnPos.Y - 45, ColorValue.White);
+
+                float mult = city.City.AdditionalDevMult;
+                if (mult > 1)
+                {
+                    font.DrawString(sprite, mult.ToString("F1") + "X", scrnPos.X + satisfy.Width + 32, scrnPos.Y - 45, 20, DrawTextFormat.Center, -1);
+                }
             }
 
             if (city.Owner == player)
