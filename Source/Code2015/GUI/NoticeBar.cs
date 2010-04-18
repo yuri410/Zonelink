@@ -68,23 +68,23 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            if (state == AnimState.In)
+            if (state == AnimState.Out)
             {
                 cx += (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds;
                 if (cx >= PanelX)
                 {
                     cx = PanelX;
-                    state = AnimState.Inside;
+                    state = AnimState.Outside;
                 }
 
             }
-            else if (state == AnimState.Out)
+            else if (state == AnimState.In)
             {
                 cx -= (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds;
                 if (cx < -PanelWidth)
                 {
                     cx = -PanelWidth;
-                    state = AnimState.Outside;
+                    state = AnimState.Inside;
                     timeCounter = DisplayDuration;
                 }
             }
@@ -92,7 +92,7 @@ namespace Code2015.GUI
             if (state == AnimState.Outside)
             {
                 timeCounter -= time.ElapsedGameTimeSeconds;
-                if (timeCounter < 0) 
+                if (timeCounter < 0)
                 {
                     state = AnimState.In;
                 }
