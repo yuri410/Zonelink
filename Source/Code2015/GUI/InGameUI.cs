@@ -153,14 +153,6 @@ namespace Code2015.GUI
                     }
 
                     base.Render(sprite);
-                    //icons.Render(sprite);
-                    //sprite.SetTransform(Matrix.Identity);
-                    //cityUI.Render(sprite);
-
-                    //playerProgress.Render(sprite);
-                    //miniMap.Render(sprite);
-                    //noticeBar.Render(sprite);
-                    //container.Render(sprite);
 
                     sprite.Draw(cursor, MouseInput.X, MouseInput.Y, ColorValue.White);
                 }
@@ -239,15 +231,6 @@ namespace Code2015.GUI
                     infoUI.SelectedObject = picker.SelectedObject;
                     
                     base.Update(time);
-
-
-                    //playerProgress.Update(time);
-                    //miniMap.Update(time);
-                    //noticeBar.Update(time);
-                    //container.Update(time);
-
-                    //Interact(time);
-
                 }
             }
         }

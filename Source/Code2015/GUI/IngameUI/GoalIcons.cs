@@ -236,6 +236,13 @@ namespace Code2015.GUI
         {
             return TrySelect(x, y) != null;
         }
+        public override int Order
+        {
+            get
+            {
+                return 3;
+            }
+        }
         public override string ToString()
         {
             return base.ToString();
