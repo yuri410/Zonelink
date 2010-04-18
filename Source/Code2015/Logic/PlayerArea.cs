@@ -9,6 +9,8 @@ using Code2015.World;
 
 namespace Code2015.Logic
 {
+    public delegate void NewMessageHandler(string msg, int level);
+
     /// <summary>
     ///  表示玩家当前所有的城市
     /// </summary>
@@ -169,6 +171,8 @@ namespace Code2015.Logic
 
             cities.Remove(city);
         }
+
+        public event NewMessageHandler NewMessage;
 
         public void Update(GameTime time)
         {
