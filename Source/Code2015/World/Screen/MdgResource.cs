@@ -124,9 +124,9 @@ namespace Code2015.World.Screen
             {
                 int nextLevel = 0;
                 if (Level == 0 && other.Level == 0)
-                    nextLevel = 1;
-                if (Level == 1 || other.Level == 1)
                     nextLevel = 2;
+                //if (Level == 1 || other.Level == 1)
+                //    nextLevel = 2;
 
                 if (nextLevel == 2)
                 {
