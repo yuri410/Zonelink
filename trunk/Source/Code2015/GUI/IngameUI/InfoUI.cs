@@ -42,9 +42,6 @@ namespace Code2015.GUI
         CityObject city;
        
 
-        //bool isCapturable;
-        //bool isPlayerCapturing;
-
         Point selectedProjPos;
 
         public ISelectableObject SelectedObject
@@ -108,7 +105,6 @@ namespace Code2015.GUI
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
-            //cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
             linkArrow = new CityLinkableMark(renderSys);
             scene.Scene.AddObjectToScene(linkArrow);
         }
@@ -122,7 +118,10 @@ namespace Code2015.GUI
         {
             get { return 1; }
         }
-
+        public override bool HitTest(int x, int y)
+        {
+            return false;
+        }
         //void BuildBtn_Click(object sender, MouseButtonFlags btn)
         //{
         //    switch (page)
@@ -174,22 +173,6 @@ namespace Code2015.GUI
             //}
 
         }
-
-        //public bool HitTest(int x, int y)
-        //{
-        //    //if (city != null)
-        //    //{
-        //        //if (y > 595 && x > 420)
-        //        //{
-        //        //    return true;
-        //        //}
-        //        //if (y > 168 && x < 155)
-        //        //{
-        //        //    return true;
-        //        //}
-        //    //}
-        //    return false;
-        //}
 
 
         public override void Update(GameTime time)

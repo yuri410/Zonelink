@@ -56,8 +56,15 @@ namespace Code2015.GUI
             background = UITextureManager.Instance.CreateInstance(fl);
 
 
-        }        
-
+        }
+        public override int Order
+        {
+            get { return 6; }
+        }
+        public override bool HitTest(int x, int y)
+        {
+            return false;
+        }
         public override void Render(Sprite sprite)
         {
             if (state != AnimState.Inside)

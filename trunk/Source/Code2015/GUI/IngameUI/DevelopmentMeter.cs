@@ -46,6 +46,10 @@ namespace Code2015.GUI
             }
             return "ig_blueBar.tex";
         }
+        public override int Order
+        {
+            get { return 7; }
+        }
 
         public DevelopmentMeter(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {

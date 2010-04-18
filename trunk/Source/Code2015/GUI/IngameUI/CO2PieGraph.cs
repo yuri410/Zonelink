@@ -8,6 +8,11 @@ namespace Code2015.GUI
 {
     class CO2PieGraph : UIComponent
     {
+        public override int Order
+        {
+            get { return 7; }
+        }
+
         public override void Render(Sprite sprite)
         {
             base.Render(sprite);
