@@ -33,7 +33,6 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
-        //Font font;
 
         RoundButton btnEduorg;
         RoundButton btnHosp;
@@ -158,6 +157,19 @@ namespace Code2015.GUI
             cx = -PanelWidth;
         }
 
+
+
+        public override bool HitTest(int x, int y)
+        {
+            Rectangle rect = new Rectangle((int)cx, PanelY, PanelWidth, PanelHeight);
+            return Control.IsInBounds(x, y, ref rect);
+        }
+        public override int Order
+        {
+            get { return 5; }
+        }
+
+
         void EduBtn_Click(object sender, MouseButtonFlags btn)
         {
 
@@ -174,6 +186,7 @@ namespace Code2015.GUI
         {
 
         }
+
         public override void Render(Sprite sprite)
         {
             if (state != AnimState.Inside)
@@ -187,6 +200,16 @@ namespace Code2015.GUI
             }
         }
 
+        public override void UpdateInteract(GameTime time)
+        {
+            if (state == AnimState.Outside)
+            {
+                btnEduorg.Update(time);
+                btnHosp.Update(time);
+                btnOilref.Update(time);
+                btnWood.Update(time);
+            }
+        }
         public override void Update(GameTime time)
         {
             if (state == AnimState.Out)
@@ -221,13 +244,7 @@ namespace Code2015.GUI
             btnWood.X = (int)(cx + 277);
             btnWood.Y = PanelY + 41;
 
-            if (state == AnimState.Outside)
-            {
-                btnEduorg.Update(time);
-                btnHosp.Update(time);
-                btnOilref.Update(time);
-                btnWood.Update(time);
-            }
+           
         }
     }
 }

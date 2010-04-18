@@ -128,14 +128,15 @@
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
-    <Compile Include="GUI\CityEditPanel.cs" />
-    <Compile Include="GUI\CityInfo.cs">
+    <Compile Include="GUI\IngameUI\CityEditPanel.cs" />
+    <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\CO2PieGraph.cs" />
+    <Compile Include="GUI\IngameUI\CO2PieGraph.cs" />
     <Compile Include="GUI\CreditScreen.cs" />
-    <Compile Include="GUI\DevelopmentMeter.cs" />
-    <Compile Include="GUI\InfoDisplay.cs" />
+    <Compile Include="GUI\IngameUI\DevelopmentMeter.cs" />
+    <Compile Include="GUI\GUIScreen.cs" />
+    <Compile Include="GUI\IngameUI\InfoDisplay.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -155,7 +156,7 @@
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\CityUI.cs">
+    <Compile Include="GUI\IngameUI\CityUI.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\LoadingScreen.cs" />
@@ -163,12 +164,12 @@
     <Compile Include="GUI\Menu.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\MiniMap.cs" />
+    <Compile Include="GUI\IngameUI\MiniMap.cs" />
     <Compile Include="GUI\MouseInput.cs" />
-    <Compile Include="GUI\NoticeBar.cs" />
-    <Compile Include="GUI\PieceContainer.cs" />
+    <Compile Include="GUI\IngameUI\NoticeBar.cs" />
+    <Compile Include="GUI\IngameUI\PieceContainer.cs" />
     <Compile Include="GUI\Popup.cs" />
-    <Compile Include="GUI\ResourceInfo.cs" />
+    <Compile Include="GUI\IngameUI\ResourceInfo.cs" />
     <Compile Include="GUI\ScoreScreen.cs" />
     <Compile Include="GUI\SelectScreen.cs" />
     <Compile Include="Logic\Disaster.cs" />
@@ -444,7 +445,7 @@
     <Compile Include="World\CityGoalSite.cs" />
     <Compile Include="World\CityStyle.cs" />
     <Compile Include="World\GameScene.cs" />
-    <Compile Include="GUI\GoalIcons.cs" />
+    <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
       <SubType>Code</SubType>
     </Compile>

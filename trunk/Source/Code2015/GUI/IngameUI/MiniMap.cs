@@ -51,7 +51,7 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_minimap.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            const int SWBRadius = 32;
+            const int SWBRadius = 64;
             switchButton = new RoundButton();
             switchButton.X = -SWBRadius;
             switchButton.Y = Program.ScreenHeight - SWBRadius;
@@ -76,7 +76,20 @@ namespace Code2015.GUI
                 state = AnimState.Out;
             }
         }
-
+        public override int Order
+        {
+            get { return 4; }
+        }
+        public override bool HitTest(int x, int y)
+        {
+            if (state == AnimState.Outside)
+            {
+                Rectangle rect = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
+                return Control.IsInBounds(x, y, ref rect);
+            }
+            return false;
+        }
+        
         public override void Render(Sprite sprite)
         {
             sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(PanelX, PanelY + PanelHeight, 0));
@@ -85,6 +98,10 @@ namespace Code2015.GUI
             sprite.SetTransform(Matrix.Identity);
 
             switchButton.Render(sprite);
+        }
+        public override void UpdateInteract(GameTime time)
+        {
+            switchButton.Update(time);
         }
         public override void Update(GameTime time)
         {
@@ -108,8 +125,6 @@ namespace Code2015.GUI
                     state = AnimState.Inside;                    
                 }
             }
-
-            switchButton.Update(time);
 
             if (state == AnimState.Outside)
             {
