@@ -54,16 +54,10 @@ namespace Code2015.GUI
             {
                 if (selected != value)
                 {
-                    if (selected != null)
-                    {
-                        selected.IsSelected = false;
-                    }
                     selected = value;
 
                     if (selected != null)
                     {
-                        selected.IsSelected = true;
-
                         city = selected as CityObject;
 
                         if (city != null)

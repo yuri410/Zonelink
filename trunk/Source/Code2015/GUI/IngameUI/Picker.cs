@@ -20,7 +20,10 @@ namespace Code2015.GUI
 
 
         CityObject mouseHoverCity;
-        
+
+        ISelectableObject selectedCity;
+
+
         Ray selectRay;
 
         public Ray SelectionRay
@@ -28,11 +31,26 @@ namespace Code2015.GUI
             get { return selectRay; }
         }
 
-
         public ISelectableObject SelectedObject
         {
-            get;
-            private set;
+            get { return selectedCity; }
+            private set 
+            {
+                if (selectedCity != value) 
+                {
+                    if (selectedCity != null)
+                    {
+                        selectedCity.IsSelected = false;
+                    }
+
+                    selectedCity = value;
+
+                    if (selectedCity != null)
+                    {
+                        selectedCity.IsSelected = true;
+                    }
+                }
+            }
         }
         public CityObject SelectedCity
         {

@@ -66,7 +66,7 @@ namespace Code2015.GUI
         Texture cursor;
 
         PieceContainer container;
-        InfoUI cityUI;
+        InfoUI infoUI;
         MiniMap miniMap;
         NoticeBar noticeBar;
         DevelopmentMeter playerProgress;
@@ -116,9 +116,9 @@ namespace Code2015.GUI
             this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
             AddElement(cityEdit);
 
-            this.cityUI = new InfoUI(game, parent, scene, gamelogic);
-            AddElement(cityUI);
-            this.icons = new GoalIcons(parent, this, cityUI.CityInfoDisplay, scene, physWorld);
+            this.infoUI = new InfoUI(game, parent, scene, gamelogic);
+            AddElement(infoUI);
+            this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld);
             AddElement(icons); 
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
           
@@ -240,6 +240,8 @@ namespace Code2015.GUI
                     pieceMaker.Update(time);
 
                     physWorld.Update(time);
+                    infoUI.SelectedObject = picker.SelectedObject;
+                    
                     base.Update(time);
 
 
