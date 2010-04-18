@@ -501,7 +501,6 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="BalanceSystem\BalanceSystemInfo.txt" />
-    <Content Include="BalanceSystem\计划.jpg" />
     <None Include="Configs\resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

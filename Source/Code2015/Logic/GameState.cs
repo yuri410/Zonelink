@@ -129,7 +129,14 @@ namespace Code2015.World
             get;
             private set;
         }
-
+        public bool CheckGameOver() 
+        {
+            for (int i = 0; i < localPlayers.Length; i++)
+            {
+                if (localPlayers[i].Win) { return true; }
+            }
+            return false;
+        }
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
             this.slgSystem = srcState.SLGWorld;

@@ -157,7 +157,8 @@ namespace Code2015.GUI
         CityObject city;
         Player player;
 
-
+        Texture happy;
+        Texture angry;
         ProgressBar satisfy;
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
         Brackets brackets;
@@ -182,6 +183,11 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
             Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
+           
+            fl = FileSystem.Instance.Locate("happy.tex", GameFileLocs.GUI);
+            happy = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("angry.tex", GameFileLocs.GUI);
+            angry = UITextureManager.Instance.CreateInstance(fl);
 
             satisfy = new ProgressBar();
 
@@ -199,7 +205,7 @@ namespace Code2015.GUI
 
         }
 
-        public Brackets Bracket 
+        public Brackets Bracket
         {
             get { return brackets; }
         }
@@ -224,8 +230,11 @@ namespace Code2015.GUI
             {
                 satisfy.X = scrnPos.X;
                 satisfy.Y = scrnPos.Y - 30;
-                satisfy.Value = city.Satisfaction; 
+                satisfy.Value = city.Satisfaction;
                 satisfy.Render(sprite);
+
+                sprite.Draw(angry, scrnPos.X - 32, scrnPos.Y - 45, ColorValue.White);
+                sprite.Draw(happy, scrnPos.X + satisfy.Width, scrnPos.Y - 45, ColorValue.White);
             }
 
             if (city.Owner == player)
@@ -259,7 +268,7 @@ namespace Code2015.GUI
             if (city.Owner == player)
             {
                 if (((ISelectableObject)city).IsSelected)
-                {                    
+                {
                     for (int i = 0; i < city.PluginCount; i++)
                     {
                         pluginInfo[i].Update(time);

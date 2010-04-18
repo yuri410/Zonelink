@@ -41,18 +41,18 @@ namespace Code2015.BalanceSystem
 
         #region 能源使用速度
         [SLGValueAttribute()]
-        public const float SmallCityLPSpeed = -1;
+        public const float SmallCityLPSpeed = -3;
         [SLGValueAttribute()]
-        public const float MediumCityLPSpeed = -2;
+        public const float MediumCityLPSpeed = -6;
         [SLGValueAttribute()]
-        public const float LargeCityLPSpeed = -3;
+        public const float LargeCityLPSpeed = -9;
 
         [SLGValueAttribute()]
-        public const float SmallCityHPSpeed = -1.5f;
+        public const float SmallCityHPSpeed = -4.5f;
         [SLGValueAttribute()]
-        public const float MediumCityHPSpeed = -3;
+        public const float MediumCityHPSpeed = -12;
         [SLGValueAttribute()]
-        public const float LargeCityHPSpeed = -4.5f;
+        public const float LargeCityHPSpeed = -18f;
 
         #endregion
 

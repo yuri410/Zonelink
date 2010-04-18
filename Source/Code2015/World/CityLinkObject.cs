@@ -141,6 +141,8 @@ namespace Code2015.World
                 TransferEffect abg = new TransferEffect(renderSys, TransferType.Wood);
                 TransferEmitter abgE = new TransferEmitter(startPos, endPos, ori.Forward);
 
+                abgE.IsVisible = false;
+                abgE.IsShutDown = true;
                 atobGreen[i] = abg;
                 atobGreenE[i] = abgE;
 
@@ -150,6 +152,8 @@ namespace Code2015.World
                 TransferEffect bag = new TransferEffect(renderSys, TransferType.Wood);
                 TransferEmitter bagE = new TransferEmitter(endPos, startPos, -ori.Forward);
 
+                bagE.IsVisible = false;
+                bagE.IsShutDown = true; 
                 btoaGreen[i] = bag;
                 btoaGreenE[i] = bagE;
 
@@ -159,6 +163,8 @@ namespace Code2015.World
                 TransferEffect abr = new TransferEffect(renderSys, TransferType.Oil);
                 TransferEmitter abrE = new TransferEmitter(startPos, endPos, ori.Forward);
 
+                abrE.IsVisible = false;
+                abrE.IsShutDown = true; 
                 atobRed[i] = abr;
                 atobRedE[i] = abrE;
 
@@ -168,6 +174,8 @@ namespace Code2015.World
                 TransferEffect bar = new TransferEffect(renderSys, TransferType.Oil);
                 TransferEmitter barE = new TransferEmitter(endPos, startPos, -ori.Forward);
 
+                barE.IsVisible = false;
+                barE.IsShutDown = true; 
                 btoaRed[i] = bar;
                 btoaRedE[i] = barE;
 
@@ -178,6 +186,8 @@ namespace Code2015.World
                 TransferEffect aby = new TransferEffect(renderSys, TransferType.Food);
                 TransferEmitter abyE = new TransferEmitter(startPos, endPos, ori.Forward);
 
+                abyE.IsVisible = false;
+                abyE.IsShutDown = true; 
                 atobYellow[i] = aby;
                 atobYellowE[i] = abyE;
 
@@ -188,6 +198,8 @@ namespace Code2015.World
                 TransferEffect bay = new TransferEffect(renderSys, TransferType.Food);
                 TransferEmitter bayE = new TransferEmitter(endPos, startPos, -ori.Forward);
 
+                bayE.IsVisible = false;
+                bayE.IsShutDown = true; 
                 btoaYellow[i] = bay;
                 btoaYellowE[i] = bayE;
 

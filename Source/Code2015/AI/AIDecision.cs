@@ -5,6 +5,7 @@ using Apoc3D;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
 using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.AI
 {
@@ -12,7 +13,7 @@ namespace Code2015.AI
     {
         AIPlayer player;
         PlayerArea area;
-
+        AIDecisionHelper helper;
         float decisionTime;
 
         List<City> cityBuffer = new List<City>();
@@ -32,8 +33,10 @@ namespace Code2015.AI
             this.area = player.Area;
 
             pluginFactory = new CityPluginFactory();
-            
+
+            helper = new AIDecisionHelper(world);
         }
+
 
         public void Update(GameTime time)
         {
@@ -59,6 +62,38 @@ namespace Code2015.AI
 
                 if (ran < P)
                 {
+                    float max = float.MinValue;
+                    City bestCity = null;
+                    City bestCityParent = null;
+                    for (int i = 0; i < area.CityCount; i++)
+                    {
+                        City cc = area.GetCity(i);
+
+                        for (int j = 0; j < cc.LinkableCityCount; j++)
+                        {
+                            City cc2 = cc.GetLinkableCity(j);
+                            if (!cc2.IsCaptured && !cc2.Capture.IsPlayerCapturing(player))
+                            {
+                                float m = helper.GetCityMark(cc2, 1, 1, 1);
+                                if (m > max)
+                                {
+                                    max = m;
+                                    bestCity = cc2;
+                                    bestCityParent = cc;
+                                }
+                            }
+                        }
+                    }
+
+                    if (bestCity != null)
+                    {
+                        bestCity.Capture.SetCapture(player, bestCityParent);
+
+                        bestCityParent.Parent.MakeLinkWith(bestCity.Parent);
+                        //CityLinkObject link = new CityLinkObject(bestCityParent.Parent.RenderSystem, bestCityParent.Parent, bestCity.Parent);
+                        //bestCityParent.Parent.SceneManager.AddObjectToScene(link);
+
+                    }
                     //for (int i = 0; i < world.CityCount; i++)
                     //{
                     //    City cc = world.GetCity(i);
@@ -85,7 +120,7 @@ namespace Code2015.AI
                         {
                             Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
 
-                            
+
                             for (int j = 0; j < world.ResourceCount && cc.CanAddPlugins; j++)
                             {
                                 NaturalResource res = world.GetResource(j);
@@ -110,7 +145,7 @@ namespace Code2015.AI
                                     }
                                 }
                             }
-                            if (cc.CanAddPlugins) 
+                            if (cc.CanAddPlugins)
                             {
                                 int rem = CityGrade.GetMaxPlugins(cc.Size) - cc.PluginCount;
 
@@ -127,7 +162,7 @@ namespace Code2015.AI
                                     else
                                     {
                                         plugin = pluginFactory.MakeEducationAgent();
-                                    } 
+                                    }
                                     cc.Add(plugin);
                                 }
                             }
@@ -135,7 +170,7 @@ namespace Code2015.AI
                         }
                         else
                         {
-                            cc.Parent.Upgrade();
+                            cc.Parent.UpgradeAI();
                             finished = true;
                         }
                     }

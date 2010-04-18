@@ -242,6 +242,14 @@ namespace Code2015.World
             }
         }
 
+        public void MakeLinkWith(CityObject city) 
+        {
+
+            CityLinkObject link = new CityLinkObject(renderSys, this, city);
+            SceneManager.AddObjectToScene(link);
+
+        }
+
         void City_UnLinked(City a, City b)
         {
             if (b != null)
@@ -452,7 +460,14 @@ namespace Code2015.World
             return opBuffer.Elements;
         }
 
-        public void Upgrade()
+        public void UpgradeAI()
+        {
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+            }
+        }
+        void Upgrade()
         {
             // 升级
             for (int i = 0; i < plugins.Count; i++)

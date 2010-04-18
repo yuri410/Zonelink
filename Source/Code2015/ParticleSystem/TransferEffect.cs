@@ -111,6 +111,7 @@ namespace Code2015.ParticleSystem
         public bool IsShutDown 
         {
             get { return isShutDown; }
+            set { isShutDown = value; }
         }
 
         public bool IsVisible
