@@ -159,37 +159,6 @@ namespace Code2015.GUI
             }
         }
 
-        //public void Interact(GameTime time)
-        //{
-        //    // 交互检查
-        //    //  界面
-        //    //  图标
-        //    //  场景
-
-        //    //linkUI.Update(time);
-        //    cityUI.Update(time);
-        //    icons.Update(time);
-
-        //    if (cityUI.HitTest(MouseInput.X, MouseInput.Y))
-        //    {
-        //        cityUI.Interact(time);
-        //    }
-        //    else //if (icons.MouseHitTest(mousePosition.X,mousePosition.Y))
-        //    {
-        //        icons.Interact(time);
-
-        //        //if (!icons.MouseHitTest(mousePosition.X, mousePosition.Y))
-        //        {
-        //            //}
-        //            //else
-        //            //{
-                  
-
-        //            //linkUI.Interact(time);
-        //        }
-        //    }
-
-        //}
 
         public override void Update(GameTime time)
         {
