@@ -105,7 +105,7 @@ namespace Code2015.GUI
             btnEduorg.ImageMouseOver = btnbg;
             btnEduorg.IsValid = true;
             btnEduorg.Enabled = true;
-
+            btnEduorg.ResizeImage = true;
             btnEduorg.MouseClick += this.EduBtn_Click;
             #endregion
 
@@ -121,7 +121,7 @@ namespace Code2015.GUI
             btnHosp.ImageMouseOver = btnbg;
             btnHosp.IsValid = true;
             btnHosp.Enabled = true;
-
+            btnHosp.ResizeImage = true;
             btnHosp.MouseClick += this.HospBtn_Click;
             #endregion
 
@@ -136,7 +136,7 @@ namespace Code2015.GUI
             btnOilref.ImageMouseOver = btnbg;
             btnOilref.IsValid = true;
             btnOilref.Enabled = true;
-
+            btnOilref.ResizeImage = true;
             btnOilref.MouseClick += this.OilBtn_Click;
             #endregion
 
@@ -151,9 +151,11 @@ namespace Code2015.GUI
             btnWood.ImageMouseOver = btnbg;
             btnWood.IsValid = true;
             btnWood.Enabled = true;
-
+            btnWood.ResizeImage = true;
             btnWood.MouseClick += this.WoodBtn_Click;
             #endregion
+
+            cx = -PanelWidth;
         }
 
         void EduBtn_Click(object sender, MouseButtonFlags btn)

@@ -115,7 +115,7 @@ namespace Code2015.GUI
         }
 
 
-        IMdgSelection HitTest(int x, int y)
+        IMdgSelection TrySelect(int x, int y)
         {
             IMdgSelection result = null;
             bool passed = false;
@@ -189,7 +189,7 @@ namespace Code2015.GUI
 
         void MouseSelectItem()
         {
-            SelectedItem = HitTest(MouseInput.X, MouseInput.Y);
+            SelectedItem = TrySelect(MouseInput.X, MouseInput.Y);
 
             IsMouseOver = SelectedItem != null;
         }

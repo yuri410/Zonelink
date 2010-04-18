@@ -82,6 +82,10 @@ namespace Code2015.Logic
 
                 Win |= Goal.DevelopmentPercentage >= 1;
             }
+            if (Area != null) 
+            {
+                Area.Update(time);
+            }
         }
     }
 }

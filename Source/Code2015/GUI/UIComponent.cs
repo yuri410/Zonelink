@@ -18,5 +18,10 @@ namespace Code2015.GUI
         {
 
         }
+
+        public virtual bool HitTest(int x, int y) 
+        {
+            return false;
+        }
     }
 }
