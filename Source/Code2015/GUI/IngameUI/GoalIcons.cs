@@ -37,11 +37,8 @@ namespace Code2015.GUI
 
             }
         }
-        public bool IsMouseOver
-        {
-            get;
-            private set;
-        }
+       
+
 
         ScreenStaticBody panel;
         ScreenStaticBody statBar;
@@ -159,8 +156,7 @@ namespace Code2015.GUI
             MdgPiece left = a.Tag as MdgPiece;
             MdgPiece right = b.Tag as MdgPiece;
 
-            if (left != null && right != null &&
-                (object.ReferenceEquals(left, SelectedItem) || object.ReferenceEquals(right, SelectedItem)))
+            if (left != null && right != null)
             {
                 if (left.CheckMerge(right))
                 {
@@ -191,7 +187,7 @@ namespace Code2015.GUI
         {
             SelectedItem = TrySelect(MouseInput.X, MouseInput.Y);
 
-            IsMouseOver = SelectedItem != null;
+            //IsMouseOver = SelectedItem != null;
         }
         void MouseDrag()
         {
@@ -200,7 +196,7 @@ namespace Code2015.GUI
                 SelectedItem.Velocity = Vector2.Zero;
                 SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
 
-                IsMouseOver = true;
+                //IsMouseOver = true;
             }
 
         }
@@ -236,14 +232,17 @@ namespace Code2015.GUI
 
             }
         }
-
-        public bool MouseHitTest(int x, int y)
+        public override bool HitTest(int x, int y)
         {
-            return IsMouseOver;
+            return TrySelect(x, y) != null;
+        }
+        public override string ToString()
+        {
+            return base.ToString();
         }
         public void Interact(GameTime time)
         {
-            IsMouseOver = false;
+            //IsMouseOver = false;
             if (MouseInput.IsMouseDownLeft)
             {
                 MouseSelectItem();

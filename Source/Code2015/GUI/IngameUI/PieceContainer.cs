@@ -51,6 +51,19 @@ namespace Code2015.GUI
             ico_exchange = UITextureManager.Instance.CreateInstance(fl);
         }
 
+        public override int Order
+        {
+            get { return 2; }
+        }
+        public override bool HitTest(int x, int y)
+        {
+            return false;
+        }
+        public override void UpdateInteract(GameTime time)
+        {
+            
+        }
+
         public override void Render(Sprite sprite)
         {
             sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
