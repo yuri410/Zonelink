@@ -36,6 +36,12 @@ namespace Apoc3D.GUI.Controls
             return d.Length() <= Radius;
         }
 
+        public bool ResizeImage
+        {
+            get;
+            set;
+        }
+
         public bool IsValid
         {
             get;
@@ -79,29 +85,72 @@ namespace Apoc3D.GUI.Controls
                     if (IsPressed)
                     {
                         if (ImageMouseDown != null)
-                            sprite.Draw(ImageMouseDown, X, Y, modColor);
+                        {
+                            if (ResizeImage)
+                            {
+                                sprite.Draw(ImageMouseDown, X, Y, modColor);
+                            }
+                            else 
+                            {
+                                sprite.Draw(ImageMouseDown, new Rectangle(X, Y, radius, radius), modColor);
+                            }
+                        }
+                        
                     }
                     else if (IsMouseOver)
                     {
                         if (ImageMouseOver != null)
-                            sprite.Draw(ImageMouseOver, X, Y, modColor);
+                        {
+                            if (ResizeImage)
+                            {
+                                sprite.Draw(ImageMouseOver, X, Y, modColor);
+                            }
+                            else
+                            {
+                                sprite.Draw(ImageMouseOver, new Rectangle(X, Y, radius, radius), modColor);
+                            }
+                        }
                     }
                     else
                     {
                         if (Image != null)
-                            sprite.Draw(Image, X, Y, modColor);
+                        {
+                            if (ResizeImage)
+                            {
+                                sprite.Draw(Image, X, Y, modColor);
+                            }
+                            else
+                            {
+                                sprite.Draw(Image, new Rectangle(X, Y, radius, radius), modColor);
+                            }
+                        }
                     }
                 }
                 else
                 {
                     if (ImageDisabled != null)
-                        sprite.Draw(ImageDisabled, X, Y, modColor);
+                    {
+                        if (ResizeImage)
+                        {
+                            sprite.Draw(ImageDisabled, X, Y, modColor);
+                        }
+                        else 
+                        {
+                            sprite.Draw(ImageDisabled, new Rectangle(X, Y, radius, radius), modColor);
+                        }
+                    }
                 }
             }
             else
             {
                 if (ImageInvalid != null)
+                {
                     sprite.Draw(ImageInvalid, X, Y, modColor);
+                }
+                else 
+                {
+                    sprite.Draw(ImageInvalid, new Rectangle(X, Y, radius, radius), modColor);
+                }
             }
 
             //if (IsPressed)
