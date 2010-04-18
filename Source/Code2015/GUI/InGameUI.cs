@@ -229,7 +229,8 @@ namespace Code2015.GUI
 
                     physWorld.Update(time);
                     infoUI.SelectedObject = picker.SelectedObject;
-                    
+                    cityEdit.SelectedCity = picker.SelectedCity;
+
                     base.Update(time);
                 }
             }

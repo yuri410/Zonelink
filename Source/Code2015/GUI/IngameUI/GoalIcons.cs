@@ -247,9 +247,8 @@ namespace Code2015.GUI
         {
             return base.ToString();
         }
-        public void Interact(GameTime time)
+        public override void UpdateInteract(GameTime time)
         {
-            //IsMouseOver = false;
             if (MouseInput.IsMouseDownLeft)
             {
                 MouseSelectItem();
@@ -264,6 +263,7 @@ namespace Code2015.GUI
                 MouseDragEnd(time);
             }
         }
+
         public override void Update(GameTime time)
         {
             resources.Update(time);
