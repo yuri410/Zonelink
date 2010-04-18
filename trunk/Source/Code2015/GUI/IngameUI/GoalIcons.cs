@@ -234,7 +234,7 @@ namespace Code2015.GUI
         }
         public override bool HitTest(int x, int y)
         {
-            return TrySelect(x, y) != null;
+            return SelectedItem != null || TrySelect(x, y) != null;
         }
         public override int Order
         {
