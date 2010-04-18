@@ -903,7 +903,7 @@ namespace Code2015.BalanceSystem
 
                 if (plugins[i].TypeId == CityPluginTypeId.EducationOrg)
                 {
-                    AdditionalDevMult *= (1 + plugins[i].UpgradePoint);
+                    AdditionalDevMult *= (1.5f + plugins[i].UpgradePoint);
                 }
                 else if (plugins[i].TypeId == CityPluginTypeId.Hospital)
                 {
