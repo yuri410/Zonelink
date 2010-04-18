@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 
 namespace Code2015.GUI
 {
@@ -27,6 +28,8 @@ namespace Code2015.GUI
             for (int i = 0; i < subElements.Count; i++)
             {
                 subElements[i].Render(sprite);
+
+                sprite.SetTransform(Matrix.Identity);
             }
         }
 
