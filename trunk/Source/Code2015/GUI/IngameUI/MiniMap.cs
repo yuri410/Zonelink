@@ -46,7 +46,7 @@ namespace Code2015.GUI
             this.renderSys = game.RenderSystem;
             this.scene = scene;
             this.gameLogic = gamelogic;
-
+            this.state = AnimState.Outside;
 
             FileLocation fl = FileSystem.Instance.Locate("ig_minimap.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);

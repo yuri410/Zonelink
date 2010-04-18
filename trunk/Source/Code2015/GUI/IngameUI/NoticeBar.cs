@@ -13,12 +13,6 @@ namespace Code2015.GUI
 {
     class NoticeBar : UIComponent
     {
-        //struct MessageEntry 
-        //{
-        //    public string Message;
-        //    public int Level;
-        //}
-
         const int PanelX = -2;
         const int PanelY = 30;
         const int PanelWidth = 635;
