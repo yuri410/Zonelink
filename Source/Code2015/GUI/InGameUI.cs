@@ -76,10 +76,6 @@ namespace Code2015.GUI
         Player player;
 
 
-        //public Ray SelectionRay
-        //{
-        //    get { return picker.SelectionRay; }
-        //}
 
         public ScreenPhysicsWorld PhysicsWorld
         {
