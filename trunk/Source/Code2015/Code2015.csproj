@@ -166,6 +166,7 @@
     <Compile Include="GUI\MiniMap.cs" />
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="GUI\NoticeBar.cs" />
+    <Compile Include="GUI\PieceContainer.cs" />
     <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\ResourceInfo.cs" />
     <Compile Include="GUI\ScoreScreen.cs" />

@@ -63,11 +63,11 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
       
-        //LinkUI linkUI;
 
         Texture cursor;
         Point mousePosition;
 
+        PieceContainer container;
         CityUI cityUI;
         MiniMap miniMap;
         NoticeBar noticeBar;
@@ -127,7 +127,7 @@ namespace Code2015.GUI
             this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
             this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
-
+            this.container = new PieceContainer(game, parent, scene, gamelogic);
         }
 
         public override void Render(Sprite sprite)
@@ -159,6 +159,7 @@ namespace Code2015.GUI
                     playerProgress.Render(sprite);
                     miniMap.Render(sprite);
                     noticeBar.Render(sprite);
+                    container.Render(sprite);
 
                     sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
                 }
@@ -259,7 +260,7 @@ namespace Code2015.GUI
                     playerProgress.Update(time);
                     miniMap.Update(time);
                     noticeBar.Update(time);
-
+                    container.Update(time);
 
                     Interact(time);
 

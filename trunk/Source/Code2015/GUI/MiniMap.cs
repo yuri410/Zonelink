@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
-using Code2015.World;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
-using Apoc3D.MathLib;
+using Code2015.World;
+using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI
 {
@@ -32,6 +33,7 @@ namespace Code2015.GUI
         Game parent;
 
         Texture background;
+        RoundButton switchButton;
 
         AnimState state;
 
@@ -49,14 +51,23 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_minimap.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-
+            const int SWBRadius = 16;
+            switchButton = new RoundButton();
+            switchButton.X = -SWBRadius;
+            switchButton.Y = -SWBRadius;
+            switchButton.Radius = SWBRadius;
+            
         }
 
 
 
         public override void Render(Sprite sprite)
         {
-            
+            sprite.SetTransform(Matrix.Translation(PanelX, PanelY + PanelHeight, 0) * Matrix.RotationZ(rot));
+            sprite.Draw(background, 0, -PanelHeight, ColorValue.White);
+
+            switchButton.Render(sprite);
+            sprite.SetTransform (Matrix.Identity );
         }
         public override void Update(GameTime time)
         {
@@ -80,6 +91,8 @@ namespace Code2015.GUI
                     state = AnimState.Inside;                    
                 }
             }
+
+            switchButton.Update(time);
 
             if (state == AnimState.Outside)
             {

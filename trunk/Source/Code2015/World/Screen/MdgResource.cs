@@ -113,7 +113,7 @@ namespace Code2015.World.Screen
             get { return type; }
         }
 
-        public bool HitTest(int x, int y)
+        public override bool HitTest(int x, int y)
         {
             Vector2 pos = body.Position;
 
@@ -260,7 +260,7 @@ namespace Code2015.World.Screen
             get { return type; }
         }
 
-        public bool HitTest(int x, int y)
+        public override bool HitTest(int x, int y)
         {
             Vector2 pos = body.Position;
 

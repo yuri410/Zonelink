@@ -88,14 +88,14 @@ namespace Apoc3D.GUI.Controls
                         {
                             if (ResizeImage)
                             {
+                                sprite.Draw(ImageMouseDown, new Rectangle(X, Y, radius * 2, radius * 2), modColor);
+                            }
+                            else
+                            {
                                 sprite.Draw(ImageMouseDown, X, Y, modColor);
                             }
-                            else 
-                            {
-                                sprite.Draw(ImageMouseDown, new Rectangle(X, Y, radius, radius), modColor);
-                            }
                         }
-                        
+
                     }
                     else if (IsMouseOver)
                     {
@@ -103,11 +103,11 @@ namespace Apoc3D.GUI.Controls
                         {
                             if (ResizeImage)
                             {
-                                sprite.Draw(ImageMouseOver, X, Y, modColor);
+                                sprite.Draw(ImageMouseOver, new Rectangle(X, Y, radius * 2, radius * 2), modColor);
                             }
                             else
                             {
-                                sprite.Draw(ImageMouseOver, new Rectangle(X, Y, radius, radius), modColor);
+                                sprite.Draw(ImageMouseOver, X, Y, modColor);
                             }
                         }
                     }
@@ -117,11 +117,11 @@ namespace Apoc3D.GUI.Controls
                         {
                             if (ResizeImage)
                             {
-                                sprite.Draw(Image, X, Y, modColor);
+                                sprite.Draw(Image, new Rectangle(X, Y, radius * 2, radius * 2), modColor);
                             }
                             else
                             {
-                                sprite.Draw(Image, new Rectangle(X, Y, radius, radius), modColor);
+                                sprite.Draw(Image, X, Y, modColor);
                             }
                         }
                     }
@@ -132,11 +132,11 @@ namespace Apoc3D.GUI.Controls
                     {
                         if (ResizeImage)
                         {
-                            sprite.Draw(ImageDisabled, X, Y, modColor);
+                            sprite.Draw(ImageDisabled, new Rectangle(X, Y, radius * 2, radius * 2), modColor);
                         }
-                        else 
+                        else
                         {
-                            sprite.Draw(ImageDisabled, new Rectangle(X, Y, radius, radius), modColor);
+                            sprite.Draw(ImageDisabled, X, Y, modColor);
                         }
                     }
                 }
@@ -145,11 +145,15 @@ namespace Apoc3D.GUI.Controls
             {
                 if (ImageInvalid != null)
                 {
-                    sprite.Draw(ImageInvalid, X, Y, modColor);
-                }
-                else 
-                {
-                    sprite.Draw(ImageInvalid, new Rectangle(X, Y, radius, radius), modColor);
+                    if (ResizeImage)
+                    {
+                        sprite.Draw(ImageInvalid, new Rectangle(X, Y, radius * 2, radius * 2), modColor);
+                    }
+                    else
+                    {
+                        sprite.Draw(ImageInvalid, X, Y, modColor);
+                    }
+
                 }
             }
 

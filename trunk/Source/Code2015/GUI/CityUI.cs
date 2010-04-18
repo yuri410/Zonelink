@@ -27,16 +27,8 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         Font font;
-
-        Font algerFont;
         Player player;
 
-        //侧边栏图标
-        Texture ico_box1;
-        Texture ico_box2;
-        Texture ico_box3;
-        Texture ico_box4;
-        Texture ico_exchange;
 
         CityInfoDisplay cityInfoDisplay;
         ResInfoDisplay resInfoDisplay;
@@ -121,42 +113,10 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
             font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
 
-            fl = FileSystem.Instance.Locate("Algerian.fnt", GameFileLocs.GUI);
-            algerFont = FontManager.Instance.CreateInstance(renderSys, fl, "Algerian");
-
-
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
 
-            //侧边栏
-            fl = FileSystem.Instance.Locate("ico_box1.tex", GameFileLocs.GUI);
-            ico_box1 = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ico_box2.tex", GameFileLocs.GUI);
-            ico_box2 = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ico_box3.tex", GameFileLocs.GUI);
-            ico_box3 = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ico_box4.tex", GameFileLocs.GUI);
-            ico_box4 = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            ico_exchange = UITextureManager.Instance.CreateInstance(fl);
-
-
-            //fl = FileSystem.Instance.Locate("ico_oilref.tex", GameFileLocs.GUI);
-            //ico_oil = UITextureManager.Instance.CreateInstance(fl);
-
-            //fl = FileSystem.Instance.Locate("ico_hosp.tex", GameFileLocs.GUI);
-            //ico_hosp = UITextureManager.Instance.CreateInstance(fl);
-
-            //fl = FileSystem.Instance.Locate("ico_school.tex", GameFileLocs.GUI);
-            //ico_edu = UITextureManager.Instance.CreateInstance(fl);
-
-            //fl = FileSystem.Instance.Locate("ico_woodfac.tex", GameFileLocs.GUI);
-            //ico_wood = UITextureManager.Instance.CreateInstance(fl);
 
             cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
             linkArrow = new CityLinkableMark(renderSys);
@@ -207,31 +167,7 @@ namespace Code2015.GUI
             cityInfoDisplay.Render(sprite);
             resInfoDisplay.Render(sprite);
 
-            #region 渲染城市信息
-            if (city != null)
-            {
-                //sprite.Draw(ico_edu, 394, 563, ColorValue.White);
-                //sprite.Draw(ico_wood, 394, 563, ColorValue.White);
-                //sprite.Draw(ico_oil, 394, 563, ColorValue.White);
-                //sprite.Draw(ico_hosp, 394, 563, ColorValue.White);
-
-
-                //if (city.Owner == player)
-                //{
-                //    btnEduorg.Render(sprite);
-                //    btnHosp.Render(sprite);
-                //    btnOilref.Render(sprite);
-                //    btnWood.Render(sprite);
-                //}
-            }
-            #endregion
-
-
-            sprite.Draw(ico_exchange, 1177, 619, ColorValue.White);
-            sprite.Draw(ico_box1, 614, 606, ColorValue.White);
-            sprite.Draw(ico_box2, 729, 606, ColorValue.White);
-            sprite.Draw(ico_box3, 844, 606, ColorValue.White);
-            sprite.Draw(ico_box4, 959, 606, ColorValue.White);
+            cityEdit.Render(sprite);
 
             Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
 
@@ -244,21 +180,21 @@ namespace Code2015.GUI
 
         }
 
-        public bool HitTest(int x, int y)
-        {
-            //if (city != null)
-            //{
-                //if (y > 595 && x > 420)
-                //{
-                //    return true;
-                //}
-                //if (y > 168 && x < 155)
-                //{
-                //    return true;
-                //}
-            //}
-            return false;
-        }
+        //public bool HitTest(int x, int y)
+        //{
+        //    //if (city != null)
+        //    //{
+        //        //if (y > 595 && x > 420)
+        //        //{
+        //        //    return true;
+        //        //}
+        //        //if (y > 168 && x < 155)
+        //        //{
+        //        //    return true;
+        //        //}
+        //    //}
+        //    return false;
+        //}
 
         public void Interact(GameTime time)
         {
@@ -281,6 +217,7 @@ namespace Code2015.GUI
         {
             cityInfoDisplay.Update(time);
             resInfoDisplay.Update(time);
+            cityEdit.Update(time);
 
             #region 城市
             if (city != null)

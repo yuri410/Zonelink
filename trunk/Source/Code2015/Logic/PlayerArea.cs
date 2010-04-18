@@ -14,7 +14,7 @@ namespace Code2015.Logic
     /// <summary>
     ///  表示玩家当前所有的城市
     /// </summary>
-    public class PlayerArea : IUpdatable
+    public class PlayerArea //: IUpdatable
     {
         public const float CaptureDistanceThreshold = 12;
 
