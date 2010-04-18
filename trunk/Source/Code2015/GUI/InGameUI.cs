@@ -46,7 +46,7 @@ namespace Code2015.GUI
     /// <summary>
     ///  表示游戏过程中的界面
     /// </summary>
-    class InGameUI : UIComponent
+    class InGameUI : GUIScreen
     {
         GameScene scene;
         RenderSystem renderSys;
@@ -63,39 +63,29 @@ namespace Code2015.GUI
 
         ScreenPhysicsWorld physWorld;
       
-
         Texture cursor;
-        Point mousePosition;
 
         PieceContainer container;
-        CityUI cityUI;
+        InfoUI cityUI;
         MiniMap miniMap;
         NoticeBar noticeBar;
         DevelopmentMeter playerProgress;
+        Picker picker;
+        CityEditPanel cityEdit;
 
         Player player;
 
-        CityObject mouseHoverCity;
-        
-        Ray selectRay;
 
-        public Ray SelectionRay
-        {
-            get { return selectRay; }
-        }
+        //public Ray SelectionRay
+        //{
+        //    get { return picker.SelectionRay; }
+        //}
 
         public ScreenPhysicsWorld PhysicsWorld
         {
             get { return physWorld; }
         }
-        public CityObject MouseHoverCity
-        {
-            get { return mouseHoverCity; }
-            private set
-            {
-                mouseHoverCity = value;
-            }
-        }
+     
 
 
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
@@ -117,17 +107,31 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
 
-           
 
-            this.cityUI = new CityUI(game, parent, scene, gamelogic);
 
+            picker = new Picker(game, parent, scene, gamelogic);
+            AddElement(picker);
+
+
+            this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
+            AddElement(cityEdit);
+
+            this.cityUI = new InfoUI(game, parent, scene, gamelogic);
+            AddElement(cityUI);
             this.icons = new GoalIcons(parent, this, cityUI.CityInfoDisplay, scene, physWorld);
+            AddElement(icons); 
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
+          
             this.loadScreen = new LoadingScreen(renderSys);
+
             this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
+            AddElement(playerProgress); 
             this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
+            AddElement(noticeBar); 
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
+            AddElement(miniMap); 
             this.container = new PieceContainer(game, parent, scene, gamelogic);
+            AddElement(container);
         }
 
         public override void Render(Sprite sprite)
@@ -152,92 +156,52 @@ namespace Code2015.GUI
                         loadScreen = null;
                     }
 
-                    icons.Render(sprite);
-                    sprite.SetTransform(Matrix.Identity);
-                    cityUI.Render(sprite);
+                    base.Render(sprite);
+                    //icons.Render(sprite);
+                    //sprite.SetTransform(Matrix.Identity);
+                    //cityUI.Render(sprite);
 
-                    playerProgress.Render(sprite);
-                    miniMap.Render(sprite);
-                    noticeBar.Render(sprite);
-                    container.Render(sprite);
+                    //playerProgress.Render(sprite);
+                    //miniMap.Render(sprite);
+                    //noticeBar.Render(sprite);
+                    //container.Render(sprite);
 
-                    sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+                    sprite.Draw(cursor, MouseInput.X, MouseInput.Y, ColorValue.White);
                 }
             }
         }
 
-        public void Interact(GameTime time)
-        {
-            #region 屏幕边缘滚动视野
-            const int ScrollPadding = 3;
-            RtsCamera camera = parent.Scene.Camera;
+        //public void Interact(GameTime time)
+        //{
+        //    // 交互检查
+        //    //  界面
+        //    //  图标
+        //    //  场景
 
-            camera.Height += MouseInput.DScrollWheelValue * 0.05f;
+        //    //linkUI.Update(time);
+        //    cityUI.Update(time);
+        //    icons.Update(time);
 
-            if (MouseInput.X <= ScrollPadding)
-            {
-                camera.MoveLeft();
-            }
-            if (MouseInput.X >= Program.Window.ClientSize.Width - ScrollPadding)
-            {
-                camera.MoveRight();
-            }
-            if (MouseInput.Y <= ScrollPadding)
-            {
-                camera.MoveFront();
-            }
-            if (MouseInput.Y >= Program.Window.ClientSize.Height - ScrollPadding)
-            {
-                camera.MoveBack();
-            }
-            #endregion
+        //    if (cityUI.HitTest(MouseInput.X, MouseInput.Y))
+        //    {
+        //        cityUI.Interact(time);
+        //    }
+        //    else //if (icons.MouseHitTest(mousePosition.X,mousePosition.Y))
+        //    {
+        //        icons.Interact(time);
 
-            // 交互检查
-            //  界面
-            //  图标
-            //  场景
+        //        //if (!icons.MouseHitTest(mousePosition.X, mousePosition.Y))
+        //        {
+        //            //}
+        //            //else
+        //            //{
+                  
 
-            //linkUI.Update(time);
-            cityUI.Update(time);
-            icons.Update(time);
+        //            //linkUI.Interact(time);
+        //        }
+        //    }
 
-            if (cityUI.HitTest(mousePosition.X, mousePosition.Y))
-            {
-                cityUI.Interact(time);
-            }
-            else //if (icons.MouseHitTest(mousePosition.X,mousePosition.Y))
-            {
-                icons.Interact(time);
-
-                if (!icons.MouseHitTest(mousePosition.X, mousePosition.Y))
-                {
-                    //}
-                    //else
-                    //{
-                    Vector3 mp = new Vector3(mousePosition.X, mousePosition.Y, 0);
-                    Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                    mp.Z = 1;
-                    Vector3 end = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-                    Vector3 dir = end - start;
-                    dir.Normalize();
-
-                    selectRay = new Ray(start, dir);
-
-                    ISelectableObject sel = null;
-                    SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
-                    sel = obj as ISelectableObject;
-                    MouseHoverCity = sel as CityObject;
-
-                    if (MouseInput.IsMouseDownLeft)
-                    {
-                        cityUI.SelectedObject = sel;
-                    }
-
-                    //linkUI.Interact(time);
-                }
-            }
-
-        }
+        //}
 
         public override void Update(GameTime time)
         {
@@ -249,20 +213,42 @@ namespace Code2015.GUI
             {
                 if (parent.IsLoaded)
                 {
-                    mousePosition.X = MouseInput.X;
-                    mousePosition.Y = MouseInput.Y;
+                    #region 屏幕边缘滚动视野
+                    const int ScrollPadding = 3;
+                    RtsCamera camera = parent.Scene.Camera;
 
-                    physWorld.Update(time);
+                    camera.Height += MouseInput.DScrollWheelValue * 0.05f;
+
+                    if (MouseInput.X <= ScrollPadding)
+                    {
+                        camera.MoveLeft();
+                    }
+                    if (MouseInput.X >= Program.Window.ClientSize.Width - ScrollPadding)
+                    {
+                        camera.MoveRight();
+                    }
+                    if (MouseInput.Y <= ScrollPadding)
+                    {
+                        camera.MoveFront();
+                    }
+                    if (MouseInput.Y >= Program.Window.ClientSize.Height - ScrollPadding)
+                    {
+                        camera.MoveBack();
+                    }
+                    #endregion
 
                     pieceMaker.Update(time);
 
+                    physWorld.Update(time);
+                    base.Update(time);
 
-                    playerProgress.Update(time);
-                    miniMap.Update(time);
-                    noticeBar.Update(time);
-                    container.Update(time);
 
-                    Interact(time);
+                    //playerProgress.Update(time);
+                    //miniMap.Update(time);
+                    //noticeBar.Update(time);
+                    //container.Update(time);
+
+                    //Interact(time);
 
                 }
             }

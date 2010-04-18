@@ -17,9 +17,9 @@ using Code2015.World.Screen;
 namespace Code2015.GUI
 {
     /// <summary>
-    ///  用于显示游戏中已选择物体的信息
+    ///  用于显示游戏中物体的信息
     /// </summary>
-    class CityUI : UIComponent
+    class InfoUI : UIComponent
     {
         GameScene scene;
         GameState gameLogic;
@@ -36,14 +36,14 @@ namespace Code2015.GUI
         RtsCamera camera;
 
         CityLinkableMark linkArrow;
-        CityEditPanel cityEdit;
+
 
         ISelectableObject selected;
         CityObject city;
        
 
-        bool isCapturable;
-        bool isPlayerCapturing;
+        //bool isCapturable;
+        //bool isPlayerCapturing;
 
         Point selectedProjPos;
 
@@ -93,13 +93,11 @@ namespace Code2015.GUI
                     {
                         linkArrow.SetCity(null, null);
                     }
-
-                    cityEdit.SelectedCity = city;
                 }
             }
         }
 
-        public CityUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        public InfoUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.parent = parent;
             this.game = game;
@@ -116,9 +114,7 @@ namespace Code2015.GUI
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
-
-
-            cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
+            //cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
             linkArrow = new CityLinkableMark(renderSys);
             scene.Scene.AddObjectToScene(linkArrow);
         }
@@ -126,6 +122,11 @@ namespace Code2015.GUI
         public CityInfoDisplay CityInfoDisplay
         {
             get { return cityInfoDisplay; }
+        }
+
+        public override int Order
+        {
+            get { return 1; }
         }
 
         //void BuildBtn_Click(object sender, MouseButtonFlags btn)
@@ -167,16 +168,16 @@ namespace Code2015.GUI
             cityInfoDisplay.Render(sprite);
             resInfoDisplay.Render(sprite);
 
-            cityEdit.Render(sprite);
+            //cityEdit.Render(sprite);
 
-            Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
+            //Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
 
-            int yy = 60;
-            foreach (KeyValuePair<Player, float> e in list)
-            {
-                font.DrawString(sprite, e.Key.Name + " CO2: " + e.Value.ToString("P"), 0, yy, 25, DrawTextFormat.Center, (int)ColorValue.White.PackedValue);
-                yy += 30;
-            }
+            //int yy = 60;
+            //foreach (KeyValuePair<Player, float> e in list)
+            //{
+            //    font.DrawString(sprite, e.Key.Name + " CO2: " + e.Value.ToString("P"), 0, yy, 25, DrawTextFormat.Center, (int)ColorValue.White.PackedValue);
+            //    yy += 30;
+            //}
 
         }
 
@@ -196,46 +197,30 @@ namespace Code2015.GUI
         //    return false;
         //}
 
-        public void Interact(GameTime time)
-        {
-            if (city != null)
-            {
-                if (city.IsCaptured)
-                {
-                    if (city.Owner == player)
-                    {
-                        //btnEduorg.Update(time);
-                        //btnHosp.Update(time);
-                        //btnOilref.Update(time);
-                        //btnWood.Update(time);
-                    }
-                }
-            }
-        }
 
         public override void Update(GameTime time)
         {
             cityInfoDisplay.Update(time);
             resInfoDisplay.Update(time);
-            cityEdit.Update(time);
 
-            #region 城市
-            if (city != null)
-            {
-                if (city.IsCaptured)
-                {
-                    if (city.Owner == player)
-                    {
+
+            //#region 城市
+            //if (city != null)
+            //{
+            //    if (city.IsCaptured)
+            //    {
+            //        if (city.Owner == player)
+            //        {
                         
-                    }
-                }
-                else
-                {
-                    isCapturable = city.CanCapture(player);
-                    isPlayerCapturing = city.IsPlayerCapturing(player);
-                }
-            }
-            #endregion
+            //        }
+            //    }
+            //    else
+            //    {
+            //        isCapturable = city.CanCapture(player);
+            //        isPlayerCapturing = city.IsPlayerCapturing(player);
+            //    }
+            //}
+            //#endregion
 
         }
     }

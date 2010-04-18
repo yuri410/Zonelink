@@ -156,9 +156,10 @@
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\IngameUI\CityUI.cs">
+    <Compile Include="GUI\IngameUI\InfoUI.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\IngameUI\Picker.cs" />
     <Compile Include="GUI\LoadingScreen.cs" />
     <Compile Include="GUI\MainMenu.cs" />
     <Compile Include="GUI\Menu.cs">
