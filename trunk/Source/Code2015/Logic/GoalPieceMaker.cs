@@ -41,7 +41,7 @@ namespace Code2015.Logic
 
             timeCounter += dt.ElapsedGameTimeSeconds;
 
-            float timeLine = 15f / (float)Math.Sqrt(area.CityCount) + 5;
+            float timeLine = 9f / (float)Math.Sqrt(area.CityCount) + 3;
             if (timeCounter > timeLine)
             {
                 int idx = Randomizer.GetRandomInt(area.CityCount) % area.CityCount;
