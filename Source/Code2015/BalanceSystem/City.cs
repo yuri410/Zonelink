@@ -521,6 +521,10 @@ namespace Code2015.BalanceSystem
             {
                 return false;
             }
+            if (IsRecovering && CoolDownPlayer == pl)
+            {
+                return false;
+            }
             return Capture.CanCapture(pl);
         }
         public void Damage(float pop, float dev)
@@ -693,12 +697,14 @@ namespace Code2015.BalanceSystem
 
             if (Capture.IsCapturing && !IsCaptured)
             {
+                float lra = 100 * hours;
+                float hra = 100 * hours;
                 if (Capture.NearbyCity1 != null)
                 {
                     if (Capture.NewOwner1 == Capture.NearbyCity1.owner)
                     {
-                        float capreq = Capture.NearbyCity1.LocalHR.Apply(100 * hours);
-                        float capreq2 = Capture.NearbyCity1.LocalLR.Apply(100 * hours);
+                        float capreq = Capture.NearbyCity1.LocalHR.Apply(hra);
+                        float capreq2 = Capture.NearbyCity1.LocalLR.Apply(lra);
                         Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
                     }
                     else
@@ -706,11 +712,52 @@ namespace Code2015.BalanceSystem
                         Capture.CancelCapture(Capture.NewOwner1);
                     }
                 }
+                if (Capture.NearbyCity2 != null)
+                {
+                    if (Capture.NewOwner2 == Capture.NearbyCity2.owner)
+                    {
+                        float capreq = Capture.NearbyCity2.LocalHR.Apply(hra);
+                        float capreq2 = Capture.NearbyCity2.LocalLR.Apply(lra);
+                        Capture.ReceiveGood(Capture.NewOwner2, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+                    }
+                    else
+                    {
+                        Capture.CancelCapture(Capture.NewOwner2);
+                    }
+                }
+                if (Capture.NearbyCity3 != null)
+                {
+                    if (Capture.NewOwner3 == Capture.NearbyCity3.owner)
+                    {
+                        float capreq = Capture.NearbyCity3.LocalHR.Apply(hra);
+                        float capreq2 = Capture.NearbyCity3.LocalLR.Apply(lra);
+                        Capture.ReceiveGood(Capture.NewOwner3, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+                    }
+                    else
+                    {
+                        Capture.CancelCapture(Capture.NewOwner3);
+                    }
+                }
+                if (Capture.NearbyCity4 != null)
+                {
+                    if (Capture.NewOwner4 == Capture.NearbyCity4.owner)
+                    {
+                        float capreq = Capture.NearbyCity4.LocalHR.Apply(hra);
+                        float capreq2 = Capture.NearbyCity4.LocalLR.Apply(lra);
+                        Capture.ReceiveGood(Capture.NewOwner4, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+                    }
+                    else
+                    {
+                        Capture.CancelCapture(Capture.NewOwner4);
+                    }
+                }
+
 
 
                 Player player = Capture.CheckCapture();
-                if (!object.ReferenceEquals(player, null))
+                if (player != null)
                 {
+                    Capture.CancelCapture(player);
                     ChangeOwner(player);
                 }
             }
