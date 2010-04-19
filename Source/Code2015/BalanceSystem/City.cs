@@ -967,7 +967,7 @@ namespace Code2015.BalanceSystem
                 }
                 else if (plugins[i].TypeId == CityPluginTypeId.Hospital)
                 {
-                    HealthCare *= (1 + plugins[i].UpgradePoint);
+                    HealthCare *= (1.5f + plugins[i].UpgradePoint);
                 }
             }
 
