@@ -27,7 +27,7 @@ namespace Code2015.BalanceSystem
         public const float SafeAmount = 10000;
 
         [SLGValue]
-        public const float SafeTime = 9;
+        public const float SafeTime = 15;
         [SLGValue]
         public const float RefAmount = 50000;
         [SLGValue]
@@ -121,6 +121,17 @@ namespace Code2015.BalanceSystem
         public EnergyStatus(SimulationWorld region)
         {
             Region = region;
+        }
+
+        internal void AddDisaster(Disaster d)
+        {
+            Region.Add(d);
+            d.Over += Disaster_Over;
+
+            if (DisasterArrived != null)
+            {
+                DisasterArrived(d);
+            }
         }
 
         public void Update(GameTime time)
@@ -260,16 +271,9 @@ namespace Code2015.BalanceSystem
                             incoming[i].Radius,
                             incoming[i].Duration, incoming[i].Damage);
 
-                        region.Add(d);
-
-                        d.Over += Disaster_Over;
+                        AddDisaster(d);
 
                         incoming.RemoveAt(i);
-
-                        if (DisasterArrived != null)
-                        {
-                            DisasterArrived(d);
-                        }
                     }
                 }
             }

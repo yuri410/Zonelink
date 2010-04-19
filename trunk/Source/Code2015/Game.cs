@@ -11,6 +11,7 @@ using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.Logic;
 using Code2015.World;
+using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015
 {
@@ -231,6 +232,15 @@ namespace Code2015
         }
         public void Update(GameTime time)
         {
+            XI.KeyboardState state = XI.Keyboard.GetState();
+
+            if (state.IsKeyDown(XI.Keys.D))
+            {
+                gameState.SLGWorld.EnergyStatus.AddDisaster(
+                    new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude), 
+                        MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
+            }
+
             scene.Update(time);
             soundWorld.Update(time);
 
