@@ -95,7 +95,7 @@ namespace Code2015.EngineEx
         //public const float HeightScale = 5500;
         public const float PostZeroLevel = 2500;
 
-        public const float PostHeightScale = 0.0534f;
+        public const float PostHeightScale = 0.04f;//534f;
 
         bool loaded;
         RenderSystem renderSystem;
