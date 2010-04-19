@@ -529,7 +529,8 @@ namespace Code2015.BalanceSystem
         }
         public void Damage(float pop, float dev)
         {
-            Population -= pop;
+            Disease += pop;
+            //Population -= pop;
             Development -= dev;
         }
 

@@ -119,7 +119,7 @@ namespace Code2015.Logic
                 {
                     if (cities[i].IsCaptured)
                     {
-                        float pop = cityWeights[i] * damage * 0.1f;
+                        float pop = cityWeights[i] * damage * 0.05f;
                         float dev = cityWeights[i] * damage;
                         cities[i].Damage(pop * hours, dev * hours);
                     }
