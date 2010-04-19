@@ -311,6 +311,16 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+        public float InitialDeveleopment
+        {
+            get;
+            private set;
+        }
+        public float InitialPopulation
+        {
+            get;
+            private set;
+        }
         /// <summary>
         ///  获取城市的疾病因数
         /// </summary>
@@ -713,11 +723,13 @@ namespace Code2015.BalanceSystem
                     IsRecovering = false;
                 }
             }
-            else if (Satisfaction < float.Epsilon && IsCaptured)
+            else if (Satisfaction < CityGrade.GetMinSatRatio(Size) && IsCaptured)
             {
                 CoolDownPlayer = Owner;
                 ChangeOwner(null);
 
+                Development = InitialDeveleopment;
+                Population = InitialPopulation;
 
                 IsRecovering = true;
                 recoverCooldown = CityGrade.GetRecoverCoolDown(Size);
@@ -1126,18 +1138,21 @@ namespace Code2015.BalanceSystem
             switch (Size)
             {
                 case UrbanSize.Small:
-                    Development = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.SmallCityPointThreshold;
-                    Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.SmallRefPop;
+                    InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.SmallCityPointThreshold;
+                    InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.SmallRefPop;
                     break;
                 case UrbanSize.Medium:
-                    Development = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.MediumCityPointThreshold;
-                    Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.MediumRefPop;
+                    InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.MediumCityPointThreshold;
+                    InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.MediumRefPop;
                     break;
                 case UrbanSize.Large:
-                    Development = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.LargeCityPointThreshold;
-                    Population = (Randomizer.GetRandomSingle() * 0.5f + 0.5f) * CityGrade.LargeRefPop;
+                    InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.LargeCityPointThreshold;
+                    InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.LargeRefPop;
                     break;
             }
+
+            Development = InitialDeveleopment;
+            Population = InitialPopulation;
 
 
             int farmCount = Math.Min(MaxFarmLand, sect.GetInt("Farm", 0));
