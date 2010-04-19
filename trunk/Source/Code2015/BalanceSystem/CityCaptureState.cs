@@ -15,6 +15,10 @@ namespace Code2015.BalanceSystem
             get { return NewOwner1 != null || NewOwner2 != null || NewOwner3 != null || NewOwner4 != null; }
         }
 
+        /// <summary>
+        ///  检查占领是否完成
+        /// </summary>
+        /// <returns>若完成，返回玩家</returns>
         public Player CheckCapture()
         {
             if (CaputreProgress1 >= 1)

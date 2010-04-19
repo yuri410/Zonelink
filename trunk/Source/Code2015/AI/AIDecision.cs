@@ -72,7 +72,7 @@ namespace Code2015.AI
                         for (int j = 0; j < cc.LinkableCityCount; j++)
                         {
                             City cc2 = cc.GetLinkableCity(j);
-                            if (!cc2.IsCaptured && !cc2.Capture.IsPlayerCapturing(player))
+                            if (cc2.CanCapture(player))
                             {
                                 float m = helper.GetCityMark(cc2, 1, 1, 1);
                                 if (m > max)
