@@ -245,7 +245,7 @@ namespace Code2015.BalanceSystem
 
         public bool IsCaptured
         {
-            get { return !object.ReferenceEquals(Owner, null); }
+            get { return Owner != null; }
         }
 
         public Player Owner
@@ -539,7 +539,7 @@ namespace Code2015.BalanceSystem
         /// <param name="player"></param>
         public void ChangeOwner(Player player)
         {
-            if (Owner != null && player == null)
+            if (IsCaptured && player == null)
             {
                 Owner.Area.NotifyLostCity(this);
             }
