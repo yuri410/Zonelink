@@ -123,10 +123,10 @@ namespace Code2015.World
         {
             sideRing.Flash(duration);
         }
-        public bool IsPlayerCapturing(Player pl)
-        {
-            return city.Capture.IsPlayerCapturing(pl);
-        }
+        //public bool IsPlayerCapturing(Player pl)
+        //{
+        //    return city.Capture.IsPlayerCapturing(pl);
+        //}
         public bool CanCapture(Player pl)
         {
             return city.CanCapture(pl);
