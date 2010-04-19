@@ -67,7 +67,7 @@ PSOutput main(PSInput ip)
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
 		//color += (index[3]) * tex2D(texDet4, ip.DetailCoord*7);
 	}
-	//color *= 0.5f;
+	color *= 2;
     o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
 
     float wgt = saturate(N.z);
