@@ -49,22 +49,22 @@ PSOutput main(PSInput ip)
 	
 	if (index[0]>0.01)
 	{
-		//color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
 		color += (index[0]) * tex2D(texDet1, ip.DetailCoord*7);
 	}
 	if (index[1]>0.01)
 	{
-		//color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
 		color += (index[1]) * tex2D(texDet2, ip.DetailCoord*7);
 	}
 	if (index[2]>0.01)
 	{
-		//color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
 		color += (index[2]) * tex2D(texDet3, ip.DetailCoord*7);
 	}
 	if (index[3]>0.01)
 	{
-		//color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord*7);
 	}
 	//color *= 0.5f;

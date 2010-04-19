@@ -100,11 +100,11 @@ namespace Code2015.BalanceSystem
 
         //#region 参考满意度
         //[SLGValue]
-        //public const float SmallRefSat = SmallRefPop * SmallCityPointThreshold;
+        //public const float SmallMinSat = 0.01f * SmallRefPop * SmallCityPointThreshold;
         //[SLGValue]
-        //public const float MediumRefSat = MediumRefPop * MediumCityPointThreshold;
+        //public const float MediumMinSat = 0.01f * MediumRefPop * MediumCityPointThreshold;
         //[SLGValue]
-        //public const float LargeCityRefSat = LargeRefPop * LargeCityPointThreshold;
+        //public const float LargeMinSat = 0.01f * LargeRefPop * LargeCityPointThreshold;
 
         //#endregion
 
@@ -159,11 +159,14 @@ namespace Code2015.BalanceSystem
         static readonly float[] HPTSpeed = { SmallCityHPTranportSpeed, MediumCityHPTranportSpeed, LargeCityHPTranportSpeed };
         static readonly float[] FoodTSpeed = { SmallFoodTranportSpeed, MediumFoodTranportSpeed, LargeFoodTranportSpeed };
 
-
+        //static readonly float[] MinSat = { SmallMinSat, MediumMinSat, LargeMinSat };
         [SLGValue]
         public const float FoodCostPerPeople = 0.05f;
 
-
+        public static float GetMinSatRatio(UrbanSize size)
+        {
+            return 0.01f;//MinSat[(int)size];
+        }
         public static float GetCapturePoint(UrbanSize size) 
         {
             return CapturePoint[(int)size];
