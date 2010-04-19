@@ -768,6 +768,7 @@ namespace Code2015.BalanceSystem
                 if (recoverCooldown < 0)
                 {
                     IsRecovering = false;
+                    CoolDownPlayer = null;
                 }
             }
             else if (Satisfaction < CityGrade.GetMinSatRatio(Size) && IsCaptured)

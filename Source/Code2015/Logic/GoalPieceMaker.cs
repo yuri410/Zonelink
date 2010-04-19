@@ -102,16 +102,16 @@ namespace Code2015.Logic
                 Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
                 Vector2 velocity = Vector2.Zero;
-                if (scrnPos.X < vp.Width && scrnPos.Y < vp.Height)
+                if (scrnPos.X < vp.Width && scrnPos.Y < vp.Height && scrnPos.X >= 0 && scrnPos.Y >= 0)
                 {
                     velocity = new Vector2(vp.Width * 0.5f - ppos.X, vp.Height * 0.5f - ppos.Y);
                     velocity.Normalize();
                 }
-                else
-                {
-                    velocity = new Vector2(ppos.X, ppos.Y);
-                    velocity.Normalize();
-                }
+                //else
+                //{
+                //    velocity = new Vector2(ppos.X, ppos.Y);
+                //    velocity.Normalize();
+                //}
 
                 MdgPiece piece = new MdgPiece(goalIcos.Manager, goalIcos.PhysicsWorld, pieceType, 0, new Vector2(ppos.X, ppos.Y), 0);
                 
