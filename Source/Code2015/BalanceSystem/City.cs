@@ -535,7 +535,7 @@ namespace Code2015.BalanceSystem
         /// <param name="player"></param>
         public void ChangeOwner(Player player)
         {
-            if (Owner != null)
+            if (Owner != null && player == null)
             {
                 Owner.Area.NotifyLostCity(this);
             }
