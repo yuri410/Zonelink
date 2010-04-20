@@ -12,6 +12,8 @@ using Code2015.GUI;
 using Code2015.Logic;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
+using Apoc3D.Config;
+using Apoc3D.Vfs;
 
 namespace Code2015
 {
@@ -175,13 +177,18 @@ namespace Code2015
                 cityObj.CityVisible += scene.City_Visible;
 
                 scene.Scene.AddObjectToScene(cityObj);
-
-                //map.BlockArea(
-                //    MathEx.Degree2Radian(city.Longitude),
-                //    MathEx.Degree2Radian(city.Latitude), 
-                //    MathEx.Degree2Radian(CityStyleTable.CityRadiusDeg));
             }
 
+            AddResources(slgSystem);
+            AddScenery();
+            slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
+            //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
+
+            this.ingameUI = new InGameUI(game, this, scene, gameState);
+        }
+
+        void AddResources(SimulationWorld slgSystem)
+        {
             for (int i = 0; i < slgSystem.ResourceCount; i++)
             {
                 NaturalResource obj = slgSystem.GetResource(i);
@@ -207,12 +214,19 @@ namespace Code2015
                         break;
                 }
             }
+        }
+        void AddScenery()
+        {
+            FileLocation fl = FileSystem.Instance.Locate("sceneObjects.xml", GameFileLocs.Config);
+            Configuration config = ConfigurationManager.Instance.CreateInstance(fl);
 
+            foreach (KeyValuePair<string, ConfigurationSection> e in config)
+            {
+                ConfigurationSection sect = e.Value;
 
-            slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
-            //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
-
-            this.ingameUI = new InGameUI(game, this, scene, gameState);
+                SceneryObject obj = new SceneryObject(renderSys, sect);
+                scene.Scene.AddObjectToScene(obj);
+            }
         }
 
         void DisasterArrived(Disaster d)
@@ -237,7 +251,7 @@ namespace Code2015
             if (state.IsKeyDown(XI.Keys.D))
             {
                 gameState.SLGWorld.EnergyStatus.AddDisaster(
-                    new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude), 
+                    new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude),
                         MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
             }
 
