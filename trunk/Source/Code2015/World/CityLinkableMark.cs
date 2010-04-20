@@ -53,7 +53,7 @@ namespace Code2015.World
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
                     ori.TranslationValue = 0.5f * (pa + pb);
 
-                    linkArrow[i].CurrentAnimation = new NoAnimation(ori);
+                    linkArrow[i].CurrentAnimation = new NoAnimation(Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(-MathEx.PiOver2) * ori);
 
                 }
             }
