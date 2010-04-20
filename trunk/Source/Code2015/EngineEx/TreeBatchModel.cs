@@ -22,11 +22,7 @@ namespace Code2015.EngineEx
 
         public float Amount;
 
-        //public PlantType Type;
-        //public PlantCategory Category;
-
-        public TreeModelData[] BigPlants;
-        public TreeModelData[] SmallPlants;
+        public TreeModelData[] Plants;
     }
 
     class TreeBatchModel : Resource, IRenderable
@@ -123,7 +119,7 @@ namespace Code2015.EngineEx
 
             for (int i = 0; i < plantCount; i++)
             {
-                int idx = Randomizer.GetRandomInt(info.BigPlants.Length);
+                int idx = Randomizer.GetRandomInt(info.Plants.Length);
 
             Label_retry:
                 float rnd1 = Randomizer.GetRandomSingle();
@@ -151,7 +147,7 @@ namespace Code2015.EngineEx
                 rotCos = (float)Math.Cos(theta);
                 rotSin = (float)Math.Sin(theta);
 
-                TreeModelData meshData = info.BigPlants[idx];
+                TreeModelData meshData = info.Plants[idx];
 
                 resourceSize += meshData.VertexCount * TreeVertex.Size;
                 vtxCount += meshData.VertexCount;

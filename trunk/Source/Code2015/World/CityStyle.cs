@@ -215,7 +215,7 @@ namespace Code2015.World
             }
         }
 
-        const float RingRadius = 50;
+        const float RingRadius = 100;
 
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";

@@ -53,8 +53,7 @@ namespace Code2015.World
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
                     ori.TranslationValue = 0.5f * (pa + pb);
 
-                    linkArrow[i].CurrentAnimation =
-                       new NoAnimation(Matrix.Scaling(dist / CityLinkObject.LinkBaseLength, 1 + CityLinkObject.LinkHeightScale, 1 + CityLinkObject.LinkWidthScale * dist) * ori);
+                    linkArrow[i].CurrentAnimation = new NoAnimation(ori);
 
                 }
             }
@@ -65,7 +64,7 @@ namespace Code2015.World
         {
             this.linkArrow = new Model[4];
 
-            FileLocation fl = FileSystem.Instance.Locate("link.mesh", GameFileLocs.Model);
+            FileLocation fl = FileSystem.Instance.Locate("linkArrow.mesh", GameFileLocs.Model);
             for (int i = 0; i < linkArrow.Length; i++)
             {
                 linkArrow[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));

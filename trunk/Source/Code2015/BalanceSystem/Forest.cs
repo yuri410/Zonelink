@@ -7,19 +7,6 @@ using Apoc3D.Config;
 
 namespace Code2015.BalanceSystem
 {
-    public enum PlantCategory
-    {
-        Grass,
-        Bush,
-        Forest,
-    }
-    public enum PlantType
-    {
-        TemperateZone,
-        Subtropics,
-        Tropics
-    }
-
     public class Forest : NaturalResource
     {
         /// <summary>

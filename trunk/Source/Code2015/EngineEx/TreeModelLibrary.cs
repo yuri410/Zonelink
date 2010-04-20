@@ -12,9 +12,6 @@ namespace Code2015.EngineEx
 {
     struct TreeModelData
     {
-        public PlantType Type;
-        public PlantCategory Category;
-
         public Material[] Materials;
         public int[][] Indices;
         public int[] PartVtxCount;
@@ -39,14 +36,15 @@ namespace Code2015.EngineEx
         }
 
         RenderSystem renderSys;
-        Dictionary<PlantCategory, FastList<TreeModelData>> categoryModels 
-            = new Dictionary<PlantCategory, FastList<TreeModelData>>();
+        //Dictionary<PlantCategory, FastList<TreeModelData>> categoryModels 
+        //    = new Dictionary<PlantCategory, FastList<TreeModelData>>();
 
-        Dictionary<PlantType, FastList<TreeModelData>> typeModels 
-            = new Dictionary<PlantType, FastList<TreeModelData>>();
+        //Dictionary<PlantType, FastList<TreeModelData>> typeModels 
+        //    = new Dictionary<PlantType, FastList<TreeModelData>>();
 
-        Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> table 
-            = new Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>>();
+        //Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> table 
+        //    = new Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>>();
+        FastList<TreeModelData> tempList = new FastList<TreeModelData>();
 
         FastList<ModelMemoryData> loadedModels
             = new FastList<ModelMemoryData>();
@@ -62,9 +60,6 @@ namespace Code2015.EngineEx
             {
                 ConfigurationSection sect = s.Value;
                 TreeModelData mdl;
-
-                mdl.Category = (PlantCategory)Enum.Parse(typeof(PlantCategory), sect.GetString("Category", string.Empty));
-                mdl.Type = (PlantType)Enum.Parse(typeof(PlantType), sect.GetString("Type", string.Empty));
 
                 string fileName = sect.GetString("Level0", string.Empty);
                 FileLocation fl2 = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
@@ -133,102 +128,107 @@ namespace Code2015.EngineEx
                         Memory.Copy(data.Data.ToPointer(), dst, mdl.VertexData.Length);
                     }
 
-
-                    #region 添加到表中
-                    FastList<TreeModelData> mdlList;
-                    if (!categoryModels.TryGetValue(mdl.Category, out mdlList))
-                    {
-                        mdlList = new FastList<TreeModelData>();
-                        categoryModels.Add(mdl.Category, mdlList);
-                    }
-                    mdlList.Add(ref mdl);
-
-
-                    if (!typeModels.TryGetValue(mdl.Type, out mdlList))
-                    {
-                        mdlList = new FastList<TreeModelData>();
-                        typeModels.Add(mdl.Type, mdlList);
-                    }
-                    mdlList.Add(ref mdl);
-
-                    Dictionary <PlantType, FastList <TreeModelData>> typeTbl;
-                    if (!table.TryGetValue(mdl.Category, out typeTbl)) 
-                    {
-                        typeTbl = new Dictionary<PlantType, FastList<TreeModelData>>();
-                        table.Add(mdl.Category, typeTbl);
-                    }
-
-                    if (!typeTbl.TryGetValue(mdl.Type, out mdlList)) 
-                    {
-                        mdlList = new FastList<TreeModelData>();
-                        typeTbl.Add(mdl.Type, mdlList);
-                    }
-                    mdlList.Add(ref mdl);
+                    tempList.Add(mdl);
+                    //#region 添加到表中
+                    //FastList<TreeModelData> mdlList;
+                    //if (!categoryModels.TryGetValue(mdl.Category, out mdlList))
+                    //{
+                    //    mdlList = new FastList<TreeModelData>();
+                    //    categoryModels.Add(mdl.Category, mdlList);
+                    //}
+                    //mdlList.Add(ref mdl);
 
 
-                    #endregion
+                    //if (!typeModels.TryGetValue(mdl.Type, out mdlList))
+                    //{
+                    //    mdlList = new FastList<TreeModelData>();
+                    //    typeModels.Add(mdl.Type, mdlList);
+                    //}
+                    //mdlList.Add(ref mdl);
+
+                    //Dictionary <PlantType, FastList <TreeModelData>> typeTbl;
+                    //if (!table.TryGetValue(mdl.Category, out typeTbl)) 
+                    //{
+                    //    typeTbl = new Dictionary<PlantType, FastList<TreeModelData>>();
+                    //    table.Add(mdl.Category, typeTbl);
+                    //}
+
+                    //if (!typeTbl.TryGetValue(mdl.Type, out mdlList)) 
+                    //{
+                    //    mdlList = new FastList<TreeModelData>();
+                    //    typeTbl.Add(mdl.Type, mdlList);
+                    //}
+                    //mdlList.Add(ref mdl);
+
+
+                    //#endregion
                 }
+
             }
 
-            foreach (KeyValuePair<PlantCategory, FastList<TreeModelData>> e in categoryModels)
-            {
-                e.Value.Trim();
-            }
-            foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e in typeModels)
-            {
-                e.Value.Trim();
-            }
-            foreach (KeyValuePair<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> e1 in table)
-            {
-                Dictionary<PlantType, FastList<TreeModelData>> typeTbl = e1.Value;
+            //foreach (KeyValuePair<PlantCategory, FastList<TreeModelData>> e in categoryModels)
+            //{
+            //    e.Value.Trim();
+            //}
+            //foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e in typeModels)
+            //{
+            //    e.Value.Trim();
+            //}
+            //foreach (KeyValuePair<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> e1 in table)
+            //{
+            //    Dictionary<PlantType, FastList<TreeModelData>> typeTbl = e1.Value;
 
-                foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e2 in typeTbl) 
-                {
-                    e2.Value.Trim();
-                }
-            }
-            
+            //    foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e2 in typeTbl) 
+            //    {
+            //        e2.Value.Trim();
+            //    }
+            //}
+            tempList.Trim();
         }
 
-        public TreeModelData[] Get(PlantCategory cate, PlantType type)
+        public TreeModelData[] GetAll() 
         {
-            Dictionary<PlantType, FastList<TreeModelData>> typeTable;
-            if (table.TryGetValue(cate, out typeTable))
-            {
-                FastList<TreeModelData> result;
-                if (typeTable.TryGetValue(type, out result))
-                {
-                    return result.Elements;
-                }
-            }
-            return null;
+            return tempList.Elements;
         }
+        //public TreeModelData[] Get(PlantCategory cate, PlantType type)
+        //{
+        //    Dictionary<PlantType, FastList<TreeModelData>> typeTable;
+        //    if (table.TryGetValue(cate, out typeTable))
+        //    {
+        //        FastList<TreeModelData> result;
+        //        if (typeTable.TryGetValue(type, out result))
+        //        {
+        //            return result.Elements;
+        //        }
+        //    }
+        //    return null;
+        //}
 
-        public TreeModelData[] GetCategory(PlantCategory cate)
-        {
-            FastList<TreeModelData> result;
-            if (categoryModels.TryGetValue(cate, out result)) 
-            {
-                return result.Elements;
-            }
-            return null;
-        }
+        //public TreeModelData[] GetCategory(PlantCategory cate)
+        //{
+        //    FastList<TreeModelData> result;
+        //    if (categoryModels.TryGetValue(cate, out result)) 
+        //    {
+        //        return result.Elements;
+        //    }
+        //    return null;
+        //}
 
-        public TreeModelData[] GetType(PlantType cate)
-        {
-            FastList<TreeModelData> result;
-            if (typeModels.TryGetValue(cate, out result))
-            {
-                return result.Elements;
-            }
-            return null;
-        }
+        //public TreeModelData[] GetType(PlantType cate)
+        //{
+        //    FastList<TreeModelData> result;
+        //    if (typeModels.TryGetValue(cate, out result))
+        //    {
+        //        return result.Elements;
+        //    }
+        //    return null;
+        //}
 
 
         protected override void dispose()
         {
-            categoryModels.Clear();
-            typeModels.Clear();
+            //categoryModels.Clear();
+            //typeModels.Clear();
         }
     }
 }
