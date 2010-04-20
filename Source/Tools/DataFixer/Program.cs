@@ -722,7 +722,7 @@ namespace DataFixer
 
         static void Build3() 
         {
-            FileLocation fl = new FileLocation(@"E:\Desktop\pass32.raw");
+            FileLocation fl = new FileLocation(@"E:\Desktop\grad副本.raw");
             ContentBinaryReader br = new ContentBinaryReader(fl);
 
             const int DW = 36 * 32;
@@ -742,7 +742,7 @@ namespace DataFixer
 
 
             br.Close();
-            b.Save(File.Open(@"E:\Desktop\aa.bit", FileMode.OpenOrCreate));
+            b.Save(File.Open(@"E:\Desktop\grad.bit", FileMode.OpenOrCreate));
         }
 
         static unsafe void MergeAlpha(string path1, string path2)
@@ -891,6 +891,7 @@ namespace DataFixer
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
             //BuildBitMap();
+            Build3();
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));

@@ -45,11 +45,9 @@ namespace Code2015.World
             info.Radius = forest.Radius;
 
             info.Amount = forest.CurrentAmount;
-            //info.Category = forest.Category;
-            //info.Type = forest.PlantSize;
 
-            info.BigPlants = TreeModelLibrary.Instance.Get(PlantCategory.Forest, PlantType.Subtropics);
-            info.SmallPlants = TreeModelLibrary.Instance.Get(PlantCategory.Bush, PlantType.Subtropics);
+            info.Plants = TreeModelLibrary.Instance.GetAll();
+
             model = TreeBatchModelManager.Instance.CreateInstance(rs, info);
 
             model.Touch();
