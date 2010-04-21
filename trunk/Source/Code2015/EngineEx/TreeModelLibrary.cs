@@ -58,7 +58,7 @@ namespace Code2015.EngineEx
 
         public PlantDensityData GetDensity(float longtiude, float latitude)
         {
-            double yspan = Math.PI;
+            const double yspan = Math.PI;
 
             int y = (int)(((yspan * 0.5 - latitude) / yspan) * Height);
             int x = (int)(((longtiude + Math.PI) / (2 * Math.PI)) * Width);
@@ -105,16 +105,8 @@ namespace Code2015.EngineEx
         }
 
         RenderSystem renderSys;
-        //Dictionary<PlantCategory, FastList<TreeModelData>> categoryModels 
-        //    = new Dictionary<PlantCategory, FastList<TreeModelData>>();
 
-        //Dictionary<PlantType, FastList<TreeModelData>> typeModels 
-        //    = new Dictionary<PlantType, FastList<TreeModelData>>();
-
-        //Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> table 
-        //    = new Dictionary<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>>();
-        FastList<TreeModelData> tempList = new FastList<TreeModelData>();
-
+        FastList<TreeModelData>[] typedList = new FastList<TreeModelData>[PlantDensity.TypeCount];
         FastList<ModelMemoryData> loadedModels
             = new FastList<ModelMemoryData>();
 
@@ -130,6 +122,7 @@ namespace Code2015.EngineEx
                 ConfigurationSection sect = s.Value;
                 TreeModelData mdl;
 
+                int type = sect.GetInt("Type", 0);
                 string fileName = sect.GetString("Level0", string.Empty);
                 FileLocation fl2 = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
 
@@ -197,7 +190,13 @@ namespace Code2015.EngineEx
                         Memory.Copy(data.Data.ToPointer(), dst, mdl.VertexData.Length);
                     }
 
-                    tempList.Add(mdl);
+                    if (typedList[type] == null)
+                    {
+                        typedList[type] = new FastList<TreeModelData>();
+                    }
+
+                    typedList[type].Add(mdl);
+                    //tempList.Add(mdl);
                     //#region 添加到表中
                     //FastList<TreeModelData> mdlList;
                     //if (!categoryModels.TryGetValue(mdl.Category, out mdlList))
@@ -252,13 +251,22 @@ namespace Code2015.EngineEx
             //        e2.Value.Trim();
             //    }
             //}
-            tempList.Trim();
+            for (int i = 0; i < typedList.Length; i++)
+            {
+                typedList[i].Trim();
+            }
         }
 
-        public TreeModelData[] GetAll() 
+        //public TreeModelData[] GetAll() 
+        //{
+        //    return tempList.Elements;
+        //}
+
+        public TreeModelData[] Get(int typeId)
         {
-            return tempList.Elements;
+            return typedList[typeId].Elements;
         }
+
         //public TreeModelData[] Get(PlantCategory cate, PlantType type)
         //{
         //    Dictionary<PlantType, FastList<TreeModelData>> typeTable;
