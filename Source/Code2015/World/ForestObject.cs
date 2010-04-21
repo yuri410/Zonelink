@@ -46,7 +46,7 @@ namespace Code2015.World
 
             info.Amount = forest.CurrentAmount;
 
-            info.Plants = TreeModelLibrary.Instance.GetAll();
+            //info.Plants = TreeModelLibrary.Instance.Get(0);
 
             model = TreeBatchModelManager.Instance.CreateInstance(rs, info);
 

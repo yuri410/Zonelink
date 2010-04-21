@@ -12,8 +12,6 @@ using Code2015.World;
 
 namespace Code2015.EngineEx
 {
-
-
     struct ForestInfo
     {
         public float Longitude;
@@ -21,8 +19,6 @@ namespace Code2015.EngineEx
         public float Radius;
 
         public float Amount;
-
-        public TreeModelData[] Plants;
     }
 
     class TreeBatchModel : Resource, IRenderable
@@ -119,7 +115,6 @@ namespace Code2015.EngineEx
 
             for (int i = 0; i < plantCount; i++)
             {
-                int idx = Randomizer.GetRandomInt(info.Plants.Length);
 
             Label_retry:
                 float rnd1 = Randomizer.GetRandomSingle();
@@ -137,8 +132,11 @@ namespace Code2015.EngineEx
                 if (alt < 0)
                     goto Label_retry;
 
-                TreeOrientation = PlanetEarth.GetOrientation(radlng + r * rotCos, radlat + r * rotSin);
-                TreeOrientation.TranslationValue = PlanetEarth.GetPosition(radlng + r * rotCos, radlat + r * rotSin,
+                float treeLng = radlng + r * rotCos;
+                float treeLat = radlat + r * rotSin;
+
+                TreeOrientation = PlanetEarth.GetOrientation(treeLng, treeLat);
+                TreeOrientation.TranslationValue = PlanetEarth.GetPosition(treeLng, treeLat,
                     PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
 
                 float instanceData = Randomizer.GetRandomSingle();
@@ -147,7 +145,32 @@ namespace Code2015.EngineEx
                 rotCos = (float)Math.Cos(theta);
                 rotSin = (float)Math.Sin(theta);
 
-                TreeModelData meshData = info.Plants[idx];
+                TreeModelData meshData;
+                // 选一种模型，根据植被密度随机
+                {
+                    PlantDensityData density = PlantDensity.Instance.GetDensity(treeLng, treeLat);
+
+                    for (int k = 1; k < PlantDensity.TypeCount; k++)
+                    {
+                        density.Density[k] += density.Density[k - 1];
+                    }
+
+                    float rand2 = Randomizer.GetRandomSingle() * density.Density[PlantDensity.TypeCount - 1];
+
+                    int idx = 0;// Randomizer.GetRandomInt(info.Plants.Length);
+                    for (int k = 0; k < PlantDensity.TypeCount; k++)
+                    {
+                        if (rand2 < density.Density[k])
+                        {
+                            idx = i;
+                        }
+                        else break;
+                    }
+
+                    TreeModelData[] mdls = TreeModelLibrary.Instance.Get(idx);
+                    meshData = mdls[Randomizer.GetRandomInt(mdls.Length)];
+                }
+
 
                 resourceSize += meshData.VertexCount * TreeVertex.Size;
                 vtxCount += meshData.VertexCount;
