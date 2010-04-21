@@ -10,6 +10,75 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.EngineEx
 {
+    unsafe struct PlantDensityData
+    {
+        public fixed float Density[PlantDensity.TypeCount];
+    }
+    unsafe class PlantDensity
+    {
+        static readonly string[] TableNames =
+        {
+            "plant0.raw", "plant1.raw", "plant2.raw", 
+            "plant3.raw", "plant4.raw", "plant5.raw", 
+            "plant6.raw", "plant7.raw", "plant8.raw"
+        };
+
+        static PlantDensity singleton;
+
+        public static PlantDensity Instance
+        {
+            get
+            {
+                if (singleton == null)
+                    singleton = new PlantDensity();
+                return singleton;
+            }
+        }
+
+        const int Width = 1188;
+        const int Height = Width / 2;
+
+        public const int TypeCount = 8;
+
+        byte[][] densityTable;
+
+        private PlantDensity()
+        {
+            densityTable = new byte[TypeCount][];
+            for (int i = 0; i < TypeCount; i++)
+            {
+                FileLocation fl = FileSystem.Instance.Locate(TableNames[i], GameFileLocs.Nature);
+
+                ContentBinaryReader br = new ContentBinaryReader(fl);
+                densityTable[i] = br.ReadBytes(Width * Height);
+
+                br.Close();
+            }
+        }
+
+        public PlantDensityData GetDensity(float longtiude, float latitude)
+        {
+            double yspan = Math.PI;
+
+            int y = (int)(((yspan * 0.5 - latitude) / yspan) * Height);
+            int x = (int)(((longtiude + Math.PI) / (2 * Math.PI)) * Width);
+
+            if (y < 0) y += Height;
+            if (y >= Height) y -= Height;
+
+            if (x < 0) x += Width;
+            if (x >= Width) x -= Width;
+
+            int idx = y * Width + x;
+            PlantDensityData result = new PlantDensityData();
+            for (int i = 0; i < TypeCount; i++)
+            {
+                result.Density[i] = densityTable[i][idx] / 255f;
+            }
+            return result;
+        }
+    }
+
     struct TreeModelData
     {
         public Material[] Materials;
