@@ -610,7 +610,7 @@ namespace Code2015.World
             BoundingSphere.Radius = CityStyleTable.CityRadius;
 
             sideRing.Update(dt);
-
+            //smoke.RenderNotify();
             smoke.Update(dt);
             sound.Update(dt);
         }
