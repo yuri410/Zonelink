@@ -1,7 +1,22 @@
 <?xml version="1.0" encoding="utf-8" ?>
 
 <CityStyles>
-  <Style>
-    <Name>Invariant</Name>
-  </Style>
+  <Invariant>
+    <Name>Asia</Name>
+    <Large>small.mesh</Large>
+    <Medium>medium.mesh</Medium>
+    <Small>large.mesh</Small>
+  </Invariant>
+  <Africa>
+    <Name>Africa</Name>
+    <Large></Large>
+    <Medium></Medium>
+    <Small></Small>
+  </Africa>
+  <Europe>
+    <Name>Europe</Name>
+    <Large></Large>
+    <Medium></Medium>
+    <Small></Small>
+  </Europe>
 </CityStyles>

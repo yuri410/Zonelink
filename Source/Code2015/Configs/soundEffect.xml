@@ -26,8 +26,8 @@
     <Control>Random, Ambient</Control>
     <Type>World</Type>
     <Sounds>birda1,birda2,birda3,birda4,birda5,birda6,birda7,birda8,birda9,birdb1,birdb2,birdb3</Sounds>
-    <Volume>0.1</Volume>
-    <Probability>0.01</Probability>
+    <Volume>0.05</Volume>
+    <Probability>0.001</Probability>
   </bird>
 
   <!--Lightning-->
@@ -48,8 +48,6 @@
     <Volume>0.2</Volume>
   </oil>
   
- 
- 
   <!--River-->
   <river>
     <Control>Loop, Random</Control>
@@ -86,8 +84,8 @@
     <Control>Random, Ambient</Control>
     <Type>World</Type>
     <Sounds>wuya1, wuya2</Sounds>
-    <Probability>0.001</Probability>
-    <Volume>0.1</Volume>
+    <Probability>0.0001</Probability>
+    <Volume>0.05</Volume>
   </wuya>
 
 </soundEffect>
