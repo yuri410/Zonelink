@@ -90,7 +90,8 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(ParticleRDEffectFactory.Name, new ParticleRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CloudEffectFactory.Name, new CloudEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
-
+            EffectManager.Instance.RegisterModelEffectType(SmokeRDEffectFactory.Name, new SmokeRDEffectFactory(renderSys));
+            
             TextureManager.Initialize(1048576 * 100);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);

@@ -44,16 +44,18 @@ namespace Code2015.World
 
                     float dist = Vector3.Distance(pa, pb);
 
-                    float longitude = MathEx.Degree2Radian(0.5f * (start.Longitude + end.Longitude));
-                    float latitude = MathEx.Degree2Radian(0.5f * (start.Latitude + end.Latitude));
+                    float longitude = MathEx.Degree2Radian(MathEx.LinearInterpose(start.Longitude, end.Longitude, 0.3f));
+                    float latitude = MathEx.Degree2Radian(MathEx.LinearInterpose(start.Latitude, end.Latitude, 0.3f));
 
                     Matrix ori = Matrix.Identity;
                     ori.Right = Vector3.Normalize(pa - pb);
                     ori.Up = PlanetEarth.GetNormal(longitude, latitude);
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
-                    ori.TranslationValue = 0.5f * (pa + pb);
+                    ori.TranslationValue = MathEx.LinearInterpose(pa, pb, 0.3f);
 
-                    linkArrow[i].CurrentAnimation = new NoAnimation(Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(-MathEx.PiOver2) * ori);
+                    linkArrow[i].CurrentAnimation = new NoAnimation(
+                        Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) * 
+                        Matrix.RotationY(-MathEx.PiOver2) * ori);
 
                 }
             }
@@ -96,20 +98,20 @@ namespace Code2015.World
                         }
                     }
                 }
-                else 
-                {
-                    for (int i = 0; i < targets.Length; i++)
-                    {
-                        if (!targets[i].IsCaptured || targets[i].Owner == start.Owner)
-                        {
-                            RenderOperation[] ops = linkArrow[i].GetRenderOperation();
-                            if (ops != null)
-                            {
-                                opBuffer.Add(ops);
-                            }
-                        }
-                    }
-                }
+                //else 
+                //{
+                //    for (int i = 0; i < targets.Length; i++)
+                //    {
+                //        if (!targets[i].IsCaptured || targets[i].Owner == start.Owner)
+                //        {
+                //            RenderOperation[] ops = linkArrow[i].GetRenderOperation();
+                //            if (ops != null)
+                //            {
+                //                opBuffer.Add(ops);
+                //            }
+                //        }
+                //    }
+                //}
 
                 opBuffer.Trim();
                 return opBuffer.Elements;

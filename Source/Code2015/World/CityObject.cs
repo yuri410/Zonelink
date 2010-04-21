@@ -15,6 +15,7 @@ using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World.Screen;
+using Code2015.ParticleSystem;
 
 namespace Code2015.World
 {
@@ -27,7 +28,7 @@ namespace Code2015.World
         P4 = 1 << 3
     }
 
-    public delegate void CityVisibleHander(CityObject obj);
+    public delegate void CityVisibleHander(CityObject obj);    
 
     public class CityObject : SceneObject, ISelectableObject
     {
@@ -40,9 +41,61 @@ namespace Code2015.World
             ///  附加物的变换矩阵
             /// </summary>
             public Matrix transform;
-
             //public MdgResource CurrentPiece;
         }
+
+        class SmokeEffectBuffer
+        {
+            SmokeEffect[] smokes = new SmokeEffect[CityGrade.LargePluginCount];
+            bool[] activeState = new bool[CityGrade.LargePluginCount];
+            RenderSystem renderSys;
+            CityObject city;
+
+            public SmokeEffectBuffer(RenderSystem rs, CityObject city)
+            {
+                this.city = city;
+                this.renderSys = rs;
+                for (int i = 0; i < smokes.Length; i++)
+                {
+                    smokes[i] = new SmokeEffect(rs);
+                    smokes[i].Modifier = new SmokeModifier();
+
+                    SmokeEmitter se = new SmokeEmitter();
+                    se.Up = city.Transformation.Up;
+                    se.Right = city.Transformation.Right;
+                    se.Front = city.Transformation.Forward;
+
+                    smokes[i].Emitter = se;
+                }
+
+            }
+
+            public void RenderNotify()
+            {
+                for (int i = 0; i < activeState.Length; i++)
+                    activeState[i] = false;
+            }
+
+            public RenderOperation[] GetRenderOperation(int idx)
+            {
+                ((SmokeEmitter)smokes[idx].Emitter).Position = Vector3.TransformSimple(city.GetPluginPosition(idx) + Vector3.UnitY * 100, city.Transformation);
+
+                activeState[idx] = true;
+                return smokes[idx].GetRenderOperation();
+            }
+
+            public void Update(GameTime time) 
+            {
+                for (int i = 0; i < activeState.Length; i++)
+                {
+                    if (activeState[i])
+                    {
+                        smokes[i].Update(time);
+                    }
+                }
+            }
+        }
+
 
         SoundObject sound;
 
@@ -55,6 +108,7 @@ namespace Code2015.World
 
         RenderSystem renderSys;
         Map map;
+        SmokeEffectBuffer smoke;
 
         FastList<Harvester> harvesters = new FastList<Harvester>();
         FastList<PluginEntry> plugins;
@@ -170,7 +224,7 @@ namespace Code2015.World
         public Vector3 GetPluginPosition(int i)
         {
 
-            return style.GetPluginTranslation(plugins[i].position, city.Size);
+            return style.GetPluginTranslation(plugins[i].position);
         }
         public CityPlugin GetPlugin(int i)
         {
@@ -228,6 +282,7 @@ namespace Code2015.World
             sideRing = new CityOwnerRing(this, style);
             goalSite = new CityGoalSite(rs, this, style);
 
+            smoke = new SmokeEffectBuffer(rs, this);
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
             sound.Position = pos;
         }
@@ -294,7 +349,7 @@ namespace Code2015.World
             }
             ent.plugin = plugin;
 
-            ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position, city.Size));
+            ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position));
             plugins.Add(ent);
 
             goalSite.SetDesired(plugins.Count - 1, CityGoalSite.GetDesired(plugin.TypeId));
@@ -389,7 +444,7 @@ namespace Code2015.World
             if (ops != null)
                 opBuffer.Add(ops);
 
-
+            smoke.RenderNotify();
             for (int i = 0; i < plugins.Count; i++)
             {
                 ops = null;
@@ -406,6 +461,12 @@ namespace Code2015.World
                         break;
                     case CityPluginTypeId.OilRefinary:
                         ops = style.OilRefinary.GetRenderOperation();
+
+                        RenderOperation[] ops2 = smoke.GetRenderOperation(i);
+                        if (ops2 != null)
+                        {
+                            opBuffer.Add(ops2);
+                        }
                         break;
                     case CityPluginTypeId.WoodFactory:
                         ops = style.WoodFactory.GetRenderOperation();
@@ -550,6 +611,7 @@ namespace Code2015.World
 
             sideRing.Update(dt);
 
+            smoke.Update(dt);
             sound.Update(dt);
         }
 

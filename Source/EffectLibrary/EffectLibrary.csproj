@@ -112,6 +112,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="Particle\smoke.ps" />
+    <None Include="Particle\smoke.vs" />
     <None Include="Scene\atmosphere.ps" />
     <None Include="Scene\atmosphere.vs" />
     <None Include="UI\City\citylink.ps" />
