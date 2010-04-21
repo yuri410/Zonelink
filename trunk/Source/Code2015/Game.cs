@@ -14,6 +14,7 @@ using Code2015.GUI;
 using Code2015.Logic;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
+using Code2015.ParticleSystem;
 
 namespace Code2015
 {
@@ -183,6 +184,7 @@ namespace Code2015
             AddScenery();
             slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
             //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
+
 
             this.ingameUI = new InGameUI(game, this, scene, gameState);
         }

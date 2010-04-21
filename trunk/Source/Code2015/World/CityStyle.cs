@@ -114,7 +114,7 @@ namespace Code2015.World
             PluginTranslate = Game.ObjectScale * 68;
         }
 
-        public Vector3 GetPluginTranslation(PluginPositionFlag p, UrbanSize size)
+        public Vector3 GetPluginTranslation(PluginPositionFlag p)
         {
             switch (p)
             {
