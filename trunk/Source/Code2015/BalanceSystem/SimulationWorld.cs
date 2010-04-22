@@ -43,7 +43,17 @@ namespace Code2015.BalanceSystem
             return resources[i];
         }
 
-
+        public NaturalResource FindResource(string stateName)
+        {
+            for (int i = 0; i < resources.Count; i++)
+            {
+                if (resources[i].StateName == stateName) 
+                {
+                    return resources[i];
+                }
+            }
+            return null;
+        }
 
         public int Count
         {

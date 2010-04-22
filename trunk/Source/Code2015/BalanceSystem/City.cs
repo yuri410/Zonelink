@@ -6,10 +6,10 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
-using Code2015.Logic;
-using Code2015.World;
-using Code2015.Network;
 using Apoc3D.Vfs;
+using Code2015.Logic;
+using Code2015.Network;
+using Code2015.World;
 
 namespace Code2015.BalanceSystem
 {
@@ -1193,23 +1193,94 @@ namespace Code2015.BalanceSystem
             bw.Write(Development);
             bw.Write(Population);
             bw.Write(plugins.Count);
-            //for (int i = 0; i < plugins.Count; i++)
-            //{
-            //    bw.Write (plugins[i].
-            //}
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                plugins[i].Serialize(bw);
+            }
             bw.Write(FarmLandCount);
 
+            Capture.Serialize(bw);
 
             data.EndWrite();
             stateChanged = false; 
         }
         public override void Deserialize(StateDataBuffer data)
         {
-           
+            ContentBinaryReader br = data.Reader;
+
+            Development = br.ReadSingle();
+            Population = br.ReadSingle();
+
+            int plugCount = br.ReadInt32();
+
+            if (plugCount > plugins.Count)
+            {
+                for (int i = 0; i < plugins.Count; i++) 
+                {
+                    plugins[i].Deserialize(br, Region);
+                }
+
+                int newCount = plugCount - plugins.Count;
+
+                CityPluginFactory factory = new CityPluginFactory();
+                for (int i = 0; i < newCount; i++)
+                {
+                    CityPlugin plugin = new CityPlugin(factory, factory.EducationOrgType, CityPluginTypeId.EducationOrg);
+                    plugin.Deserialize(br, Region);
+                    Add(plugin);
+                }
+            }
+            else if (plugCount < plugins.Count) 
+            {
+                int nc = plugins.Count - plugCount;
+                for (int i = 0; i < nc; i++)
+                {
+                    Remove(plugins[plugins.Count - 1]);
+                }
+
+                for (int i = 0; i < plugins.Count; i++) 
+                {
+                    plugins[i].Deserialize(br, Region);
+                }
+            }
+
+            int farmCount = br.ReadInt32();
+
+            if (farmCount > FarmLandCount) 
+            {
+                int nc = farmCount - FarmLandCount;
+                for (int i = 0; i < nc; i++) 
+                {
+                    AddFarm();
+                }
+            }
+            else if (farmCount < FarmLandCount)
+            {
+                int nc = FarmLandCount - farmCount;
+                for (int i = 0; i < nc; i++)
+                {
+                    farms.RemoveAt(farms.Count - 1);
+                }
+            }
+
+            Capture.Deserialize(br);
         }
         public override bool Changed
         {
-            get { return stateChanged; }
+            get
+            {
+                bool result = stateChanged | Capture.Changed;
+                if (result)
+                    return true;
+
+                for (int i = 0; i < plugins.Count; i++)
+                {
+                    result |= plugins[i].Changed;
+                    if (result)
+                        break;
+                }
+                return result;
+            }
         }
 
         #region IConfigurable 成员

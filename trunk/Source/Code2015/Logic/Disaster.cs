@@ -38,7 +38,7 @@ namespace Code2015.Logic
             get { return duration; }
         }
 
-
+        
         public bool IsOver
         {
             get { return duration < float.Epsilon; }
@@ -144,7 +144,7 @@ namespace Code2015.Logic
 
         public override bool Changed
         {
-            get { throw new NotImplementedException(); }
+            get { return false; }
         }
         public override string StateName
         {
@@ -155,11 +155,11 @@ namespace Code2015.Logic
         }
         public override void Deserialize(StateDataBuffer data)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
         public override void Serialize(StateDataBuffer data)
         {
-            throw new NotImplementedException();
+            throw new NotSupportedException();
         }
     }
 }
