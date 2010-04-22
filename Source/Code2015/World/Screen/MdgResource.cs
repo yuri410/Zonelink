@@ -65,7 +65,7 @@ namespace Code2015.World.Screen
 
         float growup;
 
-        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, int level, Vector2 pos, float ori)
+        public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
             this.manager = manager;
             this.physicsWorld = world;
@@ -80,18 +80,14 @@ namespace Code2015.World.Screen
             this.body.AngularDamp = MdgPhysicsParams.PieceAngularDamp;
             this.body.LinearDamp = MdgPhysicsParams.PieceLinearDamp;
             this.body.Tag = this;
-
-            if (level == 0)            
-                growup = 0;            
-            else
-                growup = 1;
-
+         
+                growup = 0;     
             world.Add(body);
 
             this.type = type;
-            this.Level = level;
+            //this.Level = level;
 
-            this.image = MdgResource.LoadImage(type, level);
+            this.image = MdgResource.LoadImage(type, true);
         }
 
         public void NotifyRemoved()
@@ -99,11 +95,6 @@ namespace Code2015.World.Screen
             physicsWorld.Remove(body);
         }
 
-        public int Level
-        {
-            get;
-            private set;
-        }
 
         public MdgType Type
         {
@@ -122,27 +113,27 @@ namespace Code2015.World.Screen
         {
             if (CheckMerge(other))
             {
-                int nextLevel = 0;
-                if (Level == 0 && other.Level == 0)
-                    nextLevel = 2;
+                //int nextLevel = 0;
+                //if (Level == 0 && other.Level == 0)
+                //    nextLevel = 2;
                 //if (Level == 1 || other.Level == 1)
                 //    nextLevel = 2;
 
-                if (nextLevel == 2)
-                {
-                    MdgResource res = new MdgResource(manager, physicsWorld, type, body.Position, body.Orientation);
+                //if (nextLevel == 2)
+                //{
+                MdgResource res = new MdgResource(manager, physicsWorld, type, body.Position, body.Orientation);
 
-                    manager.Remove(this);
-                    manager.Remove(other);
-                    manager.Add(res);
-                    return res;
-                }
-
-                MdgPiece piece = new MdgPiece(manager, physicsWorld, type, nextLevel, body.Position, body.Orientation);
                 manager.Remove(this);
                 manager.Remove(other);
-                manager.Add(piece);
-                return piece;
+                manager.Add(res);
+                return res;
+                //}
+
+                //MdgPiece piece = new MdgPiece(manager, physicsWorld, type, nextLevel, body.Position, body.Orientation);
+                //manager.Remove(this);
+                //manager.Remove(other);
+                //manager.Add(piece);
+                //return piece;
             }
             return null;
         }
@@ -151,7 +142,7 @@ namespace Code2015.World.Screen
         {
             if (CityGoalSite.CompareCategory(other.type, type))
             {
-                return (Level == 0 && other.Level == 0) || (Level == 0 && other.Level == 1) || (Level == 1 && other.Level == 0);
+                return true;
             }
             return false;
         }
@@ -182,9 +173,24 @@ namespace Code2015.World.Screen
 
         }
 
-        //public override void Update(GameTime time)
-        //{
-        //}
+        public override void Update(GameTime time)
+        {
+            Rectangle rect = physicsWorld.WorldBounds;
+
+            Vector2 dragCentre = new Vector2(rect.Width * 0.5f, rect.Height * 0.5f);
+
+            Vector2 r = (body.Position - dragCentre);
+            float rr = r.LengthSquared();
+            float r2 = 1 - (rr / (physicsWorld.BoundsRadius * physicsWorld.BoundsRadius));
+            r.Normalize();
+
+
+            if (r2 > float.Epsilon)
+            {
+                Vector2 f1 = r * (0.1f / r2);
+                body.Force += f1;
+            }
+        }
 
         #region IMdgSelection 成员
 
@@ -212,18 +218,13 @@ namespace Code2015.World.Screen
     /// </summary>
     public class MdgResource : UIComponent, IMdgSelection
     {
-        public static Texture LoadImage(MdgType type, int bitmask)
+        public static Texture LoadImage(MdgType type, bool isPiece)
         {
             string suffix = string.Empty;
 
-            switch (bitmask)
+            if (isPiece)
             {
-                case 0:
-                    suffix = "_1";
-                    break;
-                case 1:
-                    suffix = "_12";
-                    break;
+                suffix = "half";
             }
 
             FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.GUI);
@@ -272,7 +273,7 @@ namespace Code2015.World.Screen
             world.Add(body);
 
             this.type = type;
-            this.image = LoadImage(type, 2);
+            this.image = LoadImage(type, false);
         }
         public void NotifyRemoved()
         {
@@ -372,9 +373,9 @@ namespace Code2015.World.Screen
     public class MdgResourceManager
     {
         /// <summary>
-        ///  第一个索引为MdgType，第二个为bitmask，第三个为list index
+        ///  第一个索引为MdgType，第二个为list index
         /// </summary>
-        FastList<MdgPiece>[][] pieces;
+        FastList<MdgPiece>[] pieces;
         /// <summary>
         ///  第一个索引为MdgType
         /// </summary>
@@ -385,7 +386,7 @@ namespace Code2015.World.Screen
 
         public MdgResourceManager()
         {
-            pieces = new FastList<MdgPiece>[(int)MdgType.Count][];
+            pieces = new FastList<MdgPiece>[(int)MdgType.Count];
             //primaryBall = new MdgResource[(int)MdgType.Count];
             //primaryPiece = new MdgPiece[(int)MdgType.Count];
 
@@ -393,35 +394,8 @@ namespace Code2015.World.Screen
 
             for (int i = 0; i < pieces.Length; i++)
             {
-                pieces[i] = new FastList<MdgPiece>[3];
-                //primaryPiece[i] = new MdgPiece[8];
-
-                //pieces[i][0] = null;
-
-                // 0
-                pieces[i][0] = new FastList<MdgPiece>();
-
-                // 1
-                pieces[i][1] = new FastList<MdgPiece>();
-                // 2
-                pieces[i][2] = new FastList<MdgPiece>();
-
-                //// 4
-                //pieces[i][4] = new FastList<MdgPiece>();
-
-                //// 1, 2
-                //pieces[i][3] = new FastList<MdgPiece>();
-
-                //// 1, 4
-                //pieces[i][5] = new FastList<MdgPiece>();
-
-                //// 2, 6
-                //pieces[i][6] = new FastList<MdgPiece>();
-
-                //// 1,2,4
-                //pieces[i][7] = new FastList<MdgPiece>();
-
-
+                pieces[i] = new FastList<MdgPiece>();
+                
                 balls[i] = new FastList<MdgResource>();
             }
 
@@ -433,7 +407,7 @@ namespace Code2015.World.Screen
             //{
             //    primaryPiece[(int)piece.Type][piece.BitMask] = piece;
             //}
-            pieces[(int)piece.Type][piece.Level].Add(piece);
+            pieces[(int)piece.Type].Add(piece);
         }
         public void Add(MdgResource res)
         {
@@ -445,7 +419,7 @@ namespace Code2015.World.Screen
         }
         public void Remove(MdgPiece piece)
         {
-            pieces[(int)piece.Type][piece.Level].Remove(piece);
+            pieces[(int)piece.Type].Remove(piece);
             piece.NotifyRemoved();
 
         }
@@ -466,13 +440,13 @@ namespace Code2015.World.Screen
         //    return primaryBall[(int)type];
         //}
 
-        public int GetPieceCount(MdgType type, int bitmask)
+        public int GetPieceCount(MdgType type)
         {
-            return pieces[(int)type][bitmask].Count;
+            return pieces[(int)type].Count;
         }
-        public MdgPiece GetPiece(MdgType type, int bitmask, int index)
+        public MdgPiece GetPiece(MdgType type, int index)
         {
-            return pieces[(int)type][bitmask][index];
+            return pieces[(int)type][index];
         }
 
         public int GetResourceCount(MdgType type)
@@ -491,6 +465,14 @@ namespace Code2015.World.Screen
                 for (int j = 0; j < balls[i].Count; j++)
                 {
                     balls[i][j].Update(time);
+                }
+            }
+
+            for (int i = 0; i < pieces.Length; i++)
+            {
+                for (int j = 0; j < pieces[i].Count; j++)
+                {
+                    pieces[i][j].Update(time);
                 }
             }
         }

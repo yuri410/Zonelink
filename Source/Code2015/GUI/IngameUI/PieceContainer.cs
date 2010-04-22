@@ -135,7 +135,14 @@ namespace Code2015.GUI
                 }
             }
 
-
+            count4 = 0;
+            for (int i = 0; i < resources.GetResourceCount(MdgType.Environment); i++)
+            {
+                if (resources.GetResource(MdgType.Environment, i).IsInBox)
+                {
+                    count4++;
+                }
+            }
         }
     }
 }

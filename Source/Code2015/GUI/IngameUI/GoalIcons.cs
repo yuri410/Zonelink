@@ -93,14 +93,11 @@ namespace Code2015.GUI
                     res.Render(sprite);
                 }
 
-                for (int k = 0; k < 3; k++)
+                cnt = resources.GetPieceCount(i);
+                for (int j = 0; j < cnt; j++)
                 {
-                    cnt = resources.GetPieceCount(i, k);
-                    for (int j = 0; j < cnt; j++)
-                    {
-                        MdgPiece piece = resources.GetPiece(i, k, j);
-                        piece.Render(sprite);
-                    }
+                    MdgPiece piece = resources.GetPiece(i, j);
+                    piece.Render(sprite);
                 }
             }
         }
@@ -127,18 +124,15 @@ namespace Code2015.GUI
                 if (passed)
                     break;
 
-                for (int k = 0; k < 3; k++)
+                cnt = resources.GetPieceCount(i);
+                for (int j = 0; j < cnt; j++)
                 {
-                    cnt = resources.GetPieceCount(i, k);
-                    for (int j = 0; j < cnt; j++)
+                    MdgPiece res = resources.GetPiece(i, j);
+                    if (res != SelectedItem && res.HitTest(x, y))
                     {
-                        MdgPiece res = resources.GetPiece(i, k, j);
-                        if (res != SelectedItem && res.HitTest(x, y))
-                        {
-                            result = res;
-                            passed = true;
-                            break;
-                        }
+                        result = res;
+                        passed = true;
+                        break;
                     }
                 }
             }
