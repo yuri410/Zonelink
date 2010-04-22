@@ -20,8 +20,7 @@ namespace Code2015.GUI
 
         GameScene scene;
         Player player;
-        //Point lastMousePos;
-        //bool lastMouseLeft;
+
         IMdgSelection selectedItem;
 
         IMdgSelection SelectedItem
@@ -262,6 +261,7 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
             resources.Update(time);
+
 
         }
     }

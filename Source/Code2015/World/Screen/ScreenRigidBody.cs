@@ -143,6 +143,7 @@ namespace Code2015.World.Screen
 
         public void ApplyImpulse(Vector2 im, Vector2 pos)
         {
+            im *= 0.1f;
             velocity += im / mass;
 
             Vector2 r = pos - position;

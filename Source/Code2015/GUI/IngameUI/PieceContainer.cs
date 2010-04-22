@@ -7,6 +7,8 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
+using Code2015.World.Screen;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -25,14 +27,24 @@ namespace Code2015.GUI
         Texture ico_box4;
         Texture ico_exchange;
 
-        public PieceContainer(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        int count1;
+        int count2;
+        int count3;
+        int count4;
+
+        MdgResource exchangePieces;
+        GoalIcons icons;
+        MdgResourceManager resources;
+
+        public PieceContainer(Code2015 game, Game parent, GameScene scene, GameState gamelogic, GoalIcons icons)
         {
             this.parent = parent;
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.scene = scene;
             this.gameLogic = gamelogic;
-
+            this.icons = icons;
+            this.resources = icons.Manager;
 
             //侧边栏
             FileLocation fl = FileSystem.Instance.Locate("ig_box1.tex", GameFileLocs.GUI);
@@ -75,6 +87,54 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
+            count1 = 0;
+            for (int i = 0; i < resources.GetResourceCount(MdgType.Hunger); i++)
+            {
+                if (resources.GetResource(MdgType.Hunger, i).IsInBox)
+                {
+                    count1++;
+                }
+            }
+
+            count2 = 0;
+            for (int i = 0; i < resources.GetResourceCount(MdgType.Education); i++)
+            {
+                if (resources.GetResource(MdgType.Education, i).IsInBox)
+                {
+                    count2++;
+                }
+            }
+            for (int i = 0; i < resources.GetResourceCount(MdgType.GenderEquality); i++)
+            {
+                if (resources.GetResource(MdgType.GenderEquality, i).IsInBox)
+                {
+                    count2++;
+                }
+            } 
+            
+            count3 = 0;
+            for (int i = 0; i < resources.GetResourceCount(MdgType.Diseases); i++)
+            {
+                if (resources.GetResource(MdgType.Diseases, i).IsInBox)
+                {
+                    count3++;
+                }
+            }
+            for (int i = 0; i < resources.GetResourceCount(MdgType.MaternalHealth); i++)
+            {
+                if (resources.GetResource(MdgType.MaternalHealth, i).IsInBox)
+                {
+                    count3++;
+                }
+            }
+            for (int i = 0; i < resources.GetResourceCount(MdgType.ChildMortality); i++)
+            {
+                if (resources.GetResource(MdgType.ChildMortality, i).IsInBox)
+                {
+                    count3++;
+                }
+            }
+
 
         }
     }

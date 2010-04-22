@@ -16,7 +16,7 @@ namespace Code2015.World
 {
     class CityLinkObject : Entity
     {
-        public const int MaxLevel = 1;
+        public const int MaxLevel = 2;
 
         public const float LinkBaseLength = 100;
         public const float LinkWidthScale = 0.002f;
