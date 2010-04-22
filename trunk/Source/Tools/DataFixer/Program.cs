@@ -884,14 +884,51 @@ namespace DataFixer
             Console.WriteLine(MathEx.Radian2Degree(lat).ToString() + ", " + MathEx.Radian2Degree(lng).ToString());
             Console.ReadKey();
         }
+
+        static void Normalize()
+        {
+            const string FilePath = @"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug\nature\plant7.raw";
+
+            const int Width = 1188;
+            const int Height = Width / 2;
+
+            BinaryReader br = new BinaryReader(File.Open(FilePath, FileMode.Open));
+            byte[] data = br.ReadBytes(Width * Height);
+            br.Close();
+
+            byte max = byte.MinValue;
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                if (data[i] > max)
+                    max = data[i];
+            }
+
+            float scale = byte.MaxValue / (float)max;
+
+            for (int i = 0; i < data.Length; i++)
+            {
+                int v = (int)(data[i] * scale);
+
+                if (v < 0) v = 0;
+                if (v > byte.MaxValue) v = byte.MaxValue;
+                data[i] = (byte)v;
+            }
+
+            BinaryWriter bw = new BinaryWriter(File.Open(FilePath, FileMode.Open));
+            bw.Write(data);
+            bw.Close();
+        }
+
         static void Main(string[] args)
         {
+            Normalize();
             //while (true) Input();
             //MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
             //BuildBitMap();
-            Build3();
+            //Build3();
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));

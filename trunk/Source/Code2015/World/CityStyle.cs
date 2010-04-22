@@ -217,6 +217,13 @@ namespace Code2015.World
 
         const float RingRadius = 100;
 
+        static readonly string SmallCityCenter_Af = "fz_small.mesh";
+        static readonly string MediumCityCenter_Af = "fz_medium.mesh";
+        static readonly string LargeCityCenter_Af = "fz_large.mesh";
+        static readonly string SmallCityCenter_Er = "oz_small.mesh";
+        static readonly string MediumCityCenter_Er = "oz_medium.mesh";
+        static readonly string LargeCityCenter_Er = "oz_large.mesh";
+
         static readonly string SmallCityCenter_Inv = "small.mesh";
         static readonly string MediumCityCenter_Inv = "medium.mesh";
         static readonly string LargeCityCenter_Inv = "large.mesh";
@@ -256,76 +263,221 @@ namespace Code2015.World
         CityStyleData[] styles;
         CityObjectTRAdjust[] adjusts;
 
+        void BuildAsia(RenderSystem rs)
+        {
+            int idx = (int)CultureId.Asia;
+
+            #region 初始化默认样式
+            styles[idx].ID = CultureId.Asia;
+            styles[idx].Urban = new ResourceHandle<ModelData>[3];
+            styles[idx].Base = new ResourceHandle<ModelData>[3];
+
+            FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Inv, GameFileLocs.Model);
+            styles[idx].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumCityCenter_Inv, GameFileLocs.Model);
+            styles[idx].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeCityCenter_Inv, GameFileLocs.Model);
+            styles[idx].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+
+            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
+            styles[idx].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
+            styles[idx].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
+            styles[idx].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
+            styles[idx].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
+            styles[idx].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
+            styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
+            styles[idx].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
+            styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
+            styles[idx].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
+            styles[idx].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
+
+            styles[idx].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            styles[idx].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            for (int i = 0; i < 7; i++)
+            {
+                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
+                styles[idx].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                styles[idx].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
+
+            #endregion
+        }
+        void BuildAfrica(RenderSystem rs)
+        {
+            int idx = (int)CultureId.Africa;
+
+            #region 初始化默认样式
+            styles[idx].ID = CultureId.Africa;
+            styles[idx].Urban = new ResourceHandle<ModelData>[3];
+            styles[idx].Base = new ResourceHandle<ModelData>[3];
+
+            FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Af, GameFileLocs.Model);
+            styles[idx].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumCityCenter_Af, GameFileLocs.Model);
+            styles[idx].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeCityCenter_Af, GameFileLocs.Model);
+            styles[idx].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+
+            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
+            styles[idx].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
+            styles[idx].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
+            styles[idx].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
+            styles[idx].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
+            styles[idx].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
+            styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
+            styles[idx].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
+            styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
+            styles[idx].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
+            styles[idx].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
+
+            styles[idx].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            styles[idx].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            for (int i = 0; i < 7; i++)
+            {
+                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
+                styles[idx].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                styles[idx].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
+
+            #endregion
+        }
+        void BuildEr(RenderSystem rs)
+        {
+            int idx = (int)CultureId.Europe;
+            #region 初始化默认样式
+            styles[idx].ID = CultureId.Europe;
+            styles[idx].Urban = new ResourceHandle<ModelData>[3];
+            styles[idx].Base = new ResourceHandle<ModelData>[3];
+
+            FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Er, GameFileLocs.Model);
+            styles[idx].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumCityCenter_Er, GameFileLocs.Model);
+            styles[idx].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeCityCenter_Er, GameFileLocs.Model);
+            styles[idx].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+
+            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
+            styles[idx].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
+            styles[idx].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
+            styles[idx].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
+            styles[idx].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
+            styles[idx].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
+            styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
+            styles[idx].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
+            styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
+            styles[idx].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
+            styles[idx].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
+
+            styles[idx].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            styles[idx].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            for (int i = 0; i < 7; i++)
+            {
+                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
+                styles[idx].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                styles[idx].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
+
+            #endregion
+        }
+
         public CityStyleTable(RenderSystem rs)
         {
             styles = new CityStyleData[(int)CultureId.Count];
 
             // initialize all
-
-            #region 初始化默认样式
-            styles[0].ID = CultureId.Asia;
-            styles[0].Urban = new ResourceHandle<ModelData>[3];
-            styles[0].Base = new ResourceHandle<ModelData>[3];
-
-            FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Inv, GameFileLocs.Model);
-            styles[0].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
-            fl = FileSystem.Instance.Locate(MediumCityCenter_Inv, GameFileLocs.Model);
-            styles[0].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            fl = FileSystem.Instance.Locate(LargeCityCenter_Inv, GameFileLocs.Model);
-            styles[0].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
-            styles[0].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
-            fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
-            styles[0].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
-            styles[0].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-
-            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
-            styles[0].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
-            styles[0].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
-            styles[0].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
-            styles[0].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
-            styles[0].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
-            styles[0].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
-            styles[0].Cow = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
-            styles[0].Ring = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
-            styles[0].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
-            styles[0].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[0].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            styles[0].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            for (int i = 0; i < 7; i++)
-            {
-                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
-                styles[0].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
-                styles[0].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
-
-            #endregion
+            BuildAsia(rs);
+            BuildAfrica(rs);
+            BuildEr(rs);
 
             #region 初始化变换调整
             adjusts = new CityObjectTRAdjust[(int)CultureId.Count];
@@ -338,8 +490,8 @@ namespace Code2015.World
 
             for (int i = 0; i < adjusts[0].Base.Length; i++)
                 adjusts[0].Base[i] = Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f);
-            //for (int i = 0; i < adjusts[0].Urban.Length; i++)
-            //    adjusts[0].Urban[i] = scale;
+          
+
             Matrix scale = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale);
 
             adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(26, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f);
@@ -353,40 +505,19 @@ namespace Code2015.World
             adjusts[0].Hospital = Matrix.Translation(0, 1, 0);
             adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
             adjusts[0].Biofuel = Matrix.Translation(0, 1, 0) * scale;
-            //adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(-20, 33, 0) * Matrix.Scaling(Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f, Game.ObjectScale / 1.5f);
-            //adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Translation(0, 11, 0) * scale;
-            //adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Translation(-8, 3.7f, -2.5f) * scale;
-
-            //adjusts[0].WoodFactory = Matrix.Translation(0, 6.25f, 0) * scale;
-            //adjusts[0].EducationOrgan = Matrix.Translation(0, 4, 0) * scale;
-            //adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * scale; // Matrix.Scaling(0, 0, -1);
-            //adjusts[0].Hospital = Matrix.Translation(0, 2, 0) * scale;
-            //adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
-            //adjusts[0].Biofuel = Matrix.Translation(0, 4.5f, 0) * scale;
 
             {
                 float s = (CityRadiusRing) / RingRadius;
                 adjusts[0].Ring = Matrix.Scaling(s, 1, s);
                 s = CitySelRingScale * (CityRadiusRing) / RingRadius;
                 adjusts[0].SelRing = Matrix.Scaling(s, 1, s);
-
-                //s = (LargeCityRadiusRing) / RingRadius;
-                //adjusts[0].Ring[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
-                //s = CitySelRingScale * (LargeCityRadiusRing) / RingRadius;
-                //adjusts[0].SelRing[(int)UrbanSize.Medium] = Matrix.Scaling(s, 1, s);
-
-                //s = (LargeCityRadiusRing) / RingRadius;
-                //adjusts[0].Ring[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
-                //s = CitySelRingScale * (LargeCityRadiusRing) / RingRadius;
-                //adjusts[0].SelRing[(int)UrbanSize.Large] = Matrix.Scaling(s, 1, s);
-
             }
 
             #endregion
-            //for (CultureId i = CultureId.Asia; i < CultureId.Count; i++)
-            //{
 
-            //}
+            adjusts[1] = adjusts[0];
+            adjusts[2] = adjusts[0];
+
         }
 
         public CityObjectTRAdjust CreateTRAdjust(CultureId culture)
