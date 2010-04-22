@@ -52,7 +52,7 @@ namespace Code2015
     class Game : IGameComponent
     {
         public const float ObjectScale = 3;
-        public const float TreeScale = ObjectScale * 1.33f;
+        public const float TreeScale = ObjectScale * 3.33f;
 
         object syncHelper = new object();
 

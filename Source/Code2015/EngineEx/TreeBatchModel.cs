@@ -67,7 +67,7 @@ namespace Code2015.EngineEx
         public BoundingSphere BoundingVolume;
         public Matrix Transformation;
 
-        //public Matrix TreeOrientation;
+        public Matrix TreeOrientation;
 
         public TreeBatchModel(RenderSystem rs, ForestInfo info)
             : base(TreeBatchModelManager.Instance,
@@ -115,19 +115,27 @@ namespace Code2015.EngineEx
 
             byte[] vtxBldBuffer = new byte[TreeVertex.Size];
 
-            const float AreaWidth = 0.5f;
+            TreeOrientation = PlanetEarth.GetOrientation(radlng, radlat);
+            TreeOrientation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat, PlanetEarth.PlanetRadius);
+
+            const float AreaWidth = 0.036f;
             for (float blkLng = radlng - radr; blkLng < radlng + radr; blkLng += AreaWidth)
             {
                 for (float blkLat = radlat - radr; blkLat < radlat + radr; blkLat += AreaWidth)
                 {
+                    //float altblk = TerrainData.Instance.QueryHeight(blkLng, blkLat);
+
+                    //if (altblk < 0)
+                    //    continue;
+
                     float density = PlantDensity.Instance.GetPlantDensity(blkLng, blkLat);
 
-                    int count = (int)(density * 10);
+                    int count = (int)(density * 4);
 
                     for (int i = 0; i < count; i++)
                     {
-                        float treeLng = blkLng + radr * Randomizer.GetRandomSingle();
-                        float treeLat = blkLat + radr * Randomizer.GetRandomSingle();
+                        float treeLng = blkLng + AreaWidth * Randomizer.GetRandomSingle();
+                        float treeLat = blkLat + AreaWidth * Randomizer.GetRandomSingle();
 
                         float alt = TerrainData.Instance.QueryHeight(treeLng, treeLat);
 
@@ -163,7 +171,7 @@ namespace Code2015.EngineEx
                                 p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
                                 p.pos.Y = ptr[j].pos.Y;
 
-                                p.pos = p.pos * Game.TreeScale;
+                                p.pos = p.pos * (Game.TreeScale * (instanceData * 0.4f + 0.8f));
 
                                 Vector3 pp;
                                 Vector3.TransformSimple(ref p.pos, ref treeOrientation, out pp);

@@ -115,6 +115,8 @@ namespace Code2015.EngineEx
             for (int i = 0; i < TypeCount; i++)
             {
                 result.Density[i] = densityTable[i][idx] / 255f;
+                //if (result.Density[i] < 0.1f)
+                //    result.Density[i] = 0.1f;
             }
             return result;
         }
