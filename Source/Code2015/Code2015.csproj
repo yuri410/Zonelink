@@ -436,6 +436,10 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaUtils.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
+    <Compile Include="Network\GameClient.cs" />
+    <Compile Include="Network\GamePeer.cs" />
+    <Compile Include="Network\GameServer.cs" />
+    <Compile Include="Network\NetworkGameStateData.cs" />
     <Compile Include="ParticleSystem\ParticleModifier.cs" />
     <Compile Include="ParticleSystem\SmokeEffect.cs" />
     <Compile Include="ParticleSystem\TransferEffect.cs" />

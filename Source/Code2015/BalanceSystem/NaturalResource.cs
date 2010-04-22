@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
+using Code2015.Network;
 
 namespace Code2015.BalanceSystem
 {
@@ -20,13 +21,16 @@ namespace Code2015.BalanceSystem
 
     public abstract class NaturalResource : SimulationObject
     {
-       
+        int countDown;
+        bool isExploiting;
+
         protected NaturalResource(SimulationWorld region, NaturalResourceType type)
             : base(region)
         {
             Type = type;
         }
         
+
         /// <summary>
         ///  获取自然资源的类型
         /// </summary>
@@ -70,6 +74,7 @@ namespace Code2015.BalanceSystem
                 return amount;
             }
 
+            isExploiting = true;
 
             float r = CurrentAmount;
             CurrentAmount = 0;
@@ -77,20 +82,36 @@ namespace Code2015.BalanceSystem
 
         }
 
-
+        public override bool Changed
+        {
+            get { return isExploiting; }
+        }
        
 
         public override void Update(GameTime time)
         {
-            
+            if (countDown-- < 0)
+            {
+                isExploiting = false;
+                countDown = 300;
+            }
         }
-
+        public override void Deserialize(StateDataBuffer data)
+        {
+            CurrentAmount = data.Reader.ReadSingle();
+        }
+        public override void Serialize(StateDataBuffer data)
+        {
+            data.Writer.Write(CurrentAmount);
+            data.EndWrite();
+        }
         public override void Parse(ConfigurationSection sect)
         {
             base.Parse(sect);
 
             CurrentAmount = sect.GetSingle("Amount", 0);
         }
+
 
     }
 }

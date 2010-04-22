@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Code2015.Logic;
+using Apoc3D.Vfs;
 
 namespace Code2015.BalanceSystem
 {
@@ -10,6 +11,22 @@ namespace Code2015.BalanceSystem
     /// </summary>
     public class CaptureState
     {
+
+        public bool Changed
+        {
+            get;
+            private set;
+        }
+
+        public void Serialize(ContentBinaryWriter bw)
+        {
+
+        }
+        public void Deserialize(ContentBinaryReader br)
+        {
+            Changed = false;
+        }
+
         public bool IsCapturing
         {
             get { return NewOwner1 != null || NewOwner2 != null || NewOwner3 != null || NewOwner4 != null; }
@@ -135,6 +152,7 @@ namespace Code2015.BalanceSystem
                 NewOwner4 = null;
                 CaputreProgress4 = 0;
             }
+            Changed = true;
         }
 
         public bool IsPlayerCapturing(Player player)
@@ -201,6 +219,7 @@ namespace Code2015.BalanceSystem
                 NewOwner4 = player;
                 NearbyCity4 = nearby;
             }
+            Changed = true;
         }
 
         public void ReceiveGood(Player player, float hrAmount, float lrAmount)

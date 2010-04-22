@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
+using Code2015.Network;
 
 namespace Code2015.BalanceSystem
 {
@@ -15,8 +16,6 @@ namespace Code2015.BalanceSystem
         [SLGValueAttribute()]
         const float AbsorbCarbonRate = 1000;
 
-        //[SLGValue]
-        //public const float MaxAmount = 10000;
 
         [SLGValue]
         const float RecoverRate = 0.015f;
@@ -26,28 +25,14 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         const float TimesMaxAmount = 2;
 
+
         public float MaxAmount
         {
             get;
             private set;
         }
 
-        //public float AbsorbCarbonSpeed
-        //{
-        //    get;
-        //    private set;
-        //}
 
-        //public PlantCategory Category
-        //{
-        //    get;
-        //    private set;
-        //}
-        //public PlantType PlantSize
-        //{
-        //    get;
-        //    private set;
-        //}
         public float Radius
         {
             get;
@@ -67,8 +52,6 @@ namespace Code2015.BalanceSystem
         {
             base.Parse(sect);
 
-            //Category = (PlantCategory)Enum.Parse(typeof(PlantType), sect.GetString("Category", ""));
-            //PlantSize = (PlantType)Enum.Parse(typeof(PlantCategory), sect.GetString("Kind", ""));
             Radius = sect.GetSingle("Radius");
 
             MaxAmount = CurrentAmount * TimesMaxAmount;
@@ -84,6 +67,7 @@ namespace Code2015.BalanceSystem
                 CurrentAmount += (CurrentAmount * RecoverRate + RecoverBias) * hours;
             }
         }
+
 
     }
 }

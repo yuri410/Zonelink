@@ -5,6 +5,9 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
+using Code2015.Logic;
+using Code2015.Network;
+using Apoc3D.Vfs;
 
 namespace Code2015.BalanceSystem
 {
@@ -218,7 +221,7 @@ namespace Code2015.BalanceSystem
 
                 resource.Clear();
             }
-
+            Changed = true;
         }
 
         void FindResources()
@@ -303,6 +306,7 @@ namespace Code2015.BalanceSystem
                 int index = Randomizer.GetRandomInt(resource.Count);
                 CurrentResource = resource[index];
             }
+            Changed = true;
         }
         void SelectResource()
         {
@@ -334,6 +338,7 @@ namespace Code2015.BalanceSystem
                     CurrentResource = selRes;
                 }
             }
+            Changed = true;
         }
      
 
@@ -449,6 +454,32 @@ namespace Code2015.BalanceSystem
         }
 
         #endregion
+
+
+        public void Serialize(ContentBinaryWriter data)
+        {
+            data.Write((int)this.TypeId);
+            data.WriteStringUnicode(this.CurrentResource.StateName);
+            data.Write(this.FoodConvRate);
+            
+            data.Write(this.HRPConvRate);
+            data.Write(this.Level);
+            data.Write(this.LRPConvRate);
+            
+        }
+
+        public void Deserialize(ContentBinaryReader data)
+        {
+            
+        }
+
+
+
+        public bool Changed
+        {
+            get;
+            private set;
+        }
 
     }
 }

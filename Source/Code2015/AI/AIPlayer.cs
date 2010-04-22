@@ -12,8 +12,8 @@ namespace Code2015.AI
     {
         AIDecision decision;
 
-        public AIPlayer(GameGoal goal)
-            : base("Computer", goal)
+        public AIPlayer(GameGoal goal,int id)
+            : base("Computer", goal, id)
         {
             Type = PlayerType.LocalAI;
         }

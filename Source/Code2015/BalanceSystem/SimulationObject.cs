@@ -4,11 +4,15 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
+using Code2015.Logic;
+using Code2015.Network;
 
 namespace Code2015.BalanceSystem
 {
-    public class SimulationObject :IConfigurable, IUpdatable
+    public abstract class SimulationObject : IConfigurable, IUpdatable, ILogicStateObject
     {
+
+
         /// <summary>
         /// 经度
         /// </summary>
@@ -41,11 +45,11 @@ namespace Code2015.BalanceSystem
             private set;
         }
 
-        public SimulationObject(SimulationWorld region)
+        protected SimulationObject(SimulationWorld region)
         {
             Region = region;
         }
-       
+
         /// <summary>
         ///  派生类先更新
         /// </summary>
@@ -57,14 +61,34 @@ namespace Code2015.BalanceSystem
 
         #region IConfigurable 成员
 
-    
+
         public virtual void Parse(ConfigurationSection sect)
         {
             Longitude = sect.GetSingle("Longitude");
             Latitude = sect.GetSingle("Latitude");
 
-            
+            stateName = sect.Name;
+
         }
+        #endregion
+
+        #region ILogicStateObject 成员
+
+        public abstract void Serialize(StateDataBuffer data);
+        public abstract void Deserialize(StateDataBuffer data);
+
+        string stateName;
+        public virtual string StateName
+        {
+            get { return stateName; }
+        }
+
+
+        public abstract bool Changed
+        {
+            get;
+        }
+
         #endregion
     }
 }
