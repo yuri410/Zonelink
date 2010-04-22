@@ -13,6 +13,22 @@ namespace Code2015.EngineEx
     unsafe struct PlantDensityData
     {
         public fixed float Density[PlantDensity.TypeCount];
+
+        public bool IsZero
+        {
+            get
+            {
+                fixed (float* d = Density)
+                {
+                    for (int i = 0; i < PlantDensity.TypeCount; i++)
+                    {
+                        if (d[i] > float.Epsilon)
+                            return false;
+                    }
+                    return true;
+                }
+            }
+        }
     }
     unsafe class PlantDensity
     {
@@ -22,6 +38,7 @@ namespace Code2015.EngineEx
             "plant3.raw", "plant4.raw", "plant5.raw", 
             "plant6.raw", "plant7.raw", "plant8.raw"
         };
+        static readonly string DensityFile = "density.raw";
 
         static PlantDensity singleton;
 
@@ -41,6 +58,7 @@ namespace Code2015.EngineEx
         public const int TypeCount = 8;
 
         byte[][] densityTable;
+        byte[] density;
 
         private PlantDensity()
         {
@@ -54,8 +72,31 @@ namespace Code2015.EngineEx
 
                 br.Close();
             }
+
+            //density = new byte[Width * Height];
+            FileLocation fl2 = FileSystem.Instance.Locate(DensityFile, GameFileLocs.Nature);
+            ContentBinaryReader br2 = new ContentBinaryReader(fl2);
+            density = br2.ReadBytes(Width * Height);
+            br2.Close();
         }
 
+        public float GetPlantDensity(float longtiude, float latitude)
+        {
+            const double yspan = Math.PI;
+
+            int y = (int)(((yspan * 0.5 - latitude) / yspan) * Height);
+            int x = (int)(((longtiude + Math.PI) / (2 * Math.PI)) * Width);
+
+            if (y < 0) y += Height;
+            if (y >= Height) y -= Height;
+
+            if (x < 0) x += Width;
+            if (x >= Width) x -= Width;
+
+            int idx = y * Width + x;
+
+            return density[idx] / 255f;
+        }
         public PlantDensityData GetDensity(float longtiude, float latitude)
         {
             const double yspan = Math.PI;

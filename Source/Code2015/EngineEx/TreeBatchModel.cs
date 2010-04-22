@@ -67,7 +67,7 @@ namespace Code2015.EngineEx
         public BoundingSphere BoundingVolume;
         public Matrix Transformation;
 
-        public Matrix TreeOrientation;
+        //public Matrix TreeOrientation;
 
         public TreeBatchModel(RenderSystem rs, ForestInfo info)
             : base(TreeBatchModelManager.Instance,
@@ -110,129 +110,168 @@ namespace Code2015.EngineEx
             Dictionary<Material, int> partVtxCount = new Dictionary<Material, int>();
 
 
+            plantCount = 0;
+
 
             byte[] vtxBldBuffer = new byte[TreeVertex.Size];
 
-            for (int i = 0; i < plantCount; i++)
+            const float AreaWidth = 0.5f;
+            for (float blkLng = radlng - radr; blkLng < radlng + radr; blkLng += AreaWidth)
             {
-
-            Label_retry:
-                float rnd1 = Randomizer.GetRandomSingle();
-                float rnd2 = Randomizer.GetRandomSingle();
-
-                float r = rnd1 * radr;
-                float rr = PlanetEarth.GetTileArcLength(r);
-                float rt = rnd2 * MathEx.PIf * 2;
-
-                float rotCos = (float)Math.Cos(rt);
-                float rotSin = (float)Math.Sin(rt);
-
-                float alt = TerrainData.Instance.QueryHeight(radlng + r * rotCos, radlat + r * rotSin);
-
-                if (alt < 0)
-                    goto Label_retry;
-
-                float treeLng = radlng + r * rotCos;
-                float treeLat = radlat + r * rotSin;
-
-                TreeOrientation = PlanetEarth.GetOrientation(treeLng, treeLat);
-                TreeOrientation.TranslationValue = PlanetEarth.GetPosition(treeLng, treeLat,
-                    PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
-
-                float instanceData = Randomizer.GetRandomSingle();
-
-                float theta = instanceData * MathEx.PIf * 2;
-                rotCos = (float)Math.Cos(theta);
-                rotSin = (float)Math.Sin(theta);
-
-                TreeModelData meshData;
-                // 选一种模型，根据植被密度随机
+                for (float blkLat = radlat - radr; blkLat < radlat + radr; blkLat += AreaWidth)
                 {
-                    PlantDensityData density = PlantDensity.Instance.GetDensity(treeLng, treeLat);
+                    float density = PlantDensity.Instance.GetPlantDensity(blkLng, blkLat);
 
-                    for (int k = 1; k < PlantDensity.TypeCount; k++)
+                    int count = (int)(density * 10);
+
+                    for (int i = 0; i < count; i++)
                     {
-                        density.Density[k] += density.Density[k - 1];
-                    }
+                        float treeLng = blkLng + radr * Randomizer.GetRandomSingle();
+                        float treeLat = blkLat + radr * Randomizer.GetRandomSingle();
 
-                    float rand2 = Randomizer.GetRandomSingle() * density.Density[PlantDensity.TypeCount - 1];
+                        float alt = TerrainData.Instance.QueryHeight(treeLng, treeLat);
 
-                    int idx = 0;// Randomizer.GetRandomInt(info.Plants.Length);
-                    for (int k = 0; k < PlantDensity.TypeCount; k++)
-                    {
-                        if (rand2 < density.Density[k])
+                        PlantDensityData d = PlantDensity.Instance.GetDensity(treeLng, treeLat);
+                        int idx = Randomizer.Random(d.Density, PlantDensity.TypeCount);
+                       
+                        TreeModelData[] mdls = TreeModelLibrary.Instance.Get(idx);
+                        TreeModelData meshData = mdls[Randomizer.GetRandomInt(mdls.Length)];
+
+
+                        Matrix treeOrientation = PlanetEarth.GetOrientation(treeLng, treeLat);
+                        treeOrientation.TranslationValue = PlanetEarth.GetPosition(treeLng, treeLat,
+                            PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
+
+                        float instanceData = Randomizer.GetRandomSingle();
+
+                        float theta = instanceData * MathEx.PIf * 2;
+                        float rotCos = (float)Math.Cos(theta);
+                        float rotSin = (float)Math.Sin(theta);
+
+                        #region 数据
+                        resourceSize += meshData.VertexCount * TreeVertex.Size;
+                        vtxCount += meshData.VertexCount;
+
+                        fixed (byte* src = &meshData.VertexData[0])
                         {
-                            idx = i;
+                            VertexPNT1* ptr = (VertexPNT1*)src;
+
+                            for (int j = 0; j < meshData.VertexCount; j++)
+                            {
+                                TreeVertex p;
+                                p.pos.X = rotCos * ptr[j].pos.X - rotSin * ptr[j].pos.Z;
+                                p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
+                                p.pos.Y = ptr[j].pos.Y;
+
+                                p.pos = p.pos * Game.TreeScale;
+
+                                Vector3 pp;
+                                Vector3.TransformSimple(ref p.pos, ref treeOrientation, out pp);
+                                p.pos = pp;
+
+                                p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
+                                p.n.Z = rotSin * ptr[j].n.Z + rotCos * ptr[j].n.Z;
+                                p.n.Y = ptr[j].n.Y;
+
+                                p.tex1 = new Vector3(ptr[j].u, ptr[j].v, instanceData);
+
+                                fixed (byte* dst = &vtxBldBuffer[0])
+                                {
+                                    Memory.Copy(&p, dst, TreeVertex.Size);
+                                }
+                                vertices.Add(vtxBldBuffer);
+                            }
                         }
-                        else break;
-                    }
 
-                    TreeModelData[] mdls = TreeModelLibrary.Instance.Get(idx);
-                    meshData = mdls[Randomizer.GetRandomInt(mdls.Length)];
-                }
-
-
-                resourceSize += meshData.VertexCount * TreeVertex.Size;
-                vtxCount += meshData.VertexCount;
-
-                fixed (byte* src = &meshData.VertexData[0])
-                {
-                    VertexPNT1* ptr = (VertexPNT1*)src;
-
-                    for (int j = 0; j < meshData.VertexCount; j++)
-                    {
-                        TreeVertex p;
-                        p.pos.X = rotCos * ptr[j].pos.X - rotSin * ptr[j].pos.Z;
-                        p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
-                        p.pos.Y = ptr[j].pos.Y;
-
-                        p.pos = p.pos * Game.TreeScale;
-
-                        Vector3 pp;
-                        Vector3.TransformSimple(ref p.pos, ref TreeOrientation, out pp);
-                        p.pos = pp;
-
-                        p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
-                        p.n.Z = rotSin * ptr[j].n.Z + rotCos * ptr[j].n.Z;
-                        p.n.Y = ptr[j].n.Y;
-
-                        p.tex1 = new Vector3(ptr[j].u, ptr[j].v, instanceData);
-
-                        fixed (byte* dst = &vtxBldBuffer[0])
+                        Material[] mtrls = meshData.Materials;
+                        for (int k = 0; k < mtrls.Length; k++)
                         {
-                            Memory.Copy(&p, dst, TreeVertex.Size);
+                            Material mtrl = mtrls[k];
+
+                            FastList<int> idxData;
+                            if (!indices.TryGetValue(mtrl, out idxData))
+                            {
+                                idxData = new FastList<int>(plantCount * 120);
+                                indices.Add(mtrl, idxData);
+
+                                partVtxCount.Add(mtrl, 0);
+                            }
+
+                            partVtxCount[mtrl] += meshData.PartVtxCount[k];
+
+                            int[] meshIdx = meshData.Indices[k];
+
+                            for (int j = 0; j < meshIdx.Length; j++)
+                            {
+                                idxData.Add(meshIdx[j] + vtxOffset);
+                            }
+
+
                         }
-                        vertices.Add(vtxBldBuffer);
+                        vtxOffset += meshData.VertexCount;
+                        #endregion
+
+                        plantCount++;
                     }
                 }
-
-                Material[] mtrls = meshData.Materials;
-                for (int k = 0; k < mtrls.Length; k++)
-                {
-                    Material mtrl = mtrls[k];
-
-                    FastList<int> idxData;
-                    if (!indices.TryGetValue(mtrl, out idxData))
-                    {
-                        idxData = new FastList<int>(plantCount * 120);
-                        indices.Add(mtrl, idxData);
-
-                        partVtxCount.Add(mtrl, 0);
-                    }
-
-                    partVtxCount[mtrl] += meshData.PartVtxCount[k];
-
-                    int[] meshIdx = meshData.Indices[k];
-
-                    for (int j = 0; j < meshIdx.Length; j++)
-                    {
-                        idxData.Add(meshIdx[j] + vtxOffset);
-                    }
-
-
-                }
-                vtxOffset += meshData.VertexCount;
             }
+            //for (int i = 0; i < plantCount; i++)
+            //{
+
+            //Label_retry:
+            //    float rnd1 = Randomizer.GetRandomSingle();
+            //    float rnd2 = Randomizer.GetRandomSingle();
+
+            //    float r = rnd1 * radr;
+            //    float rr = PlanetEarth.GetTileArcLength(r);
+            //    float rt = rnd2 * MathEx.PIf * 2;
+
+            //    float rotCos = (float)Math.Cos(rt);
+            //    float rotSin = (float)Math.Sin(rt);
+
+            //    float treeLng = radlng + r * rotCos;
+            //    float treeLat = radlat + r * rotSin;
+
+            //    PlantDensityData density = PlantDensity.Instance.GetDensity(treeLng, treeLat);
+
+            //    //if (density.IsZero)
+            //    //    goto Label_retry;
+
+            //    float alt = TerrainData.Instance.QueryHeight(treeLng, treeLat);
+
+            //    if (alt < 0)
+            //        goto Label_retry;
+
+            //    TreeModelData meshData;
+            //    // 选一种模型，根据植被密度随机
+            //    {
+
+            //        for (int k = 1; k < PlantDensity.TypeCount; k++)
+            //        {
+            //            density.Density[k] += density.Density[k - 1];
+            //        }
+
+            //        float rand2 = Randomizer.GetRandomSingle() * density.Density[PlantDensity.TypeCount - 1];
+
+            //        int idx = 0;// Randomizer.GetRandomInt(info.Plants.Length);
+            //        for (int k = 0; k < PlantDensity.TypeCount; k++)
+            //        {
+            //            if (rand2 < density.Density[k])
+            //            {
+            //                idx = k;
+            //            }
+            //            else break;
+            //        }
+            //        //if (idx == -1)
+            //        //    goto Label_retry;
+
+            //        TreeModelData[] mdls = TreeModelLibrary.Instance.Get(idx);
+            //        meshData = mdls[Randomizer.GetRandomInt(mdls.Length)];
+            //    }
+
+
+
+            //}
 
             // ============================================================================
 

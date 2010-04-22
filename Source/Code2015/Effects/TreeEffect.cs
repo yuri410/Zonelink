@@ -161,15 +161,15 @@ namespace Code2015.Effects
 
                 vtxShader.SetValue("smTrans", lightPrjTrans);
 
-                TreeBatchModel mdl = op.Sender as TreeBatchModel;
-                if (mdl != null)
-                {
-                    vtxShader.SetValue("world", ref mdl.TreeOrientation);
-                }
-                else
-                {
-                    vtxShader.SetValue("world", ref op.Transformation);
-                }
+                //TreeBatchModel mdl = op.Sender as TreeBatchModel;
+                //if (mdl != null)
+                //{
+                    //vtxShader.SetValue("world", ref mdl.TreeOrientation);
+                //}
+                //else
+                //{
+                vtxShader.SetValue("world", ref op.Transformation);
+                //}
 
                 if (!stateSetted)
                 {
