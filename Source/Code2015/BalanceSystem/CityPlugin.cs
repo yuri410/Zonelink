@@ -5,9 +5,9 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
 using Code2015.Logic;
 using Code2015.Network;
-using Apoc3D.Vfs;
 
 namespace Code2015.BalanceSystem
 {
@@ -468,9 +468,34 @@ namespace Code2015.BalanceSystem
             
         }
 
-        public void Deserialize(ContentBinaryReader data)
+        public void Deserialize(ContentBinaryReader data, SimulationWorld world)
         {
-            
+
+            CityPluginTypeId typeId = (CityPluginTypeId)data.ReadInt32();
+            switch (typeId)
+            {
+                case CityPluginTypeId.BiofuelFactory:
+                    break;
+                case CityPluginTypeId.EducationOrg:
+                    break;
+                case CityPluginTypeId.Hospital:
+                    break;
+                case CityPluginTypeId.OilRefinary:
+                    break;
+                case CityPluginTypeId.WoodFactory:
+                    break;
+            }
+
+            TypeId = typeId;
+
+            string stateName = data.ReadStringUnicode();
+            CurrentResource = world.FindResource(stateName);
+            FoodConvRate = data.ReadSingle();
+            HRPConvRate = data.ReadSingle();
+            Level = data.ReadInt32();
+            LRPConvRate = data.ReadSingle();
+
+
         }
 
 

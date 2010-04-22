@@ -6,11 +6,14 @@ using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
 using Code2015.Logic;
+using Code2015.Network;
+using Apoc3D.Vfs;
 
 namespace Code2015.BalanceSystem
 {
     public delegate void DisasterArrivedHandler(Disaster disaster);
-    public class EnergyStatus : IConfigurable, IUpdatable
+
+    public class EnergyStatus : IConfigurable, IUpdatable, ILogicStateObject
     {
         [SLGValue()]
         public const float HPLowThreshold = 300;
@@ -41,6 +44,8 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float MaxRadius = 30;
         #endregion
+
+        bool changed;
 
         public SimulationWorld Region
         {
@@ -123,7 +128,7 @@ namespace Code2015.BalanceSystem
             Region = region;
         }
 
-        internal void AddDisaster(Disaster d)
+        void AddDisaster(Disaster d)
         {
             Region.Add(d);
             d.Over += Disaster_Over;
@@ -249,6 +254,7 @@ namespace Code2015.BalanceSystem
                             disaster.Radius = pp * MaxRadius * adj;
 
                             incoming.Add(ref disaster);
+                            changed = true;
                         }
                     }
                 }
@@ -274,6 +280,7 @@ namespace Code2015.BalanceSystem
                         AddDisaster(d);
 
                         incoming.RemoveAt(i);
+                        changed = true;
                     }
                 }
             }
@@ -298,5 +305,116 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+
+        #region ILogicStateObject 成员
+
+        public void Serialize(StateDataBuffer data)
+        {
+            ContentBinaryWriter bw = data.Writer;
+
+            bw.Write(carbonRatio.Count);
+            foreach (KeyValuePair<Player, float> e in carbonRatio)
+            {
+                bw.Write(e.Key.ID);
+                bw.Write(e.Value);
+            }
+            bw.Write(carbonWeight.Count);
+            foreach (KeyValuePair<Player, float> e in carbonWeight)
+            {
+                bw.Write(e.Key.ID);
+                bw.Write(e.Value);
+            }
+
+            bw.Write(incoming.Count);
+
+            for (int i = 0; i < incoming.Count; i++)
+            {
+                bw.Write(incoming[i].CountDown);
+                bw.Write(incoming[i].Damage);
+                bw.Write(incoming[i].Duration);
+                bw.Write(incoming[i].Latitude);
+                bw.Write(incoming[i].Longitude);
+                bw.Write(incoming[i].Radius);
+            }
+
+            data.EndWrite();
+
+            changed = false;
+        }
+
+        public void Deserialize(StateDataBuffer data)
+        {
+            ContentBinaryReader br = data.Reader;
+
+            int count = br.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                int id = br.ReadInt32();
+
+                Player pl = null;
+                foreach (KeyValuePair<Player, float> e in carbonRatio)
+                {
+                    if (e.Key.ID == id)
+                    {
+                        pl = e.Key;
+                    }
+                }
+
+                if (pl != null)
+                {
+                    carbonRatio[pl] = br.ReadSingle();
+                }
+                else br.ReadSingle();
+            }
+
+            count = br.ReadInt32();
+            for (int i = 0; i < count; i++)
+            {
+                int id = br.ReadInt32();
+
+                Player pl = null;
+                foreach (KeyValuePair<Player, float> e in carbonWeight)
+                {
+                    if (e.Key.ID == id)
+                    {
+                        pl = e.Key;
+                    }
+                }
+
+                if (pl != null)
+                {
+                    carbonWeight[pl] = br.ReadSingle();
+                }
+                else br.ReadSingle();
+            }
+
+            count = br.ReadInt32();
+
+            incoming.FastClear();
+            incoming.Resize(count);
+            for (int i = 0; i < count; i++) 
+            {
+                incoming.Elements[i].CountDown = br.ReadSingle();
+                incoming.Elements[i].Damage = br.ReadSingle();
+                incoming.Elements[i].Duration = br.ReadSingle();
+                incoming.Elements[i].Latitude = br.ReadSingle();
+                incoming.Elements[i].Longitude = br.ReadSingle();
+                incoming.Elements[i].Radius = br.ReadSingle();
+            }
+
+
+        }
+
+        public string StateName
+        {
+            get { return "Disasters"; }
+        }
+
+        public bool Changed
+        {
+            get { return changed; }
+        }
+
+        #endregion
     }
 }

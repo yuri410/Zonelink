@@ -43,6 +43,27 @@ namespace Code2015.BalanceSystem
 
         }
 
+        public CityPluginType OilRefinaryType
+        {
+            get { return oilRefinaryType; }
+        }
+        public CityPluginType WoodFactoryType 
+        {
+            get { return woodFactoryType; }
+        }
+        public CityPluginType BiofuelFactoryType
+        {
+            get { return bioFuelFactoryType; }
+        }
+        public CityPluginType HospitalType
+        {
+            get { return hospitalType; }
+        }
+        public CityPluginType EducationOrgType 
+        {
+            get { return educationOrganType; }
+        }
+
         public CityPlugin MakeOilRefinary()
         {
             return new CityPlugin(this, oilRefinaryType, CityPluginTypeId.OilRefinary);
