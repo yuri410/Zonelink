@@ -338,7 +338,7 @@ namespace MapEdit
             get;
             set;
         }
-        public int Radius
+        public float Radius
         {
             get;
             set;
