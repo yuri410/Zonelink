@@ -42,14 +42,10 @@ namespace Code2015.World
 
     class OceanWaterTile : SceneObject
     {
-        const int Lod0Size = 24;
-        const int Lod1Size = 8;
-        const int Lod2Size = 4;
-
+        const int Lod0Size = 8;
 
         OceanWaterData data0;
         OceanWaterData data1;
-        OceanWaterData data2;
 
         RenderSystem renderSystem;
 
@@ -85,8 +81,7 @@ namespace Code2015.World
             material.PriorityHint = RenderPriority.Third;
 
             data0 = manager.GetData(Lod0Size, tileLat);
-            data1 = manager.GetData(Lod1Size, tileLat);
-            data2 = manager.GetData(Lod2Size, tileLat);
+            //data1 = manager.GetData(Lod1Size, tileLat);
 
 
             float radtc = MathEx.Degree2Radian(tileCol);
@@ -101,30 +96,30 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            switch (level)
-            {
-                case 0:
+            //switch (level)
+            //{
+            //    case 0:
                     opBuf[0].Geomentry = data0.GeoData;
                     opBuf[0].Material = material;
                     opBuf[0].Transformation = Matrix.Identity;
                     if (opBuf[0].Sender == null)
                         opBuf[0].Sender = this;
                     return opBuf;
-                case 1:
-                    opBuf[0].Geomentry = data1.GeoData;
-                    opBuf[0].Material = material;
-                    opBuf[0].Transformation = Matrix.Identity;
-                    if (opBuf[0].Sender == null)
-                        opBuf[0].Sender = this;
-                    return opBuf;
-                default:
-                    opBuf[0].Geomentry = data2.GeoData;
-                    opBuf[0].Material = material;
-                    opBuf[0].Transformation = Matrix.Identity;
-                    if (opBuf[0].Sender == null)
-                        opBuf[0].Sender = this;
-                    return opBuf;
-            }
+            //    case 1:
+            //        opBuf[0].Geomentry = data1.GeoData;
+            //        opBuf[0].Material = material;
+            //        opBuf[0].Transformation = Matrix.Identity;
+            //        if (opBuf[0].Sender == null)
+            //            opBuf[0].Sender = this;
+            //        return opBuf;
+            //    default:
+            //        opBuf[0].Geomentry = data2.GeoData;
+            //        opBuf[0].Material = material;
+            //        opBuf[0].Transformation = Matrix.Identity;
+            //        if (opBuf[0].Sender == null)
+            //            opBuf[0].Sender = this;
+            //        return opBuf;
+            //}
         }
         public override RenderOperation[] GetRenderOperation()
         {

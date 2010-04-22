@@ -11,6 +11,7 @@ using Apoc3D.MathLib;
 using Code2015.EngineEx;
 using Code2015.World;
 using DevIl;
+using Apoc3D;
 
 namespace GameTest
 {
@@ -146,6 +147,21 @@ namespace GameTest
 
         unsafe static void Main(string[] args)
         {
+            float[] p = { 1, 2, 3, 4, 5, 6, 7, 8, 9, };
+
+            int[] count = new int[p.Length];
+
+            for (int i = 0; i < 1000000; i++)
+            {
+                int idx = Randomizer.Random(p);
+                count[idx]++;
+            }
+
+            for (int i = 0; i < count.Length; i++)
+            {
+                Console.WriteLine(i.ToString() + ": " + count[i].ToString());
+            }
+            Console.ReadKey();
             //ConfigurationManager.Initialize();
             //ConfigurationManager.Instance.Register(new GameConfigurationFormat());
 
@@ -153,16 +169,16 @@ namespace GameTest
 
             //Console.WriteLine(config.Count);
 
-            BoundingSphere bs = new BoundingSphere(new Vector3(), 1000);
-            Ray ray = new Ray(new Vector3(500, 0, 1500), -Vector3.UnitZ);
+            //BoundingSphere bs = new BoundingSphere(new Vector3(), 1000);
+            //Ray ray = new Ray(new Vector3(500, 0, 1500), -Vector3.UnitZ);
 
-            Vector3 icp;
-            Console.WriteLine(BoundingSphere.Intersects(bs, ray, out icp));
+            //Vector3 icp;
+            //Console.WriteLine(BoundingSphere.Intersects(bs, ray, out icp));
 
 
-            Console.WriteLine(icp.ToString());
+            //Console.WriteLine(icp.ToString());
 
-            Console.ReadKey();
+            //Console.ReadKey();
             //Vector3 p = PlanetEarth.GetPosition(-3, 1);
 
             //Console.WriteLine(p.ToString());
