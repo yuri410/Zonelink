@@ -441,7 +441,7 @@
         <Longitude>120.3896</Longitude>
         <Latitude>11.68831</Latitude>
         <Size>Medium</Size>
-        <Linkable>C0404, C0606</Linkable>
+        <Linkable>C0404</Linkable>
     </C0505>
     <C0600>
         <Name>Bogota</Name>
@@ -501,15 +501,8 @@
         <Latitude>2.337662</Latitude>
         <Size>Small</Size>
         <Linkable>C0504, C0505, C0704</Linkable>
-    </C0605>
-    <C0606>
-        <Name>Sarikei</Name>
-        <Longitude>129.7402</Longitude>
-        <Latitude>2.337662</Latitude>
-        <Size>Small</Size>
         <Farm>4</Farm>
-        <Linkable>C0505, C0704, C0705</Linkable>
-    </C0606>
+    </C0605>
     <C0700>
         <Name>Porto Velho</Name>
         <Longitude>-64.67532</Longitude>
@@ -557,7 +550,7 @@
         <Longitude>120.3896</Longitude>
         <Latitude>-6.818182</Latitude>
         <Size>Small</Size>
-        <Linkable>C0605, C0606, C0806, C0807</Linkable>
+        <Linkable>C0605, C0806, C0807</Linkable>
     </C0704>
     <C0705>
         <Name>Gahgo</Name>
@@ -565,7 +558,7 @@
         <Latitude>-6.818182</Latitude>
         <Size>Small</Size>
         <Gender>2</Gender>
-        <Linkable>C0606, C0807</Linkable>
+        <Linkable>C0807</Linkable>
     </C0705>
     <C0800>
         <Name>Cuiaba</Name>
