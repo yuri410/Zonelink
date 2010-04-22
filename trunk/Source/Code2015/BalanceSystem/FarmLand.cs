@@ -4,6 +4,7 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.Config;
+using Code2015.Network;
 
 namespace Code2015.BalanceSystem
 {
@@ -105,6 +106,22 @@ namespace Code2015.BalanceSystem
             }
         }
 
+        public override bool Changed
+        {
+            get { return false; }
+        }
+        public override string StateName
+        {
+            get { return string.Empty; }
+        }
+        public override void Deserialize(StateDataBuffer data)
+        {
+            throw new NotSupportedException();
+        }
+        public override void Serialize(StateDataBuffer data)
+        {
+            throw new NotSupportedException();
+        }
 
     }
 }

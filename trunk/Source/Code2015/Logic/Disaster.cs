@@ -5,6 +5,7 @@ using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.MathLib;
 using Code2015.BalanceSystem;
+using Code2015.Network;
 
 namespace Code2015.Logic
 {
@@ -138,6 +139,27 @@ namespace Code2015.Logic
                 if (Over != null)
                     Over(this);
             }
+        }
+
+
+        public override bool Changed
+        {
+            get { throw new NotImplementedException(); }
+        }
+        public override string StateName
+        {
+            get
+            {
+                return base.StateName;
+            }
+        }
+        public override void Deserialize(StateDataBuffer data)
+        {
+            throw new NotImplementedException();
+        }
+        public override void Serialize(StateDataBuffer data)
+        {
+            throw new NotImplementedException();
         }
     }
 }

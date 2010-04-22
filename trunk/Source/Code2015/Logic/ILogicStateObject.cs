@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Code2015.Network;
 
 namespace Code2015.Logic
 {
@@ -9,6 +10,10 @@ namespace Code2015.Logic
     /// </summary>
     interface ILogicStateObject
     {
-        
+        void Serialize(StateDataBuffer data);
+        void Deserialize(StateDataBuffer data);
+
+        string StateName { get; }
+        bool Changed { get; }
     }
 }

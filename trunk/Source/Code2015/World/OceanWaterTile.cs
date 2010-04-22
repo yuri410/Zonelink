@@ -45,7 +45,6 @@ namespace Code2015.World
         const int Lod0Size = 8;
 
         OceanWaterData data0;
-        OceanWaterData data1;
 
         RenderSystem renderSystem;
 

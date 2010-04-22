@@ -17,17 +17,24 @@ namespace Code2015.Logic
 
     public class Player
     {
+        public int ID
+        {
+            get;
+            private set;
+        }
+
         public GameGoal Goal
         {
             get;
             private set;
         }
 
-        public Player(string name, GameGoal goal)
+        public Player(string name, GameGoal goal, int id)
         {
             this.Goal = goal;
             this.Name = name;
             this.Type = PlayerType.LocalHuman;
+            this.ID = id;
         }
 
         public string Name

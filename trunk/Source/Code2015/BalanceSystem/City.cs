@@ -8,6 +8,8 @@ using Apoc3D.Config;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.Network;
+using Apoc3D.Vfs;
 
 namespace Code2015.BalanceSystem
 {
@@ -107,6 +109,9 @@ namespace Code2015.BalanceSystem
 
         FastQueue<float> recentCarbon = new FastQueue<float>(RecentCarbonLength);
         int carbonAddCounter;
+
+
+        bool stateChanged;
 
         public float RecentCarbonAmount
         {
@@ -563,11 +568,13 @@ namespace Code2015.BalanceSystem
                 }
                 nearbyCity.Clear();
             }
+            stateChanged = true;
         }
 
         public void AddFarm()
         {
             farms.Add(new FarmLand(Region, this));
+            stateChanged = true;
         }
 
         /// <summary>
@@ -590,6 +597,7 @@ namespace Code2015.BalanceSystem
             {
                 throw new InvalidOperationException();
             }
+            stateChanged = true;
         }
 
         /// <summary>
@@ -605,6 +613,7 @@ namespace Code2015.BalanceSystem
             {
                 PluginRemoved(this, plugin);
             }
+            stateChanged = true;
         }
 
 
@@ -632,6 +641,7 @@ namespace Code2015.BalanceSystem
                     localFood.MaxLimit = CityGrade.SmallMaxFoodStorage;
                     break;
             }
+            stateChanged = true;
         }
 
 
@@ -677,6 +687,7 @@ namespace Code2015.BalanceSystem
                     return;
                 }
             }
+            stateChanged = true;
         }
         public void AddNearbyCity(City city)
         {
@@ -685,6 +696,7 @@ namespace Code2015.BalanceSystem
             if (NearbyCityAdded != null)
                 NearbyCityAdded(this, city);
 
+            stateChanged = true;
         }
 
         public override void Update(GameTime time)
@@ -1173,6 +1185,33 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+
+        public override void Serialize(StateDataBuffer data)
+        {
+            ContentBinaryWriter bw = data.Writer;
+
+            bw.Write(Development);
+            bw.Write(Population);
+            bw.Write(plugins.Count);
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    bw.Write (plugins[i].
+            //}
+            bw.Write(FarmLandCount);
+
+
+            data.EndWrite();
+            stateChanged = false; 
+        }
+        public override void Deserialize(StateDataBuffer data)
+        {
+           
+        }
+        public override bool Changed
+        {
+            get { return stateChanged; }
+        }
+
         #region IConfigurable 成员
 
         public override void Parse(ConfigurationSection sect)

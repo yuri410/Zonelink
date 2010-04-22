@@ -152,11 +152,11 @@ namespace Code2015.GUI
             {
                 GameCreationParameters gcp = new GameCreationParameters();
 
-                gcp.Player1 = new Player("Player", CreateGoal());
+                gcp.Player1 = new Player("Player", CreateGoal(), 0);
                 gcp.Player1.SideColor = selectedColor;
-                gcp.Player2 = new AIPlayer(CreateGoal());
-                gcp.Player3 = new AIPlayer(CreateGoal());
-                gcp.Player4 = new AIPlayer(CreateGoal());
+                gcp.Player2 = new AIPlayer(CreateGoal(), 1);
+                gcp.Player3 = new AIPlayer(CreateGoal(), 2);
+                gcp.Player4 = new AIPlayer(CreateGoal(), 3);
 
 
                 int i = Randomizer.GetRandomInt(3);
