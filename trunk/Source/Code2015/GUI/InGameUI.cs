@@ -125,8 +125,8 @@ namespace Code2015.GUI
             this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
             AddElement(noticeBar); 
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
-            AddElement(miniMap); 
-            this.container = new PieceContainer(game, parent, scene, gamelogic);
+            AddElement(miniMap);
+            this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
             AddElement(container);
         }
 

@@ -123,10 +123,10 @@ namespace Code2015.EngineEx
             {
                 for (float blkLat = radlat - radr; blkLat < radlat + radr; blkLat += AreaWidth)
                 {
-                    //float altblk = TerrainData.Instance.QueryHeight(blkLng, blkLat);
+                    float altblk = TerrainData.Instance.QueryHeight(blkLng, blkLat) - 100;
 
-                    //if (altblk < 0)
-                    //    continue;
+                    if (altblk < 0)
+                        continue;
 
                     float density = PlantDensity.Instance.GetPlantDensity(blkLng, blkLat);
 

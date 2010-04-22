@@ -302,6 +302,10 @@ namespace Code2015.World.Screen
 
         }
 
+        public bool IsInBox 
+        {
+            get { return !body.CollisionEnabled; }
+        }
         public override void Update(GameTime time)
         {
             Vector2 dragCenter = new Vector2();
@@ -332,6 +336,7 @@ namespace Code2015.World.Screen
             r.Normalize();
 
             body.CollisionEnabled = rr > (9 * MdgPhysicsParams.BallRadius * MdgPhysicsParams.BallRadius);
+            
 
             if (r2 > float.Epsilon)
             {

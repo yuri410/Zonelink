@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Code2015.Logic;
 using Apoc3D.Vfs;
+using Code2015.Logic;
 
 namespace Code2015.BalanceSystem
 {
@@ -20,11 +20,11 @@ namespace Code2015.BalanceSystem
 
         public void Serialize(ContentBinaryWriter bw)
         {
-
+            
+            Changed = false;
         }
         public void Deserialize(ContentBinaryReader br)
         {
-            Changed = false;
         }
 
         public bool IsCapturing
