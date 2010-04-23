@@ -32,7 +32,7 @@ namespace Code2015.GUI
         int count3;
         int count4;
 
-        MdgResource exchangePieces;
+        //MdgResource exchangePieces;
         GoalIcons icons;
         MdgResourceManager resources;
 

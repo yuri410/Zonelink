@@ -478,7 +478,7 @@ namespace Code2015.BalanceSystem
                         r.Hunger -= ProbabilityDecr;
                         break;
                     case CityPluginTypeId.OilRefinary:
-                        r.Environment -= ProbabilityDecr;
+                        r.Environment -= ProbabilityDecr * 0.5f;
                         break;
                     case CityPluginTypeId.WoodFactory:
 
