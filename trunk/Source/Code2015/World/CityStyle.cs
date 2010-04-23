@@ -514,14 +514,7 @@ namespace Code2015.World
                 Matrix.Scaling(Game.ObjectScale * 1.1f, Game.ObjectScale * 1.1f, Game.ObjectScale * 1.1f);
             adjusts[0].EducationOrgan = Matrix.Translation(-27f, 1, 11)*
                 Matrix.Scaling(Game.ObjectScale * 0.46f, Game.ObjectScale * 0.46f, Game.ObjectScale * 0.46f);
-
-           
-            //adjusts[0].WoodFactory = Matrix.Translation(0, 1, 0) * scale;
-            //adjusts[0].EducationOrgan = Matrix.Translation(0, 1, 0);
-            //adjusts[0].Hospital = Matrix.Translation(0, 1, 0);
-            //adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
-            //adjusts[0].Biofuel = Matrix.Translation(0, 1, 0) * scale;
-
+          
             {
                 float s = (CityRadiusRing) / RingRadius;
                 adjusts[0].Ring = Matrix.Scaling(s, 1, s);
@@ -531,8 +524,16 @@ namespace Code2015.World
 
             #endregion
 
-            adjusts[1] = adjusts[0];
-            adjusts[2] = adjusts[0];
+            adjusts[(int)CultureId.Africa] = adjusts[0];
+
+            adjusts[(int)CultureId.Africa].Urban[(int)UrbanSize.Large] = Matrix.Translation(26, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f);
+            adjusts[(int)CultureId.Africa].Urban[(int)UrbanSize.Medium] = Matrix.Scaling(Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f) * Matrix.Translation(-36, 3, 25);
+            adjusts[(int)CultureId.Africa].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
+
+            adjusts[(int)CultureId.Europe] = adjusts[0];
+            adjusts[(int)CultureId.Europe].Urban[(int)UrbanSize.Large] = Matrix.Translation(26, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f);
+            adjusts[(int)CultureId.Europe].Urban[(int)UrbanSize.Medium] = Matrix.Scaling(Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f) * Matrix.Translation(-36, 3, 25);
+            adjusts[(int)CultureId.Europe].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
 
         }
 
