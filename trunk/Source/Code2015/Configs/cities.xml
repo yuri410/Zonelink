@@ -46,7 +46,7 @@
         <Size>Medium</Size>
         <Environment>2</Environment>
         <Linkable>C0206, C0207</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0103>
     <C0104>
         <Name>Sharhorod</Name>
@@ -55,7 +55,7 @@
         <Size>Small</Size>
         <Environment>2</Environment>
         <Linkable>C0207, C0208</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0104>
     <C0105>
         <Name>Biyatov</Name>
@@ -64,7 +64,7 @@
         <Size>Small</Size>
         <Gender>1</Gender>
         <Linkable>C0208, C0209</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0105>
     <C0106>
         <Name>Aksuat</Name>
@@ -147,7 +147,7 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Linkable>C0102, C0302</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0203>
     <C0204>
         <Name>C0204</Name>
@@ -155,7 +155,7 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Linkable>C0302, C0303</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0204>
     <C0205>
         <Name>C0205</Name>
@@ -163,7 +163,7 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Linkable>C0303, C0304</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0205>
     <C0206>
         <Name>Barcelona</Name>
@@ -173,7 +173,7 @@
         <Environment>2</Environment>
         <Farm>2</Farm>
         <Linkable>C0304, C0305, C0103</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0206>
     <C0207>
         <Name>Argostoli</Name>
@@ -182,7 +182,7 @@
         <Size>Small</Size>
         <Environment>2</Environment>
         <Linkable>C0305, C0306, C0103, C0104</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0207>
     <C0208>
         <Name>Sivas</Name>
@@ -191,7 +191,7 @@
         <Size>Small</Size>
         <Gender>1</Gender>
         <Linkable>C0306, C0307, C0104, C0105</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0208>
     <C0209>
         <Name>Serder</Name>
@@ -201,7 +201,7 @@
         <Maternal>1</Maternal>
         <Farm>1</Farm>
         <Linkable>C0307, C0308, C0105</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0209>
     <C0210>
         <Name>Kaxgar</Name>
@@ -238,7 +238,7 @@
         <StartUp>2</StartUp>
         <Farm>2</Farm>
         <Linkable>C0310, C0311, C0107, C0108</Linkable>
-      <Culture>Africa</Culture>
+      <Culture></Culture>
     </C0212>
     <C0213>
         <Name>Sokcho</Name>
@@ -280,7 +280,7 @@
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
         <Linkable>C0203, C0204</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0302>
     <C0303>
         <Name>C0303</Name>
@@ -288,7 +288,7 @@
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
         <Linkable>C0204, C0205</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0303>
     <C0304>
         <Name>Marrakech</Name>
@@ -297,7 +297,7 @@
         <Size>Small</Size>
         <Education>1</Education>
         <Linkable>C0205, C0206, C0401</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0304>
     <C0305>
         <Name>Gadamis</Name>
@@ -306,7 +306,7 @@
         <Size>Small</Size>
         <Disease>1</Disease>
         <Linkable>C0206, C0207, C0401, C0402</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0305>
     <C0306>
         <Name>Cario</Name>
@@ -315,7 +315,7 @@
         <Size>Medium</Size>
         <Farm>4</Farm>
         <Linkable>C0207, C0208, C0402</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0306>
     <C0307>
         <Name>AI Basrah</Name>
@@ -324,7 +324,7 @@
         <Size>Medium</Size>
         <Disease>1</Disease>
         <Linkable>C0208, C0209</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0307>
     <C0308>
         <Name>Mandi</Name>
@@ -333,7 +333,7 @@
         <Size>Medium</Size>
         <Education>1</Education>
         <Linkable>C0209, C0210</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0308>
     <C0309>
         <Name>Huoerba</Name>
@@ -390,7 +390,7 @@
         <Maternal>1</Maternal>
         <Farm>1</Farm>
         <Linkable>C0304, C0305, C0501</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0401>
     <C0402>
         <Name>Aouzou</Name>
@@ -402,7 +402,7 @@
         <Gender>2</Gender>
         <Maternal>1</Maternal>
         <Linkable>C0305, C0306, C0502</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0402>
     <C0403>
         <Name>Chittagong</Name>
@@ -447,7 +447,7 @@
         <Maternal>2</Maternal>
         <Farm>1</Farm>
         <Linkable>C0401, C0602</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0501>
     <C0502>
         <Name>EI Fula</Name>
@@ -460,7 +460,7 @@
         <Hunger>2</Hunger>
         <Maternal>2</Maternal>
         <Linkable>C0402, C0603, C0604</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0502>
     <C0503>
         <Name>Chennai</Name>
@@ -520,7 +520,7 @@
         <Latitude>2.337662</Latitude>
         <Size>Small</Size>
         <Linkable>C0501, C0702</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0602>
     <C0603>
         <Name>Gemena</Name>
@@ -533,7 +533,7 @@
         <Hunger>1</Hunger>
         <Maternal>2</Maternal>
         <Linkable>C0502, C0703</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0603>
     <C0604>
         <Name>Marsabit</Name>
@@ -546,7 +546,7 @@
         <Hunger>1</Hunger>
         <Maternal>2</Maternal>
         <Linkable>C0502, C0703</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0604>
     <C0605>
         <Name>Woyla</Name>
@@ -601,7 +601,7 @@
         <Gender>1</Gender>
         <Hunger>2</Hunger>
         <Linkable>C0603, C0604, C0802, C0803</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0703>
     <C0704>
         <Name>Ruteng</Name>
@@ -657,7 +657,7 @@
         <Maternal>2</Maternal>
         <Farm>2</Farm>
         <Linkable>C0703, C0901</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0802>
     <C0803>
         <Name>Blantyre</Name>
@@ -670,7 +670,7 @@
         <Hunger>2</Hunger>
         <Maternal>2</Maternal>
         <Linkable>C0703, C0901, C0902</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0803>
     <C0804>
         <Name>C0804</Name>
@@ -728,7 +728,7 @@
         <Education>1</Education>
         <Hunger>1</Hunger>
         <Linkable>C0802, C0803, C1001</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C0901>
     <C0902>
         <Name>C0902</Name>
@@ -804,7 +804,7 @@
         <Hunger>1</Hunger>
         <Farm>2</Farm>
         <Linkable>C0901</Linkable>
-      <Culture></Culture>
+      <Culture>Africa</Culture>
     </C1001>
     <C1002>
         <Name>C1002</Name>
