@@ -32,6 +32,7 @@ namespace Code2015.World
     public class Harvester : DynamicObject
     {
         Model[] model;
+        int mdlIndex;
 
         float longtitude;
         float latitude;
@@ -221,11 +222,7 @@ namespace Code2015.World
                         Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
 
                         src.Alt = map.GetHeight(src.Longitude, src.Latitude);
-                        if (src.Alt < 0)
-                            src.Alt = 0;
                         target.Alt = map.GetHeight(target.Longitude, target.Latitude);
-                        if (target.Alt < 0)
-                            target.Alt = 0;
                         stateUpdated = true;
                     }
 
@@ -250,6 +247,21 @@ namespace Code2015.World
                     Map.GetCoord(x, y, out longtitude, out latitude);
 
                     altitude = MathEx.LinearInterpose(src.Alt, target.Alt, currentPrg);
+
+                    if (altitude < 0)
+                        mdlIndex++;
+                    else
+                        mdlIndex--;
+
+                    if (mdlIndex < 0)
+                        mdlIndex = 0;
+                    if (mdlIndex >= model.Length)
+                        mdlIndex = model.Length - 1;
+
+                    ModelL0 = model[mdlIndex];
+
+                    if (altitude < 0)
+                        altitude = 0;
 
                     Orientation = Matrix.RotationQuaternion(
                         Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));

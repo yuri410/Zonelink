@@ -517,8 +517,8 @@ namespace Code2015.World
 
             adjusts[0].Farm = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(MathEx.PiOver2);
 
-            adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) *
-                Matrix.Scaling(Game.ObjectScale * 1.8f, Game.ObjectScale * 1.8f, Game.ObjectScale * 1.8f); // Matrix.Scaling(0, 0, -1);
+            adjusts[0].Cow = Matrix.RotationY(MathEx.PIf) *
+                Matrix.Scaling(Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f); // Matrix.Scaling(0, 0, -1);
 
 
             adjusts[0].Hospital = Matrix.Translation(0, 1, -1.8f) *

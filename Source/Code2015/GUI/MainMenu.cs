@@ -65,17 +65,17 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("credits.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("mm_btn_credits.tex", GameFileLocs.GUI);
             credits = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("exit.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("mm_btn_quit.tex", GameFileLocs.GUI);
             exit = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("help.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("mm_btn_help.tex", GameFileLocs.GUI);
             help = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("start.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("mm_btn_single.tex", GameFileLocs.GUI);
             start = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("mm_bg.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("mm_start_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
             #region 配置按钮
