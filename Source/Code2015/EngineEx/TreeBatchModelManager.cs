@@ -36,17 +36,18 @@ namespace Code2015.EngineEx
 
         public ResourceHandle<TreeBatchModel> CreateInstance(RenderSystem rs, ForestInfo info)
         {
-            //Resource retrived = base.Exists(TreeBatchModel.GetHashString(x, y, lod));
-            //if (retrived == null)
-            //{
-            TreeBatchModel mdl = new TreeBatchModel(rs, info);
-            base.NotifyResourceNew(mdl);
-            //}
-            //else
-            //{
-            //    retrived.Use();
-            //}
-            return new ResourceHandle<TreeBatchModel>(mdl);
+            Resource retrived = base.Exists(TreeBatchModel.GetHashString(info));
+            if (retrived == null)
+            {
+                TreeBatchModel mdl = new TreeBatchModel(rs, info);
+                base.NotifyResourceNew(mdl);
+                retrived = mdl;
+            }
+            else
+            {
+                retrived.Use();
+            }
+            return new ResourceHandle<TreeBatchModel>((TreeBatchModel)retrived);
         }
     }
 }

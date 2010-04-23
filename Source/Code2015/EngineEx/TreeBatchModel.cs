@@ -69,9 +69,14 @@ namespace Code2015.EngineEx
 
         public Matrix TreeOrientation;
 
+        public static string GetHashString(ForestInfo info)
+        {
+            return info.Longitude.ToString() + "_" + info.Latitude.ToString() + "_" + info.Radius.ToString();
+        }
+
         public TreeBatchModel(RenderSystem rs, ForestInfo info)
             : base(TreeBatchModelManager.Instance,
-            info.Longitude.ToString() + "_" + info.Latitude.ToString() + "_" + info.Radius.ToString())
+            GetHashString(info))
         {
             this.info = info;
             this.renderSys = rs;
