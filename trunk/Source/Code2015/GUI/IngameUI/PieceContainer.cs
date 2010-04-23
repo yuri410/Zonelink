@@ -21,11 +21,9 @@ namespace Code2015.GUI
         Game parent;
 
         //侧边栏图标
-        Texture ico_box1;
-        Texture ico_box2;
-        Texture ico_box3;
-        Texture ico_box4;
-        Texture ico_exchange;
+        Texture containers;
+        Texture containers_conver;
+        //Texture ico_exchange;
 
         int count1;
         int count2;
@@ -47,20 +45,15 @@ namespace Code2015.GUI
             this.resources = icons.Manager;
 
             //侧边栏
-            FileLocation fl = FileSystem.Instance.Locate("ig_box1.tex", GameFileLocs.GUI);
-            ico_box1 = UITextureManager.Instance.CreateInstance(fl);
+            FileLocation fl = FileSystem.Instance.Locate("ig_box.tex", GameFileLocs.GUI);
+            containers = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_box2.tex", GameFileLocs.GUI);
-            ico_box2 = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_box_cover.tex", GameFileLocs.GUI);
+            containers_conver = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_box3.tex", GameFileLocs.GUI);
-            ico_box3 = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_box4.tex", GameFileLocs.GUI);
-            ico_box4 = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            ico_exchange = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            //ico_exchange = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public override int Order
@@ -78,11 +71,9 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
-            sprite.Draw(ico_box1, 614, 606, ColorValue.White);
-            sprite.Draw(ico_box2, 729, 606, ColorValue.White);
-            sprite.Draw(ico_box3, 844, 606, ColorValue.White);
-            sprite.Draw(ico_box4, 959, 606, ColorValue.White);
+            //sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
+            sprite.Draw(containers, 651, 626, ColorValue.White);
+            //sprite.Draw(containers_conver, 877, 676, ColorValue.White);
         }
 
         public override void Update(GameTime time)
