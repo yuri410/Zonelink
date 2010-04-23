@@ -154,20 +154,29 @@ namespace Code2015.World.Screen
 
             if (image != null)
             {
-                const float scaler = 0.21333f;
-
-                Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
-                body.Radius = rectr.Length() * 0.5f;
-
                 Vector2 pos = body.Position;
                 float r = body.Radius;
 
                 sprite.SetTransform(
-                    Matrix.Scaling(scaler * growup, scaler * growup, 1) *
-                    Matrix.Translation(-rectr.X * 0.5f, -rectr.Y * 0.5f, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
-
+                    Matrix.Scaling(2 * r * growup / image.Width, 2 * r * growup / image.Height, 1) *
+                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
                 sprite.Draw(image, 0, 0, ColorValue.White);
+
+                //const float scaler = 1;
+
+                //Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
+                //body.Radius = rectr.Length() * 0.5f;
+
+                //Vector2 pos = body.Position;
+                //float r = body.Radius;
+
+                //sprite.SetTransform(
+                //    Matrix.Scaling(scaler * growup, scaler * growup, 1) *
+                //    Matrix.Translation(-rectr.X * 0.5f, -rectr.Y * 0.5f, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+
+
+                //sprite.Draw(image, 0, 0, ColorValue.White);
 
             }
 
@@ -288,17 +297,10 @@ namespace Code2015.World.Screen
 
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
-                    Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
+                    Matrix.Translation(-r, -r, 0) * Matrix.Translation(pos.X, pos.Y, 0));// Matrix.RotationZ(-body.Orientation) *
 
-                //if (object.ReferenceEquals(manager.GetPrimaryResource(type), this))
-                //{
-                    sprite.Draw(image, 0, 0, ColorValue.White);
-                //}
-                //else
-                //{
-                    //ColorValue opa = new ColorValue(1, 1, 1, MdgPhysicsParams.InactiveAlpha);
-                    //sprite.Draw(image, 0, 0, opa);
-                //}
+                sprite.Draw(image, 0, 0, ColorValue.White);
+
             }
 
         }
