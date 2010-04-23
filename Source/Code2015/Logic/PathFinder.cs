@@ -32,54 +32,7 @@ namespace Code2015.Logic
             get { return path.Count; }
         }
     }
-    //public class NodeBuffer
-    //{
-    //    public const int BufferW = 512;
-    //    public const int BufferH = 512;
 
-    //    AStarNode[][] nodes;
-
-    //    int ofsX;
-    //    int ofsY;
-
-    //    public void SetOffset(int ox, int oy)
-    //    {
-    //        ofsX = ox;
-    //        ofsY = oy;
-    //    }
-
-    //    public AStarNode[][] Nodes
-    //    {
-    //        get { return nodes; }
-    //    }
-
-    //    public int OffsetX
-    //    {
-    //        get { return ofsX; }
-    //    }
-    //    public int OffsetY
-    //    {
-    //        get { return ofsY; }
-    //    }
-
-    //    public NodeBuffer()
-    //    {
-    //        nodes = new AStarNode[BufferW][];
-    //        for (int i = 0; i < nodes.Length; i++)
-    //        {
-    //            nodes[i] = new AStarNode[BufferH];
-    //            for (int j = 0; j < nodes[i].Length; j++)
-    //            {
-    //                nodes[i][j] = new AStarNode(this, i, j);
-    //            }
-    //        }
-    //    }
-
-    //    public AStarNode this[int x, int y]
-    //    {
-    //        get { return nodes[x - ofsX][y - ofsY]; }
-    //    }
-    //}
     public class AStarNode
     {
         public int X;
