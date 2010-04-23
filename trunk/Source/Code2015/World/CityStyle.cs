@@ -499,12 +499,27 @@ namespace Code2015.World
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
 
             adjusts[0].Farm = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(MathEx.PiOver2);
-            adjusts[0].WoodFactory = Matrix.Translation(0, 1, 0) * scale;
-            adjusts[0].EducationOrgan = Matrix.Translation(0, 1, 0);
+           
             adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * scale; // Matrix.Scaling(0, 0, -1);
-            adjusts[0].Hospital = Matrix.Translation(0, 1, 0);
-            adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
-            adjusts[0].Biofuel = Matrix.Translation(0, 1, 0) * scale;
+            
+            
+            adjusts[0].Hospital = Matrix.Translation(0, 1, -1.8f) *
+                Matrix.Scaling(Game.ObjectScale * 0.65f, Game.ObjectScale * 0.65f, Game.ObjectScale * 0.65f);
+            adjusts[0].OilRefinary = Matrix.Translation(-2.5f, 1, 0) *
+                Matrix.Scaling(Game.ObjectScale * 0.92f, Game.ObjectScale * 0.92f, Game.ObjectScale * 0.92f);
+            adjusts[0].Biofuel = Matrix.Translation(-1, 1, 14) *
+                Matrix.Scaling(Game.ObjectScale * 0.73f, Game.ObjectScale * 0.73f, Game.ObjectScale * 0.73f);
+            adjusts[0].WoodFactory = Matrix.Translation(3.6f, 1, 0) *
+                Matrix.Scaling(Game.ObjectScale * 1.1f, Game.ObjectScale * 1.1f, Game.ObjectScale * 1.1f);
+            adjusts[0].EducationOrgan = Matrix.Translation(-27f, 1, 11)*
+                Matrix.Scaling(Game.ObjectScale * 0.46f, Game.ObjectScale * 0.46f, Game.ObjectScale * 0.46f);
+
+           
+            //adjusts[0].WoodFactory = Matrix.Translation(0, 1, 0) * scale;
+            //adjusts[0].EducationOrgan = Matrix.Translation(0, 1, 0);
+            //adjusts[0].Hospital = Matrix.Translation(0, 1, 0);
+            //adjusts[0].OilRefinary = Matrix.Translation(0, 11f, 0) * scale;
+            //adjusts[0].Biofuel = Matrix.Translation(0, 1, 0) * scale;
 
             {
                 float s = (CityRadiusRing) / RingRadius;
@@ -528,7 +543,7 @@ namespace Code2015.World
         {
             get
             {
-                return MathEx.PIf * 2 * Randomizer.GetRandomSingle();
+                return 0;//MathEx.PIf * 2 * Randomizer.GetRandomSingle();
             }
         }
 
@@ -547,11 +562,11 @@ namespace Code2015.World
                 style.Urban[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Urban[i]);
             }
 
-            style.BiofuelFactory.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].Biofuel);
-            style.OilRefinary.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].OilRefinary);
-            style.WoodFactory.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].WoodFactory);
-            style.EducationOrgan.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].EducationOrgan);
-            style.Hospital.CurrentAnimation = new NoAnimation(Matrix.RotationY(RandomAngle) * adjusts[(int)culture].Hospital);
+            style.BiofuelFactory.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].Biofuel*Matrix.RotationY(RandomAngle));
+            style.OilRefinary.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].OilRefinary*Matrix.RotationY(RandomAngle));
+            style.WoodFactory.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].WoodFactory*Matrix.RotationY(RandomAngle));
+            style.EducationOrgan.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].EducationOrgan*Matrix.RotationY(RandomAngle));
+            style.Hospital.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].Hospital*Matrix.RotationY(RandomAngle));
             style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
             style.FarmLand.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Farm);
 
