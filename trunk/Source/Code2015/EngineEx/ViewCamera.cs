@@ -158,6 +158,16 @@ namespace Code2015.EngineEx
             get { return isPerspective; }
         }
 
+        public void Move(float dx, float dy)
+        {
+            longitude += dx * dMoveSpeed;
+            latitude += dy * dMoveSpeed;
+
+            if (latitude > MathEx.PIf * 5 / 18f)
+                latitude = MathEx.PIf * 5 / 18f;
+            if (latitude < -MathEx.PIf * 5 / 18f)
+                latitude = -MathEx.PIf * 5 / 18f;
+        }
         public void MoveFront()
         {
             longitude -= (float)Math.Sin(rotation) * dMoveSpeed;
@@ -182,11 +192,21 @@ namespace Code2015.EngineEx
         {
             longitude -= (float)Math.Cos(rotation) * dMoveSpeed;
             latitude -= (float)Math.Sin(rotation) * dMoveSpeed;
+
+            if (latitude > MathEx.PIf * 5 / 18f)
+                latitude = MathEx.PIf * 5 / 18f;
+            if (latitude < -MathEx.PIf * 5 / 18f)
+                latitude = -MathEx.PIf * 5 / 18f;
         }
         public void MoveRight()
         {
             longitude += (float)Math.Cos(rotation) * dMoveSpeed;
             latitude += (float)Math.Sin(rotation) * dMoveSpeed;
+
+            if (latitude > MathEx.PIf * 5 / 18f)
+                latitude = MathEx.PIf * 5 / 18f;
+            if (latitude < -MathEx.PIf * 5 / 18f)
+                latitude = -MathEx.PIf * 5 / 18f;
         }
         public void TurnLeft()
         {
