@@ -469,7 +469,7 @@ namespace Code2015.World
                         }
                         break;
                     case CityPluginTypeId.WoodFactory:
-                        ops = style.BiofuelFactory.GetRenderOperation();
+                        ops = style.WoodFactory.GetRenderOperation();
                         break;
                 }
                 if (ops != null)
