@@ -64,6 +64,8 @@ namespace ModelStudio
         {
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
+                comboBox3.Items.Clear();
+
                 Program.Viewer.CurrentModel = new Model(ModelManager.Instance.CreateInstance(renderSys, new FileLocation(openFileDialog1.FileName)));
 
 
@@ -100,6 +102,8 @@ namespace ModelStudio
 
         private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
         {
+            comboBox1.Items.Clear();
+
             Mesh mesh = (Mesh)comboBox3.SelectedItem;
             Material[][] mats = mesh.Materials;
 
