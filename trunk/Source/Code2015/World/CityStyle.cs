@@ -499,8 +499,9 @@ namespace Code2015.World
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
 
             adjusts[0].Farm = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(MathEx.PiOver2);
-           
-            adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * scale; // Matrix.Scaling(0, 0, -1);
+
+            adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * 
+                Matrix.Scaling(Game.ObjectScale*1.8f, Game.ObjectScale*1.8f, Game.ObjectScale*1.8f); // Matrix.Scaling(0, 0, -1);
             
             
             adjusts[0].Hospital = Matrix.Translation(0, 1, -1.8f) *
