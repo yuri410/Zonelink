@@ -72,9 +72,9 @@ PSOutput main(PSInput ip)
 
     float wgt = saturate(N.z);
     
-    if (wgt > 0.1f)
+    if (wgt > 0.2f)
     {
-		o.Color.rgb = lerp(tex2D(texCliff, ip.DetailCoord*1).rgb, o.Color.rgb, wgt);
+		o.Color.rgb = lerp(tex2D(texCliff, ip.DetailCoord*1).rgb, o.Color.rgb, (wgt - 0.2)/0.8);
     }
     
     
