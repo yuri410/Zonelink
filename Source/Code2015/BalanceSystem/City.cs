@@ -478,7 +478,7 @@ namespace Code2015.BalanceSystem
                         r.Hunger -= ProbabilityDecr;
                         break;
                     case CityPluginTypeId.OilRefinary:
-                        r.Environment -= ProbabilityDecr * 0.5f;
+                        r.Environment -= ProbabilityDecr * 0.3f;
                         break;
                     case CityPluginTypeId.WoodFactory:
 
@@ -1268,7 +1268,7 @@ namespace Code2015.BalanceSystem
             Name = sect.GetString("Name", string.Empty);
             //Population = sect.GetSingle("Population");
             Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", UrbanSize.Small.ToString()));
-
+            culture = (CultureId)Enum.Parse(typeof(CultureId), sect.GetString("Culture", CultureId.Asia.ToString()));
             StartUp = sect.GetInt("StartUp", -1);
 
             switch (Size)

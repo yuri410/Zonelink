@@ -17,7 +17,7 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         GameState logic;
-
+        Camera camera;
 
         CityObject mouseHoverCity;
 
@@ -79,7 +79,7 @@ namespace Code2015.GUI
             this.renderSys = game.RenderSystem;
             this.scene = scene;
             this.logic = gamelogic;
-
+            this.camera = scene.Camera;
         }
 
         public override bool HitTest(int x, int y)
@@ -99,6 +99,9 @@ namespace Code2015.GUI
         {
 
         }
+
+        Point mouseRightPosition;
+
         public override void UpdateInteract(GameTime time)
         {
             RtsCamera camera = parent.Scene.Camera;
@@ -120,6 +123,22 @@ namespace Code2015.GUI
             {
                 SelectedObject = MouseHoverObject;
                 SelectedCity = MouseHoverCity;
+            }
+            if (MouseInput.IsMouseDownRight)
+            {
+                mouseRightPosition.X = MouseInput.X;
+                mouseRightPosition.Y = MouseInput.Y;
+            }
+
+            if (MouseInput.IsRightPressed)
+            {
+                if (MouseInput.X != mouseRightPosition.X && MouseInput.Y != mouseRightPosition.Y)
+                {
+                    int dx = MouseInput.X - mouseRightPosition.X;
+                    int dy = MouseInput.Y - mouseRightPosition.Y;
+
+                    camera.Move(dx * -0.1f, dy * -0.1f);
+                }
             }
         }
     }

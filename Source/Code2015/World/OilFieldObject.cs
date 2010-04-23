@@ -33,13 +33,15 @@ namespace Code2015.World
                 alt = 0;
                 isOcean = true;
             }
+
+            float scale = Game.ObjectScale * 2;
             if (isOcean)
             {
                 FileLocation fl = FileSystem.Instance.Locate("oilderrick_oc.mesh", GameFileLocs.Model);
 
                 ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                 ModelL0.CurrentAnimation = new NoAnimation(
-                    Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
+                    Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
             }
             else
             {
@@ -47,7 +49,7 @@ namespace Code2015.World
 
                 ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                 ModelL0.CurrentAnimation = new NoAnimation(
-                    Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f) * Matrix.RotationY(-MathEx.PiOver4));
+                    Matrix.Scaling(scale, scale, scale) * Matrix.RotationY(-MathEx.PiOver4));
             }
 
 
