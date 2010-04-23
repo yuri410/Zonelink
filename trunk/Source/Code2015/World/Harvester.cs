@@ -31,6 +31,8 @@ namespace Code2015.World
 
     public class Harvester : DynamicObject
     {
+        Model[] model;
+
         float longtitude;
         float latitude;
         MoveNode src;
@@ -76,12 +78,14 @@ namespace Code2015.World
             private set;
         }
 
-        public Harvester(RenderSystem rs, Map map, Model mdl)
+        public Harvester(RenderSystem rs, Map map, Model[] mdl)
         {
+            this.model = mdl;
+            
             finder = map.PathFinder.CreatePathFinder();
             this.map = map;
 
-            ModelL0 = mdl;
+            ModelL0 = mdl[0];
             BoundingSphere.Radius = 50;
 
         }

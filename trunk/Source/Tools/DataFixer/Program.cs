@@ -722,7 +722,7 @@ namespace DataFixer
 
         static void Build3() 
         {
-            FileLocation fl = new FileLocation(@"E:\Desktop\grad副本.raw");
+            FileLocation fl = new FileLocation(@"E:\Desktop\grad.raw");
             ContentBinaryReader br = new ContentBinaryReader(fl);
 
             const int DW = 36 * 32;
@@ -922,13 +922,13 @@ namespace DataFixer
 
         static void Main(string[] args)
         {
-            Normalize();
+
             //while (true) Input();
             //MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
             //BuildBitMap();
-            //Build3();
+            Build3();
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));
