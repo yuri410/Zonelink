@@ -30,7 +30,7 @@ namespace Code2015.World
             float radlat = MathEx.Degree2Radian(disaster.Latitude);
             float radr = MathEx.Degree2Radian(disaster.Radius);
 
-            int cloudCount = (int)(disaster.Damage * radr * 10);
+            int cloudCount = (int)(disaster.Damage * radr);
             for (int i = 0; i < cloudCount; i++)
             {
                 Cloud cld = new Cloud(rs, Randomizer.GetRandomSingle() * disaster.Duration);

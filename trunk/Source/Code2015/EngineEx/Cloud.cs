@@ -44,7 +44,6 @@ namespace Code2015.EngineEx
             FileLocation fl = FileSystem.Instance.Locate("cloud_lgt.mesh", GameFileLocs.Model);
             model = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
-            model.CurrentAnimation = new NoAnimation(Matrix.RotationY(Randomizer.GetRandomSingle() * MathEx.PIf * 2));
 
             fl = FileSystem.Instance.Locate("strike_lgt.mesh", GameFileLocs.Model);
             strike = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -57,7 +56,10 @@ namespace Code2015.EngineEx
         {
             if (model != null)
             {
-                model.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * trans);
+                model.CurrentAnimation = new NoAnimation(
+                    Matrix.RotationY(Randomizer.GetRandomSingle() * MathEx.PIf * 2) * 
+                    Matrix.Scaling(scale, scale, scale) * trans);
+
                 strike.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans);
             }
         }
