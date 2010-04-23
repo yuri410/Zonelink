@@ -1088,33 +1088,6 @@ namespace Code2015.BalanceSystem
 
 
             float popDevAdj = 1;
-            if (Population > 0)
-            {
-                //if (Population < 2 * RefPopulation)
-                //{
-                //    popDevAdj = Population <= RefPopulation ?
-                //        (float)Math.Log(Population, RefPopulation) : (float)Math.Log(2 * RefPopulation - Population, RefPopulation);
-
-
-                //    if (devIncr < 0)
-                //    {
-                //        if (popDevAdj < 0)
-                //        {
-                //            popDevAdj = -popDevAdj;
-                //        }
-                //    }
-
-                //    //devIncr = devIncr < 0 ? 1000 : -1000;
-                //    devIncr *= popDevAdj;
-                //}
-                //else
-                //{
-                //    popDevAdj = devIncr < 0 ? 1000 : -1000;
-                //    devIncr *= popDevAdj;
-                //}
-
-
-            }
 
             CarbonProduceSpeed += hrDev / hours;
 
@@ -1127,6 +1100,10 @@ namespace Code2015.BalanceSystem
             if (devIncr > 0)
             {
                 Population += (devIncr + foodLack) * 0.05f;
+            }
+            if (Population > CityGrade.GetRefPopulation(Size))
+            {
+                Population = CityGrade.GetRefPopulation(Size);
             }
 
             if (carbonAddCounter++ == 60)
