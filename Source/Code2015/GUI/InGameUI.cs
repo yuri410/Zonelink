@@ -109,25 +109,25 @@ namespace Code2015.GUI
             AddElement(picker);
 
 
-            //this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
-            //AddElement(cityEdit);
+            this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
+            AddElement(cityEdit);
 
-            //this.infoUI = new InfoUI(game, parent, scene, gamelogic);
-            //AddElement(infoUI);
-            //this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld);
-            //AddElement(icons); 
+            this.infoUI = new InfoUI(game, parent, scene, gamelogic);
+            AddElement(infoUI);
+            this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld);
+            AddElement(icons);
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
-          
+
             this.loadScreen = new LoadingScreen(renderSys);
 
-            //this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
-            //AddElement(playerProgress); 
-            //this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
-            //AddElement(noticeBar); 
-            //this.miniMap = new MiniMap(game, parent, scene, gamelogic);
-            //AddElement(miniMap);
-            //this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
-            //AddElement(container);
+            this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
+            AddElement(playerProgress);
+            this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
+            AddElement(noticeBar);
+            this.miniMap = new MiniMap(game, parent, scene, gamelogic);
+            AddElement(miniMap);
+            this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
+            AddElement(container);
         }
 
         public override void Render(Sprite sprite)
@@ -194,11 +194,11 @@ namespace Code2015.GUI
                     }
                     #endregion
 
-                    //pieceMaker.Update(time);
+                    pieceMaker.Update(time);
 
-                    //physWorld.Update(time);
-                    //infoUI.SelectedObject = picker.SelectedObject;
-                    //cityEdit.SelectedCity = picker.SelectedCity;
+                    physWorld.Update(time);
+                    infoUI.SelectedObject = picker.SelectedObject;
+                    cityEdit.SelectedCity = picker.SelectedCity;
 
                     base.Update(time);
                 }
