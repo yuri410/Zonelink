@@ -12,6 +12,16 @@ namespace Code2015.GUI
 {
     class LoadingScreen : UIComponent, IDisposable
     {
+        static string[] LoadingMessages =
+        {
+            "Loading city network",
+            "Searching available resources",
+            "Researching starving people",
+            "Analysing health care level",
+            "Testing air quality",
+            "Caculating city's major problem"
+        };
+
         RenderSystem renderSys;
         Texture lds_ball;
 
