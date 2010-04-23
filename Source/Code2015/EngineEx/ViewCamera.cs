@@ -160,7 +160,7 @@ namespace Code2015.EngineEx
 
         public void Move(float dx, float dy)
         {
-            longitude += dx * dMoveSpeed;
+            longitude -= dx * dMoveSpeed;
             latitude += dy * dMoveSpeed;
 
             if (latitude > MathEx.PIf * 5 / 18f)
