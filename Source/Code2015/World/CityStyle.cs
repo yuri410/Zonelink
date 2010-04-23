@@ -36,7 +36,7 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData> Hospital;
 
-        public ResourceHandle<ModelData> Cow;
+        public ResourceHandle<ModelData>[] Cow;
 
         public ResourceHandle<ModelData> Ring;
         public ResourceHandle<ModelData> SelRing;
@@ -62,7 +62,7 @@ namespace Code2015.World
 
         public Model Hospital;
 
-        public Model Cow;
+        public Model[] Cow;
 
         public Model Ring;
         public Model SelRing;
@@ -81,7 +81,9 @@ namespace Code2015.World
             Urban = new Model[data.Urban.Length];
             Base = new Model[data.Base.Length];
 
-            Cow = new Model(data.Cow);
+            Cow = new Model[data.Cow.Length];// (data.Cow);
+            for (int i = 0; i < Cow.Length; i++)
+                Cow[i] = new Model(data.Cow[i]);
 
             for (int i = 0; i < Base.Length; i++)
                 Base[i] = new Model(data.Base[i]);
@@ -194,6 +196,8 @@ namespace Code2015.World
 
     public class CityStyleTable
     {
+        const int CowFrameCount = 30;
+
         public static Matrix[] FarmTransform;
         public static Matrix[] SiteTransform;
 
@@ -210,7 +214,7 @@ namespace Code2015.World
             SiteTransform = new Matrix[CityGoalSite.SiteCount];
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
-                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * 
+                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) *
                     Matrix.Translation(CityRadiusRing, 5, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
             }
         }
@@ -237,7 +241,7 @@ namespace Code2015.World
         static readonly string BioFuelFactory_Inv = "biofuel.mesh";
         static readonly string EducationOrgan_Inv = "eduorg.mesh";
         static readonly string Hospital_Inv = "hospital.mesh";
-        static readonly string Cow_Inv = "cow.mesh";
+        static readonly string Cow_Inv = "cow";
         static readonly string Ring_Inv = "cityring.mesh";
         static readonly string SelRing_Inv = "citysel.mesh";
         static readonly string SiteBase_Inv = "sitebase.mesh";
@@ -305,8 +309,13 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
             styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
 
-            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
-            styles[idx].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[idx].Cow = new ResourceHandle<ModelData>[CowFrameCount];
+            for (int i = 0; i < CowFrameCount; i++)
+            {
+
+                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                styles[idx].Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
 
             fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
             styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
@@ -374,8 +383,13 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
             styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
 
-            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
-            styles[idx].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[idx].Cow = new ResourceHandle<ModelData>[CowFrameCount];
+            for (int i = 0; i < CowFrameCount; i++)
+            {
+
+                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                styles[idx].Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
 
             fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
             styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
@@ -442,8 +456,13 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
             styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
 
-            fl = FileSystem.Instance.Locate(Cow_Inv, GameFileLocs.Model);
-            styles[idx].Cow = ModelManager.Instance.CreateInstance(rs, fl);
+            styles[idx].Cow = new ResourceHandle<ModelData>[CowFrameCount];
+            for (int i = 0; i < CowFrameCount; i++)
+            {
+
+                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                styles[idx].Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
 
             fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
             styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
@@ -484,13 +503,11 @@ namespace Code2015.World
 
             adjusts[0].Base = new Matrix[3];
             adjusts[0].Urban = new Matrix[3];
-            //adjusts[0].SelRing = new Matrix[3];
-            //adjusts[0].Ring = new Matrix[3];
 
 
             for (int i = 0; i < adjusts[0].Base.Length; i++)
                 adjusts[0].Base[i] = Matrix.Scaling(Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f, Game.ObjectScale * 1.75f);
-          
+
 
             Matrix scale = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale);
 
@@ -500,10 +517,10 @@ namespace Code2015.World
 
             adjusts[0].Farm = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.RotationY(MathEx.PiOver2);
 
-            adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) * 
-                Matrix.Scaling(Game.ObjectScale*1.8f, Game.ObjectScale*1.8f, Game.ObjectScale*1.8f); // Matrix.Scaling(0, 0, -1);
-            
-            
+            adjusts[0].Cow = Matrix.RotationY(-MathEx.PiOver2) * Matrix.Translation(0, 7, 0) *
+                Matrix.Scaling(Game.ObjectScale * 1.8f, Game.ObjectScale * 1.8f, Game.ObjectScale * 1.8f); // Matrix.Scaling(0, 0, -1);
+
+
             adjusts[0].Hospital = Matrix.Translation(0, 1, -1.8f) *
                 Matrix.Scaling(Game.ObjectScale * 0.65f, Game.ObjectScale * 0.65f, Game.ObjectScale * 0.65f);
             adjusts[0].OilRefinary = Matrix.Translation(-2.5f, 1, 0) *
@@ -512,9 +529,9 @@ namespace Code2015.World
                 Matrix.Scaling(Game.ObjectScale * 0.73f, Game.ObjectScale * 0.73f, Game.ObjectScale * 0.73f);
             adjusts[0].WoodFactory = Matrix.Translation(3.6f, 1, 0) *
                 Matrix.Scaling(Game.ObjectScale * 1.1f, Game.ObjectScale * 1.1f, Game.ObjectScale * 1.1f);
-            adjusts[0].EducationOrgan = Matrix.Translation(-27f, 1, 11)*
+            adjusts[0].EducationOrgan = Matrix.Translation(-27f, 1, 11) *
                 Matrix.Scaling(Game.ObjectScale * 0.46f, Game.ObjectScale * 0.46f, Game.ObjectScale * 0.46f);
-          
+
             {
                 float s = (CityRadiusRing) / RingRadius;
                 adjusts[0].Ring = Matrix.Scaling(s, 1, s);
@@ -578,12 +595,16 @@ namespace Code2015.World
                 style.Urban[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Urban[i]);
             }
 
-            style.BiofuelFactory.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].Biofuel*Matrix.RotationY(RandomAngle));
-            style.OilRefinary.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].OilRefinary*Matrix.RotationY(RandomAngle));
-            style.WoodFactory.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].WoodFactory*Matrix.RotationY(RandomAngle));
-            style.EducationOrgan.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].EducationOrgan*Matrix.RotationY(RandomAngle));
-            style.Hospital.CurrentAnimation = new NoAnimation(  adjusts[(int)culture].Hospital*Matrix.RotationY(RandomAngle));
-            style.Cow.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
+            style.BiofuelFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Biofuel * Matrix.RotationY(RandomAngle));
+            style.OilRefinary.CurrentAnimation = new NoAnimation(adjusts[(int)culture].OilRefinary * Matrix.RotationY(RandomAngle));
+            style.WoodFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].WoodFactory * Matrix.RotationY(RandomAngle));
+            style.EducationOrgan.CurrentAnimation = new NoAnimation(adjusts[(int)culture].EducationOrgan * Matrix.RotationY(RandomAngle));
+            style.Hospital.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Hospital * Matrix.RotationY(RandomAngle));
+
+            for (int i = 0; i < style.Cow.Length; i++)
+            {
+                style.Cow[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
+            }
             style.FarmLand.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Farm);
 
             style.Ring.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Ring);
