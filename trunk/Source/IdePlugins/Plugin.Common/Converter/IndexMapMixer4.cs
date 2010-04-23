@@ -154,7 +154,7 @@ namespace Plugin.Common
                 for (int j = 0; j < width; j++)
                 {
                     uint color = src[i * width + j];
-                    uint alpha = color & 0xff;// 0xff & (color >> 24);
+                    uint alpha = 0xff & (color >> 24);
 
                     result[i * width + j][componIndex] = alpha;
                 }
