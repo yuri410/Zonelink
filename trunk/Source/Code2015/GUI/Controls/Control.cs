@@ -440,7 +440,7 @@ namespace Apoc3D.GUI.Controls
         }
 
 
-        public virtual void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             
             if (disposing)
