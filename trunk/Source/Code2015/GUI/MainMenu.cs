@@ -142,8 +142,6 @@ namespace Code2015.GUI
             startButton.X = 663;
             startButton.Y = 48;
             startButton.Radius = 244 / 2;
-            //startButton.Image = start;
-            //startButton.ImageMouseOver = start;
             startButton.Enabled = true;
             startButton.IsValid = true;
 
@@ -153,8 +151,6 @@ namespace Code2015.GUI
             exitButton.X = 1061;
             exitButton.Y = 554;
             exitButton.Radius = 106 / 2;
-            //exitButton.Image = exit;
-            //exitButton.ImageMouseOver = exit;
             exitButton.Enabled = true;
             exitButton.IsValid = true;
 
@@ -165,8 +161,6 @@ namespace Code2015.GUI
             creditButton.X = 901;
             creditButton.Y = 357;
             creditButton.Radius = 138 / 2;
-            //creditButton.Image = credits;
-            //creditButton.ImageMouseOver = credits;
             creditButton.Enabled = true;
             creditButton.IsValid = true;
 
@@ -175,8 +169,6 @@ namespace Code2015.GUI
             helpButton.X = 1031;
             helpButton.Y = 182;
             helpButton.Radius = 138 / 2;
-            //helpButton.Image = help;
-            //helpButton.ImageMouseOver = help;
             helpButton.Enabled = true;
             helpButton.IsValid = true;
             #endregion
@@ -234,10 +226,6 @@ namespace Code2015.GUI
             sprite.Draw(linkbg, 0, 0, ColorValue.White);
             font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
-            //startButton.Render(sprite);
-            //creditButton.Render(sprite);
-            //exitButton.Render(sprite);
-            //helpButton.Render(sprite);
 
             int x = 818 - 322 / 2;
             int y = 158 - 281 / 2;
