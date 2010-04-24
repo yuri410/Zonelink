@@ -57,8 +57,7 @@ namespace Code2015.Effects
             : base(false, GoalEffectFactory.Name)
         {
             FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
-            noTexture = TextureManager.Instance.CreateInstance(fl);// fac.CreateTexture(1, 1, 1, TextureUsage.Static, ImagePixelFormat.A8R8G8B8);
-
+            noTexture = TextureManager.Instance.CreateInstance(fl);
 
             this.renderSys = rs;
 
@@ -70,26 +69,6 @@ namespace Code2015.Effects
 
         }
 
-        #region Instance
-
-        //protected override int beginInst()
-        //{
-        //    stateSetted = false;
-        //    return effectInst.Begin(FX.DoNotSaveState | FX.DoNotSaveShaderState | FX.DoNotSaveSamplerState);
-        //}
-        //protected override void endInst()
-        //{
-        //    effectInst.End();
-        //}
-        //public override void BeginPassInst(int passId)
-        //{
-        //    effectInst.BeginPass(passId);
-        //}
-        //public override void EndPassInst()
-        //{
-        //    effectInst.EndPass();
-        //}
-        #endregion
 
         protected override int begin()
         {
@@ -121,9 +100,12 @@ namespace Code2015.Effects
         public override void Setup(Material mat, ref RenderOperation op)
         {
             Matrix view = EffectParams.CurrentCamera.ViewMatrix;
-            view.TranslationValue = Vector3.Zero;
+            Vector3 tl = view.TranslationValue;
+            view = Matrix.Identity;
+            view.TranslationValue = tl;
 
             Matrix mvp = op.Transformation * view * EffectParams.CurrentCamera.ProjectionMatrix;
+
 
             vtxShader.SetValue("mvp", ref mvp);
             pixShader.SetValue("world", ref op.Transformation);
@@ -136,7 +118,7 @@ namespace Code2015.Effects
                 state.AddressW = TextureAddressMode.Wrap;
                 state.MinFilter = TextureFilter.Anisotropic;
                 state.MagFilter = TextureFilter.Anisotropic;
-                state.MipFilter = TextureFilter.Anisotropic;
+                state.MipFilter = TextureFilter.Linear;
                 state.MaxAnisotropy = 8;
                 state.MipMapLODBias = 0;
 
@@ -169,78 +151,7 @@ namespace Code2015.Effects
             }
         }
 
-        //public override void SetupInstancing(Material mat)
-        //{
-        //    if (!stateSetted)
-        //    {
-        //        Light light = EffectParams.Atmosphere.Light;
-        //        Vector3 lightDir = light.Direction;
-        //        effectInst.SetValue(tlParamLa, light.Ambient);
-        //        effectInst.SetValue(tlParamLd, light.Diffuse);
-        //        effectInst.SetValue(tlParamLs, light.Specular);
-        //        effectInst.SetValue(tlParamLdir, new float[3] { lightDir.X, lightDir.Y, lightDir.Z });
-
-        //        Vector3 pos = EffectParams.CurrentCamera.Position;
-        //        effectInst.SetValue(tlParamVpos, new float[3] { pos.X, pos.Y, pos.Z });
-
-        //        effectInst.SetTexture(shadowMapParam, EffectParams.ShadowMap.ShadowColorMap);
-
-        //        stateSetted = true;
-        //    }
-        //    effectInst.SetValue(tlParamKa, mat.mat.Ambient);
-        //    effectInst.SetValue(tlParamKd, mat.mat.Diffuse);
-        //    effectInst.SetValue(tlParamKs, mat.mat.Specular);
-        //    effectInst.SetValue(tlParamKe, mat.mat.Emissive);
-
-        //    effectInst.SetValue(tlParamPwr, mat.mat.Power);
-
-        //    GameTexture clrTex = mat.GetTexture(0);
-        //    if (clrTex == null)
-        //    {
-        //        effectInst.SetTexture(tlParamClrMap, noTexture);
-        //    }
-        //    else
-        //    {
-        //        effectInst.SetTexture(tlParamClrMap, clrTex.GetTexture);
-        //    }
-
-        //    effectInst.SetValue<Matrix>(tlParamVP, EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix);
-
-        //    effectInst.SetValue(fogColorParam, new Color4(EffectParams.Atmosphere.FogColor));
-        //    effectInst.SetValue(fogDensityParam, EffectParams.Atmosphere.FogDensity);
-
-        //    effectInst.SetValue(shadowMapTransform, EffectParams.ShadowMap.ViewProj);
-
-        //    effectInst.CommitChanges();
-        //}
-
-        //public override void SetupShadowPass(Material mat, ref RenderOperation op)
-        //{
-        //    Texture clrTex = mat.GetTexture(0);
-        //    //if (clrTex == null)
-        //    //{
-        //    //    shadowMapGen.SetTexture(tlParamClrMap, noTexture);
-        //    //}
-        //    //else
-        //    //{
-        //    //    shadowMapGen.SetTexture(tlParamClrMap, clrTex.GetTexture);
-        //    //}
-
-        //    //shadowMapGen.SetValue(tlParamMVP, op.Transformation * EffectParams.ShadowMap.ViewProj);
-
-        //    //shadowMapGen.CommitChanges();
-        //}
-
-        //public override void BeginShadowPass()
-        //{
-        //    //shadowMapGen.Begin(FX.DoNotSaveState | FX.DoNotSaveShaderState | FX.DoNotSaveSamplerState);
-        //    //shadowMapGen.BeginPass(0);
-        //}
-        //public override void EndShadowPass()
-        //{
-        //    //shadowMapGen.EndPass();
-        //    //shadowMapGen.End();
-        //}
+        
 
         protected override void Dispose(bool disposing)
         {

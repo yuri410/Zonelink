@@ -31,8 +31,8 @@ namespace Code2015.GUI
                 selectedItem = value;
             }
         }
-       
 
+        Brackets brackets;
 
         ScreenStaticBody panel;
         ScreenStaticBody statBar;
@@ -49,8 +49,9 @@ namespace Code2015.GUI
             get { return physWorld; }
         }
 
-        public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, GameScene scene, ScreenPhysicsWorld physWorld)
+        public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, GameScene scene, ScreenPhysicsWorld physWorld, Brackets brackets)
         {
+            this.brackets = brackets;
             this.cityInfo = cityInfo;
             this.parent = parent;
             this.physWorld = physWorld;
@@ -183,7 +184,7 @@ namespace Code2015.GUI
             {
                 SelectedItem.Velocity = Vector2.Zero;
                 SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
-               
+
                 MdgResource piece = SelectedItem as MdgResource;
                 if (piece != null)
                 {
@@ -192,11 +193,7 @@ namespace Code2015.GUI
                         CityObject cc = scene.GetVisibleCity(i);
                         if (cc.Owner == player)
                         {
-                            CityInfo info = cityInfo.GetCityInfo(cc);
-                            if (piece != null)
-                            {
-                                info.Bracket.CheckAutoStick(piece);
-                            }
+                            brackets.CheckAutoStick(cc, piece);
                         }
                     }
                 }
@@ -217,15 +214,11 @@ namespace Code2015.GUI
                         CityObject cc = scene.GetVisibleCity(i);
                         if (cc.Owner == player)
                         {
-                            CityInfo info = cityInfo.GetCityInfo(cc);
-                            if (piece != null)
+                            if (brackets.Accept(cc, piece))
                             {
-                                if (info.Bracket.Accept(piece))
-                                {
-                                    resources.Remove(piece);
-                                    cc.Flash(60);
-                                    return;
-                                }
+                                resources.Remove(piece);
+                                cc.Flash(60);
+                                return;
                             }
                         }
                     }

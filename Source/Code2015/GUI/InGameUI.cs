@@ -72,7 +72,7 @@ namespace Code2015.GUI
         DevelopmentMeter playerProgress;
         Picker picker;
         CityEditPanel cityEdit;
-
+        Brackets brackets;
         Player player;
 
 
@@ -114,7 +114,11 @@ namespace Code2015.GUI
 
             this.infoUI = new InfoUI(game, parent, scene, gamelogic);
             AddElement(infoUI);
-            this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld);
+
+            this.brackets = new Brackets(game, parent, scene, gamelogic);
+            AddElement(brackets);
+
+            this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
             AddElement(icons);
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 

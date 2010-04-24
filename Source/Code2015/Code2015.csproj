@@ -129,6 +129,7 @@
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
+    <Compile Include="GUI\IngameUI\Brackets.cs" />
     <Compile Include="GUI\IngameUI\CityEditPanel.cs" />
     <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>

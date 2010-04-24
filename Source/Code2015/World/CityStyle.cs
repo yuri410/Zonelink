@@ -86,7 +86,7 @@ namespace Code2015.World
             Urban = new Model[data.Urban.Length];
             Base = new Model[data.Base.Length];
 
-            Cow = new Model[data.Cow.Length];// (data.Cow);
+            Cow = new Model[data.Cow.Length];
             for (int i = 0; i < Cow.Length; i++)
                 Cow[i] = new Model(data.Cow[i]);
 
@@ -215,7 +215,7 @@ namespace Code2015.World
 
         static CityStyleTable()
         {
-            const float FarmRadius = Game.ObjectScale * 75;
+            const float FarmRadius = Game.ObjectScale * 85;
             FarmTransform = new Matrix[City.MaxFarmLand];
 
             for (int i = 0; i < City.MaxFarmLand; i++)
@@ -258,6 +258,11 @@ namespace Code2015.World
         static readonly string SelRing_Inv = "citysel.mesh";
         static readonly string SiteBase_Inv = "sitebase.mesh";
 
+        static readonly string[] GoalSiteIconHL = new string[] 
+        {
+            "goal1hl.mesh", "goal2hl.mesh", "goal3hl.mesh", 
+            "goal4hl.mesh", "goal5hl.mesh", "goal6hl.mesh", "goal7hl.mesh"
+        };
         static readonly string[] GoalSiteIconGray = new string[] 
         {
             "goal1gray.mesh", "goal2gray.mesh", "goal3gray.mesh", 
@@ -284,7 +289,7 @@ namespace Code2015.World
         public const float CityRadius = Game.ObjectScale * 100;
         public const float CityRadiusRing = CityRadius + Game.ObjectScale * 15;
 
-        public const float CitySelRingScale = 2.45f;
+        public const float CitySelRingScale = 2.6f;
 
 
         CityStyleData[] styles;

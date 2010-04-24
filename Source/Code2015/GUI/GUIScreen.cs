@@ -45,12 +45,13 @@ namespace Code2015.GUI
             bool canInteract = true;
             for (int i = 0; i < subElements.Count; i++)
             {
+                subElements[i].Update(time);
+
                 if (canInteract && subElements[i].HitTest(MouseInput.X, MouseInput.Y))
                 {
                     subElements[i].UpdateInteract(time);
                     canInteract = false;
                 }
-                subElements[i].Update(time);
             }
 
         }
