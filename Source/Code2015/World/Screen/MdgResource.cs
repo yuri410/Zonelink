@@ -72,11 +72,18 @@ namespace Code2015.World.Screen
         MdgType type;
 
         Texture image;
+        Texture imagehl;
 
         ScreenPhysicsWorld physicsWorld;
         MdgResourceManager manager;
 
         float growup;
+
+        public bool IsBright
+        {
+            get;
+            set;
+        }
 
         public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
@@ -93,14 +100,15 @@ namespace Code2015.World.Screen
             this.body.AngularDamp = MdgPhysicsParams.PieceAngularDamp;
             this.body.LinearDamp = MdgPhysicsParams.PieceLinearDamp;
             this.body.Tag = this;
-         
-                growup = 0;     
+
+            growup = 0;
             world.Add(body);
 
             this.type = type;
             //this.Level = level;
 
-            this.image = MdgResource.LoadImage(type, true);
+            this.image = MdgResource.LoadImage(type, true, false);
+            this.imagehl = MdgResource.LoadImage(type, true, true);
         }
 
         public void NotifyRemoved()
@@ -126,27 +134,12 @@ namespace Code2015.World.Screen
         {
             if (CheckMerge(other))
             {
-                //int nextLevel = 0;
-                //if (Level == 0 && other.Level == 0)
-                //    nextLevel = 2;
-                //if (Level == 1 || other.Level == 1)
-                //    nextLevel = 2;
-
-                //if (nextLevel == 2)
-                //{
                 MdgResource res = new MdgResource(manager, physicsWorld, type, body.Position, body.Orientation);
 
                 manager.Remove(this);
                 manager.Remove(other);
                 manager.Add(res);
                 return res;
-                //}
-
-                //MdgPiece piece = new MdgPiece(manager, physicsWorld, type, nextLevel, body.Position, body.Orientation);
-                //manager.Remove(this);
-                //manager.Remove(other);
-                //manager.Add(piece);
-                //return piece;
             }
             return null;
         }
@@ -174,8 +167,16 @@ namespace Code2015.World.Screen
                     Matrix.Scaling(2 * r * growup / image.Width, 2 * r * growup / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.RotationZ(-body.Orientation) * Matrix.Translation(pos.X, pos.Y, 0));
 
-                sprite.Draw(image, 0, 0, ColorValue.White);
-
+                if (IsBright)
+                {
+                    sprite.Draw(imagehl, 0, 0, ColorValue.White);
+                    IsBright = false;
+                }
+                else                
+                {
+                    sprite.Draw(image, 0, 0, ColorValue.White);
+                }
+                
                 //const float scaler = 1;
 
                 //Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
@@ -246,11 +247,15 @@ namespace Code2015.World.Screen
 
             if (isPiece)
             {
-                suffix = "half";
+                suffix += "half";
             }
-            else if (bright)
+            if (bright)
             {
-                suffix = "";
+                suffix += "_0";
+            }
+            else
+            {
+                suffix += "_1";
             }
 
             FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.GUI);
@@ -260,6 +265,7 @@ namespace Code2015.World.Screen
         ScreenRigidBody body;
 
         Texture image;
+        Texture imagehl;
 
         MdgType type;
         ScreenPhysicsWorld physicsWorld;
@@ -267,6 +273,11 @@ namespace Code2015.World.Screen
         public MdgType Type
         {
             get { return type; }
+        }
+        public bool IsBright
+        {
+            get;
+            set;
         }
 
         public override bool HitTest(int x, int y)
@@ -304,7 +315,8 @@ namespace Code2015.World.Screen
             world.Add(body);
 
             this.type = type;
-            this.image = LoadImage(type, false);
+            this.image = LoadImage(type, false, false);
+            this.imagehl = LoadImage(type, false, true);
         }
         public void NotifyRemoved()
         {
@@ -323,8 +335,15 @@ namespace Code2015.World.Screen
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.Translation(pos.X, pos.Y, 0));
 
-                sprite.Draw(image, 0, 0, ColorValue.White);
-
+                if (IsBright)
+                {
+                    sprite.Draw(imagehl, 0, 0, ColorValue.White);
+                    IsBright = false;
+                }
+                else 
+                {
+                    sprite.Draw(image, 0, 0, ColorValue.White);
+                }
             }
 
         }
