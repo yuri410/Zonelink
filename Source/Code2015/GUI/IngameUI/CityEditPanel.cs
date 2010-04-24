@@ -48,7 +48,10 @@ namespace Code2015.GUI
 
         CityObject selectCity;
         Texture background;
-
+        Texture eduHover;
+        Texture hospHover;
+        Texture oilHover;
+        Texture woodHover;
 
 
 
@@ -94,15 +97,22 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_construct.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_construct_hover1.tex", GameFileLocs.GUI);
+            eduHover = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_construct_hover2.tex", GameFileLocs.GUI);
+            hospHover = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_construct_hover3.tex", GameFileLocs.GUI);
+            oilHover = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_construct_hover4.tex", GameFileLocs.GUI);
+            woodHover = UITextureManager.Instance.CreateInstance(fl);
 
             #region 教育机构按钮
-            fl = FileSystem.Instance.Locate("ig_construct_hover1.tex", GameFileLocs.GUI);
-            Texture btnbg = UITextureManager.Instance.CreateInstance(fl);
             btnEduorg = new RoundButton();
             btnEduorg.Radius = 32;
 
-            btnEduorg.Image = btnbg;
-            btnEduorg.ImageMouseOver = btnbg;
             btnEduorg.IsValid = true;
             btnEduorg.Enabled = true;
             btnEduorg.ResizeImage = true;
@@ -110,15 +120,9 @@ namespace Code2015.GUI
             #endregion
 
             #region 医院按钮
-
-            fl = FileSystem.Instance.Locate("ig_construct_hover2.tex", GameFileLocs.GUI);
-            btnbg = UITextureManager.Instance.CreateInstance(fl);
             btnHosp = new RoundButton();
 
             btnHosp.Radius = 32;
-
-            btnHosp.Image = btnbg;
-            btnHosp.ImageMouseOver = btnbg;
             btnHosp.IsValid = true;
             btnHosp.Enabled = true;
             btnHosp.ResizeImage = true;
@@ -126,14 +130,9 @@ namespace Code2015.GUI
             #endregion
 
             #region 石油加工按钮
-
-            fl = FileSystem.Instance.Locate("ig_construct_hover3.tex", GameFileLocs.GUI);
-            btnbg = UITextureManager.Instance.CreateInstance(fl);
             btnOilref = new RoundButton();
             btnOilref.Radius = 32;
 
-            btnOilref.Image = btnbg;
-            btnOilref.ImageMouseOver = btnbg;
             btnOilref.IsValid = true;
             btnOilref.Enabled = true;
             btnOilref.ResizeImage = true;
@@ -141,14 +140,9 @@ namespace Code2015.GUI
             #endregion
 
             #region 木材厂按钮
-            fl = FileSystem.Instance.Locate("ig_construct_hover4.tex", GameFileLocs.GUI);
-            btnbg = UITextureManager.Instance.CreateInstance(fl);
-
             btnWood = new RoundButton();
             btnWood.Radius = 32;
 
-            btnWood.Image = btnbg;
-            btnWood.ImageMouseOver = btnbg;
             btnWood.IsValid = true;
             btnWood.Enabled = true;
             btnWood.ResizeImage = true;
@@ -158,7 +152,25 @@ namespace Code2015.GUI
             cx = -PanelWidth;
         }
 
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                background.Dispose();
 
+                eduHover.Dispose();
+                hospHover.Dispose();
+                oilHover.Dispose();
+                woodHover.Dispose();
+            }
+            eduHover = null;
+            woodHover = null;
+            oilHover = null;
+            hospHover = null;
+            background = null;
+
+            selectCity = null;
+        }
 
         public override bool HitTest(int x, int y)
         {
@@ -179,7 +191,6 @@ namespace Code2015.GUI
         void OilBtn_Click(object sender, MouseButtonFlags btn)
         {
             selectCity.City.Add(gameLogic.PluginFactory.MakeOilRefinary());
-
         }
         void WoodBtn_Click(object sender, MouseButtonFlags btn)
         {
@@ -188,19 +199,38 @@ namespace Code2015.GUI
         void HospBtn_Click(object sender, MouseButtonFlags btn)
         {
             selectCity.City.Add(gameLogic.PluginFactory.MakeHospital());
-
         }
 
         public override void Render(Sprite sprite)
         {
             if (state != AnimState.Inside)
             {
-                sprite.Draw(background, (int)cx, PanelY, ColorValue.White);
+                
+                //btnEduorg.Render(sprite);
+                //btnHosp.Render(sprite);
+                //btnOilref.Render(sprite);
+                //btnWood.Render(sprite);
 
-                btnEduorg.Render(sprite);
-                btnHosp.Render(sprite);
-                btnOilref.Render(sprite);
-                btnWood.Render(sprite);
+                if (btnEduorg.IsMouseOver)
+                {
+                    sprite.Draw(eduHover, (int)cx, PanelY, ColorValue.White);
+                }
+                else if (btnHosp.IsMouseOver)
+                {
+                    sprite.Draw(hospHover, (int)cx, PanelY, ColorValue.White);
+                }
+                else if (btnOilref.IsMouseOver)
+                {
+                    sprite.Draw(oilHover, (int)cx, PanelY, ColorValue.White);
+                }
+                else if (btnWood.IsMouseOver)
+                {
+                    sprite.Draw(woodHover, (int)cx, PanelY, ColorValue.White);
+                }
+                else
+                {
+                    sprite.Draw(background, (int)cx, PanelY, ColorValue.White);
+                }
             }
         }
 

@@ -15,6 +15,42 @@ namespace Code2015.GUI
 {
     class MainMenu : UIComponent
     {
+        class MenuCamera : Camera
+        {
+            public MenuCamera(float aspect)
+                : base(aspect)
+            {
+                FieldOfView = 45;
+                Position = new Vector3(-12784.912f, 6031.855f, -4521.323f);
+                NearPlane = 100;
+                FarPlane = 25000;
+            }
+            public override void UpdateProjection()
+            {
+                float fovy = MathEx.Degree2Radian(45);
+                NearPlaneHeight = (float)(Math.Tan(fovy * 0.5f)) * NearPlane * 2;
+                NearPlaneWidth = NearPlaneHeight * AspectRatio;
+
+                Frustum.proj = Matrix.PerspectiveRH(NearPlaneWidth, NearPlaneHeight, NearPlane, FarPlane);
+
+            }
+            public override void Update(GameTime time)
+            {
+                Vector3 target = new Vector3(273.556f, 6031.855f, -2766.552f);
+
+                base.Update(time);
+                Frustum.view = Matrix.LookAtLH(Position, target, Vector3.UnitY);
+                Frustum.Update();
+
+                orientation = Quaternion.RotationMatrix(Frustum.view);
+
+                Matrix m = Matrix.Invert(Frustum.view);
+                front = m.Forward;// MathEx.GetMatrixFront(ref m);
+                top = m.Up;// MathEx.GetMatrixUp(ref m);
+                right = m.Right;// MathEx.GetMatrixRight(ref m);
+            }
+        }
+
         Font font;
 
         Code2015 game;
@@ -155,11 +191,8 @@ namespace Code2015.GUI
 
             FpsCamera camera = new FpsCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
 
-            camera.FieldOfView = 45;
-            camera.Position = new Vector3(-12784.912f, 6031.855f, -4521.323f);
-            camera.NearPlane = 100;
-            camera.FarPlane = 25000;
-
+         
+            
             camera.RenderTarget = rs.GetRenderTarget(0);
 
             renderer = new SceneRenderer(rs, sm);
@@ -187,7 +220,7 @@ namespace Code2015.GUI
 
         public void Render()
         {
-
+            renderer.RenderScene();
         }
 
         public override void Render(Sprite sprite)

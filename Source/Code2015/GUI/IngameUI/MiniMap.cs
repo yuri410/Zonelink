@@ -64,7 +64,16 @@ namespace Code2015.GUI
             //switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
             switchButton.MouseClick += SwitchButton_MouseClick;
         }
+        protected override void Dispose(bool disposing)
+        {
+            if (disposing)
+            {
+                background.Dispose();
+                background = null;
 
+            }
+
+        }
         void SwitchButton_MouseClick(object sender, MouseButtonFlags btn)
         {
             if (state != AnimState.Inside)
