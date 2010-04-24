@@ -155,6 +155,15 @@ namespace Code2015.Effects
                 {
                     pixShader.SetTexture("texDif", clrTex);
                 }
+                clrTex = mat.GetTexture(1);
+                if (clrTex == null)
+                {
+                    pixShader.SetTexture("texNrm", noTexture);
+                }
+                else
+                {
+                    pixShader.SetTexture("texNrm", clrTex);
+                }
 
                 stateSetted = true;
             }
@@ -235,52 +244,8 @@ namespace Code2015.Effects
 
         protected override void Dispose(bool disposing)
         {
-            //if (disposing)
-            //{
-            //    effect.Dispose();
+    
 
-            //    tlParamLa.Dispose();
-            //    tlParamLd.Dispose();
-            //    tlParamLs.Dispose();
-            //    tlParamKa.Dispose();
-            //    tlParamKd.Dispose();
-            //    tlParamKs.Dispose();
-            //    tlParamPwr.Dispose();
-            //    tlParamLdir.Dispose();
-
-            //    //tlParamClrMap.Dispose();
-            //    tlParamWorldT.Dispose();
-
-            //    tlParamVpos.Dispose();
-            //    tlParamVP.Dispose();
-            //    tlParamMVP.Dispose();
-
-            //    shadowMapParam.Dispose();
-            //    shadowMapTransform.Dispose();
-
-            //    shadowMapGen.Dispose();
-            //}
-            //effect = null;
-            //tlParamLa = null;
-            //tlParamLd = null;
-            //tlParamLs = null;
-            //tlParamKa = null;
-            //tlParamKd = null;
-            //tlParamKs = null;
-            //tlParamPwr = null;
-            //tlParamLdir = null;
-
-            ////tlParamClrMap = null;
-            //tlParamWorldT = null;
-
-            //tlParamVpos = null;
-            //tlParamVP = null;
-            //tlParamMVP = null;
-
-            //shadowMapParam = null;
-            //shadowMapTransform = null;
-
-            //shadowMapGen = null;
         }
     }
 }

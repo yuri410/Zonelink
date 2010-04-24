@@ -250,11 +250,11 @@ namespace Code2015.World
         static readonly string SelRing_Inv = "citysel.mesh";
         static readonly string SiteBase_Inv = "sitebase.mesh";
 
-        //static readonly string[] GoalSites = new string[] 
-        //{
-        //    "goal1site.mesh", "goal2site.mesh", "goal3site.mesh", 
-        //    "goal4site.mesh", "goal5site.mesh", "goal6site.mesh", "goal7site.mesh"
-        //};
+        static readonly string[] GoalSiteIcon = new string[] 
+        {
+            "goal1.mesh", "goal2.mesh", "goal3.mesh", 
+            "goal4.mesh", "goal5.mesh", "goal6.mesh", "goal7.mesh"
+        };
         static readonly string[] GoalSitesEmptyTyped = new string[] 
         {
             "goal1site0.mesh", "goal2site0.mesh", "goal3site0.mesh", 
@@ -266,17 +266,13 @@ namespace Code2015.World
             "goal4site1.mesh", "goal5site1.mesh", "goal6site1.mesh", "goal7site1.mesh"
         };
 
-        //public const float SmallCityRadius = Game.ObjectScale * 48;
-        //public const float SmallCityRadiusRing = SmallCityRadius + Game.ObjectScale * 8;
-        //public const float MediumCityRadius = Game.ObjectScale * 78;
-        //public const float MediumCityRadiusRing = MediumCityRadius + Game.ObjectScale * 15;
+
         public const float CityRadiusDeg = 3.5f;
         public const float CityRadius = Game.ObjectScale * 100;
         public const float CityRadiusRing = CityRadius + Game.ObjectScale * 15;
 
         public const float CitySelRingScale = 2.45f;
 
-        //public static readonly float CityRadius = LargeCityRadius;// new float[] { SmallCityRadius, MediumCityRadius, LargeCityRadius };
 
         CityStyleData[] styles;
         CityObjectTRAdjust[] adjusts;
@@ -318,14 +314,20 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
             style.MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
 
-            style.MdgSiteFull = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            style.MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            int count = (int)MdgType.Count -1;
+            style.MdgSiteFull = new ResourceHandle<ModelData>[count];
+            style.MdgSiteEmpty = new ResourceHandle<ModelData>[count];
+            style.MdgGoalIcon = new ResourceHandle<ModelData>[count];
             for (int i = 0; i < 7; i++)
             {
                 fl = FileSystem.Instance.Locate(GoalSitesFullTyped[i], GameFileLocs.Model);
                 style.MdgSiteFull[i] = ModelManager.Instance.CreateInstance(rs, fl);
                 fl = FileSystem.Instance.Locate(GoalSitesEmptyTyped[i], GameFileLocs.Model);
                 style.MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
+
+                fl = FileSystem.Instance.Locate(GoalSiteIcon[i], GameFileLocs.Model);
+                style.MdgGoalIcon[i] = ModelManager.Instance.CreateInstance(rs, fl);
+           
             }
         }
         void BuildAsia(RenderSystem rs)
