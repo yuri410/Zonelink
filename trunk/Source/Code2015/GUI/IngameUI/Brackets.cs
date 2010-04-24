@@ -133,27 +133,30 @@ namespace Code2015.GUI
 
         public override void UpdateInteract(GameTime time)
         {
-            MdgResourceManager manager = icons.Manager;
-
-            // 检查取下
-            if (hittingCity != null)
+            if (MouseInput.IsMouseUpLeft)
             {
-                CityGoalSite site = hittingCity.GoalSite;
-                for (int i = 0; i < CityGoalSite.SiteCount; i++)
+                MdgResourceManager manager = icons.Manager;
+
+                // 检查取下
+                if (hittingCity != null)
                 {
-                    if (site.HasPiece(i))
+                    CityGoalSite site = hittingCity.GoalSite;
+                    for (int i = 0; i < CityGoalSite.SiteCount; i++)
                     {
-                        BoundingSphere sphere = GetBoundingSphere(hittingCity, i);
-                        Ray ray = picker.SelectionRay;
-                        if (MathEx.BoundingSphereIntersects(ref sphere, ref ray))
+                        if (site.HasPiece(i))
                         {
-                            Point pt = GetSiteProjPosition(hittingCity, i);
+                            BoundingSphere sphere = GetBoundingSphere(hittingCity, i);
+                            Ray ray = picker.SelectionRay;
+                            if (MathEx.BoundingSphereIntersects(ref sphere, ref ray))
+                            {
+                                Point pt = GetSiteProjPosition(hittingCity, i);
 
-                            MdgResource resource = new MdgResource(manager, icons.PhysicsWorld, site.GetPieceType(i), new Vector2(pt.X, pt.Y), 0);
-                            manager.Add(resource);
+                                MdgResource resource = new MdgResource(manager, icons.PhysicsWorld, site.GetPieceType(i), new Vector2(pt.X, pt.Y), 0);
+                                manager.Add(resource);
 
-                            site.ClearAt(i);
-                            return;
+                                site.ClearAt(i);
+                                return;
+                            }
                         }
                     }
                 }
@@ -173,11 +176,10 @@ namespace Code2015.GUI
                  CityObject cc = scene.GetVisibleCity(i);
                  if (cc.Owner == player)
                  {
-                     if (IntersectsMouseHas(cc))
+                     if (IntersectsMouseHas(cc) && hittingCity == null)
                      {
                          hittingCity = cc;
                          hitting = true;
-                         break;
                      }
                  }
             }

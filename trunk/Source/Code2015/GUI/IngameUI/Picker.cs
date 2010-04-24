@@ -17,7 +17,7 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         GameState logic;
-        Camera camera;
+        RtsCamera camera;
 
         CityObject mouseHoverCity;
 
@@ -97,15 +97,6 @@ namespace Code2015.GUI
         }
         public override void Update(GameTime time)
         {
-
-        }
-
-        Point mouseRightPosition;
-
-        public override void UpdateInteract(GameTime time)
-        {
-            RtsCamera camera = parent.Scene.Camera;
-
             Vector3 mp = new Vector3(MouseInput.X, MouseInput.Y, 0);
             Vector3 start = renderSys.Viewport.Unproject(mp, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
             mp.Z = 1;
@@ -114,7 +105,12 @@ namespace Code2015.GUI
             dir.Normalize();
 
             selectRay = new Ray(start, dir);
+        }
 
+        Point mouseRightPosition;
+
+        public override void UpdateInteract(GameTime time)
+        {
             SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
             MouseHoverObject = obj as ISelectableObject;
             MouseHoverCity = MouseHoverObject as CityObject;
