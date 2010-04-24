@@ -5,9 +5,11 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
+using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.GUI
 {
@@ -17,6 +19,7 @@ namespace Code2015.GUI
 
         Code2015 game;
         Menu parent;
+        OctreeSceneManager sceneManager;
 
         float fps;
 
@@ -25,29 +28,23 @@ namespace Code2015.GUI
         Texture help;
         Texture start;
 
+        Texture credits_hover;
+        Texture exit_hover;
+        Texture help_hover;
+        Texture start_hover;
+
+        Texture credits_down;
+        Texture exit_down;
+        Texture help_down;
+        Texture start_down;
+
+
         Texture background;
+        Texture linkbg;
 
         Texture cursor;
         Point mousePosition;
 
-        const int StartBtnX = 428;
-        const int StartBtnY = 304;
-
-        //const int StartBtnCenterX = StartBtnLTX + StartBtnRadius;
-        //const int StartBtnCenterY = StartBtnLTY + StartBtnRadius;
-        const int StartBtnRadius = 64;
-        const int ExitBtnRadius = 64;
-        const int CreditBtnRadius = 64;
-        const int HelpBtnRadius = 64;
-
-
-        const int ExitBtnX = 79;
-        const int ExitBtnY = 620;
-        const int CreditBtnX = 231;
-        const int CreditBtnY = 464;
-
-        const int HelpBtnX = 672;
-        const int HelpBtnY = 166;
 
         RoundButton startButton;
         RoundButton exitButton;
@@ -75,27 +72,52 @@ namespace Code2015.GUI
             start = UITextureManager.Instance.CreateInstance(fl);
 
 
+            fl = FileSystem.Instance.Locate("mm_btn_credits_hover.tex", GameFileLocs.GUI);
+            credits_hover = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("mm_btn_quit_hover.tex", GameFileLocs.GUI);
+            exit_hover = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("mm_btn_help_hover.tex", GameFileLocs.GUI);
+            help_hover = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("mm_btn_single_hover.tex", GameFileLocs.GUI);
+            start_hover = UITextureManager.Instance.CreateInstance(fl);
+
+
+
+            fl = FileSystem.Instance.Locate("mm_btn_credits_down.tex", GameFileLocs.GUI);
+            credits_down = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("mm_btn_quit_down.tex", GameFileLocs.GUI);
+            exit_down = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("mm_btn_help_down.tex", GameFileLocs.GUI);
+            help_down = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("mm_btn_single_down.tex", GameFileLocs.GUI);
+            start_down = UITextureManager.Instance.CreateInstance(fl);
+
+
+
             fl = FileSystem.Instance.Locate("mm_start_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("mm_start_link.tex", GameFileLocs.GUI);
+            linkbg = UITextureManager.Instance.CreateInstance(fl);
+
             #region 配置按钮
             startButton = new RoundButton();
-            startButton.X = StartBtnX;
-            startButton.Y = StartBtnY;
-            startButton.Radius = 64;
-            startButton.Image = start;
-            startButton.ImageMouseOver = start;
+            startButton.X = 678;
+            startButton.Y = 59;
+            startButton.Radius = 212 / 2;
+            //startButton.Image = start;
+            //startButton.ImageMouseOver = start;
             startButton.Enabled = true;
             startButton.IsValid = true;
 
             startButton.MouseClick += StartButton_Click;
 
             exitButton = new RoundButton();
-            exitButton.X = ExitBtnX;
-            exitButton.Y = ExitBtnY;
-            exitButton.Radius = 64;
-            exitButton.Image = exit;
-            exitButton.ImageMouseOver = exit;
+            exitButton.X = 1061;
+            exitButton.Y = 554;
+            exitButton.Radius = 106 / 2;
+            //exitButton.Image = exit;
+            //exitButton.ImageMouseOver = exit;
             exitButton.Enabled = true;
             exitButton.IsValid = true;
 
@@ -103,24 +125,26 @@ namespace Code2015.GUI
 
 
             creditButton = new RoundButton();
-            creditButton.X = CreditBtnX;
-            creditButton.Y = CreditBtnY;
-            creditButton.Radius = 64;
-            creditButton.Image = credits;
-            creditButton.ImageMouseOver = credits;
+            creditButton.X = 901 + 138 / 2;
+            creditButton.Y = 357 + 138 / 2;
+            creditButton.Radius = 138 / 2;
+            //creditButton.Image = credits;
+            //creditButton.ImageMouseOver = credits;
             creditButton.Enabled = true;
             creditButton.IsValid = true;
 
 
             helpButton = new RoundButton();
-            helpButton.X = HelpBtnX;
-            helpButton.Y = HelpBtnY;
-            helpButton.Radius = 64;
-            helpButton.Image = help;
-            helpButton.ImageMouseOver = help;
+            helpButton.X = 1031;
+            helpButton.Y = 182;
+            helpButton.Radius = 138 / 2;
+            //helpButton.Image = help;
+            //helpButton.ImageMouseOver = help;
             helpButton.Enabled = true;
             helpButton.IsValid = true;
             #endregion
+
+            sceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
 
         }
 
@@ -157,12 +181,80 @@ namespace Code2015.GUI
             sprite.SetTransform(Matrix.Identity);
 
             sprite.Draw(background, 0, 0, ColorValue.White);
+            sprite.Draw(linkbg, 0, 0, ColorValue.White);
             font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
-            startButton.Render(sprite);
-            creditButton.Render(sprite);
-            exitButton.Render(sprite);
-            helpButton.Render(sprite);
+            //startButton.Render(sprite);
+            //creditButton.Render(sprite);
+            //exitButton.Render(sprite);
+            //helpButton.Render(sprite);
+
+            int x = 818 - 322 / 2;
+            int y = 158 - 281 / 2;
+
+
+            if (startButton.IsPressed)
+            {
+                sprite.Draw(start_down, x, y, ColorValue.White);
+            }
+            else if (startButton.IsMouseOver)
+            {
+                sprite.Draw(start_hover, x, y, ColorValue.White);
+            }
+            else
+            {
+                sprite.Draw(start, x, y, ColorValue.White);
+            }
+
+            x = 1107 - 192 / 2;
+            y = 241 - 195 / 2;
+
+
+            if (helpButton.IsPressed)
+            {
+                sprite.Draw(help_down, x, y, ColorValue.White);
+            }
+            else if (helpButton.IsMouseOver)
+            {
+                sprite.Draw(help_hover, x, y, ColorValue.White);
+            }
+            else
+            {
+                sprite.Draw(help, x, y, ColorValue.White);
+            }
+
+            x = 835 - 225 / 2;
+            y = 336 - 180 / 2;
+
+            if (creditButton.IsPressed)
+            {
+                sprite.Draw(credits_down, x, y, ColorValue.White);
+            }
+            else if (creditButton.IsMouseOver)
+            {
+                sprite.Draw(credits_hover, x, y, ColorValue.White);
+            }
+            else
+            {
+                sprite.Draw(credits, x, y, ColorValue.White);
+            }
+
+            x = 1129 - 160 / 2;
+            y = 594 - 160 / 2;
+
+
+            if (exitButton.IsPressed)
+            {
+                sprite.Draw(exit_down, x, y, ColorValue.White);
+            }
+            else if (exitButton.IsMouseOver)
+            {
+                sprite.Draw(exit_hover, x, y, ColorValue.White);
+            }
+            else
+            {
+                sprite.Draw(exit, x, y, ColorValue.White);
+            }
 
             sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
 

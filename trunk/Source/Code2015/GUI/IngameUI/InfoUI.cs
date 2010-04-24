@@ -122,55 +122,14 @@ namespace Code2015.GUI
         {
             return false;
         }
-        //void BuildBtn_Click(object sender, MouseButtonFlags btn)
-        //{
-        //    switch (page)
-        //    {
-        //        case PanelPage.WoodFactory:
-        //            city.City.Add(gameLogic.PluginFactory.MakeWoodFactory());
+      
 
-        //            pluginMeasure.UpdateInfo();
-        //            break;
-        //        case PanelPage.OilRefinary:
-        //            city.City.Add(gameLogic.PluginFactory.MakeOilRefinary());
-
-        //            pluginMeasure.UpdateInfo();
-        //            break;
-        //    }
-        //}
-        //void EduBtn_Click(object sender, MouseButtonFlags btn)
-        //{
-        //    //page = PanelPage.EduOrg;
-        //}
-        //void OilBtn_Click(object sender, MouseButtonFlags btn)
-        //{
-        //    //page = PanelPage.OilRefinary;
-        //}
-        //void WoodBtn_Click(object sender, MouseButtonFlags btn)
-        //{
-        //    //page = PanelPage.WoodFactory;
-        //}
-        //void HospBtn_Click(object sender, MouseButtonFlags btn)
-        //{
-        //    //page = PanelPage.Hospital;
-        //}
 
 
         public override void Render(Sprite sprite)
         {
             cityInfoDisplay.Render(sprite);
             resInfoDisplay.Render(sprite);
-
-            //cityEdit.Render(sprite);
-
-            //Dictionary<Player, float> list = gameLogic.SLGWorld.EnergyStatus.GetCarbonRatios();
-
-            //int yy = 60;
-            //foreach (KeyValuePair<Player, float> e in list)
-            //{
-            //    font.DrawString(sprite, e.Key.Name + " CO2: " + e.Value.ToString("P"), 0, yy, 25, DrawTextFormat.Center, (int)ColorValue.White.PackedValue);
-            //    yy += 30;
-            //}
 
         }
 
@@ -179,25 +138,6 @@ namespace Code2015.GUI
         {
             cityInfoDisplay.Update(time);
             resInfoDisplay.Update(time);
-
-
-            //#region 城市
-            //if (city != null)
-            //{
-            //    if (city.IsCaptured)
-            //    {
-            //        if (city.Owner == player)
-            //        {
-                        
-            //        }
-            //    }
-            //    else
-            //    {
-            //        isCapturable = city.CanCapture(player);
-            //        isPlayerCapturing = city.IsPlayerCapturing(player);
-            //    }
-            //}
-            //#endregion
 
         }
     }

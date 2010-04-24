@@ -516,6 +516,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <None Include="Engine\Apoc3D.Core\statistic.exe" />
+    <Content Include="Configs\mm_cities.xml" />
     <Content Include="Configs\soundEffect.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
