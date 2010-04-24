@@ -121,6 +121,7 @@ namespace Code2015.World
             MdgGoalIcon = new Model[data.MdgGoalIcon.Length];
             for (int i = 0; i < MdgGoalIcon.Length; i++)
                 MdgGoalIcon[i] = new Model(data.MdgGoalIcon[i]);
+            
 
             MdgGoalIconHL = new Model[data.MdgGoalIconHL.Length];
             for (int i = 0; i < MdgGoalIconHL.Length; i++)
@@ -233,8 +234,9 @@ namespace Code2015.World
             SiteTransform = new Matrix[CityGoalSite.SiteCount];
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
-                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) *
-                    Matrix.Translation(CityRadiusRing, 5, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
+                Matrix a = Matrix.Translation(CityRadiusRing, 1, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
+
+                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.Translation(a.TranslationValue);
             }
         }
 

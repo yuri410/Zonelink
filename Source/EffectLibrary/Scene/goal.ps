@@ -3,7 +3,6 @@ sampler2D texNrm : register(s1);
 
 float4 k_d : register(c0);
 float4 k_a : register(c1);
-float4 k_e : register(c3);
 
 float4 i_a : register(c4);
 float4 i_d : register(c5);
@@ -25,17 +24,23 @@ PSOutput main(PSInput ip)
     PSOutput o;
     
     float3 N = 2 * tex2D(texNrm, ip.TexCoord).xyz - 1;
-    N = mul(float4(N,0), world).xyz;
+    N = mul(float4(N, 0), world).xyz;
+    N.z = -N.z;
+	//N.x = -N.x;
+	//N.y = -N.y;
+
+	N = normalize(N);
+
     float ndl = dot(N, lightDir);
 
 	float4 amb = i_a * k_a;
 	float4 dif = i_d * k_d;
 	dif.xyz *= max(0, ndl);
 	
-	float4 p = amb+dif+k_e;
+	float4 p = amb+dif;
 	p.a = saturate(p.a);
 	
     o.Color = tex2D(texDif, ip.TexCoord) * p;
-  
+	
     return o;
 }

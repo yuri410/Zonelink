@@ -1,6 +1,5 @@
 
 float4x4 mvp : register(c0);
-
 struct VSInput
 {
     float4 Position : POSITION0;
@@ -16,7 +15,9 @@ struct VSOutput
 VSOutput main(VSInput ip)
 {
     VSOutput o;
-
+    
+	ip.Position.z -= 30;
+	ip.Position.y += 7;
     o.Position = mul(ip.Position, mvp);
     o.TexCoord = ip.TexCoord;
 

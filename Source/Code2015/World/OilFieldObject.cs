@@ -13,7 +13,14 @@ namespace Code2015.World
 {
     class OilFieldObject : StaticModelObject, ISelectableObject, IResourceObject
     {
+        const int FrameCount = 29;
         OilField oilField;
+
+        int counter;
+        int frameIdx;
+        int sign = 1;
+
+        Model[] model;
 
         SoundObject sound;
         public OilFieldObject(RenderSystem rs, OilField field)
@@ -34,7 +41,7 @@ namespace Code2015.World
                 isOcean = true;
             }
 
-            float scale = Game.ObjectScale * 2;
+            float scale = Game.ObjectScale * 2.2f;
             if (isOcean)
             {
                 FileLocation fl = FileSystem.Instance.Locate("oilderrick_oc.mesh", GameFileLocs.Model);
@@ -45,11 +52,16 @@ namespace Code2015.World
             }
             else
             {
-                FileLocation fl = FileSystem.Instance.Locate("oilderrick.mesh", GameFileLocs.Model);
+                model = new Model[FrameCount];
+                for (int i = 0; i < FrameCount; i++) 
+                {
+                    FileLocation fl = FileSystem.Instance.Locate("oilderrick" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
-                ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                ModelL0.CurrentAnimation = new NoAnimation(
-                    Matrix.Scaling(scale, scale, scale) * Matrix.RotationY(-MathEx.PiOver4));
+                    model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                    model[i].CurrentAnimation = new NoAnimation(
+                        Matrix.Scaling(scale, scale, scale) * Matrix.RotationY(-MathEx.PiOver4));
+                }
+
             }
 
 
@@ -81,7 +93,11 @@ namespace Code2015.World
             {
                 ResVisible(this);
             }
-            return base.GetRenderOperation();
+            if (ModelL0 != null)
+            {
+                return ModelL0.GetRenderOperation();
+            }
+            return null;
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
@@ -95,6 +111,24 @@ namespace Code2015.World
         {
             base.Update(dt);
             sound.Update(dt);
+
+            counter++;
+            if (counter == 2)
+            {
+                frameIdx += sign;
+                counter = 0;
+            }
+            if (frameIdx >= FrameCount || frameIdx < 0)
+            {
+                sign = -sign;
+                frameIdx += sign;
+            }
+            
+            if (model != null)
+            {
+                ModelL0 = model[frameIdx];
+            }
+            
         }
         #region ISelectableObject 成员
 
