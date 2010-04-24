@@ -343,6 +343,9 @@ namespace Code2015.World
             style.MdgSiteFull = new ResourceHandle<ModelData>[count];
             style.MdgSiteEmpty = new ResourceHandle<ModelData>[count];
             style.MdgGoalIcon = new ResourceHandle<ModelData>[count];
+            style.MdgGoalIconGray = new ResourceHandle<ModelData>[count];
+            style.MdgGoalIconHL = new ResourceHandle<ModelData>[count];
+     
             for (int i = 0; i < 7; i++)
             {
                 fl = FileSystem.Instance.Locate(GoalSitesFullTyped[i], GameFileLocs.Model);
