@@ -29,6 +29,7 @@ namespace Code2015.GUI
         Player player;
 
         FastList<Entry> prgBars = new FastList<Entry>();
+        Texture background;
 
         string GetColorBar(ColorValue color)
         {
@@ -44,7 +45,7 @@ namespace Code2015.GUI
             {
                 return "ig_yellow.tex";
             }
-            return "ig_blueBar.tex";
+            return "ig_blue.tex";
         }
         public override int Order
         {
@@ -60,8 +61,8 @@ namespace Code2015.GUI
             this.gameLogic = gamelogic;
             this.player = parent.HumanPlayer;
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_scorebg.tex", GameFileLocs.GUI);
-            Texture prgBarBg = UITextureManager.Instance.CreateInstance(fl);
+            FileLocation fl = FileSystem.Instance.Locate("ig_development.tex", GameFileLocs.GUI);
+            background = UITextureManager.Instance.CreateInstance(fl);
 
             for (int i = 0; i < gamelogic.LocalPlayerCount; i++) 
             {
@@ -72,7 +73,7 @@ namespace Code2015.GUI
                 playerProgress.Y = 32 + i * 57;
                 playerProgress.Width = 277;
                 playerProgress.Height = 41;
-                playerProgress.Background = prgBarBg;
+                //playerProgress.Background = prgBarBg;
                 fl = FileSystem.Instance.Locate(GetColorBar(pl.SideColor), GameFileLocs.GUI);
                 playerProgress.ProgressImage = UITextureManager.Instance.CreateInstance(fl);
 
@@ -86,6 +87,7 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            sprite.Draw(background, 985, -7, ColorValue.White);
             for (int i = 0; i < prgBars.Count; i++)
             {
                 prgBars.Elements[i].Bar.Render(sprite);

@@ -48,7 +48,7 @@ namespace Code2015.GUI
             this.gameLogic = gamelogic;
             this.state = AnimState.Outside;
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_minimap.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("ig_map.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
             const int SWBRadius = 64;
@@ -60,8 +60,8 @@ namespace Code2015.GUI
             switchButton.Enabled = true;
             switchButton.IsValid = true;
 
-            fl = FileSystem.Instance.Locate("ig_circle1.tex", GameFileLocs.GUI);
-            switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_circle1.tex", GameFileLocs.GUI);
+            //switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
             switchButton.MouseClick += SwitchButton_MouseClick;
         }
 
