@@ -251,11 +251,11 @@ namespace Code2015.World.Screen
             }
             if (bright)
             {
-                suffix += "_0";
+                suffix += "_1";
             }
             else
             {
-                suffix += "_1";
+                suffix += "_0";
             }
 
             FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.GUI);
@@ -313,7 +313,7 @@ namespace Code2015.World.Screen
             this.body.Tag = this;
 
             world.Add(body);
-
+            IsBright = true;
             this.type = type;
             this.image = LoadImage(type, false, false);
             this.imagehl = LoadImage(type, false, true);

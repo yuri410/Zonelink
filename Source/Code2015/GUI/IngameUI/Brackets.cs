@@ -40,7 +40,7 @@ namespace Code2015.GUI
 
             Vector3 plpos;
             Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
-            return new BoundingSphere(ppofs, 40);
+            return new BoundingSphere(plpos, 40);
         }
         Point GetSiteProjPosition(CityObject city, int i)
         {
@@ -77,7 +77,7 @@ namespace Code2015.GUI
                 {
                     if (res.AutoStick == null)
                         res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
-                    return true;
+                    //return true;
                 }
                 else if (res.AutoStick != null)
                 {
