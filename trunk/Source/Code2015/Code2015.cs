@@ -38,10 +38,12 @@ namespace Code2015
         Game currentGame;
 
         Sprite sprite;
+        X.Game game;
 
-        public Code2015(RenderSystem rs)
+        public Code2015(RenderSystem rs, X.Game game)
         {
             this.renderSys = rs;
+            this.game = game;
         }
 
         /// <summary>
@@ -133,6 +135,11 @@ namespace Code2015
         {
             currentGame = null;
             
+        }
+
+        public void Exit()
+        {
+            game.Exit();
         }
 
         #region unused

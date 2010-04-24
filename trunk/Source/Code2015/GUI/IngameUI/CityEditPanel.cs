@@ -91,12 +91,12 @@ namespace Code2015.GUI
             this.gameLogic = gamelogic;
             this.player = parent.HumanPlayer;
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_edit.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("ig_construct.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
 
             #region 教育机构按钮
-            fl = FileSystem.Instance.Locate("ig_circle1.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_construct_hover1.tex", GameFileLocs.GUI);
             Texture btnbg = UITextureManager.Instance.CreateInstance(fl);
             btnEduorg = new RoundButton();
             btnEduorg.Radius = 32;
@@ -111,7 +111,7 @@ namespace Code2015.GUI
 
             #region 医院按钮
 
-            fl = FileSystem.Instance.Locate("ig_circle2.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_construct_hover2.tex", GameFileLocs.GUI);
             btnbg = UITextureManager.Instance.CreateInstance(fl);
             btnHosp = new RoundButton();
 
@@ -127,7 +127,7 @@ namespace Code2015.GUI
 
             #region 石油加工按钮
 
-            fl = FileSystem.Instance.Locate("ig_circle3.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_construct_hover3.tex", GameFileLocs.GUI);
             btnbg = UITextureManager.Instance.CreateInstance(fl);
             btnOilref = new RoundButton();
             btnOilref.Radius = 32;
@@ -141,7 +141,7 @@ namespace Code2015.GUI
             #endregion
 
             #region 木材厂按钮
-            fl = FileSystem.Instance.Locate("ig_circle4.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_construct_hover4.tex", GameFileLocs.GUI);
             btnbg = UITextureManager.Instance.CreateInstance(fl);
 
             btnWood = new RoundButton();

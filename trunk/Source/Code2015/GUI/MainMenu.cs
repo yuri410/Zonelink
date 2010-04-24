@@ -19,7 +19,8 @@ namespace Code2015.GUI
 
         Code2015 game;
         Menu parent;
-        OctreeSceneManager sceneManager;
+
+        SceneRenderer renderer;
 
         float fps;
 
@@ -125,8 +126,8 @@ namespace Code2015.GUI
 
 
             creditButton = new RoundButton();
-            creditButton.X = 901 + 138 / 2;
-            creditButton.Y = 357 + 138 / 2;
+            creditButton.X = 901;
+            creditButton.Y = 357;
             creditButton.Radius = 138 / 2;
             //creditButton.Image = credits;
             //creditButton.ImageMouseOver = credits;
@@ -143,16 +144,32 @@ namespace Code2015.GUI
             helpButton.Enabled = true;
             helpButton.IsValid = true;
             #endregion
-
-            sceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
-
+            CreateScene(rs);
         }
+        void CreateScene(RenderSystem rs)
+        {
+            SceneRendererParameter sm = new SceneRendererParameter();
+            sm.SceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
+            sm.PostRenderer = new BloomPostRenderer(rs);
+            sm.UseShadow = true;
 
+            FpsCamera camera = new FpsCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
+
+            camera.FieldOfView = 45;
+            camera.Position = new Vector3(-12784.912f, 6031.855f, -4521.323f);
+            camera.NearPlane = 100;
+            camera.FarPlane = 25000;
+
+            camera.RenderTarget = rs.GetRenderTarget(0);
+
+            renderer = new SceneRenderer(rs, sm);
+            renderer.RegisterCamera(camera);
+        }
         void ExitButton_Click(object sender, MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left)
             {
-
+                game.Exit();
             }
         }
         void StartButton_Click(object sender, MouseButtonFlags btn)
@@ -223,8 +240,8 @@ namespace Code2015.GUI
                 sprite.Draw(help, x, y, ColorValue.White);
             }
 
-            x = 835 - 225 / 2;
-            y = 336 - 180 / 2;
+            x = 835;// -225 / 2;
+            y = 336;// -180 / 2;
 
             if (creditButton.IsPressed)
             {
