@@ -350,7 +350,11 @@ namespace Code2015.BalanceSystem
 
             if (IsBuilding)
             {
-                BuildProgress += hours / Type.BuildTime;
+                float cost = Type.CostLR * hours / Type.BuildTime;
+
+                float act = parent.LocalLR.Apply(cost);
+
+                BuildProgress += (act / cost) * hours / Type.BuildTime;
             }
             else
             {

@@ -6,7 +6,7 @@ using Apoc3D.Graphics;
 
 namespace Code2015.GUI
 {
-    class CO2PieGraph : UIComponent
+    class CO2Graph : UIComponent
     {
         public override int Order
         {

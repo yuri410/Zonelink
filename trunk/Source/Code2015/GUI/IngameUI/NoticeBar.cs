@@ -35,7 +35,11 @@ namespace Code2015.GUI
         Texture background;
         float timeCounter;
 
-        
+
+        void NewMessage(EventEntry e)
+        {
+            
+        }
 
         public NoticeBar(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
@@ -49,8 +53,20 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_notice.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
+            EventLogger.Instance.NewLog += NewMessage;
 
         }
+
+        protected override void Dispose(bool disposing)
+        {
+            if (!disposing)
+            {
+                background.Dispose();
+                background = null;
+                EventLogger.Instance.NewLog -= NewMessage;
+            }
+        }
+
         public override int Order
         {
             get { return 6; }

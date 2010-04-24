@@ -157,9 +157,9 @@ namespace Code2015.GUI
         CityObject city;
         Player player;
 
-        Texture popu;
-        Texture happy;
-        Texture angry;
+        //Texture popu;
+        //Texture happy;
+        //Texture angry;
         ProgressBar satisfy;
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
         Brackets brackets;

@@ -6,7 +6,7 @@ using Apoc3D;
 
 namespace Code2015.GUI
 {
-    class CreditScreen : UIComponent, IDisposable
+    class CreditScreen : UIComponent
     {
         RenderSystem renderSys;
 
@@ -23,18 +23,11 @@ namespace Code2015.GUI
         {
             base.Update(time);
         }
-        #region IDisposable 成员
 
-        public bool Disposed
+        protected override void Dispose(bool disposing)
         {
-            get;
-            private set;
-        }
-        public void Dispose()
-        {
-            throw new NotImplementedException();
+            base.Dispose(disposing);
         }
 
-        #endregion
     }
 }

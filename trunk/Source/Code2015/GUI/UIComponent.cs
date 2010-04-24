@@ -6,7 +6,7 @@ using Apoc3D.Graphics;
 
 namespace Code2015.GUI
 {
-    public abstract class UIComponent
+    public abstract class UIComponent : IDisposable
     {
         public virtual int Order
         {
@@ -30,5 +30,27 @@ namespace Code2015.GUI
         {
             return false;
         }
+
+        #region IDisposable 成员
+
+        public bool Disposed
+        {
+            get;
+            private set;
+        }
+
+        protected virtual void Dispose(bool disposing) { }
+
+        public void Dispose()
+        {
+            if (!Disposed)
+            {
+                Dispose(true);
+                Disposed = true;
+            }
+            else throw new ObjectDisposedException(ToString());
+        }
+
+        #endregion
     }
 }

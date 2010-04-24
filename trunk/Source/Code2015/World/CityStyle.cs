@@ -260,7 +260,7 @@ namespace Code2015.World
         public const float CityRadius = Game.ObjectScale * 100;
         public const float CityRadiusRing = CityRadius + Game.ObjectScale * 15;
 
-        public const float CitySelRingScale = 1.25f;
+        public const float CitySelRingScale = 2.25f;
 
         //public static readonly float CityRadius = LargeCityRadius;// new float[] { SmallCityRadius, MediumCityRadius, LargeCityRadius };
 
