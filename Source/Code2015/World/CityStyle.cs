@@ -43,7 +43,9 @@ namespace Code2015.World
 
         public ResourceHandle<ModelData> MdgSiteInactive;
         public ResourceHandle<ModelData>[] MdgSiteEmpty;
-        public ResourceHandle<ModelData>[] MdgSite;
+        public ResourceHandle<ModelData>[] MdgSiteFull;
+
+        public ResourceHandle<ModelData>[] MdgGoalIcon;
     }
 
     public struct CityStyle
@@ -69,7 +71,8 @@ namespace Code2015.World
 
         public Model MdgSiteInactive;
         public Model[] MdgSiteEmpty;
-        public Model[] MdgSite;
+        public Model[] MdgSiteFull;
+        public Model[] MdgGoalIcon;
 
         public float PluginTranslate;
 
@@ -102,9 +105,9 @@ namespace Code2015.World
             Ring = new Model(data.Ring);
             SelRing = new Model(data.SelRing);
 
-            MdgSite = new Model[data.MdgSite.Length];
-            for (int i = 0; i < MdgSite.Length; i++)
-                MdgSite[i] = new Model(data.MdgSite[i]);
+            MdgSiteFull = new Model[data.MdgSiteFull.Length];
+            for (int i = 0; i < MdgSiteFull.Length; i++)
+                MdgSiteFull[i] = new Model(data.MdgSiteFull[i]);
 
             MdgSiteEmpty = new Model[data.MdgSiteEmpty.Length];
             for (int i = 0; i < MdgSiteEmpty.Length; i++)
@@ -112,6 +115,7 @@ namespace Code2015.World
 
             MdgSiteInactive = new Model(data.MdgSiteInactive);
             //PluginTranslate = new float[3];
+            MdgGoalIcon = new Model[data.MdgGoalIcon.Length];
 
             PluginTranslate = Game.ObjectScale * 68;
         }
@@ -246,10 +250,20 @@ namespace Code2015.World
         static readonly string SelRing_Inv = "citysel.mesh";
         static readonly string SiteBase_Inv = "sitebase.mesh";
 
-        static readonly string[] GoalSites = new string[] 
+        //static readonly string[] GoalSites = new string[] 
+        //{
+        //    "goal1site.mesh", "goal2site.mesh", "goal3site.mesh", 
+        //    "goal4site.mesh", "goal5site.mesh", "goal6site.mesh", "goal7site.mesh"
+        //};
+        static readonly string[] GoalSitesEmptyTyped = new string[] 
         {
-            "goal1site.mesh", "goal2site.mesh", "goal3site.mesh", 
-            "goal4site.mesh", "goal5site.mesh", "goal6site.mesh", "goal7site.mesh"
+            "goal1site0.mesh", "goal2site0.mesh", "goal3site0.mesh", 
+            "goal4site0.mesh", "goal5site0.mesh", "goal6site0.mesh", "goal7site0.mesh"
+        };
+        static readonly string[] GoalSitesFullTyped = new string[] 
+        {
+            "goal1site1.mesh", "goal2site1.mesh", "goal3site1.mesh", 
+            "goal4site1.mesh", "goal5site1.mesh", "goal6site1.mesh", "goal7site1.mesh"
         };
 
         //public const float SmallCityRadius = Game.ObjectScale * 48;
@@ -267,6 +281,53 @@ namespace Code2015.World
         CityStyleData[] styles;
         CityObjectTRAdjust[] adjusts;
 
+        void BuildCommon(RenderSystem rs, ref CityStyleData style)
+        {
+
+            FileLocation fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
+            style.FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
+            style.OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
+            style.WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
+            style.BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
+            style.EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
+            style.Hospital = ModelManager.Instance.CreateInstance(rs, fl);
+
+            style.Cow = new ResourceHandle<ModelData>[CowFrameCount];
+            for (int i = 0; i < CowFrameCount; i++)
+            {
+                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                style.Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
+
+            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
+            style.Ring = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
+            style.SelRing = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
+            style.MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
+
+            style.MdgSiteFull = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            style.MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
+            for (int i = 0; i < 7; i++)
+            {
+                fl = FileSystem.Instance.Locate(GoalSitesFullTyped[i], GameFileLocs.Model);
+                style.MdgSiteFull[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                fl = FileSystem.Instance.Locate(GoalSitesEmptyTyped[i], GameFileLocs.Model);
+                style.MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            }
+        }
         void BuildAsia(RenderSystem rs)
         {
             int idx = (int)CultureId.Asia;
@@ -290,54 +351,7 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
             styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
-
-            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
-            styles[idx].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
-            styles[idx].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
-            styles[idx].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
-            styles[idx].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
-            styles[idx].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
-            styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[idx].Cow = new ResourceHandle<ModelData>[CowFrameCount];
-            for (int i = 0; i < CowFrameCount; i++)
-            {
-
-                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
-                styles[idx].Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
-
-            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
-            styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
-            styles[idx].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
-            styles[idx].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[idx].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            styles[idx].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            for (int i = 0; i < 7; i++)
-            {
-                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
-                styles[idx].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
-                styles[idx].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
+            BuildCommon(rs, ref styles[idx]);
 
             #endregion
         }
@@ -365,53 +379,8 @@ namespace Code2015.World
             styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
 
-            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
-            styles[idx].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
+            BuildCommon(rs, ref styles[idx]);
 
-            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
-            styles[idx].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
-            styles[idx].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
-            styles[idx].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
-            styles[idx].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
-            styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[idx].Cow = new ResourceHandle<ModelData>[CowFrameCount];
-            for (int i = 0; i < CowFrameCount; i++)
-            {
-
-                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
-                styles[idx].Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
-
-            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
-            styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
-            styles[idx].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
-            styles[idx].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[idx].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            styles[idx].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            for (int i = 0; i < 7; i++)
-            {
-                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
-                styles[idx].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
-                styles[idx].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
 
             #endregion
         }
@@ -437,54 +406,7 @@ namespace Code2015.World
             fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
             styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
 
-
-            fl = FileSystem.Instance.Locate(FarmLand_Inv, GameFileLocs.Model);
-            styles[idx].FarmLand = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(OilRefinary_Inv, GameFileLocs.Model);
-            styles[idx].OilRefinary = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(WoodFactory_Inv, GameFileLocs.Model);
-            styles[idx].WoodFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(BioFuelFactory_Inv, GameFileLocs.Model);
-            styles[idx].BiofuelFactory = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(EducationOrgan_Inv, GameFileLocs.Model);
-            styles[idx].EducationOrgan = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(Hospital_Inv, GameFileLocs.Model);
-            styles[idx].Hospital = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[idx].Cow = new ResourceHandle<ModelData>[CowFrameCount];
-            for (int i = 0; i < CowFrameCount; i++)
-            {
-
-                fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
-                styles[idx].Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
-
-            fl = FileSystem.Instance.Locate(Ring_Inv, GameFileLocs.Model);
-            styles[idx].Ring = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].Ring[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SelRing_Inv, GameFileLocs.Model);
-            styles[idx].SelRing = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[1] = ModelManager.Instance.CreateInstance(rs, fl);
-            //styles[0].SelRing[2] = ModelManager.Instance.CreateInstance(rs, fl);
-
-            fl = FileSystem.Instance.Locate(SiteBase_Inv, GameFileLocs.Model);
-            styles[idx].MdgSiteInactive = ModelManager.Instance.CreateInstance(rs, fl);
-
-            styles[idx].MdgSite = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            styles[idx].MdgSiteEmpty = new ResourceHandle<ModelData>[(int)MdgType.Count - 1];
-            for (int i = 0; i < 7; i++)
-            {
-                fl = FileSystem.Instance.Locate(GoalSites[i], GameFileLocs.Model);
-                styles[idx].MdgSite[i] = ModelManager.Instance.CreateInstance(rs, fl);
-                styles[idx].MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
-            }
+            BuildCommon(rs, ref styles[idx]);
 
             #endregion
         }
