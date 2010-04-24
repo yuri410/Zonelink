@@ -109,6 +109,7 @@
     <Compile Include="Effects\CityLinkEffect.cs" />
     <Compile Include="Effects\CityRingEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
+    <Compile Include="Effects\GoalEffect.cs" />
     <Compile Include="Effects\SmokeEffect.cs" />
     <Compile Include="Effects\Post\GaussBlurShd.cs" />
     <Compile Include="Effects\ShadowedEffect.cs" />

@@ -12,9 +12,9 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    public class RoadEffectFactory : EffectFactory
+    public class GoalEffectFactory : EffectFactory
     {
-        static readonly string typeName = "Road";
+        static readonly string typeName = "Goal";
 
 
         public static string Name
@@ -26,14 +26,14 @@ namespace Code2015.Effects
 
         RenderSystem device;
 
-        public RoadEffectFactory(RenderSystem dev)
+        public GoalEffectFactory(RenderSystem dev)
         {
             device = dev;
         }
 
         public override Effect CreateInstance()
         {
-            return new RoadEffect(device);
+            return new GoalEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -42,7 +42,7 @@ namespace Code2015.Effects
         }
     }
 
-    class RoadEffect : Effect
+    class GoalEffect : Effect
     {
         bool stateSetted;
 
@@ -53,8 +53,8 @@ namespace Code2015.Effects
 
         Texture noTexture;
 
-        public unsafe RoadEffect(RenderSystem rs)
-            : base(false, RoadEffectFactory.Name)
+        public unsafe GoalEffect(RenderSystem rs)
+            : base(false, GoalEffectFactory.Name)
         {
             FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
             noTexture = TextureManager.Instance.CreateInstance(fl);// fac.CreateTexture(1, 1, 1, TextureUsage.Static, ImagePixelFormat.A8R8G8B8);
@@ -62,10 +62,10 @@ namespace Code2015.Effects
 
             this.renderSys = rs;
 
-            fl = FileSystem.Instance.Locate("road.cvs", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("goal.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("road.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("goal.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
         }
@@ -97,9 +97,7 @@ namespace Code2015.Effects
             renderSys.BindShader(pixShader);
             pixShader.SetValue("i_a", EffectParams.LightAmbient);
             pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            pixShader.SetValue("i_s", EffectParams.LightSpecular);
             pixShader.SetValue("lightDir", EffectParams.LightDir);
-            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
             stateSetted = false;
             return 1;
@@ -122,10 +120,13 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+            Matrix view = EffectParams.CurrentCamera.ViewMatrix;
+            view.TranslationValue = Vector3.Zero;
+
+            Matrix mvp = op.Transformation * view * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
+            pixShader.SetValue("world", ref op.Transformation);
 
             if (!stateSetted)
             {
@@ -141,9 +142,7 @@ namespace Code2015.Effects
 
                 pixShader.SetValue("k_a", mat.Ambient);
                 pixShader.SetValue("k_d", mat.Diffuse);
-                pixShader.SetValue("k_s", mat.Specular);
                 pixShader.SetValue("k_e", mat.Emissive);
-                pixShader.SetValue("k_power", mat.Power);
 
                 pixShader.SetSamplerState("texDif", ref state);
 
@@ -157,14 +156,6 @@ namespace Code2015.Effects
                     pixShader.SetTexture("texDif", clrTex);
                 }
 
-                if (mat.IsVegetation)
-                {
-                    vtxShader.SetValue("isVegetation", new Vector4(100, 100, 100, 100));
-                }
-                else
-                {
-                    vtxShader.SetValue("isVegetation", new Vector4());
-                }
                 stateSetted = true;
             }
         }
