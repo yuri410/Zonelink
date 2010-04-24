@@ -12,6 +12,32 @@ using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
+    class PieceContainerOverlay : UIComponent
+    {
+        Texture containers_conver;
+        public PieceContainerOverlay(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        {
+            FileLocation fl = FileSystem.Instance.Locate("ig_box_cover.tex", GameFileLocs.GUI);
+            containers_conver = UITextureManager.Instance.CreateInstance(fl);
+
+        }
+
+        public override int Order
+        {
+            get
+            {
+                return 4;
+            }
+        }
+
+        public override void Render(Sprite sprite)
+        {
+            //sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
+            sprite.Draw(containers_conver, 877 + 51, 676, ColorValue.White);
+
+        }
+
+    }
     class PieceContainer : UIComponent
     {
         GameScene scene;
@@ -22,7 +48,7 @@ namespace Code2015.GUI
 
         //侧边栏图标
         Texture containers;
-        Texture containers_conver;
+        
         //Texture ico_exchange;
 
         int count1;
@@ -48,9 +74,7 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_box.tex", GameFileLocs.GUI);
             containers = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_box_cover.tex", GameFileLocs.GUI);
-            containers_conver = UITextureManager.Instance.CreateInstance(fl);
-
+            
 
             //fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
             //ico_exchange = UITextureManager.Instance.CreateInstance(fl);
@@ -72,7 +96,7 @@ namespace Code2015.GUI
         public override void Render(Sprite sprite)
         {
             //sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
-            sprite.Draw(containers, 651, 626, ColorValue.White);
+            sprite.Draw(containers, 702, 626, ColorValue.White);
             //sprite.Draw(containers_conver, 877, 676, ColorValue.White);
         }
 

@@ -128,6 +128,8 @@ namespace Code2015.GUI
             AddElement(miniMap);
             this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
             AddElement(container);
+            PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
+            AddElement(overlay);
         }
 
         public override void Render(Sprite sprite)
