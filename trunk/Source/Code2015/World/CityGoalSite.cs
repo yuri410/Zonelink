@@ -109,7 +109,7 @@ namespace Code2015.World
             {
                 for (int i = 0; i < SiteCount; i++)
                 {
-                    RenderOperation[] ops = style.MdgSiteInactive.GetRenderOperation();//[(int)parent.MajorProblem]
+                    RenderOperation[] ops = style.MdgSiteInactive.GetRenderOperation();
                     if (ops != null)
                     {
                         for (int j = 0; j < ops.Length; j++)
@@ -118,7 +118,8 @@ namespace Code2015.World
                         }
                         opBuffer.Add(ops);
                     }
-                    ops = style.MdgSiteInactive.GetRenderOperation();//[(int)parent.MajorProblem]
+
+                    ops = style.MdgGoalIconGray[(int)parent.MajorProblem].GetRenderOperation();
                     if (ops != null)
                     {
                         for (int j = 0; j < ops.Length; j++)

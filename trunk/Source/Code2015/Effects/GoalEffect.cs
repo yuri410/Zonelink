@@ -76,8 +76,7 @@ namespace Code2015.Effects
             renderSys.BindShader(pixShader);
             pixShader.SetValue("i_a", EffectParams.LightAmbient);
             pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            pixShader.SetValue("lightDir", EffectParams.LightDir);
-
+            
             stateSetted = false;
             return 1;
             //return effect.Begin(FX.DoNotSaveState | FX.DoNotSaveShaderState | FX.DoNotSaveSamplerState);
@@ -95,20 +94,16 @@ namespace Code2015.Effects
             //effect.EndPass();
         }
 
-
+        Matrix rot45 = Matrix.RotationX(MathEx.PiOver4);
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix view = EffectParams.CurrentCamera.ViewMatrix;
-            Vector3 tl = view.TranslationValue;
-            //view = Matrix.Identity;
-            //view.TranslationValue = tl;
-
-            Matrix mvp = op.Transformation * view * EffectParams.CurrentCamera.ProjectionMatrix;
-
-
+            Matrix world = rot45 * op.Transformation;
+            Matrix mvp = world * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+            
             vtxShader.SetValue("mvp", ref mvp);
-            pixShader.SetValue("world", ref op.Transformation);
+            pixShader.SetValue("world", ref world);
+            pixShader.SetValue("lightDir", EffectParams.InvView.Forward);
 
             if (!stateSetted)
             {
@@ -116,15 +111,15 @@ namespace Code2015.Effects
                 state.AddressU = TextureAddressMode.Wrap;
                 state.AddressV = TextureAddressMode.Wrap;
                 state.AddressW = TextureAddressMode.Wrap;
-                state.MinFilter = TextureFilter.Anisotropic;
-                state.MagFilter = TextureFilter.Anisotropic;
+                state.MinFilter = TextureFilter.Linear;
+                state.MagFilter = TextureFilter.Linear;
                 state.MipFilter = TextureFilter.Linear;
                 state.MaxAnisotropy = 8;
-                state.MipMapLODBias = 0;
+                state.MipMapLODBias = -3;
 
                 pixShader.SetValue("k_a", mat.Ambient);
                 pixShader.SetValue("k_d", mat.Diffuse);
-                pixShader.SetValue("k_e", mat.Emissive);
+                //pixShader.SetValue("k_e", mat.Emissive);
 
                 pixShader.SetSamplerState("texDif", ref state);
 
