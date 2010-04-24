@@ -183,7 +183,23 @@ namespace Code2015.GUI
             {
                 SelectedItem.Velocity = Vector2.Zero;
                 SelectedItem.Position += new Vector2(MouseInput.DX, MouseInput.DY);
-
+               
+                MdgResource piece = SelectedItem as MdgResource;
+                if (piece != null)
+                {
+                    for (int i = 0; i < scene.VisibleCityCount; i++)
+                    {
+                        CityObject cc = scene.GetVisibleCity(i);
+                        if (cc.Owner == player)
+                        {
+                            CityInfo info = cityInfo.GetCityInfo(cc);
+                            if (piece != null)
+                            {
+                                info.Bracket.CheckAutoStick(piece);
+                            }
+                        }
+                    }
+                }
                 //IsMouseOver = true;
             }
 
@@ -194,19 +210,22 @@ namespace Code2015.GUI
             {
                 MdgResource piece = SelectedItem as MdgResource;
 
-                for (int i = 0; i < scene.VisibleCityCount; i++)
+                if (piece != null)
                 {
-                    CityObject cc = scene.GetVisibleCity(i);
-                    if (cc.Owner == player)
+                    for (int i = 0; i < scene.VisibleCityCount; i++)
                     {
-                        CityInfo info = cityInfo.GetCityInfo(cc);
-                        if (piece != null)
+                        CityObject cc = scene.GetVisibleCity(i);
+                        if (cc.Owner == player)
                         {
-                            if (info.Bracket.Accept(piece))
+                            CityInfo info = cityInfo.GetCityInfo(cc);
+                            if (piece != null)
                             {
-                                resources.Remove(piece);
-                                cc.Flash(60);
-                                return;
+                                if (info.Bracket.Accept(piece))
+                                {
+                                    resources.Remove(piece);
+                                    cc.Flash(60);
+                                    return;
+                                }
                             }
                         }
                     }
