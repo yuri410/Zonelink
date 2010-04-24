@@ -45,6 +45,8 @@ namespace Code2015.World
         public ResourceHandle<ModelData>[] MdgSiteEmpty;
         public ResourceHandle<ModelData>[] MdgSiteFull;
 
+
+        public ResourceHandle<ModelData>[] MdgGoalIconHL;
         public ResourceHandle<ModelData>[] MdgGoalIcon;
         public ResourceHandle<ModelData>[] MdgGoalIconGray;
     }
@@ -74,6 +76,7 @@ namespace Code2015.World
         public Model[] MdgSiteEmpty;
         public Model[] MdgSiteFull;
         public Model[] MdgGoalIcon;
+        public Model[] MdgGoalIconHL;
         public Model[] MdgGoalIconGray;
 
         public float PluginTranslate;
@@ -118,7 +121,11 @@ namespace Code2015.World
             MdgGoalIcon = new Model[data.MdgGoalIcon.Length];
             for (int i = 0; i < MdgGoalIcon.Length; i++)
                 MdgGoalIcon[i] = new Model(data.MdgGoalIcon[i]);
-           
+
+            MdgGoalIconHL = new Model[data.MdgGoalIconHL.Length];
+            for (int i = 0; i < MdgGoalIconHL.Length; i++)
+                MdgGoalIconHL[i] = new Model(data.MdgGoalIconHL[i]);
+
             MdgGoalIconGray = new Model[data.MdgGoalIconGray.Length];
             for (int i = 0; i < MdgGoalIconGray.Length; i++)
                 MdgGoalIconGray[i] = new Model(data.MdgGoalIconGray[i]);
@@ -348,6 +355,9 @@ namespace Code2015.World
 
                 fl = FileSystem.Instance.Locate(GoalSiteIconGray[i], GameFileLocs.Model);
                 style.MdgGoalIconGray[i] = ModelManager.Instance.CreateInstance(rs, fl);
+
+                fl = FileSystem.Instance.Locate(GoalSiteIconHL[i], GameFileLocs.Model);
+                style.MdgGoalIconHL[i] = ModelManager.Instance.CreateInstance(rs, fl);
             }
         }
         void BuildAsia(RenderSystem rs)
