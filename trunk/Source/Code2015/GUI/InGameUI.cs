@@ -121,6 +121,7 @@ namespace Code2015.GUI
             this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
             AddElement(icons);
 
+            brackets.SetGoalIcons(icons);
 
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 
