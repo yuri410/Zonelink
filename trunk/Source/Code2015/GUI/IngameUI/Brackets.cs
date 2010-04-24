@@ -22,9 +22,12 @@ namespace Code2015.GUI
         bool hitting;
         CityObject hittingCity;
 
-        public Brackets(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker, GoalIcons icons)
+        public void SetGoalIcons(GoalIcons icos) 
         {
-            this.icons = icons;
+            icons = icos;
+        }
+        public Brackets(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker)
+        {
             this.scene = scene;
             this.renderSys = game.RenderSystem;
             this.player = parent.HumanPlayer;
