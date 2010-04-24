@@ -172,7 +172,7 @@ namespace Code2015.Logic
             cities.Remove(city);
         }
 
-        public event NewMessageHandler NewMessage;
+        //public event NewMessageHandler NewMessage;
 
         public void Update(GameTime time)
         {

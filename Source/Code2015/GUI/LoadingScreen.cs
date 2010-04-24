@@ -85,34 +85,29 @@ namespace Code2015.GUI
 
         #region IDisposable 成员
 
-        public bool Disposed
-        {
-            get;
-            private set;
-        }
+        //public bool Disposed
+        //{
+        //    get;
+        //    private set;
+        //}
 
-        public void Dispose()
+        protected override void Dispose(bool disposing)
         {
-            if (!Disposed)
+            if (disposing)
             {
-                renderSys = null;
                 lds_ball.Dispose();
 
-                lds_ball = null;
                 background.Dispose();
-                background = null;
                 progressBarImp.Dispose();
-                progressBarImp = null;
 
                 progressBarCmp.Dispose();
-                progressBarCmp = null;
+            }
+            progressBarCmp = null;
+            progressBarImp = null;
+            background = null;
 
-                Disposed = true;
-            }
-            else
-            {
-                throw new ObjectDisposedException(ToString());
-            }
+            renderSys = null;
+            lds_ball = null;
         }
 
         #endregion

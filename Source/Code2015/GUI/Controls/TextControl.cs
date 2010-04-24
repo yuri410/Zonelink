@@ -113,7 +113,7 @@ namespace Apoc3D.GUI.Controls
             }
         }
 
-        public override void Dispose(bool disposing)
+        protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             
