@@ -33,7 +33,7 @@ namespace Code2015.GUI
         public override void Render(Sprite sprite)
         {
             //sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
-            sprite.Draw(containers_conver, 877 + 51, 676, ColorValue.White);
+            sprite.Draw(containers_conver, 702, 626, ColorValue.White);
 
         }
 
