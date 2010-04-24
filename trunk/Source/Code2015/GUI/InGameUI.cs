@@ -115,11 +115,13 @@ namespace Code2015.GUI
             this.infoUI = new InfoUI(game, parent, scene, gamelogic);
             AddElement(infoUI);
 
-            this.brackets = new Brackets(game, parent, scene, gamelogic);
-            AddElement(brackets);
-
             this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
             AddElement(icons);
+
+
+            this.brackets = new Brackets(game, parent, scene, gamelogic, picker, icons);
+            AddElement(brackets);
+
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 
             this.loadScreen = new LoadingScreen(renderSys);

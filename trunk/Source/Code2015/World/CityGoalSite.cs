@@ -24,6 +24,8 @@ namespace Code2015.World
 
             public bool IsCapturePiece;
             public City TargetCity;
+
+            public bool IsHighlight;
         }
 
         RenderSystem renderSys;
@@ -84,7 +86,14 @@ namespace Code2015.World
                             opBuffer.Add(ops);
                         }
 
-                        ops = style.MdgGoalIcon[(int)sites[i].Type].GetRenderOperation();
+                        if (sites[i].IsHighlight)
+                        {
+                            ops = style.MdgGoalIconHL[(int)sites[i].Type].GetRenderOperation();
+                        }
+                        else 
+                        {
+                            ops = style.MdgGoalIcon[(int)sites[i].Type].GetRenderOperation();
+                        }
                         if (ops != null)
                         {
                             for (int j = 0; j < ops.Length; j++)
@@ -132,8 +141,11 @@ namespace Code2015.World
 
         #endregion
 
-        
 
+        public void SetHighlight(int i, bool v)
+        {
+            sites[i].IsHighlight = v;
+        }
 
         public void Clear()
         {

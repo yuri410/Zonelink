@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
+using Code2015.EngineEx;
+using Code2015.Logic;
 using Code2015.World;
 using Code2015.World.Screen;
-using Code2015.EngineEx;
 
 namespace Code2015.GUI
 {
@@ -13,12 +15,30 @@ namespace Code2015.GUI
     {
         RenderSystem renderSys;
         GameScene scene;
+        Player player;
+        Picker picker;
+        GoalIcons icons;
 
-        public Brackets(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        bool hitting;
+        CityObject hittingCity;
+
+        public Brackets(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker, GoalIcons icons)
         {
+            this.icons = icons;
             this.scene = scene;
+            this.renderSys = game.RenderSystem;
+            this.player = parent.HumanPlayer;
+            this.picker = picker;
         }
 
+        BoundingSphere GetBoundingSphere(CityObject city, int i)
+        {
+            Vector3 ppofs = CityStyleTable.SiteTransform[i].TranslationValue;
+
+            Vector3 plpos;
+            Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
+            return new BoundingSphere(ppofs, 40);
+        }
         Point GetSiteProjPosition(CityObject city, int i)
         {
             Vector3 ppofs = CityStyleTable.SiteTransform[i].TranslationValue;
@@ -39,7 +59,7 @@ namespace Code2015.GUI
             }
         }
 
-        public void CheckAutoStick(CityObject city, MdgResource res)
+        public bool CheckAutoStick(CityObject city, MdgResource res)
         {
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
@@ -54,13 +74,14 @@ namespace Code2015.GUI
                 {
                     if (res.AutoStick == null)
                         res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
-                    break;
+                    return true;
                 }
                 else if (res.AutoStick != null)
                 {
                     res.AutoStick = null;
                 }
             }
+            return false;
         }
         public bool Accept(CityObject city, MdgResource res)
         {
@@ -77,7 +98,6 @@ namespace Code2015.GUI
 
                 if (len < MdgPhysicsParams.BallRadius)
                 {
-
                     if (site.MatchPiece(i, res.Type))
                     {
                         site.SetPiece(i, res.Type);
@@ -87,6 +107,82 @@ namespace Code2015.GUI
                 //else if (res.AutoStick != null) { res.AutoStick = null; }
             }
             return false;
+        }
+
+        //public bool IntersectsMouse(CityObject city)
+        //{            
+        //    for (int i = 0; i < CityGoalSite.SiteCount; i++)
+        //    {
+        //        
+        //    }
+        //    return false;
+        //}
+        public bool IntersectsMouseHas(CityObject city)
+        {
+            CityGoalSite site = city.GoalSite;
+            for (int i = 0; i < CityGoalSite.SiteCount; i++)
+            {
+                if (site.HasPiece(i))
+                {
+                    BoundingSphere sphere = GetBoundingSphere(city, i);
+                    Ray ray = picker.SelectionRay;
+                    return MathEx.BoundingSphereIntersects(ref sphere, ref ray);
+                }
+            }
+            return false;
+        }
+
+        public override void UpdateInteract(GameTime time)
+        {
+            MdgResourceManager manager = icons.Manager;
+
+            // 检查取下
+            if (hittingCity != null)
+            {
+                CityGoalSite site = hittingCity.GoalSite;
+                for (int i = 0; i < CityGoalSite.SiteCount; i++)
+                {
+                    if (site.HasPiece(i))
+                    {
+                        BoundingSphere sphere = GetBoundingSphere(hittingCity, i);
+                        Ray ray = picker.SelectionRay;
+                        if (MathEx.BoundingSphereIntersects(ref sphere, ref ray))
+                        {
+                            Point pt = GetSiteProjPosition(hittingCity, i);
+
+                            MdgResource resource = new MdgResource(manager, icons.PhysicsWorld, site.GetPieceType(i), new Vector2(pt.X, pt.Y), 0);
+                            manager.Add(resource);
+
+                            site.ClearAt(i);
+                            return;
+                        }
+                    }
+                }
+            }
+        }
+        public override bool HitTest(int x, int y)
+        {
+            return hitting;
+        }
+
+        public override void Update(GameTime time)
+        {
+            hittingCity = null;
+            hitting = false;
+            for (int i = 0; i < scene.VisibleCityCount; i++) 
+            {
+                 CityObject cc = scene.GetVisibleCity(i);
+                 if (cc.Owner == player)
+                 {
+                     if (IntersectsMouseHas(cc))
+                     {
+                         hittingCity = cc;
+                         hitting = true;
+                         break;
+                     }
+                 }
+            }
+
         }
     }
 }
