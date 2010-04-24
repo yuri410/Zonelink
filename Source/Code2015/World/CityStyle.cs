@@ -46,6 +46,7 @@ namespace Code2015.World
         public ResourceHandle<ModelData>[] MdgSiteFull;
 
         public ResourceHandle<ModelData>[] MdgGoalIcon;
+        public ResourceHandle<ModelData>[] MdgGoalIconGray;
     }
 
     public struct CityStyle
@@ -73,6 +74,7 @@ namespace Code2015.World
         public Model[] MdgSiteEmpty;
         public Model[] MdgSiteFull;
         public Model[] MdgGoalIcon;
+        public Model[] MdgGoalIconGray;
 
         public float PluginTranslate;
 
@@ -113,10 +115,16 @@ namespace Code2015.World
             for (int i = 0; i < MdgSiteEmpty.Length; i++)
                 MdgSiteEmpty[i] = new Model(data.MdgSiteEmpty[i]);
 
-            MdgSiteInactive = new Model(data.MdgSiteInactive);
-            //PluginTranslate = new float[3];
             MdgGoalIcon = new Model[data.MdgGoalIcon.Length];
+            for (int i = 0; i < MdgGoalIcon.Length; i++)
+                MdgGoalIcon[i] = new Model(data.MdgGoalIcon[i]);
+           
+            MdgGoalIconGray = new Model[data.MdgGoalIconGray.Length];
+            for (int i = 0; i < MdgGoalIconGray.Length; i++)
+                MdgGoalIconGray[i] = new Model(data.MdgGoalIconGray[i]);
 
+            MdgSiteInactive = new Model(data.MdgSiteInactive);
+            
             PluginTranslate = Game.ObjectScale * 68;
         }
 
@@ -250,6 +258,11 @@ namespace Code2015.World
         static readonly string SelRing_Inv = "citysel.mesh";
         static readonly string SiteBase_Inv = "sitebase.mesh";
 
+        static readonly string[] GoalSiteIconGray = new string[] 
+        {
+            "goal1gray.mesh", "goal2gray.mesh", "goal3gray.mesh", 
+            "goal4gray.mesh", "goal5gray.mesh", "goal6gray.mesh", "goal7gray.mesh"
+        };
         static readonly string[] GoalSiteIcon = new string[] 
         {
             "goal1.mesh", "goal2.mesh", "goal3.mesh", 
@@ -327,7 +340,9 @@ namespace Code2015.World
 
                 fl = FileSystem.Instance.Locate(GoalSiteIcon[i], GameFileLocs.Model);
                 style.MdgGoalIcon[i] = ModelManager.Instance.CreateInstance(rs, fl);
-           
+
+                fl = FileSystem.Instance.Locate(GoalSiteIconGray[i], GameFileLocs.Model);
+                style.MdgGoalIconGray[i] = ModelManager.Instance.CreateInstance(rs, fl);
             }
         }
         void BuildAsia(RenderSystem rs)
