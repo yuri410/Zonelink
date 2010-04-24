@@ -109,6 +109,15 @@ namespace Code2015.World
                         }
                         opBuffer.Add(ops);
                     }
+                    ops = style.MdgSiteInactive.GetRenderOperation();//[(int)parent.MajorProblem]
+                    if (ops != null)
+                    {
+                        for (int j = 0; j < ops.Length; j++)
+                        {
+                            ops[j].Transformation *= CityStyleTable.SiteTransform[i];
+                        }
+                        opBuffer.Add(ops);
+                    }
                 }
 
             }
@@ -122,6 +131,8 @@ namespace Code2015.World
         }
 
         #endregion
+
+        
 
 
         public void Clear()

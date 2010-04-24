@@ -15,100 +15,6 @@ using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {
-    class Brackets : UIComponent
-    {
-        RenderSystem renderSys;
-
-        CityInfoDisplay display;
-        CityInfo parent;
-        CityObject city;
-
-
-        public Brackets(CityInfoDisplay info, CityInfo parent, RenderSystem rs, CityObject city)
-        {
-            this.display = info;
-            this.parent = parent;
-            this.city = city;
-            this.renderSys = rs;
-        }
-
-        Point GetSiteProjPosition(int i)
-        {
-            Vector3 ppofs = CityStyleTable.SiteTransform[i].TranslationValue;
-
-            Vector3 plpos;
-            Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
-
-            plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
-            return new Point((int)plpos.X, (int)plpos.Y);
-        }
-
-
-        public override void Render(Sprite sprite)
-        {
-            //for (int i = 0; i < city.PluginCount; i++)
-            //{
-            //    Point pt = GetPluginProjPosition(i);
-
-            //    sprite.Draw(darkPieces[0], pt.X, pt.Y, parent.DistanceMod);
-            //}
-        }
-
-        public void CheckAutoStick(MdgResource res)
-        {
-            for (int i = 0; i < CityGoalSite.SiteCount; i++)
-            {
-                Point pt = GetSiteProjPosition(i);
-                Vector2 pos = res.Position;
-                float dx = pos.X - pt.X;
-                float dy = pos.Y - pt.Y;
-
-                float len = (float)Math.Sqrt(dx * dx + dy * dy);
-
-                if (len < MdgPhysicsParams.BallRadius)
-                {
-                    if (res.AutoStick == null)
-                        res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
-                    break;
-                }
-                else if (res.AutoStick != null) 
-                {
-                    res.AutoStick = null;
-                }
-            }
-        }
-        public bool Accept(MdgResource res)
-        {
-            CityGoalSite site = city.GoalSite;
-            for (int i = 0; i < CityGoalSite.SiteCount; i++)
-            {
-                Point pt = GetSiteProjPosition(i);
-
-                Vector2 pos = res.Position;
-                float dx = pos.X - pt.X;
-                float dy = pos.Y - pt.Y;
-
-                float len = (float)Math.Sqrt(dx * dx + dy * dy);
-
-                if (len < MdgPhysicsParams.BallRadius)
-                {
-                   
-                    if (site.MatchPiece(i, res.Type))
-                    {
-                        site.SetPiece(i, res.Type);
-                        return true;
-                    }
-                }
-                //else if (res.AutoStick != null) { res.AutoStick = null; }
-            }
-            return false;
-        }
-
-        public override void Update(GameTime time)
-        {
-        }
-    }
-
     class PluginInfo : UIComponent
     {
         RenderSystem renderSys;
@@ -184,7 +90,7 @@ namespace Code2015.GUI
 
         //ProgressBar satisfy;
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
-        Brackets brackets;
+        //Brackets brackets;
 
 
 
@@ -196,7 +102,7 @@ namespace Code2015.GUI
 
             this.parent = info;
             this.city = city;
-            this.brackets = new Brackets(info, this, rs, city);
+            //this.brackets = new Brackets(info, this, rs, city);
             this.renderSys = rs;
             this.player = player;
 
@@ -230,10 +136,10 @@ namespace Code2015.GUI
 
         }
 
-        public Brackets Bracket
-        {
-            get { return brackets; }
-        }
+        //public Brackets Bracket
+        //{
+        //    get { return brackets; }
+        //}
 
         public override void Render(Sprite sprite)
         {
@@ -305,7 +211,7 @@ namespace Code2015.GUI
                     }
                 }
 
-                brackets.Render(sprite);
+                //brackets.Render(sprite);
             }
         }
 
@@ -320,7 +226,7 @@ namespace Code2015.GUI
                         pluginInfo[i].Update(time);
                     }
                 }
-                brackets.Update(time);
+                //brackets.Update(time);
             }
         }
     }
