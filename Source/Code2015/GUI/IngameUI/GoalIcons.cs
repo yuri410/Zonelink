@@ -191,7 +191,8 @@ namespace Code2015.GUI
                         CityObject cc = scene.GetVisibleCity(i);
                         if (cc.Owner == player)
                         {
-                            brackets.CheckAutoStick(cc, piece);
+                            if (brackets.CheckAutoStick(cc, piece))
+                                break;
                         }
                     }
                 }
