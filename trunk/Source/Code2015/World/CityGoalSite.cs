@@ -76,7 +76,7 @@ namespace Code2015.World
 
                     if (sites[i].HasPiece)
                     {
-                        ops = style.MdgSite[(int)sites[i].Type].GetRenderOperation();
+                        ops = style.MdgSiteFull[(int)sites[i].Type].GetRenderOperation();
 
                         if (ops != null)
                         {
@@ -93,7 +93,7 @@ namespace Code2015.World
             {
                 for (int i = 0; i < SiteCount; i++)
                 {
-                    RenderOperation[] ops = style.MdgSiteEmpty[(int)parent.MajorProblem].GetRenderOperation();
+                    RenderOperation[] ops = style.MdgSiteInactive.GetRenderOperation();//[(int)parent.MajorProblem]
                     if (ops != null)
                     {
                         for (int j = 0; j < ops.Length; j++)
