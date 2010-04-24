@@ -139,9 +139,9 @@ namespace Code2015.GUI
 
             #region 配置按钮
             startButton = new RoundButton();
-            startButton.X = 678;
-            startButton.Y = 59;
-            startButton.Radius = 212 / 2;
+            startButton.X = 663;
+            startButton.Y = 48;
+            startButton.Radius = 244 / 2;
             //startButton.Image = start;
             //startButton.ImageMouseOver = start;
             startButton.Enabled = true;

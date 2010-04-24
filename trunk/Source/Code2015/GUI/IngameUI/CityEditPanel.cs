@@ -20,13 +20,44 @@ namespace Code2015.GUI
         In,
         Out
     }
+    class CityPluginPanel : UIComponent
+    {
+        GameScene scene;
+        GameState gameLogic;
+        RenderSystem renderSys;
+        Code2015 game;
+        Game parent;
+
+        public CityPluginPanel(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        {
+            this.parent = parent;
+            this.game = game;
+            this.renderSys = game.RenderSystem;
+            this.scene = scene;
+            this.gameLogic = gamelogic;
+
+
+        }
+    }
+
     class CityEditPanel : UIComponent
     {
         const int PanelX = 0;
-        const int PanelY = 385;
-        const int PanelWidth = 364;
-        const int PanelHeight = 145;
+        const int PanelY = 300;
+        const int PanelWidth = 380;
+        const int PanelHeight = 156;
         const float PopBaseSpeed = 10;
+
+
+        const int Con1X = 3;
+        const int Con1Y = 358 - PanelY;
+        const int Con2X = 97;
+        const int Con2Y = 338 - PanelY;
+        const int Con3X = 190;
+        const int Con3Y = 360 - PanelY;
+        const int Con4X = 285;
+        const int Con4Y = 347 - PanelY;
+        const int HotRadius = 92 / 2;
 
 
         GameScene scene;
@@ -39,6 +70,7 @@ namespace Code2015.GUI
         RoundButton btnHosp;
         RoundButton btnOilref;
         RoundButton btnWood;
+
 
         Player player;
 
@@ -97,7 +129,7 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_construct.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_construct_hover1.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_construct_hover4.tex", GameFileLocs.GUI);
             eduHover = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("ig_construct_hover2.tex", GameFileLocs.GUI);
@@ -106,12 +138,12 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_construct_hover3.tex", GameFileLocs.GUI);
             oilHover = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_construct_hover4.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_construct_hover1.tex", GameFileLocs.GUI);
             woodHover = UITextureManager.Instance.CreateInstance(fl);
 
             #region 教育机构按钮
             btnEduorg = new RoundButton();
-            btnEduorg.Radius = 32;
+            btnEduorg.Radius = HotRadius;
 
             btnEduorg.IsValid = true;
             btnEduorg.Enabled = true;
@@ -122,7 +154,7 @@ namespace Code2015.GUI
             #region 医院按钮
             btnHosp = new RoundButton();
 
-            btnHosp.Radius = 32;
+            btnHosp.Radius = HotRadius;
             btnHosp.IsValid = true;
             btnHosp.Enabled = true;
             btnHosp.ResizeImage = true;
@@ -131,7 +163,7 @@ namespace Code2015.GUI
 
             #region 石油加工按钮
             btnOilref = new RoundButton();
-            btnOilref.Radius = 32;
+            btnOilref.Radius = HotRadius;
 
             btnOilref.IsValid = true;
             btnOilref.Enabled = true;
@@ -141,7 +173,7 @@ namespace Code2015.GUI
 
             #region 木材厂按钮
             btnWood = new RoundButton();
-            btnWood.Radius = 32;
+            btnWood.Radius = HotRadius;
 
             btnWood.IsValid = true;
             btnWood.Enabled = true;
@@ -205,11 +237,6 @@ namespace Code2015.GUI
         {
             if (state != AnimState.Inside)
             {
-                
-                //btnEduorg.Render(sprite);
-                //btnHosp.Render(sprite);
-                //btnOilref.Render(sprite);
-                //btnWood.Render(sprite);
 
                 if (btnEduorg.IsMouseOver)
                 {
@@ -266,17 +293,17 @@ namespace Code2015.GUI
                 }
             }
 
-            btnEduorg.X = (int)(cx + 46);
-            btnEduorg.Y = PanelY + 48;
+            btnEduorg.X = (int)(cx + Con4X);
+            btnEduorg.Y = PanelY + Con4Y;
 
-            btnHosp.X = (int)(cx + 122);
-            btnHosp.Y = PanelY + 67;
+            btnHosp.X = (int)(cx + Con2X);
+            btnHosp.Y = PanelY + Con2Y;
 
-            btnOilref.X = (int)(cx + 200);
-            btnOilref.Y = PanelY + 62;
+            btnOilref.X = (int)(cx + Con3X);
+            btnOilref.Y = PanelY + Con3Y;
 
-            btnWood.X = (int)(cx + 277);
-            btnWood.Y = PanelY + 41;
+            btnWood.X = (int)(cx + Con1X);
+            btnWood.Y = PanelY + Con1Y;
 
 
             bool enable;

@@ -31,6 +31,22 @@ namespace Code2015.GUI
         FastList<Entry> prgBars = new FastList<Entry>();
         Texture background;
 
+        Point GetColorPosition(ColorValue color)
+        {
+            if (color == ColorValue.Red)
+            {
+                return new Point(1090, 86);
+            }
+            else if (color == ColorValue.Green)
+            {
+                return new Point(1090, 27);
+            }
+            else if (color == ColorValue.Yellow)
+            {
+                return new Point(1092, 67);
+            }
+            return new Point(1091, 46);
+        }
         string GetColorBar(ColorValue color)
         {
             if (color == ColorValue.Red) 
@@ -69,19 +85,23 @@ namespace Code2015.GUI
                 Player pl = gamelogic.GetLocalPlayer(i);
 
                 ProgressBar playerProgress = new ProgressBar();
-                playerProgress.X = 995;
-                playerProgress.Y = 32 + i * 57;
-                playerProgress.Width = 277;
-                playerProgress.Height = 41;
-                //playerProgress.Background = prgBarBg;
+
+                playerProgress.Width = 182;
+                playerProgress.Height = 16;
+
                 fl = FileSystem.Instance.Locate(GetColorBar(pl.SideColor), GameFileLocs.GUI);
                 playerProgress.ProgressImage = UITextureManager.Instance.CreateInstance(fl);
+
+                Point p = GetColorPosition(pl.SideColor);
+                playerProgress.X = p.X;
+                playerProgress.Y = p.Y;
 
                 Entry ent;
                 ent.Player = pl;
                 ent.Bar = playerProgress;
                 prgBars.Add(ent);
             }
+
 
         }
 

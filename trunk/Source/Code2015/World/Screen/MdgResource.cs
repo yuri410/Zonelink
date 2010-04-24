@@ -317,17 +317,17 @@ namespace Code2015.World.Screen
                 case MdgType.Diseases:
                 case MdgType.MaternalHealth:
                 case MdgType.ChildMortality:
-                    dragCenter = new Vector2(675, 659);
+                    dragCenter = new Vector2(1084, 669);
                     break;
                 case MdgType.Education:
                 case MdgType.GenderEquality:
-                    dragCenter = new Vector2(790, 659);
+                    dragCenter = new Vector2(881, 669);
                     break;
                 case MdgType.Environment:
-                    dragCenter = new Vector2(905, 659);
+                    dragCenter = new Vector2(778, 669);
                     break;
                 case MdgType.Hunger:
-                    dragCenter = new Vector2(1020, 659);
+                    dragCenter = new Vector2(984, 669);
                     break;
                 default:
                     throw new InvalidOperationException();

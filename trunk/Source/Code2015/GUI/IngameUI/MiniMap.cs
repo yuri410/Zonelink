@@ -13,10 +13,11 @@ namespace Code2015.GUI
 {
     class MiniMap : UIComponent
     {
-        const int PanelX = 0;
-        const int PanelY = 530;
-        const int PanelWidth = 364;
-        const int PanelHeight = 190;
+        const int PanelX = -48;
+        const int PanelY = 547;
+        const int PanelWidth = 388;
+        const int PanelHeight = 179;
+
         const float PopBaseSpeed = 0.75f;
 
         const int MapX = 45;
@@ -51,7 +52,7 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_map.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            const int SWBRadius = 64;
+            const int SWBRadius = 79 / 2;
             switchButton = new RoundButton();
             switchButton.X = -SWBRadius;
             switchButton.Y = Program.ScreenHeight - SWBRadius;
@@ -60,8 +61,8 @@ namespace Code2015.GUI
             switchButton.Enabled = true;
             switchButton.IsValid = true;
 
-            //fl = FileSystem.Instance.Locate("ig_circle1.tex", GameFileLocs.GUI);
-            //switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_map_guide.tex", GameFileLocs.GUI);
+            switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
             switchButton.MouseClick += SwitchButton_MouseClick;
         }
         protected override void Dispose(bool disposing)
@@ -101,8 +102,8 @@ namespace Code2015.GUI
         
         public override void Render(Sprite sprite)
         {
-            sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(PanelX, PanelY + PanelHeight, 0));
-            sprite.Draw(background, 0, -PanelHeight, ColorValue.White);
+            sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(0, PanelY + PanelHeight, 0));
+            sprite.Draw(background, PanelX, -PanelHeight, ColorValue.White);
 
             sprite.SetTransform(Matrix.Identity);
 

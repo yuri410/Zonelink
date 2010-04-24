@@ -25,7 +25,7 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            for (int i = 0; i < subElements.Count; i++)
+            for (int i = subElements.Count - 1; i >= 0; i--)
             {
                 subElements[i].Render(sprite);
 
