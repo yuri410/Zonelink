@@ -71,6 +71,7 @@ namespace Code2015.GUI
         Texture infobg;
         Texture costbg;
 
+        Texture cityInfoBg;
 
         public CityObject SelectedCity
         {
@@ -185,6 +186,9 @@ namespace Code2015.GUI
             buildSell.IsValid = true;
             #endregion
 
+            fl = FileSystem.Instance.Locate("ig_name.tex", GameFileLocs.GUI);
+            cityInfoBg = UITextureManager.Instance.CreateInstance(fl);
+
             cx = -PanelWidth;
         }
 
@@ -212,14 +216,17 @@ namespace Code2015.GUI
         {
             Rectangle rect = new Rectangle((int)cx, PanelY, PanelWidth, PanelHeight);
             Rectangle rect2 = new Rectangle((int)cx, 452, 358, 93);
-            return Control.IsInBounds(x, y, ref rect) || Control.IsInBounds(x, y, ref rect2);
+            Rectangle rect3 = new Rectangle(332, 657, 379, 66);
+            return Control.IsInBounds(x, y, ref rect) || 
+                Control.IsInBounds(x, y, ref rect2) || 
+                Control.IsInBounds(x, y, ref rect3);
         }
         public override int Order
         {
             get { return 5; }
         }
 
-
+        void BuildSell_Click(object sender, MouseButtonFlags btn) { }
         void EduBtn_Click(object sender, MouseButtonFlags btn)
         {
             selectCity.City.Add(gameLogic.PluginFactory.MakeEducationAgent());
@@ -242,7 +249,6 @@ namespace Code2015.GUI
         {
             if (state != AnimState.Inside)
             {
-
                 if (btnEduorg.IsMouseOver)
                 {
                     sprite.Draw(eduHover, (int)cx, PanelY, ColorValue.White);
@@ -269,6 +275,7 @@ namespace Code2015.GUI
 
                 buildSell.Render(sprite);
             }
+            sprite.Draw(cityInfoBg, 332, 657, ColorValue.White);
         }
 
         public override void UpdateInteract(GameTime time)

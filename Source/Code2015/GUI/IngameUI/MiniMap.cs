@@ -54,8 +54,8 @@ namespace Code2015.GUI
 
             const int SWBRadius = 79 / 2;
             switchButton = new RoundButton();
-            switchButton.X = -SWBRadius;
-            switchButton.Y = Program.ScreenHeight - SWBRadius;
+            switchButton.X = -22;
+            switchButton.Y = 666;
             switchButton.Radius = SWBRadius;
             switchButton.ResizeImage = true;
             switchButton.Enabled = true;
