@@ -112,24 +112,20 @@ namespace Code2015.GUI
             return false;
         }
 
-        //public bool IntersectsMouse(CityObject city)
-        //{            
-        //    for (int i = 0; i < CityGoalSite.SiteCount; i++)
-        //    {
-        //        
-        //    }
-        //    return false;
-        //}
+
         public bool IntersectsMouseHas(CityObject city)
         {
             CityGoalSite site = city.GoalSite;
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
+                site.SetHighlight(i, false);
                 if (site.HasPiece(i))
                 {
                     BoundingSphere sphere = GetBoundingSphere(city, i);
                     Ray ray = picker.SelectionRay;
-                    return MathEx.BoundingSphereIntersects(ref sphere, ref ray);
+                    bool r = MathEx.BoundingSphereIntersects(ref sphere, ref ray);
+                    site.SetHighlight(i, r);
+                    return r;
                 }
             }
             return false;

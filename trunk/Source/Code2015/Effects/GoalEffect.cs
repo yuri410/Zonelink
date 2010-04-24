@@ -101,8 +101,8 @@ namespace Code2015.Effects
         {
             Matrix view = EffectParams.CurrentCamera.ViewMatrix;
             Vector3 tl = view.TranslationValue;
-            view = Matrix.Identity;
-            view.TranslationValue = tl;
+            //view = Matrix.Identity;
+            //view.TranslationValue = tl;
 
             Matrix mvp = op.Transformation * view * EffectParams.CurrentCamera.ProjectionMatrix;
 
