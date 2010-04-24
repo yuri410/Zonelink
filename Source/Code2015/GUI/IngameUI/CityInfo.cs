@@ -54,7 +54,29 @@ namespace Code2015.GUI
             //}
         }
 
+        public void CheckAutoStick(MdgResource res)
+        {
+            for (int i = 0; i < CityGoalSite.SiteCount; i++)
+            {
+                Point pt = GetSiteProjPosition(i);
+                Vector2 pos = res.Position;
+                float dx = pos.X - pt.X;
+                float dy = pos.Y - pt.Y;
 
+                float len = (float)Math.Sqrt(dx * dx + dy * dy);
+
+                if (len < MdgPhysicsParams.BallRadius)
+                {
+                    if (res.AutoStick == null)
+                        res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
+                    break;
+                }
+                else if (res.AutoStick != null) 
+                {
+                    res.AutoStick = null;
+                }
+            }
+        }
         public bool Accept(MdgResource res)
         {
             CityGoalSite site = city.GoalSite;
@@ -70,12 +92,14 @@ namespace Code2015.GUI
 
                 if (len < MdgPhysicsParams.BallRadius)
                 {
+                   
                     if (site.MatchPiece(i, res.Type))
                     {
                         site.SetPiece(i, res.Type);
                         return true;
                     }
                 }
+                //else if (res.AutoStick != null) { res.AutoStick = null; }
             }
             return false;
         }

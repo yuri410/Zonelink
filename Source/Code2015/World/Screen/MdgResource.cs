@@ -12,7 +12,6 @@ using Code2015.GUI;
 
 namespace Code2015.World.Screen
 {
- 
     public enum MdgIconType
     {
         Piece,
@@ -38,14 +37,28 @@ namespace Code2015.World.Screen
         public const float InactiveAlpha = 0.2f;
     }
 
-
-
     public interface IMdgSelection
     {
         Vector2 Position { get; set; }
         Vector2 Velocity { get; set; }
         MdgIconType IconType { get; }
 
+    }
+
+
+    public class PieceAutoStick
+    {
+        Vector2 position;
+
+        public PieceAutoStick(Vector2 position)
+        {
+            this.position = position;
+        }
+
+        public Vector2 Position
+        {
+            get { return position; }
+        }
     }
 
     /// <summary>
@@ -262,6 +275,11 @@ namespace Code2015.World.Screen
         }
 
 
+        public PieceAutoStick AutoStick
+        {
+            get;
+            set;
+        }
 
         public MdgResource(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
@@ -293,7 +311,9 @@ namespace Code2015.World.Screen
             if (image != null)
             {
                 Vector2 pos = body.Position;
+
                 float r = body.Radius;
+                
 
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
@@ -311,6 +331,14 @@ namespace Code2015.World.Screen
         }
         public override void Update(GameTime time)
         {
+            if (AutoStick != null)
+            {
+                float br = body.Radius;
+                body.Position = AutoStick.Position + new Vector2(br, br);
+                return;
+            }
+
+
             Vector2 dragCenter = new Vector2();
             switch (type)
             {
