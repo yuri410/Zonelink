@@ -240,13 +240,17 @@ namespace Code2015.World.Screen
     /// </summary>
     public class MdgResource : UIComponent, IMdgSelection
     {
-        public static Texture LoadImage(MdgType type, bool isPiece)
+        public static Texture LoadImage(MdgType type, bool isPiece, bool bright)
         {
             string suffix = string.Empty;
 
             if (isPiece)
             {
                 suffix = "half";
+            }
+            else if (bright)
+            {
+                suffix = "";
             }
 
             FileLocation fl = FileSystem.Instance.Locate("goal" + ((int)type + 1).ToString() + suffix + ".tex", GameFileLocs.GUI);

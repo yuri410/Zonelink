@@ -154,7 +154,6 @@ namespace Code2015.GUI
                     MdgPiece r1 = result as MdgPiece;
                     if (r1 != null)
                     {
-                        //r1.Position = new Vector2(MouseInput.X, MouseInput.Y);
                         SelectedItem = r1;
                         return true;
                     }
@@ -162,7 +161,6 @@ namespace Code2015.GUI
                     MdgResource r2 = result as MdgResource;
                     if (r2 != null)
                     {
-                        //r2.Position = new Vector2(MouseInput.X, MouseInput.Y);
                         SelectedItem = r2;
                         return true;
                     }
