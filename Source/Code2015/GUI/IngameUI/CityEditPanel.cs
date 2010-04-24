@@ -20,25 +20,6 @@ namespace Code2015.GUI
         In,
         Out
     }
-    class CityPluginPanel : UIComponent
-    {
-        GameScene scene;
-        GameState gameLogic;
-        RenderSystem renderSys;
-        Code2015 game;
-        Game parent;
-
-        public CityPluginPanel(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
-        {
-            this.parent = parent;
-            this.game = game;
-            this.renderSys = game.RenderSystem;
-            this.scene = scene;
-            this.gameLogic = gamelogic;
-
-
-        }
-    }
 
     class CityEditPanel : UIComponent
     {
@@ -71,6 +52,7 @@ namespace Code2015.GUI
         RoundButton btnOilref;
         RoundButton btnWood;
 
+        Button buildSell;
 
         Player player;
 
@@ -85,6 +67,9 @@ namespace Code2015.GUI
         Texture oilHover;
         Texture woodHover;
 
+
+        Texture infobg;
+        Texture costbg;
 
 
         public CityObject SelectedCity
@@ -181,6 +166,25 @@ namespace Code2015.GUI
             btnWood.MouseClick += this.WoodBtn_Click;
             #endregion
 
+            fl = FileSystem.Instance.Locate("ig_info.tex", GameFileLocs.GUI);
+            infobg = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_cost.tex", GameFileLocs.GUI);
+            costbg = UITextureManager.Instance.CreateInstance(fl);
+
+            #region 建造变卖
+            fl = FileSystem.Instance.Locate("ig_cost_downr.tex", GameFileLocs.GUI);
+            buildSell = new Button();
+            buildSell.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_cost_hover.tex", GameFileLocs.GUI);
+            buildSell.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
+            buildSell.Width = 64;
+            buildSell.Height = 35;
+            buildSell.Enabled = true;
+            buildSell.IsValid = true;
+            #endregion
+
             cx = -PanelWidth;
         }
 
@@ -207,7 +211,8 @@ namespace Code2015.GUI
         public override bool HitTest(int x, int y)
         {
             Rectangle rect = new Rectangle((int)cx, PanelY, PanelWidth, PanelHeight);
-            return Control.IsInBounds(x, y, ref rect);
+            Rectangle rect2 = new Rectangle((int)cx, 452, 358, 93);
+            return Control.IsInBounds(x, y, ref rect) || Control.IsInBounds(x, y, ref rect2);
         }
         public override int Order
         {
@@ -258,6 +263,11 @@ namespace Code2015.GUI
                 {
                     sprite.Draw(background, (int)cx, PanelY, ColorValue.White);
                 }
+
+                sprite.Draw(infobg, (int)cx, 449, ColorValue.White);
+                sprite.Draw(costbg, (int)cx, 486, ColorValue.White);
+
+                buildSell.Render(sprite);
             }
         }
 
@@ -269,6 +279,8 @@ namespace Code2015.GUI
                 btnHosp.Update(time);
                 btnOilref.Update(time);
                 btnWood.Update(time);
+
+                buildSell.Update(time);
             }
         }
         public override void Update(GameTime time)
@@ -305,6 +317,8 @@ namespace Code2015.GUI
             btnWood.X = (int)(cx + Con1X);
             btnWood.Y = PanelY + Con1Y;
 
+            buildSell.X = (int)(cx + 222);
+            buildSell.Y = 492;
 
             bool enable;
 
