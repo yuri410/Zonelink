@@ -50,17 +50,25 @@ namespace Code2015.GUI
 
         //侧边栏图标
         Texture containers;
-        
-        //Texture ico_exchange;
+
+        Texture[] ico_exchange;
 
         int count1;
         int count2;
         int count3;
         int count4;
 
-        //MdgResource exchangePieces;
+        int exCounter;
+
+        int currentEx;
+        MdgResource exInside;
+
         GoalIcons icons;
         MdgResourceManager resources;
+
+
+
+
 
         public PieceContainer(Code2015 game, Game parent, GameScene scene, GameState gamelogic, GoalIcons icons)
         {
@@ -78,8 +86,21 @@ namespace Code2015.GUI
 
             f14 = GameFontManager.Instance.F14;
 
-            //fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            //ico_exchange = UITextureManager.Instance.CreateInstance(fl);
+            ico_exchange = new Texture[4];
+
+            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            ico_exchange[0] = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            ico_exchange[1] = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            ico_exchange[2] = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            ico_exchange[3] = UITextureManager.Instance.CreateInstance(fl);
+
+
         }
 
         public override int Order
@@ -97,15 +118,18 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            //sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
             sprite.Draw(containers, 702, 626, ColorValue.White);
-            //sprite.Draw(containers_conver, 877, 676, ColorValue.White);
+
+            sprite.Draw(ico_exchange[currentEx], 1155, 598, ColorValue.White);
+
+            exInside.Render(sprite);
 
             f14.DrawString(sprite, count1.ToString(), 775, 704, ColorValue.White);
             f14.DrawString(sprite, count2.ToString(), 882, 704, ColorValue.White);
             f14.DrawString(sprite, count3.ToString(), 984, 704, ColorValue.White);
             f14.DrawString(sprite, count4.ToString(), 1084, 704, ColorValue.White);
 
+            
         }
 
         public override void Update(GameTime time)
@@ -165,6 +189,18 @@ namespace Code2015.GUI
                 {
                     count4++;
                 }
+            }
+
+            exCounter++;
+            if (exCounter > 600) 
+            {
+                currentEx = Randomizer.GetRandomInt(ico_exchange.Length);
+                exCounter = 0;
+
+                Vector2 position = new Vector2(1219, 668);
+                exInside = new MdgResource(icons.Manager, icons.PhysicsWorld,
+                    (MdgType)Randomizer.GetRandomInt((int)MdgType.Count - 1), position, 0);
+
             }
         }
     }
