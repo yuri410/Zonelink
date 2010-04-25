@@ -66,7 +66,7 @@ namespace Code2015.World
 
                 float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
 
-                stdPosition = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale);
+                stdPosition = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
             }
         }
 

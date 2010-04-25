@@ -55,14 +55,20 @@ namespace Code2015.GUI
 
             switchButton = new Button();
             switchButton.X = 302;
-            switchButton.Y = 720 - 554;
+            switchButton.Y = 554;
             switchButton.Width = 38;
             switchButton.Height = 21;
 
             switchButton.Enabled = true;
             switchButton.IsValid = true;
 
+            fl = FileSystem.Instance.Locate("ig_normal.tex", GameFileLocs.GUI);
             switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_hover.tex", GameFileLocs.GUI);
+            switchButton.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_click.tex", GameFileLocs.GUI);
+            switchButton.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
+
             switchButton.MouseClick += SwitchButton_MouseClick;
 
 
@@ -85,10 +91,6 @@ namespace Code2015.GUI
             {
                 state = AnimState.In;
             }
-            else if (state != AnimState.Outside)
-            {
-                state = AnimState.Out;
-            }
         }
         public override int Order
         {
@@ -99,24 +101,43 @@ namespace Code2015.GUI
             if (state == AnimState.Outside)
             {
                 Rectangle rect = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
-                return Control.IsInBounds(x, y, ref rect);
+                return Control.IsInBounds(x, y, ref rect) || switchButton.HitTest(x, y);
             }
-            return switchButton.HitTest(x, y);
+            Rectangle rect2 = new Rectangle(51, 638, 111, 38);
+            return Control.IsInBounds(x, y, ref rect2);
         }
         
         public override void Render(Sprite sprite)
         {
             sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(0, PanelY + PanelHeight, 0));
             sprite.Draw(background, PanelX, -PanelHeight, ColorValue.White);
-            
+
+            if (switchButton.IsPressed)
+            {
+                sprite.Draw(switchButton.ImageMouseDown, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            }
+            else if (switchButton.IsMouseOver)
+            {
+                sprite.Draw(switchButton.ImageMouseOver, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            }
+            else 
+            {
+                sprite.Draw(switchButton.Image, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            }
+
             sprite.SetTransform(Matrix.Identity);
 
-            switchButton.Render(sprite);
+
             sprite.Draw(compass, -21, 666, ColorValue.White);
         }
         public override void UpdateInteract(GameTime time)
         {
             switchButton.Update(time);
+
+            if (state == AnimState.Inside)
+            {
+                state = AnimState.Out;
+            }
         }
         public override void Update(GameTime time)
         {
