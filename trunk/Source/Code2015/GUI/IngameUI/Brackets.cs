@@ -45,6 +45,7 @@ namespace Code2015.GUI
         Point GetSiteProjPosition(CityObject city, int i)
         {
             Vector3 ppofs = CityStyleTable.SiteTransform[i].TranslationValue;
+            ppofs += new Vector3(0, 20, 0);
 
             Vector3 plpos;
             Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
