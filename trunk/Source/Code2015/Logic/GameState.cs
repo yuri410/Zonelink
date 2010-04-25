@@ -129,14 +129,28 @@ namespace Code2015.World
             get;
             private set;
         }
-        public bool CheckGameOver() 
+        public bool CheckGameOver()
         {
             for (int i = 0; i < localPlayers.Length; i++)
             {
                 if (localPlayers[i].Win) { return true; }
             }
-            return false;
+            return LocalHumanPlayer.Area.CityCount == 0;
         }
+        public void InitialStandards()
+        {
+            for (int i = 0; i < localPlayerArea.Length; i++)
+            {
+                CityPluginFactory fac = new CityPluginFactory();
+
+
+                CityPlugin woodFac = fac.MakeWoodFactory();
+                woodFac.Upgrade(0.4f);
+
+                localPlayerArea[i].RootCity.Add(woodFac);
+            }
+        }
+
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
             this.slgSystem = srcState.SLGWorld;
@@ -151,7 +165,7 @@ namespace Code2015.World
                 City cc = slgSystem.GetCity(i);
                 if (cc.StartUp != -1)
                 {
-                    FastList<City > list;
+                    FastList<City> list;
                     if (!startAreas.TryGetValue(cc.StartUp, out list))
                     {
                         list = new FastList<City>();
@@ -189,13 +203,7 @@ namespace Code2015.World
 
                         int cidx = Randomizer.GetRandomInt(list.Count);
 
-                        CityPluginFactory fac = new CityPluginFactory();
-
                         list[cidx].ChangeOwner(localPlayer[i]);
-
-                        CityPlugin woodFac = fac.MakeWoodFactory();
-                        woodFac.Upgrade(0.4f);
-                        list[cidx].Add(woodFac);
                         finished = true;
                     }
                 }
@@ -237,7 +245,7 @@ namespace Code2015.World
         {
             get { return localPlayers.Length; }
         }
-        public Player GetLocalPlayer(int i) 
+        public Player GetLocalPlayer(int i)
         {
             return localPlayers[i];
         }
