@@ -39,7 +39,8 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
             this.state = gamelogic;
 
-            FileLocation fl = FileSystem.Instance.Locate("", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("ig_co2bar_hoz", GameFileLocs.GUI);
+            hozbar = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public override int Order
