@@ -22,6 +22,9 @@ namespace Code2015.GUI
         CityObject city;
         CityInfo parent;
         CityInfoDisplay display;
+
+
+
         //ProgressBar upgrade;
 
         public int Plugin
@@ -87,12 +90,7 @@ namespace Code2015.GUI
         CityObject city;
         Player player;
 
-
-        //ProgressBar satisfy;
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
-        //Brackets brackets;
-
-
 
         public ColorValue DistanceMod;
 

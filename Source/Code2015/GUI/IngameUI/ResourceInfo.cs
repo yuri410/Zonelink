@@ -20,10 +20,8 @@ namespace Code2015.GUI
 
         IResourceObject resource;
 
-        //Texture background;
-        //ProgressBar amountBar;
-
-
+        ProgressBar amountBar;
+        Texture woodOverlay;
 
         public ResourceInfo(ResInfoDisplay info, RenderSystem rs, IResourceObject res)
         {
@@ -32,22 +30,22 @@ namespace Code2015.GUI
             this.parent = info;
             this.resource = res;
 
-            //FileLocation fl = FileSystem.Instance.Locate("ig_resMeter.tex", GameFileLocs.GUI);
-            //background = UITextureManager.Instance.CreateInstance(fl);
-            
-            //fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
-            //Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
 
-            //fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
-            //Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
+            FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_wood_imp.tex", GameFileLocs.GUI);
+            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
 
-            //amountBar = new ProgressBar();
+            fl = FileSystem.Instance.Locate("ig_prgbar_wood_cmp.tex", GameFileLocs.GUI);
+            Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
 
-            //amountBar.Height = 18;
-            //amountBar.Width = 117;
-            //amountBar.ProgressImage = prgBg;
-            //amountBar.Background = prgBg1;
+            amountBar = new ProgressBar();
 
+            amountBar.Height = 18;
+            amountBar.Width = 117;
+            amountBar.ProgressImage = prgBg1;
+            amountBar.Background = prgBg;
+
+            fl = FileSystem.Instance.Locate("ig_prgbar_wood.tex", GameFileLocs.GUI);
+            woodOverlay = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public override void Render(Sprite sprite)
@@ -75,16 +73,17 @@ namespace Code2015.GUI
 
                 Rectangle rect = new Rectangle(scrnPos.X, scrnPos.Y, (int)(50 + 100 * d1), (int)(40 + 80 * d1));
 
-                //sprite.Draw(background, rect, modColor);
 
                 font.DrawString(sprite, title, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)(modColor.A << 24));
                 font.DrawString(sprite, title, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, (int)modColor.PackedValue);
 
-                //amountBar.ModulateColor = modColor;
-                //amountBar.X = scrnPos.X;
-                //amountBar.Y = scrnPos.Y - 30;
-                //amountBar.Value = resource.AmountPer;
-                //amountBar.Render(sprite);
+                amountBar.ModulateColor = modColor;
+                amountBar.X = scrnPos.X;
+                amountBar.Y = scrnPos.Y - 30;
+                amountBar.Value = resource.AmountPer;
+                amountBar.Render(sprite);
+
+                sprite.Draw(woodOverlay, scrnPos.X, scrnPos.Y, ColorValue.White);
             }
         }
 
