@@ -275,7 +275,7 @@ namespace Code2015.GUI
 
                 buildSell.Render(sprite);
             }
-            sprite.Draw(cityInfoBg, 332, 657, ColorValue.White);
+            sprite.Draw(cityInfoBg, 333, 657, ColorValue.White);
         }
 
         public override void UpdateInteract(GameTime time)

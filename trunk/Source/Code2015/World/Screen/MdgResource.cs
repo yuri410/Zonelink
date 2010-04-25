@@ -193,16 +193,11 @@ namespace Code2015.World.Screen
                 if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
                 if (a1 < 0) a1 = 0;
 
+                sprite.Draw(image, 0, 0, ColorValue.White);
+
                 ColorValue colora = ColorValue.White;
                 colora.A = (byte)a1;
                 sprite.Draw(imagehl, 0, 0, colora);
-
-                a1 = (int)((1 - brightBlend) * byte.MaxValue);
-                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
-                if (a1 < 0) a1 = 0;
-                colora.A = (byte)a1;
-                sprite.Draw(image, 0, 0, colora);
-
                 //const float scaler = 1;
 
                 //Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
@@ -388,15 +383,11 @@ namespace Code2015.World.Screen
                 if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
                 if (a1 < 0) a1 = 0;
 
+                sprite.Draw(image, 0, 0, ColorValue.White);
+
                 ColorValue colora = ColorValue.White;
                 colora.A = (byte)a1;
                 sprite.Draw(imagehl, 0, 0, colora);
-
-                a1 = (int)((1 - brightBlend) * byte.MaxValue);
-                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
-                if (a1 < 0) a1 = 0;
-                colora.A = (byte)a1;
-                sprite.Draw(image, 0, 0, colora);
             }
 
         }
