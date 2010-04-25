@@ -26,7 +26,6 @@ namespace Code2015.GUI
         Texture hozbar;
         Texture curbar;
         GameState state;
-        GameFont font;
 
         float hozPrg;
         float vertPrg;
@@ -41,6 +40,9 @@ namespace Code2015.GUI
 
             FileLocation fl = FileSystem.Instance.Locate("ig_co2bar_hoz", GameFileLocs.GUI);
             hozbar = UITextureManager.Instance.CreateInstance(fl);
+            
+            fl = FileSystem.Instance.Locate("ig_co2bar_cur", GameFileLocs.GUI);
+            curbar = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public override int Order
