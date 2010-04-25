@@ -362,7 +362,7 @@ namespace Code2015.World.Screen
 
                 if (AutoStick != null)
                 {
-                    pos = AutoStick.Position + new Vector2(r, r);
+                    pos = AutoStick.Position;
                 }
 
 
