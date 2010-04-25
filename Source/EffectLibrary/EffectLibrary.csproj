@@ -135,7 +135,7 @@
     <None Include="Scene\tree.vs" />
     <None Include="UI\City\citysel.ps" />
     <None Include="UI\City\citysel.vs" />
-    <None Include="UI\pieGraph.ps" />
+    <None Include="UI\pieProgress.ps" />
     <None Include="Scene\water.ps" />
     <None Include="Scene\water.vs" />
     <None Include="Scene\waterDepth.psh" />
@@ -152,6 +152,7 @@
     <None Include="ShadowMap\shadowMap.vs" />
     <None Include="Standard\deferedNormal.ps" />
     <None Include="Standard\deferedNormal.vs" />
+    <None Include="UI\pieProgress.vs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fxc.exe">

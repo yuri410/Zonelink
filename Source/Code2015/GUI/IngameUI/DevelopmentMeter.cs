@@ -104,7 +104,7 @@ namespace Code2015.GUI
 
 
         }
-
+        
         public override void Render(Sprite sprite)
         {
             sprite.Draw(background, 985, -7, ColorValue.White);
