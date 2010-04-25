@@ -26,6 +26,7 @@ namespace Code2015.EngineEx
         const float StrikeDuration = 2;
         const float Duration = 10;
 
+        
 
         public float StartTime
         {
