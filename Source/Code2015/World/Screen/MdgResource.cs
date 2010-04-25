@@ -43,6 +43,7 @@ namespace Code2015.World.Screen
         Vector2 Velocity { get; set; }
         MdgIconType IconType { get; }
 
+        bool IsSelected { get; set; }
     }
 
 
@@ -69,6 +70,7 @@ namespace Code2015.World.Screen
         ScreenRigidBody body;
 
 
+        
         MdgType type;
 
         Texture image;
@@ -79,11 +81,14 @@ namespace Code2015.World.Screen
 
         float growup;
 
+        float brightBlend;
+
         public bool IsBright
         {
             get;
             set;
         }
+        public bool IsSelected { get; set; }
 
         public MdgPiece(MdgResourceManager manager, ScreenPhysicsWorld world, MdgType type, Vector2 pos, float ori)
         {
@@ -169,14 +174,35 @@ namespace Code2015.World.Screen
 
                 if (IsBright)
                 {
-                    sprite.Draw(imagehl, 0, 0, ColorValue.White);
-                    IsBright = false;
+                    brightBlend += 0.1f;
+
+                    if (brightBlend > 1)
+                    {
+                        IsBright = false;
+                        brightBlend = 1;
+                    }
                 }
                 else                
                 {
-                    sprite.Draw(image, 0, 0, ColorValue.White);
+                    brightBlend -= 0.1f;
+                    if (brightBlend < 0)
+                        brightBlend = 0;
                 }
-                
+
+                int a1 = (int)(brightBlend * byte.MaxValue);
+                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
+                if (a1 < 0) a1 = 0;
+
+                ColorValue colora = ColorValue.White;
+                colora.A = (byte)a1;
+                sprite.Draw(imagehl, 0, 0, colora);
+
+                a1 = (int)((1 - brightBlend) * byte.MaxValue);
+                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
+                if (a1 < 0) a1 = 0;
+                colora.A = (byte)a1;
+                sprite.Draw(image, 0, 0, colora);
+
                 //const float scaler = 1;
 
                 //Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
@@ -198,6 +224,9 @@ namespace Code2015.World.Screen
 
         public override void Update(GameTime time)
         {
+            if (IsSelected)
+                IsBright = true;
+
             Rectangle rect = physicsWorld.WorldBounds;
 
             Vector2 dragCentre = new Vector2(rect.Width * 0.5f, rect.Height * 0.5f);
@@ -270,6 +299,8 @@ namespace Code2015.World.Screen
         MdgType type;
         ScreenPhysicsWorld physicsWorld;
         MdgResourceManager manager;
+        float brightBlend;
+
         public MdgType Type
         {
             get { return type; }
@@ -279,6 +310,7 @@ namespace Code2015.World.Screen
             get;
             set;
         }
+        public bool IsSelected { get; set; }
 
         public override bool HitTest(int x, int y)
         {
@@ -334,16 +366,37 @@ namespace Code2015.World.Screen
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.Translation(pos.X, pos.Y, 0));
-
+               
                 if (IsBright)
                 {
-                    sprite.Draw(imagehl, 0, 0, ColorValue.White);
-                    IsBright = false;
+                    brightBlend += 0.1f;
+
+                    if (brightBlend > 1)
+                    {
+                        IsBright = false;
+                        brightBlend = 1;
+                    }
                 }
-                else 
+                else
                 {
-                    sprite.Draw(image, 0, 0, ColorValue.White);
+                    brightBlend -= 0.1f;
+                    if (brightBlend < 0)
+                        brightBlend = 0;
                 }
+                
+                int a1 = (int)(brightBlend * byte.MaxValue);
+                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
+                if (a1 < 0) a1 = 0;
+
+                ColorValue colora = ColorValue.White;
+                colora.A = (byte)a1;
+                sprite.Draw(imagehl, 0, 0, colora);
+
+                a1 = (int)((1 - brightBlend) * byte.MaxValue);
+                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
+                if (a1 < 0) a1 = 0;
+                colora.A = (byte)a1;
+                sprite.Draw(image, 0, 0, colora);
             }
 
         }
@@ -354,6 +407,9 @@ namespace Code2015.World.Screen
         }
         public override void Update(GameTime time)
         {
+            if (IsSelected)
+                IsBright = true;
+
             if (AutoStick != null)
             {
                 float br = body.Radius;

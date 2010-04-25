@@ -28,7 +28,13 @@ namespace Code2015.GUI
             get { return selectedItem; }
             set
             {
+                if (selectedItem != null)
+                    selectedItem.IsSelected = false;
+
                 selectedItem = value;
+
+                if (selectedItem != null)
+                    selectedItem.IsSelected = true;
             }
         }
 
