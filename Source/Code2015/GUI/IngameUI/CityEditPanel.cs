@@ -40,6 +40,10 @@ namespace Code2015.GUI
         const int Con4Y = 347 - PanelY;
         const int HotRadius = 92 / 2;
 
+        float blendWeight1;
+        float blendWeight2;
+        float blendWeight3;
+        float blendWeight4;
 
         GameScene scene;
         GameState gameLogic;
@@ -249,26 +253,90 @@ namespace Code2015.GUI
         {
             if (state != AnimState.Inside)
             {
+                const float AnimStep = 0.33f;
                 if (btnEduorg.IsMouseOver)
                 {
-                    sprite.Draw(eduHover, (int)cx, PanelY, ColorValue.White);
+                    blendWeight1 += AnimStep;
+                    blendWeight2 -= AnimStep;
+                    blendWeight3 -= AnimStep;
+                    blendWeight4 -= AnimStep;
                 }
                 else if (btnHosp.IsMouseOver)
                 {
-                    sprite.Draw(hospHover, (int)cx, PanelY, ColorValue.White);
+                    blendWeight1 -= AnimStep;
+                    blendWeight2 += AnimStep;
+                    blendWeight3 -= AnimStep;
+                    blendWeight4 -= AnimStep;
                 }
                 else if (btnOilref.IsMouseOver)
                 {
-                    sprite.Draw(oilHover, (int)cx, PanelY, ColorValue.White);
+                    blendWeight1 -= AnimStep;
+                    blendWeight2 -= AnimStep;
+                    blendWeight3 += AnimStep;
+                    blendWeight4 -= AnimStep;
                 }
                 else if (btnWood.IsMouseOver)
                 {
-                    sprite.Draw(woodHover, (int)cx, PanelY, ColorValue.White);
+                    blendWeight1 -= AnimStep;
+                    blendWeight2 -= AnimStep;
+                    blendWeight3 -= AnimStep;
+                    blendWeight4 += AnimStep;
                 }
                 else
                 {
-                    sprite.Draw(background, (int)cx, PanelY, ColorValue.White);
+                    blendWeight1 -= AnimStep;
+                    blendWeight2 -= AnimStep;
+                    blendWeight3 -= AnimStep;
+                    blendWeight4 -= AnimStep;
                 }
+
+                sprite.Draw(background, (int)cx, PanelY, ColorValue.White);
+
+
+                blendWeight1 = MathEx.Saturate(blendWeight1);
+                blendWeight2 = MathEx.Saturate(blendWeight2);
+                blendWeight3 = MathEx.Saturate(blendWeight3);
+                blendWeight4 = MathEx.Saturate(blendWeight4);
+
+                int alpha = (int)(blendWeight1 * byte.MaxValue);
+                if (alpha < 0) alpha = 0;
+                if (alpha > byte.MaxValue) alpha = byte.MaxValue;
+
+                ColorValue color = ColorValue.White;
+                if (alpha > 0)
+                {
+                    color.A = (byte)alpha;
+                    sprite.Draw(eduHover, (int)cx, PanelY, color);
+                }
+
+                alpha = (int)(blendWeight2 * byte.MaxValue);
+                if (alpha < 0) alpha = 0;
+                if (alpha > byte.MaxValue) alpha = byte.MaxValue;
+                if (alpha > 0)
+                {
+                    color.A = (byte)alpha;
+                    sprite.Draw(hospHover, (int)cx, PanelY, color);
+                }
+
+                alpha = (int)(blendWeight3 * byte.MaxValue);
+                if (alpha < 0) alpha = 0;
+                if (alpha > byte.MaxValue) alpha = byte.MaxValue;
+                if (alpha > 0)
+                {
+                    color.A = (byte)alpha;
+                    sprite.Draw(oilHover, (int)cx, PanelY, color);
+                }
+
+                alpha = (int)(blendWeight4 * byte.MaxValue);
+                if (alpha < 0) alpha = 0;
+                if (alpha > byte.MaxValue) alpha = byte.MaxValue;
+                if (alpha > 0)
+                {
+                    color.A = (byte)alpha;
+                    sprite.Draw(woodHover, (int)cx, PanelY, color);
+                }
+
+
 
                 sprite.Draw(infobg, (int)cx, 449, ColorValue.White);
                 sprite.Draw(costbg, (int)cx, 486, ColorValue.White);

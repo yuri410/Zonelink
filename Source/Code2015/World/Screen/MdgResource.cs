@@ -189,15 +189,18 @@ namespace Code2015.World.Screen
                         brightBlend = 0;
                 }
 
+                
+                sprite.Draw(image, 0, 0, ColorValue.White);
+
                 int a1 = (int)(brightBlend * byte.MaxValue);
                 if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
                 if (a1 < 0) a1 = 0;
-
-                sprite.Draw(image, 0, 0, ColorValue.White);
-
-                ColorValue colora = ColorValue.White;
-                colora.A = (byte)a1;
-                sprite.Draw(imagehl, 0, 0, colora);
+                if (a1 > 0)
+                {
+                    ColorValue colora = ColorValue.White;
+                    colora.A = (byte)a1;
+                    sprite.Draw(imagehl, 0, 0, colora);
+                }
                 //const float scaler = 1;
 
                 //Vector2 rectr = new Vector2(image.Width * scaler * growup, image.Height * scaler * growup);
@@ -356,12 +359,12 @@ namespace Code2015.World.Screen
                 Vector2 pos = body.Position;
 
                 float r = body.Radius;
-                
+
 
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.Translation(pos.X, pos.Y, 0));
-               
+
                 if (IsBright)
                 {
                     brightBlend += 0.1f;
@@ -378,16 +381,18 @@ namespace Code2015.World.Screen
                     if (brightBlend < 0)
                         brightBlend = 0;
                 }
-                
-                int a1 = (int)(brightBlend * byte.MaxValue);
-                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
-                if (a1 < 0) a1 = 0;
 
                 sprite.Draw(image, 0, 0, ColorValue.White);
 
-                ColorValue colora = ColorValue.White;
-                colora.A = (byte)a1;
-                sprite.Draw(imagehl, 0, 0, colora);
+                int a1 = (int)(brightBlend * byte.MaxValue);
+                if (a1 >= byte.MaxValue) a1 = byte.MaxValue;
+                if (a1 < 0) a1 = 0;
+                if (a1 > 0)
+                {
+                    ColorValue colora = ColorValue.White;
+                    colora.A = (byte)a1;
+                    sprite.Draw(imagehl, 0, 0, colora);
+                }
             }
 
         }
