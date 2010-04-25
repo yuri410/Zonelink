@@ -26,6 +26,7 @@ namespace Code2015.GUI
         Texture hozbar;
         Texture curbar;
         GameState state;
+        GameFont font;
 
         float hozPrg;
         float vertPrg;
