@@ -26,16 +26,28 @@ namespace Code2015.EngineEx
             singleton = new GameFontManager(rs);
         }
 
-        GameFont large;
+        GameFont f201;
+        GameFont f18;
+        GameFont f14;
 
         private GameFontManager(RenderSystem rs)
         {
-            large = new GameFont("");
+            f201 = new GameFont("f20i");
+            f14 = new GameFont("f14");
+            f18 = new GameFont("f18");
+        }
+        public GameFont F14
+        {
+            get { return f18; }
         }
 
-        public GameFont LargeFont
+        public GameFont F18
         {
-            get { return large; }
+            get { return f18; }
+        }
+        public GameFont F20I
+        {
+            get { return f201; }
         }
     }
     class GameFont
@@ -77,7 +89,7 @@ namespace Code2015.EngineEx
 
             charHeight = font.Height / 7;
 
-            fl = FileSystem.Instance.Locate(name + ".xml", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate(name + ".xml", GameFileLocs.Config);
             Configuration config = ConfigurationManager.Instance.CreateInstance(fl);
 
             charWidth = new int[byte.MaxValue];
@@ -107,35 +119,19 @@ namespace Code2015.EngineEx
                     rect.Height = charHeight;
 
                     Rectangle srect;
-                    if (ch >= 'A' && ch <= 'Z')
-                    {
-                        int idx = ch - 'A';
 
-                        srect.X = idx % 7;
-                        srect.Y = charHeight * (idx / 7);
-                        srect.Width = charHeight;
-                        srect.Height = charHeight;
 
-                    }
-                    else if (ch >= '0' && ch <= '9')
-                    {
-                        int idx = ch - '0';
+                    int idx = IndexCast[ch];
 
-                        srect.X = idx % 7;
-                        srect.Y = charHeight * (idx / 7);
-                        srect.Width = charHeight;
-                        srect.Height = charHeight;
-                    }
-                    else 
-                    {
-                        srect.X = 0;
-                        srect.Y = 0;
-                        srect.Width = 1;
-                        srect.Height = 1;
-                    }
+                    srect.X = charHeight * (idx % 7);
+                    srect.Y = charHeight * (idx / 7);
+                    srect.Width = charHeight;
+                    srect.Height = charHeight;
+
+
 
                     sprite.Draw(font, rect, srect, color);
-                    x += (int)(charWidth[ch]);
+                    x += charWidth[ch] - 2;
                 }
                 else
                 {

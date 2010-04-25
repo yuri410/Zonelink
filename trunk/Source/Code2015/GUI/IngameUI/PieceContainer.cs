@@ -46,6 +46,8 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
 
+        GameFont f14;
+
         //侧边栏图标
         Texture containers;
         
@@ -74,7 +76,7 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_box.tex", GameFileLocs.GUI);
             containers = UITextureManager.Instance.CreateInstance(fl);
 
-            
+            f14 = GameFontManager.Instance.F14;
 
             //fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
             //ico_exchange = UITextureManager.Instance.CreateInstance(fl);
@@ -98,6 +100,12 @@ namespace Code2015.GUI
             //sprite.Draw(ico_exchange, 1075, 521, ColorValue.White);
             sprite.Draw(containers, 702, 626, ColorValue.White);
             //sprite.Draw(containers_conver, 877, 676, ColorValue.White);
+
+            f14.DrawString(sprite, count1.ToString(), 775, 704, ColorValue.White);
+            f14.DrawString(sprite, count2.ToString(), 882, 704, ColorValue.White);
+            f14.DrawString(sprite, count3.ToString(), 984, 704, ColorValue.White);
+            f14.DrawString(sprite, count4.ToString(), 1084, 704, ColorValue.White);
+
         }
 
         public override void Update(GameTime time)

@@ -58,6 +58,8 @@ namespace Code2015.Logic
 
                 passTable[idx] = true;
 
+
+
                 City cc = area.GetCity(idx);
                 PieceCategoryProbability p = cc.GetProbability();
                 

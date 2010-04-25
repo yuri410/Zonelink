@@ -23,6 +23,15 @@ namespace Code2015.GUI
 
     class CityEditPanel : UIComponent
     {
+        enum SelectedPluginType
+        {
+            None,
+            Wood,
+            Oil,
+            Hospital,
+            Education
+        }
+
         const int PanelX = 0;
         const int PanelY = 300;
         const int PanelWidth = 380;
@@ -51,19 +60,24 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
 
+        GameFont f18;
+
         RoundButton btnEduorg;
         RoundButton btnHosp;
         RoundButton btnOilref;
         RoundButton btnWood;
 
-        Button buildSell;
+        Button build;
 
         Player player;
 
         AnimState state;
+        AnimState state2;
 
         float cx;
+        float cx2;
 
+        CityObject anySelCity;
         CityObject selectCity;
         Texture background;
         Texture eduHover;
@@ -71,6 +85,23 @@ namespace Code2015.GUI
         Texture oilHover;
         Texture woodHover;
 
+        SelectedPluginType selectedType;
+
+        private SelectedPluginType SelectedType
+        {
+            get { return selectedType; }
+            set
+            {
+                if (selectedType != value)
+                {
+                    selectedType = value;
+                    if (selectedType == SelectedPluginType.None)
+                        state2 = AnimState.In;
+                    else
+                        state2 = AnimState.Out;
+                }                
+            }
+        }
 
         Texture infobg;
         Texture costbg;
@@ -95,6 +126,7 @@ namespace Code2015.GUI
                         }
                     }
                 }
+                anySelCity = value;
 
                 if (selectCity != null && state != AnimState.Outside)
                 {
@@ -103,6 +135,7 @@ namespace Code2015.GUI
                 else if (selectCity == null && state != AnimState.Inside)
                 {
                     state = AnimState.In;
+                    SelectedType = SelectedPluginType.None;
                 }
             }
         }
@@ -179,21 +212,26 @@ namespace Code2015.GUI
 
             #region 建造变卖
             fl = FileSystem.Instance.Locate("ig_cost_downr.tex", GameFileLocs.GUI);
-            buildSell = new Button();
-            buildSell.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
+            build = new Button();
+            build.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("ig_cost_hover.tex", GameFileLocs.GUI);
-            buildSell.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
-            buildSell.Width = 64;
-            buildSell.Height = 35;
-            buildSell.Enabled = true;
-            buildSell.IsValid = true;
+            build.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
+            build.Width = 64;
+            build.Height = 35;
+            build.Enabled = true;
+            build.IsValid = true;
+
+            build.MouseClick += Build_Click;
             #endregion
 
             fl = FileSystem.Instance.Locate("ig_name.tex", GameFileLocs.GUI);
             cityInfoBg = UITextureManager.Instance.CreateInstance(fl);
 
             cx = -PanelWidth;
+            cx2 = -PanelWidth;
+
+            f18 = GameFontManager.Instance.F18;
         }
 
         protected override void Dispose(bool disposing)
@@ -230,23 +268,39 @@ namespace Code2015.GUI
             get { return 5; }
         }
 
-        void BuildSell_Click(object sender, MouseButtonFlags btn) { }
+        void Build_Click(object sender, MouseButtonFlags btn) 
+        {
+            switch (SelectedType)
+            {
+                case SelectedPluginType.Education:
+                    selectCity.City.Add(gameLogic.PluginFactory.MakeEducationAgent());
+                    break;
+                case SelectedPluginType.Hospital:
+                    selectCity.City.Add(gameLogic.PluginFactory.MakeHospital());
+                    break;
+                case SelectedPluginType.Oil:
+                    selectCity.City.Add(gameLogic.PluginFactory.MakeOilRefinary());
+                    break;
+                case SelectedPluginType.Wood:
+                    selectCity.City.Add(gameLogic.PluginFactory.MakeWoodFactory());
+                    break;
+            }
+        }
         void EduBtn_Click(object sender, MouseButtonFlags btn)
         {
-            selectCity.City.Add(gameLogic.PluginFactory.MakeEducationAgent());
-
+            SelectedType = SelectedPluginType.Education;
         }
         void OilBtn_Click(object sender, MouseButtonFlags btn)
         {
-            selectCity.City.Add(gameLogic.PluginFactory.MakeOilRefinary());
+            SelectedType = SelectedPluginType.Oil;
         }
         void WoodBtn_Click(object sender, MouseButtonFlags btn)
         {
-            selectCity.City.Add(gameLogic.PluginFactory.MakeWoodFactory());
+            SelectedType = SelectedPluginType.Wood;
         }
         void HospBtn_Click(object sender, MouseButtonFlags btn)
         {
-            selectCity.City.Add(gameLogic.PluginFactory.MakeHospital());
+            SelectedType = SelectedPluginType.Hospital;
         }
 
         public override void Render(Sprite sprite)
@@ -338,12 +392,29 @@ namespace Code2015.GUI
 
 
 
-                sprite.Draw(infobg, (int)cx, 449, ColorValue.White);
-                sprite.Draw(costbg, (int)cx, 486, ColorValue.White);
 
-                buildSell.Render(sprite);
+                f18.DrawString(sprite, "CONSTRUCT", (int)cx + 30, PanelY + 10, ColorValue.White);
+                
+
             }
+            if (state2 != AnimState.Inside)
+            {
+                sprite.Draw(infobg, (int)cx2, 449, ColorValue.White);
+                sprite.Draw(costbg, (int)cx2, 486, ColorValue.White);
+
+                build.Render(sprite);
+            }
+
             sprite.Draw(cityInfoBg, 333, 657, ColorValue.White);
+
+            if (anySelCity != null)
+            {
+                f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 345, 670, ColorValue.White);
+            }
+            if (selectCity != null)
+            {
+                f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 515, 678, ColorValue.White);
+            }
         }
 
         public override void UpdateInteract(GameTime time)
@@ -353,9 +424,11 @@ namespace Code2015.GUI
                 btnEduorg.Update(time);
                 btnHosp.Update(time);
                 btnOilref.Update(time);
-                btnWood.Update(time);
-
-                buildSell.Update(time);
+                btnWood.Update(time);                
+            }
+            if (state2 == AnimState.Outside)
+            {
+                build.Update(time);
             }
         }
         public override void Update(GameTime time)
@@ -379,6 +452,27 @@ namespace Code2015.GUI
                     state = AnimState.Inside;
                 }
             }
+            if (state2 == AnimState.Out)
+            {
+                cx2 += (PanelWidth + PanelX - cx2 + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
+                if (cx2 >= PanelX)
+                {
+                    cx2 = PanelX;
+                    state2 = AnimState.Outside;
+                }
+
+            }
+            else if (state2 == AnimState.In)
+            {
+                cx2 -= (PanelWidth + PanelX - cx2 + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
+                if (cx2 < -PanelWidth)
+                {
+                    cx2 = -PanelWidth;
+                    state2 = AnimState.Inside;
+                }
+            }
+
+            
 
             btnEduorg.X = (int)(cx + Con4X);
             btnEduorg.Y = PanelY + Con4Y;
@@ -392,8 +486,8 @@ namespace Code2015.GUI
             btnWood.X = (int)(cx + Con1X);
             btnWood.Y = PanelY + Con1Y;
 
-            buildSell.X = (int)(cx + 222);
-            buildSell.Y = 492;
+            build.X = (int)(cx2 + 222);
+            build.Y = 492;
 
             bool enable;
 
