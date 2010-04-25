@@ -58,6 +58,7 @@ namespace Code2015.BalanceSystem
         }
 
 
+
         public City NearbyCity1
         {
             get;

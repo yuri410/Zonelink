@@ -87,9 +87,8 @@ namespace Code2015.AI
 
                     if (bestCity != null)
                     {
-                        bestCity.Capture.SetCapture(player, bestCityParent);
+                        bestCity.SetCapture(bestCityParent);
 
-                        bestCityParent.Parent.MakeLinkWith(bestCity.Parent);
                         //CityLinkObject link = new CityLinkObject(bestCityParent.Parent.RenderSystem, bestCityParent.Parent, bestCity.Parent);
                         //bestCityParent.Parent.SceneManager.AddObjectToScene(link);
 

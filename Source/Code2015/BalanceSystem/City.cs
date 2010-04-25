@@ -457,6 +457,8 @@ namespace Code2015.BalanceSystem
 
         public event CitypluginEventHandle PluginAdded;
         public event CitypluginEventHandle PluginRemoved;
+        public event NearbyCityAddedHandler CaptureSet;
+        public event NearbyCityRemovedHandler CaptureCancel;
         public event NearbyCityAddedHandler NearbyCityAdded;
         public event NearbyCityRemovedHandler NearbyCityRemoved;
         public event CityOwnerChanged CityOwnerChanged;
@@ -564,7 +566,7 @@ namespace Code2015.BalanceSystem
                 for (int i = 0; i < nearbyCity.Count; i++)
                 {
                     nearbyCity[i].Target.RemoveNearbyCity(this);
-                    nearbyCity[i].Disable();
+                    //nearbyCity[i].Disable();
                 }
                 nearbyCity.Clear();
             }
@@ -679,7 +681,7 @@ namespace Code2015.BalanceSystem
             {
                 if (nearbyCity[i].Target == city)
                 {
-                    nearbyCity[i].Disable();
+                    //nearbyCity[i].Disable();
                     nearbyCity.RemoveAt(i);
 
                     if (NearbyCityRemoved != null)
@@ -722,7 +724,7 @@ namespace Code2015.BalanceSystem
                     }
                     else
                     {
-                        Capture.CancelCapture(Capture.NewOwner1);
+                        CancelCapture(Capture.NearbyCity1);
                     }
                 }
                 if (Capture.NearbyCity2 != null)
@@ -735,7 +737,7 @@ namespace Code2015.BalanceSystem
                     }
                     else
                     {
-                        Capture.CancelCapture(Capture.NewOwner2);
+                        CancelCapture(Capture.NearbyCity2);
                     }
                 }
                 if (Capture.NearbyCity3 != null)
@@ -748,7 +750,7 @@ namespace Code2015.BalanceSystem
                     }
                     else
                     {
-                        Capture.CancelCapture(Capture.NewOwner3);
+                        CancelCapture(Capture.NearbyCity3);
                     }
                 }
                 if (Capture.NearbyCity4 != null)
@@ -761,7 +763,7 @@ namespace Code2015.BalanceSystem
                     }
                     else
                     {
-                        Capture.CancelCapture(Capture.NewOwner4);
+                        CancelCapture(Capture.NearbyCity4);
                     }
                 }
 
@@ -771,6 +773,23 @@ namespace Code2015.BalanceSystem
                 if (player != null)
                 {
                     Capture.CancelCapture(player);
+
+                    if (Capture.NewOwner1 != null && Capture.NewOwner1 != player)
+                    {
+                        CancelCapture(Capture.NearbyCity1);
+                    }
+                    if (Capture.NewOwner2 != null && Capture.NewOwner2 != player)
+                    {
+                        CancelCapture(Capture.NearbyCity2);
+                    }
+                    if (Capture.NewOwner3 != null && Capture.NewOwner3 != player)
+                    {
+                        CancelCapture(Capture.NearbyCity3);
+                    }
+                    if (Capture.NewOwner4 != null && Capture.NewOwner4 != player)
+                    {
+                        CancelCapture(Capture.NearbyCity4);
+                    }
                     ChangeOwner(player);
                 }
             }
@@ -1161,6 +1180,21 @@ namespace Code2015.BalanceSystem
         {
             get;
             private set;
+        }
+
+        public virtual void SetCapture(City city)
+        {
+            Capture.SetCapture(city.owner, city);
+
+            if (CaptureSet != null)
+                CaptureSet(this, city);
+        }
+        public virtual void CancelCapture(City city) 
+        {
+            Capture.CancelCapture(city.owner);
+
+            if (CaptureCancel != null)
+                CaptureCancel(this, city);
         }
 
         public override void Serialize(StateDataBuffer data)
