@@ -3,7 +3,7 @@
 <CityPlugins>
   <WoodFactory>
     <Name>WoodFactory</Name> <!--附加物名称-->
-    <CostLR>1000</CostLR> <!--建造消耗木材-->
+    <CostLR>100</CostLR> <!--建造消耗木材-->
     <CostHR>0</CostHR> <!--建造消耗石油-->
     <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->
     <HRPConvRate>0</HRPConvRate> <!--石油转化率-->
@@ -19,7 +19,7 @@
   
   <OilRefinary>
     <Name>OilRefinary</Name> <!--附加物名称-->
-    <CostLR>1000</CostLR><!--建造消耗木材--> 
+    <CostLR>100</CostLR><!--建造消耗木材--> 
     <CostHR>0</CostHR> <!--建造消耗石油-->  
     <Behaviour>CollectorFactory</Behaviour><!--附加物行为，CollectorFactory，Hospital，Education-->  
     <HRPConvRate>0.5</HRPConvRate> <!--石油转化率--> 
@@ -34,7 +34,7 @@
   
   <BioFuelFactory>
     <Name>BioFuelFactory</Name> <!--附加物名称--> 
-    <CostLR>1000</CostLR> <!--建造消耗木材-->  
+    <CostLR>100</CostLR> <!--建造消耗木材-->  
     <CostHR>0</CostHR><!--建造消耗石油-->   
     <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->  
     <HRPConvRate>0</HRPConvRate><!--石油转化率-->   
@@ -49,7 +49,7 @@
   
   <Hospital>
     <Name>Hospital</Name> <!--附加物名称--> 
-    <CostLR>1000</CostLR> <!--建造消耗木材--> 
+    <CostLR>100</CostLR> <!--建造消耗木材--> 
     <CostHR>0</CostHR><!--建造消耗石油-->  
     <Behaviour>Hospital</Behaviour><!--附加物行为，CollectorFactory，Hospital，Education-->  
     <HRPConvRate>0</HRPConvRate><!--石油转化率-->   
@@ -64,7 +64,7 @@
   
   <EducationOrganization>
     <Name>EducationOrganization</Name>  <!--附加物名称--> 
-    <CostLR>1000</CostLR> <!--建造消耗木材-->  
+    <CostLR>100</CostLR> <!--建造消耗木材-->  
     <CostHR>0</CostHR> <!--建造消耗石油--> 
     <Behaviour>Education</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education--> 
     <HRPConvRate>0</HRPConvRate> <!--石油转化率--> 

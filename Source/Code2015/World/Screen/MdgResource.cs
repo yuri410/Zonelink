@@ -365,12 +365,9 @@ namespace Code2015.World.Screen
                     pos = AutoStick.Position;
                 }
 
-
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.Translation(pos.X, pos.Y, 0));
-
-                
 
 
                 if (IsBright)

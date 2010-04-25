@@ -50,7 +50,7 @@ namespace Code2015.World
                  model = new Model[FrameCount];
                  for (int i = 0; i < FrameCount; i++)
                  {
-                     FileLocation fl = FileSystem.Instance.Locate("oilderrick" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                     FileLocation fl = FileSystem.Instance.Locate("oilderricksea" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
                      model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                      model[i].CurrentAnimation = new NoAnimation(
