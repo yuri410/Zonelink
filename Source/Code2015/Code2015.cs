@@ -95,6 +95,8 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(SmokeRDEffectFactory.Name, new SmokeRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
             
+            
+
             TextureManager.Initialize(1048576 * 100);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);
@@ -105,6 +107,8 @@ namespace Code2015
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
             TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
             TreeModelLibrary.Initialize(renderSys);
+
+            GameFontManager.Initiaize(renderSys);
 
             TerrainData.Initialize();
 

@@ -5,17 +5,16 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.World;
-using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
     class ResourceInfo : UIComponent
     {
         RenderSystem renderSys;
-        Font font;
 
         ResInfoDisplay parent;
 
@@ -27,7 +26,7 @@ namespace Code2015.GUI
         public ResourceInfo(ResInfoDisplay info, RenderSystem rs, IResourceObject res)
         {
             this.renderSys = rs;
-            this.font = FontManager.Instance.GetFont("default");
+
             this.parent = info;
             this.resource = res;
 

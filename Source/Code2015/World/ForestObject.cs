@@ -33,6 +33,8 @@ namespace Code2015.World
         ResourceHandle<TreeBatchModel> model;
         SoundObject sound;
 
+        Vector3 stdPosition;
+
         public ForestObject(RenderSystem rs, Forest forest)
             : base(false)
         {
@@ -57,6 +59,15 @@ namespace Code2015.World
 
             sound = SoundManager.Instance.MakeSoundObjcet("forest", null, BoundingSphere.Radius);
             sound.Position = BoundingSphere.Center;
+
+            {
+                float radLng = MathEx.Degree2Radian(forest.Longitude);
+                float radLat = MathEx.Degree2Radian(forest.Latitude);
+
+                float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
+
+                stdPosition = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale);
+            }
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -110,7 +121,7 @@ namespace Code2015.World
 
         public Vector3 Position
         {
-            get { return BoundingSphere.Center; }
+            get { return stdPosition; }
         }
 
         public float Longitude
