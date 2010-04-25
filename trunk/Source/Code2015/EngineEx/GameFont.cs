@@ -131,7 +131,7 @@ namespace Code2015.EngineEx
 
 
                     sprite.Draw(font, rect, srect, color);
-                    x += charWidth[ch] - 2;
+                    x += charWidth[ch] - 3;
                 }
                 else
                 {

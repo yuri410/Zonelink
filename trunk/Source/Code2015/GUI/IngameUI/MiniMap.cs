@@ -103,7 +103,7 @@ namespace Code2015.GUI
                 Rectangle rect = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
                 return Control.IsInBounds(x, y, ref rect) || switchButton.HitTest(x, y);
             }
-            Rectangle rect2 = new Rectangle(51, 638, 111, 38);
+            Rectangle rect2 = new Rectangle(51, 688, 111, 38);
             return Control.IsInBounds(x, y, ref rect2);
         }
         

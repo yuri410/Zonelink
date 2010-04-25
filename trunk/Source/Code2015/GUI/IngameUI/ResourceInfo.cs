@@ -33,23 +33,22 @@ namespace Code2015.GUI
             string imp = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_imp.tex" : "ig_prgbar_oil_imp.tex";
             string cmp = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_cmp.tex" : "ig_prgbar_oil_cmp.tex";
             string text = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood.tex" : "ig_prgbar_oil.tex";
-            string gray = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_gray.tex" : "ig_prgbar_oil_gray.tex";
+            string gray = "ig_prgbar_gray.tex";
 
-
-            FileLocation fl = FileSystem.Instance.Locate(imp, GameFileLocs.GUI);
-            Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate(cmp, GameFileLocs.GUI);
-            Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
 
             amountBar = new ProgressBar();
 
             amountBar.Height = 30;
             amountBar.Width = 150;
-            amountBar.ProgressImage = prgBg1;
-            amountBar.Background = prgBg;
+            FileLocation fl = FileSystem.Instance.Locate(cmp, GameFileLocs.GUI);
+            amountBar.ProgressImage = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate(imp, GameFileLocs.GUI);
+            amountBar.Background = UITextureManager.Instance.CreateInstance(fl);
             amountBar.LeftPadding = 7;
             amountBar.RightPadding = 9;
+
+            fl = FileSystem.Instance.Locate(gray, GameFileLocs.GUI);
+            amountBar.Medium = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate(text, GameFileLocs.GUI);
             woodOverlay = UITextureManager.Instance.CreateInstance(fl);

@@ -31,13 +31,21 @@ namespace Code2015.GUI.Controls
             get;
             set;
         }
-
+        public float MediumValue
+        {
+            get;
+            set;
+        }
         public ControlDirection Direction
         {
             get;
             set;
         }
-
+        public Texture Medium
+        {
+            get;
+            set;
+        }
         public Texture Background
         {
             get;
@@ -54,6 +62,19 @@ namespace Code2015.GUI.Controls
             if (Background != null)
             {
                 sprite.Draw(Background, X, Y, modColor);
+            }
+
+            if (Medium != null)
+            {
+                if (Direction == ControlDirection.Hoz)
+                {
+                    Rectangle rect = new Rectangle(X + LeftPadding, Y, Width - LeftPadding - RightPadding, Height);
+
+                    rect.Width = (int)(rect.Width * MediumValue);
+                    Rectangle srect = new Rectangle(LeftPadding, 0, rect.Width, Height);
+
+                    sprite.Draw(Medium, rect, srect, modColor);
+                }
             }
 
             if (ProgressImage != null)
