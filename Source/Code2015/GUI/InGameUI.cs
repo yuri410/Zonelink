@@ -140,8 +140,8 @@ namespace Code2015.GUI
             PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
             AddElement(overlay);
 
-            co2graph = new CO2Graph(game, parent, scene, gamelogic);
-            AddElement(co2graph);
+            //co2graph = new CO2Graph(game, parent, scene, gamelogic);
+            //AddElement(co2graph);
         }
 
         public override void Render(Sprite sprite)

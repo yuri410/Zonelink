@@ -52,6 +52,7 @@ namespace Code2015.GUI
         //侧边栏图标
         Texture containers;
 
+        ColorValue[] colors;
         Texture[] ico_exchange;
         Texture defaultExchange;
 
@@ -89,6 +90,7 @@ namespace Code2015.GUI
             f14 = GameFontManager.Instance.F14;
 
             ico_exchange = new Texture[3];
+            colors = new ColorValue[3];
 
             Player pl = gamelogic.LocalHumanPlayer;
 
@@ -100,22 +102,30 @@ namespace Code2015.GUI
             if (pl.SideColor != ColorValue.Red)
             {
                 fl = FileSystem.Instance.Locate("ig_exchangered.tex", GameFileLocs.GUI);
-                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
+                colors[idx] = ColorValue.Red;
+                idx++;
             }
             if (pl.SideColor != ColorValue.Green)
             {
                 fl = FileSystem.Instance.Locate("ig_exchangegreen.tex", GameFileLocs.GUI);
-                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
+                colors[idx] = ColorValue.Green;
+                idx++;
             }
             if (pl.SideColor != ColorValue.Yellow)
             {
                 fl = FileSystem.Instance.Locate("ig_exchangeyellow.tex", GameFileLocs.GUI);
-                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
+                colors[idx] = ColorValue.Yellow;
+                idx++;
             }
             if (pl.SideColor != ColorValue.Blue)
             {
                 fl = FileSystem.Instance.Locate("ig_exchangeblue.tex", GameFileLocs.GUI);
-                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
+                colors[idx] = ColorValue.Blue;
+                idx++;
             }
         }
 
@@ -154,8 +164,10 @@ namespace Code2015.GUI
 
             f14.DrawString(sprite, "EXCHANGE", 1172, 605, ColorValue.White);
 
-            f14.DrawString(sprite, "BY ", 1170, 704, ColorValue.White);
-
+            if (currentEx != -1)
+            {
+                f14.DrawString(sprite, "BY COMPUTER", 1170, 704, colors[currentEx]);
+            }
             
         }
 
