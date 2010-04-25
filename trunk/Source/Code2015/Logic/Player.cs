@@ -23,6 +23,11 @@ namespace Code2015.Logic
             private set;
         }
 
+        public int ExchangeCount
+        {
+            get;
+            set;
+        }
         public GameGoal Goal
         {
             get;

@@ -52,8 +52,7 @@ namespace Code2015.GUI
         //侧边栏图标
         Texture containers;
 
-        ColorValue[] colors;
-        Texture[] ico_exchange;
+        Dictionary<Player, Texture> ico_exchange = new Dictionary<Player, Texture>();
         Texture defaultExchange;
 
         int count1;
@@ -62,9 +61,11 @@ namespace Code2015.GUI
         int count4;
 
         int exCounter;
+        
 
-        int currentEx = -1;
         MdgResource exInside;
+        Player exInsidePlayer;
+        Player player;
 
         GoalIcons icons;
         MdgResourceManager resources;
@@ -89,31 +90,38 @@ namespace Code2015.GUI
 
             f14 = GameFontManager.Instance.F14;
 
-            ico_exchange = new Texture[4];
-            colors = new ColorValue[4];
-
-            Player pl = gamelogic.LocalHumanPlayer;
 
 
-            fl = FileSystem.Instance.Locate("ig_exchange.tex", GameFileLocs.GUI);
-            defaultExchange = UITextureManager.Instance.CreateInstance(fl);
+            player = gamelogic.LocalHumanPlayer;
 
+            for (int i = 0; i < gamelogic.LocalPlayerCount; i++)
+            {
+                Player cp = gamelogic.GetLocalPlayer(i);
 
-            fl = FileSystem.Instance.Locate("ig_exchangered.tex", GameFileLocs.GUI);
-            ico_exchange[0] = UITextureManager.Instance.CreateInstance(fl);
-            colors[0] = ColorValue.Red;
+                ColorValue color = cp.SideColor;
 
-            fl = FileSystem.Instance.Locate("ig_exchangegreen.tex", GameFileLocs.GUI);
-            ico_exchange[1] = UITextureManager.Instance.CreateInstance(fl);
-            colors[1] = ColorValue.Green;
+                fl = FileSystem.Instance.Locate("ig_exchange.tex", GameFileLocs.GUI);
+                defaultExchange = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_exchangeyellow.tex", GameFileLocs.GUI);
-            ico_exchange[2] = UITextureManager.Instance.CreateInstance(fl);
-            colors[2] = ColorValue.Yellow;
+                if (color == ColorValue.Red)
+                {
+                    fl = FileSystem.Instance.Locate("ig_exchangered.tex", GameFileLocs.GUI);
+                }
+                else if (color == ColorValue.Green)
+                {
+                    fl = FileSystem.Instance.Locate("ig_exchangegreen.tex", GameFileLocs.GUI);
+                }
+                else if (color == ColorValue.Yellow)
+                {
+                    fl = FileSystem.Instance.Locate("ig_exchangeyellow.tex", GameFileLocs.GUI);
+                }
+                else
+                {
+                    fl = FileSystem.Instance.Locate("ig_exchangeblue.tex", GameFileLocs.GUI);
+                }
+                ico_exchange.Add(cp, UITextureManager.Instance.CreateInstance(fl));
+            }
 
-            fl = FileSystem.Instance.Locate("ig_exchangeblue.tex", GameFileLocs.GUI);
-            ico_exchange[3] = UITextureManager.Instance.CreateInstance(fl);
-            colors[3] = ColorValue.Blue;
         }
 
         public override int Order
@@ -133,16 +141,19 @@ namespace Code2015.GUI
         {
             sprite.Draw(containers, 702, 626, ColorValue.White);
 
-            if (currentEx == -1)
+            if (exInsidePlayer == null)
             {
                 sprite.Draw(defaultExchange, 1155, 598, ColorValue.White);
             }
             else
             {
-                sprite.Draw(ico_exchange[currentEx], 1155, 598, ColorValue.White);
+                sprite.Draw(ico_exchange[exInsidePlayer], 1155, 598, ColorValue.White);
             }
 
-            exInside.Render(sprite);
+            if (exInside != null)
+            {
+                exInside.Render(sprite);
+            }
 
             f14.DrawString(sprite, count1.ToString(), 775, 704, ColorValue.White);
             f14.DrawString(sprite, count2.ToString(), 882, 704, ColorValue.White);
@@ -151,9 +162,16 @@ namespace Code2015.GUI
 
             f14.DrawString(sprite, "EXCHANGE", 1172, 605, ColorValue.White);
 
-            if (currentEx != -1)
+            if (exInsidePlayer != null)
             {
-                f14.DrawString(sprite, "BY COMPUTER", 1170, 704, colors[currentEx]);
+                if (exInsidePlayer.Type == PlayerType.LocalAI)
+                {
+                    f14.DrawString(sprite, "BY COMPUTER", 1170, 704, exInsidePlayer.SideColor);
+                }
+                else 
+                {
+                    f14.DrawString(sprite, "BY PLAYER", 1170, 704, exInsidePlayer.SideColor);
+                }
             }
             
         }
@@ -220,13 +238,16 @@ namespace Code2015.GUI
             exCounter++;
             if (exCounter > 600) 
             {
-                currentEx = Randomizer.GetRandomInt(ico_exchange.Length);
+                //currentEx = Randomizer.GetRandomInt(ico_exchange.Length);
                 exCounter = 0;
 
-                Vector2 position = new Vector2(1219, 668);
-                exInside = new MdgResource(icons.Manager, icons.PhysicsWorld,
-                    (MdgType)Randomizer.GetRandomInt((int)MdgType.Count - 1), position, 0);
+                
+                
 
+                //Vector2 position = new Vector2(1219, 668);
+                //exInside = new MdgResource(icons.Manager, icons.PhysicsWorld,
+                //    (MdgType)Randomizer.GetRandomInt((int)MdgType.Count - 1), position, 0);
+                
             }
         }
     }
