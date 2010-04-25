@@ -110,13 +110,21 @@ namespace Code2015.World
             Ring = new Model(data.Ring);
             SelRing = new Model(data.SelRing);
 
+            Matrix siteScale2 = Matrix.Scaling(0.6f, 0.6f, 0.6f);
+            Matrix siteScale = Matrix.Scaling(0.6f, 0.6f, 0.6f);
             MdgSiteFull = new Model[data.MdgSiteFull.Length];
             for (int i = 0; i < MdgSiteFull.Length; i++)
+            {
                 MdgSiteFull[i] = new Model(data.MdgSiteFull[i]);
+                MdgSiteFull[i].CurrentAnimation = new NoAnimation(siteScale);
+            }
 
             MdgSiteEmpty = new Model[data.MdgSiteEmpty.Length];
             for (int i = 0; i < MdgSiteEmpty.Length; i++)
+            {
                 MdgSiteEmpty[i] = new Model(data.MdgSiteEmpty[i]);
+                MdgSiteEmpty[i].CurrentAnimation = new NoAnimation(siteScale);
+            }
 
             MdgGoalIcon = new Model[data.MdgGoalIcon.Length];
             for (int i = 0; i < MdgGoalIcon.Length; i++)
@@ -129,10 +137,14 @@ namespace Code2015.World
 
             MdgGoalIconGray = new Model[data.MdgGoalIconGray.Length];
             for (int i = 0; i < MdgGoalIconGray.Length; i++)
+            {
                 MdgGoalIconGray[i] = new Model(data.MdgGoalIconGray[i]);
+                MdgGoalIconGray[i].CurrentAnimation = new NoAnimation(siteScale2);
+            }
 
             MdgSiteInactive = new Model(data.MdgSiteInactive);
-            
+            MdgSiteInactive.CurrentAnimation = new NoAnimation(siteScale);
+
             PluginTranslate = Game.ObjectScale * 68;
         }
 
@@ -347,11 +359,13 @@ namespace Code2015.World
             style.MdgGoalIcon = new ResourceHandle<ModelData>[count];
             style.MdgGoalIconGray = new ResourceHandle<ModelData>[count];
             style.MdgGoalIconHL = new ResourceHandle<ModelData>[count];
-     
+
+            
             for (int i = 0; i < 7; i++)
             {
                 fl = FileSystem.Instance.Locate(GoalSitesFullTyped[i], GameFileLocs.Model);
                 style.MdgSiteFull[i] = ModelManager.Instance.CreateInstance(rs, fl);
+                
                 fl = FileSystem.Instance.Locate(GoalSitesEmptyTyped[i], GameFileLocs.Model);
                 style.MdgSiteEmpty[i] = ModelManager.Instance.CreateInstance(rs, fl);
 
