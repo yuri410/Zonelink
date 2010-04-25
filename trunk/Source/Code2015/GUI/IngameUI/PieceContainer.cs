@@ -9,6 +9,7 @@ using Code2015.EngineEx;
 using Code2015.World;
 using Code2015.World.Screen;
 using Code2015.BalanceSystem;
+using Code2015.Logic;
 
 namespace Code2015.GUI
 {
@@ -52,6 +53,7 @@ namespace Code2015.GUI
         Texture containers;
 
         Texture[] ico_exchange;
+        Texture defaultExchange;
 
         int count1;
         int count2;
@@ -60,7 +62,7 @@ namespace Code2015.GUI
 
         int exCounter;
 
-        int currentEx;
+        int currentEx = -1;
         MdgResource exInside;
 
         GoalIcons icons;
@@ -86,21 +88,35 @@ namespace Code2015.GUI
 
             f14 = GameFontManager.Instance.F14;
 
-            ico_exchange = new Texture[4];
+            ico_exchange = new Texture[3];
+
+            Player pl = gamelogic.LocalHumanPlayer;
+
+            int idx = 0;
 
             fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            ico_exchange[0] = UITextureManager.Instance.CreateInstance(fl);
+            defaultExchange = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            ico_exchange[1] = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            ico_exchange[2] = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
-            ico_exchange[3] = UITextureManager.Instance.CreateInstance(fl);
-
-
+            if (pl.SideColor != ColorValue.Red)
+            {
+                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+            }
+            if (pl.SideColor != ColorValue.Green)
+            {
+                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+            }
+            if (pl.SideColor != ColorValue.Yellow)
+            {
+                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+            }
+            if (pl.SideColor != ColorValue.Blue)
+            {
+                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
+            }
         }
 
         public override int Order
@@ -120,7 +136,14 @@ namespace Code2015.GUI
         {
             sprite.Draw(containers, 702, 626, ColorValue.White);
 
-            sprite.Draw(ico_exchange[currentEx], 1155, 598, ColorValue.White);
+            if (currentEx == -1)
+            {
+                sprite.Draw(defaultExchange, 1155, 598, ColorValue.White);
+            }
+            else
+            {
+                sprite.Draw(ico_exchange[currentEx], 1155, 598, ColorValue.White);
+            }
 
             exInside.Render(sprite);
 
@@ -128,6 +151,10 @@ namespace Code2015.GUI
             f14.DrawString(sprite, count2.ToString(), 882, 704, ColorValue.White);
             f14.DrawString(sprite, count3.ToString(), 984, 704, ColorValue.White);
             f14.DrawString(sprite, count4.ToString(), 1084, 704, ColorValue.White);
+
+            f14.DrawString(sprite, "EXCHANGE", 1172, 605, ColorValue.White);
+
+            f14.DrawString(sprite, "BY ", 1170, 704, ColorValue.White);
 
             
         }
