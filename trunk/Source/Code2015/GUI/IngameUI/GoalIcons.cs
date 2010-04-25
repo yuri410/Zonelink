@@ -61,16 +61,16 @@ namespace Code2015.GUI
             this.scene = scene;
 
 
-            MdgResource res = new MdgResource(resources, physWorld, (MdgType.Environment), new Vector2(400, 100), 0);
+            MdgResource res = new MdgResource(resources, physWorld, (MdgType.Environment), new Vector2(778, 669), 0);
             resources.Add(res);
 
-            res = new MdgResource(resources, physWorld, (MdgType.Diseases), new Vector2(400, 250), 0);
+            res = new MdgResource(resources, physWorld, (MdgType.Diseases), new Vector2(1084, 669), 0);
             resources.Add(res);
 
-            res = new MdgResource(resources, physWorld, (MdgType.Education), new Vector2(400, 400), 0);
+            res = new MdgResource(resources, physWorld, (MdgType.Education), new Vector2(984, 669), 0);
             resources.Add(res);
 
-            res = new MdgResource(resources, physWorld, (MdgType.Hunger), new Vector2(400, 550), 0);
+            res = new MdgResource(resources, physWorld, (MdgType.Hunger), new Vector2(881, 669), 0);
             resources.Add(res);
 
 
