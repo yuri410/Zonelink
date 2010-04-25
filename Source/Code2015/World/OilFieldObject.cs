@@ -151,7 +151,7 @@ namespace Code2015.World
 
         public float AmountPer
         {
-            get { return oilField.CurrentAmount / oilField.MaxAmount; }
+            get { return oilField.CurrentAmount / (7500*2); }
         }
 
         public NaturalResourceType Type
