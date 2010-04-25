@@ -189,8 +189,13 @@ namespace Code2015.World
 
                         int cidx = Randomizer.GetRandomInt(list.Count);
 
+                        CityPluginFactory fac = new CityPluginFactory();
+
                         list[cidx].ChangeOwner(localPlayer[i]);
 
+                        CityPlugin woodFac = fac.MakeWoodFactory();
+                        woodFac.Upgrade(0.4f);
+                        list[cidx].Add(woodFac);
                         finished = true;
                     }
                 }
