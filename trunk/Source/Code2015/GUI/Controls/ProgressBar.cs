@@ -61,7 +61,7 @@ namespace Code2015.GUI.Controls
                 {
                     Rectangle rect = new Rectangle(X, Y, Width, Height);
                     rect.Height = (int)(rect.Height * Value);
-                    Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
+                    Rectangle srect = new Rectangle(0, 0, Width, rect.Height);
 
                     sprite.Draw(ProgressImage, rect, srect, modColor);
                 }
