@@ -34,7 +34,8 @@ namespace Code2015.GUI
         Game parent;
 
         Texture background;
-        RoundButton switchButton;
+        Texture compass;
+        Button switchButton;
 
         AnimState state;
 
@@ -53,17 +54,21 @@ namespace Code2015.GUI
             background = UITextureManager.Instance.CreateInstance(fl);
 
             const int SWBRadius = 79 / 2;
-            switchButton = new RoundButton();
-            switchButton.X = -22;
-            switchButton.Y = 666;
-            switchButton.Radius = SWBRadius;
-            switchButton.ResizeImage = true;
+            switchButton = new Button();
+            switchButton.X = 302;
+            switchButton.Y = 720 - 554;
+            switchButton.Width = 38;
+            switchButton.Height = 21;
+
             switchButton.Enabled = true;
             switchButton.IsValid = true;
 
-            fl = FileSystem.Instance.Locate("ig_map_guide.tex", GameFileLocs.GUI);
             switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
             switchButton.MouseClick += SwitchButton_MouseClick;
+
+
+            fl = FileSystem.Instance.Locate("ig_map_guide.tex", GameFileLocs.GUI);
+            compass = UITextureManager.Instance.CreateInstance(fl);
         }
         protected override void Dispose(bool disposing)
         {
@@ -104,10 +109,11 @@ namespace Code2015.GUI
         {
             sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(0, PanelY + PanelHeight, 0));
             sprite.Draw(background, PanelX, -PanelHeight, ColorValue.White);
-
+            
             sprite.SetTransform(Matrix.Identity);
 
             switchButton.Render(sprite);
+            sprite.Draw(compass, -21, 666, ColorValue.White);
         }
         public override void UpdateInteract(GameTime time)
         {

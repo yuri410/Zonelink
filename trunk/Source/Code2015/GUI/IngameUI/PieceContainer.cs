@@ -94,27 +94,27 @@ namespace Code2015.GUI
 
             int idx = 0;
 
-            fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_exchange.tex", GameFileLocs.GUI);
             defaultExchange = UITextureManager.Instance.CreateInstance(fl);
 
             if (pl.SideColor != ColorValue.Red)
             {
-                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                fl = FileSystem.Instance.Locate("ig_exchangered.tex", GameFileLocs.GUI);
                 ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
             }
             if (pl.SideColor != ColorValue.Green)
             {
-                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                fl = FileSystem.Instance.Locate("ig_exchangegreen.tex", GameFileLocs.GUI);
                 ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
             }
             if (pl.SideColor != ColorValue.Yellow)
             {
-                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                fl = FileSystem.Instance.Locate("ig_exchangeyellow.tex", GameFileLocs.GUI);
                 ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
             }
             if (pl.SideColor != ColorValue.Blue)
             {
-                fl = FileSystem.Instance.Locate("ig_changeBox.tex", GameFileLocs.GUI);
+                fl = FileSystem.Instance.Locate("ig_exchangeblue.tex", GameFileLocs.GUI);
                 ico_exchange[idx++] = UITextureManager.Instance.CreateInstance(fl);
             }
         }
