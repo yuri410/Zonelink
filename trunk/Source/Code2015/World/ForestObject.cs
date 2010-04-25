@@ -99,7 +99,7 @@ namespace Code2015.World
 
         public float AmountPer
         {
-            get { return forest.CurrentAmount / forest.MaxAmount; }
+            get { return forest.CurrentAmount / (7500 * 2); }
         }
         public NaturalResourceType Type
         {

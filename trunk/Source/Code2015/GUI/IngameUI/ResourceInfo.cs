@@ -8,6 +8,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -30,21 +31,28 @@ namespace Code2015.GUI
             this.parent = info;
             this.resource = res;
 
+            string imp = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_imp.tex" : "ig_prgbar_oil_imp.tex";
+            string cmp = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_cmp.tex" : "ig_prgbar_oil_cmp.tex";
+            string text = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood.tex" : "ig_prgbar_oil.tex";
+            string gray = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_gray.tex" : "ig_prgbar_oil_gray.tex";
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_wood_imp.tex", GameFileLocs.GUI);
+
+            FileLocation fl = FileSystem.Instance.Locate(imp, GameFileLocs.GUI);
             Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_prgbar_wood_cmp.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate(cmp, GameFileLocs.GUI);
             Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
 
             amountBar = new ProgressBar();
 
-            amountBar.Height = 18;
-            amountBar.Width = 117;
+            amountBar.Height = 30;
+            amountBar.Width = 150;
             amountBar.ProgressImage = prgBg1;
             amountBar.Background = prgBg;
+            amountBar.LeftPadding = 7;
+            amountBar.RightPadding = 9;
 
-            fl = FileSystem.Instance.Locate("ig_prgbar_wood.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate(text, GameFileLocs.GUI);
             woodOverlay = UITextureManager.Instance.CreateInstance(fl);
         }
 
@@ -57,8 +65,8 @@ namespace Code2015.GUI
                 parent.Projection, parent.View, Matrix.Identity);
 
             float dist = Vector3.Distance(ref pos, ref parent.CameraPosition);
-            float d1 = 1 - MathEx.Saturate((dist - 1000) / 1500);
-            float d2 = 1 - MathEx.Saturate((dist - 3000) / 1000);
+            //float d1 = 1 - MathEx.Saturate((dist - 1000) / 1500);
+            float d2 = 1 - MathEx.Saturate((dist - 2000) / 1000);
 
             byte alpha = (byte)(d2 * byte.MaxValue);
 
@@ -67,23 +75,16 @@ namespace Code2015.GUI
                 ColorValue modColor = new ColorValue(byte.MaxValue, byte.MaxValue, byte.MaxValue, alpha);
 
                 Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
-
-                string title = resource.Type.ToString();
-                Size strSize = font.MeasureString(title, 20, DrawTextFormat.Center);
-
-                Rectangle rect = new Rectangle(scrnPos.X, scrnPos.Y, (int)(50 + 100 * d1), (int)(40 + 80 * d1));
-
-
-                font.DrawString(sprite, title, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)(modColor.A << 24));
-                font.DrawString(sprite, title, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, (int)modColor.PackedValue);
+                scrnPos.X -= amountBar.Width / 2;
+                scrnPos.Y -= amountBar.Height / 2;
 
                 amountBar.ModulateColor = modColor;
                 amountBar.X = scrnPos.X;
-                amountBar.Y = scrnPos.Y - 30;
+                amountBar.Y = scrnPos.Y;
                 amountBar.Value = resource.AmountPer;
                 amountBar.Render(sprite);
 
-                sprite.Draw(woodOverlay, scrnPos.X, scrnPos.Y, ColorValue.White);
+                sprite.Draw(woodOverlay, scrnPos.X, scrnPos.Y, modColor);
             }
         }
 

@@ -16,7 +16,16 @@ namespace Code2015.GUI.Controls
 
     class ProgressBar : Control
     {
-
+        public int LeftPadding
+        {
+            get;
+            set;
+        }
+        public int RightPadding
+        {
+            get;
+            set;
+        }
         public float Value
         {
             get;
@@ -51,9 +60,11 @@ namespace Code2015.GUI.Controls
             {
                 if (Direction == ControlDirection.Hoz)
                 {
-                    Rectangle rect = new Rectangle(X, Y, Width, Height);
+
+                    Rectangle rect = new Rectangle(X + LeftPadding, Y, Width - LeftPadding - RightPadding, Height);
+
                     rect.Width = (int)(rect.Width * Value);
-                    Rectangle srect = new Rectangle(0, 0, rect.Width, Height);
+                    Rectangle srect = new Rectangle(LeftPadding, 0, rect.Width, Height);
 
                     sprite.Draw(ProgressImage, rect, srect, modColor);
                 }

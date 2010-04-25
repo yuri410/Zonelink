@@ -923,8 +923,8 @@ namespace DataFixer
 
         static unsafe void BuildCharMap()
         {
-            const int Len = 19;
-            const int Width = 19 * 7;
+            const int Len = 17;
+            const int Width = Len * 7;
             System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(Width, Width);
 
             BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, Width, Width), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
@@ -949,7 +949,7 @@ namespace DataFixer
 
             bmp.UnlockBits(data);
 
-            bmp.Save(@"E:\Desktop\cmap.png", ImageFormat.Png);
+            bmp.Save(@"E:\Desktop\cmap17.png", ImageFormat.Png);
         }
         static void Main(string[] args)
         {
