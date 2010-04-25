@@ -17,16 +17,16 @@ namespace Code2015.BalanceSystem
             Target = a;
         }
 
-        public bool Disabled
-        {
-            get;
-            private set;
-        }
+        //public bool Disabled
+        //{
+        //    get;
+        //    private set;
+        //}
 
-        public void Disable()
-        {
-            Disabled = true;
-        }
+        //public void Disable()
+        //{
+        //    Disabled = true;
+        //}
 
         public float HR;
         public float LR;

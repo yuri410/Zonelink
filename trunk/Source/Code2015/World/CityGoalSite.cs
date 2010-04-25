@@ -153,6 +153,12 @@ namespace Code2015.World
             for (int i = 0; i < SiteCount; i++)
             {
                 sites[i].HasPiece = false;
+                if (sites[i].IsCapturePiece)
+                {
+                    sites[i].TargetCity.CancelCapture(parent.City);
+                }
+                sites[i].IsCapturePiece = false;
+                sites[i].TargetCity = null;
             }
         }
 
@@ -289,9 +295,7 @@ namespace Code2015.World
             {
                 if (parent.IsCaptured && target.CanCapture(parent.Owner))
                 {
-                    target.Capture.SetCapture(parent.Owner, parent.City);
-
-                    parent.MakeLinkWith(target.Parent);
+                    target.SetCapture(parent.City);
 
 
                     sites[i].IsCapturePiece = true;
@@ -307,6 +311,13 @@ namespace Code2015.World
         public void ClearAt(int i) 
         {
             sites[i].HasPiece = false;
+            if (sites[i].IsCapturePiece)
+            {
+                sites[i].TargetCity.CancelCapture(parent.City);
+
+                sites[i].IsCapturePiece = false;
+                sites[i].TargetCity = null;
+            }
         }
 
         public MdgType? GetPiece(int i)

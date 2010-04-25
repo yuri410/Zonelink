@@ -77,6 +77,7 @@ namespace Code2015
         GameState gameState;
         #endregion
 
+        CityLinkManager linkMgr;
 
         bool isLoaded;
         int loadingCountDown = 100;
@@ -149,6 +150,7 @@ namespace Code2015
             this.renderSys = game.RenderSystem;
             this.parameters = gcp;
             this.soundWorld = new SoundObjectWorld();
+            this.linkMgr = new CityLinkManager();
 
             // 初始化GameState
             GameStateBuilder stateBuilder = new GameStateBuilder();
@@ -173,7 +175,7 @@ namespace Code2015
             {
                 City city = slgSystem.GetCity(i);
 
-                CityObject cityObj = new CityObject(renderSys, map, scene.Scene, city, cityStyles);
+                CityObject cityObj = new CityObject(renderSys, map, scene.Scene, linkMgr, city, cityStyles);
 
                 cityObj.CityVisible += scene.City_Visible;
 

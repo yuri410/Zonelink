@@ -321,13 +321,13 @@ namespace Code2015.World
                 alink = end.City.GetLink(start.City);
             }
 
-            if (alink != null && blink != null && sceneMgr != null)
-            {
-                if (alink.Disabled && blink.Disabled)
-                {
-                    sceneMgr.RemoveObjectFromScene(this);
-                }
-            }
+            //if (alink != null && blink != null && sceneMgr != null)
+            //{
+            //    if (alink.Disabled && blink.Disabled)
+            //    {
+            //        sceneMgr.RemoveObjectFromScene(this);
+            //    }
+            //}
 
             if (isVisible)
             {

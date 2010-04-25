@@ -451,6 +451,7 @@
     <Compile Include="SoundObject.cs" />
     <Compile Include="SoundObjectWorld.cs" />
     <Compile Include="World\CityGoalSite.cs" />
+    <Compile Include="World\CityLinkManager.cs" />
     <Compile Include="World\CityStyle.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\IngameUI\GoalIcons.cs" />

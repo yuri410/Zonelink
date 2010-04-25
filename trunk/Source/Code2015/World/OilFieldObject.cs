@@ -56,11 +56,6 @@ namespace Code2015.World
                      model[i].CurrentAnimation = new NoAnimation(
                          Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
                  }
-                // FileLocation fl = FileSystem.Instance.Locate("oilderrick_oc.mesh", GameFileLocs.Model);
-
-                //ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                //ModelL0.CurrentAnimation = new NoAnimation(
-                //    Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
             }
             else
             {

@@ -118,8 +118,10 @@ namespace Code2015.World
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
-        Vector3 position;
+        //Dictionary<CityObject, CityLinkObject> linkObjects = new Dictionary<CityObject, CityLinkObject>();
 
+        Vector3 position;
+        CityLinkManager linkMgr;
         bool isSelected;
         //bool isVisible;
         #region 属性
@@ -244,13 +246,14 @@ namespace Code2015.World
 
         public event CityVisibleHander CityVisible;
 
-        public CityObject(RenderSystem rs, Map map, SceneManagerBase sceMgr, City city, CityStyleTable styleSet)
+        public CityObject(RenderSystem rs, Map map, SceneManagerBase sceMgr, CityLinkManager linkMgr, City city, CityStyleTable styleSet)
             : base(false)
         {
             this.city = city;
             this.city.Parent = this;
             base.SceneManager = sceMgr;
             this.map = map;
+            this.linkMgr = linkMgr;
 
             this.plugins = new FastList<PluginEntry>();
             this.style = styleSet.CreateStyle(city.Culture);
@@ -260,6 +263,8 @@ namespace Code2015.World
             city.PluginRemoved += City_PluginRemoved;
             city.NearbyCityAdded += City_Linked;
             city.NearbyCityRemoved += City_UnLinked;
+            city.CaptureSet += City_CaptureSet;
+            city.CaptureCancel += City_CaptureCancel;
 
             city.CityOwnerChanged += City_OwnerChanged;
 
@@ -297,18 +302,28 @@ namespace Code2015.World
             }
         }
 
-        public void MakeLinkWith(CityObject city) 
-        {
 
-            CityLinkObject link = new CityLinkObject(renderSys, this, city);
-            SceneManager.AddObjectToScene(link);
+        void City_CaptureCancel(City a, City b)
+        {
+            if (b != null)
+            {
+                linkMgr.Unlink(SceneManager, a.Parent, b.Parent);
+            }
 
         }
+        void City_CaptureSet(City a, City b)
+        {
+            if (b != null)
+            {
+                linkMgr.Link(renderSys, SceneManager, a.Parent, b.Parent);
+            }
 
+        }
         void City_UnLinked(City a, City b)
         {
             if (b != null)
             {
+                linkMgr.Unlink(SceneManager, a.Parent, b.Parent);
                 IsUnlinked = true;
             }
 
