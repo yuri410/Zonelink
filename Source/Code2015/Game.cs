@@ -186,8 +186,8 @@ namespace Code2015
             AddScenery();
             slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
             //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
-
-
+            gameState.InitialStandards();
+            
             this.ingameUI = new InGameUI(game, this, scene, gameState);
         }
 
