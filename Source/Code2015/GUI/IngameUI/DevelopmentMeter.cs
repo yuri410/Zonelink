@@ -28,6 +28,8 @@ namespace Code2015.GUI
         Game parent;
         Player player;
 
+        GameFont f14;
+
         FastList<Entry> prgBars = new FastList<Entry>();
         Texture background;
 
@@ -76,6 +78,7 @@ namespace Code2015.GUI
             this.scene = scene;
             this.gameLogic = gamelogic;
             this.player = parent.HumanPlayer;
+            this.f14 = GameFontManager.Instance.F14;
 
             FileLocation fl = FileSystem.Instance.Locate("ig_development.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
@@ -112,6 +115,10 @@ namespace Code2015.GUI
             {
                 prgBars.Elements[i].Bar.Render(sprite);
             }
+
+            f14.DrawString(sprite, "CO2", 998, 7, ColorValue.White);
+            f14.DrawString(sprite, "DEVELOPMENT", 1091, 7, ColorValue.White);
+
         }
 
         public override void Update(GameTime time)
