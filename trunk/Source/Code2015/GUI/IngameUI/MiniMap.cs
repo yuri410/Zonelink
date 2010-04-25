@@ -53,7 +53,6 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ig_map.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            const int SWBRadius = 79 / 2;
             switchButton = new Button();
             switchButton.X = 302;
             switchButton.Y = 720 - 554;

@@ -89,44 +89,31 @@ namespace Code2015.GUI
 
             f14 = GameFontManager.Instance.F14;
 
-            ico_exchange = new Texture[3];
-            colors = new ColorValue[3];
+            ico_exchange = new Texture[4];
+            colors = new ColorValue[4];
 
             Player pl = gamelogic.LocalHumanPlayer;
 
-            int idx = 0;
 
             fl = FileSystem.Instance.Locate("ig_exchange.tex", GameFileLocs.GUI);
             defaultExchange = UITextureManager.Instance.CreateInstance(fl);
 
-            if (pl.SideColor != ColorValue.Red)
-            {
-                fl = FileSystem.Instance.Locate("ig_exchangered.tex", GameFileLocs.GUI);
-                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
-                colors[idx] = ColorValue.Red;
-                idx++;
-            }
-            if (pl.SideColor != ColorValue.Green)
-            {
-                fl = FileSystem.Instance.Locate("ig_exchangegreen.tex", GameFileLocs.GUI);
-                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
-                colors[idx] = ColorValue.Green;
-                idx++;
-            }
-            if (pl.SideColor != ColorValue.Yellow)
-            {
-                fl = FileSystem.Instance.Locate("ig_exchangeyellow.tex", GameFileLocs.GUI);
-                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
-                colors[idx] = ColorValue.Yellow;
-                idx++;
-            }
-            if (pl.SideColor != ColorValue.Blue)
-            {
-                fl = FileSystem.Instance.Locate("ig_exchangeblue.tex", GameFileLocs.GUI);
-                ico_exchange[idx] = UITextureManager.Instance.CreateInstance(fl);
-                colors[idx] = ColorValue.Blue;
-                idx++;
-            }
+
+            fl = FileSystem.Instance.Locate("ig_exchangered.tex", GameFileLocs.GUI);
+            ico_exchange[0] = UITextureManager.Instance.CreateInstance(fl);
+            colors[0] = ColorValue.Red;
+
+            fl = FileSystem.Instance.Locate("ig_exchangegreen.tex", GameFileLocs.GUI);
+            ico_exchange[1] = UITextureManager.Instance.CreateInstance(fl);
+            colors[1] = ColorValue.Green;
+
+            fl = FileSystem.Instance.Locate("ig_exchangeyellow.tex", GameFileLocs.GUI);
+            ico_exchange[2] = UITextureManager.Instance.CreateInstance(fl);
+            colors[2] = ColorValue.Yellow;
+
+            fl = FileSystem.Instance.Locate("ig_exchangeblue.tex", GameFileLocs.GUI);
+            ico_exchange[3] = UITextureManager.Instance.CreateInstance(fl);
+            colors[3] = ColorValue.Blue;
         }
 
         public override int Order
