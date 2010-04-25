@@ -44,6 +44,32 @@ namespace Code2015.EngineEx
         int[] charWidth;
         int charHeight;
 
+
+        static readonly int[] IndexCast;
+        static GameFont() 
+        {
+            int idx =0;
+            IndexCast = new int[byte.MaxValue];
+            for (char c = 'A'; c <= 'Z'; c++)
+            {
+                IndexCast[c] = idx++;
+            }
+            for (char c = '0'; c <= '9'; c++)
+            {
+                IndexCast[c] = idx++;
+            }
+            IndexCast['.'] = idx++;
+            IndexCast[':'] = idx++;
+            IndexCast[';'] = idx++;
+            IndexCast[','] = idx++;
+            IndexCast['?'] = idx++;
+            IndexCast['!'] = idx++;
+            IndexCast['\''] = idx++;
+            IndexCast['('] = idx++;
+            IndexCast[')'] = idx++;
+
+        }
+
         public GameFont(string name)
         {
             FileLocation fl = FileSystem.Instance.Locate(name + ".tex", GameFileLocs.GUI);

@@ -115,7 +115,7 @@ namespace Code2015.Effects
                 state.MagFilter = TextureFilter.Linear;
                 state.MipFilter = TextureFilter.Linear;
                 state.MaxAnisotropy = 8;
-                state.MipMapLODBias = -3;
+                state.MipMapLODBias = 0;
 
                 pixShader.SetValue("k_a", mat.Ambient);
                 pixShader.SetValue("k_d", mat.Diffuse);
@@ -132,6 +132,10 @@ namespace Code2015.Effects
                 {
                     pixShader.SetTexture("texDif", clrTex);
                 }
+
+                state.MipMapLODBias = -3;
+                pixShader.SetSamplerState("texNrm", ref state);
+
                 clrTex = mat.GetTexture(1);
                 if (clrTex == null)
                 {
