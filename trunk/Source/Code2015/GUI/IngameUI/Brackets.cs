@@ -67,8 +67,7 @@ namespace Code2015.GUI
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
                 Point pt = GetSiteProjPosition(city, i);
-                pt.X -= (int)MdgPhysicsParams.BallRadius;
-                pt.Y -= (int)MdgPhysicsParams.BallRadius;
+
                 Vector2 pos = res.Position;
                 float dx = pos.X - pt.X;
                 float dy = pos.Y - pt.Y;
