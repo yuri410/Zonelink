@@ -49,7 +49,7 @@ namespace Code2015
     /// <summary>
     ///  表示一场游戏
     /// </summary>
-    class Game : IGameComponent
+    class Game : IGameComponent, IDisposable
     {
         public const float ObjectScale = 3;
         public const float TreeScale = ObjectScale * 3.33f;
@@ -320,6 +320,36 @@ namespace Code2015
 
             }
         }
+
+        #region IDisposable 成员
+        public bool Disposed
+        {
+            get;
+            private set;
+        }
+        public void Dispose()
+        {
+            if (!Disposed)
+            {
+                ingameUI.Dispose();
+                ingameUI = null;
+                //cityStyles.Dispose();
+                cityStyles = null;
+
+                scene = null;
+                soundWorld = null;
+                gameState = null;
+
+                Disposed = true;
+            }
+            else 
+            {
+                throw new ObjectDisposedException(ToString());
+            }
+   
+        }
+
+        #endregion
     }
 
 }

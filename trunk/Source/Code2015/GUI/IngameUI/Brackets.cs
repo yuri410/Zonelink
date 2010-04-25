@@ -77,7 +77,7 @@ namespace Code2015.GUI
                 {
                     if (res.AutoStick == null)
                         res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
-                    //return true;
+                    return true;
                 }
                 else if (res.AutoStick != null)
                 {
