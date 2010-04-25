@@ -60,7 +60,7 @@ namespace Code2015
 
         #endregion
 
-        public void Update(GameTime time) 
+        public void Update(GameTime time)
         {
             sound.Update(time);
         }
@@ -93,5 +93,6 @@ namespace Code2015
                 objectList[i].Update(time);
             }
         }
+
     }
 }

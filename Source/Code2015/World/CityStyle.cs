@@ -585,6 +585,48 @@ namespace Code2015.World
 
             return style;
         }
-    }
 
+        public void Dispose()
+        {
+            //for (int i = 0; i < styles.Length; i++)
+            //{
+            //    CityStyleData style = styles[i];
+            //    for (int j = 0; j < style.MdgGoalIcon.Length; j++)
+            //    {
+            //        style.MdgGoalIcon[j].Dispose();
+            //    }
+            //    for (int j = 0; j < style.MdgGoalIconGray.Length; j++)
+            //    {
+            //        style.MdgGoalIconGray[j].Dispose();
+            //    }
+            //    for (int j = 0; j < style.MdgGoalIconHL.Length; j++)
+            //    {
+            //        style.MdgGoalIconHL[j].Dispose();
+            //    }
+            //    for (int j = 0; j < style.MdgSiteEmpty.Length; j++)
+            //    {
+            //        style.MdgSiteEmpty[j].Dispose();
+            //    }
+            //    for (int j = 0; j < style.MdgSiteFull.Length; j++)
+            //    {
+            //        style.MdgSiteFull[j].Dispose();
+            //    }
+            //    style.MdgSiteInactive.Dispose();
+            //    style.OilRefinary.Dispose();
+            //    style.Ring.Dispose();
+            //    style.SelRing.Dispose();
+            //    for (int j = 0; j < style.Urban.Length; j++)
+            //    {
+            //        style.Urban[j].Dispose();
+            //    }
+            //    style.WoodFactory.Dispose();
+            //    for (int j = 0; j < style.Base.Length; j++)
+            //    {
+            //        style.Base[j].Dispose();
+            //    }
+            //    style.BiofuelFactory.Dispose();
+            //    for (int j=0;j<style
+            //}
+        }
+    }
 }

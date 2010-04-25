@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
@@ -41,14 +42,25 @@ namespace Code2015.World
                 isOcean = true;
             }
 
+            frameIdx = Randomizer.GetRandomInt(FrameCount - 1);
+
             float scale = Game.ObjectScale * 2.2f;
             if (isOcean)
             {
-                FileLocation fl = FileSystem.Instance.Locate("oilderrick_oc.mesh", GameFileLocs.Model);
+                 model = new Model[FrameCount];
+                 for (int i = 0; i < FrameCount; i++)
+                 {
+                     FileLocation fl = FileSystem.Instance.Locate("oilderrick" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
-                ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                ModelL0.CurrentAnimation = new NoAnimation(
-                    Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
+                     model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                     model[i].CurrentAnimation = new NoAnimation(
+                         Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
+                 }
+                // FileLocation fl = FileSystem.Instance.Locate("oilderrick_oc.mesh", GameFileLocs.Model);
+
+                //ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                //ModelL0.CurrentAnimation = new NoAnimation(
+                //    Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
             }
             else
             {
