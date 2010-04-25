@@ -122,6 +122,7 @@
     <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\ParticleEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
+    <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
     <Compile Include="EngineEx\PostRenderer.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />

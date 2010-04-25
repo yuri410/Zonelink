@@ -9,6 +9,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.World;
 using Plugin.GISTools;
+
 namespace DataFixer
 {
     //class BitTable 
@@ -920,15 +921,45 @@ namespace DataFixer
             bw.Close();
         }
 
+        static unsafe void BuildCharMap()
+        {
+            const int Len = 19;
+            const int Width = 19 * 7;
+            System.Drawing.Bitmap bmp = new System.Drawing.Bitmap(Width, Width);
+
+            BitmapData data = bmp.LockBits(new System.Drawing.Rectangle(0, 0, Width, Width), ImageLockMode.WriteOnly, PixelFormat.Format32bppArgb);
+
+            ColorValue* color = (ColorValue*)data.Scan0;
+            for (int i = 0; i < 7; i++)
+            {
+                for (int j = 0; j < Width; j++)
+                {
+                    int idx = i * Len * Width + j;
+                    color[idx] = ColorValue.Black;
+                }
+            }
+            for (int i = 0; i < Width; i++)
+            {
+                for (int j = 0; j < Len; j++)
+                {
+                    int idx = i * Width + j * Len;
+                    color[idx] = ColorValue.Black;
+                }
+            }
+
+            bmp.UnlockBits(data);
+
+            bmp.Save(@"E:\Desktop\cmap.png", ImageFormat.Png);
+        }
         static void Main(string[] args)
         {
-
+            
             //while (true) Input();
             //MergeAlpha(@"E:\Desktop\新建文件夹\hospital ground.png", @"E:\Desktop\新建文件夹\edu groud副本.jpg");
             //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             //TerrainData.Initialize();
             //BuildBitMap();
-            Build3();
+            BuildCharMap();
             //float radlng = MathEx.Degree2Radian(133.678894f);
             //float radlat = MathEx.Degree2Radian(43.090955f);
             //Console.WriteLine(TerrainData.Instance.QueryHeight(radlng, radlat));

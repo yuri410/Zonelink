@@ -268,6 +268,11 @@ namespace Code2015.World.Screen
     /// </summary>
     public class MdgResource : UIComponent, IMdgSelection
     {
+        public static Texture LoadGlowImage()
+        {
+            FileLocation fl = FileSystem.Instance.Locate("glow.tex", GameFileLocs.GUI);
+            return UITextureManager.Instance.CreateInstance(fl);
+        }
         public static Texture LoadImage(MdgType type, bool isPiece, bool bright)
         {
             string suffix = string.Empty;
@@ -293,6 +298,7 @@ namespace Code2015.World.Screen
 
         Texture image;
         Texture imagehl;
+        Texture glow;
 
         MdgType type;
         ScreenPhysicsWorld physicsWorld;
@@ -347,6 +353,7 @@ namespace Code2015.World.Screen
             this.type = type;
             this.image = LoadImage(type, false, false);
             this.imagehl = LoadImage(type, false, true);
+            this.glow = LoadGlowImage();
         }
         public void NotifyRemoved()
         {
@@ -365,9 +372,15 @@ namespace Code2015.World.Screen
                     pos = AutoStick.Position;
                 }
 
+                
                 sprite.SetTransform(
                     Matrix.Scaling(2 * r / image.Width, 2 * r / image.Height, 1) *
                     Matrix.Translation(-r, -r, 0) * Matrix.Translation(pos.X, pos.Y, 0));
+
+                if (AutoStick != null)
+                {
+                    sprite.Draw(glow, -18, -18, ColorValue.White);
+                }
 
 
                 if (IsBright)
