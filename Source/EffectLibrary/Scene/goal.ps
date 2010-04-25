@@ -25,7 +25,7 @@ PSOutput main(PSInput ip)
     
     float3 N = 2 * tex2D(texNrm, ip.TexCoord).xyz - 1;
     N = mul(float4(N, 0), world).xyz;
-    N.z = -N.z;
+    //N.z = -N.z;
 	//N.x = -N.x;
 	//N.y = -N.y;
 
