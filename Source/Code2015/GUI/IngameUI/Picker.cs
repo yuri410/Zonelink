@@ -133,12 +133,12 @@ namespace Code2015.GUI
                     int dx = MouseInput.X - mouseRightPosition.X;
                     int dy = MouseInput.Y - mouseRightPosition.Y;
 
-                    if (dx > 10) dx = 10;
-                    if (dx < -10) dx = -10;
-                    if (dy > 10) dy = 10;
-                    if (dy < -10) dy = -10;
+                    if (dx > 10) dx = 20;
+                    if (dx < -10) dx = -20;
+                    if (dy > 10) dy = 20;
+                    if (dy < -10) dy = -20;
 
-                    camera.Move(dx * -0.1f, dy * -0.1f);
+                    camera.Move(dx * -0.05f, dy * -0.05f);
                 }
             }
         }

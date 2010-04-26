@@ -77,9 +77,17 @@ namespace Code2015.GUI
         GoalPieceMaker pieceMaker;
 
         ScreenPhysicsWorld physWorld;
-      
-        Texture cursor;
 
+        Texture cursor;
+        Texture cursor_up;
+        Texture cursor_down;
+        Texture cursor_left;
+        Texture cursor_right;
+        Texture cursor_ul;
+        Texture cursor_ur;
+        Texture cursor_dl;
+        Texture cursor_dr;
+        
         PieceContainer container;
         InfoUI infoUI;
         MiniMap miniMap;
@@ -99,28 +107,7 @@ namespace Code2015.GUI
             get { return physWorld; }
         }
 
-        static Point GetHotSpot(MouseCursor c)
-        {
-            switch (c)
-            {
-                case MouseCursor.Normal:
-                    return new Point(6, 6);
-                case MouseCursor.LeftArrow:
-                    return new Point(5, 24);
-                case MouseCursor.DownArrow:
-                    return new Point(24, 26);
-                case MouseCursor.RightArrow:
-                    return new Point(31, 24);
-                case MouseCursor.UpArrow:
-                    return new Point(25, 4);
-                case MouseCursor.DownLeftArrow:
-                case MouseCursor.DownRightArrow:
-                case MouseCursor.UpLeftArrow:
-                case MouseCursor.UpRightArrow:
-                    break;
-            }
-            return new Point();
-        }
+        
 
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
@@ -140,6 +127,27 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("cursor_u.tex", GameFileLocs.GUI);
+            cursor_up = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_l.tex", GameFileLocs.GUI);
+            cursor_left = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_d.tex", GameFileLocs.GUI);
+            cursor_down = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_r.tex", GameFileLocs.GUI);
+            cursor_right = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("cursor_lu.tex", GameFileLocs.GUI);
+            cursor_ul = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_ru.tex", GameFileLocs.GUI);
+            cursor_ur = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_ld.tex", GameFileLocs.GUI);
+            cursor_dl = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_rd.tex", GameFileLocs.GUI);
+            cursor_dr = UITextureManager.Instance.CreateInstance(fl);
+          
+            
+            
             cursorState = MouseCursor.Normal;
 
 
@@ -206,9 +214,31 @@ namespace Code2015.GUI
 
                     base.Render(sprite);
 
-                    Point hsp = GetHotSpot(cursorState);
+                    Point hsp = new Point();// GetHotSpot(cursorState);
+                    Texture ctex = cursor;
+                    switch (cursorState)
+                    {
+                        case MouseCursor.Normal:
+                            hsp = new Point(6, 6);
+                        case MouseCursor.LeftArrow:
+                            hsp = new Point(5, 24);
+                        case MouseCursor.DownArrow:
+                            hsp = new Point(24, 26);
+                        case MouseCursor.RightArrow:
+                            hsp = new Point(31, 24);
+                        case MouseCursor.UpArrow:
+                            hsp = new Point(25, 4);
+                        case MouseCursor.DownLeftArrow:
+                            hsp = new Point(8, 34);
+                        case MouseCursor.DownRightArrow:
+                            hsp = new Point(34, 34);
+                        case MouseCursor.UpLeftArrow:
+                            hsp = new Point(7, 7);
+                        case MouseCursor.UpRightArrow:
+                            hsp = new Point(35, 8);
+                    }
 
-                    sprite.Draw(cursor, MouseInput.X - hsp.X, MouseInput.Y - hsp.Y, ColorValue.White);
+                    sprite.Draw(ctex, MouseInput.X - hsp.X, MouseInput.Y - hsp.Y, ColorValue.White);
                 }
             }
         }
