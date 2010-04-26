@@ -56,10 +56,10 @@ namespace Code2015.GUI
             RightArrow = 2,
             UpArrow = 4,
             DownArrow = 8,
-            UpRightArrow = 16,
-            DownRightArrow = 32,
-            UpLeftArrow = 64,
-            DownLeftArrow = 128,
+            UpRightArrow = UpArrow | RightArrow,
+            DownRightArrow = DownArrow | RightArrow,
+            UpLeftArrow = UpArrow | LeftArrow,
+            DownLeftArrow = DownArrow | LeftArrow,
         }
 
         GameScene scene;
@@ -256,7 +256,8 @@ namespace Code2015.GUI
                             break;
                     }
 
-                    sprite.Draw(ctex, MouseInput.X - hsp.X, MouseInput.Y - hsp.Y, ColorValue.White);
+                    sprite.Draw(ctex, MathEx.Clamp(0, Program.ScreenWidth, MouseInput.X) - hsp.X, 
+                        MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y, ColorValue.White);
                 }
             }
         }
