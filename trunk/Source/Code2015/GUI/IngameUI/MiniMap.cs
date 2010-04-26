@@ -20,7 +20,7 @@ namespace Code2015.GUI
 
         const float PopBaseSpeed = 0.75f;
 
-        const int MapX = 51;
+        const int MapX = 7;
         const int MapY = 28;
         const int MapWidth = 325;
         const int MapHeight = 160;
@@ -135,10 +135,10 @@ namespace Code2015.GUI
             {
                 int cx;
                 int cy;
-                float yspan = (14.0f / 18.0f) * MathEx.PIf;
+                float yspan = MathEx.PIf;
 
-                cy = (int)(((yspan * 0.5f - MathEx.Degree2Radian(camera.Latitude)) / yspan) * MapHeight);
-                cx = (int)(((MathEx.Degree2Radian(camera.Longitude) + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
+                cy = (int)(((yspan * 0.5f - camera.Latitude) / yspan) * MapHeight);
+                cx = (int)(((camera.Longitude + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
 
                 if (cy < 0) cy += MapHeight;
                 if (cy >= MapHeight) cy -= MapHeight;
@@ -147,7 +147,10 @@ namespace Code2015.GUI
                 if (cx >= MapWidth) cx -= MapWidth;
 
                 float ratio = 1;
-                Rectangle rect = new Rectangle(cx - (int)(ratio * cameraView.Width / 2f), cy - (int)(ratio * cameraView.Height / 2), (int)(cameraView.Width * ratio), (int)(cameraView.Height * ratio));
+                Rectangle rect = new Rectangle(
+                    cx + MapX - (int)(cameraView.Width * ratio * 0.5f),
+                    cy + MapY - (int)(cameraView.Height * ratio * 0.5f), (int)(cameraView.Width * ratio), (int)(cameraView.Height * ratio));
+                rect.Y -= PanelHeight;
 
                 sprite.Draw(cameraView, rect, ColorValue.White);
             }
@@ -163,6 +166,25 @@ namespace Code2015.GUI
             if (state == AnimState.Inside)
             {
                 state = AnimState.Out;
+            }
+            if (state == AnimState.Outside)
+            {
+                //timeCounter -= time.ElapsedGameTimeSeconds;
+                //if (timeCounter < 0)
+                //{
+                //    state = AnimState.In;
+                //}
+                Rectangle rect2 = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
+                if (MouseInput.IsLeftPressed && Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect2))
+                {
+                    int x = MouseInput.X - MapX;
+                    int y = MouseInput.Y - MapY - PanelY;
+
+                    float yspan = MathEx.PIf;
+
+                    camera.Latitude = yspan * 0.5f - y * yspan / (float)MapHeight;
+                    camera.Longitude = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
+                }
             }
         }
         public override void Update(GameTime time)
@@ -188,14 +210,6 @@ namespace Code2015.GUI
                 }
             }
 
-            if (state == AnimState.Outside)
-            {
-                //timeCounter -= time.ElapsedGameTimeSeconds;
-                //if (timeCounter < 0)
-                //{
-                //    state = AnimState.In;
-                //}
-            }
         }
     }
 }
