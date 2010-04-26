@@ -27,5 +27,6 @@ VSOutput main(VSInput ip)
     
     o.TexCoord = ip.TexCoord;
     o.psPosition = ip.Position.xyz;
+    o.psPosition.xy -= float2(996, 18);
     return o;
 }
