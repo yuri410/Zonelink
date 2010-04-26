@@ -41,11 +41,14 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
             this.state = gamelogic;
 
+            pieEffect = new CO2PieProgressEffect(renderSys);
+
             FileLocation fl = FileSystem.Instance.Locate("ig_co2_debug.tex", GameFileLocs.GUI);
             co2bar = UITextureManager.Instance.CreateInstance(fl);
             
             //fl = FileSystem.Instance.Locate("ig_co2bar_cur", GameFileLocs.GUI);
             //curbar = UITextureManager.Instance.CreateInstance(fl);
+            BuildQuad(renderSys);
         }
         void BuildQuad(RenderSystem rs)
         {
@@ -54,18 +57,22 @@ namespace Code2015.GUI
 
             VertexBuffer vb = fac.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
 
+            const int X = 996;
+            const int Y = 18;
+            const int W = 265;
+            const int H = 113;
             VertexPT1[] vtx = new VertexPT1[4];
-            vtx[0].pos = new Vector3(-142 / 4, -142 / 4, 0);
+            vtx[0].pos = new Vector3(X, Y, 0);
             vtx[0].u1 = 0; vtx[0].v1 = 0;
 
-            vtx[1].pos = new Vector3(-142 / 4, 142 / 4, 0);
+            vtx[1].pos = new Vector3(X, Y + H, 0);
             vtx[1].u1 = 1; vtx[1].v1 = 0;
 
-            vtx[2].pos = new Vector3(142 / 4, -142 / 4, 0);
+            vtx[2].pos = new Vector3(X + W, Y, 0);
             vtx[2].u1 = 0; vtx[2].v1 = 1;
 
 
-            vtx[3].pos = new Vector3(142 / 4, 142 / 4, 0);
+            vtx[3].pos = new Vector3(X + W, Y + H, 0);
             vtx[3].u1 = 1; vtx[3].v1 = 1;
 
 
@@ -88,15 +95,16 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            //int hl = (int)(HozWidth * hozPrg);
+            sprite.End();
 
-            //int left = HozLeft + hl;
-            //Rectangle drect = new Rectangle(996 + left, 18 + HozTop, hl, 13);
-            //Rectangle srect = new Rectangle(left, HozTop, hl, 13);
+            pieEffect.SetTexture("texDif", co2bar);
+            pieEffect.SetValue("hozsep", 0.3f);
+            prgress = 0.4f;
+            pieEffect.SetValue("weight", prgress);
+            
+            sprite.DrawQuad(quad, pieEffect);
 
-            //sprite.Draw(hozbar, drect, srect, ColorValue.White);
-
-
+            sprite.Begin();
         }
 
         public override void Update(GameTime time)

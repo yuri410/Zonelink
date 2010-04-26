@@ -28,7 +28,7 @@ PSOutput main(PSInput ip)
     
     if (ip.Position.x > HLeft)
     {
-		float d = 1 - (ip.Position.x - HLeft) / (HRight - HLeft);
+		float d = 1 - saturate((ip.Position.x - HLeft) / (HRight - HLeft));
 		
 		if (d<saturate(weight/hozsep))
 		{
@@ -50,6 +50,7 @@ PSOutput main(PSInput ip)
 		else o.Color = 0;
 				
     }
+    o.Color = o.Color * 0.1 + 0.5;
     return o;
 }
 

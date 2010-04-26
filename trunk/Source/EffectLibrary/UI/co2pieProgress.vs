@@ -10,14 +10,12 @@ struct VSOutput
 	float3 psPosition : TEXCOORD1;
 };
 
-float2 pos : register(c0);
 
 VSOutput main(VSInput ip)
 {
     VSOutput o;
     o.Position = ip.Position;
     o.Position.xy -= 0.5f;
-    o.Position.xy += pos;
     
     o.Position.xy /= float2(1280, 720);
     o.Position.y = 1 -o.Position.y;
