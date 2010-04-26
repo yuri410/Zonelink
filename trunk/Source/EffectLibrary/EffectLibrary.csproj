@@ -153,6 +153,8 @@
     <None Include="Standard\deferedNormal.ps" />
     <None Include="Standard\deferedNormal.vs" />
     <None Include="UI\pieProgress.vs" />
+    <None Include="UI\co2pieProgress.ps" />
+    <None Include="UI\co2pieProgress.vs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fxc.exe">
