@@ -14,11 +14,10 @@ namespace Code2015.GUI
 {
     class CO2Graph : UIComponent
     {
+        const int X = 996;
+        const int Y = 20;
         const float MaxCO2 = 0.6f;
-
-        const int HozTop = 104;
-        const int HozLeft = 56;
-        const int HozWidth = 209;
+        const float WarningThreshold = 0.66f;
 
         RenderSystem renderSys;
         GameScene scene;
@@ -27,10 +26,11 @@ namespace Code2015.GUI
         //Texture curbar;
         GameState state;
         Texture co2bar;
+        Texture co2bar_glow;
 
         float prgress;
-        //float hozPrg;
-        //float vertPrg;
+
+        float flash;
         GeomentryData quad;
         CO2PieProgressEffect pieEffect;
 
@@ -43,8 +43,11 @@ namespace Code2015.GUI
 
             pieEffect = new CO2PieProgressEffect(renderSys);
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_co2_debug.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("ig_co2.tex", GameFileLocs.GUI);
             co2bar = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_co2_glow.tex", GameFileLocs.GUI);
+            co2bar_glow = UITextureManager.Instance.CreateInstance(fl);
             
             //fl = FileSystem.Instance.Locate("ig_co2bar_cur", GameFileLocs.GUI);
             //curbar = UITextureManager.Instance.CreateInstance(fl);
@@ -57,8 +60,6 @@ namespace Code2015.GUI
 
             VertexBuffer vb = fac.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
 
-            const int X = 996;
-            const int Y = 18;
             const int W = 265;
             const int H = 113;
             VertexPT1[] vtx = new VertexPT1[4];
@@ -99,12 +100,26 @@ namespace Code2015.GUI
 
             pieEffect.SetTexture("texDif", co2bar);
             pieEffect.SetValue("hozsep", 0.3f);
-            prgress = 0.1f;
+           
             pieEffect.SetValue("weight", prgress);
             
             sprite.DrawQuad(quad, pieEffect);
 
             sprite.Begin();
+
+
+
+            int alpha = (int)(byte.MaxValue * Math.Sin(flash));
+            ColorValue color = ColorValue.White;
+
+            if (alpha > byte.MaxValue)
+                alpha = byte.MaxValue;
+            if (alpha < 0)
+                alpha = 0;
+
+            color.A = (byte)alpha;
+            sprite.Draw(co2bar_glow, X, Y, color);
+
         }
 
         public override void Update(GameTime time)
@@ -115,6 +130,19 @@ namespace Code2015.GUI
             ratios.TryGetValue(player, out r);
 
             prgress = MathEx.Saturate(r / MaxCO2);
+
+            float over = prgress - WarningThreshold;
+            if (over > 0)
+            {
+                flash += over * 0.5f;
+            }
+            else
+            {
+                flash *= 0.99f;
+            }
+
+            if (flash > MathEx.PIf)
+                flash -= MathEx.PIf;
             //vertPrg = MathEx.Saturate((r - MaxCO2Hoz) / (MaxCO2 - MaxCO2Hoz));
         }
     }
