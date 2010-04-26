@@ -23,6 +23,10 @@ namespace Code2015.GUI
         CityInfo parent;
         CityInfoDisplay display;
 
+        Texture woodFacbg;
+        Texture oilRefbg;
+        Texture hospbg;
+        Texture edubg;
 
 
         //ProgressBar upgrade;
@@ -39,6 +43,20 @@ namespace Code2015.GUI
             this.city = city;
             this.renderSys = rs;
             this.parent = parent;
+
+            FileLocation fl = FileSystem.Instance.Locate("ig_edu.tex", GameFileLocs.GUI);
+            edubg = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("ig_wood.tex", GameFileLocs.GUI);
+            woodFacbg = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_oilref.tex", GameFileLocs.GUI);
+            oilRefbg = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_hospital.tex", GameFileLocs.GUI);
+            hospbg = UITextureManager.Instance.CreateInstance(fl);
+
 
             //FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_vert_cmp.tex", GameFileLocs.GUI);
             //Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
@@ -67,6 +85,25 @@ namespace Code2015.GUI
 
             plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
 
+            int x = (int)plpos.X;
+            int y = (int)plpos.Y;
+
+            switch (cplug.TypeId)
+            {
+                case CityPluginTypeId.BiofuelFactory:
+                case CityPluginTypeId.OilRefinary:
+                    sprite.Draw(oilRefbg, x - oilRefbg.Width / 2, y - oilRefbg.Height / 2, ColorValue.White);
+                    break;
+                case CityPluginTypeId.WoodFactory:
+                    sprite.Draw(woodFacbg, x - woodFacbg.Width / 2, y - woodFacbg.Height / 2, ColorValue.White);
+                    break;
+                case CityPluginTypeId.EducationOrg:
+                    sprite.Draw(edubg, x - edubg.Width / 2, y - edubg.Height / 2, ColorValue.White);
+                    break;
+                case CityPluginTypeId.Hospital:
+                    sprite.Draw(hospbg, x - hospbg.Width / 2, y - hospbg.Height / 2, ColorValue.White);
+                    break;
+            }
             //upgrade.X = (int)plpos.X;
             //upgrade.Y = (int)plpos.Y - 50;
 
