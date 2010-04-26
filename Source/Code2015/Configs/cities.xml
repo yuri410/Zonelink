@@ -432,7 +432,7 @@
         <Hunger>2</Hunger>
         <Farm>4</Farm>
         <Linkable>C0400, C0600</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0500>
     <C0501>
         <Name>Bamako</Name>
@@ -500,7 +500,7 @@
         <Hunger>1</Hunger>
         <Farm>4</Farm>
         <Linkable>C0500, C0700</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0600>
     <C0601>
         <Name>Anapi</Name>
@@ -512,7 +512,7 @@
         <Hunger>1</Hunger>
         <Maternal>1</Maternal>
         <Linkable>C0700, C0701</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0601>
     <C0602>
         <Name>C0602</Name>
@@ -567,7 +567,7 @@
         <Education>1</Education>
         <Hunger>1</Hunger>
         <Linkable>C0600, C0601, C0800</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0700>
     <C0701>
         <Name>Teresina</Name>
@@ -580,7 +580,7 @@
         <Hunger>1</Hunger>
         <Maternal>1.5</Maternal>
         <Linkable>C0601, C0800, C0801</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0701>
     <C0702>
         <Name>C0702</Name>
@@ -631,7 +631,7 @@
         <StartUp>3</StartUp>
         <Farm>2</Farm>
         <Linkable>C0700, C0701, C0900</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0800>
     <C0801>
         <Name>Salvador</Name>
@@ -643,7 +643,7 @@
         <Hunger>1</Hunger>
         <Maternal>1</Maternal>
         <Linkable>C0701, C0702</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0801>
     <C0802>
         <Name>Huambo</Name>
@@ -716,7 +716,7 @@
         <StartUp>3</StartUp>
         <Farm>2</Farm>
         <Linkable>C0800, C1000</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C0900>
     <C0901>
         <Name>Pretoria</Name>
@@ -793,7 +793,7 @@
         <StartUp>3</StartUp>
         <Farm>2</Farm>
         <Linkable>C0900, C1100</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C1000>
     <C1001>
         <Name>Cape Town</Name>
@@ -829,10 +829,10 @@
         <Name>Trelew</Name>
         <Longitude>-64.67532</Longitude>
         <Latitude>-43.63636</Latitude>
-        <Size>Small</Size>
+        <Size>Large</Size>
         <StartUp>3</StartUp>
         <Farm>2</Farm>
         <Linkable>C1000</Linkable>
-      <Culture></Culture>
+      <Culture>American</Culture>
     </C1100>
 </cities>

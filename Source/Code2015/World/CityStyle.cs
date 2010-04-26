@@ -573,11 +573,12 @@ namespace Code2015.World
 
             adjusts[(int)CultureId.American] = adjusts[0];
             adjusts[(int)CultureId.American].Urban = new Matrix[3];
+
             adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Large] =
-                Matrix.Translation(10, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.45f, Game.ObjectScale / 1.45f, Game.ObjectScale / 1.45f);
+                Matrix.Translation(6, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.68f, Game.ObjectScale / 1.68f, Game.ObjectScale /1.68f);
             adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Medium] =
-                Matrix.Scaling(Game.ObjectScale / 2.0f, Game.ObjectScale / 2f, Game.ObjectScale / 2f)
-                * Matrix.Translation(-27, 3, -13);
+                Matrix.Scaling(Game.ObjectScale / 1.65f, Game.ObjectScale / 1.65f, Game.ObjectScale / 1.65f)
+                * Matrix.Translation(-67, 3, -13);
             adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Small] =
                 Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f)
                 * Matrix.Translation(30, 1, -13.5f);
