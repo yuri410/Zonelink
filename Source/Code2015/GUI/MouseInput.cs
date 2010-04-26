@@ -117,6 +117,7 @@ namespace Code2015.GUI
 
             oldState = currentState;
             OldScrollWheelValue = ScrollWheelValue;
+            
             currentState = XI.Mouse.GetState();
 
             wheel.Add(currentState.ScrollWheelValue);
