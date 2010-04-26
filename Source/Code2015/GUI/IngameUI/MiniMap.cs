@@ -20,10 +20,10 @@ namespace Code2015.GUI
 
         const float PopBaseSpeed = 0.75f;
 
-        const int MapX = 45;
-        const int MapY = 29;
-        const int MapWidth = 290;
-        const int MapHeight = 125;
+        const int MapX = 51;
+        const int MapY = 28;
+        const int MapWidth = 325;
+        const int MapHeight = 160;
 
         const float RotIn = -MathEx.PiOver2;
 
@@ -32,9 +32,11 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
+        RtsCamera camera;
 
         Texture background;
         Texture compass;
+        Texture cameraView;
         Button switchButton;
 
         AnimState state;
@@ -49,6 +51,7 @@ namespace Code2015.GUI
             this.scene = scene;
             this.gameLogic = gamelogic;
             this.state = AnimState.Outside;
+            this.camera = scene.Camera;
 
             FileLocation fl = FileSystem.Instance.Locate("ig_map.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
@@ -74,6 +77,10 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_map_guide.tex", GameFileLocs.GUI);
             compass = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_map_view.tex", GameFileLocs.GUI);
+            cameraView = UITextureManager.Instance.CreateInstance(fl);
+
         }
         protected override void Dispose(bool disposing)
         {
@@ -120,11 +127,30 @@ namespace Code2015.GUI
             {
                 sprite.Draw(switchButton.ImageMouseOver, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
             }
-            else 
+            else
             {
                 sprite.Draw(switchButton.Image, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
             }
 
+            {
+                int cx;
+                int cy;
+                float yspan = (14.0f / 18.0f) * MathEx.PIf;
+
+                cy = (int)(((yspan * 0.5f - MathEx.Degree2Radian(camera.Latitude)) / yspan) * MapHeight);
+                cx = (int)(((MathEx.Degree2Radian(camera.Longitude) + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
+
+                if (cy < 0) cy += MapHeight;
+                if (cy >= MapHeight) cy -= MapHeight;
+
+                if (cx < 0) cx += MapWidth;
+                if (cx >= MapWidth) cx -= MapWidth;
+
+                float ratio = 1;
+                Rectangle rect = new Rectangle(cx - (int)(ratio * cameraView.Width / 2f), cy - (int)(ratio * cameraView.Height / 2), (int)(cameraView.Width * ratio), (int)(cameraView.Height * ratio));
+
+                sprite.Draw(cameraView, rect, ColorValue.White);
+            }
             sprite.SetTransform(Matrix.Identity);
 
 
