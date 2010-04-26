@@ -88,20 +88,19 @@ namespace Code2015.Effects
             renderSys.BindShader(pixShader);
             pixShader.SetValue("i_a", EffectParams.LightAmbient);
             pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            pixShader.SetValue("i_s", EffectParams.LightSpecular);
             pixShader.SetValue("lightDir", EffectParams.LightDir);
-            vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
+          
 
             move += sign * 0.01f;
-            if (move > 0.75f) 
+            if (move > 0.75f)
             {
                 sign = -1;
             }
-            else if (move < 0.25f) 
+            else if (move < 0.25f)
             {
                 sign = 1;
             }
-
+            pixShader.SetValue("move", move);
             //if (move >= MathEx.PIf)
             //    move -= MathEx.PIf;
 
@@ -131,7 +130,7 @@ namespace Code2015.Effects
 
             vtxShader.SetValue("mvp", ref mvp);
             vtxShader.SetValue("world", ref op.Transformation);
-            pixShader.SetValue("move", move);
+
 
 
             if (!stateSetted)
@@ -148,9 +147,7 @@ namespace Code2015.Effects
 
                 pixShader.SetValue("k_a", mat.Ambient);
                 pixShader.SetValue("k_d", mat.Diffuse);
-                pixShader.SetValue("k_s", mat.Specular);
                 pixShader.SetValue("k_e", mat.Emissive);
-                pixShader.SetValue("k_power", mat.Power);
 
                 pixShader.SetSamplerState("texDif", ref state);
 
