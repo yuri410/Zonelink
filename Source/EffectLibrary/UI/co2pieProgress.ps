@@ -1,0 +1,55 @@
+struct PSInput
+{
+	float2 TexCoord : TEXCOORD0;
+	float3 Position : TEXCOORD1;
+};
+
+#define TexSize float2(265, 113)
+#define CirCenter float2(90, 9)
+#define HRight 9
+#define HLeft 90
+
+#define pi 3.14159265
+
+float weight : register(c0);
+float hozsep : register(c1);
+
+sampler2D texDif : register(s0);
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+    if (ip.Position.x > HLeft)
+    {
+		float d = 1 - (ip.Position.x - HLeft) / (HRight - HLeft);
+		
+		if (d<saturate(weight/hozsep))
+		{
+			o.Color = tex2D(texDif, ip.TexCoord);
+		}
+		else o.Color = 0;
+    }
+    else
+    {
+		float ang = -atan2(ip.Position.y-CirCenter.y, ip.Position.x-CirCenter.x) + pi;
+    
+		ang /= (2*pi);
+    
+    
+		if (ang <(weight-hozsep) / (1-hozsep))
+	    {
+			o.Color = tex2D(texDif, ip.TexCoord);
+		}
+		else o.Color = 0;
+				
+    }
+    return o;
+}
+

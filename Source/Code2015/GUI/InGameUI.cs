@@ -186,8 +186,8 @@ namespace Code2015.GUI
             AddElement(overlay);
 
             icons.SetPieceContainer(container);
-            //co2graph = new CO2Graph(game, parent, scene, gamelogic);
-            //AddElement(co2graph);
+            co2graph = new CO2Graph(game, parent, scene, gamelogic);
+            AddElement(co2graph);
         }
 
         public override void Render(Sprite sprite)
