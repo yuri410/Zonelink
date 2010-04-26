@@ -5,9 +5,9 @@ struct PSInput
 };
 
 #define TexSize float2(265, 113)
-#define CirCenter float2(90, 9)
-#define HRight 90
-#define HLeft 9
+#define CirCenter float2(90, 5)
+#define HRight (265-9)
+#define HLeft 90
 
 #define pi 3.14159265
 
@@ -40,9 +40,9 @@ PSOutput main(PSInput ip)
     {
 		float ang = -atan2(ip.Position.y-CirCenter.y, ip.Position.x-CirCenter.x) + pi;
     
-		ang /= (2*pi);
-    
-    
+		ang /= (0.5*pi);
+		
+		ang = 1-ang;
 		if (ang <(weight-hozsep) / (1-hozsep))
 	    {
 			o.Color = tex2D(texDif, ip.TexCoord);
