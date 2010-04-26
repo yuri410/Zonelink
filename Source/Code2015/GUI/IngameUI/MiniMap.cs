@@ -146,7 +146,7 @@ namespace Code2015.GUI
                 if (cx < 0) cx += MapWidth;
                 if (cx >= MapWidth) cx -= MapWidth;
 
-                float ratio = 1;
+                float ratio = camera.Height / 60f;
                 Rectangle rect = new Rectangle(
                     cx + MapX - (int)(cameraView.Width * ratio * 0.5f),
                     cy + MapY - (int)(cameraView.Height * ratio * 0.5f), (int)(cameraView.Width * ratio), (int)(cameraView.Height * ratio));

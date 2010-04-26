@@ -48,12 +48,27 @@ namespace Code2015.GUI
     /// </summary>
     class InGameUI : GUIScreen
     {
+        [Flags]
+        enum MouseCursor
+        {
+            Normal = 0,
+            LeftArrow = 1,
+            RightArrow = 2,
+            UpArrow = 4,
+            DownArrow = 8,
+            UpRightArrow = 16,
+            DownRightArrow = 32,
+            UpLeftArrow = 64,
+            DownLeftArrow = 128,
+        }
+
         GameScene scene;
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
         GameState logic;
         Font font;
+        MouseCursor cursorState;
 
         LoadingScreen loadScreen;
         ScoreScreen scoreScreen;
@@ -83,8 +98,29 @@ namespace Code2015.GUI
         {
             get { return physWorld; }
         }
-     
 
+        static Point GetHotSpot(MouseCursor c)
+        {
+            switch (c)
+            {
+                case MouseCursor.Normal:
+                    return new Point(6, 6);
+                case MouseCursor.LeftArrow:
+                    return new Point(5, 24);
+                case MouseCursor.DownArrow:
+                    return new Point(24, 26);
+                case MouseCursor.RightArrow:
+                    return new Point(31, 24);
+                case MouseCursor.UpArrow:
+                    return new Point(25, 4);
+                case MouseCursor.DownLeftArrow:
+                case MouseCursor.DownRightArrow:
+                case MouseCursor.UpLeftArrow:
+                case MouseCursor.UpRightArrow:
+                    break;
+            }
+            return new Point();
+        }
 
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
@@ -104,6 +140,7 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
+            cursorState = MouseCursor.Normal;
 
 
 
@@ -169,7 +206,9 @@ namespace Code2015.GUI
 
                     base.Render(sprite);
 
-                    sprite.Draw(cursor, MouseInput.X, MouseInput.Y, ColorValue.White);
+                    Point hsp = GetHotSpot(cursorState);
+
+                    sprite.Draw(cursor, MouseInput.X - hsp.X, MouseInput.Y - hsp.Y, ColorValue.White);
                 }
             }
         }
@@ -190,23 +229,28 @@ namespace Code2015.GUI
                     RtsCamera camera = parent.Scene.Camera;
 
                     camera.Height += MouseInput.DScrollWheelValue * 0.05f;
-
+                    cursorState = MouseCursor.Normal;
                     if (MouseInput.X <= ScrollPadding)
                     {
                         camera.MoveLeft();
+                        cursorState |= MouseCursor.LeftArrow;
                     }
                     if (MouseInput.X >= Program.Window.ClientSize.Width - ScrollPadding)
                     {
                         camera.MoveRight();
+                        cursorState |= MouseCursor.RightArrow;
                     }
                     if (MouseInput.Y <= ScrollPadding)
                     {
                         camera.MoveFront();
+                        cursorState |= MouseCursor.UpArrow;
                     }
                     if (MouseInput.Y >= Program.Window.ClientSize.Height - ScrollPadding)
                     {
                         camera.MoveBack();
+                        cursorState |= MouseCursor.DownArrow;
                     }
+
                     #endregion
 
                     pieceMaker.Update(time);
