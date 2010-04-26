@@ -44,6 +44,7 @@ namespace Code2015.GUI
         ScreenStaticBody statBar;
 
         InGameUI parent;
+        PieceContainer container;
 
         public MdgResourceManager Manager
         {
@@ -53,6 +54,12 @@ namespace Code2015.GUI
         public ScreenPhysicsWorld PhysicsWorld
         {
             get { return physWorld; }
+        }
+
+        public void SetPieceContainer(PieceContainer cont) 
+        {
+            this.container = cont;
+
         }
 
         public GoalIcons(Game game, InGameUI parent, CityInfoDisplay cityInfo, GameScene scene, ScreenPhysicsWorld physWorld, Brackets brackets)
@@ -65,7 +72,6 @@ namespace Code2015.GUI
             this.resources = new MdgResourceManager();
             this.player = game.HumanPlayer;
             this.scene = scene;
-
 
             MdgResource res = new MdgResource(resources, physWorld, (MdgType.Environment), new Vector2(778, 669), 0);
             resources.Add(res);
@@ -214,16 +220,23 @@ namespace Code2015.GUI
 
                 if (piece != null)
                 {
-                    for (int i = 0; i < scene.VisibleCityCount; i++)
+                    if (PieceContainer.IsInRange(piece.Position))
                     {
-                        CityObject cc = scene.GetVisibleCity(i);
-                        if (cc.Owner == player)
+                        container.Exchange(piece);
+                    }
+                    else
+                    {
+                        for (int i = 0; i < scene.VisibleCityCount; i++)
                         {
-                            if (brackets.Accept(cc, piece))
+                            CityObject cc = scene.GetVisibleCity(i);
+                            if (cc.Owner == player)
                             {
-                                resources.Remove(piece);
-                                cc.Flash(60);
-                                return;
+                                if (brackets.Accept(cc, piece))
+                                {
+                                    resources.Remove(piece);
+                                    cc.Flash(60);
+                                    return;
+                                }
                             }
                         }
                     }

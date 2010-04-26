@@ -305,6 +305,11 @@ namespace Code2015.World.Screen
         MdgResourceManager manager;
         float brightBlend;
 
+        public ScreenRigidBody Body
+        {
+            get;
+            set;
+        }
         public MdgType Type
         {
             get { return type; }
@@ -354,6 +359,20 @@ namespace Code2015.World.Screen
             this.image = LoadImage(type, false, false);
             this.imagehl = LoadImage(type, false, true);
             this.glow = LoadGlowImage();
+        }
+        public void ReactivePhysics()
+        {
+            this.body = new ScreenRigidBody();
+            this.body.Orientation = body.Orientation;
+            this.body.Position = body.Position;
+            this.body.Radius = MdgPhysicsParams.BallRadius;
+            this.body.Mass = MdgPhysicsParams.BallMass;
+            this.body.Elasity = MdgPhysicsParams.BallElasity;
+            this.body.Friction = MdgPhysicsParams.BallFriction;
+            this.body.AngularDamp = MdgPhysicsParams.BallAngularDamp;
+            this.body.LinearDamp = MdgPhysicsParams.BallLinearDamp;
+            this.body.Tag = this;
+            physicsWorld.Add(body);
         }
         public void NotifyRemoved()
         {

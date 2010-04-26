@@ -70,9 +70,12 @@ namespace Code2015.GUI
         GoalIcons icons;
         MdgResourceManager resources;
 
+        static readonly Vector2 PinPosition = new Vector2(1219, 668);
 
-
-
+        public static bool IsInRange(Vector2 p)
+        {
+            return Vector2.Distance(p, PinPosition) < MdgPhysicsParams.BallRadius;
+        }
 
         public PieceContainer(Code2015 game, Game parent, GameScene scene, GameState gamelogic, GoalIcons icons)
         {
@@ -154,11 +157,12 @@ namespace Code2015.GUI
             {
                 exInside.Render(sprite);
             }
+            sprite.SetTransform(Matrix.Identity);
 
-            f14.DrawString(sprite, count1.ToString(), 775, 704, ColorValue.White);
+            f14.DrawString(sprite, count4.ToString(), 775, 704, ColorValue.White);
             f14.DrawString(sprite, count2.ToString(), 882, 704, ColorValue.White);
-            f14.DrawString(sprite, count3.ToString(), 984, 704, ColorValue.White);
-            f14.DrawString(sprite, count4.ToString(), 1084, 704, ColorValue.White);
+            f14.DrawString(sprite, count1.ToString(), 984, 704, ColorValue.White);
+            f14.DrawString(sprite, count3.ToString(), 1084, 704, ColorValue.White);
 
             f14.DrawString(sprite, "EXCHANGE", 1172, 605, ColorValue.White);
 
@@ -166,16 +170,34 @@ namespace Code2015.GUI
             {
                 if (exInsidePlayer.Type == PlayerType.LocalAI)
                 {
-                    f14.DrawString(sprite, "BY COMPUTER", 1170, 704, exInsidePlayer.SideColor);
+                    f14.DrawString(sprite, "BY COMPUTER", 1160, 702, exInsidePlayer.SideColor);
                 }
                 else 
                 {
-                    f14.DrawString(sprite, "BY PLAYER", 1170, 704, exInsidePlayer.SideColor);
+                    f14.DrawString(sprite, "BY PLAYER", 1170, 702, exInsidePlayer.SideColor);
                 }
             }
             
         }
+        
+        public MdgResource Exchange(MdgResource res)
+        {
+            MdgResource result = exInside;
+            icons.Manager.Add(result);
+            result.ReactivePhysics();
+            result.Position = PinPosition;
 
+            icons.Manager.Remove(res);
+            
+            
+            exInside = res;              
+            exInsidePlayer = player;
+
+            result.Velocity += new Vector2(-0.1f, -0.9f) * 250;
+
+            exCounter = 0;
+            return result;
+        }
         public override void Update(GameTime time)
         {
             count1 = 0;
@@ -235,19 +257,30 @@ namespace Code2015.GUI
                 }
             }
 
+
+            if (exInside != null) 
+            {
+                exInside.Position = PinPosition;
+            }
+
             exCounter++;
-            if (exCounter > 600) 
+            if (exCounter > 600)
             {
                 //currentEx = Randomizer.GetRandomInt(ico_exchange.Length);
                 exCounter = 0;
 
-                
-                
 
-                //Vector2 position = new Vector2(1219, 668);
-                //exInside = new MdgResource(icons.Manager, icons.PhysicsWorld,
-                //    (MdgType)Randomizer.GetRandomInt((int)MdgType.Count - 1), position, 0);
+                exInside = new MdgResource(icons.Manager, icons.PhysicsWorld,
+                    (MdgType)Randomizer.GetRandomInt((int)MdgType.Count - 1), PinPosition, 0);
+
+
+                exInside.NotifyRemoved();
                 
+                do
+                {
+                    exInsidePlayer = gameLogic.GetLocalPlayer(Randomizer.GetRandomInt(gameLogic.LocalPlayerCount));
+                }
+                while (exInsidePlayer == player);
             }
         }
     }

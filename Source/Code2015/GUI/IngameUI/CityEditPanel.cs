@@ -61,6 +61,7 @@ namespace Code2015.GUI
         Game parent;
 
         GameFont f18;
+        GameFont f14;
 
         RoundButton btnEduorg;
         RoundButton btnHosp;
@@ -84,6 +85,9 @@ namespace Code2015.GUI
         Texture hospHover;
         Texture oilHover;
         Texture woodHover;
+
+        Texture woodSign;
+        Texture oilSign;
 
         SelectedPluginType selectedType;
 
@@ -228,10 +232,20 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_name.tex", GameFileLocs.GUI);
             cityInfoBg = UITextureManager.Instance.CreateInstance(fl);
 
+
+            fl = FileSystem.Instance.Locate("ig_sign_oil_sm.tex", GameFileLocs.GUI);
+            oilSign = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_sign_wood_sm.tex", GameFileLocs.GUI);
+            woodSign = UITextureManager.Instance.CreateInstance(fl);
+
+
+
             cx = -PanelWidth;
             cx2 = -PanelWidth;
 
             f18 = GameFontManager.Instance.F18;
+            f14 = GameFontManager.Instance.F14;
         }
 
         protected override void Dispose(bool disposing)
@@ -394,8 +408,27 @@ namespace Code2015.GUI
 
 
                 f18.DrawString(sprite, "CONSTRUCT", (int)cx + 30, PanelY + 10, ColorValue.White);
-                
 
+                switch (selectedType) 
+                {
+                    case SelectedPluginType.Oil:
+
+                        f18.DrawString(sprite, "OIL REFINARY", (int)cx + 233, PanelY + 10, ColorValue.White);
+                        break;
+                    case SelectedPluginType.Wood:
+
+                        f18.DrawString(sprite, "WOOD FACTORY", (int)cx + 203, PanelY + 10, ColorValue.White);
+                        break;
+                    case SelectedPluginType.Hospital:
+
+                        f18.DrawString(sprite, "HOSIPTAL", (int)cx + 270, PanelY + 10, ColorValue.White);
+                        break;
+                    case SelectedPluginType.Education:
+
+                        f18.DrawString(sprite, "SCHOOL", (int)cx + 270, PanelY + 10, ColorValue.White);
+                        break;
+                }
+                
             }
             if (state2 != AnimState.Inside)
             {
@@ -403,6 +436,41 @@ namespace Code2015.GUI
                 sprite.Draw(costbg, (int)cx2, 486, ColorValue.White);
 
                 build.Render(sprite);
+
+                switch (selectedType)
+                {
+                    case SelectedPluginType.Wood:
+                        string msg = "GATHERS ";
+                        string msg2 = "FROM NEARBY FOREST";
+
+
+                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                        sprite.Draw(woodSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
+                        f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
+
+                        break;
+                    case SelectedPluginType.Oil:
+                        msg = "GATHERS ";
+                        msg2 = "FROM NEARBY OILFIELD";
+
+                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                        sprite.Draw(oilSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
+                        f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
+
+                        break;
+                    case SelectedPluginType.Hospital:
+                        msg = "IMPROVES CITY'S HEALTHCARE";
+
+                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+
+                        break;
+                    case SelectedPluginType.Education:
+                        msg = "BOOSTS CITY'S DEVELOPMENT";
+
+                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+
+                        break;
+                }
             }
 
             sprite.Draw(cityInfoBg, 333, 657, ColorValue.White);

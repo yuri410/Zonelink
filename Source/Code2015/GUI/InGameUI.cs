@@ -140,6 +140,7 @@ namespace Code2015.GUI
             PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
             AddElement(overlay);
 
+            icons.SetPieceContainer(container);
             //co2graph = new CO2Graph(game, parent, scene, gamelogic);
             //AddElement(co2graph);
         }

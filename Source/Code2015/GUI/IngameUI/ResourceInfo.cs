@@ -33,7 +33,7 @@ namespace Code2015.GUI
             string imp = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_imp.tex" : "ig_prgbar_oil_imp.tex";
             string cmp = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_cmp.tex" : "ig_prgbar_oil_cmp.tex";
             string text = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood.tex" : "ig_prgbar_oil.tex";
-            string gray = "ig_prgbar_gray.tex";
+            string gray = res.Type == NaturalResourceType.Wood ? "ig_prgbar_wood_gray.tex" : "ig_prgbar_oil_gray.tex";
 
 
             amountBar = new ProgressBar();
@@ -80,6 +80,7 @@ namespace Code2015.GUI
                 amountBar.X = scrnPos.X;
                 amountBar.Y = scrnPos.Y;
                 amountBar.Value = resource.AmountPer;
+                amountBar.MediumValue = resource.MaxValue;
                 amountBar.Render(sprite);
 
                 sprite.Draw(woodOverlay, scrnPos.X, scrnPos.Y, modColor);

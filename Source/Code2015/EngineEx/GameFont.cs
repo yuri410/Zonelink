@@ -79,6 +79,7 @@ namespace Code2015.EngineEx
             IndexCast['\''] = idx++;
             IndexCast['('] = idx++;
             IndexCast[')'] = idx++;
+            IndexCast[' '] = idx++;
 
         }
 
