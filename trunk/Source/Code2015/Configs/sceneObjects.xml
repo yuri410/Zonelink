@@ -4,7 +4,7 @@
         <Longitude>29.25</Longitude>
         <Latitude>20.67834</Latitude>
         <IsForest>False</IsForest>
-        <Radius>1</Radius>
+        <Radius>7</Radius>
         <Amount>0</Amount>
         <Model>jinzita.mesh</Model>
     </Scene43ceeae526574130af9528b593e7daf9>
@@ -17,7 +17,7 @@
         <Model>fengche.mesh</Model>
     </Scene620fad254e7d492b92a04d07daa7b904>
     <Scene3eb6fc29d5bd4b67a5fbe5904a264b52>
-        <Longitude>16.84375</Longitude>
+        <Longitude>18.84375</Longitude>
         <Latitude>43.07002</Latitude>
         <IsForest>False</IsForest>
         <Radius>1.8</Radius>
@@ -26,7 +26,7 @@
     </Scene3eb6fc29d5bd4b67a5fbe5904a264b52>
     <Scene1abcbba58d42480b9d566b212bc297ec>
         <Longitude>108.5938</Longitude>
-        <Latitude>45.3337</Latitude>
+        <Latitude>47.3337</Latitude>
         <IsForest>False</IsForest>
         <Radius>3.5</Radius>
         <Amount>0</Amount>
@@ -34,9 +34,9 @@
     </Scene1abcbba58d42480b9d566b212bc297ec>
     <Scene10ede4b97a7749778b025989eb05020e>
         <Longitude>-81</Longitude>
-        <Latitude>35.68928</Latitude>
+        <Latitude>37.08928</Latitude>
         <IsForest>False</IsForest>
-        <Radius>1</Radius>
+        <Radius>3</Radius>
         <Amount>0</Amount>
         <Model>ziyounvshen.mesh</Model>
     </Scene10ede4b97a7749778b025989eb05020e>
@@ -44,15 +44,15 @@
         <Longitude>21.9375</Longitude>
         <Latitude>26.80525</Latitude>
         <IsForest>False</IsForest>
-        <Radius>1</Radius>
+        <Radius>7</Radius>
         <Amount>0</Amount>
         <Model>jinzita.mesh</Model>
     </Scene8f41f1c74dfe43729575afa9459baf5b>
     <Scene908284aeec794b088e37ec045cbc20f1>
-        <Longitude>152.7188</Longitude>
-        <Latitude>-28.86871</Latitude>
+        <Longitude>151.7188</Longitude>
+        <Latitude>-30.86871</Latitude>
         <IsForest>False</IsForest>
-        <Radius>1</Radius>
+        <Radius>3.5</Radius>
         <Amount>0</Amount>
         <Model>gejuyuan.mesh</Model>
     </Scene908284aeec794b088e37ec045cbc20f1>
