@@ -220,22 +220,40 @@ namespace Code2015.GUI
                     {
                         case MouseCursor.Normal:
                             hsp = new Point(6, 6);
+                            ctex = cursor;
+                            break;
                         case MouseCursor.LeftArrow:
                             hsp = new Point(5, 24);
+                            ctex = cursor_left;
+                            break;
                         case MouseCursor.DownArrow:
                             hsp = new Point(24, 26);
+                            ctex = cursor_down;
+                            break;
                         case MouseCursor.RightArrow:
                             hsp = new Point(31, 24);
+                            ctex = cursor_right;
+                            break;
                         case MouseCursor.UpArrow:
                             hsp = new Point(25, 4);
+                            ctex = cursor_up;
+                            break;
                         case MouseCursor.DownLeftArrow:
                             hsp = new Point(8, 34);
+                            ctex = cursor_dl;
+                            break;
                         case MouseCursor.DownRightArrow:
                             hsp = new Point(34, 34);
+                            ctex = cursor_dr;
+                            break;
                         case MouseCursor.UpLeftArrow:
                             hsp = new Point(7, 7);
+                            ctex = cursor_ul;
+                            break;
                         case MouseCursor.UpRightArrow:
                             hsp = new Point(35, 8);
+                            ctex = cursor_ur;
+                            break;
                     }
 
                     sprite.Draw(ctex, MouseInput.X - hsp.X, MouseInput.Y - hsp.Y, ColorValue.White);
