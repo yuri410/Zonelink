@@ -6,6 +6,7 @@ struct PSInput
 
 #define pi 3.14159265
 float weight : register(c0);
+float alpha : register(c1);
 sampler2D texDif : register(s0);
 
 struct PSOutput
@@ -18,13 +19,16 @@ PSOutput main(PSInput ip)
 {
     PSOutput o;
     
-    float ang = (atan2(ip.Position.z, ip.Position.x) + pi) / (2*pi);
-    if (ang<weight)
+    float ang = -atan2(ip.Position.x, ip.Position.y) + pi;
+    
+    ang /= (2*pi);
+    
+    if (ang <weight)
     {
 		o.Color = tex2D(texDif, ip.TexCoord);
     }
     else o.Color = 0;
-         
+    o.Color.a *=alpha;
     return o;
 }
 

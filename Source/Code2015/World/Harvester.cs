@@ -173,7 +173,11 @@ namespace Code2015.World
             result.Forward = -dir;
             return Quaternion.RotationMatrix(result);
         }
-
+        protected override void Dispose(bool disposing)
+        {
+            ModelL0 = null;
+            base.Dispose(disposing);
+        }
         public override void Update(GameTime dt)
         {
             float altitude = map.GetHeight(longtitude, latitude);

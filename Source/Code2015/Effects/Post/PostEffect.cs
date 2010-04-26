@@ -12,7 +12,7 @@ namespace Code2015.Effects
         protected PixelShader pixShader;
         protected VertexShader vtxShader;
 
-        RenderSystem renderSys;
+        protected RenderSystem renderSys;
 
         protected PostEffect(RenderSystem rs)
         {
@@ -64,10 +64,14 @@ namespace Code2015.Effects
         {
             pixShader.SetValueDirect(register, ref value);
         }
+        public void SetVSValue(int register, ref Vector2 value)
+        {
+            vtxShader.SetValueDirect(register, ref value);
+        }
 
 
 
-        public void Begin()
+        public virtual void Begin()
         {
             //renderSys.BindShader(vtxShader);
             renderSys.BindShader((VertexShader)null);

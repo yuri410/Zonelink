@@ -6,9 +6,9 @@ using Apoc3D.Vfs;
 
 namespace Code2015.Effects.Post
 {
-    class PieProgress : PostEffect
+    class PieProgressEffect : PostEffect
     {
-        public PieProgress(RenderSystem rs)
+        public PieProgressEffect(RenderSystem rs)
             : base(rs)
         {
             FileLocation fl = FileSystem.Instance.Locate("pieprogress.cps", FileLocateRule.Effects);
@@ -16,6 +16,14 @@ namespace Code2015.Effects.Post
 
             fl = FileSystem.Instance.Locate("pieprogress.cvs", FileLocateRule.Effects);
             LoadVertexShader(rs, fl);            
+        }
+
+        public override void Begin()
+        {
+            
+            renderSys.BindShader(vtxShader);
+            renderSys.BindShader(pixShader);
+       
         }
     }
 }

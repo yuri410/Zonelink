@@ -214,7 +214,7 @@ namespace Code2015.GUI
 
                     base.Render(sprite);
 
-                    Point hsp = new Point();// GetHotSpot(cursorState);
+                    Point hsp = new Point();
                     Texture ctex = cursor;
                     switch (cursorState)
                     {

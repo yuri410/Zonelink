@@ -169,7 +169,7 @@ namespace Code2015.GUI
             }
             if (state == AnimState.Outside)
             {
-                Rectangle rect2 = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
+                Rectangle rect2 = new Rectangle(MapX, PanelY + MapY, MapWidth, MapHeight);
                 if (MouseInput.IsLeftPressed && Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect2))
                 {
                     int x = MouseInput.X - MapX;

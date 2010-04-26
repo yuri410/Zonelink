@@ -131,10 +131,14 @@ namespace Code2015.BalanceSystem
             }
         }
 
-
+        public bool IsSelling
+        {
+            get;
+            private set;
+        }
         public bool IsBuilding 
         {
-            get { return BuildProgress < 1; }
+            get { return !IsSelling && BuildProgress < 1; }
         }
 
         public string Name
@@ -196,6 +200,10 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
+        public void Sell() 
+        {
+            IsSelling = true;
+        }
         public void Upgrade(float amount)
         {
             //HRPConvRate += amount;
@@ -355,6 +363,19 @@ namespace Code2015.BalanceSystem
                 float act = parent.LocalLR.Apply(cost);
 
                 BuildProgress += (act / cost) * hours / Type.BuildTime;
+            }
+            else if (IsSelling) 
+            {
+                float cost = 0.5f * Type.CostLR * hours / Type.BuildTime;
+
+                parent.LocalLR.Commit(cost);
+
+                BuildProgress -= hours / Type.BuildTime;
+
+                if (BuildProgress < 0)
+                {
+                    parent.Remove(this);
+                }
             }
             else
             {

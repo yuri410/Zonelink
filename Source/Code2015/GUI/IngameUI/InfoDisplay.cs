@@ -11,6 +11,7 @@ using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.Effects.Post;
 
 namespace Code2015.GUI
 {
@@ -24,6 +25,7 @@ namespace Code2015.GUI
 
         FastList<Popup> popUps = new FastList<Popup>();
 
+        PieProgressEffect pieEffect;
 
         public Matrix Projection;
         public Matrix View;
@@ -37,6 +39,8 @@ namespace Code2015.GUI
             this.renderSys = rs;
             this.player = player;
             this.camera = scene.Camera;
+
+            pieEffect = new PieProgressEffect(rs);
         }
 
         public CityInfo GetCityInfo(CityObject cc) 
@@ -45,7 +49,7 @@ namespace Code2015.GUI
 
             if (!cityTable.TryGetValue(cc, out info))
             {
-                info = new CityInfo(this, renderSys, cc, player);
+                info = new CityInfo(this, renderSys, cc, player, pieEffect);
                 cityTable.Add(cc, info);
             }
             return info;
@@ -65,7 +69,7 @@ namespace Code2015.GUI
 
                 if (!cityTable.TryGetValue(cc, out info))
                 {
-                    info = new CityInfo(this, renderSys, cc, player);
+                    info = new CityInfo(this, renderSys, cc, player, pieEffect);
                     cityTable.Add(cc, info);
                 }
 
