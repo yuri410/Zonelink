@@ -12,6 +12,7 @@ using Code2015.GUI.Controls;
 using Code2015.Logic;
 using Code2015.World;
 using Code2015.World.Screen;
+using Code2015.Effects.Post;
 
 namespace Code2015.GUI
 {
@@ -27,8 +28,10 @@ namespace Code2015.GUI
         Texture oilRefbg;
         Texture hospbg;
         Texture edubg;
+        Texture ring;
 
-
+        GeomentryData quad;
+        PieProgressEffect pieEffect;
         //ProgressBar upgrade;
 
         public int Plugin
@@ -37,7 +40,7 @@ namespace Code2015.GUI
             set;
         }
 
-        public PluginInfo(CityInfoDisplay info, CityInfo parent, RenderSystem rs, CityObject city)
+        public PluginInfo(CityInfoDisplay info, CityInfo parent, RenderSystem rs, CityObject city, PieProgressEffect pieEffect)
         {
             this.display = info;
             this.city = city;
@@ -57,7 +60,11 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_hospital.tex", GameFileLocs.GUI);
             hospbg = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_ring.tex", GameFileLocs.GUI);
+            ring = UITextureManager.Instance.CreateInstance(fl);
 
+            this.pieEffect = pieEffect;
+            BuildQuad(renderSys);
             //FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_vert_cmp.tex", GameFileLocs.GUI);
             //Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
 
@@ -71,6 +78,40 @@ namespace Code2015.GUI
             //upgrade.Direction = ControlDirection.Vertical;
             //upgrade.ProgressImage = prgBg;
             //upgrade.Background = prgBg1;
+        }
+
+        void BuildQuad(RenderSystem rs)
+        {
+            ObjectFactory fac =rs.ObjectFactory;
+            VertexDeclaration vtxDecl = fac.CreateVertexDeclaration(VertexPT1.Elements );
+
+            VertexBuffer vb = fac.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
+
+            VertexPT1[] vtx = new VertexPT1[4];
+            vtx[0].pos = new Vector3(-142 / 4, -142 / 4, 0);
+            vtx[0].u1 = 0; vtx[0].v1 = 0;
+
+            vtx[1].pos = new Vector3(-142 / 4, 142 / 4, 0);
+            vtx[1].u1 = 1; vtx[1].v1 = 0;
+
+            vtx[2].pos = new Vector3(142 / 4, -142 / 4, 0);
+            vtx[2].u1 = 0; vtx[2].v1 = 1;
+
+
+            vtx[3].pos = new Vector3(142 / 4, 142 / 4, 0);
+            vtx[3].u1 = 1; vtx[3].v1 = 1;
+
+            
+
+            vb.SetData(vtx);
+
+            quad = new GeomentryData();
+            quad.VertexBuffer = vb;
+            quad.PrimCount = 2;
+            quad.PrimitiveType = RenderPrimitiveType.TriangleStrip;
+            quad.VertexCount = 4;
+            quad.VertexDeclaration = vtxDecl;
+            quad.VertexSize = vtxDecl.GetVertexSize();
         }
 
         public override void Render(Sprite sprite)
@@ -109,6 +150,26 @@ namespace Code2015.GUI
                     sprite.Draw(hospbg, rect, parent.DistanceMod);
                     break;
             }
+
+            sprite.End();
+
+            Vector2 p = new Vector2(plpos.X - 0.5f, plpos.Y - 0.5f);
+            pieEffect.SetVSValue(0, ref p);
+            pieEffect.SetTexture("texDif", ring);
+            if (cplug.IsBuilding || cplug.IsSelling)
+            {
+                pieEffect.SetValue("weight", cplug.BuildProgress);
+            }
+            else
+            {
+                pieEffect.SetValue("weight", cplug.UpgradePoint);
+            }
+            pieEffect.SetValue("alpha", parent.DistanceMod.A / 255f);
+            sprite.DrawQuad(quad, pieEffect);
+
+
+            sprite.Begin();
+
             //upgrade.X = (int)plpos.X;
             //upgrade.Y = (int)plpos.Y - 50;
 
@@ -136,7 +197,7 @@ namespace Code2015.GUI
 
         public ColorValue DistanceMod;
 
-        public CityInfo(CityInfoDisplay info, RenderSystem rs, CityObject city, Player player)
+        public CityInfo(CityInfoDisplay info, RenderSystem rs, CityObject city, Player player, PieProgressEffect pieEff)
         {
             this.font = FontManager.Instance.GetFont("default");
 
@@ -170,7 +231,7 @@ namespace Code2015.GUI
 
             for (int i = 0; i < pluginInfo.Length; i++)
             {
-                pluginInfo[i] = new PluginInfo(info, this, rs, city);
+                pluginInfo[i] = new PluginInfo(info, this, rs, city, pieEff);
             }
             //linkArr = new CityLinkableMark(rs);
 

@@ -110,7 +110,9 @@ namespace Code2015.World
         Map map;
         SmokeEffectBuffer smoke;
 
-        FastList<Harvester> harvesters = new FastList<Harvester>();
+        Dictionary<CityPlugin, Harvester> harvTable = new Dictionary<CityPlugin, Harvester>();
+
+        //FastList<Harvester> harvesters = new FastList<Harvester>();
         FastList<PluginEntry> plugins;
 
         
@@ -204,14 +206,14 @@ namespace Code2015.World
             get { return city.Owner; }
         }
 
-        public int HarvesterCount
-        {
-            get { return harvesters.Count; }
-        }
-        public Harvester GetHarvester(int idx)
-        {
-            return harvesters[idx];
-        }
+        //public int HarvesterCount
+        //{
+        //    get { return harvTable.Count; }
+        //}
+        //public Harvester GetHarvester(int idx)
+        //{
+        //    return harvesters[idx];
+        //}
 
         public int PluginCount
         {
@@ -376,7 +378,7 @@ namespace Code2015.World
                 Harvester harv = new Harvester(renderSys, map, style.Cow);
                 harv.Latitude = MathEx.Degree2Radian(Latitude - 2);
                 harv.Longtitude = MathEx.Degree2Radian(Longitude);
-                harvesters.Add(harv);
+                harvTable.Add(plugin, harv);
                 base.SceneManager.AddObjectToScene(harv);
 
                 NaturalResource res = plugin.CurrentResource;
@@ -390,6 +392,15 @@ namespace Code2015.World
         }
         void City_PluginRemoved(City city, CityPlugin plugin)
         {
+            if (harvTable.ContainsKey(plugin))
+            {
+                Harvester harv = harvTable[plugin];
+                
+                SceneManager.RemoveObjectFromScene(harv);
+
+                harvTable.Remove(plugin);                
+            }
+
             for (int i = 0; i < plugins.Count; i++)
             {
                 if (plugin == plugins[i].plugin)
@@ -408,37 +419,25 @@ namespace Code2015.World
                 //ringMaterial.Ambient *= color;
                 //ringMaterial.Diffuse *= color;
 
-                int hid = 0;
-                for (int i = 0; i < plugins.Count; i++)
+                foreach (KeyValuePair<CityPlugin, Harvester> e in harvTable)
                 {
-                    CityPlugin plugin = plugins[i].plugin;
-
-                    if (plugin.TypeId == CityPluginTypeId.OilRefinary ||
-                        plugin.TypeId == CityPluginTypeId.WoodFactory)
-                    {
-                        NaturalResource res = plugin.CurrentResource;
-                        if (res != null)
-                        {
-                            harvesters[hid++].SetAuto(
-                                MathEx.Degree2Radian(res.Longitude), MathEx.Degree2Radian(res.Latitude),
-                                MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
-                        }
-                    }
+                    CityPlugin cp = e.Key;
+                    NaturalResource res = cp.CurrentResource;
+                    e.Value.SetAuto(
+                        MathEx.Degree2Radian(res.Longitude), MathEx.Degree2Radian(res.Latitude),
+                        MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
                 }
+
             }
             else
             {
-                int hid = 0;
-                for (int i = 0; i < plugins.Count; i++)
+                foreach (KeyValuePair<CityPlugin, Harvester> e in harvTable)
                 {
-                    CityPlugin plugin = plugins[i].plugin;
-
-                    if ((plugin.TypeId == CityPluginTypeId.OilRefinary ||
-                        plugin.TypeId == CityPluginTypeId.WoodFactory))
-                    {
-                        harvesters[hid++].Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
-                    }
+                    CityPlugin cp = e.Key;
+                    NaturalResource res = cp.CurrentResource;
+                    e.Value.Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
                 }
+               
             }
         }
 
@@ -548,7 +547,7 @@ namespace Code2015.World
             // 升级
             for (int i = 0; i < plugins.Count; i++)
             {
-                if (goalSite.Match(i, plugins[i].plugin.TypeId))
+                if (!plugins[i].plugin.IsSelling && !plugins[i].plugin.IsBuilding && goalSite.Match(i, plugins[i].plugin.TypeId))
                 {
                     plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
                     goalSite.ClearAt(i);
@@ -613,9 +612,12 @@ namespace Code2015.World
             bool result = true;
             for (int i = 0; i < plugins.Count; i++)
             {
-                result &= goalSite.Match(i, plugins[i].plugin.TypeId);
-                if (!result)
-                    break;
+                if (!plugins[i].plugin.IsBuilding && !plugins[i].plugin.IsSelling)
+                {
+                    result &= goalSite.Match(i, plugins[i].plugin.TypeId);
+                    if (!result)
+                        break;
+                }
             }
             return result;
         }

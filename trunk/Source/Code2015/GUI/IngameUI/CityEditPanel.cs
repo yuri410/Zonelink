@@ -69,6 +69,7 @@ namespace Code2015.GUI
         RoundButton btnWood;
 
         Button build;
+        Button sell;
 
         Player player;
 
@@ -215,19 +216,51 @@ namespace Code2015.GUI
             costbg = UITextureManager.Instance.CreateInstance(fl);
 
             #region 建造变卖
-            fl = FileSystem.Instance.Locate("ig_cost_downr.tex", GameFileLocs.GUI);
+            
             build = new Button();
+            fl = FileSystem.Instance.Locate("ig_btn_build_down.tex", GameFileLocs.GUI);
             build.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_cost_hover.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_btn_build_mon.tex", GameFileLocs.GUI);
             build.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_btn_build.tex", GameFileLocs.GUI);
+            build.Image = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_btn_build_disabled.tex", GameFileLocs.GUI);
+            build.ImageDisabled = UITextureManager.Instance.CreateInstance(fl);
+
             build.Width = 64;
             build.Height = 35;
             build.Enabled = true;
             build.IsValid = true;
 
             build.MouseClick += Build_Click;
+
+
+            sell = new Button();
+            fl = FileSystem.Instance.Locate("ig_btn_sell_down.tex", GameFileLocs.GUI);
+            sell.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_btn_sell_mon.tex", GameFileLocs.GUI);
+            sell.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_btn_sell.tex", GameFileLocs.GUI);
+            sell.Image = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_btn_sell_disabled.tex", GameFileLocs.GUI);
+            sell.ImageDisabled = UITextureManager.Instance.CreateInstance(fl);
+
+            sell.Width = 55;
+            sell.Height = 34;
+            sell.Enabled = true;
+            sell.IsValid = true;
+
+            sell.MouseClick += Sell_Click;
+
             #endregion
+
+
 
             fl = FileSystem.Instance.Locate("ig_name.tex", GameFileLocs.GUI);
             cityInfoBg = UITextureManager.Instance.CreateInstance(fl);
@@ -282,6 +315,79 @@ namespace Code2015.GUI
             get { return 5; }
         }
 
+        void Sell_Click(object sender, MouseButtonFlags btn)
+        {
+            CityPlugin bestPlugin = null;
+            float min = float.MaxValue;
+
+            switch (selectedType)
+            {
+                case SelectedPluginType.Oil:
+                    for (int i = 0; i < selectCity.PluginCount; i++)
+                    {
+                        CityPlugin cp = selectCity.GetPlugin(i);
+                        if (cp.IsBuilding || cp.IsSelling)
+                            continue;
+
+                        if (cp.TypeId == CityPluginTypeId.OilRefinary)
+                        {
+                            if (cp.HRPConvRate < min)
+                            {
+                                min = cp.HRPConvRate;
+                            }
+                            bestPlugin = cp;
+                        }
+                        else if (cp.TypeId == CityPluginTypeId.BiofuelFactory)
+                        {
+                            if (cp.FoodConvRate + 1 < min)
+                            {
+                                min = cp.FoodConvRate + 1;
+                            }
+                            bestPlugin = cp;
+                        }
+
+                    }
+                    break;
+                case SelectedPluginType.Wood:
+                    for (int i = 0; i < selectCity.PluginCount; i++)
+                    {
+                        CityPlugin cp = selectCity.GetPlugin(i);
+                        if (cp.IsBuilding || cp.IsSelling)
+                            continue;
+                        if (cp.TypeId == CityPluginTypeId.WoodFactory)
+                        {
+                            if (cp.LRPConvRate < min)
+                            {
+                                min = cp.LRPConvRate;
+                                bestPlugin = cp;
+                            }
+                        }
+                    }
+                    break;
+                case SelectedPluginType.Education:
+                case SelectedPluginType.Hospital:
+                    for (int i = 0; i < selectCity.PluginCount; i++)
+                    {
+                        CityPlugin cp = selectCity.GetPlugin(i);
+                        if (cp.IsBuilding || cp.IsSelling)
+                            continue;
+                        if (cp.TypeId == CityPluginTypeId.EducationOrg || 
+                            cp.TypeId == CityPluginTypeId.Hospital)
+                        {
+                            if (cp.UpgradePoint < min)
+                            {
+                                min = cp.UpgradePoint;
+                                bestPlugin = cp;
+                            }
+                        }
+                    }
+                    break;
+            }
+
+            if (bestPlugin != null)
+                bestPlugin.Sell();
+
+        }
         void Build_Click(object sender, MouseButtonFlags btn) 
         {
             switch (SelectedType)
@@ -434,7 +540,8 @@ namespace Code2015.GUI
             {
                 sprite.Draw(infobg, (int)cx2, 449, ColorValue.White);
                 sprite.Draw(costbg, (int)cx2, 486, ColorValue.White);
-
+               
+                sell.Render(sprite);
                 build.Render(sprite);
 
                 switch (selectedType)
@@ -497,6 +604,7 @@ namespace Code2015.GUI
             if (state2 == AnimState.Outside)
             {
                 build.Update(time);
+                sell.Update(time);
             }
         }
         public override void Update(GameTime time)
@@ -540,7 +648,7 @@ namespace Code2015.GUI
                 }
             }
 
-            
+
 
             btnEduorg.X = (int)(cx + Con4X);
             btnEduorg.Y = PanelY + Con4Y;
@@ -554,24 +662,61 @@ namespace Code2015.GUI
             btnWood.X = (int)(cx + Con1X);
             btnWood.Y = PanelY + Con1Y;
 
-            build.X = (int)(cx2 + 222);
+
+
+            build.X = (int)(cx2 + 292);
             build.Y = 492;
 
-            bool enable;
+            sell.X = (int)(cx2 + 236);
+            sell.Y = 492;
 
-            if (selectCity != null)
+            build.Enabled = selectCity != null ? selectCity.City.CanAddPlugins : false;
+            sell.Enabled = false;
+
+            if (selectCity != null && selectedType != SelectedPluginType.None)
             {
-                enable = selectCity.City.CanAddPlugins;
-            }
-            else
-            {
-                enable = false;
+                for (int i = selectCity.PluginCount -1; i >=0;i--)
+                {
+                    CityPlugin cp = selectCity.GetPlugin(i);
+
+                    if (cp.IsSelling || cp.IsBuilding)
+                        continue;
+
+                    switch (cp.TypeId)
+                    {
+                        case CityPluginTypeId.WoodFactory:
+                            if (selectedType == SelectedPluginType.Wood)
+                            {
+                                sell.Enabled = true;
+                                i = -1;
+                            }
+                            break;
+                        case CityPluginTypeId.OilRefinary:                            
+                        case CityPluginTypeId.BiofuelFactory:
+                            if (selectedType == SelectedPluginType.Oil)
+                            {
+                                sell.Enabled = true;
+                                i = -1;
+                            }
+                            break;
+                        case CityPluginTypeId.EducationOrg:
+                            if (selectedType == SelectedPluginType.Education)
+                            {
+                                sell.Enabled = true;
+                                i = -1;
+                            }
+                            break;
+                        case CityPluginTypeId.Hospital:
+                            if (selectedType == SelectedPluginType.Hospital)
+                            {
+                                sell.Enabled = true;
+                                i = -1;
+                            }
+                            break;
+                    }
+                }
             }
 
-            btnEduorg.Enabled = enable;
-            btnHosp.Enabled = enable;
-            btnOilref.Enabled = enable;
-            btnWood.Enabled = enable;
         }
     }
 }

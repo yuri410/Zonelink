@@ -18,8 +18,11 @@ namespace Code2015.World
             FileLocation fl = FileSystem.Instance.Locate(sect["Model"], GameFileLocs.Model);
             float scale = sect.GetSingle("Radius", 1);
 
+            float rot = sect.GetSingle("Amount", 0);
+
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale));
+            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * 
+                Matrix.RotationY(MathEx.Degree2Radian(rot)));
 
             float lng = sect.GetSingle("Longitude");
             float lat = sect.GetSingle("Latitude");
@@ -29,7 +32,7 @@ namespace Code2015.World
             float alt = TerrainData.Instance.QueryHeight(lng, lat);
 
             Position = PlanetEarth.GetPosition(lng, lat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
-            Orientation = PlanetEarth.GetOrientation(lng, lat);
+            Orientation =  PlanetEarth.GetOrientation(lng, lat);
         }
 
         public override bool IsSerializable
