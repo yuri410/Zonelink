@@ -25,7 +25,14 @@ namespace Code2015.EngineEx
         public float Latitude
         {
             get { return latitude; }
-            set { latitude = value; }
+            set
+            {
+                latitude = value;
+                if (latitude > MathEx.PIf * 5 / 18f)
+                    latitude = MathEx.PIf * 5 / 18f;
+                if (latitude < -MathEx.PIf * 5 / 18f)
+                    latitude = -MathEx.PIf * 5 / 18f;
+            }
         }
         public float Longitude
         {
