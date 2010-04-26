@@ -254,6 +254,10 @@ namespace Code2015.World
 
         const float RingRadius = 100;
 
+        static readonly string SmallCityCenter_Am = "mz_small.mesh";
+        static readonly string MediumCityCenter_Am = "mz_medium.mesh";
+        static readonly string LargeCityCenter_Am = "mz_large.mesh";
+
         static readonly string SmallCityCenter_Af = "fz_small.mesh";
         static readonly string MediumCityCenter_Af = "fz_medium.mesh";
         static readonly string LargeCityCenter_Af = "fz_large.mesh";
@@ -461,6 +465,32 @@ namespace Code2015.World
 
             #endregion
         }
+        void BuildAm(RenderSystem rs)
+        {
+            int idx = (int)CultureId.American;
+            #region 初始化默认样式
+            styles[idx].ID = CultureId.Europe;
+            styles[idx].Urban = new ResourceHandle<ModelData>[3];
+            styles[idx].Base = new ResourceHandle<ModelData>[3];
+
+            FileLocation fl = FileSystem.Instance.Locate(SmallCityCenter_Am, GameFileLocs.Model);
+            styles[idx].Urban[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumCityCenter_Am, GameFileLocs.Model);
+            styles[idx].Urban[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeCityCenter_Am, GameFileLocs.Model);
+            styles[idx].Urban[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            fl = FileSystem.Instance.Locate(SmallBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[0] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(MediumBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[1] = ModelManager.Instance.CreateInstance(rs, fl);
+            fl = FileSystem.Instance.Locate(LargeBase_Inv, GameFileLocs.Model);
+            styles[idx].Base[2] = ModelManager.Instance.CreateInstance(rs, fl);
+
+            BuildCommon(rs, ref styles[idx]);
+
+            #endregion
+        }
 
         public CityStyleTable(RenderSystem rs)
         {
@@ -470,6 +500,7 @@ namespace Code2015.World
             BuildAsia(rs);
             BuildAfrica(rs);
             BuildEr(rs);
+            BuildAm(rs);
 
             #region 初始化变换调整
             adjusts = new CityObjectTRAdjust[(int)CultureId.Count];
@@ -528,7 +559,6 @@ namespace Code2015.World
                 Matrix.Translation(-3, 1, -3);
 
 
-
             adjusts[(int)CultureId.Europe] = adjusts[0];
             adjusts[(int)CultureId.Europe].Urban = new Matrix[3];
             adjusts[(int)CultureId.Europe].Urban[(int)UrbanSize.Large] = 
@@ -539,6 +569,20 @@ namespace Code2015.World
             adjusts[(int)CultureId.Europe].Urban[(int)UrbanSize.Small] =
                 Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f)
                 * Matrix.Translation(30, 1, -13.5f);
+
+
+            adjusts[(int)CultureId.American] = adjusts[0];
+            adjusts[(int)CultureId.American].Urban = new Matrix[3];
+            adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Large] =
+                Matrix.Translation(10, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.45f, Game.ObjectScale / 1.45f, Game.ObjectScale / 1.45f);
+            adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Medium] =
+                Matrix.Scaling(Game.ObjectScale / 2.0f, Game.ObjectScale / 2f, Game.ObjectScale / 2f)
+                * Matrix.Translation(-27, 3, -13);
+            adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Small] =
+                Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f)
+                * Matrix.Translation(30, 1, -13.5f);
+
+
 
         }
 

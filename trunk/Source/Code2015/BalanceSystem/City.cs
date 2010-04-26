@@ -19,9 +19,9 @@ namespace Code2015.BalanceSystem
         Europe = 1,
         Africa = 2,
         //Russia = 3,
-        //American = 4,
+        American = 3,
         //Invariant = 5,
-        Count = 3
+        Count = 4
     }
 
     /// <summary>
