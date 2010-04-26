@@ -78,7 +78,7 @@ namespace Code2015.GUI
             CityPlugin cplug = city.GetPlugin(Plugin);
 
             Vector3 plpos;
-            Vector3 ppofs = new Vector3(60, 0, 0);
+            Vector3 ppofs = new Vector3(0, 150, 0);
             ppofs += city.GetPluginPosition(Plugin);
 
             Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
@@ -92,16 +92,21 @@ namespace Code2015.GUI
             {
                 case CityPluginTypeId.BiofuelFactory:
                 case CityPluginTypeId.OilRefinary:
-                    sprite.Draw(oilRefbg, x - oilRefbg.Width / 2, y - oilRefbg.Height / 2, ColorValue.White);
+                    Rectangle rect = new Rectangle(x - oilRefbg.Width / 4, y - oilRefbg.Height / 4, oilRefbg.Width / 2, oilRefbg.Height / 2);
+
+                    sprite.Draw(oilRefbg, rect, ColorValue.White);
                     break;
                 case CityPluginTypeId.WoodFactory:
-                    sprite.Draw(woodFacbg, x - woodFacbg.Width / 2, y - woodFacbg.Height / 2, ColorValue.White);
+                    rect = new Rectangle(x - woodFacbg.Width / 4, y - woodFacbg.Height / 4, woodFacbg.Width / 2, woodFacbg.Height / 2);
+                    sprite.Draw(woodFacbg, rect, ColorValue.White);
                     break;
                 case CityPluginTypeId.EducationOrg:
-                    sprite.Draw(edubg, x - edubg.Width / 2, y - edubg.Height / 2, ColorValue.White);
+                    rect = new Rectangle(x - edubg.Width / 4, y - edubg.Height / 4, edubg.Width / 2, edubg.Height / 2);
+                    sprite.Draw(edubg, rect, ColorValue.White);
                     break;
                 case CityPluginTypeId.Hospital:
-                    sprite.Draw(hospbg, x - hospbg.Width / 2, y - hospbg.Height / 2, ColorValue.White);
+                    rect = new Rectangle(x - hospbg.Width / 4, y - hospbg.Height / 4, hospbg.Width / 2, hospbg.Height / 2);
+                    sprite.Draw(hospbg, rect, ColorValue.White);
                     break;
             }
             //upgrade.X = (int)plpos.X;
