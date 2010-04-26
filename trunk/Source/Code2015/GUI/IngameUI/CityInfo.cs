@@ -94,19 +94,19 @@ namespace Code2015.GUI
                 case CityPluginTypeId.OilRefinary:
                     Rectangle rect = new Rectangle(x - oilRefbg.Width / 4, y - oilRefbg.Height / 4, oilRefbg.Width / 2, oilRefbg.Height / 2);
 
-                    sprite.Draw(oilRefbg, rect, ColorValue.White);
+                    sprite.Draw(oilRefbg, rect, parent.DistanceMod);
                     break;
                 case CityPluginTypeId.WoodFactory:
                     rect = new Rectangle(x - woodFacbg.Width / 4, y - woodFacbg.Height / 4, woodFacbg.Width / 2, woodFacbg.Height / 2);
-                    sprite.Draw(woodFacbg, rect, ColorValue.White);
+                    sprite.Draw(woodFacbg, rect, parent.DistanceMod);
                     break;
                 case CityPluginTypeId.EducationOrg:
                     rect = new Rectangle(x - edubg.Width / 4, y - edubg.Height / 4, edubg.Width / 2, edubg.Height / 2);
-                    sprite.Draw(edubg, rect, ColorValue.White);
+                    sprite.Draw(edubg, rect, parent.DistanceMod);
                     break;
                 case CityPluginTypeId.Hospital:
                     rect = new Rectangle(x - hospbg.Width / 4, y - hospbg.Height / 4, hospbg.Width / 2, hospbg.Height / 2);
-                    sprite.Draw(hospbg, rect, ColorValue.White);
+                    sprite.Draw(hospbg, rect, parent.DistanceMod);
                     break;
             }
             //upgrade.X = (int)plpos.X;
@@ -232,7 +232,7 @@ namespace Code2015.GUI
             if (city.Owner == player)
             {
                 float dist = Vector3.Distance(city.Position, parent.CameraPosition);
-                dist = 1 - MathEx.Saturate((dist - 1500) / 750);
+                dist = 1 - MathEx.Saturate((dist - 2000) / 750);
                 DistanceMod = ColorValue.White;
                 DistanceMod.A = (byte)(dist * byte.MaxValue);
 

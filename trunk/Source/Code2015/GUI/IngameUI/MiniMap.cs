@@ -169,11 +169,6 @@ namespace Code2015.GUI
             }
             if (state == AnimState.Outside)
             {
-                //timeCounter -= time.ElapsedGameTimeSeconds;
-                //if (timeCounter < 0)
-                //{
-                //    state = AnimState.In;
-                //}
                 Rectangle rect2 = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
                 if (MouseInput.IsLeftPressed && Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect2))
                 {
