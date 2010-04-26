@@ -484,7 +484,8 @@ namespace Code2015.World
 
             Matrix scale = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale);
 
-            adjusts[0].Urban[(int)UrbanSize.Large] = Matrix.Translation(26, 1, 7) * Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f);
+            adjusts[0].Urban[(int)UrbanSize.Large] = 
+                Matrix.Translation(32.5f, 1, 1) * Matrix.Scaling(Game.ObjectScale / 0.92f, Game.ObjectScale / 0.92f, Game.ObjectScale / 0.92f);
             adjusts[0].Urban[(int)UrbanSize.Medium] = Matrix.Scaling(Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f, Game.ObjectScale / 3.05f) * Matrix.Translation(-36, 3, 25);
             adjusts[0].Urban[(int)UrbanSize.Small] = Matrix.Scaling(Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f, Game.ObjectScale * 2.36f) * Matrix.Translation(9, 1, -18);
 
