@@ -578,6 +578,9 @@ namespace Code2015.GUI
 
                         break;
                 }
+                
+                f14.DrawString(sprite, "COST", (int)cx2 + 37, 502, ColorValue.White);
+
             }
 
             sprite.Draw(cityInfoBg, 333, 657, ColorValue.White);
