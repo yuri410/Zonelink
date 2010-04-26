@@ -180,5 +180,8 @@
     <Char>41</Char>
     <Width>9</Width>
   </Youkuohao>
-
+  <SPACE>
+    <Char>32</Char>
+    <Width>12</Width>
+  </SPACE>
 </F18>

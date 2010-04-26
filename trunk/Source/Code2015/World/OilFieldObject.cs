@@ -148,10 +148,13 @@ namespace Code2015.World
         #endregion
 
         #region IResourceObject 成员
-
+        public float MaxValue
+        {
+            get { return oilField.MaxAmount / (7500f * 2); }
+        }
         public float AmountPer
         {
-            get { return oilField.CurrentAmount / (7500*2); }
+            get { return oilField.CurrentAmount / (7500f * 2); }
         }
 
         public NaturalResourceType Type
