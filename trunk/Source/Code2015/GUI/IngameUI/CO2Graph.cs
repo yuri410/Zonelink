@@ -66,10 +66,10 @@ namespace Code2015.GUI
             vtx[0].u1 = 0; vtx[0].v1 = 0;
 
             vtx[1].pos = new Vector3(X, Y + H, 0);
-            vtx[1].u1 = 1; vtx[1].v1 = 0;
+            vtx[1].u1 = 0; vtx[1].v1 = 1;
 
             vtx[2].pos = new Vector3(X + W, Y, 0);
-            vtx[2].u1 = 0; vtx[2].v1 = 1;
+            vtx[2].u1 = 1; vtx[2].v1 = 0;
 
 
             vtx[3].pos = new Vector3(X + W, Y + H, 0);
@@ -90,7 +90,7 @@ namespace Code2015.GUI
 
         public override int Order
         {
-            get { return 7; }
+            get { return 8; }
         }
 
         public override void Render(Sprite sprite)
@@ -99,7 +99,7 @@ namespace Code2015.GUI
 
             pieEffect.SetTexture("texDif", co2bar);
             pieEffect.SetValue("hozsep", 0.3f);
-            prgress = 0.4f;
+            prgress = 0.1f;
             pieEffect.SetValue("weight", prgress);
             
             sprite.DrawQuad(quad, pieEffect);

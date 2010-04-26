@@ -6,8 +6,8 @@ struct PSInput
 
 #define TexSize float2(265, 113)
 #define CirCenter float2(90, 9)
-#define HRight 9
-#define HLeft 90
+#define HRight 90
+#define HLeft 9
 
 #define pi 3.14159265
 
@@ -30,7 +30,7 @@ PSOutput main(PSInput ip)
     {
 		float d = 1 - saturate((ip.Position.x - HLeft) / (HRight - HLeft));
 		
-		if (d<saturate(weight/hozsep))
+		if (d<=saturate(weight/hozsep))
 		{
 			o.Color = tex2D(texDif, ip.TexCoord);
 		}
@@ -50,7 +50,6 @@ PSOutput main(PSInput ip)
 		else o.Color = 0;
 				
     }
-    o.Color = o.Color * 0.1 + 0.5;
     return o;
 }
 

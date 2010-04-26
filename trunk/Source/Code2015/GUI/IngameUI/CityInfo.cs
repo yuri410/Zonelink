@@ -92,10 +92,10 @@ namespace Code2015.GUI
             vtx[0].u1 = 0; vtx[0].v1 = 0;
 
             vtx[1].pos = new Vector3(-142 / 4, 142 / 4, 0);
-            vtx[1].u1 = 1; vtx[1].v1 = 0;
+            vtx[1].u1 = 0; vtx[1].v1 = 1;
 
             vtx[2].pos = new Vector3(142 / 4, -142 / 4, 0);
-            vtx[2].u1 = 0; vtx[2].v1 = 1;
+            vtx[2].u1 = 1; vtx[2].v1 = 0;
 
 
             vtx[3].pos = new Vector3(142 / 4, 142 / 4, 0);
@@ -153,7 +153,7 @@ namespace Code2015.GUI
 
             sprite.End();
 
-            Vector2 p = new Vector2(plpos.X - 0.5f, plpos.Y - 0.5f);
+            Vector2 p = new Vector2(plpos.X , plpos.Y );
             pieEffect.SetVSValue(0, ref p);
             pieEffect.SetTexture("texDif", ring);
             if (cplug.IsBuilding || cplug.IsSelling)
