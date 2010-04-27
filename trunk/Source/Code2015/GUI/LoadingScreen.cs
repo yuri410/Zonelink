@@ -25,6 +25,8 @@ namespace Code2015.GUI
             "CALCULATING CITY'S MAJOR PROBLEM"
         };
 
+        
+
         RenderSystem renderSys;
         Texture lds_ball;
 
