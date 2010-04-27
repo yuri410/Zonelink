@@ -39,8 +39,8 @@ namespace Code2015.World
 
                     dir.Normalize();
 
-                    Vector3 pa = start.Position + dir * CityStyleTable.CityRadius;
-                    Vector3 pb = end.Position - dir * CityStyleTable.CityRadius;
+                    Vector3 pa = start.Position + dir * (CityStyleTable.CityRadiusRing + 130);
+                    Vector3 pb = end.Position - dir * (CityStyleTable.CityRadiusRing + 130);
 
 
                     float dist = Vector3.Distance(pa, pb);
@@ -50,15 +50,12 @@ namespace Code2015.World
 
                     Matrix ori = Matrix.Identity;
                     ori.Right = Vector3.Normalize(pa - pb);
-                    ori.Up = PlanetEarth.GetNormal(longitude, latitude);
+                    ori.Up = Vector3.Normalize(pa);
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
-                    ori.TranslationValue = MathEx.LinearInterpose(pa, pb, 0.3f);
-                    ori.TranslationValue.Normalize();
-
-                    ori.TranslationValue *= (start.Position.Length() + 10);
+                    ori.TranslationValue = pa + ori.Up * 50;
 
                     linkArrow[i].CurrentAnimation = new NoAnimation(
-                        Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) * 
+                        Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) *
                         Matrix.RotationY(-MathEx.PiOver2) * ori);
 
                 }

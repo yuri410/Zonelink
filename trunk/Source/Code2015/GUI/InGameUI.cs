@@ -308,6 +308,10 @@ namespace Code2015.GUI
 
                     base.Update(time);
                 }
+                else
+                {
+                    loadScreen.Update(time);
+                }
             }
         }
 
