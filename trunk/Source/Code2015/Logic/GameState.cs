@@ -202,7 +202,7 @@ namespace Code2015.World
                         FastList<City> list = startAreas[area];
 
                         int cidx = Randomizer.GetRandomInt(list.Count);
-
+                        list[cidx].IsHomeCity = true;
                         list[cidx].ChangeOwner(localPlayer[i]);
                         finished = true;
                     }
