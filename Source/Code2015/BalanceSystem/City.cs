@@ -47,6 +47,7 @@ namespace Code2015.BalanceSystem
     public delegate void NearbyCityAddedHandler(City city, City srcCity);
     public delegate void NearbyCityRemovedHandler(City city, City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
+    public delegate void CityGrowHandler();
 
     public struct PieceCategoryProbability
     {
@@ -463,6 +464,7 @@ namespace Code2015.BalanceSystem
         public event NearbyCityRemovedHandler NearbyCityRemoved;
         public event CityOwnerChanged CityOwnerChanged;
 
+        public event CityGrowHandler CityGrow;
 
         public PieceCategoryProbability GetProbability()
         {
@@ -845,7 +847,11 @@ namespace Code2015.BalanceSystem
                     newSize = UrbanSize.Large;
                 }
                 if (newSize > Size)
+                {
                     Size = newSize;
+                    if (CityGrow != null)
+                        CityGrow();
+                }
             }
 
             #endregion

@@ -10,6 +10,7 @@ using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.GUI.Controls;
 
 namespace Code2015.GUI
 {
@@ -81,16 +82,29 @@ namespace Code2015.GUI
 
         CityObject anySelCity;
         CityObject selectCity;
+
+        #region 左
         Texture background;
         Texture eduHover;
         Texture hospHover;
         Texture oilHover;
         Texture woodHover;
 
+        Texture infobg;
+        Texture costbg;
+        #endregion
+
+        #region 文本中
         Texture woodSign;
         Texture oilSign;
+        #endregion
+
+
 
         SelectedPluginType selectedType;
+
+
+
 
         private SelectedPluginType SelectedType
         {
@@ -108,10 +122,16 @@ namespace Code2015.GUI
             }
         }
 
-        Texture infobg;
-        Texture costbg;
-
         Texture cityInfoBg;
+        Texture woodResSign;
+        Texture oilResSign;
+        Texture foodResSign;
+
+        ProgressBar cityDev;
+
+        Texture smCitySign;
+        Texture medCitySign;
+        Texture lgCitySign;
 
         public CityObject SelectedCity
         {
@@ -215,6 +235,12 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_cost.tex", GameFileLocs.GUI);
             costbg = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_sign_oil_sm.tex", GameFileLocs.GUI);
+            oilSign = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_sign_wood_sm.tex", GameFileLocs.GUI);
+            woodSign = UITextureManager.Instance.CreateInstance(fl);
+
             #region 建造变卖
             
             build = new Button();
@@ -264,14 +290,39 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("ig_name.tex", GameFileLocs.GUI);
             cityInfoBg = UITextureManager.Instance.CreateInstance(fl);
+           
+            fl = FileSystem.Instance.Locate("ig_sign_oil.tex", GameFileLocs.GUI);
+            oilResSign = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_sign_wood.tex", GameFileLocs.GUI);
+            woodResSign = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_sign_food.tex", GameFileLocs.GUI);
+            foodResSign = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("ig_sign_oil_sm.tex", GameFileLocs.GUI);
-            oilSign = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_sign_small.tex", GameFileLocs.GUI);
+            smCitySign = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("ig_sign_wood_sm.tex", GameFileLocs.GUI);
-            woodSign = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_sign_medium.tex", GameFileLocs.GUI);
+            medCitySign = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_sign_large.tex", GameFileLocs.GUI);
+            lgCitySign = UITextureManager.Instance.CreateInstance(fl);
+
+
+
+
+
+
+            cityDev = new ProgressBar();
+            cityDev.X = 386;
+            cityDev.Y = 637;
+            fl = FileSystem.Instance.Locate("ig_namebar.tex", GameFileLocs.GUI);
+            cityDev.ProgressImage = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_namebar1.tex", GameFileLocs.GUI);
+            cityDev.Background = UITextureManager.Instance.CreateInstance(fl);
 
 
             cx = -PanelWidth;
@@ -583,15 +634,22 @@ namespace Code2015.GUI
 
             }
 
-            sprite.Draw(cityInfoBg, 333, 657, ColorValue.White);
+            sprite.Draw(cityInfoBg, 333, 601, ColorValue.White);
 
             if (anySelCity != null)
             {
+                if (anySelCity.IsCaptured)
+                {
+                    cityDev.Render(sprite);
+                }
+
                 f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 345, 670, ColorValue.White);
             }
             if (selectCity != null)
-            {
-                f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 515, 678, ColorValue.White);
+            {                
+                f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 398, 689, ColorValue.White);
+                f18.DrawString(sprite, selectCity.City.LocalHR.Current.ToString("F0"), 487, 689, ColorValue.White);
+                f18.DrawString(sprite, selectCity.City.LocalFood.Current.ToString("F0"), 600, 689, ColorValue.White);
             }
         }
 
@@ -675,6 +733,11 @@ namespace Code2015.GUI
 
             build.Enabled = selectCity != null ? selectCity.City.CanAddPlugins : false;
             sell.Enabled = false;
+
+            if (anySelCity != null)
+            {
+                cityDev.Value = anySelCity.Satisfaction;
+            }
 
             if (selectCity != null && selectedType != SelectedPluginType.None)
             {
