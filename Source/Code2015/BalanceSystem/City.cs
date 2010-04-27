@@ -287,6 +287,12 @@ namespace Code2015.BalanceSystem
             get { return localFood; }
         }
 
+        public bool IsHomeCity
+        {
+            get;
+            set;
+        }
+
         public int StartUp
         {
             get;

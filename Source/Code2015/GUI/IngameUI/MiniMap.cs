@@ -8,6 +8,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -34,10 +35,28 @@ namespace Code2015.GUI
         Game parent;
         RtsCamera camera;
 
+        
+
         Texture background;
         Texture compass;
-        Texture cameraView;
         Button switchButton;
+
+        #region 内容显示
+        Texture cameraView;
+
+        Texture redDot;
+        Texture greenDot;
+        Texture blueDot;
+        Texture yellowDot;
+
+        Texture whiteDot;
+
+        Texture redRing;
+        Texture greenRing;
+        Texture blueRing;
+        Texture yellowRing;
+
+        #endregion
 
         AnimState state;
 
@@ -78,8 +97,33 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_map_guide.tex", GameFileLocs.GUI);
             compass = UITextureManager.Instance.CreateInstance(fl);
 
+            #region 内容显示
             fl = FileSystem.Instance.Locate("ig_map_view.tex", GameFileLocs.GUI);
             cameraView = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("ig_mp_redpoint.tex", GameFileLocs.GUI);
+            redDot = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_greenpoint.tex", GameFileLocs.GUI);
+            greenDot = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_yellowpoint.tex", GameFileLocs.GUI);
+            yellowDot = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_bluepoint.tex", GameFileLocs.GUI);
+            blueDot = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_whitepoint.tex", GameFileLocs.GUI);
+            whiteDot = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("ig_mp_red.tex", GameFileLocs.GUI);
+            redRing  = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_green.tex", GameFileLocs.GUI);
+            greenRing = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_yellow.tex", GameFileLocs.GUI);
+            yellowRing = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_mp_blue.tex", GameFileLocs.GUI);
+            blueRing = UITextureManager.Instance.CreateInstance(fl);
+
+            #endregion
 
         }
         protected override void Dispose(bool disposing)
@@ -130,6 +174,13 @@ namespace Code2015.GUI
             else
             {
                 sprite.Draw(switchButton.Image, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            }
+
+            SimulationWorld slgWorld = gameLogic.SLGWorld;
+
+            for (int i = 0; i < slgWorld.CityCount; i++)
+            {
+
             }
 
             {
