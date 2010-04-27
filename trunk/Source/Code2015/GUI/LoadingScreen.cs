@@ -12,14 +12,17 @@ namespace Code2015.GUI
 {
     class LoadingScreen : UIComponent, IDisposable
     {
+        const float ChangeTime = 0.5f;
+
+        const float DisplayTime = 2;
         static string[] LoadingMessages =
         {
-            "Loading city network",
-            "Searching available resources",
-            "Researching starving people",
-            "Analysing health care level",
-            "Testing air quality",
-            "Caculating city's major problem"
+            "LOADING CITY NETWORK",
+            "SEARCHING AVAILABLE RESOURCES",
+            "RESEARCHING STARVING PEOPLE",
+            "ANALYSING HEALTH CARE LEVEL",
+            "TESTING AIR POLUTION",
+            "CALCULATING CITY'S MAJOR PROBLEM"
         };
 
         RenderSystem renderSys;
@@ -30,6 +33,9 @@ namespace Code2015.GUI
         Texture progressBarCmp;
 
         GameFont font;
+
+        int curIndex;
+        float displayCD;
 
         public float Progress
         {
@@ -61,8 +67,16 @@ namespace Code2015.GUI
           
             sprite.Draw(background, 0, 0, ColorValue.White);
 
-            font.DrawString(sprite, "LOADING", 0, 0, ColorValue.White);
 
+            if (displayCD < ChangeTime)
+            {
+                font.DrawString(sprite, LoadingMessages[curIndex], -(int)displayCD * 2, 0, ColorValue.White);
+                font.DrawString(sprite, LoadingMessages[(curIndex + 1) % LoadingMessages.Length], (int)displayCD * 2, 0, ColorValue.White);
+            }
+            else 
+            {
+                font.DrawString(sprite, LoadingMessages[curIndex], 0, 0, ColorValue.White);
+            }
 
             sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
 
@@ -81,6 +95,14 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
             base.Update(time);
+            displayCD -= time.ElapsedGameTimeSeconds;
+            if (displayCD < 0)
+            {
+                displayCD = DisplayTime;
+                curIndex++;
+                if (curIndex >= LoadingMessages.Length)
+                    curIndex = 0;
+            }
         }
 
         #region IDisposable 成员
