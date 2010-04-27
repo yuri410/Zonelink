@@ -524,6 +524,11 @@ namespace Code2015.BalanceSystem
         }
 
 
+        public bool IsSold
+        {
+            get;
+            set;
+        }
 
         public bool Changed
         {
