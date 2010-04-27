@@ -26,7 +26,6 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
-        Font font;
         Player player;
 
 
@@ -98,9 +97,6 @@ namespace Code2015.GUI
 
             this.camera = scene.Camera;
             this.player = parent.HumanPlayer;
-
-            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
-            font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
 
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);

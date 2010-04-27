@@ -29,7 +29,7 @@ namespace Code2015.GUI
         Texture progressBarImp;
         Texture progressBarCmp;
 
-        Font font;
+        GameFont font;
 
         public float Progress
         {
@@ -52,8 +52,8 @@ namespace Code2015.GUI
 
             fl = FileSystem.Instance.Locate("lds_ball.tex", GameFileLocs.GUI);
             lds_ball = UITextureManager.Instance.CreateInstance(fl);
-           
-            font = FontManager.Instance.GetFont("default");
+
+            font = GameFontManager.Instance.F18;
         }
 
         public override void Render(Sprite sprite)
@@ -61,7 +61,7 @@ namespace Code2015.GUI
           
             sprite.Draw(background, 0, 0, ColorValue.White);
 
-            font.DrawString(sprite, "Loading", 0, 0, 34, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
+            font.DrawString(sprite, "LOADING", 0, 0, ColorValue.White);
 
 
             sprite.Draw(progressBarImp, 15, 692, ColorValue.White);

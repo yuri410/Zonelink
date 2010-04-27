@@ -67,7 +67,7 @@ namespace Code2015.GUI
         Code2015 game;
         Game parent;
         GameState logic;
-        Font font;
+
         MouseCursor cursorState;
 
         LoadingScreen loadScreen;
@@ -122,10 +122,8 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
 
 
-            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
-            font = FontManager.Instance.CreateInstance(renderSys, fl, "default");
 
-            fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("cursor_u.tex", GameFileLocs.GUI);
