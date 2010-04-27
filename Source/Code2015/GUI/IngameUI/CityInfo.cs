@@ -199,41 +199,18 @@ namespace Code2015.GUI
 
         public CityInfo(CityInfoDisplay info, RenderSystem rs, CityObject city, Player player, PieProgressEffect pieEff)
         {
-            this.f18  = GameFontManager.Instance.F18;// = FontManager.Instance.GetFont("default");
+            this.f18  = GameFontManager.Instance.F18;
 
             this.parent = info;
             this.city = city;
-            //this.brackets = new Brackets(info, this, rs, city);
+
             this.renderSys = rs;
             this.player = player;
-
-
-            //FileLocation fl = FileSystem.Instance.Locate("ig_prgbar_cmp.tex", GameFileLocs.GUI);
-            //Texture prgBg = UITextureManager.Instance.CreateInstance(fl);
-
-            //fl = FileSystem.Instance.Locate("ig_prgbar_imp.tex", GameFileLocs.GUI);
-            //Texture prgBg1 = UITextureManager.Instance.CreateInstance(fl);
-
-            //fl = FileSystem.Instance.Locate("happy.tex", GameFileLocs.GUI);
-            //happy = UITextureManager.Instance.CreateInstance(fl);
-            //fl = FileSystem.Instance.Locate("angry.tex", GameFileLocs.GUI);
-            //angry = UITextureManager.Instance.CreateInstance(fl);
-            //fl = FileSystem.Instance.Locate("human.tex", GameFileLocs.GUI);
-            //popu = UITextureManager.Instance.CreateInstance(fl);
-
-            //satisfy = new ProgressBar();
-
-            //satisfy.Height = 18;
-            //satisfy.Width = 117;
-            //satisfy.ProgressImage = prgBg;
-            //satisfy.Background = prgBg1;
-
 
             for (int i = 0; i < pluginInfo.Length; i++)
             {
                 pluginInfo[i] = new PluginInfo(info, this, rs, city, pieEff);
             }
-            //linkArr = new CityLinkableMark(rs);
 
         }
 
@@ -294,7 +271,7 @@ namespace Code2015.GUI
 
                 if (city.IsLinked)
                 {
-                    parent.AddLinkPopup(scrnPos.X, scrnPos.Y); //.AddPopup(new Popup(renderSys, "Congratulations  ", scrnPos.X, scrnPos.Y, 1));
+                    parent.AddLinkPopup(scrnPos.X, scrnPos.Y);
                     city.IsLinked = false;
                 }
                 if (city.IsScaleIncreased) 

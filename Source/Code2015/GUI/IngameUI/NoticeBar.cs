@@ -20,7 +20,7 @@ namespace Code2015.GUI
         const float PopBaseSpeed = 20;
 
         const float DisplayDuration = 10;
-
+        const float DisplayInterval = DisplayDuration + 10;
         GameScene scene;
         GameState gameLogic;
         RenderSystem renderSys;
@@ -35,10 +35,12 @@ namespace Code2015.GUI
         Texture background;
         float timeCounter;
 
+        float[] activeStateCd;
+
 
         void NewMessage(EventEntry e)
         {
-            
+            activeStateCd[(int)e.Type] = DisplayInterval;
         }
 
         public NoticeBar(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
@@ -55,6 +57,7 @@ namespace Code2015.GUI
 
             EventLogger.Instance.NewLog += NewMessage;
 
+            activeStateCd = new float[(int)EventType.Count];
         }
 
         protected override void Dispose(bool disposing)
@@ -113,6 +116,13 @@ namespace Code2015.GUI
                 {
                     state = AnimState.In;
                 }
+            }
+
+            for (int i = 0; i < activeStateCd.Length; i++)
+            {
+                activeStateCd[i] -= 0.1f;
+                if (activeStateCd[i] < 0)
+                    activeStateCd[i] = 0;
             }
         }
     }
