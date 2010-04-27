@@ -105,7 +105,7 @@ namespace Code2015.GUI
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
-            linkArrow = new CityLinkableMark(renderSys);
+            linkArrow = new CityLinkableMark(renderSys, player);
             scene.Scene.AddObjectToScene(linkArrow);
         }
 

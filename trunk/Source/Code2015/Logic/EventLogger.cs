@@ -13,7 +13,8 @@ namespace Code2015.Logic
         Food,
         Oil,
         Wood,
-        Disease
+        Disease,
+        Count
     }
 
     struct EventEntry

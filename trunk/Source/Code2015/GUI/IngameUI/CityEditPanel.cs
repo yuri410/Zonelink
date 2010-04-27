@@ -644,12 +644,34 @@ namespace Code2015.GUI
                 }
 
                 f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 345, 670, ColorValue.White);
+
+                switch (anySelCity.Size)
+                {
+                    case UrbanSize.Small:
+                        sprite.Draw(smCitySign, 0, 0, ColorValue.White);
+                        break;
+                    case UrbanSize.Medium:
+                        sprite.Draw(medCitySign, 0, 0, ColorValue.White);
+                        break;
+                    case UrbanSize.Large:
+                        sprite.Draw(lgCitySign, 0, 0, ColorValue.White);
+                        break;
+                }
             }
             if (selectCity != null)
-            {                
+            {
+                sprite.Draw(oilResSign, 0, 0, ColorValue.White);
+                sprite.Draw(woodResSign, 0, 0, ColorValue.White);
+                sprite.Draw(foodResSign, 0, 0, ColorValue.White);
+
                 f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 398, 689, ColorValue.White);
                 f18.DrawString(sprite, selectCity.City.LocalHR.Current.ToString("F0"), 487, 689, ColorValue.White);
                 f18.DrawString(sprite, selectCity.City.LocalFood.Current.ToString("F0"), 600, 689, ColorValue.White);
+
+                float mult = selectCity.City.AdditionalDevMult;
+
+                mult = selectCity.City.HealthCare;
+
             }
         }
 

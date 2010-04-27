@@ -16,6 +16,7 @@ namespace Code2015.World
 {
     class CityLinkableMark : SceneObject
     {
+        Player player;
         CityObject start;
         CityObject[] targets;
 
@@ -61,9 +62,10 @@ namespace Code2015.World
             }
         }
 
-        public CityLinkableMark(RenderSystem rs)
+        public CityLinkableMark(RenderSystem rs, Player player)
             : base(false)
         {
+            this.player = player;
             this.linkArrow = new Model[4];
 
             FileLocation fl = FileSystem.Instance.Locate("linkArrow.mesh", GameFileLocs.Model);
@@ -84,7 +86,7 @@ namespace Code2015.World
             {
                 opBuffer.FastClear();
 
-                if (start.IsCaptured)
+                if (start.IsCaptured && start.Owner == player)
                 {
                     for (int i = 0; i < targets.Length; i++)
                     {
@@ -98,20 +100,6 @@ namespace Code2015.World
                         }
                     }
                 }
-                //else 
-                //{
-                //    for (int i = 0; i < targets.Length; i++)
-                //    {
-                //        if (!targets[i].IsCaptured || targets[i].Owner == start.Owner)
-                //        {
-                //            RenderOperation[] ops = linkArrow[i].GetRenderOperation();
-                //            if (ops != null)
-                //            {
-                //                opBuffer.Add(ops);
-                //            }
-                //        }
-                //    }
-                //}
 
                 opBuffer.Trim();
                 return opBuffer.Elements;
