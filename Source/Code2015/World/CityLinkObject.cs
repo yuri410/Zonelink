@@ -80,13 +80,6 @@ namespace Code2015.World
             start = a;
             end = b;
 
-            //FileLocation fl = FileSystem.Instance.Locate("track.mesh", GameFileLocs.Model);
-            //ModelL0 = road;// new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
-
-            //ModelL0.CurrentAnimation = new NoAnimation(Matrix.RotationY(MathEx.PiOver2) *
-            //    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist));
-
-
 
             Vector3 dir = end.Position - start.Position;
 
@@ -109,8 +102,52 @@ namespace Code2015.World
 
 
 
+            string fileName = "link_e.mesh";
 
-            FileLocation fl = FileSystem.Instance.Locate("link_e.mesh", GameFileLocs.Model);
+            if (a.IsCaptured)
+            {
+                ColorValue color = a.Owner.SideColor;
+
+                if (color == ColorValue.Red)
+                {
+                    fileName = "link_e_red.mesh";
+                }
+                else if (color == ColorValue.Green)
+                {
+                    fileName = "link_e_green.mesh";
+                }
+                else if (color == ColorValue.Blue)
+                {
+                    fileName = "link_e_blue.mesh";
+                }
+                else
+                {
+                    fileName = "link_e_yellow.mesh";
+                }
+            }
+            else if (b.IsCaptured) 
+            {
+                ColorValue color = b.Owner.SideColor;
+
+                if (color == ColorValue.Red)
+                {
+                    fileName = "link_e_red.mesh";
+                }
+                else if (color == ColorValue.Green)
+                {
+                    fileName = "link_e_green.mesh";
+                }
+                else if (color == ColorValue.Blue)
+                {
+                    fileName = "link_e_blue.mesh";
+                }
+                else
+                {
+                    fileName = "link_e_yellow.mesh";
+                }
+            }
+
+            FileLocation fl = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
             link_e = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
             link_e.CurrentAnimation =
                 new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) * ori);
