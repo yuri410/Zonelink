@@ -55,7 +55,7 @@ namespace Code2015.GUI
         Texture greenRing;
         Texture blueRing;
         Texture yellowRing;
-
+        Dictionary<City, Point> positionBuffer = new Dictionary<City, Point>();
         #endregion
 
         AnimState state;
@@ -157,7 +157,24 @@ namespace Code2015.GUI
             Rectangle rect2 = new Rectangle(51, 688, 111, 38);
             return Control.IsInBounds(x, y, ref rect2);
         }
-        
+
+        Point GetPosition(float lng, float lat) 
+        {
+            int cx;
+            int cy;
+            float yspan = MathEx.PIf;
+
+            cy = (int)(((yspan * 0.5f - lat) / yspan) * MapHeight);
+            cx = (int)(((lng + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
+
+            if (cy < 0) cy += MapHeight;
+            if (cy >= MapHeight) cy -= MapHeight;
+
+            if (cx < 0) cx += MapWidth;
+            if (cx >= MapWidth) cx -= MapWidth;
+            return new Point(cx, cy);
+        }
+
         public override void Render(Sprite sprite)
         {
             sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(0, PanelY + PanelHeight, 0));
@@ -180,27 +197,85 @@ namespace Code2015.GUI
 
             for (int i = 0; i < slgWorld.CityCount; i++)
             {
+                City cc = slgWorld.GetCity(i);
 
+                if (!cc.IsHomeCity)
+                {
+                    Texture dot;
+                    if (cc.IsCaptured)
+                    {
+                        ColorValue color = cc.Owner.SideColor;
+                        if (color == ColorValue.Red)
+                        {
+                            dot = redDot;
+                        }
+                        else if (color == ColorValue.Green)
+                        {
+                            dot = greenDot;
+                        }
+                        else if (color == ColorValue.Blue)
+                        {
+                            dot = blueDot;
+                        }
+                        else
+                        {
+                            dot = yellowDot;
+                        }
+                    }
+                    else
+                    {
+                        dot = whiteDot;
+                    }
+
+                    Point pt;
+                    if (!positionBuffer.TryGetValue(cc, out pt))
+                    {
+                        positionBuffer.Add(cc, GetPosition(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude)));
+                    }
+                    sprite.Draw(dot, pt.X - 7, pt.Y - 7, ColorValue.White);
+                }
+                else
+                {
+                    Texture ring;
+
+                    if (cc.IsCaptured)
+                    {
+                        ColorValue color = cc.Owner.SideColor;
+                        if (color == ColorValue.Red)
+                        {
+                            ring = redRing;
+                        }
+                        else if (color == ColorValue.Green)
+                        {
+                            ring = greenRing;
+                        }
+                        else if (color == ColorValue.Blue)
+                        {
+                            ring = blueRing;
+                        }
+                        else
+                        {
+                            ring = yellowRing;
+                        }
+
+                        Point pt;
+                        if (!positionBuffer.TryGetValue(cc, out pt))
+                        {
+                            positionBuffer.Add(cc, GetPosition(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude)));
+                        }
+                        sprite.Draw(ring, pt.X - 12, pt.Y - 12, ColorValue.White);
+                    }
+
+                }
             }
 
             {
-                int cx;
-                int cy;
-                float yspan = MathEx.PIf;
-
-                cy = (int)(((yspan * 0.5f - camera.Latitude) / yspan) * MapHeight);
-                cx = (int)(((camera.Longitude + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
-
-                if (cy < 0) cy += MapHeight;
-                if (cy >= MapHeight) cy -= MapHeight;
-
-                if (cx < 0) cx += MapWidth;
-                if (cx >= MapWidth) cx -= MapWidth;
+                Point pt = GetPosition(camera.Longitude, camera.Latitude);
 
                 float ratio = camera.Height / 60f;
                 Rectangle rect = new Rectangle(
-                    cx + MapX - (int)(cameraView.Width * ratio * 0.5f),
-                    cy + MapY - (int)(cameraView.Height * ratio * 0.5f), (int)(cameraView.Width * ratio), (int)(cameraView.Height * ratio));
+                    pt.X + MapX - (int)(cameraView.Width * ratio * 0.5f),
+                    pt.Y + MapY - (int)(cameraView.Height * ratio * 0.5f), (int)(cameraView.Width * ratio), (int)(cameraView.Height * ratio));
                 rect.Y -= PanelHeight;
 
                 sprite.Draw(cameraView, rect, ColorValue.White);

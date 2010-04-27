@@ -318,6 +318,8 @@ namespace Code2015.GUI
             cityDev = new ProgressBar();
             cityDev.X = 386;
             cityDev.Y = 637;
+            cityDev.Width = 328;
+            cityDev.Height = 52;
             fl = FileSystem.Instance.Locate("ig_namebar.tex", GameFileLocs.GUI);
             cityDev.ProgressImage = UITextureManager.Instance.CreateInstance(fl);
 
@@ -566,7 +568,7 @@ namespace Code2015.GUI
 
                 f18.DrawString(sprite, "CONSTRUCT", (int)cx + 30, PanelY + 10, ColorValue.White);
 
-                switch (selectedType) 
+                switch (selectedType)
                 {
                     case SelectedPluginType.Oil:
 
@@ -585,13 +587,13 @@ namespace Code2015.GUI
                         f18.DrawString(sprite, "SCHOOL", (int)cx + 270, PanelY + 10, ColorValue.White);
                         break;
                 }
-                
+
             }
             if (state2 != AnimState.Inside)
             {
                 sprite.Draw(infobg, (int)cx2, 449, ColorValue.White);
                 sprite.Draw(costbg, (int)cx2, 486, ColorValue.White);
-               
+
                 sell.Render(sprite);
                 build.Render(sprite);
 
@@ -629,7 +631,7 @@ namespace Code2015.GUI
 
                         break;
                 }
-                
+
                 f14.DrawString(sprite, "COST", (int)cx2 + 37, 502, ColorValue.White);
 
             }
@@ -660,9 +662,9 @@ namespace Code2015.GUI
             }
             if (selectCity != null)
             {
-                sprite.Draw(oilResSign, 0, 0, ColorValue.White);
-                sprite.Draw(woodResSign, 0, 0, ColorValue.White);
-                sprite.Draw(foodResSign, 0, 0, ColorValue.White);
+                sprite.Draw(oilResSign, 457, 677, ColorValue.White);
+                sprite.Draw(woodResSign, 350, 679, ColorValue.White);
+                sprite.Draw(foodResSign, 551, 679, ColorValue.White);
 
                 f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 398, 689, ColorValue.White);
                 f18.DrawString(sprite, selectCity.City.LocalHR.Current.ToString("F0"), 487, 689, ColorValue.White);
