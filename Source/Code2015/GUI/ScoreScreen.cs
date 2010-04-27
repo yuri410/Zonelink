@@ -21,7 +21,7 @@ namespace Code2015.GUI
 
         Texture background;
 
-        Font font;
+        GameFont font;
 
         public ScoreScreen(Code2015 parent)
         {
@@ -31,7 +31,7 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("ss_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            font = FontManager.Instance.GetFont("default");
+            font = GameFontManager.Instance.F18;
         }
 
         public void Add(ScoreEntry entry)
@@ -45,41 +45,35 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            const float FontSize = 24;
             sprite.Draw(background, 0, 0, ColorValue.White);
 
             int bgc = (int)ColorValue.Black.PackedValue;
             int ftc = (int)ColorValue.White.PackedValue;
 
-            font.DrawString(sprite, "Name", 1, 1, FontSize, DrawTextFormat.Center, bgc);
-            font.DrawString(sprite, "Development", 201, 1, FontSize, DrawTextFormat.Center, bgc);
-            font.DrawString(sprite, "CO2", 401, 1, FontSize, DrawTextFormat.Center, bgc);
-            font.DrawString(sprite, "Total", 601, 1, FontSize, DrawTextFormat.Center, bgc);
+            font.DrawString(sprite, "NAME", 0, 0, ColorValue.White);
+            font.DrawString(sprite, "DEVELOPMENT", 200, 0, ColorValue.White);
+            font.DrawString(sprite, "CO2", 400, 0, ColorValue.White);
+            font.DrawString(sprite, "TOTAL", 600, 0, ColorValue.White);
 
-            font.DrawString(sprite, "Name", 0, 0, FontSize, DrawTextFormat.Center, ftc);
-            font.DrawString(sprite, "Development", 200, 0, FontSize, DrawTextFormat.Center, ftc);
-            font.DrawString(sprite, "CO2", 400, 0, FontSize, DrawTextFormat.Center, ftc);
-            font.DrawString(sprite, "Total", 600, 0, FontSize, DrawTextFormat.Center, ftc);
 
             int y = 100;
             for (int i = 0; i < scores.Count; i++, y += 30)
             {
                 ftc = (int)scores.Elements[i].Player.SideColor.PackedValue;
 
-                font.DrawString(sprite, scores.Elements[i].Player.Name, 1, y + 1, FontSize, DrawTextFormat.Center, bgc);
-                font.DrawString(sprite, scores.Elements[i].Player.Name, 0, y, FontSize, DrawTextFormat.Center, ftc);
+                font.DrawString(sprite, scores.Elements[i].Player.Name, 0, y , ColorValue.White);
 
                 string msg = ((int)Math.Round(scores.Elements[i].Development)).ToString("G");
-                font.DrawString(sprite, msg, 201, y + 1, FontSize, DrawTextFormat.Center, bgc);
-                font.DrawString(sprite, msg, 200, y, FontSize, DrawTextFormat.Center, ftc);
+
+                font.DrawString(sprite, msg, 200, y, ColorValue.White);
 
                 msg = ((int)Math.Round(scores.Elements[i].CO2)).ToString("G");
-                font.DrawString(sprite, msg, 401, y + 1, FontSize, DrawTextFormat.Center, bgc);
-                font.DrawString(sprite, msg, 400, y, FontSize, DrawTextFormat.Center, ftc);
+
+                font.DrawString(sprite, msg, 400, y, ColorValue.White);
 
                 msg = ((int)Math.Round(scores.Elements[i].Total)).ToString("G");
-                font.DrawString(sprite, msg, 601, y + 1, FontSize, DrawTextFormat.Center, bgc);
-                font.DrawString(sprite, msg, 600, y, FontSize, DrawTextFormat.Center, ftc);
+
+                font.DrawString(sprite, msg, 600, y, ColorValue.White);
             }
         }
 

@@ -51,7 +51,6 @@ namespace Code2015.GUI
             }
         }
 
-        Font font;
 
         Code2015 game;
         Menu parent;
@@ -91,12 +90,11 @@ namespace Code2015.GUI
         public MainMenu(Code2015 game, Menu parent)
         {
             RenderSystem rs = game.RenderSystem;
-            FileLocation fl = FileSystem.Instance.Locate("def.fnt", GameFileLocs.GUI);
-            font = FontManager.Instance.CreateInstance(rs, fl, "default");
+
             this.game = game;
             this.parent = parent;
 
-            fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("mm_btn_credits.tex", GameFileLocs.GUI);
@@ -224,7 +222,6 @@ namespace Code2015.GUI
 
             sprite.Draw(background, 0, 0, ColorValue.White);
             sprite.Draw(linkbg, 0, 0, ColorValue.White);
-            font.DrawString(sprite, "\n\nfps: " + fps.ToString(), 0, 0, 15, DrawTextFormat.Center, -1);
 
 
             int x = 818 - 322 / 2;
