@@ -580,8 +580,8 @@ namespace Code2015.World
                 Matrix.Scaling(Game.ObjectScale / 1.65f, Game.ObjectScale / 1.65f, Game.ObjectScale / 1.65f)
                 * Matrix.Translation(-67, 3, -13);
             adjusts[(int)CultureId.American].Urban[(int)UrbanSize.Small] =
-                Matrix.Scaling(Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f, Game.ObjectScale / 1.2f)
-                * Matrix.Translation(30, 1, -13.5f);
+                Matrix.Scaling(Game.ObjectScale / 0.42f, Game.ObjectScale / 0.42f, Game.ObjectScale / 0.42f)
+                * Matrix.Translation(8, 1, -17f);
 
 
 
