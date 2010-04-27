@@ -53,7 +53,7 @@ namespace Code2015.GUI
             cityGrowPop = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("ig_pop_upgradeplugin.tex", GameFileLocs.GUI);
             cityLvPop = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_pop_link.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("ig_pop_linkover.tex", GameFileLocs.GUI);
             cityLinkPop = UITextureManager.Instance.CreateInstance(fl);
 
 
@@ -117,19 +117,19 @@ namespace Code2015.GUI
 
         public void AddLinkPopup(int x, int y)
         {
-            popUps.Add(new Popup(renderSys, cityLinkPop, x - cityLinkPop.Width / 2, y - cityLinkPop.Height / 2, 1));
+            popUps.Add(new Popup(renderSys, cityLinkPop, x - cityLinkPop.Width / 2, y - cityLinkPop.Height / 2, 2));
         }
         public void AddSellPopup(int x, int y)
         {
-            popUps.Add(new Popup(renderSys, citySellPop, x - citySellPop.Width / 2, y - citySellPop.Height / 2, 1));
+            popUps.Add(new Popup(renderSys, citySellPop, x - citySellPop.Width / 2, y - citySellPop.Height / 2, 2));
         }
         public void AddGrowPopup(int x, int y)
         {
-            popUps.Add(new Popup(renderSys, cityGrowPop, x - cityGrowPop.Width / 2, y - cityGrowPop.Height / 2, 1));
+            popUps.Add(new Popup(renderSys, cityGrowPop, x - cityGrowPop.Width / 2, y - cityGrowPop.Height / 2, 2));
         }
         public void AddLVPopup(int x, int y)
         {
-            popUps.Add(new Popup(renderSys, cityLvPop, x - cityLvPop.Width / 2, y - cityLvPop.Height / 2, 1));
+            popUps.Add(new Popup(renderSys, cityLvPop, x - cityLvPop.Width / 2, y - cityLvPop.Height / 2, 2));
         }
 
     }

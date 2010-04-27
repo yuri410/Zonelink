@@ -230,7 +230,12 @@ namespace Code2015.GUI
                     Point pt;
                     if (!positionBuffer.TryGetValue(cc, out pt))
                     {
-                        positionBuffer.Add(cc, GetPosition(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude)));
+                        pt = GetPosition(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude));
+
+                        pt.X += MapX;
+                        pt.Y = pt.Y + MapY - PanelHeight;
+
+                        positionBuffer.Add(cc, pt);
                     }
                     sprite.Draw(dot, pt.X - 7, pt.Y - 7, ColorValue.White);
                 }
@@ -261,7 +266,12 @@ namespace Code2015.GUI
                         Point pt;
                         if (!positionBuffer.TryGetValue(cc, out pt))
                         {
-                            positionBuffer.Add(cc, GetPosition(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude)));
+                            pt = GetPosition(MathEx.Degree2Radian(cc.Longitude), MathEx.Degree2Radian(cc.Latitude));
+
+                            pt.X += MapX;
+                            pt.Y = pt.Y + MapY - PanelHeight;
+
+                            positionBuffer.Add(cc, pt);
                         }
                         sprite.Draw(ring, pt.X - 12, pt.Y - 12, ColorValue.White);
                     }

@@ -52,7 +52,10 @@ namespace Code2015.World
                     ori.Right = Vector3.Normalize(pa - pb);
                     ori.Up = PlanetEarth.GetNormal(longitude, latitude);
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
-                    ori.TranslationValue = ori.Up * 100 + MathEx.LinearInterpose(pa, pb, 0.3f);
+                    ori.TranslationValue = MathEx.LinearInterpose(pa, pb, 0.3f);
+                    ori.TranslationValue.Normalize();
+
+                    ori.TranslationValue *= (start.Position.Length() + 10);
 
                     linkArrow[i].CurrentAnimation = new NoAnimation(
                         Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) * 

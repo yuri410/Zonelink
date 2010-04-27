@@ -94,7 +94,9 @@ namespace Code2015.GUI
         Texture costbg;
         #endregion
 
-        #region 文本中
+        #region 文本中      
+        Texture woodSignMed;
+
         Texture woodSign;
         Texture oilSign;
         #endregion
@@ -132,6 +134,9 @@ namespace Code2015.GUI
         Texture smCitySign;
         Texture medCitySign;
         Texture lgCitySign;
+
+        Texture speedSign;
+        Texture healthSign;
 
         public CityObject SelectedCity
         {
@@ -241,6 +246,10 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("ig_sign_wood_sm.tex", GameFileLocs.GUI);
             woodSign = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ig_sign_wood_med.tex", GameFileLocs.GUI);
+            woodSignMed = UITextureManager.Instance.CreateInstance(fl);
+
+
             #region 建造变卖
             
             build = new Button();
@@ -311,15 +320,25 @@ namespace Code2015.GUI
             lgCitySign = UITextureManager.Instance.CreateInstance(fl);
 
 
+            fl = FileSystem.Instance.Locate("ig_name_speed.tex", GameFileLocs.GUI);
+            speedSign = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_name_health.tex", GameFileLocs.GUI);
+            healthSign = UITextureManager.Instance.CreateInstance(fl);
+
+
 
 
 
 
             cityDev = new ProgressBar();
-            cityDev.X = 386;
-            cityDev.Y = 637;
+            cityDev.X = 386 - 13;
+            cityDev.Y = 630;
             cityDev.Width = 328;
             cityDev.Height = 52;
+            cityDev.LeftPadding = 13;
+            cityDev.RightPadding = 14;
+
             fl = FileSystem.Instance.Locate("ig_namebar.tex", GameFileLocs.GUI);
             cityDev.ProgressImage = UITextureManager.Instance.CreateInstance(fl);
 
@@ -597,12 +616,14 @@ namespace Code2015.GUI
                 sell.Render(sprite);
                 build.Render(sprite);
 
+                int cost = 0;
                 switch (selectedType)
                 {
                     case SelectedPluginType.Wood:
                         string msg = "GATHERS ";
                         string msg2 = "FROM NEARBY FOREST";
 
+                        cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
 
                         f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
                         sprite.Draw(woodSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
@@ -613,6 +634,8 @@ namespace Code2015.GUI
                         msg = "GATHERS ";
                         msg2 = "FROM NEARBY OILFIELD";
 
+                        cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
+
                         f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
                         sprite.Draw(oilSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
                         f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
@@ -621,11 +644,15 @@ namespace Code2015.GUI
                     case SelectedPluginType.Hospital:
                         msg = "IMPROVES CITY'S HEALTHCARE";
 
+                        cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
+
                         f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
 
                         break;
                     case SelectedPluginType.Education:
                         msg = "BOOSTS CITY'S DEVELOPMENT";
+
+                        cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
 
                         f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
 
@@ -633,10 +660,11 @@ namespace Code2015.GUI
                 }
 
                 f14.DrawString(sprite, "COST", (int)cx2 + 37, 502, ColorValue.White);
-
+                sprite.Draw(woodSignMed, (int)cx2 + 109, 488, ColorValue.White);
+                f14.DrawString(sprite, cost.ToString(), (int)cx2 + 159, 503, ColorValue.White);
             }
 
-            sprite.Draw(cityInfoBg, 333, 601, ColorValue.White);
+            sprite.Draw(cityInfoBg, 303, 597, ColorValue.White);
 
             if (anySelCity != null)
             {
@@ -645,26 +673,30 @@ namespace Code2015.GUI
                     cityDev.Render(sprite);
                 }
 
-                f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 345, 670, ColorValue.White);
+                string name = anySelCity.Name.ToUpperInvariant();
+
+                Size s = f18.MeasureString(name);
+
+                f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 538 - s.Width / 2, 653 - s.Height / 2, ColorValue.White);
 
                 switch (anySelCity.Size)
                 {
                     case UrbanSize.Small:
-                        sprite.Draw(smCitySign, 0, 0, ColorValue.White);
+                        sprite.Draw(smCitySign, 336, 634, ColorValue.White);
                         break;
                     case UrbanSize.Medium:
-                        sprite.Draw(medCitySign, 0, 0, ColorValue.White);
+                        sprite.Draw(medCitySign, 336, 634, ColorValue.White);
                         break;
                     case UrbanSize.Large:
-                        sprite.Draw(lgCitySign, 0, 0, ColorValue.White);
+                        sprite.Draw(lgCitySign, 336, 634, ColorValue.White);
                         break;
                 }
             }
             if (selectCity != null)
             {
-                sprite.Draw(oilResSign, 457, 677, ColorValue.White);
-                sprite.Draw(woodResSign, 350, 679, ColorValue.White);
-                sprite.Draw(foodResSign, 551, 679, ColorValue.White);
+                sprite.Draw(oilResSign, 431, 658, ColorValue.White);
+                sprite.Draw(woodResSign, 337, 663, ColorValue.White);
+                sprite.Draw(foodResSign, 533, 659, ColorValue.White);
 
                 f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 398, 689, ColorValue.White);
                 f18.DrawString(sprite, selectCity.City.LocalHR.Current.ToString("F0"), 487, 689, ColorValue.White);
@@ -673,7 +705,8 @@ namespace Code2015.GUI
                 float mult = selectCity.City.AdditionalDevMult;
 
                 mult = selectCity.City.HealthCare;
-
+                // h 638, 604
+                // s 554, 607
             }
         }
 

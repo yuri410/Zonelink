@@ -32,7 +32,6 @@ namespace Code2015.GUI
 
         GeomentryData quad;
         PieProgressEffect pieEffect;
-        //ProgressBar upgrade;
 
         public int Plugin
         {
@@ -170,12 +169,11 @@ namespace Code2015.GUI
 
             sprite.Begin();
 
-            //upgrade.X = (int)plpos.X;
-            //upgrade.Y = (int)plpos.Y - 50;
 
-            //upgrade.ModulateColor = parent.DistanceMod;
-            //upgrade.Value = cplug.IsBuilding ? cplug.BuildProgress : cplug.UpgradePoint;
-            //upgrade.Render(sprite);
+            if (city.IsUpgraded)
+            {
+                display.AddLVPopup(x, y);
+            }
 
         }
 
@@ -222,45 +220,11 @@ namespace Code2015.GUI
                 parent.Projection, parent.View, Matrix.Identity);
             Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
-            Size strSize = f18.MeasureString(city.Name);
+            string name = city.Name.ToUpperInvariant();
+            Size strSize = f18.MeasureString(name);
 
-            //scrnPos.Y += strSize.Height;
-            scrnPos.X -= strSize.Width / 2;
-
-            f18.DrawString(sprite, city.Name, scrnPos.X + 1, scrnPos.Y + 1,  ColorValue.White);
+            f18.DrawString(sprite, name, scrnPos.X - strSize.Width / 2, scrnPos.Y, ColorValue.White);
             //f18.DrawString(sprite, city.Name, scrnPos.X, scrnPos.Y,  DrawTextFormat.Center, -1);
-
-            //if (city.IsCaptured)
-            //{
-                //satisfy.X = scrnPos.X;
-                //satisfy.Y = scrnPos.Y - 30;
-                //satisfy.Value = city.Satisfaction;
-                //satisfy.Render(sprite);
-
-                //sprite.Draw(angry, scrnPos.X - angry.Width, scrnPos.Y - 45, ColorValue.White);
-                //sprite.Draw(happy, scrnPos.X + satisfy.Width, scrnPos.Y - 45, ColorValue.White);
-
-                //float mult = city.City.AdditionalDevMult;
-                //if (mult > 1)
-                //{
-                    //font.DrawString(sprite, mult.ToString("F1") + "X", scrnPos.X + satisfy.Width + 32, scrnPos.Y - 45, 20, DrawTextFormat.Center, -1);
-                //}
-
-                //float count = (5 * city.City.Population / CityGrade.GetRefPopulation(city.Size));
-                //int count2 = (int)Math.Truncate(count);
-                //float rem = count - count2;
-
-                //int i;
-                //for (i = 0; i < count2; i++)
-                //{
-                //    sprite.Draw(popu, scrnPos.X + i * 20, scrnPos.Y - 64, ColorValue.White);
-                //}
-                //if (rem > float.Epsilon)
-                //{
-                //    sprite.Draw(popu,
-                //        new Rectangle(scrnPos.X + i * 20, scrnPos.Y - 64 + popu.Height - (int)(rem * popu.Height), (int)(rem * popu.Width), (int)(rem * popu.Height)), ColorValue.White);
-                //}
-            //}
 
             if (city.Owner == player)
             {
@@ -288,6 +252,12 @@ namespace Code2015.GUI
                         pluginInfo[i].Render(sprite);
                     }
                 }
+
+                if (city.IsUpgraded)
+                {
+                    city.IsUpgraded = false;
+                }
+
             }
         }
 
