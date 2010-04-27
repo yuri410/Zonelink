@@ -130,7 +130,7 @@ namespace Code2015.BalanceSystem
                 }
             }
         }
-
+        
         public bool IsSelling
         {
             get;

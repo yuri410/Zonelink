@@ -38,8 +38,8 @@ namespace Code2015.GUI
             int ny = (int)(y - (1 - alpha) * YShift);
 
             ColorValue modClr = new ColorValue(1, 1, 1, alpha);
-            ColorValue modClr2 = new ColorValue(0, 0, 0, alpha);
-            sprite.Draw(texture, x, ny, ColorValue.White);
+            //ColorValue modClr2 = new ColorValue(0, 0, 0, alpha);
+            sprite.Draw(texture, x, ny, modClr);
             //font.DrawString(sprite, text, x + 1, ny + 1, 15, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr2.PackedValue);
             //font.DrawString(sprite, text, x, ny, 15, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr.PackedValue);
         }
