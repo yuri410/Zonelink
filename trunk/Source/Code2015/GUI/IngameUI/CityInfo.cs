@@ -174,7 +174,11 @@ namespace Code2015.GUI
             {
                 display.AddLVPopup(x, y);
             }
-
+            if (cplug.IsSelling && !cplug.IsSold && cplug.BuildProgress < 0.1f) 
+            {
+                display.AddSellPopup(x, y);
+                cplug.IsSold = true;
+            }
         }
 
         public override void Update(GameTime time)
