@@ -187,7 +187,7 @@ namespace Code2015.GUI
     class CityInfo : UIComponent
     {
         RenderSystem renderSys;
-        Font font;
+        GameFont f18;
 
         CityInfoDisplay parent;
         CityObject city;
@@ -199,7 +199,7 @@ namespace Code2015.GUI
 
         public CityInfo(CityInfoDisplay info, RenderSystem rs, CityObject city, Player player, PieProgressEffect pieEff)
         {
-            this.font = FontManager.Instance.GetFont("default");
+            this.f18  = GameFontManager.Instance.F18;// = FontManager.Instance.GetFont("default");
 
             this.parent = info;
             this.city = city;
@@ -237,11 +237,6 @@ namespace Code2015.GUI
 
         }
 
-        //public Brackets Bracket
-        //{
-        //    get { return brackets; }
-        //}
-
         public override void Render(Sprite sprite)
         {
             Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(city.Longitude), MathEx.Degree2Radian(city.Latitude));
@@ -250,16 +245,16 @@ namespace Code2015.GUI
                 parent.Projection, parent.View, Matrix.Identity);
             Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
-            Size strSize = font.MeasureString(city.Name, 20, DrawTextFormat.Center);
+            Size strSize = f18.MeasureString(city.Name);
 
             //scrnPos.Y += strSize.Height;
             scrnPos.X -= strSize.Width / 2;
 
-            font.DrawString(sprite, city.Name, scrnPos.X + 1, scrnPos.Y + 1, 20, DrawTextFormat.Center, (int)ColorValue.Black.PackedValue);
-            font.DrawString(sprite, city.Name, scrnPos.X, scrnPos.Y, 20, DrawTextFormat.Center, -1);
+            f18.DrawString(sprite, city.Name, scrnPos.X + 1, scrnPos.Y + 1,  ColorValue.White);
+            //f18.DrawString(sprite, city.Name, scrnPos.X, scrnPos.Y,  DrawTextFormat.Center, -1);
 
-            if (city.IsCaptured)
-            {
+            //if (city.IsCaptured)
+            //{
                 //satisfy.X = scrnPos.X;
                 //satisfy.Y = scrnPos.Y - 30;
                 //satisfy.Value = city.Satisfaction;
@@ -268,15 +263,15 @@ namespace Code2015.GUI
                 //sprite.Draw(angry, scrnPos.X - angry.Width, scrnPos.Y - 45, ColorValue.White);
                 //sprite.Draw(happy, scrnPos.X + satisfy.Width, scrnPos.Y - 45, ColorValue.White);
 
-                float mult = city.City.AdditionalDevMult;
-                if (mult > 1)
-                {
+                //float mult = city.City.AdditionalDevMult;
+                //if (mult > 1)
+                //{
                     //font.DrawString(sprite, mult.ToString("F1") + "X", scrnPos.X + satisfy.Width + 32, scrnPos.Y - 45, 20, DrawTextFormat.Center, -1);
-                }
+                //}
 
-                float count = (5 * city.City.Population / CityGrade.GetRefPopulation(city.Size));
-                int count2 = (int)Math.Truncate(count);
-                float rem = count - count2;
+                //float count = (5 * city.City.Population / CityGrade.GetRefPopulation(city.Size));
+                //int count2 = (int)Math.Truncate(count);
+                //float rem = count - count2;
 
                 //int i;
                 //for (i = 0; i < count2; i++)
@@ -288,7 +283,7 @@ namespace Code2015.GUI
                 //    sprite.Draw(popu,
                 //        new Rectangle(scrnPos.X + i * 20, scrnPos.Y - 64 + popu.Height - (int)(rem * popu.Height), (int)(rem * popu.Width), (int)(rem * popu.Height)), ColorValue.White);
                 //}
-            }
+            //}
 
             if (city.Owner == player)
             {
@@ -299,8 +294,13 @@ namespace Code2015.GUI
 
                 if (city.IsLinked)
                 {
-                    parent.AddPopup(new Popup(renderSys, "Congratulations  ", scrnPos.X, scrnPos.Y, 1));
+                    parent.AddLinkPopup(scrnPos.X, scrnPos.Y); //.AddPopup(new Popup(renderSys, "Congratulations  ", scrnPos.X, scrnPos.Y, 1));
                     city.IsLinked = false;
+                }
+                if (city.IsScaleIncreased) 
+                {
+                    parent.AddGrowPopup(scrnPos.X, scrnPos.Y);
+                    city.IsScaleIncreased = false;
                 }
 
                 if (((ISelectableObject)city).IsSelected)
@@ -311,8 +311,6 @@ namespace Code2015.GUI
                         pluginInfo[i].Render(sprite);
                     }
                 }
-
-                //brackets.Render(sprite);
             }
         }
 
@@ -327,7 +325,6 @@ namespace Code2015.GUI
                         pluginInfo[i].Update(time);
                     }
                 }
-                //brackets.Update(time);
             }
         }
     }

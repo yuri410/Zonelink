@@ -23,6 +23,11 @@ namespace Code2015.GUI
         Player player;
         RenderSystem renderSys;
 
+        Texture cityGrowPop;
+        Texture cityLinkPop;
+        Texture cityLvPop;
+        Texture citySellPop;
+
         FastList<Popup> popUps = new FastList<Popup>();
 
         PieProgressEffect pieEffect;
@@ -39,6 +44,18 @@ namespace Code2015.GUI
             this.renderSys = rs;
             this.player = player;
             this.camera = scene.Camera;
+
+
+            FileLocation fl = FileSystem.Instance.Locate("ig_pop_sell.tex", GameFileLocs.GUI);
+            citySellPop = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("ig_pop_upgradecity.tex", GameFileLocs.GUI);
+            cityGrowPop = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_pop_upgradeplugin.tex", GameFileLocs.GUI);
+            cityLvPop = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_pop_link.tex", GameFileLocs.GUI);
+            cityLinkPop = UITextureManager.Instance.CreateInstance(fl);
+
 
             pieEffect = new PieProgressEffect(rs);
         }
@@ -98,10 +115,23 @@ namespace Code2015.GUI
             }
         }
 
-        public void AddPopup(Popup p)
+        public void AddLinkPopup(int x, int y)
         {
-            popUps.Add(p);
+            popUps.Add(new Popup(renderSys, cityLinkPop, x - cityLinkPop.Width / 2, y - cityLinkPop.Height / 2, 1));
         }
+        public void AddSellPopup(int x, int y)
+        {
+            popUps.Add(new Popup(renderSys, citySellPop, x - citySellPop.Width / 2, y - citySellPop.Height / 2, 1));
+        }
+        public void AddGrowPopup(int x, int y)
+        {
+            popUps.Add(new Popup(renderSys, cityGrowPop, x - cityGrowPop.Width / 2, y - cityGrowPop.Height / 2, 1));
+        }
+        public void AddLVPopup(int x, int y)
+        {
+            popUps.Add(new Popup(renderSys, cityLvPop, x - cityLvPop.Width / 2, y - cityLvPop.Height / 2, 1));
+        }
+
     }
 
     class ResInfoDisplay : UIComponent

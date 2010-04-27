@@ -137,16 +137,26 @@ namespace Code2015.World
         {
             get { return goalSite; }
         }
+        public bool IsScaleIncreased
+        {
+            get;
+            set;
+        }
+        public bool IsUpgraded
+        {
+            get;
+            set;
+        }
         public bool IsLinked
         {
             get;
             set;
         }
-        public bool IsUnlinked
-        {
-            get;
-            set;
-        }
+        //public bool IsUnlinked
+        //{
+        //    get;
+        //    set;
+        //}
 
         public City City
         {
@@ -267,7 +277,7 @@ namespace Code2015.World
             city.NearbyCityRemoved += City_UnLinked;
             city.CaptureSet += City_CaptureSet;
             city.CaptureCancel += City_CaptureCancel;
-
+            city.CityGrow += City_Grow;
             city.CityOwnerChanged += City_OwnerChanged;
 
             float radLong = MathEx.Degree2Radian(city.Longitude);
@@ -326,9 +336,13 @@ namespace Code2015.World
             if (b != null)
             {
                 linkMgr.Unlink(SceneManager, a.Parent, b.Parent);
-                IsUnlinked = true;
+                //IsUnlinked = true;
             }
 
+        }
+        void City_Grow()
+        {
+            IsScaleIncreased = true;
         }
         void City_Linked(City a, City b)
         {
@@ -553,6 +567,7 @@ namespace Code2015.World
                     goalSite.ClearAt(i);
                 }
             }
+            IsUpgraded = true;
         }
         public bool TryLink(int goalIdx, MdgType type, out City target)
         {

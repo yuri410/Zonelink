@@ -22,8 +22,7 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         GameScene scene;
         Player player;
-        //Texture hozbar;
-        //Texture curbar;
+
         GameState state;
         Texture co2bar;
         Texture co2bar_glow;
