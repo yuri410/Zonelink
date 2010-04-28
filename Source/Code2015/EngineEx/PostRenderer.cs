@@ -110,10 +110,6 @@ namespace Code2015.EngineEx
             renderer.RenderScene(clrRt, RenderMode.Final);
             //renderSys.RenderStates.FillMode = FillMode.Solid;
 
-            renderSys.RenderStates.AlphaBlendEnable = true;
-            renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;
-            renderSys.RenderStates.DestinationBlend = Blend.InverseSourceAlpha;
-
 
             ShaderSamplerState sampler1;
             sampler1.AddressU = TextureAddressMode.Clamp;
@@ -205,6 +201,11 @@ namespace Code2015.EngineEx
             compEff.SetTextureDirect(0, clrRt.GetColorBufferTexture());
             compEff.SetTextureDirect(1, blmRt1.GetColorBufferTexture());
 
+            renderSys.RenderStates.AlphaBlendEnable = true;
+            renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;
+            renderSys.RenderStates.DestinationBlend = Blend.InverseSourceAlpha;
+            renderSys.RenderStates.BlendOperation = BlendFunction.Add;
+            
             DrawBigQuad();
 
             compEff.End();

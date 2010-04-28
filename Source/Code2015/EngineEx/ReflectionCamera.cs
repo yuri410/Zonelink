@@ -140,6 +140,16 @@ namespace Code2015.EngineEx
         {
             return Matrix.Identity;
         }
+        
+        #endregion
+
+        #region ICamera 成员
+
+
+        public float GetSMScale()
+        {
+            return 1;
+        }
 
         #endregion
     }

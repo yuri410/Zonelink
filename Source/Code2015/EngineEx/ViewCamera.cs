@@ -164,7 +164,7 @@ namespace Code2015.EngineEx
         {
             get { return isPerspective; }
         }
-        public Matrix GetSMTrans() 
+        public override Matrix GetSMTrans() 
         {
             Matrix invT = Matrix.Invert(Frustum.view);
 

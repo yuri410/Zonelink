@@ -40,6 +40,9 @@ namespace Code2015.GUI
         Texture linkbg;
 
 
+        Texture cursor;
+        Point mousePosition;
+
         RoundButton startButton;
         RoundButton exitButton;
         RoundButton creditButton;
@@ -96,6 +99,8 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
             logo = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            cursor = UITextureManager.Instance.CreateInstance(fl);
             #region 配置按钮
             startButton = new RoundButton();
             startButton.X = 663;
@@ -258,10 +263,15 @@ namespace Code2015.GUI
                 sprite.Draw(exit, x, y, ColorValue.White);
             }
 
-            
+            sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
+
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }
         public override void Update(GameTime time)
         {
+            mousePosition.X = MouseInput.X;
+            mousePosition.Y = MouseInput.Y; 
+            
             fps = time.FramesPerSecond;
 
 
