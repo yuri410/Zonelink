@@ -40,6 +40,7 @@ namespace Code2015
         Sprite sprite;
         X.Game game;
 
+
         public Code2015(RenderSystem rs, X.Game game)
         {
             this.renderSys = rs;
@@ -114,6 +115,7 @@ namespace Code2015
             TerrainData.Initialize();
 
             sprite = renderSys.ObjectFactory.CreateSprite();
+            SoundManager.Initialize(((X.Game)Program.Window.Tag).Services);
 
             menu = new Menu(this, renderSys);
         }
@@ -155,7 +157,6 @@ namespace Code2015
         public void Load()
         {
             // streaming 结构，不在此加载资源
-            SoundManager.Initialize(((X.Game)Program.Window.Tag).Services);
         }
 
         /// <summary>
@@ -174,6 +175,7 @@ namespace Code2015
         public void Update(GameTime time)
         {
             MouseInput.Update(time);
+
             if (menu != null)
             {
                 menu.Update(time);
@@ -216,7 +218,12 @@ namespace Code2015
             if (menu != null)
             {
                 menu.Render();
+
+                sprite.Begin();
+                menu.RenderCursor(sprite);
+                sprite.End();
             }
+            
         }
 
         #endregion
