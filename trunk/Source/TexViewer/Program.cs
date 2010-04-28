@@ -31,7 +31,7 @@ namespace ModelStudio
             FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
 
             // zou jia's res dir
-            FileSystem.Instance.AddWorkingDir(@"C:\Users\penser\Documents\Visual Studio 2008\Projects\lrvbsvnicg\Source\Code2015\bin\x86\Debug");
+            FileSystem.Instance.AddWorkingDir(@"G:\lrvbsvnicg\Source\Code2015\bin\x86\Debug");
 
 
 
@@ -51,7 +51,7 @@ namespace ModelStudio
             Window = wnd;
             MainForm frm = new MainForm(dc.RenderSystem);
             frm.Show();
-            
+
             wnd.Run();
         }
     }
