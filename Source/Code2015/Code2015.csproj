@@ -123,6 +123,7 @@
     <Compile Include="Effects\CloudEffect.cs" />
     <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\ParticleEffect.cs" />
+    <Compile Include="Effects\BoltEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
@@ -545,6 +546,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
     <Content Include="Configs\f14.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="Configs\f20ig1.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Game.ico" />

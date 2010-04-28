@@ -118,6 +118,8 @@
     <None Include="Scene\atmosphere.vs" />
     <None Include="Scene\goal.ps" />
     <None Include="Scene\goal.vs" />
+    <None Include="Scene\bolt.ps" />
+    <None Include="Scene\bolt.vs" />
     <None Include="UI\City\citylink.ps" />
     <None Include="UI\City\citylink.vs" />
     <None Include="UI\City\cityring.ps" />

@@ -91,6 +91,7 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(TreeEffectFactory.Name, new TreeEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(ParticleRDEffectFactory.Name, new ParticleRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CloudEffectFactory.Name, new CloudEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(BoltEffectFactory.Name, new BoltEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(SmokeRDEffectFactory.Name, new SmokeRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
@@ -191,18 +192,13 @@ namespace Code2015
         {
             if (currentGame == null)
             {
-                renderSys.Clear(ClearFlags.Target, ColorValue.Black, 1, 0);
+                renderSys.Clear(ClearFlags.Target | ClearFlags.DepthBuffer, ColorValue.Black, 1, 0);
             }
 
             if (currentGame != null)
             {
                 currentGame.Render();
             }
-            if (menu != null)
-            {
-                menu.Render();
-            }
-
 
             sprite.Begin();
 
@@ -216,6 +212,11 @@ namespace Code2015
             }
 
             sprite.End();
+
+            if (menu != null)
+            {
+                menu.Render();
+            }
         }
 
         #endregion

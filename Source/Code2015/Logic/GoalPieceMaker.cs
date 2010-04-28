@@ -71,8 +71,8 @@ namespace Code2015.Logic
 
                     Viewport vp = renderSys.Viewport;
                     Vector2 velocity = new Vector2(
-                        vp.Width * (0.5f + Randomizer.GetRandomSingle() * 0.3f),
-                        vp.Height * (0.5f + Randomizer.GetRandomSingle() * 0.3f));
+                        vp.Width * (0.9f + Randomizer.GetRandomSingle() * 0.1f),
+                        vp.Height * (0.8f + Randomizer.GetRandomSingle() * 0.2f));
 
                     float rnd = Randomizer.GetRandomSingle();
                     if (rnd < p.Health)
@@ -147,7 +147,7 @@ namespace Code2015.Logic
 
                     MdgPiece piece = new MdgPiece(goalIcos.Manager, goalIcos.PhysicsWorld, pieceType, new Vector2(ppos.X, ppos.Y), 0);
 
-                    piece.Velocity = velocity * 250;
+                    piece.Velocity = velocity * 450;
                     goalIcos.Manager.Add(piece);
 
                     timeCounter = 0;

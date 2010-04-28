@@ -12,9 +12,9 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    public class CloudEffectFactory : EffectFactory
+    public class BoltEffectFactory : EffectFactory
     {
-        static readonly string typeName = "Cloud";
+        static readonly string typeName = "Bolt";
 
 
         public static string Name
@@ -26,14 +26,14 @@ namespace Code2015.Effects
 
         RenderSystem device;
 
-        public CloudEffectFactory(RenderSystem dev)
+        public BoltEffectFactory(RenderSystem dev)
         {
             device = dev;
         }
 
         public override Effect CreateInstance()
         {
-            return new CloudEffect(device);
+            return new BoltEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -42,7 +42,7 @@ namespace Code2015.Effects
         }
     }
 
-    class CloudEffect : ShadowedEffect
+    class BoltEffect : ShadowedEffect
     {
         bool stateSetted;
 
@@ -51,15 +51,15 @@ namespace Code2015.Effects
         PixelShader pixShader;
         VertexShader vtxShader;
 
-        public unsafe CloudEffect(RenderSystem rs)
+        public unsafe BoltEffect(RenderSystem rs)
             : base(rs, TreeEffectFactory.Name, false)
         {
             this.renderSys = rs;
 
-            FileLocation fl = FileSystem.Instance.Locate("cloud.cvs", GameFileLocs.Effect);
+            FileLocation fl = FileSystem.Instance.Locate("bolt.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("cloud.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("bolt.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
         }
@@ -85,14 +85,7 @@ namespace Code2015.Effects
 
             pixShader.SetSamplerState("texDif", ref state);
 
-            //if (winding > 1f)
-            //{
-            //    sign = -1;
-            //}
-            //else if (winding < 0f)
-            //{
-            //    sign = 1;
-            //}
+
 
             stateSetted = false;
             return 1;
@@ -118,16 +111,6 @@ namespace Code2015.Effects
             Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
             vtxShader.SetValue("mvp", ref mvp);
 
-            Cloud cld = op.Sender as Cloud;
-
-            if (cld != null)
-            {
-                pixShader.SetValue("alpha", cld.Blend);
-            }
-            else
-            {
-                pixShader.SetValue("alpha", 1);
-            }
 
             if (!stateSetted)
             {

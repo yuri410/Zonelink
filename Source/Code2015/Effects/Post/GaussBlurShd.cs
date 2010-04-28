@@ -14,8 +14,8 @@ namespace Code2015.Effects
             FileLocation fl = FileSystem.Instance.Locate("blurShd.cps", FileLocateRule.Effects);
             LoadPixelShader(rs, fl);
 
-            //fl = FileSystem.Instance.Locate("postQuad.cvs", FileLocateRule.Effects);
-            //LoadVertexShader(rs, fl);
+            fl = FileSystem.Instance.Locate("postQuad.cvs", FileLocateRule.Effects);
+            LoadVertexShader(rs, fl);
         }
     }
 }

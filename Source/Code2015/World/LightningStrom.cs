@@ -95,9 +95,22 @@ namespace Code2015.World
             {
                 clouds[i].Update(dt);
             }
-            if (sceMgr != null && disaster.IsOver)
+            if (disaster.IsOver)
             {
-                sceMgr.RemoveObjectFromScene(this);
+                bool passed = true ;
+
+                for (int i = 0; i < clouds.Count; i++)
+                {
+                    if (clouds[i].IsActive)
+                    {
+                        passed = false;
+                        break;
+                    }
+                }
+                if (sceMgr != null && passed)
+                {
+                    sceMgr.RemoveObjectFromScene(this);
+                }
             }
         }
 

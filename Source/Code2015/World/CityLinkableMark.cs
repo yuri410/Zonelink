@@ -52,7 +52,7 @@ namespace Code2015.World
                     ori.Right = Vector3.Normalize(pa - pb);
                     ori.Up = Vector3.Normalize(pa);
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
-                    ori.TranslationValue = pa + ori.Up * 50;
+                    ori.TranslationValue = pa + ori.Up * 75;
 
                     linkArrow[i].CurrentAnimation = new NoAnimation(
                         Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) *

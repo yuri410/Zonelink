@@ -15,47 +15,11 @@ namespace Code2015.GUI
 {
     class MainMenu : UIComponent
     {
-        class MenuCamera : Camera
-        {
-            public MenuCamera(float aspect)
-                : base(aspect)
-            {
-                FieldOfView = 45;
-                Position = new Vector3(-12784.912f, 6031.855f, -4521.323f);
-                NearPlane = 100;
-                FarPlane = 25000;
-            }
-            public override void UpdateProjection()
-            {
-                float fovy = MathEx.Degree2Radian(45);
-                NearPlaneHeight = (float)(Math.Tan(fovy * 0.5f)) * NearPlane * 2;
-                NearPlaneWidth = NearPlaneHeight * AspectRatio;
-
-                Frustum.proj = Matrix.PerspectiveRH(NearPlaneWidth, NearPlaneHeight, NearPlane, FarPlane);
-
-            }
-            public override void Update(GameTime time)
-            {
-                Vector3 target = new Vector3(273.556f, 6031.855f, -2766.552f);
-
-                base.Update(time);
-                Frustum.view = Matrix.LookAtLH(Position, target, Vector3.UnitY);
-                Frustum.Update();
-
-                orientation = Quaternion.RotationMatrix(Frustum.view);
-
-                Matrix m = Matrix.Invert(Frustum.view);
-                front = m.Forward;// MathEx.GetMatrixFront(ref m);
-                top = m.Up;// MathEx.GetMatrixUp(ref m);
-                right = m.Right;// MathEx.GetMatrixRight(ref m);
-            }
-        }
 
 
         Code2015 game;
         Menu parent;
 
-        SceneRenderer renderer;
 
         float fps;
 
@@ -74,7 +38,7 @@ namespace Code2015.GUI
         Texture help_down;
         Texture start_down;
 
-
+        Texture logo;
         Texture background;
         Texture linkbg;
 
@@ -135,6 +99,9 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("mm_start_link.tex", GameFileLocs.GUI);
             linkbg = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
+            logo = UITextureManager.Instance.CreateInstance(fl);
+
             #region 配置按钮
             startButton = new RoundButton();
             startButton.X = 663;
@@ -170,23 +137,7 @@ namespace Code2015.GUI
             helpButton.Enabled = true;
             helpButton.IsValid = true;
             #endregion
-            CreateScene(rs);
-        }
-        void CreateScene(RenderSystem rs)
-        {
-            SceneRendererParameter sm = new SceneRendererParameter();
-            sm.SceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
-            sm.PostRenderer = new BloomPostRenderer(rs);
-            sm.UseShadow = true;
-
-            FpsCamera camera = new FpsCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
-
-         
-            
-            camera.RenderTarget = rs.GetRenderTarget(0);
-
-            renderer = new SceneRenderer(rs, sm);
-            renderer.RegisterCamera(camera);
+          
         }
         void ExitButton_Click(object sender, MouseButtonFlags btn)
         {
@@ -208,10 +159,6 @@ namespace Code2015.GUI
         }
 
 
-        public void Render()
-        {
-            renderer.RenderScene();
-        }
 
         public override void Render(Sprite sprite)
         {
@@ -222,7 +169,7 @@ namespace Code2015.GUI
 
             sprite.Draw(background, 0, 0, ColorValue.White);
             sprite.Draw(linkbg, 0, 0, ColorValue.White);
-
+            sprite.Draw(logo, 0, 0, ColorValue.White);
 
             int x = 818 - 322 / 2;
             int y = 158 - 281 / 2;
