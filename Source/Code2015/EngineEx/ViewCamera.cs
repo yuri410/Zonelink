@@ -164,6 +164,15 @@ namespace Code2015.EngineEx
         {
             get { return isPerspective; }
         }
+        public Matrix GetSMTrans() 
+        {
+            Matrix invT = Matrix.Invert(Frustum.view);
+
+            float h = Height;
+            Vector3 target = position + h * invT.Forward;
+
+            return Matrix.LookAtRH(position - invT.Right * h * 0.5f, invT.Forward, invT.Up);
+        }
 
         public void Move(float dx, float dy)
         {

@@ -167,7 +167,7 @@ namespace Code2015.GUI
             {
                 if (CurrentScreen == mainMenu)
                 {
-                    //renderer.RenderScene();
+                    renderer.RenderScene();
                 }
             }
         }

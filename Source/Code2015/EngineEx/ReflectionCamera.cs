@@ -132,5 +132,15 @@ namespace Code2015.EngineEx
             get { return RenderMode.Simple; }
         }
 
+
+        #region ICamera 成员
+
+
+        public Matrix GetSMTrans()
+        {
+            return Matrix.Identity;
+        }
+
+        #endregion
     }
 }
