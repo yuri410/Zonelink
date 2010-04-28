@@ -22,6 +22,11 @@ namespace Code2015.GUI
     {
         class MenuScene : StaticModelObject
         {
+
+            const float RotSpeed = 3;
+            Vector3 RotAxis = new Vector3(2505.168f, 4325.199f, 4029.689f);
+            float angle;
+            
             public MenuScene(RenderSystem rs)
             {
                 FileLocation fl = FileSystem.Instance.Locate("start.mesh", GameFileLocs.Model);
@@ -29,6 +34,8 @@ namespace Code2015.GUI
                 ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                 BoundingSphere.Radius = PlanetEarth.PlanetRadius;
                 Transformation = Matrix.Identity;
+                RotAxis.Normalize();
+
             }
 
             public override bool IsSerializable
@@ -36,6 +43,27 @@ namespace Code2015.GUI
                 get { return false; }
             }
 
+            public override RenderOperation[] GetRenderOperation()
+            {
+                Matrix rot = Matrix.RotationAxis(RotAxis, angle);
+                RenderOperation[] ops = base.GetRenderOperation();
+
+                if (ops != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Transformation *= rot;
+                    }
+                }
+                return ops;
+            }
+
+            public override void Update(GameTime dt)
+            {
+                base.Update(dt);
+
+                angle -= MathEx.Degree2Radian(RotSpeed * dt.ElapsedGameTimeSeconds);
+            }
         }
 
         class MenuCamera : Camera
@@ -44,7 +72,7 @@ namespace Code2015.GUI
                 : base(aspect)
             {
                 FieldOfView = 35;
-                Position = new Vector3(5260.516f, 6214.899f, 15371.574f);
+                Position = new Vector3(-5260.516f, 6214.899f, -15371.574f);
                 NearPlane = 100;
                 FarPlane = 25000;
             }
@@ -61,7 +89,7 @@ namespace Code2015.GUI
             {
                 //UpdateProjection();
 
-                Vector3 target = new Vector3(3151.209f, 6214.899f, 325.246f);
+                Vector3 target = new Vector3(-3151.209f, 6214.899f, 325.246f);
 
                 base.Update(time);
                 Frustum.view = Matrix.LookAtRH(Position, target, Vector3.UnitY);
