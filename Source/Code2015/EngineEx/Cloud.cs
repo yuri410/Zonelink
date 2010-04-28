@@ -10,9 +10,7 @@ using Apoc3D.Vfs;
 namespace Code2015.EngineEx
 {
     class Cloud : IRenderable, IUpdatable
-    {
-        
-
+    {      
         RenderSystem renderSys;
 
         Model strike;
@@ -29,6 +27,8 @@ namespace Code2015.EngineEx
         const float StrikeDuration = 2;
         const float Duration = 10;
 
+        Normal3DSoundObject sndObject;
+        bool played;
 
         public float Blend 
         {
@@ -68,6 +68,12 @@ namespace Code2015.EngineEx
 
             strikeTime = -2 * Randomizer.GetRandomSingle();
             UpdateModelAnim();
+
+            sndObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("lightning", null, 1000);
+         }
+        public void Apply3D()
+        {
+            sndObject.Position = trans.TranslationValue;
         }
 
         void UpdateModelAnim()
@@ -112,7 +118,6 @@ namespace Code2015.EngineEx
             if (strikeTime > StrikeDuration - 0.2f && startTime < 0 && startTime > -Duration)
             {
                 return  strike.GetRenderOperation();
-                
             }
             return null;
         }
@@ -163,6 +168,12 @@ namespace Code2015.EngineEx
             strikeTime += dt.ElapsedGameTimeSeconds;
             if (strikeTime > StrikeDuration)
                 strikeTime = 0;
+            else if (!played && strikeTime > StrikeDuration - 0.2f)
+            {
+                sndObject.Fire();
+                played = true;
+            }
+
 
         }
 

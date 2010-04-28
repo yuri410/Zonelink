@@ -11,7 +11,7 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-    class TerrainMaterialLibrary : Singleton
+    public class TerrainMaterialLibrary : Singleton
     {
         static TerrainMaterialLibrary singleton;
 

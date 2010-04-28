@@ -98,6 +98,7 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(MMWaterEffectFactory.Name, new MMWaterEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(MMTerrainEffectFactory.Name, new MMTerrainEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(MMCityLinkEffectFactory.Name, new MMCityLinkEffectFactory(renderSys));
             
             
 

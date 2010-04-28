@@ -30,12 +30,7 @@
     <Probability>0.005</Probability>
   </bird>
 
-  <!--Lightning-->
-  <lightning>
-    <Control>Random</Control>
-    <Type>World</Type>
-    <Sounds>lightninga,lightningb,lightningc,lightningd</Sounds>   
-  </lightning>
+ 
  
 
   <!--Oil-->
@@ -102,10 +97,18 @@
     <Volume>0.4</Volume>
   </buttondown>
   <buildup>
-    <Control>World</Control>
+    <Control>None</Control>
     <Type>Normal</Type>
     <Sounds>buildup</Sounds>
 
     <Volume>0.4</Volume>
   </buildup>
+  <lightning>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>lightning1, lightning2</Sounds>
+
+    <Volume>0.1</Volume>
+  </lightning>
+  
 </soundEffect>
