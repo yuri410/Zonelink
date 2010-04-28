@@ -7,7 +7,6 @@ float4 k_e : register(c2);
 float4 i_a : register(c3);
 float4 i_d : register(c4);
 float3 lightDir : register(c5);
-float alpha : register(c6);
 
 struct PSInput
 {
@@ -31,6 +30,6 @@ PSOutput main(PSInput ip)
 	
 	float4 clr = tex2D(texDif, ip.TexCoord.xy);
     o.Color = clr * (amb + dif + k_e);
-    o.Color.a *= 0.08f * alpha;
+    
     return o;
 }

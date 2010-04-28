@@ -128,7 +128,7 @@ namespace Code2015.BalanceSystem
             Region = region;
         }
 
-        void AddDisaster(Disaster d)
+        public void AddDisaster(Disaster d)
         {
             Region.Add(d);
             d.Over += Disaster_Over;

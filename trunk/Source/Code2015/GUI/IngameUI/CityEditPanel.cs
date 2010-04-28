@@ -138,6 +138,10 @@ namespace Code2015.GUI
         Texture speedSign;
         Texture healthSign;
 
+
+        
+
+
         public CityObject SelectedCity
         {
             get { return selectCity; }
@@ -595,7 +599,7 @@ namespace Code2015.GUI
                         break;
                     case SelectedPluginType.Wood:
 
-                        f18.DrawString(sprite, "WOOD FACTORY", (int)cx + 203, PanelY + 10, ColorValue.White);
+                        f18.DrawString(sprite, "LUMBER FACTORY", (int)cx + 203, PanelY + 10, ColorValue.White);
                         break;
                     case SelectedPluginType.Hospital:
 
@@ -703,10 +707,17 @@ namespace Code2015.GUI
                 f18.DrawString(sprite, selectCity.City.LocalFood.Current.ToString("F0"), 600, 689, ColorValue.White);
 
                 float mult = selectCity.City.AdditionalDevMult;
+                // h 638, 604
+                sprite.Draw(healthSign, 641, 612, ColorValue.White);
+
+                GameFont f20gi1 = GameFontManager.Instance.F20IG1;
+                f20gi1.DrawString(sprite, "x " + mult.ToString("F1"), 638, 607, ColorValue.White);
 
                 mult = selectCity.City.HealthCare;
-                // h 638, 604
+                f20gi1.DrawString(sprite, "x " + mult.ToString("F1"), 554, 607, ColorValue.White);
+
                 // s 554, 607
+                sprite.Draw(speedSign, 557, 612, ColorValue.White);
             }
         }
 

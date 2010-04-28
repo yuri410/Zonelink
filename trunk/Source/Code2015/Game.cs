@@ -252,12 +252,12 @@ namespace Code2015
         {
             XI.KeyboardState state = XI.Keyboard.GetState();
 
-            //if (state.IsKeyDown(XI.Keys.D))
-            //{
-            //    gameState.SLGWorld.EnergyStatus.AddDisaster(
-            //        new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude),
-            //            MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
-            //}
+            if (state.IsKeyDown(XI.Keys.D))
+            {
+                gameState.SLGWorld.EnergyStatus.AddDisaster(
+                    new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude),
+                        MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
+            }
 
             scene.Update(time);
             soundWorld.Update(time);

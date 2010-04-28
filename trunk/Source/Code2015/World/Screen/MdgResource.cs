@@ -227,9 +227,9 @@ namespace Code2015.World.Screen
 
             Rectangle rect = physicsWorld.WorldBounds;
 
-            Vector2 dragCentre = new Vector2(rect.Width * 0.5f, rect.Height * 0.5f);
+            //Vector2 dragCentre = new Vector2(0, rect.Height * 0.5f);
 
-            Vector2 r = (body.Position - dragCentre);
+            Vector2 r = new Vector2(body.Position.X, 0);
             float rr = r.LengthSquared();
             float r2 = 1 - (rr / (physicsWorld.BoundsRadius * physicsWorld.BoundsRadius));
             r.Normalize();

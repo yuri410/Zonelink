@@ -29,12 +29,18 @@ namespace Code2015.EngineEx
         GameFont f201;
         GameFont f18;
         GameFont f14;
+        GameFont f20ig1;
 
         private GameFontManager(RenderSystem rs)
         {
+            f20ig1 = new GameFont("f20ig1");
             f201 = new GameFont("f20i");
             f14 = new GameFont("f14");
             f18 = new GameFont("f18");
+        }
+        public GameFont F20IG1
+        {
+            get { return f20ig1; }
         }
         public GameFont F14
         {

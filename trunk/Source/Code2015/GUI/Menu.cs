@@ -5,9 +5,11 @@ using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
+using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.GUI
 {
@@ -17,6 +19,66 @@ namespace Code2015.GUI
     /// </summary>
     class Menu : UIComponent, IGameComponent
     {
+        class MenuScene : StaticModelObject
+        {
+            public MenuScene(RenderSystem rs)
+            {
+                FileLocation fl = FileSystem.Instance.Locate("start.mesh", GameFileLocs.Model);
+
+                ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                BoundingSphere.Radius = PlanetEarth.PlanetRadius;
+                Transformation = Matrix.Identity;
+            }
+
+            public override bool IsSerializable
+            {
+                get { return false; }
+            }
+
+        }
+
+        class MenuCamera : Camera
+        {
+            public MenuCamera(float aspect)
+                : base(aspect)
+            {
+                FieldOfView = 35;
+                Position = new Vector3(5260.516f, 6214.899f, 15371.574f);
+                NearPlane = 100;
+                FarPlane = 25000;
+            }
+            public override void UpdateProjection()
+            {
+                float fovy = MathEx.Degree2Radian(23.5f);
+                NearPlaneHeight = (float)(Math.Tan(fovy * 0.5f)) * NearPlane * 2;
+                NearPlaneWidth = NearPlaneHeight * AspectRatio;
+
+                Frustum.proj = Matrix.PerspectiveRH(NearPlaneWidth, NearPlaneHeight, NearPlane, FarPlane);
+
+            }
+            public override void Update(GameTime time)
+            {
+                //UpdateProjection();
+
+                Vector3 target = new Vector3(3151.209f, 6214.899f, 325.246f);
+
+                base.Update(time);
+                Frustum.view = Matrix.LookAtRH(Position, target, Vector3.UnitY);
+                Frustum.Update();
+
+                orientation = Quaternion.RotationMatrix(Frustum.view);
+
+                Matrix m = Matrix.Invert(Frustum.view);
+                front = m.Forward;// MathEx.GetMatrixFront(ref m);
+                top = m.Up;// MathEx.GetMatrixUp(ref m);
+                right = m.Right;// MathEx.GetMatrixRight(ref m);
+            }
+        }
+
+        SceneRenderer renderer;
+
+
+
         Code2015 game;
         MainMenu mainMenu;
         SelectScreen sideSelect;
@@ -43,12 +105,36 @@ namespace Code2015.GUI
             this.sideSelect = new SelectScreen(game, this);
 
             this.CurrentScreen = mainMenu;
+            CreateScene(rs);
         }
 
+        void CreateScene(RenderSystem rs)
+        {
+            SceneRendererParameter sm = new SceneRendererParameter();
+            sm.SceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
+            sm.PostRenderer = new DefaultPostRenderer();// new BloomPostRenderer(rs);
+            sm.UseShadow = false;
+
+            MenuCamera camera = new MenuCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
+
+            camera.RenderTarget = rs.GetRenderTarget(0);
+
+            renderer = new SceneRenderer(rs, sm);
+            renderer.RegisterCamera(camera);
+
+
+            renderer.ClearScreen = false;
+            MenuScene obj = new MenuScene(rs);
+            renderer.SceneManager.AddObjectToScene(obj);
+        }
 
         public void Render()
         {
+            if (!game.IsIngame)
+            {
+                renderer.RenderScene();
 
+            }
         }
 
         public override void Render(Sprite sprite)
@@ -65,6 +151,8 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
+                renderer.Update(time);
+
                 if (CurrentScreen != null)
                 {
                     CurrentScreen.Update(time);

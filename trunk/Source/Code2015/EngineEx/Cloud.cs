@@ -11,6 +11,8 @@ namespace Code2015.EngineEx
 {
     class Cloud : IRenderable, IUpdatable
     {
+        
+
         RenderSystem renderSys;
 
         Model strike;
@@ -23,11 +25,26 @@ namespace Code2015.EngineEx
 
         float strikeTime;
 
+        const float FadeTime = 1;
         const float StrikeDuration = 2;
         const float Duration = 10;
 
-        
 
+        public float Blend 
+        {
+            get
+            {
+                if (startTime > -FadeTime)
+                {
+                    return -startTime;
+                }
+                else if (startTime < -Duration + FadeTime)
+                {
+                    return startTime + Duration;
+                }
+                return 1;
+            }
+        }
         public float StartTime
         {
             get { return startTime; }
@@ -37,7 +54,7 @@ namespace Code2015.EngineEx
         public Cloud(RenderSystem rs, float beginTime)
         {
             this.renderSys = rs;
-            this.scale = 5;
+            this.scale = 7.5f;
             this.startTime = beginTime;
 
             this.trans = Matrix.Identity;
@@ -45,8 +62,8 @@ namespace Code2015.EngineEx
             FileLocation fl = FileSystem.Instance.Locate("cloud_lgt.mesh", GameFileLocs.Model);
             model = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
-
-            fl = FileSystem.Instance.Locate("strike_lgt.mesh", GameFileLocs.Model);
+            int idx = Randomizer.GetRandomInt(3);
+            fl = FileSystem.Instance.Locate("strike_lgt" + idx.ToString("D2") + ".mesh", GameFileLocs.Model);
             strike = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
             strikeTime = -2 * Randomizer.GetRandomSingle();
@@ -58,7 +75,6 @@ namespace Code2015.EngineEx
             if (model != null)
             {
                 model.CurrentAnimation = new NoAnimation(
-                    Matrix.RotationY(Randomizer.GetRandomSingle() * MathEx.PIf * 2) * 
                     Matrix.Scaling(scale, scale, scale) * trans);
 
                 strike.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans);
@@ -85,26 +101,53 @@ namespace Code2015.EngineEx
             }
         }
 
+        public bool IsActive
+        {
+            get { return startTime < 0 && startTime > -Duration; }
+        }
 
         #region IRenderable 成员
         public RenderOperation[] GetRenderOperation2()
         {
             if (strikeTime > StrikeDuration - 0.2f && startTime < 0 && startTime > -Duration)
-                return strike.GetRenderOperation();
+            {
+                return  strike.GetRenderOperation();
+                
+            }
             return null;
         }
 
         public RenderOperation[] GetRenderOperation()
         {
             if (startTime < 0 && startTime > -Duration)
-                return model.GetRenderOperation();
+            {
+                RenderOperation[] ops = model.GetRenderOperation();
+                if (ops != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = this;
+                    }
+                }
+                return ops;
+            }
             return null;
         }
 
         public RenderOperation[] GetRenderOperation(int level)
         {
             if (startTime < 0 && startTime > -Duration)
-                return model.GetRenderOperation();
+            {
+                RenderOperation[] ops = model.GetRenderOperation();
+                if (ops != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = this;
+                    }
+                }
+                return ops;
+            }
             return null;
         }
 

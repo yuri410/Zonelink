@@ -110,6 +110,11 @@ namespace Code2015.EngineEx
             renderer.RenderScene(clrRt, RenderMode.Final);
             //renderSys.RenderStates.FillMode = FillMode.Solid;
 
+            renderSys.RenderStates.AlphaBlendEnable = true;
+            renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;
+            renderSys.RenderStates.DestinationBlend = Blend.InverseSourceAlpha;
+
+
             ShaderSamplerState sampler1;
             sampler1.AddressU = TextureAddressMode.Clamp;
             sampler1.AddressV = TextureAddressMode.Clamp;

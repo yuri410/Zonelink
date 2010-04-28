@@ -73,8 +73,8 @@ namespace Code2015.Effects
 
         public virtual void Begin()
         {
-            //renderSys.BindShader(vtxShader);
-            renderSys.BindShader((VertexShader)null);
+            renderSys.BindShader(vtxShader);
+            //renderSys.BindShader((VertexShader)null);
             renderSys.BindShader(pixShader);
         }
 

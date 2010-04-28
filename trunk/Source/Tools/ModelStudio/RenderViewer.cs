@@ -76,6 +76,7 @@ namespace ModelStudio
             EffectManager.Instance.RegisterModelEffectType(CityRingEffectFactory.Name, new CityRingEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(TreeEffectFactory.Name, new TreeEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CloudEffectFactory.Name, new CloudEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(BoltEffectFactory.Name, new BoltEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
            
@@ -99,8 +100,8 @@ namespace ModelStudio
             camera.ChasePosition = new Vector3(0, 0, 0);
             camera.DesiredPositionOffset = new Vector3(0, 0, 40);
             camera.Mode = RenderMode.Final;
-            camera.FarPlane = 1000;
-            camera.NearPlane = 0.5f;
+            camera.FarPlane = 10000;
+            camera.NearPlane = 10f;
             camera.RenderTarget = renderSys.GetRenderTarget(0);
 
             distance = 40;
@@ -148,7 +149,7 @@ namespace ModelStudio
             camera.ChaseDirection = new Vector3((float)Math.Cos(xang), -(float)Math.Sin(yang), (float)Math.Sin(xang));
             camera.DesiredPositionOffset = new Vector3(0, 0, distance);
 
-            distance -= 0.05f * (mstate.ScrollWheelValue - lastState.ScrollWheelValue);
+            distance -= 0.5f * (mstate.ScrollWheelValue - lastState.ScrollWheelValue);
             if (mstate.RightButton == XI.ButtonState.Pressed)
             {
                 xang += MathEx.Degree2Radian(mstate.X - lastState.X) * 0.5f;
