@@ -96,6 +96,8 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(SmokeRDEffectFactory.Name, new SmokeRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(MMWaterEffectFactory.Name, new MMWaterEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(MMTerrainEffectFactory.Name, new MMTerrainEffectFactory(renderSys));
             
             
 

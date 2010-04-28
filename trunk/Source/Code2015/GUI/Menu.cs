@@ -11,6 +11,9 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.Graphics.Geometry;
+using Code2015.Effects;
+using Apoc3D.Core;
 
 namespace Code2015.GUI
 {
@@ -20,13 +23,13 @@ namespace Code2015.GUI
     /// </summary>
     class Menu : UIComponent, IGameComponent
     {
+        const float RotSpeed = 3;
+        Vector3 RotAxis = new Vector3(2505.168f, 4325.199f, 4029.689f);
+        float angle;
+
         class MenuScene : StaticModelObject
         {
 
-            const float RotSpeed = 3;
-            Vector3 RotAxis = new Vector3(2505.168f, 4325.199f, 4029.689f);
-            float angle;
-            
             public MenuScene(RenderSystem rs)
             {
                 FileLocation fl = FileSystem.Instance.Locate("start.mesh", GameFileLocs.Model);
@@ -34,7 +37,6 @@ namespace Code2015.GUI
                 ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                 BoundingSphere.Radius = PlanetEarth.PlanetRadius;
                 Transformation = Matrix.Identity;
-                RotAxis.Normalize();
 
             }
 
@@ -45,24 +47,7 @@ namespace Code2015.GUI
 
             public override RenderOperation[] GetRenderOperation()
             {
-                Matrix rot = Matrix.RotationAxis(RotAxis, angle);
-                RenderOperation[] ops = base.GetRenderOperation();
-
-                if (ops != null)
-                {
-                    for (int i = 0; i < ops.Length; i++)
-                    {
-                        ops[i].Transformation *= rot;
-                    }
-                }
-                return ops;
-            }
-
-            public override void Update(GameTime dt)
-            {
-                base.Update(dt);
-
-                angle -= MathEx.Degree2Radian(RotSpeed * dt.ElapsedGameTimeSeconds);
+                return base.GetRenderOperation();
             }
         }
 
@@ -117,9 +102,51 @@ namespace Code2015.GUI
                 return Matrix.LookAtRH(pos, target, Vector3.UnitY);
             }
         }
+        class MenuWater : StaticModelObject
+        {
+            Sphere oceanSphere;
+
+            public MenuWater(RenderSystem renderSys) 
+            {
+
+                Material[][] mats = new Material[1][];
+                mats[0] = new Material[1];
+                mats[0][0] = new Material(renderSys);
+                
+                FileLocation fl = FileSystem.Instance.Locate("WaterNormal.tex", GameFileLocs.Nature);
+                ResourceHandle<Texture> map = TextureManager.Instance.CreateInstance(fl);
+                mats[0][0].SetTexture(1, map);
+
+                fl = FileSystem.Instance.Locate("WaterDudv.tex", GameFileLocs.Nature);
+                map = TextureManager.Instance.CreateInstance(fl);
+                mats[0][0].SetTexture(0, map);
+
+                mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(MMWaterEffectFactory.Name));
+                mats[0][0].IsTransparent = true;
+                mats[0][0].ZWriteEnabled = false;
+                mats[0][0].ZEnabled = true;
+                mats[0][0].CullMode = CullMode.CounterClockwise;
+                mats[0][0].PriorityHint = RenderPriority.Third;
+
+
+                oceanSphere = new Sphere(renderSys, PlanetEarth.PlanetRadius + 15,
+                    PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
+
+                base.ModelL0 = oceanSphere;
+
+                BoundingSphere.Radius = PlanetEarth.PlanetRadius;
+            }
+
+            public override bool IsSerializable
+            {
+                get { return false; }
+            }
+        }
+
 
         SceneRenderer renderer;
-
+        MenuScene earth;
+        MenuWater water;
 
 
         Code2015 game;
@@ -175,8 +202,15 @@ namespace Code2015.GUI
 
 
             renderer.ClearScreen = true;
-            MenuScene obj = new MenuScene(rs);
-            renderer.SceneManager.AddObjectToScene(obj);
+
+            earth = new MenuScene(rs);
+            renderer.SceneManager.AddObjectToScene(earth);
+
+            water = new MenuWater(rs);
+            renderer.SceneManager.AddObjectToScene(water);
+          
+            
+            RotAxis.Normalize();
         }
 
         public void Render()
@@ -205,6 +239,12 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
+                angle -= MathEx.Degree2Radian(RotSpeed * time.ElapsedGameTimeSeconds);
+                Matrix rot = Matrix.RotationAxis(RotAxis, angle);
+                earth.Transformation = rot;
+                water.Transformation = rot;
+
+
                 renderer.Update(time);
 
                 if (CurrentScreen != null)
