@@ -154,7 +154,7 @@ namespace Code2015.EngineEx
                 if (value >= 30 && value < 75)
                 {
                     //yaw = MathEx.Degree2Radian(height) - MathEx.PiOver2;
-                    yaw = -MathEx.PIf / 4f;
+                    yaw = -MathEx.Degree2Radian(30);// -MathEx.PIf / 4f;
 
                     height = value;
                 }

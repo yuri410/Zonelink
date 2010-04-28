@@ -124,6 +124,7 @@
     <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\ParticleEffect.cs" />
     <Compile Include="Effects\BoltEffect.cs" />
+    <Compile Include="Effects\MMTerrainEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />

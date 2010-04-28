@@ -152,7 +152,7 @@ namespace Code2015.EngineEx
 
             gaussBlur.Begin();
 
-            
+
             gaussBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
 
             for (int i = 0; i < SampleCount; i++)
