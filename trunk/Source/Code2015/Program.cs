@@ -24,7 +24,7 @@ namespace Code2015
 
             PresentParameters pm = new PresentParameters();
             
-            pm.BackBufferFormat = ImagePixelFormat.X8R8G8B8;
+            pm.BackBufferFormat = ImagePixelFormat.A8R8G8B8;
             pm.BackBufferWidth = ScreenWidth;
             pm.BackBufferHeight = ScreenHeight;
             pm.IsWindowed = true;

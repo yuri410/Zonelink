@@ -192,15 +192,23 @@ namespace Code2015
         /// </summary>
         public void Draw()
         {
+            RenderTarget defRt = renderSys.GetRenderTarget(0);
+
             if (currentGame == null)
             {
-                renderSys.Clear(ClearFlags.Target | ClearFlags.DepthBuffer, ColorValue.Black, 1, 0);
+                renderSys.Clear(ClearFlags.Target | ClearFlags.DepthBuffer, ColorValue.Transparent, 1, 0);
             }
-
-            if (currentGame != null)
+            else
             {
                 currentGame.Render();
             }
+
+            if (menu != null)
+            {
+                menu.Render();
+            }
+
+            renderSys.SetRenderTarget(0, defRt);
 
             sprite.Begin();
 
@@ -214,16 +222,6 @@ namespace Code2015
             }
 
             sprite.End();
-
-            if (menu != null)
-            {
-                menu.Render();
-
-                sprite.Begin();
-                menu.RenderCursor(sprite);
-                sprite.End();
-            }
-            
         }
 
         #endregion

@@ -89,6 +89,7 @@ namespace Code2015.GUI
             {
                 //UpdateProjection();
 
+                //x->z y->x z->y 
                 Vector3 target = new Vector3(-3151.209f, 6214.899f, 325.246f);
 
                 base.Update(time);
@@ -102,6 +103,19 @@ namespace Code2015.GUI
                 top = m.Up;// MathEx.GetMatrixUp(ref m);
                 right = m.Right;// MathEx.GetMatrixRight(ref m);
             }
+            public override float GetSMScale()
+            {
+                return 20;
+            }
+            public override Matrix GetSMTrans()
+            {
+                //Vector3 pos = new Vector3(-10799.082f, -3815.834f, 6951.33f);
+                Vector3 pos = new Vector3(-5009.926f, 8066.071f, -16341.605f);//-6522.938f, 8066.071f, -12065.895f);// new Vector3(-3815.834f, 6951.33f, -10799.082f);
+                Vector3 target = new Vector3(-2578.986f, 4845.344f, -2702.878f);// new Vector3(-3151.209f, 6214.899f, 325.246f);//-2702.878  -2578.986  4845.344
+
+
+                return Matrix.LookAtRH(pos, target, Vector3.UnitY);
+            }
         }
 
         SceneRenderer renderer;
@@ -111,9 +125,7 @@ namespace Code2015.GUI
         Code2015 game;
         MainMenu mainMenu;
         SelectScreen sideSelect;
-
-        Texture cursor;
-        Point mousePosition;
+        RenderTarget renderTarget;
 
         public UIComponent CurrentScreen
         {
@@ -129,6 +141,11 @@ namespace Code2015.GUI
             return sideSelect;
         }
 
+        public Texture Earth 
+        {
+            get { return renderTarget.GetColorBufferTexture(); }
+        }
+
         public Menu(Code2015 game, RenderSystem rs)
         {
             this.game = game;
@@ -137,8 +154,7 @@ namespace Code2015.GUI
 
             this.CurrentScreen = mainMenu;
             CreateScene(rs);
-            FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
-            cursor = UITextureManager.Instance.CreateInstance(fl);
+           
         }
 
         void CreateScene(RenderSystem rs)
@@ -150,13 +166,15 @@ namespace Code2015.GUI
 
             MenuCamera camera = new MenuCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
 
-            camera.RenderTarget = rs.GetRenderTarget(0);
+            renderTarget = rs.ObjectFactory.CreateRenderTarget(Program.ScreenWidth, Program.ScreenHeight, Apoc3D.Media.ImagePixelFormat.A8R8G8B8);
 
+            camera.RenderTarget = renderTarget;
             renderer = new SceneRenderer(rs, sm);
+            renderer.ClearColor = ColorValue.TransparentWhite;
             renderer.RegisterCamera(camera);
 
 
-            renderer.ClearScreen = false;
+            renderer.ClearScreen = true;
             MenuScene obj = new MenuScene(rs);
             renderer.SceneManager.AddObjectToScene(obj);
         }
@@ -171,16 +189,7 @@ namespace Code2015.GUI
                 }
             }
         }
-        public void RenderCursor(Sprite sprite) 
-        {
-            if (!game.IsIngame)
-            {
-                if (CurrentScreen != null)
-                {
-                    sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
-                }
-            }
-        }
+
 
         public override void Render(Sprite sprite)
         {
@@ -196,9 +205,6 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
-                mousePosition.X = MouseInput.X;
-                mousePosition.Y = MouseInput.Y; 
-            
                 renderer.Update(time);
 
                 if (CurrentScreen != null)
