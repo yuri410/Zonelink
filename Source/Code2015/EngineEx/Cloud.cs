@@ -63,7 +63,7 @@ namespace Code2015.EngineEx
             model = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
             int idx = Randomizer.GetRandomInt(3);
-            fl = FileSystem.Instance.Locate("strike_lgt" + idx.ToString("D2") + ".mesh", GameFileLocs.Model);
+            fl = FileSystem.Instance.Locate("strike_lgt" + (idx + 1).ToString("D2") + ".mesh", GameFileLocs.Model);
             strike = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
             strikeTime = -2 * Randomizer.GetRandomSingle();
