@@ -136,7 +136,7 @@ namespace Code2015.EngineEx
     class TreeModelLibrary : Singleton
     {
         static TreeModelLibrary singleton;
-        
+
         public static TreeModelLibrary Instance
         {
             get { return singleton; }
@@ -148,10 +148,79 @@ namespace Code2015.EngineEx
         }
 
         RenderSystem renderSys;
-
+        TreeModelData trunk;
         FastList<TreeModelData>[] typedList = new FastList<TreeModelData>[PlantDensity.TypeCount];
         FastList<ModelMemoryData> loadedModels
             = new FastList<ModelMemoryData>();
+
+        unsafe void BuildTrunk(RenderSystem rs)
+        {
+            FileLocation fl = FileSystem.Instance.Locate("shuzhuang.mesh", GameFileLocs.Config);
+            ModelMemoryData mdlData2 = new ModelMemoryData(rs, fl);
+            loadedModels.Add(mdlData2);
+            MeshData[] dataArr2 = mdlData2.Entities;
+            if (dataArr2.Length == 1)
+            {
+                TreeModelData mdl;
+
+                MeshData data = dataArr2[0];
+
+                Material[][] mtrls = data.Materials;
+
+                int partCount = mtrls.Length;
+                FastList<int>[] indices = new FastList<int>[partCount];
+                for (int i = 0; i < partCount; i++)
+                    indices[i] = new FastList<int>();
+
+                mdl.Materials = new Material[partCount];
+                mdl.Indices = new int[partCount][];
+                mdl.PartVtxCount = new int[partCount];
+
+                MeshFace[] faces = data.Faces;
+
+                for (int i = 0; i < faces.Length; i++)
+                {
+                    int matId = faces[i].MaterialIndex;
+                    indices[matId].Add(faces[i].IndexA);
+                    indices[matId].Add(faces[i].IndexB);
+                    indices[matId].Add(faces[i].IndexC);
+                }
+
+
+                for (int i = 0; i < partCount; i++)
+                {
+                    Material mtrl = mtrls[i][0];
+                    mdl.Materials[i] = mtrl;
+
+                    indices[i].Trim();
+                    mdl.Indices[i] = indices[i].Elements;
+
+                    int partVtxCount = 0;
+
+                    bool[] passed = new bool[data.VertexCount];
+
+                    for (int j = 0; j < mdl.Indices[i].Length; j++)
+                    {
+                        passed[indices[i][j]] = true;
+                    }
+
+                    for (int j = 0; j < data.VertexCount; j++)
+                        if (passed[j])
+                            partVtxCount++;
+
+                    mdl.PartVtxCount[i] = partVtxCount;
+
+                }
+
+                mdl.VertexCount = data.VertexCount;
+                mdl.VertexData = new byte[data.VertexCount * data.VertexSize];
+                fixed (byte* dst = &mdl.VertexData[0])
+                {
+                    Memory.Copy(data.Data.ToPointer(), dst, mdl.VertexData.Length);
+                }
+                trunk = mdl;
+            }
+        }
 
         private unsafe TreeModelLibrary(RenderSystem rs)
         {
@@ -209,11 +278,11 @@ namespace Code2015.EngineEx
                         indices[i].Trim();
                         mdl.Indices[i] = indices[i].Elements;
 
-                        int partVtxCount =0;
+                        int partVtxCount = 0;
 
                         bool[] passed = new bool[data.VertexCount];
 
-                        for (int j = 0; j < mdl.Indices[i].Length; j++) 
+                        for (int j = 0; j < mdl.Indices[i].Length; j++)
                         {
                             passed[indices[i][j]] = true;
                         }
@@ -239,61 +308,15 @@ namespace Code2015.EngineEx
                     }
 
                     typedList[type].Add(mdl);
-                    //tempList.Add(mdl);
-                    //#region 添加到表中
-                    //FastList<TreeModelData> mdlList;
-                    //if (!categoryModels.TryGetValue(mdl.Category, out mdlList))
-                    //{
-                    //    mdlList = new FastList<TreeModelData>();
-                    //    categoryModels.Add(mdl.Category, mdlList);
-                    //}
-                    //mdlList.Add(ref mdl);
 
 
-                    //if (!typeModels.TryGetValue(mdl.Type, out mdlList))
-                    //{
-                    //    mdlList = new FastList<TreeModelData>();
-                    //    typeModels.Add(mdl.Type, mdlList);
-                    //}
-                    //mdlList.Add(ref mdl);
-
-                    //Dictionary <PlantType, FastList <TreeModelData>> typeTbl;
-                    //if (!table.TryGetValue(mdl.Category, out typeTbl)) 
-                    //{
-                    //    typeTbl = new Dictionary<PlantType, FastList<TreeModelData>>();
-                    //    table.Add(mdl.Category, typeTbl);
-                    //}
-
-                    //if (!typeTbl.TryGetValue(mdl.Type, out mdlList)) 
-                    //{
-                    //    mdlList = new FastList<TreeModelData>();
-                    //    typeTbl.Add(mdl.Type, mdlList);
-                    //}
-                    //mdlList.Add(ref mdl);
-
-
-                    //#endregion
                 }
 
             }
 
-            //foreach (KeyValuePair<PlantCategory, FastList<TreeModelData>> e in categoryModels)
-            //{
-            //    e.Value.Trim();
-            //}
-            //foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e in typeModels)
-            //{
-            //    e.Value.Trim();
-            //}
-            //foreach (KeyValuePair<PlantCategory, Dictionary<PlantType, FastList<TreeModelData>>> e1 in table)
-            //{
-            //    Dictionary<PlantType, FastList<TreeModelData>> typeTbl = e1.Value;
 
-            //    foreach (KeyValuePair<PlantType, FastList<TreeModelData>> e2 in typeTbl) 
-            //    {
-            //        e2.Value.Trim();
-            //    }
-            //}
+
+
             for (int i = 0; i < typedList.Length; i++)
             {
                 typedList[i].Trim();
@@ -304,7 +327,10 @@ namespace Code2015.EngineEx
         //{
         //    return tempList.Elements;
         //}
-
+        public TreeModelData GetTrunk()
+        {
+            return trunk;
+        }
         public TreeModelData[] Get(int typeId)
         {
             return typedList[typeId].Elements;

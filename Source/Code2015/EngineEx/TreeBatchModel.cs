@@ -59,6 +59,11 @@ namespace Code2015.EngineEx
         Material[] materials;
         RenderOperation[] opBuf;
 
+        VertexBuffer vtxBuffer2;
+        IndexBuffer idxBuffer2;
+        Material material2;
+        RenderOperation[] opbuf2;
+
 
         int resourceSize;
 
@@ -104,24 +109,31 @@ namespace Code2015.EngineEx
             float radlat = MathEx.Degree2Radian(info.Latitude);
             float radr = MathEx.Degree2Radian(info.Radius) * 2;
 
+            TreeOrientation = PlanetEarth.GetOrientation(radlng, radlat);
+            TreeOrientation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat, PlanetEarth.PlanetRadius);
+
+
             int vtxCount = 0;
             int vtxOffset = 0;
+            int vtxCount2 = 0;
+            int vtxOffset2 = 0;
 
             int plantCount = (int)(info.Amount * 0.05f);
-           
+
+
+
+            FastList<byte> vertices2 = new FastList<byte>(plantCount * 2500);
+            FastList<int> indices2 = new FastList<int>();
+            int partVtxCount2 = 0;
+            Material trunkMat = null;
 
             FastList<byte> vertices = new FastList<byte>(plantCount * 2500);
             Dictionary<Material, FastList<int>> indices = new Dictionary<Material, FastList<int>>();
             Dictionary<Material, int> partVtxCount = new Dictionary<Material, int>();
 
-
             plantCount = 0;
 
-
             byte[] vtxBldBuffer = new byte[TreeVertex.Size];
-
-            TreeOrientation = PlanetEarth.GetOrientation(radlng, radlat);
-            TreeOrientation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat, PlanetEarth.PlanetRadius);
 
             const float AreaWidth = 0.036f;
             for (float blkLng = radlng - radr; blkLng < radlng + radr; blkLng += AreaWidth)
@@ -224,67 +236,59 @@ namespace Code2015.EngineEx
                         vtxOffset += meshData.VertexCount;
                         #endregion
 
+                        TreeModelData meshData2 = TreeModelLibrary.Instance.GetTrunk();
+                        #region 树桩
+                        resourceSize += meshData2.VertexCount * TreeVertex.Size;
+                        vtxCount2 += meshData2.VertexCount;
+
+                        fixed (byte* src = &meshData2.VertexData[0])
+                        {
+                            VertexPNT1* ptr = (VertexPNT1*)src;
+
+                            for (int j = 0; j < meshData2.VertexCount; j++)
+                            {
+                                TreeVertex p;
+                                p.pos.X = rotCos * ptr[j].pos.X - rotSin * ptr[j].pos.Z;
+                                p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
+                                p.pos.Y = ptr[j].pos.Y;
+
+                                p.pos = p.pos * (Game.TreeScale * (instanceData * 0.4f + 0.8f));
+
+                                Vector3 pp;
+                                Vector3.TransformSimple(ref p.pos, ref treeOrientation, out pp);
+                                p.pos = pp;
+
+                                p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
+                                p.n.Z = rotSin * ptr[j].n.Z + rotCos * ptr[j].n.Z;
+                                p.n.Y = ptr[j].n.Y;
+
+                                p.tex1 = new Vector3(ptr[j].u, ptr[j].v, instanceData);
+
+                                fixed (byte* dst = &vtxBldBuffer[0])
+                                {
+                                    Memory.Copy(&p, dst, TreeVertex.Size);
+                                }
+                                vertices.Add(vtxBldBuffer);
+                            }
+                        }
+
+                        material2 = meshData2.Materials[0];
+                        partVtxCount2 += meshData2.PartVtxCount[0];
+
+                        int[] meshIdx2 = meshData2.Indices[0];
+
+                        for (int j = 0; j < meshIdx2.Length; j++)
+                        {
+                            indices2.Add(meshIdx2[j] + vtxOffset2);
+                        }
+                        vtxOffset2 += meshData2.VertexCount;
+                        #endregion
                         plantCount++;
                     }
                 }
             }
-            //for (int i = 0; i < plantCount; i++)
-            //{
-
-            //Label_retry:
-            //    float rnd1 = Randomizer.GetRandomSingle();
-            //    float rnd2 = Randomizer.GetRandomSingle();
-
-            //    float r = rnd1 * radr;
-            //    float rr = PlanetEarth.GetTileArcLength(r);
-            //    float rt = rnd2 * MathEx.PIf * 2;
-
-            //    float rotCos = (float)Math.Cos(rt);
-            //    float rotSin = (float)Math.Sin(rt);
-
-            //    float treeLng = radlng + r * rotCos;
-            //    float treeLat = radlat + r * rotSin;
-
-            //    PlantDensityData density = PlantDensity.Instance.GetDensity(treeLng, treeLat);
-
-            //    //if (density.IsZero)
-            //    //    goto Label_retry;
-
-            //    float alt = TerrainData.Instance.QueryHeight(treeLng, treeLat);
-
-            //    if (alt < 0)
-            //        goto Label_retry;
-
-            //    TreeModelData meshData;
-            //    // 选一种模型，根据植被密度随机
-            //    {
-
-            //        for (int k = 1; k < PlantDensity.TypeCount; k++)
-            //        {
-            //            density.Density[k] += density.Density[k - 1];
-            //        }
-
-            //        float rand2 = Randomizer.GetRandomSingle() * density.Density[PlantDensity.TypeCount - 1];
-
-            //        int idx = 0;// Randomizer.GetRandomInt(info.Plants.Length);
-            //        for (int k = 0; k < PlantDensity.TypeCount; k++)
-            //        {
-            //            if (rand2 < density.Density[k])
-            //            {
-            //                idx = k;
-            //            }
-            //            else break;
-            //        }
-            //        //if (idx == -1)
-            //        //    goto Label_retry;
-
-            //        TreeModelData[] mdls = TreeModelLibrary.Instance.Get(idx);
-            //        meshData = mdls[Randomizer.GetRandomInt(mdls.Length)];
-            //    }
 
 
-
-            //}
 
             // ============================================================================
 
@@ -295,6 +299,10 @@ namespace Code2015.EngineEx
 
             vertices.Trim();
             vtxBuffer.SetData<byte>(vertices.Elements);
+
+            vtxBuffer2 = fac.CreateVertexBuffer(vtxCount2, vtxDecl, BufferUsage.Static);
+            vertices2.Trim();
+            vtxBuffer2.SetData<byte>(vertices2.Elements);
 
             int partCount = indices.Count;
 
@@ -334,8 +342,23 @@ namespace Code2015.EngineEx
                 index++;
             }
 
+            indices2.Trim();
 
-
+            idxBuffer2 = fac.CreateIndexBuffer(IndexBufferType.Bit32, indices2.Count, BufferUsage.Static);
+            idxBuffer2.SetData<int>(indices2.Elements);
+            opbuf2 = new RenderOperation[1];
+            opBuf[index].Material = trunkMat;
+            opbuf2[index].Geomentry = new GeomentryData();
+            opbuf2[index].Geomentry.BaseIndexStart = 0;
+            opbuf2[index].Geomentry.BaseVertex = 0;
+            opbuf2[index].Geomentry.IndexBuffer = idxBuffer2;
+            opbuf2[index].Geomentry.PrimCount = idxBuffer2.IndexCount / 3;
+            opbuf2[index].Geomentry.PrimitiveType = RenderPrimitiveType.TriangleList;
+            opbuf2[index].Geomentry.VertexBuffer = vtxBuffer2;
+            opbuf2[index].Geomentry.VertexCount = partVtxCount2;
+            opbuf2[index].Geomentry.VertexDeclaration = vtxDecl;
+            opbuf2[index].Geomentry.VertexSize = vtxSize;
+            opbuf2[index].Sender = this;
         }
 
         protected override void unload()
@@ -373,6 +396,18 @@ namespace Code2015.EngineEx
                     opBuf[i].Transformation = Matrix.Identity;
                 }
                 return opBuf;
+            }
+            return null;
+        }
+        public RenderOperation[] GetRenderOperation2()
+        {
+            if (State == ResourceState.Loaded)
+            {
+                for (int i = 0; i < opbuf2.Length; i++)
+                {
+                    opbuf2[i].Transformation = Matrix.Identity;
+                }
+                return opbuf2;
             }
             return null;
         }
