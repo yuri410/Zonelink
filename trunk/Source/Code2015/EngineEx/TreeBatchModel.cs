@@ -125,7 +125,7 @@ namespace Code2015.EngineEx
             FastList<byte> vertices2 = new FastList<byte>(plantCount * 2500);
             FastList<int> indices2 = new FastList<int>();
             int partVtxCount2 = 0;
-            Material trunkMat = null;
+
 
             FastList<byte> vertices = new FastList<byte>(plantCount * 2500);
             Dictionary<Material, FastList<int>> indices = new Dictionary<Material, FastList<int>>();
@@ -268,7 +268,7 @@ namespace Code2015.EngineEx
                                 {
                                     Memory.Copy(&p, dst, TreeVertex.Size);
                                 }
-                                vertices.Add(vtxBldBuffer);
+                                vertices2.Add(vtxBldBuffer);
                             }
                         }
 
@@ -294,6 +294,7 @@ namespace Code2015.EngineEx
 
             ObjectFactory fac = renderSys.ObjectFactory;
             vtxDecl = fac.CreateVertexDeclaration(TreeVertex.Elements);
+            int vtxSize = vtxDecl.GetVertexSize();
 
             vtxBuffer = fac.CreateVertexBuffer(vtxCount, vtxDecl, BufferUsage.Static);
 
@@ -311,7 +312,6 @@ namespace Code2015.EngineEx
             opBuf = new RenderOperation[partCount];
 
             int index = 0;
-            int vtxSize = vtxDecl.GetVertexSize();
 
             foreach (KeyValuePair<Material, FastList<int>> e in indices)
             {
@@ -347,18 +347,18 @@ namespace Code2015.EngineEx
             idxBuffer2 = fac.CreateIndexBuffer(IndexBufferType.Bit32, indices2.Count, BufferUsage.Static);
             idxBuffer2.SetData<int>(indices2.Elements);
             opbuf2 = new RenderOperation[1];
-            opBuf[index].Material = trunkMat;
-            opbuf2[index].Geomentry = new GeomentryData();
-            opbuf2[index].Geomentry.BaseIndexStart = 0;
-            opbuf2[index].Geomentry.BaseVertex = 0;
-            opbuf2[index].Geomentry.IndexBuffer = idxBuffer2;
-            opbuf2[index].Geomentry.PrimCount = idxBuffer2.IndexCount / 3;
-            opbuf2[index].Geomentry.PrimitiveType = RenderPrimitiveType.TriangleList;
-            opbuf2[index].Geomentry.VertexBuffer = vtxBuffer2;
-            opbuf2[index].Geomentry.VertexCount = partVtxCount2;
-            opbuf2[index].Geomentry.VertexDeclaration = vtxDecl;
-            opbuf2[index].Geomentry.VertexSize = vtxSize;
-            opbuf2[index].Sender = this;
+            opbuf2[0].Material = material2;
+            opbuf2[0].Geomentry = new GeomentryData();
+            opbuf2[0].Geomentry.BaseIndexStart = 0;
+            opbuf2[0].Geomentry.BaseVertex = 0;
+            opbuf2[0].Geomentry.IndexBuffer = idxBuffer2;
+            opbuf2[0].Geomentry.PrimCount = idxBuffer2.IndexCount / 3;
+            opbuf2[0].Geomentry.PrimitiveType = RenderPrimitiveType.TriangleList;
+            opbuf2[0].Geomentry.VertexBuffer = vtxBuffer2;
+            opbuf2[0].Geomentry.VertexCount = partVtxCount2;
+            opbuf2[0].Geomentry.VertexDeclaration = vtxDecl;
+            opbuf2[0].Geomentry.VertexSize = vtxSize;
+            opbuf2[0].Sender = this;
         }
 
         protected override void unload()
@@ -399,18 +399,18 @@ namespace Code2015.EngineEx
             }
             return null;
         }
-        public RenderOperation[] GetRenderOperation2()
-        {
-            if (State == ResourceState.Loaded)
-            {
-                for (int i = 0; i < opbuf2.Length; i++)
-                {
-                    opbuf2[i].Transformation = Matrix.Identity;
-                }
-                return opbuf2;
-            }
-            return null;
-        }
+        //public RenderOperation[] GetRenderOperation2()
+        //{
+        //    if (State == ResourceState.Loaded)
+        //    {
+        //        for (int i = 0; i < opbuf2.Length; i++)
+        //        {
+        //            opbuf2[i].Transformation = Matrix.Identity;
+        //        }
+        //        return opbuf2;
+        //    }
+        //    return null;
+        //}
 
         public RenderOperation[] GetRenderOperation(int level)
         {

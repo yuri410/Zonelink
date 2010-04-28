@@ -155,7 +155,7 @@ namespace Code2015.EngineEx
 
         unsafe void BuildTrunk(RenderSystem rs)
         {
-            FileLocation fl = FileSystem.Instance.Locate("shuzhuang.mesh", GameFileLocs.Config);
+            FileLocation fl = FileSystem.Instance.Locate("shuzhuang.mesh", GameFileLocs.Model);
             ModelMemoryData mdlData2 = new ModelMemoryData(rs, fl);
             loadedModels.Add(mdlData2);
             MeshData[] dataArr2 = mdlData2.Entities;
@@ -311,7 +311,7 @@ namespace Code2015.EngineEx
 
 
                 }
-
+                BuildTrunk(rs);
             }
 
 
