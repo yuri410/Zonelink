@@ -15,11 +15,8 @@ namespace Code2015.GUI
 {
     class MainMenu : UIComponent
     {
-
-
         Code2015 game;
         Menu parent;
-
 
         float fps;
 
@@ -42,15 +39,14 @@ namespace Code2015.GUI
         Texture background;
         Texture linkbg;
 
-        Texture cursor;
-        Point mousePosition;
-
 
         RoundButton startButton;
         RoundButton exitButton;
         RoundButton creditButton;
         RoundButton helpButton;
 
+        NormalSoundObject mouseHover;
+        NormalSoundObject mouseDown;
         public MainMenu(Code2015 game, Menu parent)
         {
             RenderSystem rs = game.RenderSystem;
@@ -58,10 +54,8 @@ namespace Code2015.GUI
             this.game = game;
             this.parent = parent;
 
-            FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
-            cursor = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("mm_btn_credits.tex", GameFileLocs.GUI);
+           
+            FileLocation fl = FileSystem.Instance.Locate("mm_btn_credits.tex", GameFileLocs.GUI);
             credits = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("mm_btn_quit.tex", GameFileLocs.GUI);
             exit = UITextureManager.Instance.CreateInstance(fl);
@@ -111,6 +105,8 @@ namespace Code2015.GUI
             startButton.IsValid = true;
 
             startButton.MouseClick += StartButton_Click;
+            startButton.MouseEnter += Button_MouseIn;
+            startButton.MouseDown += Button_DownSound;
 
             exitButton = new RoundButton();
             exitButton.X = 1061;
@@ -120,6 +116,8 @@ namespace Code2015.GUI
             exitButton.IsValid = true;
 
             exitButton.MouseClick += ExitButton_Click;
+            exitButton.MouseEnter += Button_MouseIn;
+            exitButton.MouseDown += Button_DownSound;
 
 
             creditButton = new RoundButton();
@@ -128,6 +126,8 @@ namespace Code2015.GUI
             creditButton.Radius = 138 / 2;
             creditButton.Enabled = true;
             creditButton.IsValid = true;
+            creditButton.MouseEnter += Button_MouseIn;
+            creditButton.MouseDown += Button_DownSound;
 
 
             helpButton = new RoundButton();
@@ -136,9 +136,29 @@ namespace Code2015.GUI
             helpButton.Radius = 138 / 2;
             helpButton.Enabled = true;
             helpButton.IsValid = true;
+            helpButton.MouseEnter += Button_MouseIn;
+            helpButton.MouseDown += Button_DownSound;
             #endregion
-          
+
+            mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
+            mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
+            
+
         }
+
+
+        void Button_MouseIn(object sender, MouseButtonFlags btn)
+        {
+            mouseHover.Fire();
+        }
+        void Button_DownSound(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                mouseDown.Fire();
+            }
+        }
+
         void ExitButton_Click(object sender, MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left)
@@ -238,14 +258,10 @@ namespace Code2015.GUI
                 sprite.Draw(exit, x, y, ColorValue.White);
             }
 
-            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
-
-
+            
         }
         public override void Update(GameTime time)
         {
-            mousePosition.X = MouseInput.X;
-            mousePosition.Y = MouseInput.Y;
             fps = time.FramesPerSecond;
 
 

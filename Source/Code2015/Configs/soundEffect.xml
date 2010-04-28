@@ -87,5 +87,25 @@
     <Probability>0.0001</Probability>
     <Volume>0.05</Volume>
   </wuya>
+  <buttonhover>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>mousehover</Sounds>
+    
+    <Volume>0.4</Volume>
+  </buttonhover>
+  <buttondown>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>mousedown</Sounds>
 
+    <Volume>0.4</Volume>
+  </buttondown>
+  <buildup>
+    <Control>World</Control>
+    <Type>Normal</Type>
+    <Sounds>buildup</Sounds>
+
+    <Volume>0.4</Volume>
+  </buildup>
 </soundEffect>

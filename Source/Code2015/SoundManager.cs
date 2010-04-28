@@ -8,6 +8,7 @@ using Code2015.EngineEx;
 using Microsoft.Xna.Framework.Audio;
 using Microsoft.Xna.Framework.Content;
 using XF = Microsoft.Xna.Framework;
+using Apoc3D;
 
 namespace Code2015
 {
@@ -74,7 +75,7 @@ namespace Code2015
             FileLocation fl = FileSystem.Instance.Locate(this.XMLUrl, GameFileLocs.Config);
             Configuration conf = ConfigurationManager.Instance.CreateInstance(fl);
 
-            sfxTable = new Dictionary<string, SoundEffectGame>(conf.Count);
+            sfxTable = new Dictionary<string, SoundEffectGame>(conf.Count, CaseInsensitiveStringComparer.Instance);
             foreach (KeyValuePair<string, ConfigurationSection> c in conf)
             {
                 ConfigurationSection sect = c.Value;

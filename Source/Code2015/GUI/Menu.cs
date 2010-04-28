@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
@@ -83,6 +84,8 @@ namespace Code2015.GUI
         MainMenu mainMenu;
         SelectScreen sideSelect;
 
+        Texture cursor;
+        Point mousePosition;
 
         public UIComponent CurrentScreen
         {
@@ -106,13 +109,15 @@ namespace Code2015.GUI
 
             this.CurrentScreen = mainMenu;
             CreateScene(rs);
+            FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            cursor = UITextureManager.Instance.CreateInstance(fl);
         }
 
         void CreateScene(RenderSystem rs)
         {
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
-            sm.PostRenderer = new DefaultPostRenderer();// new BloomPostRenderer(rs);
+            sm.PostRenderer = new DefaultPostRenderer(); // new BloomPostRenderer(rs);
             sm.UseShadow = false;
 
             MenuCamera camera = new MenuCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
@@ -132,8 +137,20 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
-                renderer.RenderScene();
-
+                if (CurrentScreen == mainMenu)
+                {
+                    renderer.RenderScene();
+                }
+            }
+        }
+        public void RenderCursor(Sprite sprite) 
+        {
+            if (!game.IsIngame)
+            {
+                if (CurrentScreen != null)
+                {
+                    sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+                }
             }
         }
 
@@ -151,11 +168,16 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
+                mousePosition.X = MouseInput.X;
+                mousePosition.Y = MouseInput.Y; 
+            
                 renderer.Update(time);
 
                 if (CurrentScreen != null)
                 {
                     CurrentScreen.Update(time);
+
+                    EffectParams.LightDir = -renderer.CurrentCamera.Front;
                 }
             }
         }
