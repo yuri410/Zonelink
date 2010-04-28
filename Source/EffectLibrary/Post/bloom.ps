@@ -12,5 +12,7 @@ float4 main(PSInput ip) : COLOR
 {
     float4 c = tex2D(tex, ip.TexCoord);
 
-    return saturate((c - BloomThreshold) / (1 - BloomThreshold));
+    float4 result = saturate((c - BloomThreshold) / (1 - BloomThreshold));
+    
+    return result;
 }

@@ -145,8 +145,8 @@ namespace Code2015.GUI
         {
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
-            sm.PostRenderer = new DefaultPostRenderer(); // new BloomPostRenderer(rs);
-            sm.UseShadow = false;
+            sm.PostRenderer = new BloomPostRenderer(rs);
+            sm.UseShadow = true;
 
             MenuCamera camera = new MenuCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
 
@@ -167,7 +167,7 @@ namespace Code2015.GUI
             {
                 if (CurrentScreen == mainMenu)
                 {
-                    renderer.RenderScene();
+                    //renderer.RenderScene();
                 }
             }
         }

@@ -112,6 +112,8 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <None Include="MM\mmterrain.ps" />
+    <None Include="MM\mmterrain.vs" />
     <None Include="Particle\smoke.ps" />
     <None Include="Particle\smoke.vs" />
     <None Include="Scene\atmosphere.ps" />

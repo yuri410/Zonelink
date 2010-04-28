@@ -14,7 +14,7 @@ namespace Code2015.World
 {
     class Atmosphere : StaticModelObject
     {
-        const float AtmosphereThickness = 2200;
+        const float AtmosphereThickness = 2500;
 
         Sphere atmoSphere;
         RenderSystem renderSys;
