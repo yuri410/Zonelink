@@ -24,11 +24,11 @@ namespace Code2015.BalanceSystem
         public const float LargeCityHPTranportSpeed = 100;
 
         [SLGValueAttribute()]
-        public const float SmallCityLPTranportSpeed = 15;
+        public const float SmallCityLPTranportSpeed = 25;
         [SLGValueAttribute()]
-        public const float MediumCityLPTranportSpeed = 25;
+        public const float MediumCityLPTranportSpeed = 40;
         [SLGValueAttribute()]
-        public const float LargeCityLPTranportSpeed = 50;
+        public const float LargeCityLPTranportSpeed = 75;
 
         [SLGValue]
         public const float SmallFoodTranportSpeed = 20;

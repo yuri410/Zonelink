@@ -39,6 +39,7 @@ namespace Code2015.GUI
         const int PanelHeight = 156;
         const float PopBaseSpeed = 10;
 
+        const int CPIn = 45;
 
         const int Con1X = 3;
         const int Con1Y = 358 - PanelY;
@@ -79,6 +80,7 @@ namespace Code2015.GUI
 
         float cx;
         float cx2;
+        float cx3;
 
         CityObject anySelCity;
         CityObject selectCity;
@@ -352,6 +354,7 @@ namespace Code2015.GUI
 
             cx = -PanelWidth;
             cx2 = -PanelWidth;
+            cx3 = CPIn;
 
             f18 = GameFontManager.Instance.F18;
             f14 = GameFontManager.Instance.F14;
@@ -668,12 +671,14 @@ namespace Code2015.GUI
                 f14.DrawString(sprite, cost.ToString(), (int)cx2 + 159, 503, ColorValue.White);
             }
 
-            sprite.Draw(cityInfoBg, 303, 597, ColorValue.White);
+            int yofs = (int)cx3;
+            sprite.Draw(cityInfoBg, 303, 597 + yofs, ColorValue.White);
 
             if (anySelCity != null)
             {
                 if (anySelCity.IsCaptured)
                 {
+                    cityDev.Y = 630 + yofs;
                     cityDev.Render(sprite);
                 }
 
@@ -681,7 +686,7 @@ namespace Code2015.GUI
 
                 Size s = f18.MeasureString(name);
 
-                f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 538 - s.Width / 2, 653 - s.Height / 2, ColorValue.White);
+                f18.DrawString(sprite, anySelCity.Name.ToUpperInvariant(), 538 - s.Width / 2, 653 - s.Height / 2 + yofs, ColorValue.White);
 
                 switch (anySelCity.Size)
                 {
@@ -698,26 +703,31 @@ namespace Code2015.GUI
             }
             if (selectCity != null)
             {
-                sprite.Draw(oilResSign, 431, 658, ColorValue.White);
-                sprite.Draw(woodResSign, 337, 663, ColorValue.White);
-                sprite.Draw(foodResSign, 533, 659, ColorValue.White);
+                sprite.Draw(oilResSign, 431, 658 + yofs, ColorValue.White);
+                sprite.Draw(woodResSign, 337, 663 + yofs, ColorValue.White);
+                sprite.Draw(foodResSign, 533, 659 + yofs, ColorValue.White);
 
-                f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 398, 689, ColorValue.White);
-                f18.DrawString(sprite, selectCity.City.LocalHR.Current.ToString("F0"), 487, 689, ColorValue.White);
-                f18.DrawString(sprite, selectCity.City.LocalFood.Current.ToString("F0"), 600, 689, ColorValue.White);
+                f18.DrawString(sprite, selectCity.City.LocalLR.Current.ToString("F0"), 398, 689 + yofs, ColorValue.White);
+                f18.DrawString(sprite, selectCity.City.LocalHR.Current.ToString("F0"), 487, 689 + yofs, ColorValue.White);
+                f18.DrawString(sprite, selectCity.City.LocalFood.Current.ToString("F0"), 600, 689 + yofs, ColorValue.White);
 
-                float mult = selectCity.City.AdditionalDevMult;
+                float mult = selectCity.City.HealthCare;
+                
                 // h 638, 604
-                sprite.Draw(healthSign, 641, 612, ColorValue.White);
+                sprite.Draw(healthSign, 638, 607 + yofs, ColorValue.White);
 
                 GameFont f20gi1 = GameFontManager.Instance.F20IG1;
-                f20gi1.DrawString(sprite, "x " + mult.ToString("F1"), 638, 607, ColorValue.White);
+                f20gi1.DrawString(sprite, mult.ToString("F1") + "X", 677, 618 + yofs, ColorValue.White);
 
-                mult = selectCity.City.HealthCare;
-                f20gi1.DrawString(sprite, "x " + mult.ToString("F1"), 554, 607, ColorValue.White);
 
                 // s 554, 607
-                sprite.Draw(speedSign, 557, 612, ColorValue.White);
+                sprite.Draw(speedSign, 554, 607 + yofs, ColorValue.White);
+
+                if (mult < 1) mult = 1;
+                mult = selectCity.City.AdditionalDevMult;
+
+                f20gi1.DrawString(sprite, mult.ToString("F1") + "X", 557, 618 + yofs, ColorValue.White);
+
             }
         }
 
@@ -776,7 +786,18 @@ namespace Code2015.GUI
                     state2 = AnimState.Inside;
                 }
             }
-
+            if (selectCity == null)
+            {
+                cx3 += 10f;
+                if (cx3 > CPIn)
+                    cx3 = CPIn;
+            }
+            else 
+            {
+                cx3 -= 10f;
+                if (cx3 < 0)
+                    cx3 = 0;
+            }
 
 
             btnEduorg.X = (int)(cx + Con4X);

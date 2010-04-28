@@ -51,6 +51,8 @@ namespace Code2015.World
             RenderSystem renderSys;
             CityObject city;
 
+            bool isVisible;
+
             public SmokeEffectBuffer(RenderSystem rs, CityObject city)
             {
                 this.city = city;
@@ -78,6 +80,8 @@ namespace Code2015.World
 
             public RenderOperation[] GetRenderOperation(int idx)
             {
+                isVisible = true;
+
                 ((SmokeEmitter)smokes[idx].Emitter).Position = Vector3.TransformSimple(city.GetPluginPosition(idx) + Vector3.UnitY * 100, city.Transformation);
 
                 activeState[idx] = true;
@@ -86,13 +90,17 @@ namespace Code2015.World
 
             public void Update(GameTime time) 
             {
-                for (int i = 0; i < activeState.Length; i++)
+                if (isVisible)
                 {
-                    if (activeState[i])
+                    for (int i = 0; i < activeState.Length; i++)
                     {
-                        smokes[i].Update(time);
+                        if (activeState[i])
+                        {
+                            smokes[i].Update(time);
+                        }
                     }
                 }
+                isVisible = false;
             }
         }
 

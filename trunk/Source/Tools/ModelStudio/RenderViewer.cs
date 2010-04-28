@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Graphics;
-using Apoc3D.Scene;
-using Apoc3D.MathLib;
-using Apoc3D.Vfs;
 using Apoc3D.Config;
-using Apoc3D.Graphics.Effects;
-using Code2015.EngineEx;
-using Code2015.Effects;
-using XI = Microsoft.Xna.Framework.Input;
 using Apoc3D.Core;
+using Apoc3D.Graphics;
+using Apoc3D.Graphics.Effects;
+using Apoc3D.MathLib;
+using Apoc3D.Scene;
+using Apoc3D.Vfs;
+using Code2015.Effects;
+using Code2015.EngineEx;
+using XI = Microsoft.Xna.Framework.Input;
 namespace ModelStudio
 {
     class ModelWrapper : Entity 
@@ -79,9 +79,14 @@ namespace ModelStudio
             EffectManager.Instance.RegisterModelEffectType(BoltEffectFactory.Name, new BoltEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
-           
+            EffectManager.Instance.RegisterModelEffectType(MMTerrainEffectFactory.Name, new MMTerrainEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(MMCityLinkEffectFactory.Name, new MMCityLinkEffectFactory(renderSys));
+
             TextureManager.Initialize(1048576 * 100);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
+            TerrainMaterialLibrary.Initialize(renderSys);
+            FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
+            TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
 
             ModelManager.Initialize();
             EffectManager.Instance.LoadEffects();

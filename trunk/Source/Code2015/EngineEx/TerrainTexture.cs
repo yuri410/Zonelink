@@ -7,7 +7,7 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-    class TerrainTexture : Resource
+    public class TerrainTexture : Resource
     {
         Texture texture;
         FileLocation texLoc;

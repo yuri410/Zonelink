@@ -88,22 +88,8 @@ namespace Code2015.AI
                     if (bestCity != null)
                     {
                         bestCity.SetCapture(bestCityParent);
-
-                        //CityLinkObject link = new CityLinkObject(bestCityParent.Parent.RenderSystem, bestCityParent.Parent, bestCity.Parent);
-                        //bestCityParent.Parent.SceneManager.AddObjectToScene(link);
-
                     }
-                    //for (int i = 0; i < world.CityCount; i++)
-                    //{
-                    //    City cc = world.GetCity(i);
-                    //    if (!cc.IsCaptured && cc.Owner != player)
-                    //    {
-                    //        if (area.CanCapture(cc))
-                    //        {
-                    //            cc.Capture.SetCapture (player , );
-                    //        }
-                    //    }
-                    //}
+
                 }
                 else
                 {
@@ -169,6 +155,7 @@ namespace Code2015.AI
                         }
                         else
                         {
+                            cc.LocalLR.Commit(500);
                             cc.Parent.UpgradeAI();
                             finished = true;
                         }

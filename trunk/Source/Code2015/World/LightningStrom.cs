@@ -56,7 +56,7 @@ namespace Code2015.World
                 trans.TranslationValue = PlanetEarth.GetPosition(cldLng, cldLat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
 
                 cld.Transform = trans;
-
+                cld.Apply3D();
                 clouds.Add(cld);
             }
 
