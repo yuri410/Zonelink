@@ -200,9 +200,13 @@ namespace Code2015.BalanceSystem
 
         #endregion
 
-        public void Sell() 
+        public void Sell()
         {
             IsSelling = true;
+
+            if (parent.Parent != null)
+                parent.Parent.RemoveHarv(this);
+
         }
         public void Upgrade(float amount)
         {
@@ -228,6 +232,8 @@ namespace Code2015.BalanceSystem
                 LRPSpeed = plugin.LRPSpeed;
 
                 resource.Clear();
+                if (parent.Parent != null)
+                    parent.Parent.RemoveHarv(this);
             }
             Changed = true;
         }
@@ -363,6 +369,14 @@ namespace Code2015.BalanceSystem
                 float act = parent.LocalLR.Apply(cost);
 
                 BuildProgress += (act / cost) * hours / Type.BuildTime;
+
+                if (!IsBuilding) 
+                {
+                    if (parent.Parent != null) 
+                    {
+                        parent.Parent.AddHarv(this);
+                    }
+                }
             }
             else if (IsSelling) 
             {

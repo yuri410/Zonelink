@@ -405,6 +405,13 @@ namespace Code2015.World
                 goalSite.SetDesired(idx, CityGoalSite.GetDesired(plugin.TypeId));
             }
 
+            
+            //}
+        }
+
+        
+        public void AddHarv(CityPlugin plugin)
+        {
             if (IsCaptured && (plugin.TypeId == CityPluginTypeId.OilRefinary ||
                 plugin.TypeId == CityPluginTypeId.WoodFactory))
             {
@@ -423,16 +430,20 @@ namespace Code2015.World
                 }
             }
         }
-        void City_PluginRemoved(City city, CityPlugin plugin)
+        public void RemoveHarv(CityPlugin plugin)
         {
             if (harvTable.ContainsKey(plugin))
             {
                 Harvester harv = harvTable[plugin];
-                
+
                 SceneManager.RemoveObjectFromScene(harv);
 
-                harvTable.Remove(plugin);                
+                harvTable.Remove(plugin);
             }
+        }
+        void City_PluginRemoved(City city, CityPlugin plugin)
+        {
+            RemoveHarv(plugin);
 
             int idx=-1;
             for (int i = 0; i < plugins.Count; i++)
@@ -600,7 +611,7 @@ namespace Code2015.World
                     goalSite.ClearAt(i);
                 }
             }
-            IsUpgraded = true;
+            IsUpgraded = plugins.Count > 0;
         }
         public bool TryLink(int goalIdx, MdgType type, out City target)
         {
@@ -657,21 +668,24 @@ namespace Code2015.World
             if (plugins.Count == 0)
                 return false;
 
-            bool result = true;
             for (int i = 0; i < plugins.Count; i++)
             {
                 if (!plugins[i].plugin.IsBuilding && !plugins[i].plugin.IsSelling)
                 {
-                    result &= goalSite.Match(i, plugins[i].plugin.TypeId);
+                    bool result = goalSite.Match(i, plugins[i].plugin.TypeId);
                     if (!result)
-                        break;
+                        return false;
                 }
+                else return false;
             }
-            return result;
+            return true;
         }
 
         public override void Update(GameTime dt)
         {
+            if (IsCaptured && Owner.Type == PlayerType.LocalHuman)
+                TryUpgrade();
+
             BoundingSphere.Radius = CityStyleTable.CityRadius;
 
             sideRing.Update(dt);

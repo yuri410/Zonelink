@@ -125,13 +125,13 @@ namespace Code2015.GUI
             sprite.Draw(bg, 317, 270, ColorValue.White);
 
             string msg = ((int)Math.Round(scores.Elements[0].Development)).ToString("G");
-            font.DrawString(sprite, msg, 0, 270, ColorValue.White);
+            font.DrawString(sprite, msg, 412, 298, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[0].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 400, 270, ColorValue.White);
+            font.DrawString(sprite, msg, 657, 298, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[0].Total)).ToString("G");
-            font.DrawString(sprite, msg, 600, 270, ColorValue.White);
+            font.DrawString(sprite, msg, 892, 299, ColorValue.White);
 
 
 
@@ -140,13 +140,13 @@ namespace Code2015.GUI
             sprite.Draw(bg, 318, 333, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
-            font.DrawString(sprite, msg, 0, 333, ColorValue.White);
+            font.DrawString(sprite, msg, 412, 360, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 400, 333, ColorValue.White);
+            font.DrawString(sprite, msg, 657, 360, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
-            font.DrawString(sprite, msg, 600, 333, ColorValue.White);
+            font.DrawString(sprite, msg, 892, 360, ColorValue.White);
 
 
 
@@ -155,13 +155,13 @@ namespace Code2015.GUI
             sprite.Draw(bg, 319, 393, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
-            font.DrawString(sprite, msg, 0, 393, ColorValue.White);
+            font.DrawString(sprite, msg, 412, 423, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 400, 393, ColorValue.White);
+            font.DrawString(sprite, msg, 657, 423, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
-            font.DrawString(sprite, msg, 600, 393, ColorValue.White);
+            font.DrawString(sprite, msg, 892, 423, ColorValue.White);
 
 
             ftc = scores.Elements[3].Player.SideColor;
@@ -169,13 +169,13 @@ namespace Code2015.GUI
             sprite.Draw(bg, 319, 458, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[2].Development)).ToString("G");
-            font.DrawString(sprite, msg, 0, 458, ColorValue.White);
+            font.DrawString(sprite, msg, 412, 489, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 400, 458, ColorValue.White);
+            font.DrawString(sprite, msg, 657, 489, ColorValue.White);
 
             msg = ((int)Math.Round(scores.Elements[2].Total)).ToString("G");
-            font.DrawString(sprite, msg, 600, 458, ColorValue.White);
+            font.DrawString(sprite, msg, 892, 489, ColorValue.White);
 
 
             countinue.Render(sprite);
