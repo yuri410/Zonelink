@@ -109,6 +109,12 @@ namespace Code2015.BalanceSystem
         public const int MaxFarmLand = 4;
 
         FastQueue<float> recentCarbon = new FastQueue<float>(RecentCarbonLength);
+
+        int recentCounter = 0;
+        ValueSmoother recentOil = new ValueSmoother(5);
+        ValueSmoother recentFood = new ValueSmoother(5);
+        ValueSmoother recentWood = new ValueSmoother(5);
+
         int carbonAddCounter;
 
 
@@ -1080,6 +1086,7 @@ namespace Code2015.BalanceSystem
                     else
                     {
                         Disease -= foodLack * 0.005f;
+                        EventLogger.Instance.Log(EventType.Food, this);
                     }
                 }
                 else
@@ -1147,6 +1154,29 @@ namespace Code2015.BalanceSystem
                 carbonAddCounter = 0;
             }
 
+            if (owner.Type == PlayerType.LocalHuman)
+            {
+                if (recentCounter++ == 60)
+                {
+                    recentFood.Add(LocalFood.Current);
+                    recentWood.Add(LocalLR.Current);
+                    recentOil.Add(localHr.Current);
+                    recentCounter = 0;
+
+                    if (recentFood.Result < float.Epsilon) 
+                    {
+                        EventLogger.Instance.Log(EventType.Food, this);
+                    }
+                    if (recentWood.Result < float.Epsilon)
+                    {
+                        EventLogger.Instance.Log(EventType.Wood, this);
+                    }
+                    if (recentOil.Result < float.Epsilon)
+                    {
+                        EventLogger.Instance.Log(EventType.Oil, this);
+                    }
+                }
+            }
             base.Update(time);
         }
 

@@ -2,13 +2,14 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.World;
-using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -35,7 +36,7 @@ namespace Code2015.GUI
         Game parent;
         RtsCamera camera;
 
-        
+        FastList<Popup2> marks = new FastList<Popup2>();
 
         Texture background;
         Texture compass;
@@ -175,6 +176,32 @@ namespace Code2015.GUI
             return new Point(cx, cy);
         }
 
+        public void AddNotifyRed(float lnt, float lat, ColorValue color)
+        {
+            Point pt = GetPosition(MathEx.Degree2Radian(lnt), MathEx.Degree2Radian(lat));
+
+            pt.X += MapX;
+            pt.Y += MapY + PanelY;
+
+            Texture tex = redRing;
+            if (color == ColorValue.Yellow)
+            {
+                tex = yellowRing;
+            }
+            else if (color == ColorValue.Blue)
+            {
+                tex = blueRing;
+            }
+            else if (color == ColorValue.Green)
+            {
+                tex = greenRing;
+            }
+
+            Popup2 pop2 = new Popup2(renderSys, tex, pt.X, pt.Y, 3);
+
+            marks.Add(pop2);
+        }
+
         public override void Render(Sprite sprite)
         {
             sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(0, PanelY + PanelHeight, 0));
@@ -290,11 +317,20 @@ namespace Code2015.GUI
 
                 sprite.Draw(cameraView, rect, ColorValue.White);
             }
+
+
             sprite.SetTransform(Matrix.Identity);
 
 
+            for (int i = 0; i < marks.Count; i++)
+            {
+                marks[i].Render(sprite);
+            }
+
             sprite.Draw(compass, -21, 666, ColorValue.White);
         }
+
+
         public override void UpdateInteract(GameTime time)
         {
             switchButton.Update(time);
@@ -340,7 +376,17 @@ namespace Code2015.GUI
                     state = AnimState.Inside;                    
                 }
             }
-
+            for (int i = marks.Count - 1; i >= 0; i--)
+            {
+                if (marks[i].IsFinished)
+                {
+                    marks.RemoveAt(i);
+                }
+                else
+                {
+                    marks[i].Update(time);
+                }
+            }
         }
     }
 }

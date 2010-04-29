@@ -7,13 +7,10 @@ namespace Code2015.Logic
 {
     enum EventType
     {
-        CO2,
         Strike,
-        Linked,
         Food,
         Oil,
         Wood,
-        Disease,
         Count
     }
 

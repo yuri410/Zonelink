@@ -171,10 +171,11 @@ namespace Code2015.GUI
            
             this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
             AddElement(playerProgress);
-            this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
-            AddElement(noticeBar);
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
             AddElement(miniMap);
+            this.noticeBar = new NoticeBar(game, parent, scene, gamelogic, miniMap);
+            AddElement(noticeBar);
+
             this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
             AddElement(container);
             PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);

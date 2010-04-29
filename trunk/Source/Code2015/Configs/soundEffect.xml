@@ -110,5 +110,26 @@
 
     <Volume>1</Volume>
   </lightning>
-  
+
+  <nolumber>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>nolumber</Sounds>
+  </nolumber>
+
+  <nooil>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>nooil</Sounds>
+  </nooil>
+  <nofood>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>nofood</Sounds>
+  </nofood>
+  <stormy>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>stormy</Sounds>
+  </stormy>
 </soundEffect>
