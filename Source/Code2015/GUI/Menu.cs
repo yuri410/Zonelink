@@ -329,35 +329,33 @@ namespace Code2015.GUI
                     intro.Dispose();
                     intro = null;
                 }
-            }                   
+            }
+
+            if (!game.IsIngame)
+            {
+                if (CurrentScreen != null)
+                {
+                    UpdateScene(time);
+                    CurrentScreen.Update(time);
+                }
+            }
             else
             {
-                if (!game.IsIngame)
+                if (!game.CurrentGame.IsLoaded && loadScreen != null)
                 {
-                    if (CurrentScreen != null)
-                    {
-                        UpdateScene(time);
-                        CurrentScreen.Update(time);
-                    }
+                    UpdateScene(time);
+                    loadScreen.Update(time);
                 }
-                else
+                if (game.CurrentGame.IsOver)
                 {
-                    if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                    if (scoreScreen == null)
                     {
-                        UpdateScene(time);
-                        loadScreen.Update(time);
-                    }
-                    if (game.CurrentGame.IsOver)
-                    {
-                        if (scoreScreen == null)
-                        {
-                            ShowScore(game.CurrentGame.ResultScore);
-                            game.Back();
-                        }
+                        ShowScore(game.CurrentGame.ResultScore);
+                        game.Back();
                     }
                 }
             }
-            }
+        }
     }
 
 }

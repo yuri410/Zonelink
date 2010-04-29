@@ -21,6 +21,7 @@ namespace Code2015.GUI
 
         FastList<ScoreEntry> scores = new FastList<ScoreEntry>();
 
+        Texture whitebg;
         Texture background;
         Texture redEntry;
         Texture blueEntry;
@@ -55,6 +56,8 @@ namespace Code2015.GUI
             greenEntry = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("ss_entry_blue.tex", GameFileLocs.GUI);
             blueEntry = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("bg_white.tex", GameFileLocs.GUI);
+            whitebg = UITextureManager.Instance.CreateInstance(fl);
 
             font = GameFontManager.Instance.F18;
 
@@ -109,6 +112,7 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            sprite.Draw(whitebg, 0, 0, ColorValue.White);
             sprite.Draw(menu.Earth, 0, 0, ColorValue.White);
             sprite.Draw(background, 0, 0, ColorValue.White);
 
