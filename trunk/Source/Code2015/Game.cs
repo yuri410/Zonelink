@@ -54,6 +54,8 @@ namespace Code2015
         public const float ObjectScale = 3;
         public const float TreeScale = ObjectScale * 3.33f;
 
+        public const float MinLoadingTime = 7;
+
         object syncHelper = new object();
 
         GameCreationParameters parameters;
@@ -81,6 +83,7 @@ namespace Code2015
 
         bool isLoaded;
         int loadingCountDown = 100;
+        float loadingTime;
         int maxLoadingOp;
 
         public GameScene Scene
@@ -195,6 +198,7 @@ namespace Code2015
             gameState.InitialStandards();
             
             this.ingameUI = new InGameUI(game, this, scene, gameState);
+            loadingTime = MinLoadingTime;
         }
 
         void AddResources(SimulationWorld slgSystem)
@@ -252,7 +256,14 @@ namespace Code2015
         }
         public void Render()
         {
-            scene.RenderScene();
+            if (!isLoaded)
+            {
+                scene.ActivateVisibles();
+            }
+            else
+            {
+                scene.RenderScene();
+            }
         }
 
         public ScoreEntry[] ResultScore
@@ -282,6 +293,8 @@ namespace Code2015
 
             if (!IsLoaded)
             {
+                loadingTime -= time.ElapsedGameTimeSeconds;
+
                 bool newVal = TerrainMeshManager.Instance.IsIdle &
                     ModelManager.Instance.IsIdle &
                     TextureManager.Instance.IsIdle &
@@ -289,7 +302,7 @@ namespace Code2015
 
                 if (newVal)
                 {
-                    if (--loadingCountDown < 0)
+                    if (loadingTime < 0 && --loadingCountDown < 0)
                     {
                         IsLoaded = true;
                     }
@@ -312,7 +325,7 @@ namespace Code2015
                 {
                     float newPrg = 1 - ldop / (float)maxLoadingOp;
                     if (newPrg > LoadingProgress)
-                        LoadingProgress = newPrg;
+                        LoadingProgress = newPrg * (1 - MathEx.Saturate(loadingTime / MinLoadingTime));
                 }
 
                 ingameUI.Update(time);
