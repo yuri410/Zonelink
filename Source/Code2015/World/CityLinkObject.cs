@@ -359,29 +359,64 @@ namespace Code2015.World
                     {
                         emittera.IsVisible = false;
                         emitterb.IsVisible = false;
-                        #region LR
-                        bool abg = alink != null ? alink.LR > LRThreshold : true;
-                        atobGreenE.IsVisible = abg;
 
-                        bool bag = blink != null ? blink.LR > LRThreshold : true;
-                        btoaGreenE.IsVisible = bag;
+                        atobGreenE.IsVisible = false;
+                        btoaGreenE.IsVisible = false;
+                        atobRedE.IsVisible = false;
+                        btoaRedE.IsVisible = false;
+
+                        atobYellowE.IsVisible = false;
+                        btoaYellowE.IsVisible = false;
+
+                        #region LR
+
+                        float abs = alink.LR - blink.LR;
+
+                        if (abs > LRThreshold)
+                        {
+                            atobGreenE.IsVisible = true;
+                            btoaGreenE.IsVisible = false;
+                        }
+                        else if (abs < -LRThreshold)
+                        {
+                            atobGreenE.IsVisible = false;
+                            btoaGreenE.IsVisible = true;
+                        }
+
 
                         #endregion
                         #region HR
-                        bool abr = alink != null ? alink.HR > HRThreshold : true;
-                        atobRedE.IsVisible = abr;
 
-                        bool bar = blink != null ? blink.HR > HRThreshold : true;
-                        btoaRedE.IsVisible = bar;
+
+                        abs = alink.HR - blink.HR;
+
+                        if (abs > HRThreshold)
+                        {
+                            atobRedE.IsVisible = true;
+                            btoaRedE.IsVisible = false;
+                        }
+                        else if (abs < -HRThreshold)
+                        {
+                            atobRedE.IsVisible = false;
+                            btoaRedE.IsVisible = true;
+                        }
+
 
                         #endregion
                         #region Food
-                        bool abry = alink != null ? alink.Food > FoodThreshold : true;
-                        atobYellowE.IsVisible = abry;
 
-                        bool bay = blink != null ? blink.Food > FoodThreshold : true;
-                        btoaYellowE.IsVisible = bay;
+                        abs = alink.Food - blink.Food;
 
+                        if (abs > FoodThreshold)
+                        {
+                            atobYellowE.IsVisible = true;
+                            btoaYellowE.IsVisible = false;
+                        }
+                        else if (abs < -FoodThreshold)
+                        {
+                            atobYellowE.IsVisible = false;
+                            btoaYellowE.IsVisible = true;
+                        }
 
                         #endregion
                     }

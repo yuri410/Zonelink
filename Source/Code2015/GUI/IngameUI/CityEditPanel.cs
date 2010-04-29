@@ -103,12 +103,7 @@ namespace Code2015.GUI
         Texture oilSign;
         #endregion
 
-
-
         SelectedPluginType selectedType;
-
-
-
 
         private SelectedPluginType SelectedType
         {
@@ -691,13 +686,13 @@ namespace Code2015.GUI
                 switch (anySelCity.Size)
                 {
                     case UrbanSize.Small:
-                        sprite.Draw(smCitySign, 336, 634, ColorValue.White);
+                        sprite.Draw(smCitySign, 336, 634 + yofs, ColorValue.White);
                         break;
                     case UrbanSize.Medium:
-                        sprite.Draw(medCitySign, 336, 634, ColorValue.White);
+                        sprite.Draw(medCitySign, 336, 634 + yofs, ColorValue.White);
                         break;
                     case UrbanSize.Large:
-                        sprite.Draw(lgCitySign, 336, 634, ColorValue.White);
+                        sprite.Draw(lgCitySign, 336, 634 + yofs, ColorValue.White);
                         break;
                 }
             }
@@ -714,19 +709,19 @@ namespace Code2015.GUI
                 float mult = selectCity.City.HealthCare;
                 
                 // h 638, 604
-                sprite.Draw(healthSign, 638, 607 + yofs, ColorValue.White);
+                sprite.Draw(healthSign, 638, 600 + yofs, ColorValue.White);
 
                 GameFont f20gi1 = GameFontManager.Instance.F20IG1;
-                f20gi1.DrawString(sprite, mult.ToString("F1") + "X", 677, 618 + yofs, ColorValue.White);
+                f20gi1.DrawString(sprite, mult.ToString("F1") + "X", 657, 614 + yofs, ColorValue.White);
 
 
                 // s 554, 607
-                sprite.Draw(speedSign, 554, 607 + yofs, ColorValue.White);
+                sprite.Draw(speedSign, 554, 604 + yofs, ColorValue.White);
 
                 if (mult < 1) mult = 1;
                 mult = selectCity.City.AdditionalDevMult;
 
-                f20gi1.DrawString(sprite, mult.ToString("F1") + "X", 557, 618 + yofs, ColorValue.White);
+                f20gi1.DrawString(sprite, mult.ToString("F1") + "X", 577, 614 + yofs, ColorValue.White);
 
             }
         }
