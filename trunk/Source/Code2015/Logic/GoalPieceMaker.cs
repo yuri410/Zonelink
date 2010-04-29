@@ -59,6 +59,8 @@ namespace Code2015.Logic
                 passTable[idx] = true;
 
 
+                if (idx >= area.CityCount)
+                    idx = 0;
 
                 City cc = area.GetCity(idx);
 
