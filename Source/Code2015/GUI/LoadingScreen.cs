@@ -30,6 +30,7 @@ namespace Code2015.GUI
         RenderSystem renderSys;
         Menu parent;
         Texture background;
+        Texture rotico;
 
         Texture[] progressBar;
 
@@ -61,6 +62,10 @@ namespace Code2015.GUI
             }
 
             font = GameFontManager.Instance.F18;
+
+            fl = FileSystem.Instance.Locate("goal1half_0.tex", GameFileLocs.GUI);
+            rotico = UITextureManager.Instance.CreateInstance(fl);
+
         }
 
         public override void Render(Sprite sprite)
