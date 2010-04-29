@@ -33,6 +33,11 @@ namespace Code2015.GUI
         bool[] selectedTable = new bool[Colors.Length];
         ColorValue selectedColor;
 
+        Texture cursor;
+        Point mousePosition;
+
+        NormalSoundObject mouseHover;
+        NormalSoundObject mouseDown;
         public bool Selected
         {
             get { return selected; }
@@ -108,6 +113,13 @@ namespace Code2015.GUI
             side2.MouseClick += Button_Click;
             side3.MouseClick += Button_Click;
             side4.MouseClick += Button_Click;
+
+            mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
+            mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
+
+            fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            cursor = UITextureManager.Instance.CreateInstance(fl);
+
         }
 
 
@@ -200,6 +212,8 @@ namespace Code2015.GUI
             side2.Render(sprite);
             side3.Render(sprite);
             side4.Render(sprite);
+
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }
 
         public override void Update(GameTime time)
@@ -208,6 +222,10 @@ namespace Code2015.GUI
             side2.Update(time);
             side3.Update(time);
             side4.Update(time);
+
+            mousePosition.X = MouseInput.X;
+            mousePosition.Y = MouseInput.Y;
+
         }
     }
 }
