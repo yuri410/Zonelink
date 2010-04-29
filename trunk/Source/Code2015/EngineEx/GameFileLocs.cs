@@ -67,6 +67,16 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
+        public static FileLocateRule Movie
+        {
+            get;
+            private set;
+        }
+        public static FileLocateRule Help
+        {
+            get;
+            private set;
+        }
         static GameFileLocs()
         {
             LocateCheckPoint[] pts = new LocateCheckPoint[1];
@@ -123,6 +133,15 @@ namespace Code2015.EngineEx
             pts[0] = new LocateCheckPoint();
             pts[0].AddPath("sounds");
             Sound = new FileLocateRule(pts);
+
+            pts = new LocateCheckPoint[1];
+            pts[0] = new LocateCheckPoint();
+            pts[0].AddPath("movie");
+            Movie = new FileLocateRule(pts);
+            pts = new LocateCheckPoint[1];
+            pts[0] = new LocateCheckPoint();
+            pts[0].AddPath("help");
+            Help = new FileLocateRule(pts);
 
             pts = new LocateCheckPoint[1];
             pts[0] = new LocateCheckPoint();

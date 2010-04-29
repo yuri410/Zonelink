@@ -207,7 +207,9 @@ namespace Code2015.GUI
             }
         }
 
-        ColorValue GetColor(int selIndex) { ColorValue selectedColor = ColorValue.Red;
+        ColorValue GetColor(int selIndex)
+        {
+            ColorValue selectedColor = ColorValue.Red;
             switch (selIndex)
             {
                 case 1:
@@ -224,8 +226,8 @@ namespace Code2015.GUI
                     selectedColor = ColorValue.Blue;
 
                     break;
-            
-            }return selectedColor;
+
+            } return selectedColor;
         }
         void Button_Click(object sender, MouseButtonFlags btn)
         {
@@ -355,7 +357,7 @@ namespace Code2015.GUI
 
             sprite.SetTransform(Matrix.Identity);
 
-            GameFontManager.Instance.F18.DrawString(sprite, "CONTINUE", 530, 80, ColorValue.White);
+            GameFontManager.Instance.F18.DrawString(sprite, "CONTINUE", 530, 50, ColorValue.White);
 
             sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
               

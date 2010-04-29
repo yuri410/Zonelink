@@ -149,7 +149,7 @@ namespace Code2015.GUI
         MenuScene earth;
         MenuWater water;
 
-
+        Intro intro;
         LoadingScreen loadScreen;
         ScoreScreen scoreScreen;
 
@@ -184,10 +184,11 @@ namespace Code2015.GUI
             this.sideSelect = new SelectScreen(game, this);
             this.renderSys = rs;
 
-            this.CurrentScreen = mainMenu;
             CreateScene(rs);
             this.loadScreen = new LoadingScreen(this, rs);
+            this.intro = new Intro(rs);
 
+            this.CurrentScreen = mainMenu;
         }
 
         void CreateScene(RenderSystem rs)
@@ -221,7 +222,7 @@ namespace Code2015.GUI
 
         public void Render()
         {
-
+            
             if (!game.IsIngame)
             {
                 if (CurrentScreen == mainMenu || CurrentScreen == loadScreen || CurrentScreen == scoreScreen)
@@ -255,19 +256,26 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            if (!game.IsIngame)
+            if (intro != null) 
             {
-                if (CurrentScreen != null)
-                {
-                    CurrentScreen.Render(sprite);
-                }
+                intro.Render(sprite);
             }
             else
             {
-                if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                if (!game.IsIngame)
                 {
-                    loadScreen.Progress = game.CurrentGame.LoadingProgress;
-                    loadScreen.Render(sprite);
+                    if (CurrentScreen != null)
+                    {
+                        CurrentScreen.Render(sprite);
+                    }
+                }
+                else
+                {
+                    if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                    {
+                        loadScreen.Progress = game.CurrentGame.LoadingProgress;
+                        loadScreen.Render(sprite);
+                    }
                 }
             }
         }
@@ -308,32 +316,43 @@ namespace Code2015.GUI
         }
         public override void Update(GameTime time)
         {
-            if (!game.IsIngame)
-            {                
-                if (CurrentScreen != null)
+            if (intro != null)
+            {
+                intro.Update(time);
+                if (intro.IsOver)
                 {
-                    UpdateScene(time);
-                    CurrentScreen.Update(time);
+                    intro.Dispose();
+                    intro = null;
                 }
-            }
+            }                   
             else
             {
-                if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                if (!game.IsIngame)
                 {
-                    UpdateScene(time);
-                    loadScreen.Update(time);
-                }
-                if (game.CurrentGame.IsOver)
-                {
-                    if (scoreScreen == null)
+                    if (CurrentScreen != null)
                     {
-                        ShowScore(game.CurrentGame.ResultScore);
-                        game.Back();
+                        UpdateScene(time);
+                        CurrentScreen.Update(time);
+                    }
+                }
+                else
+                {
+                    if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                    {
+                        UpdateScene(time);
+                        loadScreen.Update(time);
+                    }
+                    if (game.CurrentGame.IsOver)
+                    {
+                        if (scoreScreen == null)
+                        {
+                            ShowScore(game.CurrentGame.ResultScore);
+                            game.Back();
+                        }
                     }
                 }
             }
-
-        }
+            }
     }
 
 }
