@@ -546,7 +546,7 @@ namespace Code2015.BalanceSystem
         {
             Disease += pop;
             //Population -= pop;
-            Development -= dev;
+            Development -= dev / HealthCare;
         }
 
         /// <summary>
@@ -1119,9 +1119,11 @@ namespace Code2015.BalanceSystem
 
 
             float popDevAdj = 1;
-
             CarbonProduceSpeed += hrDev / hours;
-
+            if (Owner.Type != PlayerType.LocalHuman)
+            {
+                CarbonProduceSpeed *= 0.5f;
+            }
             float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias / CityGrade.GetDevelopmentMult(Size));
             Development += AdditionalDevMult * (devIncr + foodLack);
             if (Development < 0)

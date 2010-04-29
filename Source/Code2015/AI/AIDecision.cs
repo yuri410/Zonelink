@@ -22,9 +22,9 @@ namespace Code2015.AI
         CityPluginFactory pluginFactory;
 
         [SLGValue]
-        const float AIDecisionDelay = 8;
+        const float AIDecisionDelay = 10;
         [SLGValue]
-        const float DecisionRandom = 4;
+        const float DecisionRandom = 5;
 
         public AIDecision(SimulationWorld world, AIPlayer player)
         {
@@ -56,7 +56,7 @@ namespace Code2015.AI
 
             if (decisionTime < 0)
             {
-                const float P = .25f;
+                const float P = .75f;
 
                 float ran = Randomizer.GetRandomSingle();
 
@@ -152,10 +152,14 @@ namespace Code2015.AI
                                 }
                             }
                             finished = true;
+
+                            cc.Parent.UpgradeAI();
+                            cc.Parent.UpgradeAI();
                         }
                         else
                         {
                             cc.LocalLR.Commit(500);
+                            cc.Parent.UpgradeAI();
                             cc.Parent.UpgradeAI();
                             finished = true;
                         }

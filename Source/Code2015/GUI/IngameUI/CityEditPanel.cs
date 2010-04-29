@@ -136,8 +136,10 @@ namespace Code2015.GUI
         Texture healthSign;
 
 
-        
 
+
+        NormalSoundObject mouseHover;
+        NormalSoundObject mouseDown;
 
         public CityObject SelectedCity
         {
@@ -273,6 +275,8 @@ namespace Code2015.GUI
 
             build.MouseClick += Build_Click;
 
+            build.MouseEnter += Button_MouseIn;
+            build.MouseDown += Button_DownSound;
 
             sell = new Button();
             fl = FileSystem.Instance.Locate("ig_btn_sell_down.tex", GameFileLocs.GUI);
@@ -293,6 +297,9 @@ namespace Code2015.GUI
             sell.IsValid = true;
 
             sell.MouseClick += Sell_Click;
+
+            sell.MouseEnter += Button_MouseIn;
+            sell.MouseDown += Button_DownSound;
 
             #endregion
 
@@ -353,8 +360,32 @@ namespace Code2015.GUI
 
             f18 = GameFontManager.Instance.F18;
             f14 = GameFontManager.Instance.F14;
+         
+            mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
+            mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
         }
 
+        void Button_MouseIn(object sender, MouseButtonFlags btn)
+        {
+            Button bbtn = (Button)sender;
+
+            if (bbtn.Enabled)
+            {
+                mouseHover.Fire();
+            }
+        }
+        void Button_DownSound(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                Button bbtn = (Button)sender;
+
+                if (bbtn.Enabled)
+                {
+                    mouseDown.Fire();
+                }
+            }
+        }
         protected override void Dispose(bool disposing)
         {
             if (!disposing)
