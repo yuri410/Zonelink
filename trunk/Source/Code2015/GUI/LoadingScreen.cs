@@ -71,12 +71,20 @@ namespace Code2015.GUI
 
             if (displayCD < ChangeTime)
             {
-                font.DrawString(sprite, LoadingMessages[curIndex], -(int)displayCD * 2, 0, ColorValue.White);
-                font.DrawString(sprite, LoadingMessages[(curIndex + 1) % LoadingMessages.Length], (int)displayCD * 2, 0, ColorValue.White);
+                const int MoveRange = 350;
+                float rate = MathEx.Saturate((ChangeTime - displayCD) * 2);
+
+                ColorValue color1 = ColorValue.White;
+                ColorValue color2 = ColorValue.White;
+                color1.A = (byte)(rate * byte.MaxValue);
+                color2.A = (byte)((1 - rate) * byte.MaxValue);
+
+                font.DrawString(sprite, LoadingMessages[curIndex], -(int)(rate * MoveRange) + 500, 25, color2);
+                font.DrawString(sprite, LoadingMessages[(curIndex + 1) % LoadingMessages.Length], (int)((1 - rate) * MoveRange) + 500, 25, color1);
             }
-            else 
+            else
             {
-                font.DrawString(sprite, LoadingMessages[curIndex], 0, 0, ColorValue.White);
+                font.DrawString(sprite, LoadingMessages[curIndex], 500, 25, ColorValue.White);
             }
 
             sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
