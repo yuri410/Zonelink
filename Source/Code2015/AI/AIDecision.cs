@@ -22,9 +22,9 @@ namespace Code2015.AI
         CityPluginFactory pluginFactory;
 
         [SLGValue]
-        const float AIDecisionDelay = 10;
+        const float AIDecisionDelay = 14;
         [SLGValue]
-        const float DecisionRandom = 5;
+        const float DecisionRandom = 4;
 
         public AIDecision(SimulationWorld world, AIPlayer player)
         {
