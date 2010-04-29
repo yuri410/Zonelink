@@ -22,9 +22,9 @@ namespace Code2015.World
         public const float LinkWidthScale = 0.002f;
         public const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
-        public const float LRThreshold = 0.1f;
-        public const float HRThreshold = 0.1f;
-        public const float FoodThreshold = 0.1f;
+        public const float LRThreshold = 0.04f;
+        public const float HRThreshold = 0.04f;
+        public const float FoodThreshold = 0.04f;
 
         //public const float LRUnit = 0.2f;
         //public const float HRUnit = 0.2f;

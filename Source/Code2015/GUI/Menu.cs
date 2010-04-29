@@ -152,6 +152,7 @@ namespace Code2015.GUI
         Intro intro;
         LoadingScreen loadScreen;
         ScoreScreen scoreScreen;
+        CreditScreen credits;
 
         Code2015 game;
         MainMenu mainMenu;
@@ -162,6 +163,10 @@ namespace Code2015.GUI
         {
             get;
             set;
+        }
+        public CreditScreen GetCredits() 
+        {
+            return credits;
         }
         public MainMenu GetMainMenu()
         {
@@ -187,6 +192,7 @@ namespace Code2015.GUI
             CreateScene(rs);
             this.loadScreen = new LoadingScreen(this, rs);
             this.intro = new Intro(rs);
+            this.credits = new CreditScreen(rs, this);
 
             this.CurrentScreen = mainMenu;
         }
@@ -256,27 +262,26 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            if (intro != null) 
+
+            if (!game.IsIngame)
             {
-                intro.Render(sprite);
+                if (CurrentScreen != null)
+                {
+                    CurrentScreen.Render(sprite);
+                }
             }
             else
             {
-                if (!game.IsIngame)
+                if (!game.CurrentGame.IsLoaded && loadScreen != null)
                 {
-                    if (CurrentScreen != null)
-                    {
-                        CurrentScreen.Render(sprite);
-                    }
+                    loadScreen.Progress = game.CurrentGame.LoadingProgress;
+                    loadScreen.Render(sprite);
                 }
-                else
-                {
-                    if (!game.CurrentGame.IsLoaded && loadScreen != null)
-                    {
-                        loadScreen.Progress = game.CurrentGame.LoadingProgress;
-                        loadScreen.Render(sprite);
-                    }
-                }
+            }
+
+            if (intro != null)
+            {
+                intro.Render(sprite);
             }
         }
         void UpdateScene(GameTime time)
