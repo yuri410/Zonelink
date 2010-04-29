@@ -8,6 +8,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Code2015.BalanceSystem;
 
 namespace Code2015.GUI
 {
@@ -20,13 +21,14 @@ namespace Code2015.GUI
         const float PopBaseSpeed = 20;
 
         const float DisplayDuration = 10;
-        const float DisplayInterval = DisplayDuration + 10;
+        const float DisplayInterval = DisplayDuration + 20;
         GameScene scene;
         GameState gameLogic;
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
         Player player;
+        MiniMap minimap;
 
         AnimState state;
 
@@ -37,14 +39,51 @@ namespace Code2015.GUI
 
         float[] activeStateCd;
 
+        NormalSoundObject nolumber;
+        NormalSoundObject nooil;
+        NormalSoundObject nofood;
+        NormalSoundObject storm;
+
+        string currentMessage = string.Empty;
 
         void NewMessage(EventEntry e)
         {
-            activeStateCd[(int)e.Type] = DisplayInterval;
+            if (e.Object == null)
+                return;
+
+            if (activeStateCd[(int)e.Type] < float.Epsilon)
+            {
+                switch (e.Type)
+                {
+                    case EventType.Food:
+                        
+                        nofood.Fire();
+                        break;
+                    case EventType.Oil:
+                        nooil.Fire();
+                        break;
+                    case EventType.Strike:
+                        storm.Fire();
+                        break;
+                    case EventType.Wood:
+                        nolumber.Fire();
+                        break;
+                }
+                City c = e.Object as City;
+                if (c != null && c.IsCaptured)
+                {
+                    minimap.AddNotifyRed(e.Object.Longitude, e.Object.Latitude, c.Owner.SideColor);
+                }
+
+
+                activeStateCd[(int)e.Type] = DisplayInterval; 
+            }
+          
         }
 
-        public NoticeBar(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        public NoticeBar(Code2015 game, Game parent, GameScene scene, GameState gamelogic, MiniMap map)
         {
+            this.minimap = map;
             this.parent = parent;
             this.game = game;
             this.renderSys = game.RenderSystem;
@@ -58,6 +97,14 @@ namespace Code2015.GUI
             EventLogger.Instance.NewLog += NewMessage;
 
             activeStateCd = new float[(int)EventType.Count];
+
+
+
+            nolumber = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("nolumber", null, 0);
+            nooil = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("nooil", null, 0);
+            nofood = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("nofood", null, 0);
+            storm = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("stormy", null, 0);
+            
         }
 
         protected override void Dispose(bool disposing)
@@ -88,27 +135,6 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            if (state == AnimState.Out)
-            {
-                cx += (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
-                if (cx >= PanelX)
-                {
-                    cx = PanelX;
-                    state = AnimState.Outside;
-                }
-
-            }
-            else if (state == AnimState.In)
-            {
-                cx -= (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
-                if (cx < -PanelWidth)
-                {
-                    cx = -PanelWidth;
-                    state = AnimState.Inside;
-                    timeCounter = DisplayDuration;
-                }
-            }
-
             if (state == AnimState.Outside)
             {
                 timeCounter -= time.ElapsedGameTimeSeconds;
@@ -118,9 +144,32 @@ namespace Code2015.GUI
                 }
             }
 
+            if (state == AnimState.Out)
+            {
+                cx += (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
+                if (cx >= PanelX)
+                {
+                    cx = PanelX;
+                    state = AnimState.Outside;
+                    timeCounter = DisplayDuration;
+                }
+            }
+            else if (state == AnimState.In)
+            {
+                cx -= (PanelWidth + PanelX - cx + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
+                if (cx < -PanelWidth)
+                {
+                    cx = -PanelWidth;
+                    state = AnimState.Inside;
+                }
+            }
+
+
+
+
             for (int i = 0; i < activeStateCd.Length; i++)
             {
-                activeStateCd[i] -= 0.1f;
+                activeStateCd[i] -= time.ElapsedGameTimeSeconds;
                 if (activeStateCd[i] < 0)
                     activeStateCd[i] = 0;
             }
