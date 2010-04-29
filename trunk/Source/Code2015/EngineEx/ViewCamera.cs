@@ -21,6 +21,7 @@ namespace Code2015.EngineEx
 
         float rotation;
         float yaw;
+        Vector3 target;
 
         public float Latitude
         {
@@ -51,10 +52,13 @@ namespace Code2015.EngineEx
 
             ResetView();
         }
-
+        public override float GetSMScale()
+        {
+            return 7.5f;
+        }
         void UpdateView()
         {
-            Vector3 target = PlanetEarth.GetPosition(longitude, latitude);
+            target = PlanetEarth.GetPosition(longitude, latitude);
 
             Vector3 axis = target;
             axis.Normalize();
@@ -168,10 +172,9 @@ namespace Code2015.EngineEx
         {
             Matrix invT = Matrix.Invert(Frustum.view);
 
-            float h = Height;
-            Vector3 target = position + h * invT.Forward;
+            float h = Height * 35;
 
-            return Matrix.LookAtRH(position - invT.Right * h * 0.5f, invT.Forward, invT.Up);
+            return Matrix.LookAtRH(position - invT.Right * h * 0.5f, target, invT.Up);
         }
 
         public void Move(float dx, float dy)

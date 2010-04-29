@@ -201,7 +201,7 @@ namespace Code2015.GUI
 
         public CityInfo(CityInfoDisplay info, RenderSystem rs, CityObject city, Player player, PieProgressEffect pieEff)
         {
-            this.f18ig1 = GameFontManager.Instance.F18IG1;
+            this.f18ig1 = GameFontManager.Instance.F18G1;
 
             this.parent = info;
             this.city = city;
@@ -226,7 +226,8 @@ namespace Code2015.GUI
 
             string name = city.Name.ToUpperInvariant();
             Size strSize = f18ig1.MeasureString(name);
-
+            
+            f18ig1.DrawString(sprite, name, scrnPos.X - strSize.Width / 2 + 1, scrnPos.Y + 1, ColorValue.Black);
             f18ig1.DrawString(sprite, name, scrnPos.X - strSize.Width / 2, scrnPos.Y, ColorValue.White);
             //f18.DrawString(sprite, city.Name, scrnPos.X, scrnPos.Y,  DrawTextFormat.Center, -1);
 

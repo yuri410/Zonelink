@@ -26,6 +26,7 @@ namespace Code2015.GUI
         const float RotSpeed = 3;
         Vector3 RotAxis = new Vector3(2505.168f, 4325.199f, 4029.689f);
         float angle;
+        float rotScale;
 
         class MenuScene : StaticModelObject
         {
@@ -147,7 +148,7 @@ namespace Code2015.GUI
         SceneRenderer renderer;
         MenuScene earth;
         MenuWater water;
-
+        
 
         Code2015 game;
         MainMenu mainMenu;
@@ -239,8 +240,31 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
-                angle -= MathEx.Degree2Radian(RotSpeed * time.ElapsedGameTimeSeconds);
-                Matrix rot = Matrix.RotationAxis(RotAxis, angle);
+
+                if (angle > MathEx.Degree2Radian(140) && angle < MathEx.Degree2Radian(250))
+                {
+                    rotScale += 0.01f;
+
+                    if (rotScale > 3.5f)
+                        rotScale = 3.5f;
+                }
+                else if (rotScale < 1) 
+                {
+                    rotScale += 0.01f;
+                }
+                else
+                {
+                    rotScale -= 0.01f;
+                    //if (rotScale < 1)
+                    //    rotScale = 1;
+                }
+                angle += MathEx.Degree2Radian(RotSpeed * time.ElapsedGameTimeSeconds) * rotScale;
+
+                if (angle > MathEx.PIf * 2)
+                    angle -= MathEx.PIf * 2;
+
+
+                Matrix rot = Matrix.RotationAxis(RotAxis, -angle);
                 earth.Transformation = rot;
                 water.Transformation = rot;
 
