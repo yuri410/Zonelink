@@ -125,7 +125,7 @@ namespace Code2015.World
 
         public void ActivateVisibles()
         {
-
+            renderer.ActivateVisibles();
         }
     }
 }

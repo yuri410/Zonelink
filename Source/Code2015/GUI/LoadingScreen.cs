@@ -28,11 +28,10 @@ namespace Code2015.GUI
         
 
         RenderSystem renderSys;
-        Texture lds_ball;
-
+        Menu parent;
         Texture background;
-        Texture progressBarImp;
-        Texture progressBarCmp;
+
+        Texture[] progressBar;
 
         GameFont font;
 
@@ -45,21 +44,21 @@ namespace Code2015.GUI
             set;
         }
 
-        public LoadingScreen(RenderSystem rs)
+        public LoadingScreen(Menu parent, RenderSystem rs)
         {
             this.renderSys = rs;
+            this.parent = parent;
 
-            FileLocation fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("mm_start_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
+           
 
-            fl = FileSystem.Instance.Locate("lds_prgcmp.tex", GameFileLocs.GUI);
-            progressBarCmp = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("lds_prgimp.tex", GameFileLocs.GUI);
-            progressBarImp = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("lds_ball.tex", GameFileLocs.GUI);
-            lds_ball = UITextureManager.Instance.CreateInstance(fl);
+            progressBar = new Texture[14];
+            for (int i = 0; i < 14; i++)
+            {
+                fl = FileSystem.Instance.Locate("lds_prg" + i.ToString() + ".tex", GameFileLocs.GUI);
+                progressBar[i] = UITextureManager.Instance.CreateInstance(fl);
+            }
 
             font = GameFontManager.Instance.F18;
         }
@@ -80,18 +79,31 @@ namespace Code2015.GUI
                 font.DrawString(sprite, LoadingMessages[curIndex], 0, 0, ColorValue.White);
             }
 
-            sprite.Draw(progressBarImp, 15, 692, ColorValue.White);
+            sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
 
 
-            Rectangle srect = new Rectangle(0, 0, (int)(progressBarCmp.Width * Progress), progressBarCmp.Height);
-            Rectangle drect = new Rectangle(15, 692, srect.Width, progressBarCmp.Height);
 
 
-            sprite.Draw(progressBarCmp, drect, srect, ColorValue.White);
-            int x = srect.Width + 15 - 60;
-            ColorValue c = ColorValue.White;
-            c.A = 189;
-            sprite.Draw(lds_ball, x, 657, c);
+            float p = Progress * (progressBar.Length - 1);
+            int index = (int)Math.Truncate (p);
+
+
+            if (index < progressBar.Length - 2)
+            {
+                ColorValue color = ColorValue.White;
+                int alpha = (int)(MathEx.Saturate(p - index) * byte.MaxValue);
+                color.A = (byte)alpha;
+                sprite.Draw(progressBar[index + 1], 360, 101, color);
+
+                color = ColorValue.White;
+                alpha = (int)((1 - MathEx.Saturate(p - index)) * byte.MaxValue);
+                color.A = (byte)alpha;
+                sprite.Draw(progressBar[index], 360, 101, color);
+            }
+            else
+            {
+                sprite.Draw(progressBar[index], 360, 101, ColorValue.White);
+            }
         }
 
         public override void Update(GameTime time)
@@ -119,19 +131,19 @@ namespace Code2015.GUI
         {
             if (disposing)
             {
-                lds_ball.Dispose();
+                //lds_ball.Dispose();
 
                 background.Dispose();
-                progressBarImp.Dispose();
+                //progressBarImp.Dispose();
 
-                progressBarCmp.Dispose();
+                //progressBarCmp.Dispose();
             }
-            progressBarCmp = null;
-            progressBarImp = null;
+            //progressBarCmp = null;
+            //progressBarImp = null;
             background = null;
 
             renderSys = null;
-            lds_ball = null;
+            //lds_ball = null;
         }
 
         #endregion

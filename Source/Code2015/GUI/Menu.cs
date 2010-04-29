@@ -186,7 +186,7 @@ namespace Code2015.GUI
 
             this.CurrentScreen = mainMenu;
             CreateScene(rs);
-            this.loadScreen = new LoadingScreen(rs);
+            this.loadScreen = new LoadingScreen(this, rs);
 
         }
 
@@ -221,16 +221,24 @@ namespace Code2015.GUI
 
         public void Render()
         {
+
             if (!game.IsIngame)
             {
                 if (CurrentScreen == mainMenu || CurrentScreen == loadScreen || CurrentScreen == scoreScreen)
                 {
+                    EffectParams.LightDir = -renderer.CurrentCamera.Front;
+
                     renderer.RenderScene();
                 }
             }
             else 
             {
-                
+                if (!game.CurrentGame.IsLoaded)
+                {
+                    EffectParams.LightDir = -renderer.CurrentCamera.Front;
+
+                    renderer.RenderScene();
+                }
             }
         }
 
@@ -256,63 +264,55 @@ namespace Code2015.GUI
             }
             else
             {
-                if (!game.CurrentGame.IsLoaded)
+                if (!game.CurrentGame.IsLoaded && loadScreen != null)
                 {
-                    if (loadScreen == null)
-                    {
-                        loadScreen = new LoadingScreen(renderSys);
-                    }
-
                     loadScreen.Progress = game.CurrentGame.LoadingProgress;
                     loadScreen.Render(sprite);
                 }
-                else if (loadScreen != null)
-                {
-                    loadScreen.Dispose();
-                    loadScreen = null;
-                }
             }
+        }
+        void UpdateScene(GameTime time)
+        {
+            #region 地球
+            if (angle > MathEx.Degree2Radian(140) && angle < MathEx.Degree2Radian(250))
+            {
+                rotScale += 0.01f;
+
+                if (rotScale > 3.5f)
+                    rotScale = 3.5f;
+            }
+            else if (rotScale < 1)
+            {
+                rotScale += 0.01f;
+            }
+            else
+            {
+                rotScale -= 0.01f;
+                //if (rotScale < 1)
+                //    rotScale = 1;
+            }
+            angle += MathEx.Degree2Radian(RotSpeed * time.ElapsedGameTimeSeconds) * rotScale;
+
+            if (angle > MathEx.PIf * 2)
+                angle -= MathEx.PIf * 2;
+
+
+            Matrix rot = Matrix.RotationAxis(RotAxis, -angle);
+            earth.Transformation = rot;
+            water.Transformation = rot;
+
+
+            renderer.Update(time);
+
+            #endregion
         }
         public override void Update(GameTime time)
         {
             if (!game.IsIngame)
-            {
-                #region 地球
-                if (angle > MathEx.Degree2Radian(140) && angle < MathEx.Degree2Radian(250))
-                {
-                    rotScale += 0.01f;
-
-                    if (rotScale > 3.5f)
-                        rotScale = 3.5f;
-                }
-                else if (rotScale < 1)
-                {
-                    rotScale += 0.01f;
-                }
-                else
-                {
-                    rotScale -= 0.01f;
-                    //if (rotScale < 1)
-                    //    rotScale = 1;
-                }
-                angle += MathEx.Degree2Radian(RotSpeed * time.ElapsedGameTimeSeconds) * rotScale;
-
-                if (angle > MathEx.PIf * 2)
-                    angle -= MathEx.PIf * 2;
-
-
-                Matrix rot = Matrix.RotationAxis(RotAxis, -angle);
-                earth.Transformation = rot;
-                water.Transformation = rot;
-
-
-                renderer.Update(time);
-
-                EffectParams.LightDir = -renderer.CurrentCamera.Front;
-
-                #endregion
+            {                
                 if (CurrentScreen != null)
                 {
+                    UpdateScene(time);
                     CurrentScreen.Update(time);
                 }
             }
@@ -320,6 +320,7 @@ namespace Code2015.GUI
             {
                 if (!game.CurrentGame.IsLoaded && loadScreen != null)
                 {
+                    UpdateScene(time);
                     loadScreen.Update(time);
                 }
                 if (game.CurrentGame.IsOver)
