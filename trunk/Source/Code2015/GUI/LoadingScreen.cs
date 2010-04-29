@@ -73,7 +73,7 @@ namespace Code2015.GUI
           
             sprite.Draw(background, 0, 0, ColorValue.White);
 
-
+            Size size = font.MeasureString(LoadingMessages[curIndex]);
             if (displayCD < ChangeTime)
             {
                 const int MoveRange = 350;
@@ -84,12 +84,15 @@ namespace Code2015.GUI
                 color1.A = (byte)(rate * byte.MaxValue);
                 color2.A = (byte)((1 - rate) * byte.MaxValue);
 
-                font.DrawString(sprite, LoadingMessages[curIndex], -(int)(rate * MoveRange) + 500, 25, color2);
-                font.DrawString(sprite, LoadingMessages[(curIndex + 1) % LoadingMessages.Length], (int)((1 - rate) * MoveRange) + 500, 25, color1);
+                string nextMsg = LoadingMessages[(curIndex + 1) % LoadingMessages.Length];
+                Size size2 = font.MeasureString(nextMsg);
+
+                font.DrawString(sprite, LoadingMessages[curIndex], -(int)(rate * MoveRange) + (Program.ScreenWidth - size.Width) / 2, 25, color2);
+                font.DrawString(sprite, nextMsg, (int)((1 - rate) * MoveRange) + (Program.ScreenWidth - size2.Width) / 2, 25, color1);
             }
             else
             {
-                font.DrawString(sprite, LoadingMessages[curIndex], 500, 25, ColorValue.White);
+                font.DrawString(sprite, LoadingMessages[curIndex], (Program.ScreenWidth - size.Width) / 2, 25, ColorValue.White);
             }
 
             sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
