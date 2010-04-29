@@ -144,11 +144,14 @@ namespace Code2015.GUI
             }
         }
 
-
+        RenderSystem renderSys;
         SceneRenderer renderer;
         MenuScene earth;
         MenuWater water;
-        
+
+
+        LoadingScreen loadScreen;
+        ScoreScreen scoreScreen;
 
         Code2015 game;
         MainMenu mainMenu;
@@ -179,10 +182,12 @@ namespace Code2015.GUI
             this.game = game;
             this.mainMenu = new MainMenu(game, this);
             this.sideSelect = new SelectScreen(game, this);
+            this.renderSys = rs;
 
             this.CurrentScreen = mainMenu;
             CreateScene(rs);
-           
+            this.loadScreen = new LoadingScreen(rs);
+
         }
 
         void CreateScene(RenderSystem rs)
@@ -218,13 +223,27 @@ namespace Code2015.GUI
         {
             if (!game.IsIngame)
             {
-                if (CurrentScreen == mainMenu)
+                if (CurrentScreen == mainMenu || CurrentScreen == loadScreen || CurrentScreen == scoreScreen)
                 {
                     renderer.RenderScene();
                 }
             }
+            else 
+            {
+                
+            }
         }
 
+
+        void ShowScore(ScoreEntry[] entries)
+        {
+            scoreScreen = new ScoreScreen(game);
+            for (int i = 0; i < entries.Length; i++)
+            {
+                scoreScreen.Add(entries[i]);
+            }
+            CurrentScreen = scoreScreen;
+        }
 
         public override void Render(Sprite sprite)
         {
@@ -235,12 +254,30 @@ namespace Code2015.GUI
                     CurrentScreen.Render(sprite);
                 }
             }
+            else
+            {
+                if (!game.CurrentGame.IsLoaded)
+                {
+                    if (loadScreen == null)
+                    {
+                        loadScreen = new LoadingScreen(renderSys);
+                    }
+
+                    loadScreen.Progress = game.CurrentGame.LoadingProgress;
+                    loadScreen.Render(sprite);
+                }
+                else if (loadScreen != null)
+                {
+                    loadScreen.Dispose();
+                    loadScreen = null;
+                }
+            }
         }
         public override void Update(GameTime time)
         {
             if (!game.IsIngame)
             {
-
+                #region 地球
                 if (angle > MathEx.Degree2Radian(140) && angle < MathEx.Degree2Radian(250))
                 {
                     rotScale += 0.01f;
@@ -248,7 +285,7 @@ namespace Code2015.GUI
                     if (rotScale > 3.5f)
                         rotScale = 3.5f;
                 }
-                else if (rotScale < 1) 
+                else if (rotScale < 1)
                 {
                     rotScale += 0.01f;
                 }
@@ -271,13 +308,30 @@ namespace Code2015.GUI
 
                 renderer.Update(time);
 
+                EffectParams.LightDir = -renderer.CurrentCamera.Front;
+
+                #endregion
                 if (CurrentScreen != null)
                 {
                     CurrentScreen.Update(time);
-
-                    EffectParams.LightDir = -renderer.CurrentCamera.Front;
                 }
             }
+            else
+            {
+                if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                {
+                    loadScreen.Update(time);
+                }
+                if (game.CurrentGame.IsOver)
+                {
+                    if (scoreScreen == null)
+                    {
+                        ShowScore(game.CurrentGame.ResultScore);
+                        game.Back();
+                    }
+                }
+            }
+
         }
     }
 

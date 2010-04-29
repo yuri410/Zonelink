@@ -811,7 +811,7 @@ namespace Code2015.BalanceSystem
                     CoolDownPlayer = null;
                 }
             }
-            else if (Satisfaction < CityGrade.GetMinSatRatio(Size) && IsCaptured)
+            else if (!IsHomeCity && Satisfaction < CityGrade.GetMinSatRatio(Size) && IsCaptured)
             {
                 CoolDownPlayer = Owner;
                 ChangeOwner(null);

@@ -122,6 +122,12 @@ namespace Code2015
             get { return map; }
         }
 
+        public bool IsOver
+        {
+            get;
+            private set;
+        }
+
         Player[] GetLocalPlayers(GameCreationParameters gcp)
         {
             List<Player> list = new List<Player>();
@@ -248,6 +254,13 @@ namespace Code2015
         {
             scene.RenderScene();
         }
+
+        public ScoreEntry[] ResultScore
+        {
+            get;
+            private set;
+        } 
+
         public void Update(GameTime time)
         {
             XI.KeyboardState state = XI.Keyboard.GetState();
@@ -301,15 +314,19 @@ namespace Code2015
                     if (newPrg > LoadingProgress)
                         LoadingProgress = newPrg;
                 }
+
+                ingameUI.Update(time);
             }
             else
             {
                 if (gameState.CheckGameOver())
                 {
-                    if (!ingameUI.IsShowingScore)
+                    if (!IsOver)
                     {
-                        ScoreEntry[] entries = gameState.GetScores();
-                        ingameUI.ShowScore(entries);
+                        ResultScore = gameState.GetScores();
+                        //ScoreEntry[] entries = gameState.GetScores();
+                        //ingameUI.ShowScore(entries);
+                        IsOver = true;
                     }
                 }
                 else

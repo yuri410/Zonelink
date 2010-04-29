@@ -13,14 +13,14 @@ namespace Code2015.EngineEx
     {      
         RenderSystem renderSys;
 
-        Model strike;
+        Model[] strike;
         Model model;
 
         float scale;
         Matrix trans;
 
         float startTime;
-
+        int strikeFrame;
         float strikeTime;
 
         const float FadeTime = 1;
@@ -62,14 +62,17 @@ namespace Code2015.EngineEx
             FileLocation fl = FileSystem.Instance.Locate("cloud_lgt.mesh", GameFileLocs.Model);
             model = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
-            int idx = Randomizer.GetRandomInt(3);
-            fl = FileSystem.Instance.Locate("strike_lgt" + (idx + 1).ToString("D2") + ".mesh", GameFileLocs.Model);
-            strike = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            strike = new Model[3];
+            for (int i = 0; i < 3; i++)
+            {
+                fl = FileSystem.Instance.Locate("strike_lgt" + (i + 1).ToString("D2") + ".mesh", GameFileLocs.Model);
+                strike[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            }
 
             strikeTime = -2 * Randomizer.GetRandomSingle();
             UpdateModelAnim();
 
-            sndObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("lightning", null, 1000);
+            sndObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("lightning", null, 1800);
          }
         public void Apply3D()
         {
@@ -83,7 +86,10 @@ namespace Code2015.EngineEx
                 model.CurrentAnimation = new NoAnimation(
                     Matrix.Scaling(scale, scale, scale) * trans);
 
-                strike.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans);
+                for (int i = 0; i < strike.Length; i++)
+                {
+                    strike[i].CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans);
+                }
             }
         }
 
@@ -117,7 +123,11 @@ namespace Code2015.EngineEx
         {
             if (strikeTime > StrikeDuration - 0.2f && startTime < 0 && startTime > -Duration)
             {
-                return  strike.GetRenderOperation();
+                strikeFrame++;
+
+                if (strikeFrame >= strike.Length * 2)
+                    strikeFrame = 0;
+                return strike[strikeFrame / 2].GetRenderOperation();                
             }
             return null;
         }
@@ -167,7 +177,10 @@ namespace Code2015.EngineEx
 
             strikeTime += dt.ElapsedGameTimeSeconds;
             if (strikeTime > StrikeDuration)
+            {
+                played = false;
                 strikeTime = 0;
+            }
             else if (!played && strikeTime > StrikeDuration - 0.2f)
             {
                 sndObject.Fire();

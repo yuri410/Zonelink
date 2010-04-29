@@ -142,7 +142,11 @@ namespace Code2015
 
         public void Fire()
         {
-            instance.Add(soundEffectGame.Play(SoundEffectPart.Default, this));
+            float distance = Vector3.Distance(this.Position, SoundManager.Instance.ListenerPosition);
+            if (distance < radius * 3)
+            {
+                instance.Add(soundEffectGame.Play(SoundEffectPart.Default, this));
+            }
         }
         public override void Update(GameTime dt)
         {

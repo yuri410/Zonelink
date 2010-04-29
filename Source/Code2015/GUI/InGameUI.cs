@@ -70,8 +70,6 @@ namespace Code2015.GUI
 
         MouseCursor cursorState;
 
-        LoadingScreen loadScreen;
-        ScoreScreen scoreScreen;
 
         GoalIcons icons;
         GoalPieceMaker pieceMaker;
@@ -170,8 +168,7 @@ namespace Code2015.GUI
 
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 
-            this.loadScreen = new LoadingScreen(renderSys);
-
+           
             this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
             AddElement(playerProgress);
             this.noticeBar = new NoticeBar(game, parent, scene, gamelogic);
@@ -190,26 +187,11 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            if (scoreScreen != null)
+            if (!parent.IsOver)
             {
-                scoreScreen.Render(sprite);
-            }
-            else
-            {
-                if (!parent.IsLoaded)
+                if (parent.IsLoaded)
                 {
-                    loadScreen.Progress = parent.LoadingProgress;
-                    loadScreen.Render(sprite);
-
-                }
-                else
-                {
-                    if (loadScreen != null)
-                    {
-                        loadScreen.Dispose();
-                        loadScreen = null;
-                    }
-
+                   
                     base.Render(sprite);
 
                     Point hsp = new Point();
@@ -254,7 +236,7 @@ namespace Code2015.GUI
                             break;
                     }
 
-                    sprite.Draw(ctex, MathEx.Clamp(0, Program.ScreenWidth, MouseInput.X) - hsp.X, 
+                    sprite.Draw(ctex, MathEx.Clamp(0, Program.ScreenWidth, MouseInput.X) - hsp.X,
                         MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y, ColorValue.White);
                 }
             }
@@ -263,11 +245,7 @@ namespace Code2015.GUI
 
         public override void Update(GameTime time)
         {
-            if (scoreScreen != null)
-            {
-                scoreScreen.Update(time);
-            }
-            else
+            if (!parent.IsOver)
             {
                 if (parent.IsLoaded)
                 {
@@ -308,24 +286,6 @@ namespace Code2015.GUI
 
                     base.Update(time);
                 }
-                else
-                {
-                    loadScreen.Update(time);
-                }
-            }
-        }
-
-        public bool IsShowingScore
-        {
-            get { return scoreScreen != null; }
-        }
-
-        public void ShowScore(ScoreEntry[] entries) 
-        {
-            scoreScreen = new ScoreScreen(game);
-            for (int i = 0; i < entries.Length; i++)
-            {
-                scoreScreen.Add(entries[i]);
             }
         }
     }
