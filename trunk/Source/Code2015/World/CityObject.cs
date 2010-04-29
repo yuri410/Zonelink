@@ -391,8 +391,19 @@ namespace Code2015.World
             ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position));
             plugins.Add(ent);
 
-            goalSite.SetDesired(plugins.Count - 1, CityGoalSite.GetDesired(plugin.TypeId));
-
+            int idx = -1;
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                if (plugins[i].plugin == plugin)
+                {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx != -1)
+            {
+                goalSite.SetDesired(idx, CityGoalSite.GetDesired(plugin.TypeId));
+            }
 
             if (IsCaptured && (plugin.TypeId == CityPluginTypeId.OilRefinary ||
                 plugin.TypeId == CityPluginTypeId.WoodFactory))
@@ -421,6 +432,20 @@ namespace Code2015.World
                 SceneManager.RemoveObjectFromScene(harv);
 
                 harvTable.Remove(plugin);                
+            }
+
+            int idx=-1;
+            for (int i = 0; i < plugins.Count; i++)
+            {
+                if (plugins[i].plugin == plugin)
+                {
+                    idx = i;
+                    break;
+                }
+            }
+            if (idx != -1)
+            {
+                goalSite.ClearDesired(idx);
             }
 
             for (int i = 0; i < plugins.Count; i++)

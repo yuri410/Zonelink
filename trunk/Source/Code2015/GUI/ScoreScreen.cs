@@ -9,6 +9,7 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI
 {
@@ -16,22 +17,67 @@ namespace Code2015.GUI
     {
         Code2015 parent;
         RenderSystem renderSys;
+        Menu menu;
 
         FastList<ScoreEntry> scores = new FastList<ScoreEntry>();
 
         Texture background;
+        Texture redEntry;
+        Texture blueEntry;
+        Texture greenEntry;
+        Texture yellowEntry;
 
         GameFont font;
 
-        public ScoreScreen(Code2015 parent)
+        RoundButton countinue;
+
+        Texture cursor;
+        Point mousePosition;
+
+
+
+        NormalSoundObject mouseHover;
+        NormalSoundObject mouseDown;
+        public ScoreScreen(Code2015 parent, Menu menu)
         {
+            this.menu = menu;
             this.parent = parent;
             this.renderSys = parent.RenderSystem;
 
             FileLocation fl = FileSystem.Instance.Locate("ss_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("ss_entry_red.tex", GameFileLocs.GUI);
+            redEntry = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ss_entry_yellow.tex", GameFileLocs.GUI);
+            yellowEntry = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ss_entry_green.tex", GameFileLocs.GUI);
+            greenEntry = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ss_entry_blue.tex", GameFileLocs.GUI);
+            blueEntry = UITextureManager.Instance.CreateInstance(fl);
+
             font = GameFontManager.Instance.F18;
+
+            countinue = new RoundButton();
+            countinue.Enabled = true;            
+            countinue.IsValid = true;
+            fl = FileSystem.Instance.Locate("ss_continue.tex", GameFileLocs.GUI);
+            countinue.Image = UITextureManager.Instance.CreateInstance(fl);
+
+            countinue.X = 357;
+            countinue.Y = 493;
+            countinue.Width = countinue.Image.Width;
+            countinue.Height = countinue.Image.Height;
+            fl = FileSystem.Instance.Locate("ss_continuehouver.tex", GameFileLocs.GUI);
+            countinue.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            cursor = UITextureManager.Instance.CreateInstance(fl);
+            mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
+            mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
+            
+
         }
 
         public void Add(ScoreEntry entry)
@@ -43,46 +89,101 @@ namespace Code2015.GUI
             scores.Clear();
         }
 
+        Texture GetEntry(ColorValue color) 
+        {
+            if (color == ColorValue.Red) 
+            {
+                return redEntry;
+            }
+
+            if (color == ColorValue.Green)
+            {
+                return greenEntry;
+            }
+            if (color == ColorValue.Blue)
+            {
+                return blueEntry;
+            }
+            return yellowEntry;
+        }
+
         public override void Render(Sprite sprite)
         {
+            sprite.Draw(menu.Earth, 0, 0, ColorValue.White);
             sprite.Draw(background, 0, 0, ColorValue.White);
 
-            int bgc = (int)ColorValue.Black.PackedValue;
-            int ftc = (int)ColorValue.White.PackedValue;
-
-            font.DrawString(sprite, "NAME", 0, 0, ColorValue.White);
-            font.DrawString(sprite, "DEVELOPMENT", 200, 0, ColorValue.White);
-            font.DrawString(sprite, "CO2", 400, 0, ColorValue.White);
-            font.DrawString(sprite, "TOTAL", 600, 0, ColorValue.White);
 
 
-            int y = 100;
-            for (int i = 0; i < scores.Count; i++, y += 30)
-            {
-                ftc = (int)scores.Elements[i].Player.SideColor.PackedValue;
 
-                font.DrawString(sprite, scores.Elements[i].Player.Name, 0, y , ColorValue.White);
 
-                string msg = ((int)Math.Round(scores.Elements[i].Development)).ToString("G");
+            ColorValue ftc = scores.Elements[0].Player.SideColor;
+            Texture bg = GetEntry(ftc);
+            sprite.Draw(bg, 317, 270, ColorValue.White);
 
-                font.DrawString(sprite, msg, 200, y, ColorValue.White);
+            string msg = ((int)Math.Round(scores.Elements[0].Development)).ToString("G");
+            font.DrawString(sprite, msg, 0, 270, ColorValue.White);
 
-                msg = ((int)Math.Round(scores.Elements[i].CO2)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[0].CO2)).ToString("G");
+            font.DrawString(sprite, msg, 400, 270, ColorValue.White);
 
-                font.DrawString(sprite, msg, 400, y, ColorValue.White);
+            msg = ((int)Math.Round(scores.Elements[0].Total)).ToString("G");
+            font.DrawString(sprite, msg, 600, 270, ColorValue.White);
 
-                msg = ((int)Math.Round(scores.Elements[i].Total)).ToString("G");
 
-                font.DrawString(sprite, msg, 600, y, ColorValue.White);
-            }
+
+            ftc = scores.Elements[1].Player.SideColor;
+            bg = GetEntry(ftc);
+            sprite.Draw(bg, 318, 333, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
+            font.DrawString(sprite, msg, 0, 333, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
+            font.DrawString(sprite, msg, 400, 333, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
+            font.DrawString(sprite, msg, 600, 333, ColorValue.White);
+
+
+
+            ftc = scores.Elements[2].Player.SideColor;
+            bg = GetEntry(ftc);
+            sprite.Draw(bg, 319, 393, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
+            font.DrawString(sprite, msg, 0, 393, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
+            font.DrawString(sprite, msg, 400, 393, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
+            font.DrawString(sprite, msg, 600, 393, ColorValue.White);
+
+
+            ftc = scores.Elements[3].Player.SideColor;
+            bg = GetEntry(ftc);
+            sprite.Draw(bg, 319, 458, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[2].Development)).ToString("G");
+            font.DrawString(sprite, msg, 0, 458, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
+            font.DrawString(sprite, msg, 400, 458, ColorValue.White);
+
+            msg = ((int)Math.Round(scores.Elements[2].Total)).ToString("G");
+            font.DrawString(sprite, msg, 600, 458, ColorValue.White);
+
+
+            countinue.Render(sprite);
+         
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }
 
         public override void Update(GameTime time)
         {
-            if (MouseInput.IsMouseUpLeft)
-            {
-                parent.Back();
-            }
+            mousePosition.X = MouseInput.X;
+            mousePosition.Y = MouseInput.Y;
+            countinue.Update(time);
         }
     }
 }

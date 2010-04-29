@@ -161,7 +161,10 @@ namespace Code2015.World
                 sites[i].TargetCity = null;
             }
         }
-
+        public void ClearDesired(int i)
+        {
+            sites[i].IsTyped = false;
+        }
         public void SetDesired(int i, MdgType type) 
         {
             sites[i].IsTyped = true;
@@ -228,6 +231,7 @@ namespace Code2015.World
                 case CityPluginTypeId.Hospital:
                     switch (type)
                     {
+                        case MdgType.MaternalHealth:
                         case MdgType.ChildMortality:
                         case MdgType.Diseases:
                             return true;

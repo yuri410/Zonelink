@@ -246,7 +246,7 @@ namespace Code2015.GUI
 
         void ShowScore(ScoreEntry[] entries)
         {
-            scoreScreen = new ScoreScreen(game);
+            scoreScreen = new ScoreScreen(game, this);
             for (int i = 0; i < entries.Length; i++)
             {
                 scoreScreen.Add(entries[i]);

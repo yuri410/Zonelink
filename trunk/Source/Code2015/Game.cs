@@ -282,6 +282,12 @@ namespace Code2015
                     new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude),
                         MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
             }
+            if (state.IsKeyDown(XI.Keys.O))
+            {
+                ResultScore = gameState.GetScores();
+                IsOver = true;
+            }
+
 
             scene.Update(time);
             soundWorld.Update(time);

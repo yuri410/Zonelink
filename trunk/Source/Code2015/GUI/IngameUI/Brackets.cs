@@ -65,6 +65,7 @@ namespace Code2015.GUI
 
         public bool CheckAutoStick(CityObject city, MdgResource res)
         {
+            CityGoalSite site = city.GoalSite;
             for (int i = 0; i < CityGoalSite.SiteCount; i++)
             {
                 Point pt = GetSiteProjPosition(city, i);
@@ -77,9 +78,13 @@ namespace Code2015.GUI
 
                 if (len < MdgPhysicsParams.BallRadius)
                 {
-                    if (res.AutoStick == null)
-                        res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
-                    return true;
+                    if (site.MatchPiece(i, res.Type))
+                    {
+                        if (res.AutoStick == null)
+                            res.AutoStick = new PieceAutoStick(new Vector2(pt.X, pt.Y));
+                        return true;
+                    }
+                    return false;
                 }
                 else if (res.AutoStick != null)
                 {
