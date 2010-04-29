@@ -133,6 +133,7 @@ namespace Code2015.GUI
             creditButton.IsValid = true;
             creditButton.MouseEnter += Button_MouseIn;
             creditButton.MouseDown += Button_DownSound;
+            creditButton.MouseClick += CreditButton_Click;
 
 
             helpButton = new RoundButton();
@@ -143,6 +144,8 @@ namespace Code2015.GUI
             helpButton.IsValid = true;
             helpButton.MouseEnter += Button_MouseIn;
             helpButton.MouseDown += Button_DownSound;
+            helpButton.MouseClick += HelpButton_Click;
+
             #endregion
 
             mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
@@ -171,15 +174,27 @@ namespace Code2015.GUI
                 game.Exit();
             }
         }
+        void HelpButton_Click(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                
+            }
+        }
         void StartButton_Click(object sender, MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left)
             {
                 parent.CurrentScreen = parent.GetSelectScreen();
-                //GameCreationParameters gcp = new GameCreationParameters();
-                //gcp.Player1 = new Player("test");
-                //gcp.Player1.SideColor = ColorValue.Red;
-                //game.StartNewGame(gcp);
+               
+            }
+        }
+        void CreditButton_Click(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                parent.CurrentScreen = parent.GetCredits();
+
             }
         }
 
