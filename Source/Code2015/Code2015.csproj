@@ -169,6 +169,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\IngameUI\Picker.cs" />
+    <Compile Include="GUI\Intro.cs" />
     <Compile Include="GUI\LoadingScreen.cs" />
     <Compile Include="GUI\MainMenu.cs" />
     <Compile Include="GUI\Menu.cs">
