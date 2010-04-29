@@ -195,7 +195,7 @@ namespace Code2015.BalanceSystem
 
             #region 计算灾害
 
-            float total = 0;
+            float total = 10000;
             Dictionary<Player, float>.ValueCollection vals = carbonWeight.Values;
             foreach (float e in vals)
             {
