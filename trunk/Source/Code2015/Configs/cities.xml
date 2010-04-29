@@ -8,7 +8,6 @@
         <Disease>1</Disease>
         <Environment>2</Environment>
         <Linkable>C0107, C0108</Linkable>
-      <Culture></Culture>
     </C0000>
     <C0100>
         <Name>Mohall</Name>
@@ -19,7 +18,7 @@
         <StartUp>1</StartUp>
         <Farm>2</Farm>
         <Linkable>C0200, C0201</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0100>
     <C0101>
         <Name>No City</Name>
@@ -119,7 +118,7 @@
         <StartUp>1</StartUp>
         <Farm>2</Farm>
         <Linkable>C0100, C0300</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0200>
     <C0201>
         <Name>Moberly</Name>
@@ -130,7 +129,7 @@
         <StartUp>1</StartUp>
         <Farm>2</Farm>
         <Linkable>C0100, C0101, C0300, C0301</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0201>
     <C0202>
         <Name>Washington</Name>
@@ -251,7 +250,7 @@
         <StartUp>2</StartUp>
         <Farm>2</Farm>
         <Linkable>C0311, C0108, C0109</Linkable>
-      <Culture></Culture>
+      <Culture></Culture>s
     </C0213>
     <C0300>
         <Name>Dallas</Name>
@@ -263,7 +262,7 @@
         <StartUp>1</StartUp>
         <Farm>2</Farm>
         <Linkable>C0200, C0201, C0400</Linkable>
-      <Culture></Culture>
+      <Culture>Europe</Culture>
     </C0300>
     <C0301>
         <Name>Tallahassee</Name>
