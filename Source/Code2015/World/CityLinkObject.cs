@@ -19,7 +19,7 @@ namespace Code2015.World
         //public const int MaxLevel = 2;
 
         public const float LinkBaseLength = 100;
-        public const float LinkWidthScale = 0.002f;
+        public const float LinkWidthScale = 0.006f;
         public const float LinkHeightScale = 4 * 1f / LinkBaseLength;
 
         public const float LRThreshold = 0.01f;

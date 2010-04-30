@@ -85,7 +85,7 @@ namespace Code2015.GUI
 
             ColorValue modClr = new ColorValue(1, 1, 1, alpha);
 
-            float scale = 4 - 3 * alpha;
+            float scale = 5 - 4 * alpha;
             sprite.SetTransform(Matrix.Translation(-texture.Width / 2, -texture.Height / 2, 0) * Matrix.Scaling(scale, scale, scale) * Matrix.Translation(x, y, 0));
             sprite.Draw(texture, 0, 0, modClr);
             sprite.SetTransform(Matrix.Identity);

@@ -129,6 +129,7 @@ namespace Code2015.GUI
             ratios.TryGetValue(player, out r);
 
             prgress = MathEx.Saturate(r / MaxCO2);
+            //prgress += 0.0025f;
 
             float over = prgress - WarningThreshold;
             if (over > 0)

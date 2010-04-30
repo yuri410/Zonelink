@@ -28,19 +28,27 @@ namespace Code2015
         public static void Init(IServiceProvider service)
         {
             cm = new ContentManager(service, "Sounds");
-            start = cm.Load<Song>("start");
-            background = cm.Load<Song>("background");
-            end = cm.Load<Song>("end");
+            start = cm.Load<Song>("Parpollon2");
+            background = cm.Load<Song>("The islands");
+            //end = cm.Load<Song>("end");
         }
         public static void PlayStart()
         {
-            next = start;
-            currentstate = State.fadeout;
+            MediaPlayer.Stop();
+            MediaPlayer.IsRepeating = true;
+
+            MediaPlayer.Play(start);
+            //next = start;
+            //currentstate = State.fadeout;
         }
         public static void PlayBackGround()
         {
-            next = background;
-            currentstate = State.fadeout;
+            MediaPlayer.Stop();
+            MediaPlayer.IsRepeating = true;
+            MediaPlayer.Play(background);
+            
+            //next = background;
+            //currentstate = State.fadeout;
         }
 
         public static void PlayEnd()
