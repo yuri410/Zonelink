@@ -183,6 +183,7 @@
     <Compile Include="GUI\IngameUI\ResourceInfo.cs" />
     <Compile Include="GUI\ScoreScreen.cs" />
     <Compile Include="GUI\SelectScreen.cs" />
+    <Compile Include="GUI\Tutorial.cs" />
     <Compile Include="Logic\Disaster.cs" />
     <Compile Include="Logic\EventLogger.cs" />
     <Compile Include="Logic\GameGoal.cs" />
