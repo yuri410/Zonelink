@@ -32,7 +32,7 @@ namespace Code2015.GUI
 
         AnimState state;
 
-        float cx;
+        float cx = -PanelWidth;
 
         Texture background;
         float timeCounter;
@@ -56,17 +56,30 @@ namespace Code2015.GUI
                 switch (e.Type)
                 {
                     case EventType.Food:
-                        
+                        currentMessage = "PEOPLE LIKE ME ARE GETTING SLIMMER HERE, \nSINCE I CAN'T FIND ENOUGH FOOD TO EAT.";
                         nofood.Fire();
+
+                        state = AnimState.Out;
                         break;
                     case EventType.Oil:
+
+                        currentMessage = "OIL CAN HELP CITY DEVELOP FASTER.\nTRY GET SOME OIL FOR THE CITY.";
                         nooil.Fire();
+
+                        state = AnimState.Out; 
                         break;
                     case EventType.Strike:
+                        currentMessage = "OH,ANOTHER STORMY DAY? \nBETTER NOT GOING OUT, IT'S TOO DANGEROUS";
                         storm.Fire();
+
+                        state = AnimState.Out;
                         break;
                     case EventType.Wood:
+                        currentMessage = "WE NEED MORE LUMBER.";
+
                         nolumber.Fire();
+
+                        state = AnimState.Out;
                         break;
                 }
                 City c = e.Object as City;
@@ -130,6 +143,12 @@ namespace Code2015.GUI
             if (state != AnimState.Inside)
             {
                 sprite.Draw(background, (int)cx, PanelY, ColorValue.White);
+
+                GameFont f18 = GameFontManager.Instance.F18;
+                if (!string.IsNullOrEmpty(currentMessage))
+                {
+                    f18.DrawString(sprite, currentMessage, (int)cx + 90, PanelY + 15, ColorValue.White);
+                }
             }
         }
 
@@ -162,6 +181,8 @@ namespace Code2015.GUI
                     cx = -PanelWidth;
                     state = AnimState.Inside;
                 }
+
+                currentMessage = string.Empty;
             }
 
 

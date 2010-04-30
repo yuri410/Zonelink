@@ -119,6 +119,8 @@ namespace Code2015
 
             sprite = renderSys.ObjectFactory.CreateSprite();
             SoundManager.Initialize(((X.Game)Program.Window.Tag).Services);
+            StaticPlay.Init(((X.Game)Program.Window.Tag).Services);
+            StaticPlay.PlayStart();
 
             menu = new Menu(this, renderSys);
         }

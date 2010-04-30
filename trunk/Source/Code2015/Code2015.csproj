@@ -458,6 +458,7 @@
     <Compile Include="SoundManager.cs" />
     <Compile Include="SoundObject.cs" />
     <Compile Include="SoundObjectWorld.cs" />
+    <Compile Include="StaticPlay.cs" />
     <Compile Include="World\CityGoalSite.cs" />
     <Compile Include="World\CityLinkManager.cs" />
     <Compile Include="World\CityStyle.cs" />

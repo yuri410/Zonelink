@@ -185,6 +185,7 @@ namespace Code2015.GUI
         {
             if (btn == MouseButtonFlags.Left)
             {
+                StaticPlay.PlayBackGround();
                 parent.CurrentScreen = parent.GetSelectScreen();
                
             }

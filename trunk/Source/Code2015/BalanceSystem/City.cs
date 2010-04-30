@@ -1156,7 +1156,7 @@ namespace Code2015.BalanceSystem
 
             if (owner.Type == PlayerType.LocalHuman)
             {
-                if (recentCounter++ == 60)
+                if (recentCounter++ == 120)
                 {
                     recentFood.Add(LocalFood.Current);
                     recentWood.Add(LocalLR.Current);

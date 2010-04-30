@@ -119,6 +119,7 @@ namespace Code2015.EngineEx
 
         public void DrawString(Sprite sprite, string text, int x, int y, ColorValue color) 
         {
+            int std = x;
             for (int i = 0; i < text.Length; i++)
             {
                 char ch = text[i];
@@ -148,7 +149,7 @@ namespace Code2015.EngineEx
                 }
                 else
                 {
-                    x = 0;
+                    x = std;
                     y += charHeight;
                 }
             }
