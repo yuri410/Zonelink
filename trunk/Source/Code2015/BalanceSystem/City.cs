@@ -163,6 +163,19 @@ namespace Code2015.BalanceSystem
 
 
         #region  属性
+        public bool IsLackFood
+        {
+            get { return recentFood.Result < float.Epsilon; }
+        }
+
+        public bool IsLackWood
+        {
+            get { return recentWood.Result < float.Epsilon; }
+        }
+        public bool IsLackOil
+        {
+            get { return recentOil.Result < float.Epsilon; }
+        }
 
         public string[] LinkableCityName
         {
@@ -720,8 +733,6 @@ namespace Code2015.BalanceSystem
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
             CarbonProduceSpeed = 0;
-
-            
 
 
             if (Capture.IsCapturing && !IsCaptured)

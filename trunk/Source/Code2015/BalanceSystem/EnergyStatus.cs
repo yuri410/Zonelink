@@ -253,8 +253,10 @@ namespace Code2015.BalanceSystem
                             disaster.Damage = pp * MaxDamage * adj;
                             disaster.Radius = pp * MaxRadius * adj;
 
-                            EventLogger.Instance.Log(EventType.Strike, badCity);
-
+                            if (area.Owner.Type == PlayerType.LocalHuman)
+                            {
+                                EventLogger.Instance.Log(EventType.Strike, badCity);
+                            }
                             incoming.Add(ref disaster);
                             changed = true;
                         }
