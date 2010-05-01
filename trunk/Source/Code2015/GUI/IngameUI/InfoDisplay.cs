@@ -84,15 +84,16 @@ namespace Code2015.GUI
 
                 CityInfo info;
 
-                if (!cityTable.TryGetValue(cc, out info))
+                cityTable.TryGetValue(cc, out info);
+                if (info != null)
                 {
-                    info = new CityInfo(this, renderSys, cc, player, pieEffect);
-                    cityTable.Add(cc, info);
+                    //info = new CityInfo(this, renderSys, cc, player, pieEffect);
+                    //cityTable.Add(cc, info);
+
+
+                    info.Render(sprite);
                 }
-
-                info.Render(sprite);
             }
-
 
             for (int i = 0; i < popUps.Count; i++)
             {
@@ -112,6 +113,20 @@ namespace Code2015.GUI
                 {
                     popUps[i].Update(time);
                 }
+            } 
+            for (int i = 0; i < scene.VisibleCityCount; i++)
+            {
+                CityObject cc = scene.GetVisibleCity(i);
+
+                CityInfo info;
+
+                if (!cityTable.TryGetValue(cc, out info))
+                {
+                    info = new CityInfo(this, renderSys, cc, player, pieEffect);
+                    cityTable.Add(cc, info);
+                }
+
+                info.Update(time);
             }
         }
 

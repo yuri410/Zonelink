@@ -197,6 +197,9 @@ namespace Code2015.GUI
 
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
 
+        float flashCounter;
+        
+
         public ColorValue DistanceMod;
 
         public CityInfo(CityInfoDisplay info, RenderSystem rs, CityObject city, Player player, PieProgressEffect pieEff)
@@ -236,7 +239,7 @@ namespace Code2015.GUI
             
             f18ig1.DrawString(sprite, name, scrnPos.X - strSize.Width / 2 + 1, scrnPos.Y + 1, ColorValue.Black);
             f18ig1.DrawString(sprite, name, scrnPos.X - strSize.Width / 2, scrnPos.Y, ColorValue.White);
-            
+
             if (city.Owner == player)
             {
                 float dist = Vector3.Distance(city.Position, parent.CameraPosition);
@@ -249,7 +252,7 @@ namespace Code2015.GUI
                     parent.AddLinkPopup(scrnPos.X, scrnPos.Y);
                     city.IsLinked = false;
                 }
-                if (city.IsScaleIncreased) 
+                if (city.IsScaleIncreased)
                 {
                     parent.AddGrowPopup(scrnPos.X, scrnPos.Y);
                     city.IsScaleIncreased = false;
@@ -269,7 +272,34 @@ namespace Code2015.GUI
                     city.IsUpgraded = false;
                 }
 
+
+
+                ppos = renderSys.Viewport.Project(city.Position + tangy * (CityStyleTable.CityRadius + 25),
+                   parent.Projection, parent.View, Matrix.Identity);
+                scrnPos = new Point((int)ppos.X, (int)ppos.Y);
+                scrnPos.X -= 40;
+                scrnPos.Y -= 50;
+                ColorValue color = ColorValue.White;
+                if (city.City.IsLackFood)
+                {
+                    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + Math.PI / 2)))));
+                    sprite.Draw(needFood, scrnPos.X, scrnPos.Y, color);
+                }
+
+                if (city.City.IsLackOil)
+                {
+                    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + Math.PI)))));
+                    sprite.Draw(needOil, scrnPos.X, scrnPos.Y, color);
+                }
+                if (city.City.IsLackWood)
+                {
+                    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + 3 * Math.PI / 2)))));
+                    sprite.Draw(needWood, scrnPos.X, scrnPos.Y, color);
+                }
+
             }
+
+
         }
 
         public override void Update(GameTime time)
@@ -283,6 +313,9 @@ namespace Code2015.GUI
                         pluginInfo[i].Update(time);
                     }
                 }
+                flashCounter += time.ElapsedGameTimeSeconds * 2;
+                if (flashCounter > MathEx.PIf * 2)
+                    flashCounter -= MathEx.PIf * 2;
             }
         }
     }
