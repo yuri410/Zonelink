@@ -552,7 +552,8 @@ namespace Code2015.World
                     {
                         if (plugins[i].plugin.IsBuilding || plugins[i].plugin.IsSelling) 
                         {
-                            ops[j].Transformation *= Matrix.Translation(0, -100 + plugins[i].plugin.BuildProgress * 100, 0);
+                            float bp = plugins[i].plugin.BuildProgress;
+                            ops[j].Transformation *= Matrix.Translation(0, -75 + bp * bp * bp * 75, 0);
                         }
                         ops[j].Transformation *= plugins[i].transform;
                     }
