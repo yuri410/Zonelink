@@ -16,7 +16,7 @@ namespace Code2015.World
 {
     class CityLinkObject : Entity
     {
-        public const int MaxLevel = 2;
+        public const int MaxLevel = 3;
 
         public const float LinkBaseLength = 100;
         public const float LinkWidthScale = 0.006f;
@@ -353,7 +353,7 @@ namespace Code2015.World
                         if (abs > LRThreshold)
                         {
                             ABGreenLevel = (int)(alink.LR / LRUnit);
-                            if (ABGreenLevel >= MaxLevel) ABGreenLevel = MaxLevel - 1;
+                            if (ABGreenLevel > MaxLevel) ABGreenLevel = MaxLevel - 1;
 
                             for (int i = 0; i < ABGreenLevel; i++)
                                 atobGreenE[i].IsVisible = true;
@@ -362,7 +362,7 @@ namespace Code2015.World
                         {
                             BAGreenLevel = (int)(blink.LR / LRUnit);
 
-                            if (BAGreenLevel >= MaxLevel) BAGreenLevel = MaxLevel - 1;
+                            if (BAGreenLevel > MaxLevel) BAGreenLevel = MaxLevel - 1;
 
                             for (int i = 0; i < BAGreenLevel; i++)
                                 btoaGreenE[i].IsVisible = true;
@@ -377,7 +377,7 @@ namespace Code2015.World
                         {
                             ABRedLevel = (int)(alink.HR / HRUnit);
 
-                            if (ABRedLevel >= MaxLevel) ABRedLevel = MaxLevel - 1;
+                            if (ABRedLevel > MaxLevel) ABRedLevel = MaxLevel - 1;
 
                             for (int i = 0; i < ABRedLevel; i++)
                                 atobRedE[i].IsVisible = true;
@@ -386,7 +386,7 @@ namespace Code2015.World
                         {
                             BARedLevel = (int)(blink.HR / HRUnit);
 
-                            if (BARedLevel >= MaxLevel) BARedLevel = MaxLevel - 1;
+                            if (BARedLevel > MaxLevel) BARedLevel = MaxLevel - 1;
 
                             for (int i = 0; i < BARedLevel; i++)
                                 btoaRedE[i].IsVisible = true;
@@ -402,7 +402,7 @@ namespace Code2015.World
                         {
                             ABYellowLevel = (int)(alink.Food / FoodUnit);
 
-                            if (ABYellowLevel >= MaxLevel) ABYellowLevel = MaxLevel - 1;
+                            if (ABYellowLevel > MaxLevel) ABYellowLevel = MaxLevel - 1;
 
                             for (int i = 0; i < ABYellowLevel; i++)
                                 atobYellowE[i].IsVisible = true;
@@ -411,7 +411,7 @@ namespace Code2015.World
                         {
                             BAYellowLevel = (int)(blink.Food / FoodUnit);
 
-                            if (BAYellowLevel >= MaxLevel) BAYellowLevel = MaxLevel - 1;
+                            if (BAYellowLevel > MaxLevel) BAYellowLevel = MaxLevel - 1;
 
                             for (int i = 0; i < BAYellowLevel; i++)
                                 btoaYellowE[i].IsVisible = true;
@@ -444,13 +444,10 @@ namespace Code2015.World
                                 ABGreenLevel = MaxLevel;
                                 ABRedLevel = MaxLevel;
 
-                                if (ABGreenLevel >= MaxLevel) ABGreenLevel = MaxLevel - 1;
-                                for (int i = 0; i < ABGreenLevel; i++)
+                                for (int i = 0; i < MaxLevel; i++)
                                     atobGreenE[i].IsVisible = true;
 
-
-                                if (ABRedLevel >= MaxLevel) ABRedLevel = MaxLevel - 1;
-                                for (int i = 0; i < ABRedLevel; i++)
+                                for (int i = 0; i < MaxLevel; i++)
                                     atobRedE[i].IsVisible = true;
                             }
                             else
@@ -458,13 +455,10 @@ namespace Code2015.World
                                 BAGreenLevel = MaxLevel;
                                 BARedLevel = MaxLevel;
 
-                                if (BAGreenLevel >= MaxLevel) BAGreenLevel = MaxLevel - 1;
-                                for (int i = 0; i < BAGreenLevel; i++)
+                                for (int i = 0; i < MaxLevel; i++)
                                     btoaGreenE[i].IsVisible = true;
 
-
-                                if (BARedLevel >= MaxLevel) BARedLevel = MaxLevel - 1;
-                                for (int i = 0; i < BARedLevel; i++)
+                                for (int i = 0; i < MaxLevel; i++)
                                     btoaRedE[i].IsVisible = true;
                             }
                         }
