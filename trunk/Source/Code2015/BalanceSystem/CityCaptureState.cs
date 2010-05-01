@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.Logic;
 
@@ -107,6 +108,27 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
+        public float Speed1
+        {
+            get;
+            private set;
+        }
+        public float Speed2
+        {
+            get;
+            private set;
+        }
+        public float Speed3
+        {
+            get;
+            private set;
+        }
+        public float Speed4
+        {
+            get;
+            private set;
+        }
+
         /// <summary>
         ///  占领进度
         /// </summary>
@@ -155,7 +177,26 @@ namespace Code2015.BalanceSystem
             }
             Changed = true;
         }
-
+        public float GetCaptureProgress(Player player)
+        {
+            if (player == NewOwner1)
+            {
+                return CaputreProgress1;
+            }
+            if (player == NewOwner2)
+            {
+                return CaputreProgress2;
+            }
+            if (player == NewOwner3)
+            {
+                return CaputreProgress3;
+            }
+            if (player == NewOwner4)
+            {
+                return CaputreProgress4;
+            }
+            return 0;
+        }
         public bool IsPlayerCapturing(Player player)
         {
             if (player == NewOwner1)
@@ -175,6 +216,26 @@ namespace Code2015.BalanceSystem
                 return true;
             }
             return false;
+        }
+        public float GetSpeed(Player player) 
+        {
+            if (player == NewOwner1)
+            {
+                return Speed1;
+            }
+            if (player == NewOwner2)
+            {
+                return Speed2;
+            }
+            if (player == NewOwner3)
+            {
+                return Speed3;
+            }
+            if (player == NewOwner4)
+            {
+                return Speed4;
+            }
+            return 0;
         }
         public bool CanCapture(Player player)
         {
@@ -227,19 +288,23 @@ namespace Code2015.BalanceSystem
         {
             if (player == NewOwner1)
             {
-                CaputreProgress1 += hrAmount + lrAmount * 0.5f;
+                Speed1 = hrAmount + lrAmount * 0.5f;
+                CaputreProgress1 += Speed1;
             }
             else if (player == NewOwner2)
             {
-                CaputreProgress2 += hrAmount + lrAmount * 0.5f;
+                Speed2 = hrAmount + lrAmount * 0.5f;
+                CaputreProgress2 += Speed2;
             }
             else if (player == NewOwner3)
             {
-                CaputreProgress3 += hrAmount + lrAmount * 0.5f;
+                Speed3 = hrAmount + lrAmount * 0.5f;
+                CaputreProgress3 += Speed3;
             }
             else if (player == NewOwner4)
             {
-                CaputreProgress4 += hrAmount + lrAmount * 0.5f;
+                Speed4 = hrAmount + lrAmount * 0.5f;
+                CaputreProgress4 += Speed4;
             }
         }
     }

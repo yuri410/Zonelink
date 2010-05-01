@@ -650,26 +650,45 @@ namespace Code2015.GUI
                 build.Render(sprite);
 
                 int cost = 0;
+                switch (selectedType)
+                {
+                    case SelectedPluginType.Wood:
+                        cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
+                        break;
+                    case SelectedPluginType.Oil:
+                        cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
+                        break;
+                    case SelectedPluginType.Hospital:
+                        cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
+                        break;
+                    case SelectedPluginType.Education:
+                        cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
+                        break;
+                }
+
                 if (!build.Enabled && build.IsMouseOver)
                 {
+                    string msg = "CITY SCALE NOT ENOUGH";
+                    f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                }
+                else if (!sell.Enabled && sell.IsMouseOver)
+                {
+                    string msg1 = string.Empty;
                     switch (selectedType)
                     {
-                        case SelectedPluginType.Wood:
-                            cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
-                            break;
                         case SelectedPluginType.Oil:
-                            cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
+                        case SelectedPluginType.Wood:
+                            msg1 = "FACTORY";
                             break;
                         case SelectedPluginType.Hospital:
-                            cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
+                            msg1 = "HOSPITAL";
                             break;
                         case SelectedPluginType.Education:
-                            cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
+                            msg1 = "SCHOOL";
                             break;
                     }
-                    string msg = "NOT LARGE ENOUGH FOR MORE ACCESSORIES";
-                    f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
-
+                    string msg2 = "NO " + msg1 + " TO SELL";
+                    f14.DrawString(sprite, msg1 + msg2, (int)cx2 + 30, 461, ColorValue.White);
                 }
                 else
                 {
@@ -678,8 +697,6 @@ namespace Code2015.GUI
                         case SelectedPluginType.Wood:
                             string msg = "GATHERS ";
                             string msg2 = "FROM NEARBY FOREST";
-
-                            cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
 
                             f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
                             sprite.Draw(woodSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
@@ -690,8 +707,6 @@ namespace Code2015.GUI
                             msg = "GATHERS ";
                             msg2 = "FROM NEARBY OILFIELD";
 
-                            cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
-
                             f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
                             sprite.Draw(oilSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
                             f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
@@ -700,15 +715,11 @@ namespace Code2015.GUI
                         case SelectedPluginType.Hospital:
                             msg = "IMPROVES CITY'S HEALTHCARE";
 
-                            cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
-
                             f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
 
                             break;
                         case SelectedPluginType.Education:
                             msg = "BOOSTS CITY'S DEVELOPMENT";
-
-                            cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
 
                             f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
 

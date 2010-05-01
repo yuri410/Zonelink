@@ -16,7 +16,7 @@ namespace Code2015.World
 {
     class CityLinkObject : Entity
     {
-        //public const int MaxLevel = 2;
+        public const int MaxLevel = 2;
 
         public const float LinkBaseLength = 100;
         public const float LinkWidthScale = 0.006f;
@@ -26,9 +26,9 @@ namespace Code2015.World
         public const float HRThreshold = 0.01f;
         public const float FoodThreshold = 0.01f;
 
-        //public const float LRUnit = 0.2f;
-        //public const float HRUnit = 0.2f;
-        //public const float FoodUnit = 0.2f;
+        public const float LRUnit = 0.05f;
+        public const float HRUnit = 0.05f;
+        public const float FoodUnit = 0.05f;
 
         int updataCounter;
         SceneManagerBase sceneMgr;
@@ -40,29 +40,31 @@ namespace Code2015.World
 
         Model link_e;
 
-        TransferEffect atobGreen;// = new TransferEffect[MaxLevel];
-        TransferEffect atobRed;//= new TransferEffect[MaxLevel];
-        TransferEffect atobYellow;// = new TransferEffect[MaxLevel];
+        TransferEffect[] atobGreen = new TransferEffect[MaxLevel];
+        TransferEffect[] atobRed = new TransferEffect[MaxLevel];
+        TransferEffect[] atobYellow = new TransferEffect[MaxLevel];
 
-        TransferEmitter atobGreenE;// = new TransferEmitter[MaxLevel];
-        TransferEmitter atobRedE;//= new TransferEmitter[MaxLevel];
-        TransferEmitter atobYellowE;//= new TransferEmitter[MaxLevel];
+        TransferEmitter[] atobGreenE = new TransferEmitter[MaxLevel];
+        TransferEmitter[] atobRedE = new TransferEmitter[MaxLevel];
+        TransferEmitter[] atobYellowE = new TransferEmitter[MaxLevel];
 
-        TransferEffect btoaGreen;//= new TransferEffect[MaxLevel];
-        TransferEffect btoaRed;//= new TransferEffect[MaxLevel];
-        TransferEffect btoaYellow;// = new TransferEffect[MaxLevel];
+        TransferEffect[] btoaGreen = new TransferEffect[MaxLevel];
+        TransferEffect[] btoaRed = new TransferEffect[MaxLevel];
+        TransferEffect[] btoaYellow = new TransferEffect[MaxLevel];
 
-        TransferEmitter btoaGreenE;//= new TransferEmitter[MaxLevel];
-        TransferEmitter btoaRedE;// = new TransferEmitter[MaxLevel];
-        TransferEmitter btoaYellowE;//= new TransferEmitter[MaxLevel];
-
-
-        TransferEffect atobEff;
-        TransferEffect btoaEff;
-        TransferEmitter emittera;
-        TransferEmitter emitterb;
+        TransferEmitter[] btoaGreenE = new TransferEmitter[MaxLevel];
+        TransferEmitter[] btoaRedE = new TransferEmitter[MaxLevel];
+        TransferEmitter[] btoaYellowE = new TransferEmitter[MaxLevel];
 
 
+
+        int ABGreenLevel;
+        int ABRedLevel;
+        int ABYellowLevel;
+
+        int BAGreenLevel;
+        int BARedLevel;
+        int BAYellowLevel;
 
 
         bool isVisible;
@@ -158,84 +160,76 @@ namespace Code2015.World
             Vector3 startPos = a.Position;
             Vector3 endPos = b.Position;
 
-            emittera = new TransferEmitter(startPos, endPos, ori.Forward);
-            emitterb = new TransferEmitter(endPos, startPos, -ori.Forward);
-            atobEff = new TransferEffect(renderSys, TransferType.Default);
-            btoaEff = new TransferEffect(renderSys, TransferType.Default);
-            atobEff.Emitter = emittera;
-            atobEff.Modifier = new ParticleModifier();
+            for (int i = 0; i < MaxLevel; i++)
+            {
+                TransferEffect abg = new TransferEffect(renderSys, TransferType.Wood);
+                TransferEmitter abgE = new TransferEmitter(startPos, endPos, ori.Forward);
 
-            btoaEff.Emitter = emitterb;
-            btoaEff.Modifier = new ParticleModifier();
+                abgE.IsVisible = false;
+                abgE.IsShutDown = true;
+                atobGreen[i] = abg;
+                atobGreenE[i] = abgE;
 
-            TransferEffect abg = new TransferEffect(renderSys, TransferType.Wood);
-            TransferEmitter abgE = new TransferEmitter(startPos, endPos, ori.Forward);
+                abg.Modifier = new TransferModifier();
+                abg.Emitter = abgE;
 
-            abgE.IsVisible = false;
-            abgE.IsShutDown = true;
-            atobGreen = abg;
-            atobGreenE = abgE;
+                TransferEffect bag = new TransferEffect(renderSys, TransferType.Wood);
+                TransferEmitter bagE = new TransferEmitter(endPos, startPos, -ori.Forward);
 
-            abg.Modifier = new TransferModifier();
-            abg.Emitter = abgE;
+                bagE.IsVisible = false;
+                bagE.IsShutDown = true;
+                btoaGreen[i] = bag;
+                btoaGreenE[i] = bagE;
 
-            TransferEffect bag = new TransferEffect(renderSys, TransferType.Wood);
-            TransferEmitter bagE = new TransferEmitter(endPos, startPos, -ori.Forward);
+                bag.Modifier = new TransferModifier();
+                bag.Emitter = bagE;
 
-            bagE.IsVisible = false;
-            bagE.IsShutDown = true;
-            btoaGreen = bag;
-            btoaGreenE = bagE;
+                TransferEffect abr = new TransferEffect(renderSys, TransferType.Oil);
+                TransferEmitter abrE = new TransferEmitter(startPos, endPos, ori.Forward);
 
-            bag.Modifier = new TransferModifier();
-            bag.Emitter = bagE;
+                abrE.IsVisible = false;
+                abrE.IsShutDown = true;
+                atobRed[i] = abr;
+                atobRedE[i] = abrE;
 
-            TransferEffect abr = new TransferEffect(renderSys, TransferType.Oil);
-            TransferEmitter abrE = new TransferEmitter(startPos, endPos, ori.Forward);
+                abr.Modifier = new TransferModifier();
+                abr.Emitter = abrE;
 
-            abrE.IsVisible = false;
-            abrE.IsShutDown = true;
-            atobRed = abr;
-            atobRedE = abrE;
+                TransferEffect bar = new TransferEffect(renderSys, TransferType.Oil);
+                TransferEmitter barE = new TransferEmitter(endPos, startPos, -ori.Forward);
 
-            abr.Modifier = new TransferModifier();
-            abr.Emitter = abrE;
+                barE.IsVisible = false;
+                barE.IsShutDown = true;
+                btoaRed[i] = bar;
+                btoaRedE[i] = barE;
 
-            TransferEffect bar = new TransferEffect(renderSys, TransferType.Oil);
-            TransferEmitter barE = new TransferEmitter(endPos, startPos, -ori.Forward);
-
-            barE.IsVisible = false;
-            barE.IsShutDown = true;
-            btoaRed = bar;
-            btoaRedE = barE;
-
-            bar.Modifier = new TransferModifier();
-            bar.Emitter = barE;
+                bar.Modifier = new TransferModifier();
+                bar.Emitter = barE;
 
 
-            TransferEffect aby = new TransferEffect(renderSys, TransferType.Food);
-            TransferEmitter abyE = new TransferEmitter(startPos, endPos, ori.Forward);
+                TransferEffect aby = new TransferEffect(renderSys, TransferType.Food);
+                TransferEmitter abyE = new TransferEmitter(startPos, endPos, ori.Forward);
 
-            abyE.IsVisible = false;
-            abyE.IsShutDown = true;
-            atobYellow = aby;
-            atobYellowE = abyE;
+                abyE.IsVisible = false;
+                abyE.IsShutDown = true;
+                atobYellow[i] = aby;
+                atobYellowE[i] = abyE;
 
-            aby.Modifier = new TransferModifier();
-            aby.Emitter = abyE;
+                aby.Modifier = new TransferModifier();
+                aby.Emitter = abyE;
 
 
-            TransferEffect bay = new TransferEffect(renderSys, TransferType.Food);
-            TransferEmitter bayE = new TransferEmitter(endPos, startPos, -ori.Forward);
+                TransferEffect bay = new TransferEffect(renderSys, TransferType.Food);
+                TransferEmitter bayE = new TransferEmitter(endPos, startPos, -ori.Forward);
 
-            bayE.IsVisible = false;
-            bayE.IsShutDown = true;
-            btoaYellow = bay;
-            btoaYellowE = bayE;
+                bayE.IsVisible = false;
+                bayE.IsShutDown = true;
+                btoaYellow[i] = bay;
+                btoaYellowE[i] = bayE;
 
-            bay.Modifier = new TransferModifier();
-            bay.Emitter = bayE;
-
+                bay.Modifier = new TransferModifier();
+                bay.Emitter = bayE;
+            }
 
         }
 
@@ -257,71 +251,55 @@ namespace Code2015.World
                 opBuffer.Add(ops);
             }
 
-
-            if (!atobGreenE.IsShutDown)
+            for (int i = 0; i < MaxLevel; i++)
             {
-                ops = atobGreen.GetRenderOperation();
-                if (ops != null)
+                if (!atobGreenE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = atobGreen[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-            }
-            if (!atobRedE.IsShutDown)
-            {
-                ops = atobRed.GetRenderOperation();
-                if (ops != null)
+                if (!atobRedE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = atobRed[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-            }
-            if (!atobYellowE.IsShutDown)
-            {
-                ops = atobYellow.GetRenderOperation();
-                if (ops != null)
+                if (!atobYellowE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = atobYellow[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-            }
-            if (!btoaGreenE.IsShutDown)
-            {
-                ops = btoaGreen.GetRenderOperation();
-                if (ops != null)
+                if (!btoaGreenE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = btoaGreen[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-            }
-            if (!btoaRedE.IsShutDown)
-            {
-                ops = btoaRed.GetRenderOperation();
-                if (ops != null)
+                if (!btoaRedE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
+                    ops = btoaRed[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
-            }
-            if (!btoaYellowE.IsShutDown)
-            {
-                ops = btoaYellow.GetRenderOperation();
-                if (ops != null)
+                if (!btoaYellowE[i].IsShutDown)
                 {
-                    opBuffer.Add(ops);
-                }
-            }
-
-
-            if (!emittera.IsShutDown)
-            {
-                ops = atobEff.GetRenderOperation();
-                if (ops != null)
-                {
-                    opBuffer.Add(ops);
-                }
-            }
-            if (!emitterb.IsShutDown)
-            {
-                ops = btoaEff.GetRenderOperation();
-                if (ops != null)
-                {
-                    opBuffer.Add(ops);
+                    ops = btoaYellow[i].GetRenderOperation();
+                    if (ops != null)
+                    {
+                        opBuffer.Add(ops);
+                    }
                 }
             }
 
@@ -357,16 +335,16 @@ namespace Code2015.World
                 {
                     if (alink != null && blink != null)
                     {
-                        emittera.IsVisible = false;
-                        emitterb.IsVisible = false;
+                        for (int i = 0; i < MaxLevel; i++)
+                        {
+                            atobGreenE[i].IsVisible = false;
+                            btoaGreenE[i].IsVisible = false;
+                            atobRedE[i].IsVisible = false;
+                            btoaRedE[i].IsVisible = false;
 
-                        atobGreenE.IsVisible = false;
-                        btoaGreenE.IsVisible = false;
-                        atobRedE.IsVisible = false;
-                        btoaRedE.IsVisible = false;
-
-                        atobYellowE.IsVisible = false;
-                        btoaYellowE.IsVisible = false;
+                            atobYellowE[i].IsVisible = false;
+                            btoaYellowE[i].IsVisible = false;
+                        }
 
                         #region LR
 
@@ -374,31 +352,44 @@ namespace Code2015.World
 
                         if (abs > LRThreshold)
                         {
-                            atobGreenE.IsVisible = true;
-                            btoaGreenE.IsVisible = false;
+                            ABGreenLevel = (int)(alink.LR / LRUnit);
+                            if (ABGreenLevel >= MaxLevel) ABGreenLevel = MaxLevel - 1;
+
+                            for (int i = 0; i < ABGreenLevel; i++)
+                                atobGreenE[i].IsVisible = true;
                         }
                         else if (abs < -LRThreshold)
                         {
-                            atobGreenE.IsVisible = false;
-                            btoaGreenE.IsVisible = true;
+                            BAGreenLevel = (int)(blink.LR / LRUnit);
+
+                            if (BAGreenLevel >= MaxLevel) BAGreenLevel = MaxLevel - 1;
+
+                            for (int i = 0; i < BAGreenLevel; i++)
+                                btoaGreenE[i].IsVisible = true;
                         }
 
 
                         #endregion
                         #region HR
-
-
                         abs = alink.HR - blink.HR;
 
                         if (abs > HRThreshold)
                         {
-                            atobRedE.IsVisible = true;
-                            btoaRedE.IsVisible = false;
+                            ABRedLevel = (int)(alink.HR / HRUnit);
+
+                            if (ABRedLevel >= MaxLevel) ABRedLevel = MaxLevel - 1;
+
+                            for (int i = 0; i < ABRedLevel; i++)
+                                atobRedE[i].IsVisible = true;
                         }
                         else if (abs < -HRThreshold)
                         {
-                            atobRedE.IsVisible = false;
-                            btoaRedE.IsVisible = true;
+                            BARedLevel = (int)(blink.HR / HRUnit);
+
+                            if (BARedLevel >= MaxLevel) BARedLevel = MaxLevel - 1;
+
+                            for (int i = 0; i < BARedLevel; i++)
+                                btoaRedE[i].IsVisible = true;
                         }
 
 
@@ -409,35 +400,89 @@ namespace Code2015.World
 
                         if (abs > FoodThreshold)
                         {
-                            atobYellowE.IsVisible = true;
-                            btoaYellowE.IsVisible = false;
+                            ABYellowLevel = (int)(alink.Food / FoodUnit);
+
+                            if (ABYellowLevel >= MaxLevel) ABYellowLevel = MaxLevel - 1;
+
+                            for (int i = 0; i < ABYellowLevel; i++)
+                                atobYellowE[i].IsVisible = true;
                         }
                         else if (abs < -FoodThreshold)
                         {
-                            atobYellowE.IsVisible = false;
-                            btoaYellowE.IsVisible = true;
+                            BAYellowLevel = (int)(blink.Food / FoodUnit);
+
+                            if (BAYellowLevel >= MaxLevel) BAYellowLevel = MaxLevel - 1;
+
+                            for (int i = 0; i < BAYellowLevel; i++)
+                                btoaYellowE[i].IsVisible = true;
                         }
 
                         #endregion
                     }
                     else
                     {
-                        emittera.IsVisible = true;
-                        emitterb.IsVisible = true;
+                        City city;
+                        City src;
+                        bool inversed = false;
+                        if (!start.IsCaptured)
+                        {
+                            city = start.City;
+                            src = end.City;
+                            inversed = true;
+                        }
+                        else
+                        {
+                            city = end.City;
+                            src = start.City;
+                        }
+
+                        if (city != null)
+                        {
+
+                            if (!inversed)
+                            {
+                                ABGreenLevel = MaxLevel;
+                                ABRedLevel = MaxLevel;
+
+                                if (ABGreenLevel >= MaxLevel) ABGreenLevel = MaxLevel - 1;
+                                for (int i = 0; i < ABGreenLevel; i++)
+                                    atobGreenE[i].IsVisible = true;
+
+
+                                if (ABRedLevel >= MaxLevel) ABRedLevel = MaxLevel - 1;
+                                for (int i = 0; i < ABRedLevel; i++)
+                                    atobRedE[i].IsVisible = true;
+                            }
+                            else
+                            {
+                                BAGreenLevel = MaxLevel;
+                                BARedLevel = MaxLevel;
+
+                                if (BAGreenLevel >= MaxLevel) BAGreenLevel = MaxLevel - 1;
+                                for (int i = 0; i < BAGreenLevel; i++)
+                                    btoaGreenE[i].IsVisible = true;
+
+
+                                if (BARedLevel >= MaxLevel) BARedLevel = MaxLevel - 1;
+                                for (int i = 0; i < BARedLevel; i++)
+                                    btoaRedE[i].IsVisible = true;
+                            }
+                        }
                     }
                     updataCounter = 0;
                 }
 
 
-                atobGreen.Update(dt);
-                atobRed.Update(dt);
-                atobYellow.Update(dt);
-                btoaGreen.Update(dt);
-                btoaRed.Update(dt);
-                btoaYellow.Update(dt);
+                for (int i = 0; i < MaxLevel; i++)
+                {
+                    atobGreen[i].Update(dt);
+                    atobRed[i].Update(dt);
+                    atobYellow[i].Update(dt);
+                    btoaGreen[i].Update(dt);
+                    btoaRed[i].Update(dt);
+                    btoaYellow[i].Update(dt);
+                }
 
-                atobEff.Update(dt);
-                btoaEff.Update(dt);
                 isVisible = false;
             }
         }

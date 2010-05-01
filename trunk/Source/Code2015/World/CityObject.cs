@@ -533,11 +533,13 @@ namespace Code2015.World
                         break;
                     case CityPluginTypeId.OilRefinary:
                         ops = style.OilRefinary.GetRenderOperation();
-
-                        RenderOperation[] ops2 = smoke.GetRenderOperation(i);
-                        if (ops2 != null)
+                        if (!plugins[i].plugin.IsSelling && !plugins[i].plugin.IsBuilding)
                         {
-                            opBuffer.Add(ops2);
+                            RenderOperation[] ops2 = smoke.GetRenderOperation(i);
+                            if (ops2 != null)
+                            {
+                                opBuffer.Add(ops2);
+                            }
                         }
                         break;
                     case CityPluginTypeId.WoodFactory:
@@ -548,6 +550,10 @@ namespace Code2015.World
                 {
                     for (int j = 0; j < ops.Length; j++)
                     {
+                        if (plugins[i].plugin.IsBuilding || plugins[i].plugin.IsSelling) 
+                        {
+                            ops[j].Transformation *= Matrix.Translation(0, -100 + plugins[i].plugin.BuildProgress * 100, 0);
+                        }
                         ops[j].Transformation *= plugins[i].transform;
                     }
                     opBuffer.Add(ops);

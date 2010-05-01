@@ -98,7 +98,7 @@ namespace Code2015.GUI
             sprite.End();
 
             pieEffect.SetTexture("texDif", co2bar);
-            pieEffect.SetValue("hozsep", 0.3f);
+            pieEffect.SetValue("hozsep", 0.25f);
            
             pieEffect.SetValue("weight", prgress);
             

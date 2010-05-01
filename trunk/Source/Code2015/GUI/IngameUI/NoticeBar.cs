@@ -37,7 +37,7 @@ namespace Code2015.GUI
         Texture background;
         float timeCounter;
 
-        float[] activeStateCd;
+        float activeStateCd;
 
         NormalSoundObject nolumber;
         NormalSoundObject nooil;
@@ -51,7 +51,7 @@ namespace Code2015.GUI
             if (e.Object == null)
                 return;
 
-            if (activeStateCd[(int)e.Type] < float.Epsilon)
+            if (activeStateCd< float.Epsilon)
             {
                 switch (e.Type)
                 {
@@ -69,7 +69,7 @@ namespace Code2015.GUI
                         state = AnimState.Out; 
                         break;
                     case EventType.Strike:
-                        currentMessage = "A HURRICANE STRIKES YOUR CITY.";
+                        currentMessage = "A HURRICANE IS COMMING. /nBE AWARE OF CO2 EMISSION.";
                         storm.Fire();
 
                         state = AnimState.Out;
@@ -89,7 +89,7 @@ namespace Code2015.GUI
                 }
 
 
-                activeStateCd[(int)e.Type] = DisplayInterval; 
+                activeStateCd = DisplayInterval; 
             }
           
         }
@@ -108,8 +108,6 @@ namespace Code2015.GUI
             background = UITextureManager.Instance.CreateInstance(fl);
 
             EventLogger.Instance.NewLog += NewMessage;
-
-            activeStateCd = new float[(int)EventType.Count];
 
 
 
@@ -186,14 +184,9 @@ namespace Code2015.GUI
             }
 
 
-
-
-            for (int i = 0; i < activeStateCd.Length; i++)
-            {
-                activeStateCd[i] -= time.ElapsedGameTimeSeconds;
-                if (activeStateCd[i] < 0)
-                    activeStateCd[i] = 0;
-            }
+            activeStateCd -= time.ElapsedGameTimeSeconds;
+            if (activeStateCd < 0)
+                activeStateCd = 0;
         }
     }
 }
