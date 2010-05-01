@@ -632,7 +632,7 @@ namespace Code2015.GUI
                         break;
                     case SelectedPluginType.Hospital:
 
-                        f18.DrawString(sprite, "HOSIPTAL", (int)cx + 270, PanelY + 10, ColorValue.White);
+                        f18.DrawString(sprite, "HOSPITAL", (int)cx + 270, PanelY + 10, ColorValue.White);
                         break;
                     case SelectedPluginType.Education:
 
@@ -650,46 +650,70 @@ namespace Code2015.GUI
                 build.Render(sprite);
 
                 int cost = 0;
-                switch (selectedType)
+                if (!build.Enabled && build.IsMouseOver)
                 {
-                    case SelectedPluginType.Wood:
-                        string msg = "GATHERS ";
-                        string msg2 = "FROM NEARBY FOREST";
+                    switch (selectedType)
+                    {
+                        case SelectedPluginType.Wood:
+                            cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
+                            break;
+                        case SelectedPluginType.Oil:
+                            cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
+                            break;
+                        case SelectedPluginType.Hospital:
+                            cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
+                            break;
+                        case SelectedPluginType.Education:
+                            cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
+                            break;
+                    }
+                    string msg = "NOT LARGE ENOUGH FOR MORE ACCESSORIES";
+                    f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
 
-                        cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
+                }
+                else
+                {
+                    switch (selectedType)
+                    {
+                        case SelectedPluginType.Wood:
+                            string msg = "GATHERS ";
+                            string msg2 = "FROM NEARBY FOREST";
 
-                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
-                        sprite.Draw(woodSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
-                        f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
+                            cost = (int)gameLogic.PluginFactory.WoodFactoryType.CostLR;
 
-                        break;
-                    case SelectedPluginType.Oil:
-                        msg = "GATHERS ";
-                        msg2 = "FROM NEARBY OILFIELD";
+                            f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                            sprite.Draw(woodSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
+                            f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
 
-                        cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
+                            break;
+                        case SelectedPluginType.Oil:
+                            msg = "GATHERS ";
+                            msg2 = "FROM NEARBY OILFIELD";
 
-                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
-                        sprite.Draw(oilSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
-                        f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
+                            cost = (int)gameLogic.PluginFactory.OilRefinaryType.CostLR;
 
-                        break;
-                    case SelectedPluginType.Hospital:
-                        msg = "IMPROVES CITY'S HEALTHCARE";
+                            f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                            sprite.Draw(oilSign, (int)cx2 + 30 + 80, 455, ColorValue.White);
+                            f14.DrawString(sprite, msg2, (int)cx2 + 30 + 120, 461, ColorValue.White);
 
-                        cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
+                            break;
+                        case SelectedPluginType.Hospital:
+                            msg = "IMPROVES CITY'S HEALTHCARE";
 
-                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                            cost = (int)gameLogic.PluginFactory.HospitalType.CostLR;
 
-                        break;
-                    case SelectedPluginType.Education:
-                        msg = "BOOSTS CITY'S DEVELOPMENT";
+                            f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
 
-                        cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
+                            break;
+                        case SelectedPluginType.Education:
+                            msg = "BOOSTS CITY'S DEVELOPMENT";
 
-                        f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+                            cost = (int)gameLogic.PluginFactory.EducationOrgType.CostLR;
 
-                        break;
+                            f14.DrawString(sprite, msg, (int)cx2 + 30, 461, ColorValue.White);
+
+                            break;
+                    }
                 }
 
                 f14.DrawString(sprite, "COST", (int)cx2 + 37, 502, ColorValue.White);
