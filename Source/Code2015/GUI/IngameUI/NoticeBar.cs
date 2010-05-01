@@ -56,7 +56,7 @@ namespace Code2015.GUI
                 switch (e.Type)
                 {
                     case EventType.Food:
-                        currentMessage = "PEOPLE LIKE ME ARE GETTING SLIMMER HERE, \nSINCE I CAN'T FIND ENOUGH FOOD TO EAT.";
+                        currentMessage = "CITIZENS NEED MORE FOOD.\n BUILD MORE MORE FARMS.";
                         nofood.Fire();
 
                         state = AnimState.Out;
@@ -69,7 +69,7 @@ namespace Code2015.GUI
                         state = AnimState.Out; 
                         break;
                     case EventType.Strike:
-                        currentMessage = "OH,ANOTHER STORMY DAY? \nBETTER NOT GOING OUT, IT'S TOO DANGEROUS";
+                        currentMessage = "A HURRICANE STRIKES YOUR CITY.";
                         storm.Fire();
 
                         state = AnimState.Out;

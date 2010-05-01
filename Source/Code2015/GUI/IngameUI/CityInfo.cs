@@ -191,6 +191,10 @@ namespace Code2015.GUI
         CityObject city;
         Player player;
 
+        Texture needFood;
+        Texture needOil;
+        Texture needWood;
+
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
 
         public ColorValue DistanceMod;
@@ -210,6 +214,13 @@ namespace Code2015.GUI
                 pluginInfo[i] = new PluginInfo(info, this, rs, city, pieEff);
             }
 
+            FileLocation fl = FileSystem.Instance.Locate("ig_needfood.tex", GameFileLocs.GUI);
+            needFood = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_needoil.tex", GameFileLocs.GUI);
+            needOil = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("ig_needwood.tex", GameFileLocs.GUI);
+            needWood = UITextureManager.Instance.CreateInstance(fl);
+
         }
 
         public override void Render(Sprite sprite)
@@ -225,8 +236,7 @@ namespace Code2015.GUI
             
             f18ig1.DrawString(sprite, name, scrnPos.X - strSize.Width / 2 + 1, scrnPos.Y + 1, ColorValue.Black);
             f18ig1.DrawString(sprite, name, scrnPos.X - strSize.Width / 2, scrnPos.Y, ColorValue.White);
-            //f18.DrawString(sprite, city.Name, scrnPos.X, scrnPos.Y,  DrawTextFormat.Center, -1);
-
+            
             if (city.Owner == player)
             {
                 float dist = Vector3.Distance(city.Position, parent.CameraPosition);
