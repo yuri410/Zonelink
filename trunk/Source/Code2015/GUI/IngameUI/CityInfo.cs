@@ -199,8 +199,8 @@ namespace Code2015.GUI
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
 
         float flashCounter;
-        ValueSmoother helper = new ValueSmoother(5);
-        int helperCounter;
+        //ValueSmoother helper = new ValueSmoother(5);
+        //int helperCounter;
 
         public ColorValue DistanceMod;
 
@@ -281,7 +281,7 @@ namespace Code2015.GUI
                    parent.Projection, parent.View, Matrix.Identity);
                 scrnPos = new Point((int)ppos.X, (int)ppos.Y);
                 scrnPos.X -= 40;
-                scrnPos.Y -= 50;
+                scrnPos.Y -= 80;
                 ColorValue color = ColorValue.White;
                 if (city.City.IsLackFood)
                 {
@@ -302,7 +302,7 @@ namespace Code2015.GUI
 
             }
             else if (city.Capture.IsPlayerCapturing(player) && 
-                (city.Capture.GetCaptureProgress(player) - helper.Result < float.Epsilon))
+                (city.Capture.GetSpeed(player) < float.Epsilon))
             {
                 ColorValue color = ColorValue.White;
 
@@ -334,15 +334,14 @@ namespace Code2015.GUI
                 if (flashCounter > MathEx.PIf * 2)
                     flashCounter -= MathEx.PIf * 2;
             }
-            else if (city.Capture.IsPlayerCapturing(player))
-            {
-                helperCounter++;
-                if (helperCounter++ == 60)
-                {
-                    helper.Add(city.Capture.GetCaptureProgress(player));
-                    helperCounter = 0;
-                }
-            }
+            //else if (city.Capture.IsPlayerCapturing(player))
+            //{
+            //    if (helperCounter++ == 60)
+            //    {
+            //        helper.Add(city.Capture.GetCaptureProgress(player));
+            //        helperCounter = 0;
+            //    }
+            //}
         }
     }
 }
