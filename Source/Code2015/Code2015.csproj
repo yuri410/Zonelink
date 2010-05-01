@@ -455,6 +455,7 @@
     <Compile Include="ParticleSystem\ParticleModifier.cs" />
     <Compile Include="ParticleSystem\SmokeEffect.cs" />
     <Compile Include="ParticleSystem\TransferEffect.cs" />
+    <Compile Include="Precache.cs" />
     <Compile Include="SoundEffectGame.cs" />
     <Compile Include="SoundManager.cs" />
     <Compile Include="SoundObject.cs" />

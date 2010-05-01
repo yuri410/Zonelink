@@ -81,23 +81,24 @@ namespace Code2015.GUI
 
         void BuildQuad(RenderSystem rs)
         {
-            ObjectFactory fac =rs.ObjectFactory;
+            ObjectFactory fac = rs.ObjectFactory;
             VertexDeclaration vtxDecl = fac.CreateVertexDeclaration(VertexPT1.Elements );
 
             VertexBuffer vb = fac.CreateVertexBuffer(4, vtxDecl, BufferUsage.Static);
 
+            const float QuadSize = 71;
             VertexPT1[] vtx = new VertexPT1[4];
-            vtx[0].pos = new Vector3(-142 / 4, -142 / 4, 0);
+            vtx[0].pos = new Vector3(-QuadSize / 2, -QuadSize / 2, 0);
             vtx[0].u1 = 0; vtx[0].v1 = 0;
 
-            vtx[1].pos = new Vector3(-142 / 4, 142 / 4, 0);
+            vtx[1].pos = new Vector3(-QuadSize / 2, QuadSize / 2, 0);
             vtx[1].u1 = 0; vtx[1].v1 = 1;
 
-            vtx[2].pos = new Vector3(142 / 4, -142 / 4, 0);
+            vtx[2].pos = new Vector3(QuadSize / 2, -QuadSize / 2, 0);
             vtx[2].u1 = 1; vtx[2].v1 = 0;
 
 
-            vtx[3].pos = new Vector3(142 / 4, 142 / 4, 0);
+            vtx[3].pos = new Vector3(QuadSize / 2, QuadSize / 2, 0);
             vtx[3].u1 = 1; vtx[3].v1 = 1;
 
             
@@ -132,21 +133,16 @@ namespace Code2015.GUI
             {
                 case CityPluginTypeId.BiofuelFactory:
                 case CityPluginTypeId.OilRefinary:
-                    Rectangle rect = new Rectangle(x - oilRefbg.Width / 4, y - oilRefbg.Height / 4, oilRefbg.Width / 2, oilRefbg.Height / 2);
-
-                    sprite.Draw(oilRefbg, rect, parent.DistanceMod);
+                    sprite.Draw(oilRefbg, x - oilRefbg.Width / 2, y - oilRefbg.Height / 2, parent.DistanceMod);
                     break;
                 case CityPluginTypeId.WoodFactory:
-                    rect = new Rectangle(x - woodFacbg.Width / 4, y - woodFacbg.Height / 4, woodFacbg.Width / 2, woodFacbg.Height / 2);
-                    sprite.Draw(woodFacbg, rect, parent.DistanceMod);
+                    sprite.Draw(woodFacbg, x - woodFacbg.Width / 2, y - woodFacbg.Height / 2, parent.DistanceMod);
                     break;
                 case CityPluginTypeId.EducationOrg:
-                    rect = new Rectangle(x - edubg.Width / 4, y - edubg.Height / 4, edubg.Width / 2, edubg.Height / 2);
-                    sprite.Draw(edubg, rect, parent.DistanceMod);
+                    sprite.Draw(edubg, x - edubg.Width / 2, y - edubg.Height / 2, parent.DistanceMod);
                     break;
                 case CityPluginTypeId.Hospital:
-                    rect = new Rectangle(x - hospbg.Width / 4, y - hospbg.Height / 4, hospbg.Width / 2, hospbg.Height / 2);
-                    sprite.Draw(hospbg, rect, parent.DistanceMod);
+                    sprite.Draw(hospbg, x - hospbg.Width / 2, y - hospbg.Height / 2, parent.DistanceMod);
                     break;
             }
 
