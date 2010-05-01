@@ -194,11 +194,13 @@ namespace Code2015.GUI
         Texture needFood;
         Texture needOil;
         Texture needWood;
+        Texture needHelp;
 
         PluginInfo[] pluginInfo = new PluginInfo[CityGrade.LargePluginCount];
 
         float flashCounter;
-        
+        ValueSmoother helper = new ValueSmoother(5);
+        int helperCounter;
 
         public ColorValue DistanceMod;
 
@@ -223,7 +225,8 @@ namespace Code2015.GUI
             needOil = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("ig_needwood.tex", GameFileLocs.GUI);
             needWood = UITextureManager.Instance.CreateInstance(fl);
-
+            fl = FileSystem.Instance.Locate("ig_needhelp.tex", GameFileLocs.GUI);
+            needHelp = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public override void Render(Sprite sprite)
@@ -298,6 +301,20 @@ namespace Code2015.GUI
                 }
 
             }
+            else if (city.Capture.IsPlayerCapturing(player) && 
+                (city.Capture.GetCaptureProgress(player) - helper.Result < float.Epsilon))
+            {
+                ColorValue color = ColorValue.White;
+
+                ppos = renderSys.Viewport.Project(city.Position + tangy * (CityStyleTable.CityRadius + 25),
+                     parent.Projection, parent.View, Matrix.Identity);
+                scrnPos = new Point((int)ppos.X, (int)ppos.Y);
+                if (city.City.IsLackWood)
+                {
+                    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + 3 * Math.PI / 2)))));
+                    sprite.Draw(needHelp, scrnPos.X, scrnPos.Y, color);
+                }
+            }
 
 
         }
@@ -316,6 +333,15 @@ namespace Code2015.GUI
                 flashCounter += time.ElapsedGameTimeSeconds * 2;
                 if (flashCounter > MathEx.PIf * 2)
                     flashCounter -= MathEx.PIf * 2;
+            }
+            else if (city.Capture.IsPlayerCapturing(player))
+            {
+                helperCounter++;
+                if (helperCounter++ == 60)
+                {
+                    helper.Add(city.Capture.GetCaptureProgress(player));
+                    helperCounter = 0;
+                }
             }
         }
     }
