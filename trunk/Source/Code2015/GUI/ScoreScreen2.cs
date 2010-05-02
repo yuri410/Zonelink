@@ -61,6 +61,7 @@ namespace Code2015.GUI
         }
         public void Clear()
         {
+            index = 0;
             scores.Clear();
         }
 
@@ -127,6 +128,8 @@ namespace Code2015.GUI
                 sprite.Draw(plates[0], 0, 0, ColorValue.White);
             }
 
+            DrawString(sprite, scores.Elements[0].Player.Name.ToUpperInvariant(), 245, 300);
+
             string msg = ((int)Math.Round(scores.Elements[0].Development)).ToString("G");
             DrawString(sprite, msg, 351, 355);
 
@@ -144,6 +147,7 @@ namespace Code2015.GUI
             {
                 sprite.Draw(plates[1], 0, 0, ColorValue.White);
             }
+            DrawString(sprite, scores.Elements[1].Player.Name.ToUpperInvariant(), 630, 326);
 
             msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
             DrawString(sprite, msg, 719, 371);
@@ -163,14 +167,15 @@ namespace Code2015.GUI
                 sprite.Draw(plates[2], 0, 0, ColorValue.White);
             }
 
+            DrawString(sprite, scores.Elements[2].Player.Name.ToUpperInvariant(), 255, 521);
 
-            msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[2].Development)).ToString("G");
             DrawString(sprite, msg, 341, 571);
            
-            msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
             DrawString(sprite, msg, 341, 594);
            
-            msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[2].Total)).ToString("G");
             DrawString2(sprite, msg, 278, 621);
 
 
@@ -181,15 +186,16 @@ namespace Code2015.GUI
                 sprite.Draw(plates[3], 0, 0, ColorValue.White);
             }
 
+            DrawString(sprite, scores.Elements[3].Player.Name.ToUpperInvariant(), 631, 523);
 
-            msg = ((int)Math.Round(scores.Elements[2].Development)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[3].Development)).ToString("G");
             DrawString(sprite, msg, 715, 571);
             
 
-            msg = ((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[3].CO2)).ToString("G");
             DrawString(sprite, msg, 715, 594);
            
-            msg = ((int)Math.Round(scores.Elements[2].Total)).ToString("G");
+            msg = ((int)Math.Round(scores.Elements[3].Total)).ToString("G");
             DrawString2(sprite, msg, 652, 621);
 
 
