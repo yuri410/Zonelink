@@ -21,7 +21,7 @@
       <Culture>Europe</Culture>
     </C0100>
     <C0101>
-        <Name>No City</Name>
+        <Name>Ontario</Name>
         <Longitude>-83.18182</Longitude>
         <Latitude>48.7013</Latitude>
         <Size>Small</Size>
@@ -101,7 +101,7 @@
       <Culture></Culture>
     </C0108>
     <C0109>
-        <Name>No City</Name>
+        <Name>Khabarovskiy Kray</Name>
         <Longitude>138.8961</Longitude>
         <Latitude>48.7013</Latitude>
         <Size>Small</Size>
@@ -141,7 +141,7 @@
       <Culture></Culture>
     </C0202>
     <C0203>
-        <Name>C0203</Name>
+        <Name>North Atlantis</Name>
         <Longitude>-55.32467</Longitude>
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
@@ -149,7 +149,7 @@
       <Culture>Europe</Culture>
     </C0203>
     <C0204>
-        <Name>C0204</Name>
+        <Name>Lajes</Name>
         <Longitude>-36.81818</Longitude>
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
@@ -157,7 +157,7 @@
       <Culture>Europe</Culture>
     </C0204>
     <C0205>
-        <Name>C0205</Name>
+        <Name>Santa Cruz</Name>
         <Longitude>-18.31169</Longitude>
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
@@ -274,7 +274,7 @@
       <Culture></Culture>
     </C0301>
     <C0302>
-        <Name>C0302</Name>
+        <Name>Corda</Name>
         <Longitude>-46.16883</Longitude>
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
@@ -282,7 +282,7 @@
       <Culture>Europe</Culture>
     </C0302>
     <C0303>
-        <Name>C0303</Name>
+        <Name>Espargos</Name>
         <Longitude>-27.66234</Longitude>
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
@@ -514,7 +514,7 @@
       <Culture>American</Culture>
     </C0601>
     <C0602>
-        <Name>C0602</Name>
+        <Name>Greewill</Name>
         <Longitude>-18.31169</Longitude>
         <Latitude>2.337662</Latitude>
         <Size>Small</Size>
@@ -582,7 +582,7 @@
       <Culture>American</Culture>
     </C0701>
     <C0702>
-        <Name>C0702</Name>
+        <Name>Recife</Name>
         <Longitude>-27.66234</Longitude>
         <Latitude>-6.818182</Latitude>
         <Size>Small</Size>
@@ -672,7 +672,7 @@
       <Culture>Africa</Culture>
     </C0803>
     <C0804>
-        <Name>C0804</Name>
+        <Name>Sambava</Name>
         <Longitude>55.71428</Longitude>
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
@@ -680,7 +680,7 @@
       <Culture></Culture>
     </C0804>
     <C0805>
-        <Name>C0805</Name>
+        <Name>Grande</Name>
         <Longitude>74.22078</Longitude>
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
@@ -688,7 +688,7 @@
       <Culture></Culture>
     </C0805>
     <C0806>
-        <Name>C0806</Name>
+        <Name>South Point</Name>
         <Longitude>111.2338</Longitude>
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
@@ -730,7 +730,7 @@
       <Culture>Africa</Culture>
     </C0901>
     <C0902>
-        <Name>C0902</Name>
+        <Name>Ankillhago</Name>
         <Longitude>46.36364</Longitude>
         <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
@@ -738,7 +738,7 @@
       <Culture></Culture>
     </C0902>
     <C0903>
-        <Name>C0903</Name>
+        <Name>Baile</Name>
         <Longitude>64.87012</Longitude>
         <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
@@ -746,7 +746,7 @@
       <Culture></Culture>
     </C0903>
     <C0904>
-        <Name>C0904</Name>
+        <Name>Beau</Name>
         <Longitude>83.37662</Longitude>
         <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
@@ -754,7 +754,7 @@
       <Culture></Culture>
     </C0904>
     <C0905>
-        <Name>C0905</Name>
+        <Name>Canarvon</Name>
         <Longitude>101.8831</Longitude>
         <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
@@ -806,7 +806,7 @@
       <Culture>Africa</Culture>
     </C1001>
     <C1002>
-        <Name>C1002</Name>
+        <Name>Perth</Name>
         <Longitude>92.72727</Longitude>
         <Latitude>-34.67532</Latitude>
         <Size>Large</Size>
