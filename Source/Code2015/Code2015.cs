@@ -217,6 +217,7 @@ namespace Code2015
 
             renderSys.SetRenderTarget(0, defRt);
 
+
             sprite.Begin();
 
             if (currentGame != null)
@@ -229,6 +230,7 @@ namespace Code2015
             }
 
             sprite.End();
+
         }
 
         #endregion
