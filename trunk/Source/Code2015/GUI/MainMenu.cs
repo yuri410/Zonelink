@@ -7,6 +7,8 @@ using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
+using Code2015.AI;
+using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
@@ -15,6 +17,8 @@ namespace Code2015.GUI
 {
     class MainMenu : UIComponent
     {
+        static readonly ColorValue[] Colors = new ColorValue[] { ColorValue.Red, ColorValue.Yellow, ColorValue.Green, ColorValue.Blue };
+
         Code2015 game;
         Menu parent;
 
@@ -50,6 +54,11 @@ namespace Code2015.GUI
 
         NormalSoundObject mouseHover;
         NormalSoundObject mouseDown;
+
+        bool isStarting;
+        float countDown;
+        //bool isPostStarting;
+
         public MainMenu(Code2015 game, Menu parent)
         {
             RenderSystem rs = game.RenderSystem;
@@ -182,12 +191,42 @@ namespace Code2015.GUI
               
             }
         }
+
+        GameGoal CreateGoal()
+        {
+            GameGoal goal = new GameGoal(CityGrade.LargeCityPointThreshold * 10);
+
+            return goal;
+        }
+        ColorValue GetColor(int selIndex)
+        {
+            ColorValue selectedColor = ColorValue.Red;
+            switch (selIndex)
+            {
+                case 1:
+                    selectedColor = ColorValue.Red;
+                    break;
+                case 3:
+                    selectedColor = ColorValue.Yellow;
+                    break;
+                case 2:
+                    selectedColor = ColorValue.Green;
+
+                    break;
+                case 0:
+                    selectedColor = ColorValue.Blue;
+
+                    break;
+
+            } return selectedColor;
+        }
         void StartButton_Click(object sender, MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left)
             {
-                parent.CurrentScreen = parent.GetSelectScreen();
-               
+                parent.GetOverlay().In();
+                isStarting = true;
+                countDown = 1.2f;
             }
         }
         void CreditButton_Click(object sender, MouseButtonFlags btn)
@@ -296,6 +335,59 @@ namespace Code2015.GUI
             exitButton.Update(time);
             helpButton.Update(time);
             fps = time.FramesPerSecond;
+
+            if (isStarting)
+            {
+                countDown -= time.ElapsedGameTimeSeconds;
+                if (countDown < 0) 
+                {
+                    isStarting = false;
+                    GameCreationParameters gcp = new GameCreationParameters();
+
+                    int selIndex = Randomizer.GetRandomInt(4);
+
+                    gcp.Player1 = new Player("Player", CreateGoal(), 0);
+                    gcp.Player1.SideColor = GetColor(selIndex);
+                    gcp.Player2 = new AIPlayer(CreateGoal(), 1);
+                    gcp.Player3 = new AIPlayer(CreateGoal(), 2);
+                    gcp.Player4 = new AIPlayer(CreateGoal(), 3);
+
+
+                    int i = Randomizer.GetRandomInt(3);
+
+
+                    while (i == selIndex)
+                    {
+                        i++;
+                        i %= Colors.Length;
+                    }
+                    gcp.Player2.SideColor = GetColor(i);
+                    int sel1 = i;
+
+                    i = Randomizer.GetRandomInt(2);
+                    while (i == selIndex || i == sel1)
+                    {
+                        i++;
+                        i %= Colors.Length;
+                    }
+                    gcp.Player3.SideColor = GetColor(i);
+                    int sel2 = i;
+
+                    while (i == selIndex || i == sel1 || i == sel2)
+                    {
+                        i++;
+                        i %= Colors.Length;
+                    }
+                    gcp.Player4.SideColor = GetColor(i);
+                    game.StartNewGame(gcp);
+                    
+                    //isPostStarting = true;
+                }
+            }
+            //else if (isPostStarting)
+            //{
+               
+            //}
         }
     }
 }

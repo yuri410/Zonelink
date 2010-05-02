@@ -168,14 +168,7 @@ namespace Code2015.GUI
 
             if (exInsidePlayer != null)
             {
-                if (exInsidePlayer.Type == PlayerType.LocalAI)
-                {
-                    f14.DrawString(sprite, "BY COMPUTER", 1160, 702, exInsidePlayer.SideColor);
-                }
-                else 
-                {
-                    f14.DrawString(sprite, "BY PLAYER", 1170, 702, exInsidePlayer.SideColor);
-                }
+                GameFontManager.Instance.F18G1.DrawString(sprite, "WITH OTHERS", 1160, 702, exInsidePlayer.SideColor);
             }
             
         }

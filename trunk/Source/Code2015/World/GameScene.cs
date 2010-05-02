@@ -48,13 +48,14 @@ namespace Code2015.World
 
 
             renderer = new SceneRenderer(renderSys, sm);
+            renderer.ClearColor = ColorValue.White;
 
             Viewport vp = rs.Viewport;
             float aspectRatio = vp.Width / (float)vp.Height;
 
             camera = new RtsCamera(45, aspectRatio);
             camera.NearPlane = 20;
-            camera.FarPlane = 11000;
+            camera.FarPlane = 6000;
             camera.Mode = RenderMode.Final;
             camera.RenderTarget = renderSys.GetRenderTarget(0);
 
@@ -68,8 +69,8 @@ namespace Code2015.World
             OceanWater water = new OceanWater(renderSys);
             sm.SceneManager.AddObjectToScene(water);
 
-            Atmosphere atmos = new Atmosphere(renderSys);
-            sm.SceneManager.AddObjectToScene(atmos);
+            //Atmosphere atmos = new Atmosphere(renderSys);
+            //sm.SceneManager.AddObjectToScene(atmos);
 
         }
 

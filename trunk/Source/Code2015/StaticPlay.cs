@@ -15,7 +15,7 @@ namespace Code2015
             stoped,playing, fadein, fadeout
         }
         
-        const float standard = 0.3f;
+        const float standard = 0.15f;
 
         static ContentManager cm;
         //static Song start;
@@ -23,8 +23,8 @@ namespace Code2015
         //static Song end;
         //static Song next;
 
-        static float current;
-        static State currentstate;
+        //static float current;
+        //static State currentstate;
         public static void Init(IServiceProvider service)
         {
             cm = new ContentManager(service, "Sounds");

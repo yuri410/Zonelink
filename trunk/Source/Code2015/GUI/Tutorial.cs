@@ -13,14 +13,20 @@ namespace Code2015.GUI
     public class Tutorial : UIComponent
     {
         const int TotalPages = 14;
+
+        Texture background;
         Texture[] help;
 
-
+        Texture cursor;
+        Point mousePosition;
 
         int currentPage;
 
         Button nextButton;
         Button exitButton;
+
+        NormalSoundObject mouseHover;
+        NormalSoundObject mouseDown;
 
         public Tutorial()
         {
@@ -47,6 +53,15 @@ namespace Code2015.GUI
             fl2 = FileSystem.Instance.Locate("tut_ig_quit_hover.tex", GameFileLocs.GUI);
             exitButton.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl2);
 
+            fl2 = FileSystem.Instance.Locate("tut_bg.tex", GameFileLocs.GUI);
+            background = UITextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
+            cursor = UITextureManager.Instance.CreateInstance(fl2);
+      
+            
+            mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
+            mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
         }
 
         public void Advance()
@@ -63,6 +78,8 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
+            sprite.Draw(background, 0, 0, ColorValue.White);
+
             int idx = currentPage;
             if (idx >= TotalPages)
                 idx = TotalPages - 1;
@@ -70,10 +87,15 @@ namespace Code2015.GUI
             nextButton.Render(sprite);
             exitButton.Render(sprite);
 
-            sprite.Draw(help[idx], 0, 0, ColorValue.White);
+            Rectangle rect = new Rectangle(62, 186, 916, 465);
+            sprite.Draw(help[idx], rect, ColorValue.White);
+            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }
         public override void Update(GameTime time)
         {
+            mousePosition.X = MouseInput.X;
+            mousePosition.Y = MouseInput.Y; 
+            
             if (MouseInput.IsMouseUpLeft)
                 currentPage++;
             switch (currentPage)

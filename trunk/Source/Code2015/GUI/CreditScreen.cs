@@ -16,6 +16,10 @@ namespace Code2015.GUI
 
         Texture cursor;
         Point mousePosition;
+
+        NormalSoundObject mouseHover;
+        NormalSoundObject mouseDown;
+
         public CreditScreen(RenderSystem rs, Menu parent)
         {
             this.renderSys = rs;
@@ -23,12 +27,16 @@ namespace Code2015.GUI
 
             FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
+
+
+
+            mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
+            mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
         }
 
         public override void Render(Sprite sprite)
         {
 
-            sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
 
             sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }

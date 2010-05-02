@@ -2,18 +2,18 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Effects;
+using Apoc3D.Graphics.Geometry;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
+using Code2015.Effects;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
-using Apoc3D.Graphics.Geometry;
-using Code2015.Effects;
-using Apoc3D.Core;
 
 namespace Code2015.GUI
 {
@@ -151,14 +151,18 @@ namespace Code2015.GUI
 
         Tutorial tutorial;
         Intro intro;
-        LoadingScreen loadScreen;
-        ScoreScreen scoreScreen;
+        //LoadingScreen loadScreen;
+        ScoreScreen2 scoreScreen;
         CreditScreen credits;
+        LoadingOverlay loadingOverlay;
 
         Code2015 game;
         MainMenu mainMenu;
-        SelectScreen sideSelect;
+        //SelectScreen sideSelect;
         RenderTarget renderTarget;
+
+        Texture overlay34;
+        float overlayAlpha;
 
         public UIComponent CurrentScreen
         {
@@ -169,14 +173,15 @@ namespace Code2015.GUI
         {
             return credits;
         }
-        public MainMenu GetMainMenu()
-        {
-            return mainMenu;
-        }
-        public SelectScreen GetSelectScreen()
-        {
-            return sideSelect;
-        }
+        public LoadingOverlay GetOverlay() { return loadingOverlay; }
+        //public MainMenu GetMainMenu()
+        //{
+        //    return mainMenu;
+        //}
+        //public SelectScreen GetSelectScreen()
+        //{
+        //    return sideSelect;
+        //}
         public Tutorial GetTutorial() 
         {
             return tutorial;
@@ -191,16 +196,20 @@ namespace Code2015.GUI
         {
             this.game = game;
             this.mainMenu = new MainMenu(game, this);
-            this.sideSelect = new SelectScreen(game, this);
+            //this.sideSelect = new SelectScreen(game, this);
             this.renderSys = rs;
 
             CreateScene(rs);
-            this.loadScreen = new LoadingScreen(this, rs);
+            //this.loadScreen = new LoadingScreen(this, rs);
             this.intro = new Intro(rs);
             this.credits = new CreditScreen(rs, this);
             this.tutorial = new Tutorial();
 
-            this.CurrentScreen = mainMenu;
+            this.CurrentScreen = null;
+
+            FileLocation fl = FileSystem.Instance.Locate("overlay34.tex", GameFileLocs.GUI);
+            overlay34 = UITextureManager.Instance.CreateInstance(fl);
+            this.loadingOverlay = new LoadingOverlay(game, overlay34);
         }
 
         void CreateScene(RenderSystem rs)
@@ -234,31 +243,18 @@ namespace Code2015.GUI
 
         public void Render()
         {
-            
+
             if (!game.IsIngame)
             {
-                if (CurrentScreen == mainMenu || CurrentScreen == loadScreen || CurrentScreen == scoreScreen)
-                {
-                    EffectParams.LightDir = -renderer.CurrentCamera.Front;
-
-                    renderer.RenderScene();
-                }
-            }
-            else 
-            {
-                if (!game.CurrentGame.IsLoaded)
-                {
-                    EffectParams.LightDir = -renderer.CurrentCamera.Front;
-
-                    renderer.RenderScene();
-                }
+                EffectParams.LightDir = -renderer.CurrentCamera.Front;
+                renderer.RenderScene();
             }
         }
 
 
         void ShowScore(ScoreEntry[] entries)
         {
-            scoreScreen = new ScoreScreen(game, this);
+            scoreScreen = new ScoreScreen2(game, this);
             for (int i = 0; i < entries.Length; i++)
             {
                 scoreScreen.Add(entries[i]);
@@ -271,19 +267,33 @@ namespace Code2015.GUI
 
             if (!game.IsIngame)
             {
+                mainMenu.Render(sprite);
+
                 if (CurrentScreen != null)
                 {
+                    if (overlayAlpha < 1)
+                        overlayAlpha += 0.1f;
+                    else
+                        overlayAlpha = 1;
+
+                    ColorValue color = ColorValue.White;
+                    color.A = (byte)(87 * MathEx.Saturate(overlayAlpha));
+
+                    sprite.Draw(overlay34, 0, 0, color);
                     CurrentScreen.Render(sprite);
                 }
-            }
-            else
-            {
-                if (!game.CurrentGame.IsLoaded && loadScreen != null)
+                else
                 {
-                    loadScreen.Progress = game.CurrentGame.LoadingProgress;
-                    loadScreen.Render(sprite);
+                    if (overlayAlpha > 0)
+                        overlayAlpha -= 0.1f;
+                    else
+                        overlayAlpha = 0;
                 }
             }
+
+
+            loadingOverlay.Render(sprite);
+
 
             if (intro != null)
             {
@@ -337,21 +347,22 @@ namespace Code2015.GUI
                 }
             }
 
+            loadingOverlay.Update(time);
             if (!game.IsIngame)
             {
+                UpdateScene(time);
                 if (CurrentScreen != null)
                 {
-                    UpdateScene(time);
                     CurrentScreen.Update(time);
+                }
+                else 
+                {
+                    mainMenu.Update(time);
                 }
             }
             else
             {
-                if (!game.CurrentGame.IsLoaded && loadScreen != null)
-                {
-                    UpdateScene(time);
-                    loadScreen.Update(time);
-                }
+                
                 if (game.CurrentGame.IsOver)
                 {
                     if (scoreScreen == null)
