@@ -102,7 +102,7 @@ namespace Code2015
             
             
 
-            TextureManager.Initialize(1048576 * 100);
+            TextureManager.Initialize(1048576 * 150);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
             TerrainMaterialLibrary.Initialize(renderSys);
 

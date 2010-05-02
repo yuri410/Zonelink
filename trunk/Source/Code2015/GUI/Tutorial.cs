@@ -57,6 +57,8 @@ namespace Code2015.GUI
             nextButton.Width = 90;
             nextButton.Height = 204;
             nextButton.MouseClick += Continue_Click;
+            nextButton.MouseEnter += Button_MouseIn;
+            nextButton.MouseDown += Button_DownSound;
 
             exitButton = new Button();
             exitButton.Enabled = true;
@@ -66,6 +68,8 @@ namespace Code2015.GUI
             exitButton.Width = 90;
             exitButton.Height = 112;
             exitButton.MouseClick += Exit_Click;
+            exitButton.MouseEnter += Button_MouseIn;
+            exitButton.MouseDown += Button_DownSound;
 
             FileLocation fl2 = FileSystem.Instance.Locate("tut_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl2);
@@ -98,6 +102,17 @@ namespace Code2015.GUI
             get { return currentPage >= TotalPages; }
         }
 
+        void Button_MouseIn(object sender, MouseButtonFlags btn)
+        {
+            mouseHover.Fire();
+        }
+        void Button_DownSound(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                mouseDown.Fire();
+            }
+        }
         void Continue_Click(object sender,MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left) 
