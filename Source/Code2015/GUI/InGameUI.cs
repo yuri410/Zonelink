@@ -151,7 +151,7 @@ namespace Code2015.GUI
             picker = new Picker(game, parent, scene, gamelogic);
             AddElement(picker);
 
-
+            AddElement(new ColorNotify(player));
             this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
             AddElement(cityEdit);
 

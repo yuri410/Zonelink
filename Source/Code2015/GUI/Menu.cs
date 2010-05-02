@@ -285,11 +285,19 @@ namespace Code2015.GUI
 
         void ShowScore(ScoreEntry[] entries)
         {
-            scoreScreen = new ScoreScreen2(game, this);
+            if (scoreScreen != null)
+            {
+                scoreScreen.Clear();
+            }
+            else
+            {
+                scoreScreen = new ScoreScreen2(game, this);
+            }
             for (int i = 0; i < entries.Length; i++)
             {
                 scoreScreen.Add(entries[i]);
             }
+
             CurrentScreen = scoreScreen;
         }
 
@@ -411,14 +419,10 @@ namespace Code2015.GUI
             }
             else
             {
-
                 if (game.CurrentGame.IsOver)
                 {
-                    if (scoreScreen == null)
-                    {
-                        ShowScore(game.CurrentGame.ResultScore);
-                        game.Back();
-                    }
+                    ShowScore(game.CurrentGame.ResultScore);
+                    game.Back();
                 }
             }
         }
