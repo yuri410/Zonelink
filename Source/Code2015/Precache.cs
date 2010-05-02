@@ -15,13 +15,13 @@ namespace Code2015
 
         public static void Initialize(RenderSystem rs)
         {
-            string[] files = FileSystem.Instance.SearchFile("*.tex");
+            string[] files = FileSystem.Instance.SearchFile("texture\\*.tex");
 
             for (int i = 0; i < files.Length; i++)
             {
                 textureBuffer.Add(TextureManager.Instance.CreateInstance(new FileLocation(files[i])));
             }
-            files = FileSystem.Instance.SearchFile("*.mesh");
+            files = FileSystem.Instance.SearchFile("model\\*.mesh");
 
             for (int i = 0; i < files.Length; i++)
             {

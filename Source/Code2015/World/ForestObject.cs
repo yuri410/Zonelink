@@ -79,10 +79,6 @@ namespace Code2015.World
             }
             TreeBatchModel mdl = model;
 
-            //if (forest.CurrentAmount < 0.2 * forest.MaxAmount)
-            //{
-            //    return mdl.GetRenderOperation2();
-            //}
             return mdl.GetRenderOperation();
         }
 

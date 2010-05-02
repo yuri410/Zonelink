@@ -114,17 +114,34 @@ namespace Code2015.GUI
             quad.VertexSize = vtxDecl.GetVertexSize();
         }
 
+        public Point GetProjectionPosition(int i)
+        {
+            Vector3 plpos;
+            Vector3 ppofs = city.GetPluginPosition(Plugin);
+            ppofs.Z += 45;
+
+            Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
+            plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
+
+            //plpos.Y -= 36;
+            return new Point((int)plpos.X, (int)plpos.Y);
+        }
+
         public override void Render(Sprite sprite)
         {
             CityPlugin cplug = city.GetPlugin(Plugin);
 
+            if (cplug == null)
+                return;
             Vector3 plpos;
-            Vector3 ppofs = new Vector3(0, 150, 0);
-            ppofs += city.GetPluginPosition(Plugin);
+            Vector3 ppofs = city.GetPluginPosition(Plugin);
+            ppofs.Z += 45;
 
             Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
 
             plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
+
+            plpos.Y -= 36;
 
             int x = (int)plpos.X;
             int y = (int)plpos.Y;
@@ -166,10 +183,6 @@ namespace Code2015.GUI
             sprite.Begin();
 
 
-            if (city.IsUpgraded)
-            {
-                display.AddLVPopup(x, y);
-            }
             if (cplug.IsSelling && !cplug.IsSold && cplug.BuildProgress < 0.1f) 
             {
                 display.AddSellPopup(x, y);
@@ -263,7 +276,7 @@ namespace Code2015.GUI
 
                 if (((ISelectableObject)city).IsSelected)
                 {
-                    for (int i = 0; i < city.PluginCount; i++)
+                    for (int i = 0; i < CityObject.MaxPlugin; i++)
                     {
                         pluginInfo[i].Plugin = i;
                         pluginInfo[i].Render(sprite);
@@ -272,6 +285,16 @@ namespace Code2015.GUI
 
                 if (city.IsUpgraded)
                 {
+                    for (int i = 0; i < CityObject.MaxPlugin; i++)
+                    {
+                        if (city.GetPlugin(i) == null)
+                            continue;
+
+                        pluginInfo[i].Plugin = i;
+                        Point pt = pluginInfo[i].GetProjectionPosition(i);
+
+                        parent.AddLVPopup(pt.X, pt.Y);
+                    }
                     city.IsUpgraded = false;
                 }
 
@@ -301,19 +324,24 @@ namespace Code2015.GUI
                 }
 
             }
-            else if (city.Capture.IsPlayerCapturing(player) && 
+            else if (city.Capture.IsPlayerCapturing(player) &&
                 (city.Capture.GetSpeed(player) < float.Epsilon))
             {
                 ColorValue color = ColorValue.White;
 
                 ppos = renderSys.Viewport.Project(city.Position + tangy * (CityStyleTable.CityRadius + 25),
                      parent.Projection, parent.View, Matrix.Identity);
-                scrnPos = new Point((int)ppos.X, (int)ppos.Y);
-                if (city.City.IsLackWood)
-                {
-                    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + 3 * Math.PI / 2)))));
-                    sprite.Draw(needHelp, scrnPos.X, scrnPos.Y, color);
-                }
+
+
+                Rectangle rect = new Rectangle((int)ppos.X, (int)ppos.Y, needHelp.Width / 2, needHelp.Height / 2);
+
+                rect.X -= rect.Width / 2;
+                rect.Y -= needHelp.Height / 2;
+
+
+
+                color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + 3 * Math.PI / 2)))));
+                sprite.Draw(needHelp, rect, color);
             }
 
 
@@ -323,17 +351,17 @@ namespace Code2015.GUI
         {
             if (city.Owner == player)
             {
-                if (((ISelectableObject)city).IsSelected)
-                {
-                    for (int i = 0; i < city.PluginCount; i++)
-                    {
-                        pluginInfo[i].Update(time);
-                    }
-                }
-                flashCounter += time.ElapsedGameTimeSeconds * 2;
-                if (flashCounter > MathEx.PIf * 2)
-                    flashCounter -= MathEx.PIf * 2;
+                //if (((ISelectableObject)city).IsSelected)
+                //{
+                //    for (int i = 0; i < city.PluginCount; i++)
+                //    {
+                //        pluginInfo[i].Update(time);
+                //    }
+                //}
             }
+            flashCounter += time.ElapsedGameTimeSeconds * 2;
+            if (flashCounter > MathEx.PIf * 2)
+                flashCounter -= MathEx.PIf * 2;
             //else if (city.Capture.IsPlayerCapturing(player))
             //{
             //    if (helperCounter++ == 60)

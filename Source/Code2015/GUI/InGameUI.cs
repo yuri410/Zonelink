@@ -244,6 +244,8 @@ namespace Code2015.GUI
         }
 
 
+        Point mouseRightPosition;
+
         public override void Update(GameTime time)
         {
             if (!parent.IsOver)
@@ -279,6 +281,27 @@ namespace Code2015.GUI
 
                     #endregion
 
+
+                    if (MouseInput.IsMouseDownRight)
+                    {
+                        mouseRightPosition.X = MouseInput.X;
+                        mouseRightPosition.Y = MouseInput.Y;
+                    }
+                    if (MouseInput.IsRightPressed)
+                    {
+                        if (MouseInput.X != mouseRightPosition.X && MouseInput.Y != mouseRightPosition.Y)
+                        {
+                            int dx = MouseInput.X - mouseRightPosition.X;
+                            int dy = MouseInput.Y - mouseRightPosition.Y;
+
+                            if (dx > 10) dx = 20;
+                            if (dx < -10) dx = -20;
+                            if (dy > 10) dy = 20;
+                            if (dy < -10) dy = -20;
+
+                            camera.Move(dx * -0.05f, dy * -0.05f);
+                        }
+                    }
                     pieceMaker.Update(time);
 
                     physWorld.Update(time);

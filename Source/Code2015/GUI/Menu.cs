@@ -149,6 +149,7 @@ namespace Code2015.GUI
         MenuScene earth;
         MenuWater water;
 
+        Tutorial tutorial;
         Intro intro;
         LoadingScreen loadScreen;
         ScoreScreen scoreScreen;
@@ -176,6 +177,10 @@ namespace Code2015.GUI
         {
             return sideSelect;
         }
+        public Tutorial GetTutorial() 
+        {
+            return tutorial;
+        }
 
         public Texture Earth 
         {
@@ -193,6 +198,7 @@ namespace Code2015.GUI
             this.loadScreen = new LoadingScreen(this, rs);
             this.intro = new Intro(rs);
             this.credits = new CreditScreen(rs, this);
+            this.tutorial = new Tutorial();
 
             this.CurrentScreen = mainMenu;
         }

@@ -178,7 +178,8 @@ namespace Code2015.GUI
         {
             if (btn == MouseButtonFlags.Left)
             {
-                
+                parent.CurrentScreen = parent.GetTutorial();
+              
             }
         }
         void StartButton_Click(object sender, MouseButtonFlags btn)

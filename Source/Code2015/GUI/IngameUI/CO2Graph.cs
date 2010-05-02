@@ -17,7 +17,7 @@ namespace Code2015.GUI
         const int X = 996;
         const int Y = 20;
         const float MaxCO2 = 0.6f;
-        const float WarningThreshold = 0.66f;
+        const float WarningThreshold = 0.6f;
 
         RenderSystem renderSys;
         GameScene scene;

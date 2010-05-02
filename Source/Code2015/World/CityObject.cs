@@ -19,23 +19,25 @@ using Code2015.ParticleSystem;
 
 namespace Code2015.World
 {
-    public enum PluginPositionFlag
-    {
-        None = 0,
-        P1 = 1,
-        P2 = 1 << 1,
-        P3 = 1 << 2,
-        P4 = 1 << 3
-    }
+    //public enum PluginPositionFlag
+    //{
+    //    None = 0,
+    //    P1 = 1,
+    //    P2 = 1 << 1,
+    //    P3 = 1 << 2,
+    //    P4 = 1 << 3
+    //}
 
     public delegate void CityVisibleHander(CityObject obj);    
 
     public class CityObject : SceneObject, ISelectableObject
     {
+        public const int MaxPlugin = CityGrade.LargePluginCount;
+
         struct PluginEntry
         {
             public CityPlugin plugin;
-            public PluginPositionFlag position;
+            //public PluginPositionFlag position;
 
             /// <summary>
             ///  附加物的变换矩阵
@@ -121,10 +123,10 @@ namespace Code2015.World
         Dictionary<CityPlugin, Harvester> harvTable = new Dictionary<CityPlugin, Harvester>();
 
         //FastList<Harvester> harvesters = new FastList<Harvester>();
-        FastList<PluginEntry> plugins;
+        PluginEntry[] plugins = new PluginEntry[CityGrade.LargePluginCount];
 
-        
-        PluginPositionFlag pluginFlags;
+
+        //PluginPositionFlag pluginFlags;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
@@ -233,26 +235,25 @@ namespace Code2015.World
         //    return harvesters[idx];
         //}
 
-        public int PluginCount
-        {
-            get { return plugins.Count; }
-        }
+        //public int PluginCount
+        //{
+        //    get { return plugins.Count; }
+        //}
         #endregion
 
-        public Matrix GetPluginTransform(int i)
-        {
-            return plugins[i].transform;
-        }
+        //public Matrix GetPluginTransform(int i)
+        //{
+        //    return plugins[i].transform;
+        //}
         public Vector3 GetPluginPosition(int i)
         {
-
-            return style.GetPluginTranslation(plugins[i].position);
+            return style.GetPluginTranslation(i);
         }
         public CityPlugin GetPlugin(int i)
         {
             return plugins[i].plugin;
         }
-
+        
         
 
         bool ISelectableObject.IsSelected
@@ -275,7 +276,6 @@ namespace Code2015.World
             this.map = map;
             this.linkMgr = linkMgr;
 
-            this.plugins = new FastList<PluginEntry>();
             this.style = styleSet.CreateStyle(city.Culture);
             this.renderSys = rs;
 
@@ -366,47 +366,44 @@ namespace Code2015.World
         {
             PluginEntry ent = new PluginEntry();
 
-            if ((pluginFlags & PluginPositionFlag.P1) == 0)
-            {
-                pluginFlags |= PluginPositionFlag.P1;
-                ent.position = PluginPositionFlag.P1;
-            }
-            else if ((pluginFlags & PluginPositionFlag.P2) == 0)
-            {
-                pluginFlags |= PluginPositionFlag.P2;
-                ent.position = PluginPositionFlag.P2;
-            }
-            else if ((pluginFlags & PluginPositionFlag.P3) == 0)
-            {
-                pluginFlags |= PluginPositionFlag.P3;
-                ent.position = PluginPositionFlag.P3;
-            }
-            else if ((pluginFlags & PluginPositionFlag.P4) == 0)
-            {
-                pluginFlags |= PluginPositionFlag.P4;
-                ent.position = PluginPositionFlag.P4;
-            }
+            //if ((pluginFlags & PluginPositionFlag.P1) == 0)
+            //{
+            //    pluginFlags |= PluginPositionFlag.P1;
+            //    ent.position = PluginPositionFlag.P1;
+            //}
+            //else if ((pluginFlags & PluginPositionFlag.P2) == 0)
+            //{
+            //    pluginFlags |= PluginPositionFlag.P2;
+            //    ent.position = PluginPositionFlag.P2;
+            //}
+            //else if ((pluginFlags & PluginPositionFlag.P3) == 0)
+            //{
+            //    pluginFlags |= PluginPositionFlag.P3;
+            //    ent.position = PluginPositionFlag.P3;
+            //}
+            //else if ((pluginFlags & PluginPositionFlag.P4) == 0)
+            //{
+            //    pluginFlags |= PluginPositionFlag.P4;
+            //    ent.position = PluginPositionFlag.P4;
+            //}
             ent.plugin = plugin;
 
-            ent.transform = Matrix.Translation(style.GetPluginTranslation(ent.position));
-            plugins.Add(ent);
-
-            int idx = -1;
-            for (int i = 0; i < plugins.Count; i++)
+            int pos = -1;
+            for (int i = 0; i < MaxPlugin; i++)
             {
-                if (plugins[i].plugin == plugin)
+                if (plugins[i].plugin == null)
                 {
-                    idx = i;
+                    pos = i;
                     break;
                 }
             }
-            if (idx != -1)
-            {
-                goalSite.SetDesired(idx, CityGoalSite.GetDesired(plugin.TypeId));
-            }
 
-            
-            //}
+            ent.transform = Matrix.Translation(style.GetPluginTranslation(pos));
+
+            plugins[pos] = ent;
+
+            goalSite.SetDesired(pos, CityGoalSite.GetDesired(plugin.TypeId));
+
         }
 
         
@@ -445,8 +442,8 @@ namespace Code2015.World
         {
             RemoveHarv(plugin);
 
-            int idx=-1;
-            for (int i = 0; i < plugins.Count; i++)
+            int idx = -1;
+            for (int i = 0; i < MaxPlugin; i++)
             {
                 if (plugins[i].plugin == plugin)
                 {
@@ -457,16 +454,7 @@ namespace Code2015.World
             if (idx != -1)
             {
                 goalSite.ClearDesired(idx);
-            }
-
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                if (plugin == plugins[i].plugin)
-                {
-                    pluginFlags ^= plugins[i].position;
-                    plugins.RemoveAt(i);
-                    break;
-                }
+                plugins[idx].plugin = null;
             }
         }
         void City_OwnerChanged(Player owner)
@@ -517,10 +505,14 @@ namespace Code2015.World
                 opBuffer.Add(ops);
 
             smoke.RenderNotify();
-            for (int i = 0; i < plugins.Count; i++)
+            for (int i = 0; i < MaxPlugin; i++)
             {
+                CityPlugin cp = plugins[i].plugin;
+                if (cp == null)
+                    continue;
+
                 ops = null;
-                switch (plugins[i].plugin.TypeId)
+                switch (cp.TypeId)
                 {
                     case CityPluginTypeId.BiofuelFactory:
                         ops = style.BiofuelFactory.GetRenderOperation();
@@ -533,7 +525,7 @@ namespace Code2015.World
                         break;
                     case CityPluginTypeId.OilRefinary:
                         ops = style.OilRefinary.GetRenderOperation();
-                        if (!plugins[i].plugin.IsSelling && !plugins[i].plugin.IsBuilding)
+                        if (!cp.IsSelling && !cp.IsBuilding)
                         {
                             RenderOperation[] ops2 = smoke.GetRenderOperation(i);
                             if (ops2 != null)
@@ -550,7 +542,7 @@ namespace Code2015.World
                 {
                     for (int j = 0; j < ops.Length; j++)
                     {
-                        if (plugins[i].plugin.IsBuilding || plugins[i].plugin.IsSelling) 
+                        if (cp.IsBuilding || cp.IsSelling) 
                         {
                             float bp = plugins[i].plugin.BuildProgress;
                             ops[j].Transformation *= Matrix.Translation(0, -75 + bp * bp * bp * 75, 0);
@@ -602,23 +594,34 @@ namespace Code2015.World
 
         public void UpgradeAI()
         {
-            for (int i = 0; i < plugins.Count; i++)
+            for (int i = 0; i < MaxPlugin; i++)
             {
-                plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                CityPlugin cp = plugins[i].plugin;
+                if (cp != null)
+                {
+                    cp.Upgrade(CityPlugin.UpgradeAmount);
+                }
             }
         }
         void Upgrade()
         {
+            bool passed = false;
+
             // 升级
-            for (int i = 0; i < plugins.Count; i++)
+            for (int i = 0; i < MaxPlugin; i++)
             {
-                if (!plugins[i].plugin.IsSelling && !plugins[i].plugin.IsBuilding && goalSite.Match(i, plugins[i].plugin.TypeId))
+                CityPlugin cp = plugins[i].plugin;
+                if (cp == null)
+                    continue;
+                if (!cp.IsSelling && !cp.IsBuilding && goalSite.Match(i, cp.TypeId))
                 {
                     plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                 
                     goalSite.ClearAt(i);
+                    passed = true;
                 }
             }
-            IsUpgraded = plugins.Count > 0;
+            IsUpgraded = passed;
         }
         public bool TryLink(int goalIdx, MdgType type, out City target)
         {
@@ -672,20 +675,26 @@ namespace Code2015.World
 
         public bool MatchSite()
         {
-            if (plugins.Count == 0)
-                return false;
-
-            for (int i = 0; i < plugins.Count; i++)
+            //if (plugins.Count == 0)
+            //    return false;
+            bool passed = false;
+            for (int i = 0; i < MaxPlugin; i++)
             {
-                if (!plugins[i].plugin.IsBuilding && !plugins[i].plugin.IsSelling)
+                CityPlugin cp = plugins[i].plugin;
+                if (cp == null)
+                    continue;
+
+                if (!cp.IsBuilding && !cp.IsSelling)
                 {
-                    bool result = goalSite.Match(i, plugins[i].plugin.TypeId);
+                    bool result = goalSite.Match(i, cp.TypeId);
+                    passed = true;
+
                     if (!result)
                         return false;
                 }
                 else return false;
             }
-            return true;
+            return passed;
         }
 
         public override void Update(GameTime dt)

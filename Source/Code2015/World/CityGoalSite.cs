@@ -216,6 +216,8 @@ namespace Code2015.World
         {
             if (!sites[i].HasPiece)
                 return false;
+            if (sites[i].IsCapturePiece)
+                return false;
 
             MdgType type = sites[i].Type;
             switch (cpltype)

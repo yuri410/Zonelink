@@ -21,7 +21,7 @@ namespace Code2015.GUI
         const float PopBaseSpeed = 20;
 
         const float DisplayDuration = 10;
-        const float DisplayInterval = DisplayDuration + 20;
+        const float DisplayInterval = DisplayDuration + 60;
         GameScene scene;
         GameState gameLogic;
         RenderSystem renderSys;
@@ -50,42 +50,43 @@ namespace Code2015.GUI
         {
             if (e.Object == null)
                 return;
-
+            
             if (activeStateCd< float.Epsilon)
             {
-                switch (e.Type)
-                {
-                    case EventType.Food:
-                        currentMessage = "CITIZENS NEED MORE FOOD.\n BUILD MORE MORE FARMS.";
-                        nofood.Fire();
-
-                        state = AnimState.Out;
-                        break;
-                    case EventType.Oil:
-
-                        currentMessage = "OIL CAN HELP CITY DEVELOP FASTER.\nTRY GET SOME OIL FOR THE CITY.";
-                        nooil.Fire();
-
-                        state = AnimState.Out; 
-                        break;
-                    case EventType.Strike:
-                        currentMessage = "A HURRICANE IS COMMING. /nBE AWARE OF CO2 EMISSION.";
-                        storm.Fire();
-
-                        state = AnimState.Out;
-                        break;
-                    case EventType.Wood:
-                        currentMessage = "WE NEED MORE LUMBER.";
-
-                        nolumber.Fire();
-
-                        state = AnimState.Out;
-                        break;
-                }
                 City c = e.Object as City;
-                if (c != null && c.IsCaptured)
+                if (c != null && c.Owner == player)
                 {
-                    minimap.AddNotifyRed(e.Object.Longitude, e.Object.Latitude, c.Owner.SideColor);
+                    switch (e.Type)
+                    {
+                        case EventType.Food:
+                            currentMessage = "CITIZENS NEED MORE FOOD.\n BUILD MORE MORE FARMS.";
+                            nofood.Fire();
+
+                            state = AnimState.Out;
+                            break;
+                        case EventType.Oil:
+
+                            currentMessage = "OIL CAN HELP CITY DEVELOP FASTER.\nTRY GET SOME OIL FOR THE CITY.";
+                            nooil.Fire();
+
+                            state = AnimState.Out;
+                            break;
+                        case EventType.Strike:
+                            currentMessage = "A HURRICANE IS COMMING. \nBE AWARE OF CO2 EMISSION.";
+                            storm.Fire();
+
+                            state = AnimState.Out;
+                            break;
+                        case EventType.Wood:
+                            currentMessage = "WE NEED MORE LUMBER.";
+
+                            nolumber.Fire();
+
+                            state = AnimState.Out;
+                            break;
+                    }
+
+                    minimap.AddNotifyRed(e.Object.Longitude, e.Object.Latitude, player.SideColor);
                 }
 
 

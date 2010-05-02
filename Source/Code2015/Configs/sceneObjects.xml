@@ -5,7 +5,7 @@
         <Latitude>20.67834</Latitude>
         <IsForest>False</IsForest>
         <Radius>7</Radius>
-        <Amount>0</Amount>
+        <Amount>100</Amount>
         <Model>jinzita.mesh</Model>
     </Scene43ceeae526574130af9528b593e7daf9>
     <Scene620fad254e7d492b92a04d07daa7b904>
@@ -29,7 +29,7 @@
         <Latitude>47.3337</Latitude>
         <IsForest>False</IsForest>
         <Radius>3.5</Radius>
-        <Amount>0</Amount>
+        <Amount>-30</Amount>
         <Model>changcheng.mesh</Model>
     </Scene1abcbba58d42480b9d566b212bc297ec>
     <Scene10ede4b97a7749778b025989eb05020e>
@@ -37,7 +37,7 @@
         <Latitude>37.08928</Latitude>
         <IsForest>False</IsForest>
         <Radius>3</Radius>
-        <Amount>0</Amount>
+        <Amount>60</Amount>
         <Model>ziyounvshen.mesh</Model>
     </Scene10ede4b97a7749778b025989eb05020e>
     <Scene8f41f1c74dfe43729575afa9459baf5b>
@@ -53,7 +53,7 @@
         <Latitude>-30.86871</Latitude>
         <IsForest>False</IsForest>
         <Radius>3.5</Radius>
-        <Amount>0</Amount>
+        <Amount>-45</Amount>
         <Model>gejuyuan.mesh</Model>
     </Scene908284aeec794b088e37ec045cbc20f1>
 </Scenery>
