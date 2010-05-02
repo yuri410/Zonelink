@@ -801,25 +801,34 @@ namespace Code2015.BalanceSystem
                 Player player = Capture.CheckCapture();
                 if (player != null)
                 {
-                    Capture.CancelCapture(player);
-
+                    bool passed = true;
                     if (Capture.NewOwner1 != null && Capture.NewOwner1 != player)
                     {
                         CancelCapture(Capture.NearbyCity1);
+                        passed = false;
                     }
                     if (Capture.NewOwner2 != null && Capture.NewOwner2 != player)
                     {
                         CancelCapture(Capture.NearbyCity2);
+                        passed = false;
                     }
                     if (Capture.NewOwner3 != null && Capture.NewOwner3 != player)
                     {
                         CancelCapture(Capture.NearbyCity3);
+                        passed = false;
                     }
                     if (Capture.NewOwner4 != null && Capture.NewOwner4 != player)
                     {
                         CancelCapture(Capture.NearbyCity4);
+                        passed = false;
                     }
-                    ChangeOwner(player);
+
+                    if (passed)
+                    {
+                        Capture.CancelCapture(player);
+
+                        ChangeOwner(player);
+                    }
                 }
             }
 
