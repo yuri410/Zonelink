@@ -23,7 +23,7 @@ struct PSInput
 {
     float2 GlobeCoord : TEXCOORD0; 
     float4 smLgtPos : TEXCOORD1;
-    float Depth : TEXCOORD2;
+    float2 Depth : TEXCOORD2;
     float3 TangentSpaceLDir : TEXCOORD3;
     float2 Height_Blend : TEXCOORD4;
 };
@@ -62,9 +62,9 @@ PSOutput main(PSInput ip)
 	{
 		color += (index[3]) * tex2D(texDet4, texCoord);
 	}
-	
     o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), 0.5);
 
+	o.Color = (o.Color - 0.5) * 0.3 + 1.45 * o.Color;
     float wgt = saturate(N.z);
     
     if (wgt > 0.2f)
@@ -87,6 +87,7 @@ PSOutput main(PSInput ip)
    
     o.Color.rgb *= shd;
     
+    o.Color.rgb = lerp(o.Color.rgb, float3(205,244,161)/255.0, saturate((ip.Depth.x-15000)/1500));
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
     
     return o;

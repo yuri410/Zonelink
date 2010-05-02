@@ -22,8 +22,6 @@ namespace Code2015.GUI
         Code2015 game;
         Menu parent;
 
-        float fps;
-
         Texture credits;
         Texture exit;
         Texture help;
@@ -38,6 +36,16 @@ namespace Code2015.GUI
         Texture exit_down;
         Texture help_down;
         Texture start_down;
+
+
+        Texture logolgt1;
+        Texture logolgt2;
+        Texture logolgt3;
+        float light1;
+        float light2;
+        float light3;
+
+
 
         Texture logo;
         Texture background;
@@ -65,6 +73,9 @@ namespace Code2015.GUI
 
             this.game = game;
             this.parent = parent;
+            light1 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+            light2 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+            light3 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
 
            
             FileLocation fl = FileSystem.Instance.Locate("mm_btn_credits.tex", GameFileLocs.GUI);
@@ -108,8 +119,21 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
             logo = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("mm_logo_l1.tex", GameFileLocs.GUI);
+            logolgt1 = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("mm_logo_l2.tex", GameFileLocs.GUI);
+            logolgt2 = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("mm_logo_l3.tex", GameFileLocs.GUI);
+            logolgt3 = UITextureManager.Instance.CreateInstance(fl);
+
+
+
             fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
+            
+
             #region 配置按钮
             startButton = new RoundButton();
             startButton.X = 663;
@@ -242,14 +266,21 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            //sprite.SetTransform(Matrix.Identity);
-
-
             sprite.SetTransform(Matrix.Identity);
 
             sprite.Draw(background, 0, 0, ColorValue.White);
             sprite.Draw(linkbg, 0, 0, ColorValue.White);
             sprite.Draw(logo, 0, 0, ColorValue.White);
+
+            ColorValue color = ColorValue.White;
+            color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light1) * 0.5f + 1));
+            sprite.Draw(logolgt1, (int)(Math.Cos(light1) * 10), 0, color);
+            color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light2) * 0.5f + 1));
+            sprite.Draw(logolgt2, (int)(Math.Cos(light2) * 10), 0, color);
+            color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light3) * 0.5f + 1));
+            sprite.Draw(logolgt3, (int)(Math.Cos(light3) * 10), 0, color);
+
+
 
             int x = 818 - 322 / 2;
             int y = 158 - 281 / 2;
@@ -319,22 +350,33 @@ namespace Code2015.GUI
             }
 
             sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
-
-            sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+            if (parent.CurrentScreen == null)
+            {
+                sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
+            }
         }
         public override void Update(GameTime time)
         {
             mousePosition.X = MouseInput.X;
             mousePosition.Y = MouseInput.Y; 
             
-            fps = time.FramesPerSecond;
-
 
             startButton.Update(time);
             creditButton.Update(time);
             exitButton.Update(time);
             helpButton.Update(time);
-            fps = time.FramesPerSecond;
+
+            light1 += time.ElapsedGameTimeSeconds * (0.5f + Randomizer.GetRandomSingle());
+            if (light1 > MathEx.PIf * 2)
+                light1 -= MathEx.PIf * 2;
+
+            light2 += time.ElapsedGameTimeSeconds * (0.5f + Randomizer.GetRandomSingle());
+            if (light2 > MathEx.PIf * 2)
+                light2 -= MathEx.PIf * 2;
+            light3 += time.ElapsedGameTimeSeconds * (0.5f + Randomizer.GetRandomSingle());
+            if (light3 > MathEx.PIf * 2)
+                light3 -= MathEx.PIf * 2;
+
 
             if (isStarting)
             {

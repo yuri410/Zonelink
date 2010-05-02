@@ -255,7 +255,7 @@ namespace Code2015.BalanceSystem
                         {
                             disaster.Damage = pp * MaxDamage * adj;
                             disaster.Radius = pp * MaxRadius * adj;
-
+                            disaster.BadCity = badCity;
                             if (area.Owner.Type == PlayerType.LocalHuman)
                             {
                                 EventLogger.Instance.Log(EventType.Strike, badCity);
@@ -279,7 +279,7 @@ namespace Code2015.BalanceSystem
                     if (incoming.Elements[i].CountDown < 0)
                     {
                         // 发生了
-                        Disaster d = new Disaster(region,
+                        Disaster d = new Disaster(region, incoming[i].BadCity.Owner,
                             incoming[i].Longitude, incoming[i].Latitude,
                             incoming[i].Radius,
                             incoming[i].Duration, incoming[i].Damage);

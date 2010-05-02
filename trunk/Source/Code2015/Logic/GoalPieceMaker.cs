@@ -74,7 +74,7 @@ namespace Code2015.Logic
                     Viewport vp = renderSys.Viewport;
                     Vector2 velocity = new Vector2(
                         vp.Width * (0.9f + Randomizer.GetRandomSingle() * 0.1f),
-                        vp.Height * (0.8f + Randomizer.GetRandomSingle() * 0.2f));
+                        vp.Height * (0.4f + Randomizer.GetRandomSingle() * 0.2f));
 
                     float rnd = Randomizer.GetRandomSingle();
                     if (rnd < p.Health)

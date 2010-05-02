@@ -16,5 +16,6 @@ namespace Code2015.BalanceSystem
         public float Duration;
         public float CountDown;
 
+        public City BadCity;
     }
 }

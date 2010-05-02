@@ -25,6 +25,8 @@ namespace Code2015.Logic
         float[] cityWeights;
         float[] resWeights;
 
+        bool overInvoked;
+        Player cause;
         public float Radius
         {
             get { return radius; }
@@ -44,11 +46,13 @@ namespace Code2015.Logic
             get { return duration < float.Epsilon; }
         }
 
+
         public event DisasterOverHandler Over;
 
-        public Disaster(SimulationWorld world, float lng, float lat, float radius, float duration, float damage)
+        public Disaster(SimulationWorld world, Player cause, float lng, float lat, float radius, float duration, float damage)
             : base(world)
         {
+            this.cause = cause;
             this.Longitude = lng;
             this.Latitude = lat;
             this.duration = duration;
@@ -134,10 +138,25 @@ namespace Code2015.Logic
 
             duration -= hours;
 
-            if (duration < 0)
+            if (duration < 0 && !overInvoked)
             {
                 if (Over != null)
                     Over(this);
+
+                if (cause != null)
+                {
+                    Dictionary<Player, float> weights = world.EnergyStatus.GetCarbonWeights();
+                    float co2;
+
+                    if (weights.TryGetValue(cause, out co2))
+                    {
+                        co2 *= 0.75f;
+                        if (co2 < 0) co2 = 0;
+                        weights[cause] = co2;
+                    }
+
+                }
+                overInvoked = true;
             }
         }
 

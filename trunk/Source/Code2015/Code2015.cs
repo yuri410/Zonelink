@@ -122,8 +122,6 @@ namespace Code2015
             StaticPlay.Init(((X.Game)Program.Window.Tag).Services);
             StaticPlay.PlayStart();
 
-            Precache.Initialize(renderSys);
-            Precache.Cache();
             menu = new Menu(this, renderSys);
         }
 
@@ -163,6 +161,7 @@ namespace Code2015
         /// </summary>
         public void Load()
         {
+            Precache.Cache(renderSys);
             // streaming 结构，不在此加载资源
         }
 

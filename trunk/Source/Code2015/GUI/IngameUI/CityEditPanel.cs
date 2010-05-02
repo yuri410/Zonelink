@@ -770,6 +770,11 @@ namespace Code2015.GUI
                         break;
                 }
             }
+            else 
+            {
+                f18.DrawString(sprite, "NO CITY SELECTED", 420, 643 + yofs, ColorValue.White);
+
+            }
             if (selectCity != null)
             {
                 sprite.Draw(oilResSign, 431, 658 + yofs, ColorValue.White);
