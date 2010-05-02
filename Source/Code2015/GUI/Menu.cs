@@ -107,13 +107,13 @@ namespace Code2015.GUI
         {
             Sphere oceanSphere;
 
-            public MenuWater(RenderSystem renderSys) 
+            public MenuWater(RenderSystem renderSys)
             {
 
                 Material[][] mats = new Material[1][];
                 mats[0] = new Material[1];
                 mats[0][0] = new Material(renderSys);
-                
+
                 FileLocation fl = FileSystem.Instance.Locate("WaterNormal.tex", GameFileLocs.Nature);
                 ResourceHandle<Texture> map = TextureManager.Instance.CreateInstance(fl);
                 mats[0][0].SetTexture(1, map);
@@ -161,6 +161,14 @@ namespace Code2015.GUI
         //SelectScreen sideSelect;
         RenderTarget renderTarget;
 
+        Texture logolgt1;
+        Texture logolgt2;
+        Texture logolgt3;
+        float light1;
+        float light2;
+        float light3;
+
+        Texture logo;
         Texture overlay34;
         float overlayAlpha;
 
@@ -169,25 +177,19 @@ namespace Code2015.GUI
             get;
             set;
         }
-        public CreditScreen GetCredits() 
+        public CreditScreen GetCredits()
         {
             return credits;
         }
         public LoadingOverlay GetOverlay() { return loadingOverlay; }
-        //public MainMenu GetMainMenu()
-        //{
-        //    return mainMenu;
-        //}
-        //public SelectScreen GetSelectScreen()
-        //{
-        //    return sideSelect;
-        //}
-        public Tutorial GetTutorial() 
+
+
+        public Tutorial GetTutorial()
         {
             return tutorial;
         }
 
-        public Texture Earth 
+        public Texture Earth
         {
             get { return renderTarget.GetColorBufferTexture(); }
         }
@@ -210,8 +212,37 @@ namespace Code2015.GUI
             FileLocation fl = FileSystem.Instance.Locate("overlay34.tex", GameFileLocs.GUI);
             overlay34 = UITextureManager.Instance.CreateInstance(fl);
             this.loadingOverlay = new LoadingOverlay(game, overlay34);
-        }
 
+            light1 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+            light2 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+            light3 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+
+
+            fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
+            logo = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("mm_logo_l1.tex", GameFileLocs.GUI);
+            logolgt1 = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("mm_logo_l2.tex", GameFileLocs.GUI);
+            logolgt2 = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("mm_logo_l3.tex", GameFileLocs.GUI);
+            logolgt3 = UITextureManager.Instance.CreateInstance(fl);
+
+        }
+        public void RenderLogo(Sprite sprite)
+        {
+            sprite.Draw(logo, 0, 0, ColorValue.White);
+
+            ColorValue color = ColorValue.White;
+            color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light1) * 0.5f + 1));
+            sprite.Draw(logolgt1, (int)(Math.Cos(light1) * 10), 0, color);
+            color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light2) * 0.5f + 1));
+            sprite.Draw(logolgt2, (int)(Math.Cos(light2) * 10), 0, color);
+            color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light3) * 0.5f + 1));
+            sprite.Draw(logolgt3, (int)(Math.Cos(light3) * 10), 0, color);
+        }
         void CreateScene(RenderSystem rs)
         {
             SceneRendererParameter sm = new SceneRendererParameter();
@@ -236,8 +267,8 @@ namespace Code2015.GUI
 
             water = new MenuWater(rs);
             renderer.SceneManager.AddObjectToScene(water);
-          
-            
+
+
             RotAxis.Normalize();
         }
 
@@ -285,7 +316,13 @@ namespace Code2015.GUI
                 else
                 {
                     if (overlayAlpha > 0)
+                    {
                         overlayAlpha -= 0.1f;
+                        ColorValue color = ColorValue.White;
+                        color.A = (byte)(87 * MathEx.Saturate(overlayAlpha));
+
+                        sprite.Draw(overlay34, 0, 0, color);
+                    }
                     else
                         overlayAlpha = 0;
                 }
@@ -347,6 +384,18 @@ namespace Code2015.GUI
                 }
             }
 
+            light1 += time.ElapsedGameTimeSeconds * (0.5f + Randomizer.GetRandomSingle());
+            if (light1 > MathEx.PIf * 2)
+                light1 -= MathEx.PIf * 2;
+
+            light2 += time.ElapsedGameTimeSeconds * (0.5f + Randomizer.GetRandomSingle());
+            if (light2 > MathEx.PIf * 2)
+                light2 -= MathEx.PIf * 2;
+            light3 += time.ElapsedGameTimeSeconds * (0.5f + Randomizer.GetRandomSingle());
+            if (light3 > MathEx.PIf * 2)
+                light3 -= MathEx.PIf * 2;
+
+
             loadingOverlay.Update(time);
             if (!game.IsIngame)
             {
@@ -355,14 +404,14 @@ namespace Code2015.GUI
                 {
                     CurrentScreen.Update(time);
                 }
-                else 
+                else
                 {
                     mainMenu.Update(time);
                 }
             }
             else
             {
-                
+
                 if (game.CurrentGame.IsOver)
                 {
                     if (scoreScreen == null)
@@ -373,6 +422,7 @@ namespace Code2015.GUI
                 }
             }
         }
+
     }
 
 }
