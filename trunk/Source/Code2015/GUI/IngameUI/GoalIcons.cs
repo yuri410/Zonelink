@@ -258,7 +258,7 @@ namespace Code2015.GUI
         {
             get
             {
-                return 3;
+                return 9;
             }
         }
         public override string ToString()

@@ -122,6 +122,8 @@ namespace Code2015
             StaticPlay.Init(((X.Game)Program.Window.Tag).Services);
             StaticPlay.PlayStart();
 
+            Precache.Initialize(renderSys);
+            Precache.Cache();
             menu = new Menu(this, renderSys);
         }
 

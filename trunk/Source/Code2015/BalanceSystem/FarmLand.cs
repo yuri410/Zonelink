@@ -18,7 +18,7 @@ namespace Code2015.BalanceSystem
     {
         const float FoodProduceSpeed = 25;
 
-        const float AbsorbCarbonSpeed = FoodProduceSpeed;
+        const float AbsorbCarbonSpeed = FoodProduceSpeed * 1.11f;
 
         //const float MaxAmount = 10000;
         //[SLGValueAttribute()]

@@ -149,6 +149,10 @@ namespace Code2015.BalanceSystem
 
             Capture = new CaptureState();
             UpgradeUpdate();
+
+            recentFood.Add(LocalFood.Current);
+            recentWood.Add(LocalLR.Current);
+            recentOil.Add(localHr.Current);
         }
         public City(SimulationWorld sim, UrbanSize size)
             : this(sim)
@@ -1067,6 +1071,7 @@ namespace Code2015.BalanceSystem
                 for (int i = 0; i < farms.Count; i++)
                 {
                     farms[i].Update(time);
+                    CarbonProduceSpeed += farms[i].CarbonProduceSpeed;
                 }
 
                 float foodChange = (-foodSpeedFull) * hours;

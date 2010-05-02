@@ -11,6 +11,7 @@ namespace Code2015.AI
 {
     class AIDecision
     {
+        const int AIMaxCities = 8;
         AIPlayer player;
         PlayerArea area;
         AIDecisionHelper helper;
@@ -22,7 +23,7 @@ namespace Code2015.AI
         CityPluginFactory pluginFactory;
 
         [SLGValue]
-        const float AIDecisionDelay = 14;
+        const float AIDecisionDelay = 20;
         [SLGValue]
         const float DecisionRandom = 4;
 
@@ -56,11 +57,11 @@ namespace Code2015.AI
 
             if (decisionTime < 0)
             {
-                const float P = .75f;
+                const float P = .2f;
 
                 float ran = Randomizer.GetRandomSingle();
 
-                if (ran < P)
+                if (ran < P && area.CityCount < AIMaxCities)
                 {
                     float max = float.MinValue;
                     City bestCity = null;
@@ -158,7 +159,7 @@ namespace Code2015.AI
                         }
                         else
                         {
-                            cc.LocalLR.Commit(500);
+                            cc.LocalLR.Commit(200);
                             cc.Parent.UpgradeAI();
                             cc.Parent.UpgradeAI();
                             finished = true;

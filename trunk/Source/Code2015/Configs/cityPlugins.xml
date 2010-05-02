@@ -39,7 +39,7 @@
     <Behaviour>CollectorFactory</Behaviour> <!--附加物行为，CollectorFactory，Hospital，Education-->  
     <HRPConvRate>0</HRPConvRate><!--石油转化率-->   
     <LRPConvRate>0</LRPConvRate> <!--木材转化率--> 
-    <FoodConvRate>0.4</FoodConvRate><!--生物能源转化率-->   
+    <FoodConvRate>0.75</FoodConvRate><!--生物能源转化率-->   
     <HRCSpeed>0</HRCSpeed> <!--消耗石油的速度（理想情况），CollectorFactory时，为采集速度-->  
     <LRCSpeed>0</LRCSpeed> <!--消耗木材的速度（理想情况）-->  
     <FoodCostSpeed>80</FoodCostSpeed><!--消耗食物的速度（理想情况）-->

@@ -27,7 +27,7 @@ namespace Code2015.GUI
         {
             get
             {
-                return 4;
+                return 11;
             }
         }
 

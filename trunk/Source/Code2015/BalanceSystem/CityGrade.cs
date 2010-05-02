@@ -17,25 +17,25 @@ namespace Code2015.BalanceSystem
 
         #region 能源流通速度
         [SLGValueAttribute()]
-        public const float SmallCityHPTranportSpeed = 30;
+        public const float SmallCityHPTranportSpeed = 40;
         [SLGValueAttribute()]
-        public const float MediumCityHPTranportSpeed = 50;
+        public const float MediumCityHPTranportSpeed = 70;
         [SLGValueAttribute()]
-        public const float LargeCityHPTranportSpeed = 100;
+        public const float LargeCityHPTranportSpeed = 130;
 
         [SLGValueAttribute()]
-        public const float SmallCityLPTranportSpeed = 25;
+        public const float SmallCityLPTranportSpeed = 30;
         [SLGValueAttribute()]
-        public const float MediumCityLPTranportSpeed = 40;
+        public const float MediumCityLPTranportSpeed = 50;
         [SLGValueAttribute()]
-        public const float LargeCityLPTranportSpeed = 75;
+        public const float LargeCityLPTranportSpeed = 80;
 
         [SLGValue]
-        public const float SmallFoodTranportSpeed = 20;
+        public const float SmallFoodTranportSpeed = 35;
         [SLGValue]
-        public const float MediumFoodTranportSpeed = 30;
+        public const float MediumFoodTranportSpeed = 60;
         [SLGValue]
-        public const float LargeFoodTranportSpeed = 50;
+        public const float LargeFoodTranportSpeed = 90;
 
         #endregion
 
@@ -43,14 +43,14 @@ namespace Code2015.BalanceSystem
         [SLGValueAttribute()]
         public const float SmallCityLPSpeed = -3;
         [SLGValueAttribute()]
-        public const float MediumCityLPSpeed = -6;
+        public const float MediumCityLPSpeed = -6f;
         [SLGValueAttribute()]
-        public const float LargeCityLPSpeed = -9;
+        public const float LargeCityLPSpeed = -12;
 
         [SLGValueAttribute()]
-        public const float SmallCityHPSpeed = -4.5f;
+        public const float SmallCityHPSpeed = -5f;
         [SLGValueAttribute()]
-        public const float MediumCityHPSpeed = -12;
+        public const float MediumCityHPSpeed = -13;
         [SLGValueAttribute()]
         public const float LargeCityHPSpeed = -18f;
 

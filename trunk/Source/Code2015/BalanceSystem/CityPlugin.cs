@@ -423,7 +423,7 @@ namespace Code2015.BalanceSystem
                             LRCSpeed = actLrChange / hours;
                         }
 
-                        CarbonProduceSpeed += -HRCSpeed - LRCSpeed;
+                        CarbonProduceSpeed += -HRCSpeed;
                         #endregion
 
                         break;
@@ -484,7 +484,7 @@ namespace Code2015.BalanceSystem
                             float speed = act / hours;
 
                             HRPSpeed = speed * FoodConvRate;
-                            CarbonProduceSpeed += Math.Max(0, 1 - FoodConvRate) * speed;
+                            CarbonProduceSpeed = -(speed + HRPSpeed) * FoodConvRate;
                         }
                         #endregion
                         break;

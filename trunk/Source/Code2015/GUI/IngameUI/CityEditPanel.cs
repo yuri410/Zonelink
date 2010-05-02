@@ -428,61 +428,69 @@ namespace Code2015.GUI
             switch (selectedType)
             {
                 case SelectedPluginType.Oil:
-                    for (int i = 0; i < selectCity.PluginCount; i++)
+                    for (int i = 0; i < CityObject.MaxPlugin; i++)
                     {
                         CityPlugin cp = selectCity.GetPlugin(i);
-                        if (cp.IsBuilding || cp.IsSelling)
-                            continue;
-
-                        if (cp.TypeId == CityPluginTypeId.OilRefinary)
+                        if (cp != null)
                         {
-                            if (cp.HRPConvRate < min)
-                            {
-                                min = cp.HRPConvRate;
-                            }
-                            bestPlugin = cp;
-                        }
-                        else if (cp.TypeId == CityPluginTypeId.BiofuelFactory)
-                        {
-                            if (cp.FoodConvRate + 1 < min)
-                            {
-                                min = cp.FoodConvRate + 1;
-                            }
-                            bestPlugin = cp;
-                        }
+                            if (cp.IsBuilding || cp.IsSelling)
+                                continue;
 
+                            if (cp.TypeId == CityPluginTypeId.OilRefinary)
+                            {
+                                if (cp.HRPConvRate < min)
+                                {
+                                    min = cp.HRPConvRate;
+                                }
+                                bestPlugin = cp;
+                            }
+                            else if (cp.TypeId == CityPluginTypeId.BiofuelFactory)
+                            {
+                                if (cp.FoodConvRate + 1 < min)
+                                {
+                                    min = cp.FoodConvRate + 1;
+                                }
+                                bestPlugin = cp;
+                            }
+                        }
                     }
                     break;
                 case SelectedPluginType.Wood:
-                    for (int i = 0; i < selectCity.PluginCount; i++)
+                    for (int i = 0; i < CityObject.MaxPlugin; i++)
                     {
                         CityPlugin cp = selectCity.GetPlugin(i);
-                        if (cp.IsBuilding || cp.IsSelling)
-                            continue;
-                        if (cp.TypeId == CityPluginTypeId.WoodFactory)
+                        if (cp != null)
                         {
-                            if (cp.LRPConvRate < min)
+                            if (cp.IsBuilding || cp.IsSelling)
+                                continue;
+                            if (cp.TypeId == CityPluginTypeId.WoodFactory)
                             {
-                                min = cp.LRPConvRate;
-                                bestPlugin = cp;
+                                if (cp.LRPConvRate < min)
+                                {
+                                    min = cp.LRPConvRate;
+                                    bestPlugin = cp;
+                                }
                             }
                         }
                     }
                     break;
                 case SelectedPluginType.Education:
                 case SelectedPluginType.Hospital:
-                    for (int i = 0; i < selectCity.PluginCount; i++)
+                    for (int i = 0; i < CityObject.MaxPlugin; i++)
                     {
                         CityPlugin cp = selectCity.GetPlugin(i);
-                        if (cp.IsBuilding || cp.IsSelling)
-                            continue;
-                        if (cp.TypeId == CityPluginTypeId.EducationOrg || 
-                            cp.TypeId == CityPluginTypeId.Hospital)
+                        if (cp != null)
                         {
-                            if (cp.UpgradePoint < min)
+                            if (cp.IsBuilding || cp.IsSelling)
+                                continue;
+                            if (cp.TypeId == CityPluginTypeId.EducationOrg ||
+                                cp.TypeId == CityPluginTypeId.Hospital)
                             {
-                                min = cp.UpgradePoint;
-                                bestPlugin = cp;
+                                if (cp.UpgradePoint < min)
+                                {
+                                    min = cp.UpgradePoint;
+                                    bestPlugin = cp;
+                                }
                             }
                         }
                     }
@@ -688,7 +696,7 @@ namespace Code2015.GUI
                             break;
                     }
                     string msg2 = "NO " + msg1 + " TO SELL";
-                    f14.DrawString(sprite, msg1 + msg2, (int)cx2 + 30, 461, ColorValue.White);
+                    f14.DrawString(sprite, msg2, (int)cx2 + 30, 461, ColorValue.White);
                 }
                 else
                 {
@@ -891,44 +899,46 @@ namespace Code2015.GUI
 
             if (selectCity != null && selectedType != SelectedPluginType.None)
             {
-                for (int i = selectCity.PluginCount -1; i >=0;i--)
+                for (int i = CityObject.MaxPlugin - 1; i >= 0; i--)
                 {
                     CityPlugin cp = selectCity.GetPlugin(i);
-
-                    if (cp.IsSelling || cp.IsBuilding)
-                        continue;
-
-                    switch (cp.TypeId)
+                    if (cp != null)
                     {
-                        case CityPluginTypeId.WoodFactory:
-                            if (selectedType == SelectedPluginType.Wood)
-                            {
-                                sell.Enabled = true;
-                                i = -1;
-                            }
-                            break;
-                        case CityPluginTypeId.OilRefinary:                            
-                        case CityPluginTypeId.BiofuelFactory:
-                            if (selectedType == SelectedPluginType.Oil)
-                            {
-                                sell.Enabled = true;
-                                i = -1;
-                            }
-                            break;
-                        case CityPluginTypeId.EducationOrg:
-                            if (selectedType == SelectedPluginType.Education)
-                            {
-                                sell.Enabled = true;
-                                i = -1;
-                            }
-                            break;
-                        case CityPluginTypeId.Hospital:
-                            if (selectedType == SelectedPluginType.Hospital)
-                            {
-                                sell.Enabled = true;
-                                i = -1;
-                            }
-                            break;
+                        if (cp.IsSelling || cp.IsBuilding)
+                            continue;
+
+                        switch (cp.TypeId)
+                        {
+                            case CityPluginTypeId.WoodFactory:
+                                if (selectedType == SelectedPluginType.Wood)
+                                {
+                                    sell.Enabled = true;
+                                    i = -1;
+                                }
+                                break;
+                            case CityPluginTypeId.OilRefinary:
+                            case CityPluginTypeId.BiofuelFactory:
+                                if (selectedType == SelectedPluginType.Oil)
+                                {
+                                    sell.Enabled = true;
+                                    i = -1;
+                                }
+                                break;
+                            case CityPluginTypeId.EducationOrg:
+                                if (selectedType == SelectedPluginType.Education)
+                                {
+                                    sell.Enabled = true;
+                                    i = -1;
+                                }
+                                break;
+                            case CityPluginTypeId.Hospital:
+                                if (selectedType == SelectedPluginType.Hospital)
+                                {
+                                    sell.Enabled = true;
+                                    i = -1;
+                                }
+                                break;
+                        }
                     }
                 }
             }

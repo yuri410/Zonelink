@@ -148,26 +148,26 @@ namespace Code2015.World
             PluginTranslate = Game.ObjectScale * 68;
         }
 
-        public Vector3 GetPluginTranslation(PluginPositionFlag p)
+        public Vector3 GetPluginTranslation(int p)
         {
             switch (p)
             {
-                case PluginPositionFlag.P1:
+                case 0:
                     return new Vector3(
                        PluginTranslate * MathEx.Root2 * 0.5f,
                        0,
                        -PluginTranslate * MathEx.Root2 * 0.5f);
-                case PluginPositionFlag.P2:
+                case 1:
                     return new Vector3(
                        -PluginTranslate * MathEx.Root2 * 0.5f,
                        0,
                        -PluginTranslate * MathEx.Root2 * 0.5f);
-                case PluginPositionFlag.P3:
+                case 2:
                     return new Vector3(
                         -PluginTranslate * MathEx.Root2 * 0.5f,
                         0,
                         PluginTranslate * MathEx.Root2 * 0.5f);
-                case PluginPositionFlag.P4:
+                case 3:
                     return new Vector3(
                         PluginTranslate * MathEx.Root2 * 0.5f,
                         0,

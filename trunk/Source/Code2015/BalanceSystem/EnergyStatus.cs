@@ -165,7 +165,10 @@ namespace Code2015.BalanceSystem
                     {
                         carbonWeight.Add(pl, 0);
                     }
-                    carbonWeight[pl] += city.CarbonProduceSpeed * hours;
+                    float val = carbonWeight[pl] + city.CarbonProduceSpeed * hours;
+                    if (val < 0)
+                        val = 0;
+                    carbonWeight[pl] = val;
                 }
             }
             CurrentFood = food;

@@ -27,7 +27,7 @@ namespace Code2015.GUI
             help = new Texture[TotalPages];
             for (int i = 0; i < 14; i++)
             {
-                FileLocation fl = FileSystem.Instance.Locate(i.ToString() + ".tex", GameFileLocs.GUI);
+                FileLocation fl = FileSystem.Instance.Locate((i + 1).ToString() + ".tex", GameFileLocs.Help);
                 help[i] = UITextureManager.Instance.CreateInstance(fl);
             }
 
@@ -59,26 +59,8 @@ namespace Code2015.GUI
             get { return currentPage >= TotalPages; }
         }
 
-        public override int Order
-        {
-            get
-            {
-                return 100;
-            }
-        }
+       
 
-        public override void UpdateInteract(GameTime time)
-        {
-            switch (currentPage) 
-            {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                case 4:
-                    break;
-            }
-        }
         public override void Render(Sprite sprite)
         {
             int idx = currentPage;
@@ -88,11 +70,21 @@ namespace Code2015.GUI
             nextButton.Render(sprite);
             exitButton.Render(sprite);
 
-            sprite.Draw(help[currentPage], 0, 0, ColorValue.White);
+            sprite.Draw(help[idx], 0, 0, ColorValue.White);
         }
         public override void Update(GameTime time)
         {
-
+            if (MouseInput.IsMouseUpLeft)
+                currentPage++;
+            switch (currentPage)
+            {
+                case 0:
+                case 1:
+                case 2:
+                case 3:
+                case 4:
+                    break;
+            }
         }
     }
 }
