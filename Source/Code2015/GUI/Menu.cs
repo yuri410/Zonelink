@@ -203,7 +203,7 @@ namespace Code2015.GUI
             //this.loadScreen = new LoadingScreen(this, rs);
             this.intro = new Intro(rs);
             this.credits = new CreditScreen(rs, this);
-            this.tutorial = new Tutorial();
+            this.tutorial = new Tutorial(this);
 
             this.CurrentScreen = null;
 
@@ -225,7 +225,7 @@ namespace Code2015.GUI
 
             camera.RenderTarget = renderTarget;
             renderer = new SceneRenderer(rs, sm);
-            renderer.ClearColor = ColorValue.TransparentWhite;
+            renderer.ClearColor = new ColorValue(205, 244, 161, 0);// ColorValue.TransparentWhite;
             renderer.RegisterCamera(camera);
 
 

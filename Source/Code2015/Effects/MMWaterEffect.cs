@@ -56,7 +56,7 @@ namespace Code2015.Effects
             FileLocation fl = FileSystem.Instance.Locate("mmwater.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSystem, fl);
 
-            fl = FileSystem.Instance.Locate("water.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("mmwater.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
 
             fl = FileSystem.Instance.Locate("reflection.tex", GameFileLocs.Nature);

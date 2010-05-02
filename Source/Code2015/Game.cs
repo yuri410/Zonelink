@@ -279,7 +279,7 @@ namespace Code2015
             if (state.IsKeyDown(XI.Keys.D))
             {
                 gameState.SLGWorld.EnergyStatus.AddDisaster(
-                    new Disaster(gameState.SLGWorld, MathEx.Radian2Degree(scene.Camera.Longitude),
+                    new Disaster(gameState.SLGWorld, null, MathEx.Radian2Degree(scene.Camera.Longitude),
                         MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
             }
             if (state.IsKeyDown(XI.Keys.O))

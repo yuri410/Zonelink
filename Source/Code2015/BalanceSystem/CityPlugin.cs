@@ -484,7 +484,7 @@ namespace Code2015.BalanceSystem
                             float speed = act / hours;
 
                             HRPSpeed = speed * FoodConvRate;
-                            CarbonProduceSpeed = -(speed + HRPSpeed) * FoodConvRate;
+                            CarbonProduceSpeed = -(speed + HRPSpeed) * FoodConvRate * 1.1f;
                         }
                         #endregion
                         break;

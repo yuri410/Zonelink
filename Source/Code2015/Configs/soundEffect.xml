@@ -108,7 +108,7 @@
     <Type>World</Type>
     <Sounds>lightning1, lightning2, lightninga, lightningb, lightningc, lightningd</Sounds>
 
-    <Volume>1</Volume>
+    <Volume>0.7</Volume>
   </lightning>
 
   <nolumber>

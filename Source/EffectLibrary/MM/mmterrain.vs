@@ -18,7 +18,7 @@ struct VSOutput
     float2 GlobeCoord : TEXCOORD0;
     
     float4 smLgtPos : TEXCOORD1;
-    float Depth : TEXCOORD2;
+    float2 Depth : TEXCOORD2;
     float3 TangentSpaceLDir : TEXCOORD3;
     float2 Height_Blend : TEXCOORD4;
 };
@@ -54,7 +54,7 @@ VSOutput main(VSInput ip)
 
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
 
-	o.Depth = o.Position.z;
+	o.Depth.xy = o.Position.zw;
     o.smLgtPos = mul(ip.Position , smTrans);
 
     return o;

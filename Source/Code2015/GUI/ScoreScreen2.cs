@@ -28,6 +28,7 @@ namespace Code2015.GUI
 
         RoundButton countinue;
         GameFont font;
+        GameFont font2;
 
 
         int index;
@@ -74,7 +75,8 @@ namespace Code2015.GUI
 
 
 
-            font = GameFontManager.Instance.F18;
+            font = GameFontManager.Instance.F18G1;
+            font2 = GameFontManager.Instance.F20IG1;
 
             countinue = new RoundButton();
             countinue.Enabled = true;
@@ -97,6 +99,20 @@ namespace Code2015.GUI
 
             plates = new Texture[4];
         }
+        void DrawString(Sprite sprite , string str, int x, int y)
+        {
+            font.DrawString(sprite, str, x + 1, y + 1, ColorValue.Black);
+            font.DrawString(sprite, str, x, y, ColorValue.LightGray);
+
+
+        }
+        void DrawString2(Sprite sprite, string str, int x, int y)
+        {
+            font2.DrawString(sprite, str, x + 1, y + 1, ColorValue.Black);
+            font2.DrawString(sprite, str, x, y, ColorValue.White);
+
+
+        }
 
         public override void Render(Sprite sprite)
         {
@@ -112,13 +128,13 @@ namespace Code2015.GUI
             }
 
             string msg = ((int)Math.Round(scores.Elements[0].Development)).ToString("G");
-            font.DrawString(sprite, msg, 412, 298, ColorValue.White);
+            DrawString(sprite, msg, 351, 355);
 
             msg = ((int)Math.Round(scores.Elements[0].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 657, 298, ColorValue.White);
+            DrawString(sprite, msg, 352, 384);
 
             msg = ((int)Math.Round(scores.Elements[0].Total)).ToString("G");
-            font.DrawString(sprite, msg, 892, 299, ColorValue.White);
+            DrawString2(sprite, msg, 274, 416);
 
 
 
@@ -130,13 +146,13 @@ namespace Code2015.GUI
             }
 
             msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
-            font.DrawString(sprite, msg, 412, 360, ColorValue.White);
+            DrawString(sprite, msg, 719, 371);
 
             msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 657, 360, ColorValue.White);
+            DrawString(sprite, msg, 719, 395); 
 
             msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
-            font.DrawString(sprite, msg, 892, 360, ColorValue.White);
+            DrawString2(sprite, msg, 655, 420);
 
 
 
@@ -149,13 +165,13 @@ namespace Code2015.GUI
 
 
             msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
-            font.DrawString(sprite, msg, 412, 423, ColorValue.White);
-
+            DrawString(sprite, msg, 341, 571);
+           
             msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 657, 423, ColorValue.White);
-
+            DrawString(sprite, msg, 341, 594);
+           
             msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
-            font.DrawString(sprite, msg, 892, 423, ColorValue.White);
+            DrawString2(sprite, msg, 278, 621);
 
 
             ftc = scores.Elements[3].Player.SideColor;
@@ -167,13 +183,14 @@ namespace Code2015.GUI
 
 
             msg = ((int)Math.Round(scores.Elements[2].Development)).ToString("G");
-            font.DrawString(sprite, msg, 412, 489, ColorValue.White);
+            DrawString(sprite, msg, 715, 571);
+            
 
             msg = ((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
-            font.DrawString(sprite, msg, 657, 489, ColorValue.White);
-
+            DrawString(sprite, msg, 715, 594);
+           
             msg = ((int)Math.Round(scores.Elements[2].Total)).ToString("G");
-            font.DrawString(sprite, msg, 892, 489, ColorValue.White);
+            DrawString2(sprite, msg, 652, 621);
 
 
             countinue.Render(sprite);
@@ -185,7 +202,12 @@ namespace Code2015.GUI
         {
             mousePosition.X = MouseInput.X;
             mousePosition.Y = MouseInput.Y;
-            countinue.Update(time);
+            //countinue.Update(time);
+
+            if (MouseInput.IsMouseUpLeft)
+            {
+                menu.CurrentScreen = null;
+            }
         }
     }
 }
