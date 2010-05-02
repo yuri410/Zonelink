@@ -90,7 +90,7 @@ namespace Code2015.GUI
             mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
             mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
         }
-
+        public void Reset() { currentPage = 0; }
         public bool Advance()
         {
             currentPage++;
