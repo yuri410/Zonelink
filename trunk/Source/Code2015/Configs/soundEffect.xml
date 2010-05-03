@@ -115,21 +115,26 @@
     <Control>None</Control>
     <Type>Normal</Type>
     <Sounds>nolumber</Sounds>
+
+    <Volume>0.7</Volume>
   </nolumber>
 
   <nooil>
     <Control>None</Control>
     <Type>Normal</Type>
     <Sounds>nooil</Sounds>
+    <Volume>0.7</Volume> 
   </nooil>
   <nofood>
     <Control>None</Control>
     <Type>Normal</Type>
     <Sounds>nofood</Sounds>
+    <Volume>0.7</Volume> 
   </nofood>
   <stormy>
     <Control>None</Control>
     <Type>Normal</Type>
     <Sounds>stormy</Sounds>
+    <Volume>0.7</Volume>
   </stormy>
 </soundEffect>

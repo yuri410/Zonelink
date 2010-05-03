@@ -30,7 +30,7 @@ namespace Code2015.GUI
         GameFont font;
         GameFont font2;
 
-
+        float coolDown;
         int index;
         Texture[] plates;
 
@@ -61,6 +61,7 @@ namespace Code2015.GUI
         }
         public void Clear()
         {
+            coolDown = 2;
             index = 0;
             scores.Clear();
         }
@@ -210,9 +211,15 @@ namespace Code2015.GUI
             mousePosition.Y = MouseInput.Y;
             //countinue.Update(time);
 
-            if (MouseInput.IsMouseUpLeft)
+
+            if (coolDown > 0)
+                coolDown -= time.ElapsedGameTimeSeconds;
+            else
             {
-                menu.CurrentScreen = null;
+                if (MouseInput.IsMouseUpLeft)
+                {
+                    menu.CurrentScreen = null;
+                }
             }
         }
     }

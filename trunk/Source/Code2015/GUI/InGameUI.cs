@@ -11,6 +11,7 @@ using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
 using Code2015.World.Screen;
+using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
 {
@@ -94,6 +95,8 @@ namespace Code2015.GUI
         Picker picker;
         CityEditPanel cityEdit;
         Brackets brackets;
+        ExitConfirm exitConfirm;
+        bool isEscPressed;
 
         CO2Graph co2graph;
         Player player;
@@ -184,6 +187,9 @@ namespace Code2015.GUI
             icons.SetPieceContainer(container);
             co2graph = new CO2Graph(game, parent, scene, gamelogic);
             AddElement(co2graph);
+
+            exitConfirm = new ExitConfirm();
+            AddElement(exitConfirm);
         }
 
         public override void Render(Sprite sprite)
@@ -252,6 +258,30 @@ namespace Code2015.GUI
             {
                 if (parent.IsLoaded)
                 {
+                    XI.KeyboardState keyState = XI.Keyboard.GetState();
+
+                    if (!isEscPressed)
+                    {
+                        isEscPressed = keyState.IsKeyDown(XI.Keys.Escape);
+                        if (isEscPressed)
+                        {
+                            if (!exitConfirm.IsShown)
+                            {
+                                exitConfirm.Show();
+                            }
+                            else
+                            {
+                                parent.Over();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        isEscPressed = keyState.IsKeyDown(XI.Keys.Escape);
+                    }
+
+                    parent.IsPaused = exitConfirm.IsShown;
+
                     #region 屏幕边缘滚动视野
                     const int ScrollPadding = 3;
                     RtsCamera camera = parent.Scene.Camera;
