@@ -150,7 +150,7 @@ namespace Code2015.Logic
 
                     if (weights.TryGetValue(cause, out co2))
                     {
-                        co2 *= 0.75f;
+                        co2 *= 0.5f;
                         if (co2 < 0) co2 = 0;
                         weights[cause] = co2;
                     }

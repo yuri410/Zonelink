@@ -54,7 +54,6 @@ namespace Code2015
         public const float ObjectScale = 3;
         public const float TreeScale = ObjectScale * 3.33f;
 
-        public const float MinLoadingTime = 7;
 
         object syncHelper = new object();
 
@@ -83,14 +82,18 @@ namespace Code2015
 
         bool isLoaded;
         int loadingCountDown = 100;
-        float loadingTime;
+
         int maxLoadingOp;
 
         public GameScene Scene
         {
             get { return scene; }
         }
-
+        public bool IsPaused
+        {
+            get;
+            set;
+        }
         public bool IsLoaded
         {
             get
@@ -124,7 +127,11 @@ namespace Code2015
         {
             get { return map; }
         }
-
+        public void Over()
+        {
+            ResultScore = gameState.GetScores();
+            IsOver = true;
+        }
         public bool IsOver
         {
             get;
@@ -198,7 +205,6 @@ namespace Code2015
             gameState.InitialStandards();
             
             this.ingameUI = new InGameUI(game, this, scene, gameState);
-            loadingTime = MinLoadingTime;
         }
 
         void AddResources(SimulationWorld slgSystem)
@@ -274,22 +280,10 @@ namespace Code2015
 
         public void Update(GameTime time)
         {
-            XI.KeyboardState state = XI.Keyboard.GetState();
-
-            if (state.IsKeyDown(XI.Keys.D))
+            if (!IsPaused)
             {
-                gameState.SLGWorld.EnergyStatus.AddDisaster(
-                    new Disaster(gameState.SLGWorld, null, MathEx.Radian2Degree(scene.Camera.Longitude),
-                        MathEx.Radian2Degree(scene.Camera.Latitude), 10, 10, 100));
+                scene.Update(time);
             }
-            if (state.IsKeyDown(XI.Keys.O))
-            {
-                ResultScore = gameState.GetScores();
-                IsOver = true;
-            }
-
-
-            scene.Update(time);
             soundWorld.Update(time);
 
             RtsCamera camera = scene.Camera;
@@ -299,8 +293,6 @@ namespace Code2015
 
             if (!IsLoaded)
             {
-                loadingTime -= time.ElapsedGameTimeSeconds;
-
                 bool newVal = TerrainMeshManager.Instance.IsIdle &
                     ModelManager.Instance.IsIdle &
                     TextureManager.Instance.IsIdle &
@@ -308,7 +300,7 @@ namespace Code2015
 
                 if (newVal)
                 {
-                    if (loadingTime < 0 && --loadingCountDown < 0)
+                    if (--loadingCountDown < 0)
                     {
                         IsLoaded = true;
                     }
@@ -331,13 +323,14 @@ namespace Code2015
                 {
                     float newPrg = 1 - ldop / (float)maxLoadingOp;
                     if (newPrg > LoadingProgress)
-                        LoadingProgress = newPrg * (1 - MathEx.Saturate(loadingTime / MinLoadingTime));
+                        LoadingProgress = newPrg;
                 }
 
                 ingameUI.Update(time);
             }
             else
             {
+
                 if (gameState.CheckGameOver())
                 {
                     if (!IsOver)
@@ -350,8 +343,10 @@ namespace Code2015
                 }
                 else
                 {
-                    gameState.Update(time);
-
+                    if (!IsPaused)
+                    {
+                        gameState.Update(time);
+                    }
                 }
 
                 ingameUI.Update(time);
