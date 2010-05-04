@@ -47,6 +47,7 @@ namespace Code2015.EngineEx
                 retrived = mdl;
                 base.NotifyResourceNew(mdl);
             }
+            
             //else
             //{
             //    retrived.Use();

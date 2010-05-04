@@ -86,6 +86,8 @@ namespace Code2015.EngineEx
                 FileLocation fl = FileSystem.Instance.Locate(fileName, GameFileLocs.TerrainTexture);
 
                 ResourceHandle<TerrainTexture> texture = TerrainTextureManager.Instance.CreateInstance(renderSystem, fl);
+                texture.Touch();
+
                 entry.Map = texture;
                 float[] v = matSect.GetSingleArray("DiffuseMapColor");
                 entry.Color = new Color4F((int)v[0], (int)v[1], (int)v[2]);
