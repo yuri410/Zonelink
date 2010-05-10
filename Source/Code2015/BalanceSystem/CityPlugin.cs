@@ -423,7 +423,15 @@ namespace Code2015.BalanceSystem
                             LRCSpeed = actLrChange / hours;
                         }
 
-                        CarbonProduceSpeed += -HRCSpeed;
+                        CarbonProduceSpeed += HRCSpeed;
+
+                        float food = type.FoodCostSpeed * hours;
+
+                        if (food > float.Epsilon)
+                        {
+                             parent.LocalFood.Apply(food);
+                        }
+
                         #endregion
 
                         break;
@@ -434,7 +442,7 @@ namespace Code2015.BalanceSystem
 
                         #region 处理采集自然资源
 
-                        float food = type.FoodCostSpeed * hours;
+                        food = type.FoodCostSpeed * hours;
                         float hpResource = type.HRCSpeed * hours;
                         float lpResource = type.LRCSpeed * hours;
 
