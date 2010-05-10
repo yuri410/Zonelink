@@ -1170,7 +1170,10 @@ namespace Code2015.BalanceSystem
             {
                 Population = CityGrade.GetRefPopulation(Size);
             }
-
+            if (Development > CityGrade.GetUpgradePoint(UrbanSize.Large))
+            {
+                Development = CityGrade.GetUpgradePoint(UrbanSize.Large);
+            }
             if (carbonAddCounter++ == 60)
             {
                 recentCarbon.Enqueue(CarbonProduceSpeed * hours);
