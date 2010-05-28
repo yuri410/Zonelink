@@ -106,7 +106,7 @@ namespace Code2015.AI
                         {
                             Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
 
-                            cc.LocalLR.Commit(800);
+                            cc.LocalLR.Commit(400);
                             for (int j = 0; j < world.ResourceCount && cc.CanAddPlugins; j++)
                             {
                                 NaturalResource res = world.GetResource(j);

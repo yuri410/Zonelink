@@ -322,7 +322,19 @@ namespace Code2015.World
                 green.Add(cc.LocalLR.Current);
                 yellow.Add(cc.LocalFood.Current);
 
-                int level = (int)(MaxDots * MathEx.Saturate(0.5f * red.Result / cc.LocalHR.StandardStorageBalance));
+                const float Threshold = 40;
+                float r = red.Result;
+
+                int level;
+
+                if (r > Threshold)
+                {
+                    level = (int)(MaxDots * MathEx.Saturate(0.5f * r / cc.LocalHR.StandardStorageBalance));
+                }
+                else
+                {
+                    level = -1;
+                }
 
                 for (int i = 0; i < level; i++)
                 {
@@ -333,7 +345,16 @@ namespace Code2015.World
                     emitr[i].IsVisible = false;
                 }
 
-                level = (int)(MaxDots * MathEx.Saturate(0.5f * green.Result / cc.LocalLR.StandardStorageBalance));
+
+                r = green.Result;
+                if (r > Threshold)
+                {
+                    level = (int)(MaxDots * MathEx.Saturate(0.5f * r / cc.LocalLR.StandardStorageBalance));
+                }
+                else
+                {
+                    level = -1;
+                }
 
                 for (int i = 0; i < level; i++)
                 {
@@ -344,8 +365,16 @@ namespace Code2015.World
                     emitg[i].IsVisible = false;
                 }
 
-                level = (int)(MaxDots * MathEx.Saturate(0.5f * yellow.Result / cc.LocalFood.StandardStorageBalance));
-
+                r = yellow.Result;
+                if (r > Threshold)
+                {
+                    level = (int)(MaxDots * MathEx.Saturate(0.5f * r / cc.LocalFood.StandardStorageBalance));
+                }
+                else
+                { 
+                    level = -1;
+                }
+                
                 for (int i = 0; i < level; i++)
                 {
                     emity[i].IsVisible = true;
@@ -354,6 +383,7 @@ namespace Code2015.World
                 {
                     emity[i].IsVisible = false;
                 }
+
 
                 for (int i = 0; i < MaxDots; i++)
                 {

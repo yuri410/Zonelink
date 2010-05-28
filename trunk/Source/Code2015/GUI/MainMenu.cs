@@ -193,7 +193,7 @@ namespace Code2015.GUI
 
         GameGoal CreateGoal()
         {
-            GameGoal goal = new GameGoal(CityGrade.LargeCityPointThreshold * 10);
+            GameGoal goal = new GameGoal(CityGrade.LargeCityPointThreshold * 8);
 
             return goal;
         }
