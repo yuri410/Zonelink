@@ -132,7 +132,7 @@ namespace Code2015.GUI
                     Ray ray = picker.SelectionRay;
                     bool r = MathEx.BoundingSphereIntersects(ref sphere, ref ray);
                     site.SetHighlight(i, r);
-                    return r;
+                    if (r) return r;
                 }
             }
             return false;
