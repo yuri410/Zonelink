@@ -1,19 +1,19 @@
----
+----
 
 ==Table of Contents==
 
----
+----
 
 
-# View Controls
-# How to Play
+ # View Controls
+ # How to Play
   # Overview
   # Starting a game
   # Accessories
   # Goal Pieces
   # Links
   # Natural disasters
-# Advanced Choices
+ # Advanced Choices
   # Making your strategy
   # Partnerships
 
