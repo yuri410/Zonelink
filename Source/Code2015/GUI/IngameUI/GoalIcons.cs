@@ -166,14 +166,14 @@ namespace Code2015.GUI
                     MdgPiece r1 = result as MdgPiece;
                     if (r1 != null)
                     {
-                        SelectedItem = r1;
+                        //SelectedItem = r1;
                         return true;
                     }
 
                     MdgResource r2 = result as MdgResource;
                     if (r2 != null)
                     {
-                        SelectedItem = r2;
+                        //SelectedItem = r2;
                         return true;
                     }
                 }

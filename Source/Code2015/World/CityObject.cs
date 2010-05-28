@@ -357,11 +357,15 @@ namespace Code2015.World
         }
         void City_Linked(City a, City b)
         {
-            if (b != null)
+            if (b != null && a != null)
             {
                 IsLinked = true;
 
+                goalSite.ClearCapturePiece(a);
+
                 goalSite.ClearCapturePiece(b);
+
+
             }
 
         }
