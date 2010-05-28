@@ -19,10 +19,10 @@
 
 
 ===1. View Controls:===
-Mouse Wheel: Zooms camera in/out
-Move the cursor to the edge of screen: Scroll view
-Press and hold the right button and move the cursor: Pan view
-Esc: Back to the Main Menu
+ * Mouse Wheel: Zooms camera in/out
+ * Move the cursor to the edge of screen: Scroll view
+ * Press and hold the right button and move the cursor: Pan view
+ * Esc: Back to the Main Menu
 
 ==2. How to Play==
 ===Overview===
