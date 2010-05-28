@@ -32,6 +32,7 @@ namespace Code2015.World
 
     public class CityObject : SceneObject, ISelectableObject
     {
+        [SLGValue]
         public const int MaxPlugin = CityGrade.LargePluginCount;
 
         struct PluginEntry
