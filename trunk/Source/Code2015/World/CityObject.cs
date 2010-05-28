@@ -133,6 +133,7 @@ namespace Code2015.World
 
         //Dictionary<CityObject, CityLinkObject> linkObjects = new Dictionary<CityObject, CityLinkObject>();
 
+        Matrix invTrans;
         Vector3 position;
         CityLinkManager linkMgr;
         bool isSelected;
@@ -296,6 +297,7 @@ namespace Code2015.World
             Vector3 pos = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude + 5);
 
             Transformation = PlanetEarth.GetOrientation(radLong, radLat);
+            invTrans = Matrix.Invert(Transformation);
 
             Transformation.TranslationValue = pos;
             BoundingSphere.Radius = CityStyleTable.CityRadius;
@@ -305,7 +307,7 @@ namespace Code2015.World
             if (city.Owner != null)
                 City_OwnerChanged(city.Owner);
 
-            sideRing = new CityOwnerRing(this, style);
+            sideRing = new CityOwnerRing(rs, this, style);
             goalSite = new CityGoalSite(rs, this, style);
 
             smoke = new SmokeEffectBuffer(rs, this);
@@ -587,6 +589,16 @@ namespace Code2015.World
             if (ops != null)
             {
                 opBuffer.Add(ops);
+            }
+
+            ops = sideRing.GetRenderOperation2();
+            if (ops != null)
+            {
+                opBuffer.Add(ops);
+                for (int j = 0; j < ops.Length; j++)
+                {
+                    ops[j].Transformation *= invTrans;
+                }
             }
 
             opBuffer.Trim();

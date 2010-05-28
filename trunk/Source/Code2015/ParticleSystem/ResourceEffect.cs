@@ -18,14 +18,13 @@ namespace Code2015.ParticleSystem
             : base(rs, 60)
         {
             Material.CullMode = CullMode.None;
-            Material.ZEnabled = true;
+            Material.ZEnabled = false;
             Material.ZWriteEnabled = false;
             Material.PriorityHint = RenderPriority.Third;
             Material.IsTransparent = true;
 
             //Material.Flags = MaterialFlags.BlendBright;
-            Material.Ambient = new Color4F(0.5f, 0.4f, 0.4f, 0.4f);
-            Material.Diffuse = new Color4F(0.5f, 1f, 1, 1);
+
 
 
             string file = "link_p_def.tex";
@@ -47,7 +46,7 @@ namespace Code2015.ParticleSystem
 
             BoundingSphere.Radius = float.MaxValue;
 
-            ParticleSize = 4;
+            ParticleSize = 12;
             Material.ZEnabled = false;
             Material.ZWriteEnabled = false;
         }
@@ -72,7 +71,7 @@ namespace Code2015.ParticleSystem
 
                 
                 particles[i].Life -= dt;
-                particles[i].Alpha = MathEx.Saturate(particles[i].Life * 5);
+                particles[i].Alpha = MathEx.Saturate(particles[i].Life * 3);
                 //Vector3 dir = particles[i].Velocity;
                 //dir.Normalize();
                 //particles[i].Velocity = Vector3.Zero;
@@ -92,9 +91,9 @@ namespace Code2015.ParticleSystem
         Vector3 centerPos;
         float radius;
         float angle;
-        float blend;
-        Vector3 currentPosition;
 
+        Vector3 currentPosition;
+        float speedMod;
 
 
         public bool IsVisible
@@ -110,7 +109,9 @@ namespace Code2015.ParticleSystem
             this.tany = tany;
             this.centerPos = pos;
             this.radius = r;
+            this.angle = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
 
+            speedMod = (Randomizer.GetRandomSingle() * 0.5f + 0.75f);
             Reset();
         }
 
@@ -131,7 +132,7 @@ namespace Code2015.ParticleSystem
         Particle CreateParticle(Particle p)
         {
             p.Life = .2f;
-            p.Alpha = 1;
+            p.Alpha = 0.6f;
             p.Position = currentPosition;
             //p.Velocity = velocity * 0.5f;
 
@@ -147,48 +148,24 @@ namespace Code2015.ParticleSystem
             //float currentDist = Vector3.Dot(ref direction, ref dist);
             //float distPer = MathEx.Saturate(currentDist / distance);
 
-            if (!IsVisible && blend <= 0)
-            {
-                return;
-            }
+            //if (!IsVisible)
+            //{
+            //    return;
+            //}
 
-            if (IsVisible)
-            {
-                blend += dt;
-            }
-            else 
-            {
-                blend -= dt;
-            }
+            //if (IsVisible)
+            //{
+            //    blend += dt;
+            //}
+            //else 
+            //{
+            //    blend -= dt;
+            //}
             //    isShutDown = false;
 
-            //if (currentDist < 0 && !isShutDown)
-            //{
-            //    if (!IsVisible)
-            //    {
-            //        isShutDown = true;
-            //    }
-            //    Reset();
-            //    return;
-            //}
 
-            //if (isShutDown) 
-            //{
-            //    return;
-            //}
-
-            //dist.Normalize();
-
-            //noise += new Vector3(
-            //    (Randomizer.GetRandomSingle() - 0.5f) * 50,
-            //    (Randomizer.GetRandomSingle() - 0.5f) * 50,
-            //    (Randomizer.GetRandomSingle() - 0.5f) * 50);
-            //velocity = 900 * direction;
-            //velocity += noise;
-            //velocity -= tangent * (300 * (float)Math.Cos(distPer * Math.PI));
-
-            angle += dt;
-            currentPosition = centerPos + (float)Math.Sin(angle) * tany + (float)Math.Cos(angle) * tanx;
+            angle += dt * 1.3f * speedMod;
+            currentPosition = centerPos + radius * (((float)Math.Sin(-angle) * tany + (float)Math.Cos(-angle) * tanx) * MathEx.Root2 * 0.5f);
 
 
             int count = (int)(60 * CreationSpeed * dt);
