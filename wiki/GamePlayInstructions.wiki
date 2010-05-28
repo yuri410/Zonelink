@@ -1,4 +1,3 @@
-
 ---
 
 ==Table of Contents==
@@ -42,7 +41,7 @@ Lumber factory is used to exploit lumber and provide lumber for building new acc
  * Oil refinery is used to open up oilfields and produces energy supply for the city. This kind of factory produce more CO2 than any other accessories. However it can be upgraded to biofuel factory, which is a renewable clean technology. Biofuel factory converts food into oil.
  * School can teach the citizens and speedup the development.
  * Hospital can provide health care and help the city reduce damage from disasters. 
-   Both school and hospital eats food.
+  Both school and hospital eats food.
  * Farm can grow food. To build a new farm you need the yellow goal piece. Put 4 yellow goal pieces in the positions around the city.
 
 To build the other accessories just choose one accessory and click the Build button on the city’s construction panel.
