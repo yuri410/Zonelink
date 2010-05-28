@@ -360,6 +360,8 @@ namespace Code2015.BalanceSystem
 
         public void Update(GameTime time)
         {
+            CarbonProduceSpeed = 0;
+
             float hours = (float)time.ElapsedGameTime.TotalHours;
 
             if (IsBuilding)
@@ -423,7 +425,7 @@ namespace Code2015.BalanceSystem
                             LRCSpeed = actLrChange / hours;
                         }
 
-                        CarbonProduceSpeed += HRCSpeed;
+                        CarbonProduceSpeed = HRCSpeed;
 
                         float food = type.FoodCostSpeed * hours;
 
@@ -465,7 +467,7 @@ namespace Code2015.BalanceSystem
                                         float speed = act / hours;
 
                                         HRPSpeed = speed * HRPConvRate;
-                                        CarbonProduceSpeed += speed * Math.Max(0, 1 - HRPConvRate);
+                                        CarbonProduceSpeed = speed * Math.Max(0, 1 - HRPConvRate);
                                         hpResource -= act;
                                     }
                                 }
@@ -477,7 +479,7 @@ namespace Code2015.BalanceSystem
                                         float speed = act / hours;
 
                                         LRPSpeed = speed * LRPConvRate;
-                                        CarbonProduceSpeed += speed * Math.Max(0, 1 - LRPConvRate);
+                                        CarbonProduceSpeed = speed * Math.Max(0, 1 - LRPConvRate);
                                         lpResource -= act;
                                     }
                                 }
