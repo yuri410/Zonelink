@@ -328,7 +328,7 @@ namespace Code2015.World
                 {
                     emitr[i].IsVisible = true;
                 }
-                for (int i = level; i < MaxDots; i++)
+                for (int i = level + 1; i < MaxDots; i++)
                 {
                     emitr[i].IsVisible = false;
                 }
@@ -339,7 +339,7 @@ namespace Code2015.World
                 {
                     emitg[i].IsVisible = true;
                 }
-                for (int i = level; i < MaxDots; i++)
+                for (int i = level + 1; i < MaxDots; i++)
                 {
                     emitg[i].IsVisible = false;
                 }
@@ -350,7 +350,7 @@ namespace Code2015.World
                 {
                     emity[i].IsVisible = true;
                 }
-                for (int i = level; i < MaxDots; i++)
+                for (int i = level + 1; i < MaxDots; i++)
                 {
                     emity[i].IsVisible = false;
                 }
