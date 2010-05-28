@@ -5,15 +5,15 @@
 ---
 
 
-1. View Controls
-2. How to Play
+# View Controls
+# How to Play
   # Overview
   # Starting a game
   # Accessories
   # Goal Pieces
   # Links
   # Natural disasters
-3. Advanced Choices
+# Advanced Choices
   # Making your strategy
   # Partnerships
 
