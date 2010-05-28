@@ -16,9 +16,9 @@ namespace Code2015.BalanceSystem
     //}
     public class FarmLand : SimulationObject
     {
-        const float FoodProduceSpeed = 25;
+        const float FoodProduceSpeed = 40;
 
-        const float AbsorbCarbonSpeed = FoodProduceSpeed * 1.11f;
+        const float AbsorbCarbonSpeed = 30;//FoodProduceSpeed * 1.11f;
 
         //const float MaxAmount = 10000;
         //[SLGValueAttribute()]

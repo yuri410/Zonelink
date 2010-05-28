@@ -85,7 +85,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float MediumDevMult = 2;
         [SLGValue]
-        public const float LargeDevMult = 3;
+        public const float LargeDevMult = 6;
         #endregion
 
         #region 参考发展度
@@ -94,7 +94,7 @@ namespace Code2015.BalanceSystem
         [SLGValue]
         public const float MediumCityPointThreshold = 3000;
         [SLGValue]
-        public const float LargeCityPointThreshold = 30000;
+        public const float LargeCityPointThreshold = 50000;
 
         #endregion
 
