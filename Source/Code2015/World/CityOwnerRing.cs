@@ -11,11 +11,14 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Code2015.ParticleSystem;
 
 namespace Code2015.World
 {
     class CityOwnerRing : IRenderable
     {
+        public const int MaxDots = 5;
+
         public static readonly Matrix WhiteMatrix =
             new Matrix(1, 1, 1, 1,
                        1, 1, 1, 1,
@@ -28,17 +31,61 @@ namespace Code2015.World
 
         int flashDuration;
 
+        bool visible;
         FastList<Vector4> colorBuffer = new FastList<Vector4>(4);
 
+        FastList<RenderOperation> dotOpBuffer = new FastList<RenderOperation>();
+        ResourceEffect[] resr = new ResourceEffect[MaxDots];
+        ResourceEmitter[] emitr = new ResourceEmitter[MaxDots];
+        ValueSmoother red = new ValueSmoother(5);
+
+        ResourceEffect[] resg = new ResourceEffect[MaxDots];
+        ResourceEmitter[] emitg = new ResourceEmitter[MaxDots];
+        ValueSmoother green = new ValueSmoother(5);
+
+        ResourceEffect[] resy = new ResourceEffect[MaxDots];
+        ResourceEmitter[] emity = new ResourceEmitter[MaxDots];
+        ValueSmoother yellow = new ValueSmoother(5);
 
         public void Flash(int duration)
         {
             flashDuration = duration;
         }
-        public CityOwnerRing(CityObject obj, CityStyle style)
+        public CityOwnerRing(RenderSystem rs, CityObject obj, CityStyle style)
         {
             this.parent = obj;
             this.style = style;
+
+            for (int i = 0; i < MaxDots; i++)
+            {
+                resr[i] = new ResourceEffect(rs, TransferType.Oil);
+                emitr[i] = new ResourceEmitter(obj.Position + obj.Transformation.Up * 70, obj.Transformation.Forward, obj.Transformation.Right,
+                    (0.6f * Randomizer.GetRandomSingle() + 0.7f) * CityStyleTable.CityRadius);
+                emitr[i].IsVisible = true;
+
+                resr[i].Emitter = emitr[i];
+                resr[i].Modifier = new ResourceModifier();
+
+
+                resg[i] = new ResourceEffect(rs, TransferType.Wood);
+                emitg[i] = new ResourceEmitter(obj.Position + obj.Transformation.Up * 70, obj.Transformation.Forward, obj.Transformation.Right,
+                    (0.6f * Randomizer.GetRandomSingle() + 0.7f) * CityStyleTable.CityRadius);
+                emitg[i].IsVisible = true;
+
+                resg[i].Emitter = emitg[i];
+                resg[i].Modifier = new ResourceModifier();
+
+
+                resy[i] = new ResourceEffect(rs, TransferType.Food);
+                emity[i] = new ResourceEmitter(obj.Position + obj.Transformation.Up * 70, obj.Transformation.Forward, obj.Transformation.Right,
+                    (0.6f * Randomizer.GetRandomSingle() + 0.7f) * CityStyleTable.CityRadius);
+
+                emity[i].IsVisible = true;
+
+                resy[i].Emitter = emity[i];
+                resy[i].Modifier = new ResourceModifier();
+            }
+
         }
 
         public Vector4 GetWeights()
@@ -200,6 +247,60 @@ namespace Code2015.World
             return ops;
         }
 
+        public RenderOperation[] GetRenderOperation2()
+        {
+            dotOpBuffer.FastClear();
+
+            if (parent.IsCaptured)
+            {
+                visible = true;
+
+                for (int i = 0; i < MaxDots; i++)
+                {
+                    if (emitr[i].IsVisible)
+                    {
+                        RenderOperation[] ops = resr[i].GetRenderOperation();
+                        if (ops != null)
+                        {
+                            dotOpBuffer.Add(ops);
+                        }                        
+                    }
+                    else break;
+                }
+                for (int i = 0; i < MaxDots; i++)
+                {
+                    if (emitg[i].IsVisible)
+                    {
+                        RenderOperation[] ops = resg[i].GetRenderOperation();
+                        if (ops != null)
+                        {
+                            dotOpBuffer.Add(ops);
+                        }
+                    }
+                    else break;
+                }
+                for (int i = 0; i < MaxDots; i++)
+                {
+                    if (emity[i].IsVisible)
+                    {
+                        RenderOperation[] ops = resy[i].GetRenderOperation();
+                        if (ops != null)
+                        {
+                            dotOpBuffer.Add(ops);
+                        }
+                    }
+                    else break;
+                }
+
+                dotOpBuffer.TrimClear();
+            }
+            //if (emitter.IsVisible) 
+            //{
+            //    return restest.GetRenderOperation();
+            //}
+            return dotOpBuffer.Elements;
+        }
+
         public RenderOperation[] GetRenderOperation(int level)
         {
             return GetRenderOperation();
@@ -211,6 +312,56 @@ namespace Code2015.World
         {
             flashDuration--;
 
+            if (visible)
+            {
+                visible = false;
+
+                City cc = parent.City;
+
+                red.Add(cc.LocalHR.Current);
+                green.Add(cc.LocalLR.Current);
+                yellow.Add(cc.LocalFood.Current);
+
+                int level = (int)(MaxDots * MathEx.Saturate(0.5f * red.Result / cc.LocalHR.StandardStorageBalance));
+
+                for (int i = 0; i < level; i++)
+                {
+                    emitr[i].IsVisible = true;
+                }
+                for (int i = level; i < MaxDots; i++)
+                {
+                    emitr[i].IsVisible = false;
+                }
+
+                level = (int)(MaxDots * MathEx.Saturate(0.5f * green.Result / cc.LocalLR.StandardStorageBalance));
+
+                for (int i = 0; i < level; i++)
+                {
+                    emitg[i].IsVisible = true;
+                }
+                for (int i = level; i < MaxDots; i++)
+                {
+                    emitg[i].IsVisible = false;
+                }
+
+                level = (int)(MaxDots * MathEx.Saturate(0.5f * yellow.Result / cc.LocalFood.StandardStorageBalance));
+
+                for (int i = 0; i < level; i++)
+                {
+                    emity[i].IsVisible = true;
+                }
+                for (int i = level; i < MaxDots; i++)
+                {
+                    emity[i].IsVisible = false;
+                }
+
+                for (int i = 0; i < MaxDots; i++)
+                {
+                    resr[i].Update(time);
+                    resg[i].Update(time);
+                    resy[i].Update(time);
+                }
+            }
         }
     }
 }
