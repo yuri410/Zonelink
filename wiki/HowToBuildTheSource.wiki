@@ -1,7 +1,8 @@
-# SVN Check out the source code.
-# Download the package and extract all the files to Source\Code2015\bin\x86\Debug directory.
-# Create a new folder called "Engine" under Source\Code2015. 
-# Check out another project - Apoc3D Engine(see http://code.google.com/p/apoc3d/)to the "Engine" folder. The SVN url of "Engine" should be https://apoc3d.googlecode.com/svn/trunk/Source
-# Done. Now build the game
+ # SVN Check out the source code.
+ # Download the package and extract all the files to Source\Code2015\bin\x86\Debug  directory.
+ # Create a new folder called "Engine" under Source\Code2015. 
+ # Check out another project - Apoc3D Engine(see http://code.google.com/p/apoc3d/)to the "Engine" folder. The SVN url of "Engine" should be https://apoc3d.googlecode.com/svn/trunk/Source
+ # Done. Now build the game
+
 
 Anyway, there is a source package released on the download page. the source should be version 1121. But you can update it using SVN.
