@@ -37,7 +37,6 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using Code2015.World.Screen;
 using Code2015.ParticleSystem;
 
 namespace Code2015.World
@@ -138,7 +137,7 @@ namespace Code2015.World
         CityOwnerRing sideRing;
 
 
-        CityGoalSite goalSite;
+        //CityGoalSite goalSite;
 
         RenderSystem renderSys;
         Map map;
@@ -168,10 +167,10 @@ namespace Code2015.World
             get { return city.MajorProblem; }
         }
 
-        public CityGoalSite GoalSite
-        {
-            get { return goalSite; }
-        }
+        //public CityGoalSite GoalSite
+        //{
+        //    get { return goalSite; }
+        //}
         public bool IsScaleIncreased
         {
             get;
@@ -331,7 +330,7 @@ namespace Code2015.World
                 City_OwnerChanged(city.Owner);
 
             sideRing = new CityOwnerRing(rs, this, style);
-            goalSite = new CityGoalSite(rs, this, style);
+            //goalSite = new CityGoalSite(rs, this, style);
 
             smoke = new SmokeEffectBuffer(rs, this);
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
@@ -384,9 +383,9 @@ namespace Code2015.World
             {
                 IsLinked = true;
 
-                goalSite.ClearCapturePiece(a);
+                //goalSite.ClearCapturePiece(a);
 
-                goalSite.ClearCapturePiece(b);
+                //goalSite.ClearCapturePiece(b);
 
 
             }
@@ -432,7 +431,7 @@ namespace Code2015.World
 
             plugins[pos] = ent;
 
-            goalSite.SetDesired(pos, CityGoalSite.GetDesired(plugin.TypeId));
+            //goalSite.SetDesired(pos, CityGoalSite.GetDesired(plugin.TypeId));
 
         }
 
@@ -483,7 +482,7 @@ namespace Code2015.World
             }
             if (idx != -1)
             {
-                goalSite.ClearDesired(idx);
+                //goalSite.ClearDesired(idx);
                 plugins[idx].plugin = null;
             }
         }
@@ -612,11 +611,11 @@ namespace Code2015.World
             {
                 opBuffer.Add(ops);
             }
-            ops = goalSite.GetRenderOperation();
-            if (ops != null)
-            {
-                opBuffer.Add(ops);
-            }
+            //ops = goalSite.GetRenderOperation();
+            //if (ops != null)
+            //{
+                //opBuffer.Add(ops);
+            //}
 
             ops = sideRing.GetRenderOperation2();
             if (ops != null)
@@ -653,53 +652,53 @@ namespace Code2015.World
                 CityPlugin cp = plugins[i].plugin;
                 if (cp == null)
                     continue;
-                if (!cp.IsSelling && !cp.IsBuilding && goalSite.Match(i, cp.TypeId))
-                {
-                    plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
+                //if (!cp.IsSelling && !cp.IsBuilding && goalSite.Match(i, cp.TypeId))
+                //{
+                    //plugins[i].plugin.Upgrade(CityPlugin.UpgradeAmount);
                  
-                    goalSite.ClearAt(i);
-                    passed = true;
-                }
+                    //goalSite.ClearAt(i);
+                    //passed = true;
+                //}
             }
             IsUpgraded = passed;
         }
         public bool TryLink(int goalIdx, MdgType type, out City target)
         {
-            Vector3 t = CityStyleTable.SiteTransform[goalIdx].TranslationValue;
-            t = Vector3.TransformNormal(t, Transformation);
-            t.Normalize();
+            //Vector3 t = CityStyleTable.SiteTransform[goalIdx].TranslationValue;
+            //t = Vector3.TransformNormal(t, Transformation);
+            //t.Normalize();
 
-            for (int i = 0; i < city.LinkableCityCount; i++)
-            {
-                Vector3 dir = city.GetLinkableCity(i).Parent.position - position;
-                dir.Normalize();
+            //for (int i = 0; i < city.LinkableCityCount; i++)
+            //{
+            //    Vector3 dir = city.GetLinkableCity(i).Parent.position - position;
+            //    dir.Normalize();
 
-                float dot = Vector3.Dot(ref t, ref dir);
-                if (dot > 0.5f)
-                {
-                    target = city.GetLinkableCity(i);
-                    if (CityGoalSite.CompareCategory(target.MajorProblem, type))
-                    {
-                        return true;
-                    }
-                }
-            }
+            //    float dot = Vector3.Dot(ref t, ref dir);
+            //    if (dot > 0.5f)
+            //    {
+            //        target = city.GetLinkableCity(i);
+            //        if (CityGoalSite.CompareCategory(target.MajorProblem, type))
+            //        {
+            //            return true;
+            //        }
+            //    }
+            //}
             target = null;
             return false;
         }
 
         void TryFarm()
         {
-            for (int i = 0; i < CityGoalSite.SiteCount; i++)
-            {
-                if (goalSite.GetPieceType(i) != MdgType.Hunger || !goalSite.HasPiece(i))
-                {
-                    return;
-                }
-            }
+            //for (int i = 0; i < CityGoalSite.SiteCount; i++)
+            //{
+            //    if (goalSite.GetPieceType(i) != MdgType.Hunger || !goalSite.HasPiece(i))
+            //    {
+            //        return;
+            //    }
+            //}
 
-            goalSite.Clear();
-            city.AddFarm();
+            //goalSite.Clear();
+            //city.AddFarm();
         }
 
         public bool TryUpgrade()
@@ -718,22 +717,22 @@ namespace Code2015.World
             //if (plugins.Count == 0)
             //    return false;
             bool passed = false;
-            for (int i = 0; i < MaxPlugin; i++)
-            {
-                CityPlugin cp = plugins[i].plugin;
-                if (cp == null)
-                    continue;
+            //for (int i = 0; i < MaxPlugin; i++)
+            //{
+            //    CityPlugin cp = plugins[i].plugin;
+            //    if (cp == null)
+            //        continue;
 
-                if (!cp.IsBuilding && !cp.IsSelling)
-                {
-                    bool result = goalSite.Match(i, cp.TypeId);
-                    passed = true;
+            //    if (!cp.IsBuilding && !cp.IsSelling)
+            //    {
+            //        bool result = goalSite.Match(i, cp.TypeId);
+            //        passed = true;
 
-                    if (!result)
-                        return false;
-                }
-                else return false;
-            }
+            //        if (!result)
+            //            return false;
+            //    }
+            //    else return false;
+            //}
             return passed;
         }
 

@@ -33,7 +33,6 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
-using Code2015.World.Screen;
 using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
@@ -95,10 +94,10 @@ namespace Code2015.GUI
         MouseCursor cursorState;
 
 
-        GoalIcons icons;
-        GoalPieceMaker pieceMaker;
+        //GoalIcons icons;
+        //GoalPieceMaker pieceMaker;
 
-        ScreenPhysicsWorld physWorld;
+        //ScreenPhysicsWorld physWorld;
 
         Texture cursor;
         Texture cursor_up;
@@ -110,26 +109,26 @@ namespace Code2015.GUI
         Texture cursor_dl;
         Texture cursor_dr;
         
-        PieceContainer container;
+        //PieceContainer container;
         InfoUI infoUI;
         MiniMap miniMap;
         NoticeBar noticeBar;
         DevelopmentMeter playerProgress;
         Picker picker;
         CityEditPanel cityEdit;
-        Brackets brackets;
+        //Brackets brackets;
         ExitConfirm exitConfirm;
         bool isEscPressed;
 
-        CO2Graph co2graph;
+        //CO2Graph co2graph;
         Player player;
 
 
 
-        public ScreenPhysicsWorld PhysicsWorld
-        {
-            get { return physWorld; }
-        }
+        //public ScreenPhysicsWorld PhysicsWorld
+        //{
+        //    get { return physWorld; }
+        //}
 
         
 
@@ -141,7 +140,7 @@ namespace Code2015.GUI
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.scene = scene;
-            this.physWorld = new ScreenPhysicsWorld();
+            //this.physWorld = new ScreenPhysicsWorld();
 
             this.player = parent.HumanPlayer;
 
@@ -184,15 +183,15 @@ namespace Code2015.GUI
             this.infoUI = new InfoUI(game, parent, scene, gamelogic);
             AddElement(infoUI);
 
-            this.brackets = new Brackets(game, parent, scene, gamelogic, picker);
-            AddElement(brackets);
+            //this.brackets = new Brackets(game, parent, scene, gamelogic, picker);
+            //AddElement(brackets);
 
-            this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
-            AddElement(icons);
+            //this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
+            //AddElement(icons);
 
-            brackets.SetGoalIcons(icons);
+            //brackets.SetGoalIcons(icons);
 
-            this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
+            //this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 
            
             this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
@@ -202,14 +201,14 @@ namespace Code2015.GUI
             this.noticeBar = new NoticeBar(game, parent, scene, gamelogic, miniMap);
             AddElement(noticeBar);
 
-            this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
-            AddElement(container);
-            PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
-            AddElement(overlay);
+            //this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
+            //AddElement(container);
+            //PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
+            //AddElement(overlay);
 
-            icons.SetPieceContainer(container);
-            co2graph = new CO2Graph(game, parent, scene, gamelogic);
-            AddElement(co2graph);
+            //icons.SetPieceContainer(container);
+            //co2graph = new CO2Graph(game, parent, scene, gamelogic);
+            //AddElement(co2graph);
 
             exitConfirm = new ExitConfirm();
             AddElement(exitConfirm);
@@ -355,9 +354,9 @@ namespace Code2015.GUI
                             camera.Move(dx * -0.05f, dy * -0.05f);
                         }
                     }
-                    pieceMaker.Update(time);
+                    //pieceMaker.Update(time);
 
-                    physWorld.Update(time);
+                    //physWorld.Update(time);
                     infoUI.SelectedObject = picker.SelectedObject;
                     cityEdit.SelectedCity = picker.SelectedCity;
 
