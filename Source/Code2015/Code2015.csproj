@@ -137,12 +137,10 @@
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
     <Compile Include="GUI\ColorNotify.cs" />
-    <Compile Include="GUI\IngameUI\Brackets.cs" />
     <Compile Include="GUI\IngameUI\CityEditPanel.cs" />
     <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\IngameUI\CO2Graph.cs" />
     <Compile Include="GUI\CreditScreen.cs" />
     <Compile Include="GUI\IngameUI\DevelopmentMeter.cs" />
     <Compile Include="GUI\GUIScreen.cs" />
@@ -179,7 +177,6 @@
     <Compile Include="GUI\IngameUI\MiniMap.cs" />
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="GUI\IngameUI\NoticeBar.cs" />
-    <Compile Include="GUI\IngameUI\PieceContainer.cs" />
     <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\IngameUI\ResourceInfo.cs" />
     <Compile Include="GUI\ScoreScreen2.cs" />
@@ -188,7 +185,6 @@
     <Compile Include="Logic\Disaster.cs" />
     <Compile Include="Logic\EventLogger.cs" />
     <Compile Include="Logic\GameGoal.cs" />
-    <Compile Include="Logic\GoalPieceMaker.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />
@@ -463,11 +459,9 @@
     <Compile Include="SoundObject.cs" />
     <Compile Include="SoundObjectWorld.cs" />
     <Compile Include="StaticPlay.cs" />
-    <Compile Include="World\CityGoalSite.cs" />
     <Compile Include="World\CityLinkManager.cs" />
     <Compile Include="World\CityStyle.cs" />
     <Compile Include="World\GameScene.cs" />
-    <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -500,8 +494,6 @@
     <Compile Include="World\CityOwnerRing.cs" />
     <Compile Include="World\LightningStrom.cs" />
     <Compile Include="World\SceneryObject.cs" />
-    <Compile Include="World\Screen\MdgResource.cs">
-    </Compile>
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
     <Compile Include="World\OceanWaterTile.cs" />
@@ -509,9 +501,6 @@
     <Compile Include="World\PlanetEarth.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="World\Screen\ScreenPhysicsWorld.cs" />
-    <Compile Include="World\Screen\ScreenRigidBody.cs" />
-    <Compile Include="World\Screen\ScreenStaticBody.cs" />
     <Compile Include="World\TerrainData.cs" />
     <Compile Include="World\TerrainTile.cs">
       <SubType>Code</SubType>

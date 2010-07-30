@@ -37,7 +37,6 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using Code2015.World.Screen;
 
 namespace Code2015.World
 {
@@ -254,7 +253,7 @@ namespace Code2015.World
         const int CowFrameCount = 30;
 
         public static Matrix[] FarmTransform;
-        public static Matrix[] SiteTransform;
+        //public static Matrix[] SiteTransform;
 
         static CityStyleTable()
         {
@@ -266,13 +265,13 @@ namespace Code2015.World
                 FarmTransform[i] = Matrix.Translation(0, 5, FarmRadius) * Matrix.RotationY(i * MathEx.PiOver2);
             }
 
-            SiteTransform = new Matrix[CityGoalSite.SiteCount];
-            for (int i = 0; i < CityGoalSite.SiteCount; i++)
-            {
-                Matrix a = Matrix.Translation(CityRadiusRing, 1, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
+            //SiteTransform = new Matrix[CityGoalSite.SiteCount];
+            //for (int i = 0; i < CityGoalSite.SiteCount; i++)
+            //{
+            //    Matrix a = Matrix.Translation(CityRadiusRing, 1, 0) * Matrix.RotationY(i * MathEx.PiOver2 + MathEx.PiOver4);
 
-                SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.Translation(a.TranslationValue);
-            }
+            //    SiteTransform[i] = Matrix.Scaling(Game.ObjectScale, Game.ObjectScale, Game.ObjectScale) * Matrix.Translation(a.TranslationValue);
+            //}
         }
 
         const float RingRadius = 100;
