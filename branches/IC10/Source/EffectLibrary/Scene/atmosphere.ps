@@ -1,0 +1,23 @@
+struct PSInput
+{
+	float2 Depth : TEXCOORD0;
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+    
+};
+
+
+PSOutput main(PSInput inp)
+{
+    PSOutput o;
+    
+	float f = (8000 - inp.Depth.y) / (8000-4500);
+	f = saturate(f);
+
+    o.Color.rgb = lerp(1, 0, f);
+    o.Color.a = 1;
+    return o;
+}
