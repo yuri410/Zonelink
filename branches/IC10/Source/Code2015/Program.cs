@@ -30,6 +30,7 @@ using Microsoft.Xna.Framework.Storage;
 using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
+using System.Globalization;
 
 namespace Code2015
 {
