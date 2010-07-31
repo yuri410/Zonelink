@@ -28,6 +28,7 @@ using Apoc3D;
 using Apoc3D.Config;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using System.Globalization;
 
 namespace Code2015.EngineEx
 {
@@ -108,10 +109,10 @@ namespace Code2015.EngineEx
             string[] pams = v.Split(ValueSeprater);
             int len = pams.Length;
 
-            rect = new Rectangle(int.Parse(pams[0]),
-                                 int.Parse(pams[1]),
-                                 int.Parse(pams[2]),
-                                 int.Parse(pams[3]));
+            rect = new Rectangle(int.Parse(pams[0], CultureInfo.InvariantCulture),
+                                 int.Parse(pams[1], CultureInfo.InvariantCulture),
+                                 int.Parse(pams[2], CultureInfo.InvariantCulture),
+                                 int.Parse(pams[3], CultureInfo.InvariantCulture));
 
         }
 
@@ -121,7 +122,11 @@ namespace Code2015.EngineEx
             if (this.TryGetValue(key, out v))
             {
                 string[] val = v.Split(ValueSeprater);
-                clr = new ColorValue(byte.Parse(val[3]), byte.Parse(val[0]), byte.Parse(val[1]), byte.Parse(val[2]));
+                clr = new ColorValue(
+                    byte.Parse(val[3], CultureInfo.InvariantCulture),
+                    byte.Parse(val[0], CultureInfo.InvariantCulture),
+                    byte.Parse(val[1], CultureInfo.InvariantCulture),
+                    byte.Parse(val[2], CultureInfo.InvariantCulture));
                 return true;
             }
 
@@ -135,10 +140,10 @@ namespace Code2015.EngineEx
             {
                 string[] val = v.Split(ValueSeprater);
 
-                return new ColorValue(byte.Parse(val[3]),
-                    byte.Parse(val[0]),
-                    byte.Parse(val[1]),
-                    byte.Parse(val[2]));
+                return new ColorValue(byte.Parse(val[3], CultureInfo.InvariantCulture.NumberFormat),
+                    byte.Parse(val[0], CultureInfo.InvariantCulture),
+                    byte.Parse(val[1], CultureInfo.InvariantCulture),
+                    byte.Parse(val[2], CultureInfo.InvariantCulture));
             }
 
             return def;
@@ -148,10 +153,10 @@ namespace Code2015.EngineEx
             string v = this[key];
             string[] val = v.Split(ValueSeprater);
 
-            return new ColorValue(byte.Parse(val[3]),
-                byte.Parse(val[0]),
-                byte.Parse(val[1]),
-                byte.Parse(val[2]));
+            return new ColorValue(byte.Parse(val[3], CultureInfo.InvariantCulture.NumberFormat),
+                byte.Parse(val[0], CultureInfo.InvariantCulture),
+                byte.Parse(val[1], CultureInfo.InvariantCulture),
+                byte.Parse(val[2], CultureInfo.InvariantCulture));
         }
 
         public override int GetColorRGBInt(string key)
@@ -161,7 +166,10 @@ namespace Code2015.EngineEx
 
             unchecked
             {
-                return ((int)0xff000000 | ((int.Parse(val[0]) & 0xff) << 16) | ((int.Parse(val[1]) & 0xff) << 8) | (int.Parse(val[2]) & 0xff));
+                return ((int)0xff000000 |
+                    ((int.Parse(val[0], CultureInfo.InvariantCulture) & 0xff) << 16) |
+                    ((int.Parse(val[1], CultureInfo.InvariantCulture) & 0xff) << 8) |
+                    (int.Parse(val[2], CultureInfo.InvariantCulture) & 0xff));
             }
         }
         public override int GetColorRGBInt(string key, int def)
@@ -174,7 +182,10 @@ namespace Code2015.EngineEx
 
                 unchecked
                 {
-                    return ((int)0xff000000 | ((int.Parse(val[0]) & 0xff) << 16) | ((int.Parse(val[1]) & 0xff) << 8) | (int.Parse(val[2]) & 0xff));
+                    return ((int)0xff000000 |
+                        ((int.Parse(val[0], CultureInfo.InvariantCulture) & 0xff) << 16) |
+                        ((int.Parse(val[1], CultureInfo.InvariantCulture) & 0xff) << 8) |
+                        (int.Parse(val[2], CultureInfo.InvariantCulture) & 0xff));
                 }
             }
             return def;
@@ -195,7 +206,7 @@ namespace Code2015.EngineEx
                 else if (v == "FALSE")
                     res = false;
                 else
-                    res = int.Parse(v) != 0;
+                    res = int.Parse(v, CultureInfo.InvariantCulture) != 0;
                 return true;
             }
 
@@ -215,7 +226,7 @@ namespace Code2015.EngineEx
             else if (v == "FALSE")
                 return false;
             else
-                return int.Parse(v) != 0;
+                return int.Parse(v, CultureInfo.InvariantCulture) != 0;
         }
         public override bool GetBool(string key, bool def)
         {
@@ -232,7 +243,7 @@ namespace Code2015.EngineEx
                 else if (v == "FALSE")
                     return false;
                 else
-                    return int.Parse(v) != 0;
+                    return int.Parse(v, CultureInfo.InvariantCulture) != 0;
             }
 
             return def;
@@ -240,13 +251,13 @@ namespace Code2015.EngineEx
 
         public override float GetSingle(string key)
         {
-            return float.Parse(this[key]);
+            return float.Parse(this[key], CultureInfo.InvariantCulture);
         }
         public override float GetSingle(string key, float def)
         {
             string v;
             if (this.TryGetValue(key, out v))
-                return float.Parse(v);
+                return float.Parse(v, CultureInfo.InvariantCulture);
             else
                 return def;
         }
@@ -260,7 +271,7 @@ namespace Code2015.EngineEx
             float[] res = new float[len];
 
             for (int i = 0; i < len; i++)
-                res[i] = float.Parse(pams[i]);
+                res[i] = float.Parse(pams[i], CultureInfo.InvariantCulture);
             return res;
         }
         public override float[] GetSingleArray(string key, float[] def)
@@ -274,7 +285,7 @@ namespace Code2015.EngineEx
                 float[] res = new float[len];
 
                 for (int i = 0; i < len; i++)
-                    res[i] = float.Parse(pams[i]);
+                    res[i] = float.Parse(pams[i], CultureInfo.InvariantCulture);
                 return res;
             }
             else
@@ -335,13 +346,13 @@ namespace Code2015.EngineEx
 
         public override int GetInt(string key)
         {
-            return int.Parse(this[key]);
+            return int.Parse(this[key], CultureInfo.InvariantCulture);
         }
         public override int GetInt(string key, int def)
         {
             string v;
             if (this.TryGetValue(key, out v))
-                return int.Parse(v);
+                return int.Parse(v, CultureInfo.InvariantCulture);
             else
                 return def;
         }
@@ -356,7 +367,7 @@ namespace Code2015.EngineEx
             int[] res = new int[len];
 
             for (int i = 0; i < len; i++)
-                res[i] = int.Parse(pams[i]);
+                res[i] = int.Parse(pams[i], CultureInfo.InvariantCulture);
             return res;
         }
         public override int[] GetIntArray(string key, int[] def)
@@ -370,7 +381,7 @@ namespace Code2015.EngineEx
                 int[] res = new int[len];
 
                 for (int i = 0; i < len; i++)
-                    res[i] = int.Parse(pams[i]);
+                    res[i] = int.Parse(pams[i], CultureInfo.InvariantCulture);
                 return res;
             }
             else
@@ -390,7 +401,7 @@ namespace Code2015.EngineEx
                 int[] res = new int[len];
 
                 for (int i = 0; i < len; i++)
-                    res[i] = int.Parse(pams[i]);
+                    res[i] = int.Parse(pams[i], CultureInfo.InvariantCulture);
 
                 return new Size(res[0], res[1]);
             }
@@ -409,7 +420,7 @@ namespace Code2015.EngineEx
                     int[] res = new int[len];
 
                     for (int i = 0; i < len; i++)
-                        res[i] = int.Parse(pams[i]);
+                        res[i] = int.Parse(pams[i], CultureInfo.InvariantCulture);
 
                     return new Size(res[0], res[1]);
                 }
@@ -431,7 +442,7 @@ namespace Code2015.EngineEx
                 int[] res = new int[len];
 
                 for (int i = 0; i < len; i++)
-                    res[i] = int.Parse(pams[i]);
+                    res[i] = int.Parse(pams[i], CultureInfo.InvariantCulture);
 
                 return new Point(res[0], res[1]);
             }
@@ -450,7 +461,7 @@ namespace Code2015.EngineEx
                     int[] res = new int[len];
 
                     for (int i = 0; i < len; i++)
-                        res[i] = int.Parse(pams[i]);
+                        res[i] = int.Parse(pams[i], CultureInfo.InvariantCulture);
 
                     return new Point(res[0], res[1]);
                 }
@@ -465,7 +476,7 @@ namespace Code2015.EngineEx
         {
             string val = this[key];
             int pos = val.IndexOf(Percentage);
-            return float.Parse(val.Substring(0, val.Length - pos - 1));
+            return float.Parse(val.Substring(0, val.Length - pos - 1), CultureInfo.InvariantCulture);
         }
         public override float GetPercentage(string key, float def)
         {
@@ -473,7 +484,7 @@ namespace Code2015.EngineEx
             if (TryGetValue(key, out val))
             {
                 int pos = val.IndexOf(Percentage);
-                return float.Parse(val.Substring(0, val.Length - pos)) * 0.01f;
+                return float.Parse(val.Substring(0, val.Length - pos), CultureInfo.InvariantCulture) * 0.01f;
             }
             else
             {
@@ -489,7 +500,7 @@ namespace Code2015.EngineEx
             for (int i = 0; i < v.Length; i++)
             {
                 int pos = v[i].IndexOf(Percentage);
-                res[i] = float.Parse(v[i].Substring(0, v[i].Length - pos)) * 0.01f;
+                res[i] = float.Parse(v[i].Substring(0, v[i].Length - pos), CultureInfo.InvariantCulture) * 0.01f;
 
             }
             return res;

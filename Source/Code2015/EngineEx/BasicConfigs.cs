@@ -28,6 +28,7 @@ using System.Text;
 using Apoc3D.Config;
 using Apoc3D.Core;
 using Apoc3D.Vfs;
+using System.Globalization;
 
 namespace Code2015.EngineEx
 {
@@ -176,8 +177,8 @@ namespace Code2015.EngineEx
         {
             try
             {
-                ScreenHeight = int.Parse(sect[ScreenHeightKey]);
-                ScreenWidth = int.Parse(sect[ScreenWidthKey]);
+                ScreenHeight = int.Parse(sect[ScreenHeightKey], CultureInfo.InvariantCulture);
+                ScreenWidth = int.Parse(sect[ScreenWidthKey], CultureInfo.InvariantCulture);
             }
             catch (KeyNotFoundException)
             {
