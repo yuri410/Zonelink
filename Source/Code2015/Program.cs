@@ -50,7 +50,7 @@ namespace Code2015
             pm.BackBufferFormat = ImagePixelFormat.A8R8G8B8;
             pm.BackBufferWidth = ScreenWidth;
             pm.BackBufferHeight = ScreenHeight;
-            pm.IsWindowed = true;
+            pm.IsWindowed = false;
             pm.DepthFormat = DepthFormat.Depth32;
             
 
