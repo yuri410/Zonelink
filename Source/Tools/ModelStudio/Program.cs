@@ -30,10 +30,10 @@ namespace ModelStudio
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             FileSystem.Instance.AddWorkingDir(@".\");
-            FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
-            FileSystem.Instance.AddWorkingDir(@"F:\ic10gd\Source\Code2015\bin\x86\Debug");
+            //FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
+            //FileSystem.Instance.AddWorkingDir(@"F:\ic10gd\Source\Code2015\bin\x86\Debug");
             // zou jia's res dir
-            FileSystem.Instance.AddWorkingDir(@"G:\lrvbsvnicg\Source\Code2015\bin\x86\Debug");
+            //FileSystem.Instance.AddWorkingDir(@"G:\lrvbsvnicg\Source\Code2015\bin\x86\Debug");
 
             GraphicsAPIManager.Instance.RegisterGraphicsAPI(new Apoc3D.RenderSystem.Xna.XnaGraphicsAPIFactory());
 
