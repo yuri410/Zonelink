@@ -8,7 +8,15 @@ namespace Zonelink.World
     /// <summary>
     ///  表示资源球
     /// </summary>
-    class RBall
+    class RBall : Entity
     {
+        RBallType type;
+
+
+        public RBall(RBallType type, Player owner)
+            : base(type, owner)
+        {
+            this.type = type;
+        }
     }
 }

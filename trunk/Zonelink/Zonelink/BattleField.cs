@@ -19,7 +19,7 @@ namespace Zonelink
     class BattleField
     {
         Level level;
-        TechnologyManager techMgr;
+        Technology techMgr;
 
         Player localPlayer;
 

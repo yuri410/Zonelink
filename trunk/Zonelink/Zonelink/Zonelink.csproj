@@ -118,7 +118,7 @@
     <Compile Include="World\CityType.cs" />
     <Compile Include="World\RBall.cs" />
     <Compile Include="World\RBallType.cs" />
-    <Compile Include="World\TechnologyManager.cs" />
+    <Compile Include="World\Technology.cs" />
     <Compile Include="World\Entity.cs" />
     <Compile Include="World\EntityType.cs" />
   </ItemGroup>
