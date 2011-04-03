@@ -11,7 +11,10 @@ namespace Zonelink.World
     class Entity
     {
         EntityType type;
+        
+        protected Player owner;
 
-
+        protected Entity(EntityType type, Player owner) { this.type = type; this.owner = owner; }
+        protected Entity(EntityType type) { this.type = type; }
     }
 }

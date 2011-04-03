@@ -21,7 +21,7 @@ namespace Zonelink.World
     ///  表示资源球的类型
     ///  不同类型的资源球不用再从这里继承，通过参数体现
     /// </summary>
-    class RBallType
+    class RBallType : EntityType
     {
         RBallTypeID typeId;
     }
