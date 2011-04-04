@@ -122,7 +122,7 @@ namespace Code2015.EngineEx
 
 
 
-        Dictionary<long, TerrainMesh> loadedTerrain = new Dictionary<long, TerrainMesh>(100);
+
         //Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
         SharedIndexData index33;
 
@@ -149,14 +149,9 @@ namespace Code2015.EngineEx
             {
                 index33 = new SharedIndexData(rs, 33);
             }
-            long hash = ((int)x << 32) | ((int)y);
-            TerrainMesh result;
-            if (loadedTerrain.TryGetValue(hash, out result)) 
-            {
-                return result;
-            }
+
             TerrainMesh mdl = new TerrainMesh(rs, x, y);
-            loadedTerrain.Add(hash, mdl);
+            //loadedTerrain.Add(hash, mdl);
             return mdl;
 
         }

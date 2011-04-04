@@ -50,7 +50,7 @@ namespace Code2015.World
         public TerrainTile(Game1 rs, int col, int lat)
         {
             terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat);
-           
+            activeTerrain = terrain;
             //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
 
             Transformation = terrain.Transformation;

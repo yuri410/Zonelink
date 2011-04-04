@@ -93,7 +93,7 @@ namespace Code2015.EngineEx
 
                 string fileName = matSect["DiffuseMap"];
 
-                Texture2D texture = game.Content.Load<Texture2D>(Path.Combine(GameFileLocs.TerrainTexture, fileName));
+                Texture2D texture = game.Content.Load<Texture2D>(Path.Combine(GameFileLocs.CTerrainTexture, fileName));
                 
                 entry.Map = texture;
                 float[] v = matSect.GetSingleArray("DiffuseMapColor");
@@ -113,16 +113,16 @@ namespace Code2015.EngineEx
                 detailedMaps.Add(s, entry);
             }
 
-            string name = Path.Combine(GameFileLocs.TerrainTexture, "index.tex");
+            string name = Path.Combine(GameFileLocs.CTerrainTexture, "index");
             GlobalIndexTexture = game.Content.Load<Texture2D>(name);
 
-            name = Path.Combine(GameFileLocs.TerrainTexture, "planetClr.tex");
+            name = Path.Combine(GameFileLocs.CTerrainTexture, "planetClr");
             GlobalColorTexture = game.Content.Load<Texture2D>(name);
 
-            name = Path.Combine(GameFileLocs.TerrainTexture, "normal.tex");
+            name = Path.Combine(GameFileLocs.CTerrainTexture, "normal");
             GlobalNormalTexture = game.Content.Load<Texture2D>(name);
 
-            name = Path.Combine(GameFileLocs.TerrainTexture, "cliff.tex");
+            name = Path.Combine(GameFileLocs.CTerrainTexture, "cliff");
             CliffColor = game.Content.Load<Texture2D>(name);
 
 

@@ -159,6 +159,7 @@
   <ItemGroup>
     <None Include="Configs\terrainMaterial.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />

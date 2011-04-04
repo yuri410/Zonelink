@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Code2015.EngineEx;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
+using Microsoft.Xna.Framework.Input;
 
 namespace Zonelink
 {
@@ -18,6 +19,8 @@ namespace Zonelink
         RtsCamera camera;
 
         TerrainMaterialLibrary terrainLibrary;
+        Effect terrainEffect;
+        bool isLoaded;
 
         public RtsCamera Camera { get { return camera; } }
 
@@ -25,6 +28,11 @@ namespace Zonelink
             : base(game)
         {
             this.game = game;
+           
+        }
+
+        public override void Initialize()
+        {
             terrainTiles = new TerrainTile[PlanetEarth.ColTileCount * PlanetEarth.LatTileCount];
 
             Viewport vp = game.GraphicsDevice.Viewport;
@@ -33,41 +41,119 @@ namespace Zonelink
             camera = new RtsCamera(45, aspectRatio);
             camera.NearPlane = 20;
             camera.FarPlane = 6000;
+
+            base.Initialize();
         }
-
-
         protected override void LoadContent()
         {
             terrainLibrary = new TerrainMaterialLibrary(game);
             terrainLibrary.LoadTextureSet(Path.Combine(GameFileLocs.Configs, "terrainMaterial.xml"));
+
+            terrainEffect = game.Content.Load<Effect>("Effect\\TerrainEffect");
+            terrainEffect.CurrentTechnique = terrainEffect.Techniques[0];
+
+            TerrainData.Initialize();
 
             for (int i = 1, index = 0; i < PlanetEarth.ColTileCount * 2; i += 2)
             {
                 for (int j = 1; j < PlanetEarth.LatTileCount * 2; j += 2)
                 {
                     terrainTiles[index++] = new TerrainTile(game, i, j + PlanetEarth.LatTileStart);
+
+                    
                 }
             }
+            isLoaded = true;
         }
         protected override void UnloadContent()
         {
+            isLoaded = false;
             for (int i = 0; i < terrainTiles.Length; i++)
             {
                 terrainTiles[i].Dispose();
             }
+            terrainEffect.Dispose();
         }
 
         public override void Draw(GameTime time)
         {
-            for (int i = 0; i < terrainTiles.Length; i++)
+            
+            if (!isLoaded)
+                return;
+
+            game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            foreach (EffectPass p in terrainEffect.CurrentTechnique.Passes)
             {
-                terrainTiles[i].Render();
+                for (int i = 0; i < terrainTiles.Length; i++)
+                {
+                    terrainEffect.Parameters["mvp"].SetValue(terrainTiles[i].Transformation * camera.ViewMatrix * camera.ProjectionMatrix);
+                    terrainEffect.Parameters["terrSize"].SetValue(33);
+                    terrainEffect.Parameters["world"].SetValue(terrainTiles[i].Transformation);
+
+                    terrainEffect.Parameters["texDet1"].SetValue(terrainLibrary.GetTexture("Snow"));
+                    terrainEffect.Parameters["texDet2"].SetValue(terrainLibrary.GetTexture("Grass"));
+                    terrainEffect.Parameters["texDet3"].SetValue(terrainLibrary.GetTexture("Sand"));
+                    terrainEffect.Parameters["texDet4"].SetValue(terrainLibrary.GetTexture("Rock"));
+
+
+                    terrainEffect.Parameters["texColor"].SetValue(terrainLibrary.GlobalColorTexture);
+                    terrainEffect.Parameters["texIdx"].SetValue(terrainLibrary.GlobalIndexTexture);
+                    terrainEffect.Parameters["texNorm"].SetValue(terrainLibrary.GlobalNormalTexture);
+                    terrainEffect.Parameters["texCliff"].SetValue(terrainLibrary.CliffColor);
+
+                        //float4x4 smTrans;
+                        //float terrSize;
+                        //float4x4 world;
+                        //float3 lightDir;
+
+
+    //texture texDet1;
+                        //texture texDet2;
+                        //texture texDet3;
+                        //texture texDet4;
+                        //texture texShd;
+                        //texture texIdx;
+                        //texture texColor;
+                        //texture texNorm;
+                        //texture texCliff;
+
+
+    //float4 k_d;
+                        //float4 k_a;
+
+    //float4 i_a;
+                        //float4 i_d;
+
+                    p.Apply();
+
+                    terrainTiles[i].Render();
+                }
+
             }
         }
 
         public override void Update(GameTime time) 
         {
             camera.Update(time);
+
+            KeyboardState state = Keyboard.GetState();
+
+            if (state.IsKeyDown(Keys.W))
+            {
+                camera.MoveFront();
+            }
+            if (state.IsKeyDown(Keys.S))
+            {
+                camera.MoveBack();
+            }
+            if (state.IsKeyDown(Keys.A))
+            {
+                camera.MoveLeft();
+            }
+            if (state.IsKeyDown(Keys.D))
+            {
+                camera.MoveRight();
+            }
         }
     }
 }
