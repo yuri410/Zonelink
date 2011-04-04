@@ -120,12 +120,12 @@ namespace Code2015.EngineEx
 
         public const float PostHeightScale = 0.04f;//534f;
 
-        bool loaded;
+
 
         Dictionary<long, TerrainMesh> loadedTerrain = new Dictionary<long, TerrainMesh>(100);
         //Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
         SharedIndexData index33;
-        Game1 game;
+
 
         private TerrainMeshManager() { }
 
@@ -145,6 +145,10 @@ namespace Code2015.EngineEx
         //}
         public TerrainMesh CreateInstance(Game1 rs, int x, int y)
         {
+            if (index33 == null)
+            {
+                index33 = new SharedIndexData(rs, 33);
+            }
             long hash = ((int)x << 32) | ((int)y);
             TerrainMesh result;
             if (loadedTerrain.TryGetValue(hash, out result)) 

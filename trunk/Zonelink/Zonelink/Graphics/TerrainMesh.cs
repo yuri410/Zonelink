@@ -243,21 +243,21 @@ namespace Code2015.EngineEx
             indexBuffer = sindexData.Index;
             #endregion
 
-            #region 构造GeomentryData
-            defGeometryData = new GeomentryData();
-            defGeometryData.VertexDeclaration = vtxDecl;
+            //#region 构造GeomentryData
+            //defGeometryData = new GeomentryData();
+            //defGeometryData.VertexDeclaration = vtxDecl;
 
-            defGeometryData.VertexSize = TerrainVertex.Size;
-            defGeometryData.VertexBuffer = vtxBuffer;
-            defGeometryData.IndexBuffer = indexBuffer;
-            defGeometryData.PrimCount = indexBuffer.IndexCount / 3;
-            defGeometryData.VertexCount = terrEdgeSize * terrEdgeSize;
+            //defGeometryData.VertexSize = TerrainVertex.Size;
+            //defGeometryData.VertexBuffer = vtxBuffer;
+            //defGeometryData.IndexBuffer = indexBuffer;
+            //defGeometryData.PrimCount = indexBuffer.IndexCount / 3;
+            //defGeometryData.VertexCount = terrEdgeSize * terrEdgeSize;
 
-            defGeometryData.PrimitiveType = RenderPrimitiveType.TriangleList;
+            //defGeometryData.PrimitiveType = RenderPrimitiveType.TriangleList;
 
-            defGeometryData.BaseVertex = 0;
+            //defGeometryData.BaseVertex = 0;
 
-            #endregion
+            //#endregion
 
             vtxBuffer.SetData<TerrainVertex>(vtxArray);
         }
@@ -280,7 +280,12 @@ namespace Code2015.EngineEx
         #endregion
 
 
-        public void Render() { }
+        public void Render() 
+        {
+            game.GraphicsDevice.SetVertexBuffer(vtxBuffer);
+            game.GraphicsDevice.Indices = indexBuffer;
+            game.GraphicsDevice.DrawIndexedPrimitives(PrimitiveType.TriangleList, 0, 0, terrEdgeSize * terrEdgeSize, 0, indexBuffer.IndexCount / 3);
+        }
 
         public void Dispose()
         {

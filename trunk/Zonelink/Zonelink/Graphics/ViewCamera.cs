@@ -97,8 +97,8 @@ namespace Code2015.EngineEx
             Vector3 yawAxis = Vector3.Cross(axis, up);
             yawAxis.Normalize();
 
-            
-            axis = MathEx.TransformSimple(axis, Quaternion.CreateFromAxisAngle(yawAxis, yaw));
+
+            axis = MathEx.Vec3TransformSimple(axis, Quaternion.CreateFromAxisAngle(yawAxis, yaw));
 
             position = target + axis * height * 35;
             Matrix viewTrans = Matrix.CreateLookAt(position, target, up);
