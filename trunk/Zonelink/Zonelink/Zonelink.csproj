@@ -108,6 +108,28 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleField.cs" />
+    <Compile Include="CaseInsensitiveStringComparer.cs" />
+    <Compile Include="Collections\FastList.cs" />
+    <Compile Include="Collections\FastQueue.cs" />
+    <Compile Include="Configs\Configuration.cs" />
+    <Compile Include="Configs\ConfigurationSection.cs" />
+    <Compile Include="Configs\GameConfiguration.cs" />
+    <Compile Include="Configs\GameConfigurationSection.cs" />
+    <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\TerrainData.cs" />
+    <Compile Include="Graphics\TerrainMaterialLibrary.cs" />
+    <Compile Include="Graphics\TerrainMesh.cs" />
+    <Compile Include="Graphics\TerrainMeshManager.cs" />
+    <Compile Include="Graphics\TerrainTexture.cs" />
+    <Compile Include="Graphics\TerrainTextureManager.cs" />
+    <Compile Include="Graphics\TerrainTile.cs" />
+    <Compile Include="Graphics\TreeBatchModel.cs" />
+    <Compile Include="Graphics\TreeBatchModelManager.cs" />
+    <Compile Include="Graphics\TreeModelLibrary.cs" />
+    <Compile Include="Graphics\ViewCamera.cs" />
+    <Compile Include="MathLib\Frustum.cs" />
+    <Compile Include="MathLib\MathEx.cs" />
+    <Compile Include="Singleton.cs" />
     <Compile Include="State\CityState.cs" />
     <Compile Include="State\Message.cs" />
     <Compile Include="State\EventDispatcher.cs" />
@@ -121,8 +143,12 @@
     <Compile Include="Game1.cs" />
     <Compile Include="State\FSMState.cs" />
     <Compile Include="State\RBallState.cs" />
+    <Compile Include="Utils.cs" />
     <Compile Include="World\City.cs" />
     <Compile Include="World\CityType.cs" />
+    <Compile Include="World\Harvester.cs" />
+    <Compile Include="World\Map.cs" />
+    <Compile Include="World\PathFinder.cs" />
     <Compile Include="World\PlanetEarth.cs" />
     <Compile Include="World\RBall.cs" />
     <Compile Include="World\RBallType.cs" />
