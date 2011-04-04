@@ -154,7 +154,7 @@ namespace Code2015.World
 
             start = (TileLength2 * ty * DataWidth2 + tx * TileLength2);// GetPosition2(tx, ty);
             colSpan = DataWidth2;// *sizeof(ushort);
-            //tileLen = TileLength2;
+            tileLen = TileLength2;
 
 
             result = new float[tileLen * tileLen];
@@ -166,7 +166,7 @@ namespace Code2015.World
 
                 for (int j = 0; j < tileLen; j++)
                 {
-                    result[i * tileLen + j] = terrinData2[start + i * colSpan];// cbr.ReadUInt16() / 7.0f;
+                    result[i * tileLen + j] = terrinData2[start + i * colSpan + j];// cbr.ReadUInt16() / 7.0f;
                 }
                 //}
             }
@@ -200,8 +200,7 @@ namespace Code2015.World
             }
             for (int i = 0; i < terrinData2.Length; i++)
             {
-                    terrinData2[i] = reader2.ReadUInt16() / 7.0f;
-                
+                terrinData2[i] = reader2.ReadUInt16() / 7.0f;
             }
             reader1.Close();
             reader2.Close();

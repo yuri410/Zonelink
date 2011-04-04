@@ -15,5 +15,14 @@ namespace Zonelink
 
         public static readonly string Texture = Path.Combine(Game1.ContentDir, "Texture");
 
+
+
+        public static readonly string CNature = "Nature";
+        public static readonly string CTerrain = "Terrain";
+        public static readonly string CTerrainTexture = "TerrainTexture";
+
+        public static readonly string CTexture = "Texture";
+
+
     }
 }

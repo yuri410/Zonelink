@@ -31,7 +31,7 @@ namespace Zonelink
             Content.RootDirectory = ContentDir;
 
 
-            
+
 
             scene = new GameScene(this);
             this.Components.Add(scene);
@@ -60,6 +60,7 @@ namespace Zonelink
             spriteBatch = new SpriteBatch(GraphicsDevice);
 
 
+            base.LoadContent();
             // TODO: use this.Content to load your game content here
         }
 
@@ -70,6 +71,7 @@ namespace Zonelink
         protected override void UnloadContent()
         {
             // TODO: Unload any non ContentManager content here
+            base.UnloadContent();
         }
 
         /// <summary>
