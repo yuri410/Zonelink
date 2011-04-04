@@ -20,6 +20,8 @@ namespace Zonelink
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
+        GameScene scene;
+
         public Game1()
         {
             graphics = new GraphicsDeviceManager(this);
@@ -27,6 +29,12 @@ namespace Zonelink
             graphics.PreferredBackBufferWidth = 1280;
 
             Content.RootDirectory = ContentDir;
+
+
+            
+
+            scene = new GameScene(this);
+            this.Components.Add(scene);
         }
 
         /// <summary>
@@ -50,6 +58,7 @@ namespace Zonelink
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
+
 
             // TODO: use this.Content to load your game content here
         }
