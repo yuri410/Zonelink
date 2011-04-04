@@ -8,6 +8,8 @@ namespace Zonelink.MathLib
 {
     class MathEx
     {
+        public const float Root2 = 1.141f;
+
         /// <summary>
         /// Transforms a 3D vector by the given <see cref="Quaternion"/> rotation.
         /// </summary>
@@ -35,6 +37,11 @@ namespace Zonelink.MathLib
             result.Z = ((vector.X * (xz - wy)) + (vector.Y * (yz + wx))) + (vector.Z * ((1.0f - xx) - yy));
 
             return result;
+        }
+
+        public static float Sqr(float p)
+        {
+            return p * p;
         }
     }
 }

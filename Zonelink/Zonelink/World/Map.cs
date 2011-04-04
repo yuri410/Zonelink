@@ -24,12 +24,13 @@ http://www.gnu.org/copyleft/gpl.txt.
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D;
-using Apoc3D.MathLib;
-using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.World;
+using Zonelink;
+using System.IO;
+using Microsoft.Xna.Framework;
+using Zonelink.World;
+using Zonelink.MathLib;
 
 namespace Code2015.Logic
 {
@@ -40,36 +41,21 @@ namespace Code2015.Logic
         public const int HeightMapWidth = 64 * 36;
         public const int HeightMapHeight = 64 * 14;
 
-        SimulationWorld region;
+        
         PathFinderManager pathFinder;
-        BitTable gradMap;
+        bool[][] gradMap;
+        private BattleField region;
 
         ushort[][] heightData;
 
-        public Map(SimulationWorld region)
+        public Map(BattleField field)
         {
-            this.region = region;
+            this.region = field;
 
-            FileLocation fl = FileSystem.Instance.Locate("grad.bit", GameFileLocs.Nature);
-
-            gradMap = new BitTable(32);
-            gradMap.Load(fl);
-
+            ReadMap();
             pathFinder = new PathFinderManager(gradMap);
-
-            fl = FileSystem.Instance.Locate("mapheight.raw", GameFileLocs.Nature);
-
-            heightData = new ushort[HeightMapHeight][];
-            ContentBinaryReader br = new ContentBinaryReader(fl);
-            for (int i = 0; i < HeightMapHeight; i++)
-            {
-                heightData[i] = new ushort[HeightMapWidth];
-                for (int j = 0; j < HeightMapWidth; j++) 
-                {
-                    heightData[i][j] = br.ReadUInt16();
-                }
-            }
-            br.Close();
+        
+            ReadHeightMap();         
         }
 
         public PathFinderManager PathFinder
@@ -82,7 +68,7 @@ namespace Code2015.Logic
             int x, y;
             GetMapCoord(lng, lat, out x, out y);
 
-            int w = (int)(((r + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth - ((0 + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
+            int w = (int)(((r + MathHelper.Pi) / (2 * MathHelper.Pi)) * MapWidth - ((0 + MathHelper.Pi) / (2 * MathHelper.Pi)) * MapWidth);
 
             for (int i = -w; i < w; i++) 
             {
@@ -92,7 +78,8 @@ namespace Code2015.Logic
 
                     if (rr <= w)
                     {
-                        gradMap.SetBit((i + y) * MapWidth + (j + x), true);
+                        // gradMap.SetBit((i + y) * MapWidth + (j + x), true);
+                        gradMap[i + y][j + x] = true;
                     }
                 }
             }
@@ -107,10 +94,10 @@ namespace Code2015.Logic
         //}
         public Matrix GetTangentSpaceMatrix(Vector2 pa, Vector2 pb)
         {
-            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+            float yspan = (14.0f / 18.0f) * MathHelper.Pi;
 
             float y1 = ((yspan * 0.5f - pa.Y) / yspan) * HeightMapHeight;
-            float x1 = ((pa.X + MathEx.PIf) / (2 * MathEx.PIf)) * HeightMapWidth;
+            float x1 = ((pa.X + MathHelper.Pi) / (2 * MathHelper.Pi)) * HeightMapWidth;
 
             if (y1 < 0) y1 += HeightMapHeight;
             if (y1 >= HeightMapHeight) y1 -= HeightMapHeight;
@@ -120,7 +107,7 @@ namespace Code2015.Logic
 
 
             float y2 = ((yspan * 0.5f - pb.Y) / yspan) * HeightMapHeight;
-            float x2 = ((pb.X + MathEx.PIf) / (2 * MathEx.PIf)) * HeightMapWidth;
+            float x2 = ((pb.X + MathHelper.Pi) / (2 * MathHelper.Pi)) * HeightMapWidth;
 
             if (y2 < 0) y2 += HeightMapHeight;
             if (y2 >= HeightMapHeight) y2 -= HeightMapHeight;
@@ -155,10 +142,10 @@ namespace Code2015.Logic
 
         public float GetHeight(float lng, float lat)
         {
-            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+            float yspan = (14.0f / 18.0f) * MathHelper.Pi;
 
             float y = ((yspan * 0.5f - lat) / yspan) * HeightMapHeight;
-            float x = ((lng + MathEx.PIf) / (2 * MathEx.PIf)) * HeightMapWidth;
+            float x = ((lng + MathHelper.Pi) / (2 * MathHelper.Pi)) * HeightMapWidth;
 
             if (y < 0) y += HeightMapHeight;
             if (y >= HeightMapHeight) y -= HeightMapHeight;
@@ -183,10 +170,10 @@ namespace Code2015.Logic
 
         public static void GetMapCoord(float lng, float lat, out float x, out float y)
         {
-            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+            float yspan = (14.0f / 18.0f) * MathHelper.Pi;
 
             y = ((yspan * 0.5f - lat) / yspan) * MapHeight;
-            x = ((lng + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth;
+            x = ((lng + MathHelper.Pi) / (2 * MathHelper.Pi)) * MapWidth;
 
             if (y < 0) y += MapHeight;
             if (y >= MapHeight) y -= MapHeight;
@@ -197,18 +184,18 @@ namespace Code2015.Logic
 
         public static void GetCoord(float x, float y, out float lng, out float lat)
         {
-            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+            float yspan = (14.0f / 18.0f) * MathHelper.Pi;
 
             lat = yspan * 0.5f - y * yspan / (float)MapHeight;
-            lng = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
+            lng = x * MathHelper.Pi * 2 / (float)MapWidth - MathHelper.Pi;
         }
 
         public static void GetMapCoord(float lng, float lat, out int x, out int y)
         {
-            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+            float yspan = (14.0f / 18.0f) * MathHelper.Pi;
 
             y = (int)(((yspan * 0.5f - lat) / yspan) * MapHeight);
-            x = (int)(((lng + MathEx.PIf) / (2 * MathEx.PIf)) * MapWidth);
+            x = (int)(((lng + MathHelper.Pi) / (2 * MathHelper.Pi)) * MapWidth);
 
             if (y < 0) y += MapHeight;
             if (y >= MapHeight) y -= MapHeight;
@@ -219,11 +206,55 @@ namespace Code2015.Logic
 
         public static void GetCoord(int x, int y, out float lng, out float lat)
         {
-            float yspan = (14.0f / 18.0f) * MathEx.PIf;
+            float yspan = (14.0f / 18.0f) * MathHelper.Pi;
 
             lat = yspan * 0.5f - y * yspan / (float)MapHeight;
-            lng = x * MathEx.PIf * 2 / (float)MapWidth - MathEx.PIf;
+            lng = x * MathHelper.Pi * 2 / (float)MapWidth - MathHelper.Pi;
         }
+
+        private void ReadMap()
+        {
+            string path = Path.Combine(GameFileLocs.Nature, "grad.raw");
+            FileStream fl = File.Open(path, FileMode.Open, FileAccess.Read);
+
+            BinaryReader br = new BinaryReader(fl);
+
+            this.gradMap = new bool[MapWidth][];
+
+            for (int i = 0; i < MapWidth; i++)
+            {
+                this.gradMap[i] = new bool[MapHeight];
+                for (int j = 0; j < MapHeight; j++)
+                {
+                    byte b= br.ReadByte();
+                    gradMap[i][j] = b > 127;
+                }
+            }
+
+            br.Close();
+        }
+
+        private void ReadHeightMap()
+        {
+            string path = Path.Combine(GameFileLocs.Nature, "mapheight.raw");
+            FileStream fl = File.Open(path, FileMode.Open, FileAccess.Read);
+
+            BinaryReader br = new BinaryReader(fl);
+
+            heightData = new ushort[HeightMapHeight][];  
+
+            for (int i = 0; i < HeightMapHeight; i++)
+            {
+                heightData[i] = new ushort[HeightMapWidth];
+                for (int j = 0; j < HeightMapWidth; j++)
+                {
+                    heightData[i][j] = br.ReadUInt16();        
+                }
+            }
+
+            br.Close();
+        }
+
         
     }
 }
