@@ -20,9 +20,24 @@ namespace Zonelink
     {
         Level level;
         Technology techMgr;
-
         Player localPlayer;
 
+        //单例
+        public static readonly BattleField Instance = new BattleField();  
+
+        List<City>  visibleCityList = new List<City>();
+        
+
+        public int VisibleCityCount
+        {
+            get { return visibleCityList.Count; }
+        } 
+
+        public City GetVisibleCity(int i)
+        {
+            return visibleCityList[i];
+        } 
+ 
         public void Update(GameTime gameTime)
         {
 

@@ -8,7 +8,8 @@ namespace Zonelink.World
     /// <summary>
     ///  表示一种科技类型
     /// </summary>
-    class EntityType
+    abstract class EntityType
     {
+        public abstract void Parse();
     }
 }
