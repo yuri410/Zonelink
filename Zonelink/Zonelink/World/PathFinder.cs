@@ -327,7 +327,7 @@ namespace Code2015.Logic
                         }
                         else
                         {
-                            if (!terrain.GetBit(ny * width + nx))  //地块能通过
+                            if (!terrain[ny][nx])  //地块能通过
                             {
                                 bool isNPInQueue = false;
                                 AStarNode temp;

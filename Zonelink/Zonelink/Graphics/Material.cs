@@ -108,7 +108,7 @@ namespace Apoc3D.Graphics
         {
             DefaultMaterial = new Material();
 
-            Color clr;
+            Color clr = new Color();
             clr.A = 1;
             clr.B = 1;
             clr.G = 1;
