@@ -26,9 +26,8 @@ using System.Collections.Generic;
 using System.IO;
 using System.Text;
 using Apoc3D;
-using Apoc3D.MathLib;
-using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Zonelink;
 
 namespace Code2015.World
 {
@@ -57,8 +56,8 @@ namespace Code2015.World
         const int TileLength2 = 33;
 
         //ContentBinaryReader reader0;
-        ContentBinaryReader reader1;
-        ContentBinaryReader reader2;
+        BinaryReader reader1;
+        BinaryReader reader2;
         //bool[,] existData;
 
         object syncHelper = new object();
@@ -152,9 +151,9 @@ namespace Code2015.World
             long start = 0;
             int tileLen = 0;
 
-            ContentBinaryReader cbr = null;
-
+            BinaryReader cbr = null;
             cbr = reader2;
+
             start = GetPosition2(tx, ty);
             colSpan = DataWidth2 * sizeof(ushort);
             tileLen = TileLength2;
@@ -181,12 +180,14 @@ namespace Code2015.World
         {
             //FileLocation fl = FileSystem.Instance.Locate("terrain_l0.tdmp", GameFileLocs.Terrain);
             //reader0 = new ContentBinaryReader(fl);
+            
+            string path = Path.Combine(GameFileLocs.Nature, "terrain_l1.tdmp");
+            FileStream fl = File.Open(path, FileMode.Open, FileAccess.Read);
+            reader1 = new BinaryReader(fl);
 
-            FileLocation fl = FileSystem.Instance.Locate("terrain_l1.tdmp", GameFileLocs.Terrain);
-            reader1 = new ContentBinaryReader(fl);
-
-            fl = FileSystem.Instance.Locate("terrain_l2.tdmp", GameFileLocs.Terrain);
-            reader2 = new ContentBinaryReader(fl);
+            path = Path.Combine(GameFileLocs.Nature, "terrain_l2.tdmp");
+            FileStream f2 = File.Open(path, FileMode.Open, FileAccess.Read);
+            reader2 = new BinaryReader(f2);
 
             //fl = FileSystem.Instance.Locate("flags.dat", GameFileLocs.Terrain);
 

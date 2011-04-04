@@ -25,13 +25,10 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Apoc3D.Graphics;
-using Apoc3D.Graphics.Animation;
-using Apoc3D.MathLib;
-using Apoc3D.Scene;
-using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Code2015.World
 {

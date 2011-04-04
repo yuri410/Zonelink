@@ -26,7 +26,8 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
-using Apoc3D.MathLib;
+using Microsoft.Xna.Framework;
+using Zonelink.MathLib;
 
 namespace Code2015.Logic
 {
@@ -83,7 +84,7 @@ namespace Code2015.Logic
     }
     public class PathFinderManager
     {
-        BitTable terrain;
+        bool[][] terrain;
 
         AStarNode[][] units;
 
@@ -95,7 +96,7 @@ namespace Code2015.Logic
             get { return units; }
         }
 
-        public PathFinderManager(BitTable terr)
+        public PathFinderManager(bool[][] terr)
         {
             terrain = terr;
             units = new AStarNode[DW][];
@@ -114,7 +115,7 @@ namespace Code2015.Logic
             return new PathFinder(terrain, units);
         }
 
-        public BitTable TerrainTable
+        public bool[][] TerrainTable
         {
             get { return terrain; }
         }
@@ -140,7 +141,7 @@ namespace Code2015.Logic
 
         AStarNode[][] units;
 
-        BitTable terrain;
+        bool[][] terrain;
 
         /// <summary>
         /// BFS队列
@@ -184,7 +185,7 @@ namespace Code2015.Logic
             this.height = mgr.Height;
             this.units = mgr.NodeBuffer;
         }
-        public PathFinder(BitTable terr, AStarNode[][] units)
+        public PathFinder(bool[][] terr, AStarNode[][] units)
         {
             this.terrain = terr;
             this.units = units;
@@ -193,7 +194,7 @@ namespace Code2015.Logic
             this.height = PathFinderManager.DH;
         }
 
-        public BitTable Terrain
+        public bool[][] Terrain
         {
             get { return terrain; }
         }
