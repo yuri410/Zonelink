@@ -118,6 +118,7 @@
     <Compile Include="Configs\GameConfiguration.cs" />
     <Compile Include="Configs\GameConfigurationSection.cs" />
     <Compile Include="GameFileLocs.cs" />
+    <Compile Include="GameScene.cs" />
     <Compile Include="Graphics\Camera.cs" />
     <Compile Include="Graphics\Material.cs" />
     <Compile Include="Graphics\SceneObject.cs" />
@@ -156,6 +157,9 @@
     <Compile Include="World\EntityType.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Configs\terrainMaterial.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

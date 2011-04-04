@@ -56,9 +56,10 @@ namespace Code2015.World
         const int TileLength1 = 129;
         const int TileLength2 = 33;
 
-        //ContentBinaryReader reader0;
-        BinaryReader reader1;
-        BinaryReader reader2;
+        float[][] terrinData1;
+        float[] terrinData2;
+
+
         //bool[,] existData;
 
         object syncHelper = new object();
@@ -74,20 +75,16 @@ namespace Code2015.World
 
 
 
-        long GetPosition1(int tx, int ty)
-        {
-            return sizeof(ushort) * (TileLength1 * ty * DataWidth1 + tx * TileLength1);
-        }
-        long GetPosition2(int tx, int ty)
-        {
-            return sizeof(ushort) * (TileLength2 * ty * DataWidth2 + tx * TileLength2);
-        }
-
-        //public bool HasData(int tx, int ty)
+        //long GetPosition1(int tx, int ty)
         //{
-        //    Transform(ref tx, ref ty);
-        //    return existData[tx, ty];
+        //    return sizeof(ushort) * (TileLength1 * ty * DataWidth1 + tx * TileLength1);
         //}
+        //long GetPosition2(int tx, int ty)
+        //{
+        //    return sizeof(ushort) * (TileLength2 * ty * DataWidth2 + tx * TileLength2);
+        //}
+
+
 
 
         // 使用地形1级
@@ -116,9 +113,9 @@ namespace Code2015.World
 
             lock (syncHelper)
             {
-                reader1.BaseStream.Position = sizeof(ushort) * (y * DataWidth1 + x);
+                //reader1.BaseStream.Position = sizeof(ushort) * (y * DataWidth1 + x);
 
-                return (reader1.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
+                return terrinData1[y][x];// (reader1.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
             }
         }
         //public float QueryHeight(float longtiude, float latitude)
@@ -152,26 +149,26 @@ namespace Code2015.World
             long start = 0;
             int tileLen = 0;
 
-            BinaryReader cbr = null;
-            cbr = reader2;
+            //BinaryReader cbr = null;
+            //cbr = reader2;
 
-            start = GetPosition2(tx, ty);
-            colSpan = DataWidth2 * sizeof(ushort);
-            tileLen = TileLength2;
+            start = (TileLength2 * ty * DataWidth2 + tx * TileLength2);// GetPosition2(tx, ty);
+            colSpan = DataWidth2;// *sizeof(ushort);
+            //tileLen = TileLength2;
 
 
             result = new float[tileLen * tileLen];
             for (int i = 0; i < tileLen; i++)
             {
-                lock (syncHelper)
-                {
-                    cbr.BaseStream.Position = start + i * colSpan;
+                //lock (syncHelper)
+                //{
+                //cbr.BaseStream.Position = start + i * colSpan;
 
-                    for (int j = 0; j < tileLen; j++)
-                    {
-                        result[i * tileLen + j] = cbr.ReadUInt16() / 7.0f;
-                    }
+                for (int j = 0; j < tileLen; j++)
+                {
+                    result[i * tileLen + j] = terrinData2[start + i * colSpan];// cbr.ReadUInt16() / 7.0f;
                 }
+                //}
             }
 
             return result;
@@ -181,15 +178,33 @@ namespace Code2015.World
         {
             //FileLocation fl = FileSystem.Instance.Locate("terrain_l0.tdmp", GameFileLocs.Terrain);
             //reader0 = new ContentBinaryReader(fl);
-            
-            string path = Path.Combine(GameFileLocs.Nature, "terrain_l1.tdmp");
+
+            string path = Path.Combine(GameFileLocs.Terrain, "terrain_l1.tdmp");
             FileStream fl = File.Open(path, FileMode.Open, FileAccess.Read);
-            reader1 = new BinaryReader(fl);
+            BinaryReader reader1 = new BinaryReader(fl);
 
-            path = Path.Combine(GameFileLocs.Nature, "terrain_l2.tdmp");
+            path = Path.Combine(GameFileLocs.Terrain, "terrain_l2.tdmp");
             FileStream f2 = File.Open(path, FileMode.Open, FileAccess.Read);
-            reader2 = new BinaryReader(f2);
+            BinaryReader reader2 = new BinaryReader(f2);
 
+            terrinData1 = new float[DataHeight1][];
+            terrinData2 = new float[DataHeight2*DataWidth2];
+
+            for (int i = 0; i < DataHeight1; i++)
+            {
+                terrinData1[i] = new float[DataWidth1];
+                for (int j = 0; j < DataWidth1; j++)
+                {
+                    terrinData1[i][j] = reader1.ReadUInt16() / 7.0f;
+                }
+            }
+            for (int i = 0; i < terrinData2.Length; i++)
+            {
+                    terrinData2[i] = reader2.ReadUInt16() / 7.0f;
+                
+            }
+            reader1.Close();
+            reader2.Close();
             //fl = FileSystem.Instance.Locate("flags.dat", GameFileLocs.Terrain);
 
             //existData = new bool[36, 14];
@@ -207,8 +222,7 @@ namespace Code2015.World
 
         protected override void dispose()
         {
-            reader1.Close();
-            reader2.Close();
+
         }
     }
 }

@@ -128,7 +128,7 @@ namespace Code2015.EngineEx
 
         }
 
-        private TerrainMaterialLibrary(Game1 device)
+        public TerrainMaterialLibrary(Game1 device)
         {
             this.game = device;
             this.detailedMaps = new Dictionary<string, Entry>(CaseInsensitiveStringComparer.Instance);
