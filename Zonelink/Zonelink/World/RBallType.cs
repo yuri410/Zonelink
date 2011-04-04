@@ -23,6 +23,12 @@ namespace Zonelink.World
     /// </summary>
     class RBallType : EntityType
     {
-        RBallTypeID typeId;
+        public RBallTypeID TypeID { get; set; }
+
+
+        public override void Parse()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

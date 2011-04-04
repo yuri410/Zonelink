@@ -29,8 +29,11 @@ namespace Zonelink.World
     /// </summary>
     class CityType : EntityType
     {
-        CityTypeID typeId;
+        public CityTypeID TypeId { get; protected set; }
 
-
+        public override void Parse()
+        {
+            throw new NotImplementedException();
+        }
     }
 }

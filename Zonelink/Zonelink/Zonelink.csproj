@@ -108,14 +108,22 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="BattleField.cs" />
+    <Compile Include="State\CityState.cs" />
+    <Compile Include="State\Message.cs" />
+    <Compile Include="State\EventDispatcher.cs" />
+    <Compile Include="State\EventType.cs" />
+    <Compile Include="State\FSMMachine.cs" />
     <Compile Include="GameState.cs" />
     <Compile Include="Level.cs" />
     <Compile Include="Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Game1.cs" />
+    <Compile Include="State\FSMState.cs" />
+    <Compile Include="State\RBallState.cs" />
     <Compile Include="World\City.cs" />
     <Compile Include="World\CityType.cs" />
+    <Compile Include="World\PlanetEarth.cs" />
     <Compile Include="World\RBall.cs" />
     <Compile Include="World\RBallType.cs" />
     <Compile Include="World\Technology.cs" />

@@ -10,13 +10,25 @@ namespace Zonelink.World
     /// </summary>
     class RBall : Entity
     {
-        RBallType type;
+        public RBallType TypeId { get; private set; }
 
+        //属于哪个城市
+        City belongTo;
 
-        public RBall(RBallType type, Player owner)
+        //是否被消灭
+        public bool IsDied { get; private set; }
+
+        //血条
+        public float Health { get; private set; }
+
+        //旋转速度
+        private float speed; 
+
+        public RBall(RBallType type, Player owner, City city)
             : base(type, owner)
         {
-            this.type = type;
+            this.TypeId = type;
+            this.belongTo = city;
         }
     }
 }
