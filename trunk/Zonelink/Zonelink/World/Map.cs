@@ -34,7 +34,7 @@ using Zonelink.MathLib;
 
 namespace Code2015.Logic
 {
-    public class Map
+    class Map
     {
         public const int MapWidth = PathFinderManager.DW;
         public const int MapHeight = PathFinderManager.DH;

@@ -8,6 +8,14 @@ namespace Zonelink.World
 {
     class PlanetEarth
     {
+
+        public const int ColTileCount = 36;
+        public const int LatTileCount = 14;
+        public const int LatTileStart = 4;
+
+        public const float DefaultTileSpan = MathHelper.Pi * 10 / 180;
+
+
         #region 工具
         /// <summary>
         ///  表示地球的半径

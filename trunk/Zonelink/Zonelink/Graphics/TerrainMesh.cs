@@ -30,12 +30,15 @@ using Apoc3D.Collections;
 using Code2015.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Zonelink.World;
+using Zonelink.MathLib;
+using Zonelink;
 
 namespace Code2015.EngineEx
 {
     delegate void ObjectSpaceChangedHandler(Matrix matrix, BoundingSphere sphere);
 
-    unsafe class TerrainMesh : Resource, IRenderable
+    unsafe class TerrainMesh
     {
         const float PlanetRadius = PlanetEarth.PlanetRadius;
 
@@ -52,10 +55,11 @@ namespace Code2015.EngineEx
             static TerrainVertex()
             {
                 elements = new VertexElement[3];
-                elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-                elements[1] = new VertexElement(elements[0].Size,
+                
+                elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0);
+                elements[1] = new VertexElement(sizeof(float) * 3,
                     VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
-                elements[2] = new VertexElement(elements[1].Size + elements[1].Offset,
+                elements[2] = new VertexElement(sizeof(float) * 2 + elements[1].Offset,
                     VertexElementFormat.Single, VertexElementUsage.TextureCoordinate, 1);
             }
 
@@ -71,33 +75,24 @@ namespace Code2015.EngineEx
         }
 
 
-
         /// <summary>
         ///  地形一条边上的顶点数
         /// </summary>
         const int terrEdgeSize = 33;
 
+        Game1 game;
 
         VertexDeclaration vtxDecl;
         VertexBuffer vtxBuffer;
 
         IndexBuffer indexBuffer;
 
-        RenderSystem renderSystem;
-        ObjectFactory factory;
 
-
-        FastList<RenderOperation> opBuffer;
-
-        Material material;
 
         public BoundingSphere BoundingSphere;
         public Matrix Transformation = Matrix.Identity;
 
-        /// <summary>
-        ///  
-        /// </summary>
-        GeomentryData defGeometryData;
+
 
         float tileCol;
         float tileLat;
@@ -125,8 +120,6 @@ namespace Code2015.EngineEx
         }
 
 
-        public event ObjectSpaceChangedHandler ObjectSpaceChanged;
-        
         public static string GetHashString(int x, int y)
         {
             return "TM" + x.ToString("D2") + y.ToString("D2");
@@ -134,75 +127,66 @@ namespace Code2015.EngineEx
 
 
 
-        public TerrainMesh(RenderSystem rs, int x, int y)
-            : base(TerrainMeshManager.Instance, GetHashString(x, y))
+        public TerrainMesh(Game1 rs, int x, int y)
         {
-            this.opBuffer = new FastList<RenderOperation>();
+            this.game = rs;
 
             this.tileX = x;
             this.tileY = y;
 
-            renderSystem = rs;
-            factory = rs.ObjectFactory;
+            //renderSystem = rs;
+            //factory = rs.ObjectFactory;
 
-            material = new Material(rs);
-            material.CullMode = CullMode.None;
+            //material = new Material(rs);
+            //material.CullMode = CullMode.None;
 
 
-            material.Ambient = new Color4F(1, 0.5f, 0.5f, 0.5f);
-            material.Diffuse = new Color4F(1f, 1f, 1f, 1f);
-            material.Specular = new Color4F(0, 0, 0, 0);
-            material.Power = 1;
-            material.PriorityHint = RenderPriority.Second;
+            //material.Ambient = new Color4F(1, 0.5f, 0.5f, 0.5f);
+            //material.Diffuse = new Color4F(1f, 1f, 1f, 1f);
+            //material.Specular = new Color4F(0, 0, 0, 0);
+            //material.Power = 1;
+            //material.PriorityHint = RenderPriority.Second;
 
             PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);
 
             // 估算包围球
             {
-                float radtc = MathEx.Degree2Radian(tileCol);
-                float radtl = MathEx.Degree2Radian(tileLat);
+                float radtc = MathHelper.ToRadians(tileCol);
+                float radtl = MathHelper.ToRadians(tileLat);
                 float rad5 = PlanetEarth.DefaultTileSpan * 0.5f;
 
                 BoundingSphere.Center = PlanetEarth.GetPosition(radtc + rad5, radtl - rad5);
                 BoundingSphere.Radius = MathEx.Root2 * PlanetEarth.GetTileHeight(rad5 * 2);
-
-                if (ObjectSpaceChanged != null)
-                    ObjectSpaceChanged(Transformation, BoundingSphere);
             }
+
+            load();
         }
 
         #region Resource实现
-        public override int GetSize()
-        {
-            int size = 0;
+        
 
-            size += TerrainVertex.Size * 33 * 33;
-            size += sizeof(int) * (2 * 2) * 6;
 
-            return size;
-        }
-
-        protected override void load()
+        void load()
         {
             // 读取地形数据
             float[] data = TerrainData.Instance.GetData(tileX, tileY);
 
-            float radtc = MathEx.Degree2Radian(tileCol);
-            float radtl = MathEx.Degree2Radian(tileLat);
+            float radtc = MathHelper.ToRadians(tileCol);
+            float radtl = MathHelper.ToRadians(tileLat);
 
-            float radSpan = MathEx.Degree2Radian(10);
+            float radSpan = MathHelper.ToRadians(10);
 
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
 
-            material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect33Factory.Name));
+
 
             #region 顶点数据
 
-            vtxDecl = factory.CreateVertexDeclaration(TerrainVertex.Elements);
+            vtxDecl = new VertexDeclaration(TerrainVertex.Elements);
 
-            vtxBuffer = factory.CreateVertexBuffer(vertexCount, vtxDecl, BufferUsage.WriteOnly);
-
+            vtxBuffer = new VertexBuffer(game.GraphicsDevice, vtxDecl, vertexCount, BufferUsage.WriteOnly);
+            
             TerrainVertex[] vtxArray = new TerrainVertex[vertexCount];
 
 
@@ -243,11 +227,11 @@ namespace Code2015.EngineEx
                     float curCol = radtc + j * cellAngle;
                     float curLat = radSpan + radtl - i * cellAngle;
 
-                    curCol += MathEx.PIf;
-                    curLat -= MathEx.Degree2Radian(10);
+                    curCol += MathHelper.Pi;
+                    curLat -= MathHelper.ToRadians(10);
 
-                    vtxArray[index].u = 0.5f * curCol / MathEx.PIf;
-                    vtxArray[index].v = (-curLat + MathEx.PiOver2) / MathEx.PIf;
+                    vtxArray[index].u = 0.5f * curCol / MathHelper.Pi;
+                    vtxArray[index].v = (-curLat + MathHelper.PiOver2) / MathHelper.Pi;
                 }
             }
             #endregion
@@ -278,7 +262,7 @@ namespace Code2015.EngineEx
             vtxBuffer.SetData<TerrainVertex>(vtxArray);
         }
 
-        protected override void unload()
+        void unload()
         {
             if (!object.ReferenceEquals(vtxBuffer, null))
             {
@@ -295,44 +279,13 @@ namespace Code2015.EngineEx
         }
         #endregion
 
-        /// <summary>
-        ///  准备特定lod级别下的可见物体
-        /// </summary>
-        /// <param name="cam"></param>
-        /// <param name="level"></param>
-        public void PrepareVisibleObjects(ICamera cam, int level)
+
+        public void Render() { }
+
+        public void Dispose()
         {
-            if (State == ResourceState.Loaded)
-            {
-                opBuffer.Clear();
-
-                RenderOperation op;
-
-                op.Material = material;
-                op.Geomentry = defGeometryData;
-
-                op.Transformation = Matrix.Identity;
-                op.Sender = this;
-                opBuffer.Add(op);
-            }
+            unload();
         }
 
-        #region IRenderable 成员
-
-        public RenderOperation[] GetRenderOperation()
-        {
-            if (State == ResourceState.Loaded)
-            {
-                return opBuffer.Elements;
-            }
-            return null;
-        }
-
-        public RenderOperation[] GetRenderOperation(int level)
-        {
-            return GetRenderOperation();
-        }
-
-        #endregion
     }
 }

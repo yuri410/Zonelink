@@ -24,10 +24,10 @@ http://www.gnu.org/copyleft/gpl.txt.
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.Core;
 using Apoc3D.Graphics;
-using Apoc3D.MathLib;
-using Apoc3D.Vfs;
+using Microsoft.Xna.Framework.Graphics;
+using Zonelink;
+using Zonelink.MathLib;
 
 namespace Code2015.EngineEx
 {
@@ -44,15 +44,15 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
-        public SharedIndexData(RenderSystem rs, int terrSize)
+        public SharedIndexData(Game1 rs, int terrSize)
         {
             TerrainSize = terrSize;
 
-            ObjectFactory factory = rs.ObjectFactory;
+
 
             int primCount = MathEx.Sqr(terrSize) * 2;
             int indexCount = primCount * 3;
-            indexBuffer = factory.CreateIndexBuffer(IndexBufferType.Bit32, indexCount, BufferUsage.WriteOnly);
+            indexBuffer = new IndexBuffer(rs.GraphicsDevice, IndexElementSize.ThirtyTwoBits, indexCount, BufferUsage.WriteOnly);
             int[] indexArray = new int[indexCount];
 
             int idx = 0;
@@ -90,7 +90,7 @@ namespace Code2015.EngineEx
         }
     }
 
-    class TerrainMeshManager : ResourceManager
+    class TerrainMeshManager
     {
         static volatile TerrainMeshManager singleton;
         static volatile object syncHelper = new object();
@@ -105,7 +105,7 @@ namespace Code2015.EngineEx
                     {
                         if (singleton == null)
                         {
-                            singleton = new TerrainMeshManager(1048576 * 100);
+                            singleton = new TerrainMeshManager();
                         }
                     }
                 }
@@ -121,15 +121,14 @@ namespace Code2015.EngineEx
         public const float PostHeightScale = 0.04f;//534f;
 
         bool loaded;
-        RenderSystem renderSystem;
+
+        Dictionary<long, TerrainMesh> loadedTerrain = new Dictionary<long, TerrainMesh>(100);
         //Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
         SharedIndexData index33;
+        Game1 game;
 
         private TerrainMeshManager() { }
-        private TerrainMeshManager(int cacheSize)
-            : base(cacheSize)
-        {
-        }
+
         public SharedIndexData GetIndexData() 
         {
             return index33;
@@ -144,39 +143,18 @@ namespace Code2015.EngineEx
         //    }
         //    return result;
         //}
-        public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y)
+        public TerrainMesh CreateInstance(Game1 rs, int x, int y)
         {
-            if (!loaded)
+            long hash = ((int)x << 32) | ((int)y);
+            TerrainMesh result;
+            if (loadedTerrain.TryGetValue(hash, out result)) 
             {
-                lock (syncHelper)
-                {
-                    if (!loaded)
-                    {
-                        loaded = true;
-                        renderSystem = rs;
+                return result;
+            }
+            TerrainMesh mdl = new TerrainMesh(rs, x, y);
+            loadedTerrain.Add(hash, mdl);
+            return mdl;
 
-                        index33 = new SharedIndexData(rs, 33);
-                        //SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 513);
-                        //SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 129);
-                        //SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 33);
-                        //sharedIBCache.Add(513, sharedIdxBuffer1025);
-                        //sharedIBCache.Add(129, sharedIdxBuffer257);
-                        //sharedIBCache.Add(33, sharedIdxBuffer65);
-                    }
-                }
-            }
-            Resource retrived = base.Exists(TerrainMesh.GetHashString(x, y));
-            if (retrived == null)
-            {
-                TerrainMesh mdl = new TerrainMesh(rs, x, y);
-                retrived = mdl;
-                base.NotifyResourceNew(mdl);
-            }
-            //else
-            //{
-            //    retrived.Use();
-            //}
-            return new ResourceHandle<TerrainMesh>((TerrainMesh)retrived);
         }
     }
 }
