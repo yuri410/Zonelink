@@ -39,6 +39,7 @@ namespace Zonelink.MathLib
             return result;
         }
 
+        public static int Sqr(int p) { return p * p; }
         public static float Sqr(float p)
         {
             return p * p;

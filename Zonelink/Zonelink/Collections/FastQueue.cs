@@ -27,7 +27,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 using System.Text;
-using Apoc3D.Core;
 
 namespace Apoc3D.Collections
 {
