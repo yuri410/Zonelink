@@ -16,6 +16,7 @@ namespace Zonelink
     /// </summary>
     public class Game1 : Microsoft.Xna.Framework.Game
     {
+        public static readonly string ContentDir = "Content";
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
 
@@ -25,7 +26,7 @@ namespace Zonelink
             graphics.PreferredBackBufferHeight = 720;
             graphics.PreferredBackBufferWidth = 1280;
 
-            Content.RootDirectory = "Content";
+            Content.RootDirectory = ContentDir;
         }
 
         /// <summary>
