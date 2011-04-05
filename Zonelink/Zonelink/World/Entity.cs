@@ -4,48 +4,68 @@ using System.Linq;
 using System.Text;
 using Zonelink.State;
 using Microsoft.Xna.Framework;
+using Apoc3D.Scene;
+using Code2015.EngineEx;
 
 namespace Zonelink.World
 {
     /// <summary>
     ///  表示游戏世界中实体
     /// </summary>
-    class Entity
-    {
-        EntityType type;     
-        protected Player owner;
-        
+    class Entity : SceneObject
+    {     
+        //玩家
+        public Player Owner { get; protected set; }
+
+        //状态机，控制Entity状态
         public FSMMachine fsmMachine { get; protected set; }
 
+        //是否被选中
+        public bool IsSelected { get; set; }
+
+       
         //经纬度
         public float Longitude { get; protected set; }
         public float Latitude { get; protected set; }
         public float Radius { get; protected set; }
 
-        protected Entity(EntityType type, Player owner) 
-        { 
-            this.type = type; 
-            this.owner = owner;
-            fsmMachine = new FSMMachine(this); 
-        }
+        //Entey中心位置 
+        public Vector3 Position { get; set; }
 
-        protected Entity(EntityType type) 
+        protected Entity(Player owner) 
         {
-            this.type = type;
+            this.Owner = owner;
             fsmMachine = new FSMMachine(this);
+            this.IsSelected = false;
         }
 
-        //Entey Position 
-        public Vector3 GetCenterPosition()
+        protected Entity() 
         {
-            return PlanetEarth.GetPosition(Longitude, Latitude, Radius);
+            fsmMachine = new FSMMachine(this);
         }
 
         //状态转换，事件处理
         public bool HandleMessage(Message msg)
         {
             return fsmMachine.HandleMessage(msg);
-        }      
-    
+        }
+
+
+        public override void Render()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update(GameTime dt)
+        {
+            throw new NotImplementedException();
+        }
+
+        //资源解析
+        public virtual void Parse(GameConfigurationSection sect)
+        {
+            Longitude = sect.GetSingle("Longitude");
+            Latitude = sect.GetSingle("Latitude");
+        }
     }
 }

@@ -9,6 +9,7 @@ using Code2015.EngineEx;
 using Microsoft.Xna.Framework.Graphics;
 using System.IO;
 using Microsoft.Xna.Framework.Input;
+using Zonelink.MathLib;
 
 namespace Zonelink
 {
@@ -21,6 +22,7 @@ namespace Zonelink
         TerrainMaterialLibrary terrainLibrary;
         Effect terrainEffect;
         bool isLoaded;
+
 
         public RtsCamera Camera { get { return camera; } }
 
@@ -46,6 +48,7 @@ namespace Zonelink
         }
         protected override void LoadContent()
         {
+            //terrain
             terrainLibrary = new TerrainMaterialLibrary(game);
             terrainLibrary.LoadTextureSet(Path.Combine(GameFileLocs.Configs, "terrainMaterial.xml"));
 
@@ -58,11 +61,14 @@ namespace Zonelink
             {
                 for (int j = 1; j < PlanetEarth.LatTileCount * 2; j += 2)
                 {
-                    terrainTiles[index++] = new TerrainTile(game, i, j + PlanetEarth.LatTileStart);
-
-                    
+                    terrainTiles[index++] = new TerrainTile(game, i, j + PlanetEarth.LatTileStart);           
                 }
             }
+            
+
+            //Iint Battle Field
+            BattleField.Instance.Initialize();
+
             isLoaded = true;
         }
         protected override void UnloadContent()
@@ -81,47 +87,37 @@ namespace Zonelink
             if (!isLoaded)
                 return;
 
+            Frustum frus = camera.Frustum;    
             game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             foreach (EffectPass p in terrainEffect.CurrentTechnique.Passes)
             {
                 for (int i = 0; i < terrainTiles.Length; i++)
                 {
-                    terrainEffect.Parameters["mvp"].SetValue(terrainTiles[i].Transformation * camera.ViewMatrix * camera.ProjectionMatrix);
-                    terrainEffect.Parameters["terrSize"].SetValue(33);
-                    terrainEffect.Parameters["world"].SetValue(terrainTiles[i].Transformation);
+                    Vector3 center = terrainTiles[i].BoundingSphere.Center;
+                    if (frus.IntersectsSphere(ref center, terrainTiles[i].BoundingSphere.Radius))
+                    {             
+                        terrainEffect.Parameters["mvp"].SetValue(terrainTiles[i].Transformation * camera.ViewMatrix * camera.ProjectionMatrix);
+                        terrainEffect.Parameters["terrSize"].SetValue(33);
+                        terrainEffect.Parameters["world"].SetValue(terrainTiles[i].Transformation);
 
-                    terrainEffect.Parameters["texDet1"].SetValue(terrainLibrary.GetTexture("Snow"));
-                    terrainEffect.Parameters["texDet2"].SetValue(terrainLibrary.GetTexture("Grass"));
-                    terrainEffect.Parameters["texDet3"].SetValue(terrainLibrary.GetTexture("Sand"));
-                    terrainEffect.Parameters["texDet4"].SetValue(terrainLibrary.GetTexture("Rock"));
-
-
-                    terrainEffect.Parameters["texColor"].SetValue(terrainLibrary.GlobalColorTexture);
-                    terrainEffect.Parameters["texIdx"].SetValue(terrainLibrary.GlobalIndexTexture);
-                    terrainEffect.Parameters["texNorm"].SetValue(terrainLibrary.GlobalNormalTexture);
-                    terrainEffect.Parameters["texCliff"].SetValue(terrainLibrary.CliffColor);
-
-                        //float4x4 smTrans;
-                        //float terrSize;
-                        //float4x4 world;
-                        //float3 lightDir;
+                        terrainEffect.Parameters["texDet1"].SetValue(terrainLibrary.GetTexture("Snow"));
+                        terrainEffect.Parameters["texDet2"].SetValue(terrainLibrary.GetTexture("Grass"));
+                        terrainEffect.Parameters["texDet3"].SetValue(terrainLibrary.GetTexture("Sand"));
+                        terrainEffect.Parameters["texDet4"].SetValue(terrainLibrary.GetTexture("Rock"));
 
 
-    //texture texDet1;
-                        //texture texDet2;
-                        //texture texDet3;
-                        //texture texDet4;
-                        //texture texShd;
-                        //texture texIdx;
-                        //texture texColor;
-                        //texture texNorm;
-                        //texture texCliff;
+                        terrainEffect.Parameters["texColor"].SetValue(terrainLibrary.GlobalColorTexture);
+                        terrainEffect.Parameters["texIdx"].SetValue(terrainLibrary.GlobalIndexTexture);
+                        terrainEffect.Parameters["texNorm"].SetValue(terrainLibrary.GlobalNormalTexture);
+                        terrainEffect.Parameters["texCliff"].SetValue(terrainLibrary.CliffColor);
 
+                    }
+                    
 
-    //float4 k_d;
+                        //float4 k_d;
                         //float4 k_a;
 
-    //float4 i_a;
+                        //float4 i_a;
                         //float4 i_d;
 
                     p.Apply();

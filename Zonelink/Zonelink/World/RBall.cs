@@ -13,7 +13,7 @@ namespace Zonelink.World
         public RBallType TypeId { get; private set; }
 
         //属于哪个城市
-        City belongTo;
+        City belongToCity;
 
         //是否被消灭
         public bool IsDied { get; private set; }
@@ -25,10 +25,10 @@ namespace Zonelink.World
         private float speed; 
 
         public RBall(RBallType type, Player owner, City city)
-            : base(type, owner)
+            : base(owner)
         {
             this.TypeId = type;
-            this.belongTo = city;
+            this.belongToCity = city;
         }
     }
 }
