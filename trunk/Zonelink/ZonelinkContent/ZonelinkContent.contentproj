@@ -103,6 +103,17 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
+    <Compile Include="Model\test.FBX">
+      <Name>test</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimatedModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\DudeWalk.FBX">
+      <Name>DudeWalk</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>SkinnedModelProcessor</Processor>
+      <ProcessorParameters_DefaultEffect>SkinnedEffect</ProcessorParameters_DefaultEffect>
+    </Compile>
     <None Include="Terrain\terrain_l1.tdmp">
       <Name>terrain_l1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -111,6 +122,12 @@
       <Name>terrain_l2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\AnimationLoader\AnimationLoader.csproj">
+      <Project>{B89A9C8E-25E0-459F-9A19-64EF44E32823}</Project>
+      <Name>AnimationLoader</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -20,19 +20,29 @@ namespace Zonelink
     /// </summary>
     class BattleField
     {
+
+        //单例
+        public static readonly BattleField Instance = new BattleField();
+
         const int MaxCities = 120;
 
-        ResourceBallType[] resTypes = new ResourceBallType[4];
+        ResourceBallType[] resTypes = new ResourceBallType[4]; 
 
         Level level;
         Technology techMgr;
         Player localPlayer;
 
-        //单例
-        public static readonly BattleField Instance = new BattleField();
+        Game1 game;
+        Matrix viewMatrix;
+        Matrix projectionMatrix;
 
         //cityXML中读取的城市
         List<City> CityList = new List<City>(MaxCities);
+
+        public List<City> Cities
+        {
+            get { return CityList; }
+        }
                        
         public int VisibleCityCount
         {
@@ -48,6 +58,8 @@ namespace Zonelink
         {
             //Init Cities
             LoadCities();
+            //Load City Model
+
         }
 
         //初始化城市
@@ -71,5 +83,6 @@ namespace Zonelink
         {
 
         }
+
     }
 }

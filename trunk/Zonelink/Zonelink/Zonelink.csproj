@@ -169,6 +169,10 @@
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ModelAnimation\ModelAnimation.csproj">
+      <Project>{D5A1FB62-5111-4611-8F27-2393550990A0}</Project>
+      <Name>ModelAnimation</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ZonelinkContent\ZonelinkContent.contentproj">
       <Name>ZonelinkContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>

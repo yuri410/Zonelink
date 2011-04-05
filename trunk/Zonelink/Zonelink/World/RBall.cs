@@ -30,5 +30,15 @@ namespace Zonelink.World
             this.TypeId = type;
             this.belongToCity = city;
         }
+
+        public override void Render()
+        {
+            throw new NotImplementedException();
+        }
+
+        public override void Update(Microsoft.Xna.Framework.GameTime dt)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

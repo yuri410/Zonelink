@@ -19,9 +19,55 @@ namespace Zonelink.World
         //单例
         public static readonly Technology Instance = new Technology(); 
 
-        public RBallType GetRBallType(RBallTypeID tid) { return rballType[(int)tid]; }
+        public RBallType GetRBallType(RBallType tid) { return rballType[(int)tid]; }
 
-        public RBall CreateRBall(RBallTypeID tid, Player player, City city) { throw new NotImplementedException(); }
+        //根据城市类型产生相应的资源球
+        public RBall CreateRBall(City city)  
+        {
+            RBallType type;
+
+             switch (city.CityType)
+            {
+                 case CityType.Disease:
+                    type = RBallType.Disease;
+                    break;
+
+                 case CityType.Education:
+                    {
+                        type = RBallType.Education;
+                        break;
+                    }
+                 case CityType.Green:
+                    {
+                        type = RBallType.Green;
+                        break;
+                    }
+
+                 case CityType.Health:
+                    {
+                        type = RBallType.Health ;
+                        break;
+                    }   
+                 case CityType.Volience:
+                    {
+                        type = RBallType.Volience;
+                        break;
+                    }
+                 case CityType.Oil:
+                    {
+                        type = RBallType.Oil;
+                        break;
+                    }
+                 default:
+                    {
+                         //Error Handle
+                        type = RBallType.Disease;
+                        break; 
+                    }             
+             }
+
+             return new RBall(type, city.Owner, city);
+        }
     
     }
 }

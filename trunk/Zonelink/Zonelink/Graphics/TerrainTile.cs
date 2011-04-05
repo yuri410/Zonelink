@@ -71,8 +71,6 @@ namespace Code2015.World
         }
 
 
-
-
         public override void Update(GameTime dt)
         {
             BoundingSphere = terrain.BoundingSphere;

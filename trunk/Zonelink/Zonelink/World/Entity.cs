@@ -12,7 +12,7 @@ namespace Zonelink.World
     /// <summary>
     ///  表示游戏世界中实体
     /// </summary>
-    class Entity : SceneObject
+    abstract class Entity : SceneObject
     {     
         //玩家
         public Player Owner { get; protected set; }
@@ -22,7 +22,6 @@ namespace Zonelink.World
 
         //是否被选中
         public bool IsSelected { get; set; }
-
        
         //经纬度
         public float Longitude { get; protected set; }
@@ -51,15 +50,7 @@ namespace Zonelink.World
         }
 
 
-        public override void Render()
-        {
-            throw new NotImplementedException();
-        }
-
-        public override void Update(GameTime dt)
-        {
-            throw new NotImplementedException();
-        }
+      
 
         //资源解析
         public virtual void Parse(GameConfigurationSection sect)
