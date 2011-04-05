@@ -6,6 +6,7 @@ using Zonelink.State;
 using Microsoft.Xna.Framework;
 using Code2015.World;
 using Code2015.EngineEx;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Zonelink.World
 {
@@ -42,8 +43,8 @@ namespace Zonelink.World
         public CityType CityType { get; private set; }
 
         //城市名称
-        public string Name { get; set; }
-        
+        public string Name { get; set; } 
+
         public float HealthValue { get; private set; }
         public float Development { get; private set; }
         public float HPRate
@@ -148,7 +149,7 @@ namespace Zonelink.World
         //发展到一定程度时产生资源
         public void ProduceResourceBall()
         {
-            ResourceBallList.Add( Technology.Instance.CreateRBall(GetResourceType(), this.Owner, this) ) ;
+            ResourceBallList.Add( Technology.Instance.CreateRBall(this) ) ;
         }
 
 
@@ -177,34 +178,6 @@ namespace Zonelink.World
             this.Owner = belong;
         }
 
-        //城市产生的资源球类型
-        private RBallTypeID GetResourceType()
-        {
-            switch (this.CityType)
-            {
-                case CityType.Disease:
-                    return RBallTypeID.Disease;
-
-                case CityType.Education:
-                    return RBallTypeID.Education;
-
-                case CityType.Green:
-                    return RBallTypeID.Green;
-
-                case CityType.Health:
-                    return RBallTypeID.Health;
-
-                case CityType.Oil:
-                    return RBallTypeID.Oil;
-
-                case CityType.Volience:
-                    return RBallTypeID.Volience;
-                
-                default:
-                    //Error
-                    return RBallTypeID.Disease;
-            }
-        }
 
         public override void Parse(GameConfigurationSection sect)
         {
@@ -234,5 +207,15 @@ namespace Zonelink.World
             BoundingSphere.Center = this.Position;
         }
 
+
+        public override void Render()
+        {
+           
+        }
+
+        public override void Update(GameTime dt)
+        {
+           //更新Transform
+        }
     }
 }
