@@ -19,6 +19,8 @@ namespace Zonelink.Graphics
         ModelAnimationClip skinnedClip;
         string clipName = "Take 001";
 
+        public event EventHandler Completed;
+
         public bool IsPlaying { get { return playingSkinned; } }
         public string GetClipName() { return clipName; }
         public void SetClipName(string val)
@@ -27,6 +29,7 @@ namespace Zonelink.Graphics
 
             // Create animation players for the skinned model
             ModelData modelData = skinnedModel.Tag as ModelData;
+            
             if (modelData != null)
             {
                 if (modelData.RootAnimationClips != null && modelData.RootAnimationClips.ContainsKey(clipName))
@@ -60,6 +63,8 @@ namespace Zonelink.Graphics
         void skinnedPlayer_Completed(object sender, EventArgs e)
         {
             playingSkinned = false;
+            if (Completed != null)
+                Completed(this, EventArgs.Empty);
         }
 
         public void SetupEffect(SkinnedEffect effect,Matrix transform) 
@@ -76,7 +81,6 @@ namespace Zonelink.Graphics
             effect.World = rootTransform * transform;
             //effect.SpecularColor = Vector3.Zero;
         }
-
 
         public void Play()
         {
@@ -105,33 +109,6 @@ namespace Zonelink.Graphics
                 if (skinnedPlayer != null)
                     skinnedPlayer.Update(time);
             }
-        }
-        //private void DrawSkinnedModel(Matrix transform, SkinnedAnimationPlayer skinnedAnimationPlayer, RootAnimationPlayer rootAnimationPlayer)
-        //{
-        //    Matrix[] boneTransforms = null;
-        //    if (skinnedAnimationPlayer != null)
-        //        boneTransforms = skinnedAnimationPlayer.GetSkinTransforms();
-
-        //    Matrix rootTransform = Matrix.Identity;
-        //    if (rootAnimationPlayer != null)
-        //        rootTransform = rootAnimationPlayer.GetCurrentTransform();
-
-        //    foreach (ModelMesh mesh in skinnedModel.Meshes)
-        //    {
-        //        foreach (SkinnedEffect effect in mesh.Effects)
-        //        {
-        //            effect.EnableDefaultLighting();
-        //            effect.Projection = camera.ProjectionMatrix;
-        //            effect.View = camera.ViewMatrix;
-        //            if (boneTransforms != null)
-        //                effect.SetBoneTransforms(boneTransforms);
-        //            effect.World = rootTransform * transform;
-        //            effect.SpecularColor = Vector3.Zero;
-        //        }
-
-        //        mesh.Draw();
-        //    }
-        //}
-
+        }       
     }
 }

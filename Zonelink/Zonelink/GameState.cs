@@ -17,10 +17,22 @@ namespace Zonelink
     /// </summary>
     class GameState
     {
+        Game1 game;
         BattleField field;
 
-        public void StartNewGame(Level level)
+        public BattleField Field { get { return field; } }
+
+
+        public GameState(Game1 game)
         {
+            this.game = game;
+        }
+
+        public void StartNewGame()
+        {
+            //Iint Battle Field
+            field = new BattleField(game);
+            
 
         }
         

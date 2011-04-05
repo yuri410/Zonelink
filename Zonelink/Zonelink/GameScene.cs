@@ -1,23 +1,25 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
-using Code2015.World;
-using Zonelink.World;
-using Microsoft.Xna.Framework;
 using Code2015.EngineEx;
-using Microsoft.Xna.Framework.Graphics;
-using System.IO;
-using Microsoft.Xna.Framework.Input;
-using Zonelink.MathLib;
+using Code2015.World;
 using CustomModelAnimation;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
 using Zonelink.Graphics;
+using Zonelink.MathLib;
+using Zonelink.World;
 
 namespace Zonelink
 {
     class GameScene : DrawableGameComponent
     {
         Game1 game;
+        GameState state;
+
         TerrainTile[] terrainTiles;
         
         Model CityModel;
@@ -32,23 +34,15 @@ namespace Zonelink
         bool isLoaded;
 
         SkinnedModel model;
-        //#region 骨骼测试
-        //Model skinnedModel;
-        //bool playingSkinned;
-        //RootAnimationPlayer skinnedRootPlayer;
-        //ModelAnimationClip skinnedRootClip;
-        //SkinnedAnimationPlayer skinnedPlayer;
-        //ModelAnimationClip skinnedClip;
-        //#endregion
-
 
 
         public RtsCamera Camera { get { return camera; } }
 
-        public GameScene(Game1 game)
+        public GameScene(Game1 game, GameState state)
             : base(game)
         {
             this.game = game;
+            this.state = state;
            
         }
 
@@ -74,38 +68,13 @@ namespace Zonelink
             CityModelTransforms = new Matrix[CityModel.Bones.Count];
             basicEffect = new BasicEffect(game.GraphicsDevice);
 
-            //Iint Battle Field
-            BattleField.Instance.Initialize();
-
+            
             model = new SkinnedModel(game, "DudeWalk");
-            //// Load the skinned model
-            //skinnedModel = game.Content.Load<Model>("Model\\DudeWalk");
-            ////skinnedWorld = Matrix.CreateScale(.025f, .025f, .025f) * Matrix.CreateRotationY((float)(-Math.PI / 2));
-            //// Create animation players for the skinned model
-            //ModelData modelData = skinnedModel.Tag as ModelData;
-            //if (modelData != null)
-            //{
-            //    if (modelData.RootAnimationClips != null && modelData.RootAnimationClips.ContainsKey("Take 001"))
-            //    {
-            //        skinnedRootClip = modelData.RootAnimationClips["Take 001"];
-
-            //        skinnedRootPlayer = new RootAnimationPlayer();
-            //        skinnedRootPlayer.Completed += new EventHandler(skinnedPlayer_Completed);
-            //    }
-            //    if (modelData.ModelAnimationClips != null && modelData.ModelAnimationClips.ContainsKey("Take 001"))
-            //    {
-            //        skinnedClip = modelData.ModelAnimationClips["Take 001"];
-
-            //        skinnedPlayer = new SkinnedAnimationPlayer(modelData.BindPose, modelData.InverseBindPose, modelData.SkeletonHierarchy);
-            //        skinnedPlayer.Completed += new EventHandler(skinnedPlayer_Completed);
-            //    }
-            //}
-
+          
 
             isLoaded = true;
         }
 
-        #region
         private void LoadTerrain()
         {
             terrainLibrary = new TerrainMaterialLibrary(game);
@@ -125,9 +94,6 @@ namespace Zonelink
             }
 
         }
-        #endregion
-
-
 
         protected override void UnloadContent()
         {
@@ -139,14 +105,12 @@ namespace Zonelink
             terrainEffect.Dispose();
         }
 
-        public override void Draw(GameTime time)
-        {
-            
-            if (!isLoaded)
-                return;
 
-            Frustum frus = camera.Frustum;  
-  
+
+        private void DrawTerrain(GameTime time)
+        {
+            Frustum frus = camera.Frustum;
+
             //渲染地形
             game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
             foreach (EffectPass p in terrainEffect.CurrentTechnique.Passes)
@@ -184,37 +148,37 @@ namespace Zonelink
 
                     terrainTiles[i].Render();
                 }
-
-                //渲染战场
-                foreach (City city in BattleField.Instance.Cities)
-                {                  
-                    if (frus.IntersectsSphere(city.Position, city.BoundingSphere.Radius))
-                    {
-
-                        DrawSkinnedModel(city.Transformation, model);
-                        //DrawSkinnedModel(city.Transformation, skinnedModel, skinnedPlayer, skinnedRootPlayer);
-
-                        //CityModel.CopyAbsoluteBoneTransformsTo(CityModelTransforms);
-
-                        //foreach (ModelMesh m in CityModel.Meshes)
-                        //{
-                        //    foreach (BasicEffect e in m.Effects)
-                        //    {
-                        //        e.World = CityModelTransforms[m.ParentBone.Index] * city.Transformation;// *;
-                        //        e.View = camera.ViewMatrix;
-                        //        e.Projection = camera.ProjectionMatrix;
-                        //    }
-                        //    m.Draw();
-                        //}
-                    }
-                    
-                }
             }
+        }
+        private void DrawBattleField(GameTime time)
+        {
+            Frustum frus = camera.Frustum;
+
+            BattleField btfld = state.Field;
 
 
+            //渲染战场
+            foreach (City city in btfld.Cities)
+            {
+                if (frus.IntersectsSphere(city.Position, city.BoundingSphere.Radius))
+                {
+
+                    DrawSkinnedModel(city.Transformation, model);
+                   
+                }
+
+            }
+        }
+        public override void Draw(GameTime time)
+        {
+            if (!isLoaded)
+                return;
+
+            DrawTerrain(time);
+            DrawBattleField(time);
         }
 
-        public override void Update(GameTime time) 
+        public override void Update(GameTime time)
         {
             camera.Update(time);
 
@@ -237,46 +201,16 @@ namespace Zonelink
                 camera.MoveRight();
             }
 
-            //if (skinnedPlayer != null && skinnedClip != null)
-            //{
-            //    skinnedPlayer.StartClip(skinnedClip, 1, TimeSpan.Zero);
-            //    playingSkinned = true;
-            //}
 
-            //if (skinnedRootPlayer != null && skinnedRootClip != null)
-            //{
-            //    skinnedRootPlayer.StartClip(skinnedRootClip, 1, TimeSpan.Zero);
-            //    playingSkinned = true;
-            //}
 
             if (!model.IsPlaying)
             {
                 model.Play();
             }
-            else { model.Update(time); }
-            //if (playingSkinned == false)
-            //{
-            //    if (skinnedPlayer != null && skinnedClip != null)
-            //    {
-            //        skinnedPlayer.StartClip(skinnedClip, 1, TimeSpan.Zero);
-            //        playingSkinned = true;
-            //    }
-
-            //    if (skinnedRootPlayer != null && skinnedRootClip != null)
-            //    {
-            //        skinnedRootPlayer.StartClip(skinnedRootClip, 1, TimeSpan.Zero);
-            //        playingSkinned = true;
-            //    }
-            //}
-            //// If we are playing skinned animations, update the players
-            //if (playingSkinned)
-            //{
-            //    if (skinnedRootPlayer != null)
-            //        skinnedRootPlayer.Update(time);
-
-            //    if (skinnedPlayer != null)
-            //        skinnedPlayer.Update(time);
-            //}
+            else
+            {
+                model.Update(time);
+            }
 
         }
 
@@ -301,38 +235,7 @@ namespace Zonelink
                 mesh.Draw();
             }
         }
-        //private void DrawSkinnedModel(Matrix transform, Model model, SkinnedAnimationPlayer skinnedAnimationPlayer, RootAnimationPlayer rootAnimationPlayer)
-        //{
-        //    Matrix[] boneTransforms = null;
-        //    if (skinnedAnimationPlayer != null)
-        //        boneTransforms = skinnedAnimationPlayer.GetSkinTransforms();
-
-        //    Matrix rootTransform = Matrix.Identity;
-        //    if (rootAnimationPlayer != null)
-        //        rootTransform = rootAnimationPlayer.GetCurrentTransform();
-
-        //    foreach (ModelMesh mesh in model.Meshes)
-        //    {
-        //        foreach (SkinnedEffect effect in mesh.Effects)
-        //        {
-        //            effect.EnableDefaultLighting();
-        //            effect.Projection = camera.ProjectionMatrix;
-        //            effect.View = camera.ViewMatrix;
-        //            if (boneTransforms != null)
-        //                effect.SetBoneTransforms(boneTransforms);
-        //            effect.World = rootTransform * transform;
-        //            effect.SpecularColor = Vector3.Zero;
-        //        }
-
-        //        mesh.Draw();
-        //    }
-        //}
-
-        ////判断动画是否播放完了
-        //void skinnedPlayer_Completed(object sender, EventArgs e)
-        //{
-        //    playingSkinned = false;
-        //}
+        
 
     }
 }

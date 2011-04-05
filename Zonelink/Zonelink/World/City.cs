@@ -34,13 +34,14 @@ namespace Zonelink.World
     /// </summary>
     class City : Entity
     {
-        
-        public const float CityRadius = 3 * 100;
-        public const float GatherDistance = 150;
-        public const float MaxDevelopment = 10000;
+        //public static readonly float CityRadius = RulesTable.CityRadius;
+       
+        //public static readonly float MaxDevelopment = RulesTable.CityMaxDevelopment;
+
+        BattleField battleField;
 
         //城市类型
-        public CityType CityType { get; private set; }
+        public CityType Type { get; private set; }
 
         //城市名称
         public string Name { get; set; } 
@@ -52,49 +53,33 @@ namespace Zonelink.World
             get { return HealthValue / Development; }
         }
 
-        //周围自然资源
-        private List<NatureResource> nearWood = new List<NatureResource>();
-        private List<NatureResource> nearOil = new List<NatureResource>();
 
-        //城市创造出来的资源球 
-        private List<RBall> ResourceBallList = new List<RBall>();
-
-        //是否被玩家占领
+        //城市附近的资源球 
+        private List<RBall> nearbyBallList = new List<RBall>();
+        
+        /// <summary>
+        ///  是否有被玩家占领
+        /// </summary>
         public bool IsCaptured
         {
             get { return Owner != null; }
         }
 
 
-        int woodIndex = 0;
-        int oilIndex = 0;
-        float oilBuffer;
-        float woodBuffer;
-
-        public NatureResource ExWood
+        /// <summary>
+        ///  待选起始点
+        /// </summary>
+        public int StartUp 
         {
-            get
-            {
-                if (nearWood.Count == 0)
-                    return null;
-                return nearWood[woodIndex];
-            }
+            get;
+            private set;
         }
 
-        public NatureResource ExOil
-        {
-            get
-            {
-                if (nearOil.Count == 0)
-                    return null;
-                return nearOil[oilIndex];
-            }
-        }  
 
-        public City(Player owner)
+        public City(BattleField btfld, Player owner)
             : base(owner)
         {
-
+            this.battleField = btfld;
         }
 
         int Camparision(NatureResource a, NatureResource b)
@@ -104,53 +89,12 @@ namespace Zonelink.World
             return da.CompareTo(db);
         }
 
-        public void FindResources(List<NatureResource> resList)
-        {
-            for (int i = 0; i < resList.Count; i++)
-            {
-                float d = Vector3.Distance(resList[i].Position, this.Position);
-                if (d < GatherDistance)
-                {
-                    if (resList[i].Type == NatureResourceType.Wood)
-                    {
-                        nearWood.Add(resList[i]);
-                    }
-                    if (resList[i].Type == NatureResourceType.Oil)
-                    {
-                        nearOil.Add(resList[i]);
-                    }
-
-                }
-            }
-            nearWood.Sort(Camparision);
-            nearOil.Sort(Camparision);
-        }
-
-        void FindNewOil()
-        {
-            for (int i = 0; i < nearOil.Count; i++)
-            {
-                if (nearOil[i].CurrentAmount > 0)
-                    oilIndex = i;
-            }
-        }
-
-        void FindNewWood()
-        {
-            for (int i = 0; i < nearWood.Count; i++)
-            {
-                if (nearWood[i].CurrentAmount > 0)
-                    woodIndex = i;
-            }
-        }
-
-
-
-        //发展到一定程度时产生资源
-        public void ProduceResourceBall()
-        {
-            ResourceBallList.Add( Technology.Instance.CreateRBall(this) ) ;
-        }
+        //// 注：在子类中实现
+        ////发展到一定程度时产生资源
+        //public void ProduceResourceBall()
+        //{
+        //    nearbyBallList.Add( Technology.Instance.CreateRBall(this) ) ;
+        //}
 
 
         public void Develop(float v)
@@ -158,8 +102,8 @@ namespace Zonelink.World
             float healthRate = (this.HealthValue / this.Development);
 
             this.Development += v;
-            if (this.Development > MaxDevelopment)
-                this.Development = MaxDevelopment;
+            if (this.Development > RulesTable.CityMaxDevelopment)
+                this.Development = RulesTable.CityMaxDevelopment;
             this.HealthValue = healthRate * this.Development;
         }
 
@@ -184,13 +128,15 @@ namespace Zonelink.World
             base.Parse(sect);
             this.Name = sect.GetString("Name", string.Empty);
 
-            //Type 设置
-            //this.CityType = 
+            StartUp = sect.GetInt("StartUp", -1);
 
+            Development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
+            
+            UpdateLocation();
         }
 
 
-        public void UpdateLocation()
+        private void UpdateLocation()
         {
             float radLong = MathHelper.ToRadians(this.Longitude);
             float radLat = MathHelper.ToRadians(this.Latitude);
@@ -203,7 +149,7 @@ namespace Zonelink.World
 
             this.Transformation.Translation = this.Position; // TranslationValue = pos;
 
-            BoundingSphere.Radius = CityRadius;
+            BoundingSphere.Radius = RulesTable.CityRadius;
             BoundingSphere.Center = this.Position;
         }
 
@@ -216,6 +162,8 @@ namespace Zonelink.World
         public override void Update(GameTime dt)
         {
            //更新Transform
+
+            
         }
     }
 }

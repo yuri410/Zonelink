@@ -12,6 +12,8 @@ using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
 using Code2015.EngineEx;
 using System.IO;
+using Apoc3D;
+using Code2015.Logic;
 
 namespace Zonelink
 {
@@ -20,42 +22,42 @@ namespace Zonelink
     /// </summary>
     class BattleField
     {
-
-        //单例
-        public static readonly BattleField Instance = new BattleField();
-
         const int MaxCities = 120;
 
-        ResourceBallType[] resTypes = new ResourceBallType[4]; 
+        ResourceBallType[] resTypes = new ResourceBallType[4];
 
-        Level level;
-        Technology techMgr;
+        Map map;
+        //Technology techMgr;
         Player localPlayer;
 
         Game1 game;
-        Matrix viewMatrix;
-        Matrix projectionMatrix;
+
 
         //cityXML中读取的城市
-        List<City> CityList = new List<City>(MaxCities);
+        List<City> cityList = new List<City>(MaxCities);
 
+        public Map Map { get { return map; } }
         public List<City> Cities
         {
-            get { return CityList; }
+            get { return cityList; }
         }
                        
         public int VisibleCityCount
         {
-            get { return CityList.Count; }
+            get { return cityList.Count; }
         } 
 
         public City GetVisibleCity(int i)
         {
-            return CityList[i];
+            return cityList[i];
         }
 
-        public void Initialize()
+        public BattleField(Game1 game)
         {
+            this.game = game;
+
+            map = new Map(this);
+
             //Init Cities
             LoadCities();
             //Load City Model
@@ -64,18 +66,15 @@ namespace Zonelink
 
         //初始化城市
         private void LoadCities()
-        {
-            string path = Path.Combine(GameFileLocs.Configs, "cities.xml");
-            GameConfiguration resCon = new GameConfiguration(path);
+        {            
+            GameConfiguration resCon = Utils.LoadConfig("cities.xml");
             GameConfiguration.ValueCollection resVals = resCon.Values;
-
             foreach (GameConfigurationSection sect in resVals)
             {
-                City city = new City(null);
-                city.Parse(sect);
-                city.UpdateLocation();
+                City city = new City(this, null);
+                city.Parse(sect);                
 
-                CityList.Add(city);           
+                cityList.Add(city);           
             }
         }
 

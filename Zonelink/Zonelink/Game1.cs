@@ -19,7 +19,7 @@ namespace Zonelink
         public static readonly string ContentDir = "Content";
         GraphicsDeviceManager graphics;
         SpriteBatch spriteBatch;
-
+        GameState state;
         GameScene scene;
 
         public Game1()
@@ -30,10 +30,11 @@ namespace Zonelink
 
             Content.RootDirectory = ContentDir;
 
+            RulesTable.LoadRules();
 
+            state = new GameState(this);
 
-
-            scene = new GameScene(this);
+            scene = new GameScene(this, state);
             this.Components.Add(scene);
         }
 
@@ -45,7 +46,7 @@ namespace Zonelink
         /// </summary>
         protected override void Initialize()
         {
-            // TODO: Add your initialization logic here
+            
 
             base.Initialize();
         }
@@ -58,10 +59,12 @@ namespace Zonelink
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-
+            
 
             base.LoadContent();
-            // TODO: use this.Content to load your game content here
+
+            state.StartNewGame();
+            
         }
 
         /// <summary>
@@ -70,7 +73,7 @@ namespace Zonelink
         /// </summary>
         protected override void UnloadContent()
         {
-            // TODO: Unload any non ContentManager content here
+            
             base.UnloadContent();
         }
 
@@ -85,7 +88,7 @@ namespace Zonelink
             if (GamePad.GetState(PlayerIndex.One).Buttons.Back == ButtonState.Pressed)
                 this.Exit();
 
-            // TODO: Add your update logic here
+
 
             base.Update(gameTime);
         }
@@ -98,7 +101,7 @@ namespace Zonelink
         {
             GraphicsDevice.Clear(Color.CornflowerBlue);
 
-            // TODO: Add your drawing code here
+
 
             base.Draw(gameTime);
         }

@@ -25,20 +25,30 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Zonelink.World;
+using Zonelink.MathLib;
+using Zonelink;
 
 namespace Code2015.World
 {
-    enum UnitState
+    //enum UnitState
+    //{
+    //    TargetAuto,
+    //    HomeAuto
+    //}
+    enum MovePurpose 
     {
-        TargetAuto,
-        HomeAuto
+        None,
+        Gather,
+        Home,
     }
 
-    struct MoveNode 
+    struct MoveNode
     {
         public float Longitude;
         public float Latitude;
@@ -49,10 +59,24 @@ namespace Code2015.World
     }
 
 
-    public class Harvester : DynamicObject
+    class Harvester : SceneObject
     {
-        Model[] model;
-        int mdlIndex;
+        /// <summary>
+        ///  矿车属性
+        /// </summary>
+        public struct Props 
+        {
+            public float Speed;
+            public float HP;
+            public float Storage;
+        }
+
+        Props props;
+        //Model model;
+        //int mdlIndex;
+        GatherCity parent;
+        Matrix orientation = Matrix.Identity;
+        Vector3 position;
 
         float longtitude;
         float latitude;
@@ -61,14 +85,12 @@ namespace Code2015.World
 
         Map map;
         PathFinder finder;
-        UnitState state;
+        MovePurpose movePurpose;
 
-        float autoSLng;
-        float autoSLat;
-        float autoTLng;
-        float autoTLat;
+        float harvStorage;
 
-        int destX; 
+
+        int destX;
         int destY;
 
 
@@ -79,9 +101,19 @@ namespace Code2015.World
         int currentNode;
         PathFinderResult cuurentPath;
 
-        const float Speed = 1;
+      
 
-        public float Longtitude 
+        NatureResource exRes;
+        bool isLoading;
+        bool isUnloading;
+        float loadingTime;
+
+        public NatureResource ExRes
+        {
+            get { return exRes; }
+            set { exRes = value; }
+        }
+        public float Longtitude
         {
             get { return longtitude; }
             set { longtitude = value; }
@@ -92,39 +124,57 @@ namespace Code2015.World
             set { latitude = value; }
         }
 
-
-        public bool IsAuto
+        public void SetProps(Props p)
         {
-            get;
-            private set;
+            props = p;
         }
 
-        public Harvester(RenderSystem rs, Map map, Model[] mdl)
+        public GatherCity Parent { get { return parent; } }
+        ///// <summary>
+        /////  留着做动画
+        ///// </summary>
+        //public Model Model         
+        //{
+        //    get { return model; }
+        //}
+
+ 
+
+
+        public bool IsIdle 
         {
-            this.model = mdl;
+            get { return cuurentPath == null; }
+        }
+
+        public Harvester(GatherCity parent, Map map)
+        {
+            this.parent = parent;
+
             
+
             finder = map.PathFinder.CreatePathFinder();
             this.map = map;
 
-            ModelL0 = mdl[0];
+
             BoundingSphere.Radius = 50;
 
         }
 
-        public void SetAuto(float tlng, float tlat, float slng, float slat)
+
+        public event EventHandler GotThere;
+        public event EventHandler GotHome;
+
+        /// <summary>
+        ///  调用Move之后设置目的，否则为无目的
+        /// </summary>
+        /// <param name="purpose"></param>
+        public void SetMovePurpose(MovePurpose purpose)
         {
-            IsAuto = true;
-           
-            autoSLat = slat;
-            autoSLng = slng;
-            autoTLat = tlat;
-            autoTLng = tlng;
-
-            move(autoTLng, autoTLat);
-            state = UnitState.TargetAuto;
+            this.movePurpose = purpose;
         }
+        
 
-        void move(float lng, float lat) 
+        void move(float lng, float lat)
         {
             int sx, sy;
             Map.GetMapCoord(longtitude, latitude, out sx, out sy);
@@ -137,13 +187,14 @@ namespace Code2015.World
 
             finder.Reset();
             cuurentPath = finder.FindPath(sx, sy, tx, ty);
-            
+
             currentNode = 0;
             currentPrg = 0;
         }
         public void Move(float lng, float lat)
         {
-            IsAuto = false;
+            //IsAuto = false;
+            movePurpose = MovePurpose.None;
             move(lng, lat);
         }
         void Move(int x, int y)
@@ -191,15 +242,52 @@ namespace Code2015.World
             result.Right = bi;
             result.Up = n;
             result.Forward = -dir;
-            return Quaternion.RotationMatrix(result);
+            return Quaternion.CreateFromRotationMatrix(result);
         }
         protected override void Dispose(bool disposing)
         {
-            ModelL0 = null;
             base.Dispose(disposing);
         }
         public override void Update(GameTime dt)
         {
+            float ddt = (float)dt.ElapsedGameTime.TotalSeconds;
+            
+            if (isLoading && exRes != null)
+            {
+                harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt);
+                loadingTime -= ddt;
+
+                if (loadingTime < 0)
+                {
+                    isLoading = false;
+                    if (GotThere != null)
+                        GotThere(this, EventArgs.Empty);
+                }
+            }
+            if (isUnloading)
+            {
+                float change = RulesTable.HarvLoadingSpeed * ddt;
+
+                if (harvStorage - change > 0)
+                {
+                    harvStorage -= change;
+                    parent.NotifyGotResource(change);
+                }
+                else
+                {
+                    harvStorage = 0;
+                    parent.NotifyGotResource(harvStorage);
+                }
+
+                loadingTime -= ddt;
+                if (loadingTime < 0)
+                {
+                    isLoading = false;
+                    if (GotHome != null)
+                        GotHome(this, EventArgs.Empty);
+                }
+            }
+
             float altitude = map.GetHeight(longtitude, latitude);
 
             if (cuurentPath != null)
@@ -218,20 +306,32 @@ namespace Code2015.World
                     else
                     {
                         cuurentPath = null;
-                        if (IsAuto)
-                        {
-                            if (state == UnitState.HomeAuto)
-                            {
-                                move(autoTLng, autoTLat);
-                                state = UnitState.TargetAuto;
-                            }
-                            else if (state == UnitState.TargetAuto)
-                            {
-                                move(autoSLng, autoSLat);
-                                state = UnitState.HomeAuto;
-                            }
 
+                        if (movePurpose == MovePurpose.Gather)
+                        {
+                            isLoading = true;
+                            loadingTime = RulesTable.HarvLoadingTime;
                         }
+                        else if (movePurpose == MovePurpose.Home)
+                        {
+                            isUnloading = true;
+                            loadingTime = RulesTable.HarvLoadingTime;
+                        }
+
+                        //if (IsAuto)
+                        //{
+                        //    if (state == UnitState.HomeAuto)
+                        //    {
+                        //        move(autoTLng, autoTLat);
+                        //        state = UnitState.TargetAuto;
+                        //    }
+                        //    else if (state == UnitState.TargetAuto)
+                        //    {
+                        //        move(autoSLng, autoSLat);
+                        //        state = UnitState.HomeAuto;
+                        //    }
+
+                        //}
                     }
                 }
                 else
@@ -272,22 +372,22 @@ namespace Code2015.World
 
                     altitude = MathEx.LinearInterpose(src.Alt, target.Alt, currentPrg);
 
-                    if (altitude < 0)
-                        mdlIndex++;
-                    else
-                        mdlIndex--;
+                    //if (altitude < 0)
+                    //    mdlIndex++;
+                    //else
+                    //    mdlIndex--;
 
-                    if (mdlIndex < 0)
-                        mdlIndex = 0;
-                    if (mdlIndex >= model.Length)
-                        mdlIndex = model.Length - 1;
+                    //if (mdlIndex < 0)
+                    //    mdlIndex = 0;
+                    //if (mdlIndex >= model.Length)
+                    //    mdlIndex = model.Length - 1;
 
-                    ModelL0 = model[mdlIndex];
+                    //ModelL0 = model[mdlIndex];
 
                     if (altitude < 0)
                         altitude = 0;
 
-                    Orientation = Matrix.RotationQuaternion(
+                    orientation = Matrix.CreateFromQuaternion(
                         Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
 
                     currentPrg += 0.05f;
@@ -306,16 +406,17 @@ namespace Code2015.World
 
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
-           
-            Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
 
-            base.Update(dt);
+            position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
+
+            Matrix.CreateTranslation(ref position, out Transformation);
+            Matrix.Multiply(ref orientation, ref Transformation, out Transformation);
+
         }
 
 
-        public override bool IsSerializable
+        public override void Render()
         {
-            get { return false; ; }
         }
     }
 }

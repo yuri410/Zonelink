@@ -22,6 +22,8 @@ namespace Zonelink.World
         const float FRecoverBias = 1;
         const float FTimesMaxAmount = 2;
 
+        public float Longitude { get; private set; }
+        public float Latitude { get; private set; }
         public Vector3 Position 
         {
             get; 
