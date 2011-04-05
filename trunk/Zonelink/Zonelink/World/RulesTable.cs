@@ -10,10 +10,16 @@ namespace Zonelink
 {
     static class RulesTable
     {
+
+        public static float ORecoverBias { get; private set; }
+        public static float FRecoverBias { get; private set; }
+        public static float FRecoverRate { get; private set; }
+
         public static float CityMaxDevelopment { get; private set; }
-
-        public static float CityDevHealthRate { get; private set; }
-
+        /// <summary>
+        ///  发展度的多少是最大生命
+        /// </summary>
+        public static float CityDevHealthRate { get; private set; }        
         public static float CityInitialDevelopment { get; private set; }
         public static float CityRadius { get; private set; }
 
@@ -22,6 +28,9 @@ namespace Zonelink
 
         public static float OilGatherDistance { get; private set; }
         public static float OilHarvHP { get; private set; }
+        /// <summary>
+        ///  这个存量决定了采集速度加成
+        /// </summary>
         public static float OilHarvStorage { get; private set; }
         public static float OilHarvSpeed { get; private set; }
 
@@ -38,8 +47,12 @@ namespace Zonelink
             CityMaxDevelopment = sect.GetSingle("MaxDevelopment", 10000);
             CityDevHealthRate = sect.GetSingle("DevHealthRate", 0.1f);
             CityInitialDevelopment = sect.GetSingle("InitialDevelopment", 1000);
-
             CityRadius = sect.GetSingle("Radius", 300);
+
+            sect = con["NRCommon"];
+            FRecoverBias = sect.GetSingle("ORecoverBias", 1);
+            ORecoverBias = sect.GetSingle("FRecoverBias", 1);
+            FRecoverRate = sect.GetSingle("FRecoverRate", 0.0015f);
 
             sect = con["HarvCommon"];
 

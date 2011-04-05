@@ -213,14 +213,5 @@ namespace Zonelink.World
         }
     }
 
-    class NeutralCity : City 
-    {
 
-        public NeutralCity(BattleField btfld, Player owner)
-            : base(btfld, owner)
-        {
-
-        }
-
-    }
 }
