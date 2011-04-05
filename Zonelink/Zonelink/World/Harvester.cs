@@ -101,12 +101,19 @@ namespace Code2015.World
         int currentNode;
         PathFinderResult cuurentPath;
 
-      
+        
 
         NatureResource exRes;
         bool isLoading;
         bool isUnloading;
         float loadingTime;
+
+
+        float currentHp;
+
+
+
+
 
         public NatureResource ExRes
         {
@@ -124,9 +131,11 @@ namespace Code2015.World
             set { latitude = value; }
         }
 
+        public Props GetProps() { return props; }
         public void SetProps(Props p)
         {
             props = p;
+            currentHp = p.HP;
         }
 
         public GatherCity Parent { get { return parent; } }
@@ -254,7 +263,10 @@ namespace Code2015.World
             
             if (isLoading && exRes != null)
             {
-                harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt);
+                // 计算开矿倍数
+                float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
+
+                harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt * scale);
                 loadingTime -= ddt;
 
                 if (loadingTime < 0)
@@ -266,7 +278,10 @@ namespace Code2015.World
             }
             if (isUnloading)
             {
-                float change = RulesTable.HarvLoadingSpeed * ddt;
+                // 计算开矿倍数
+                float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
+
+                float change = RulesTable.HarvLoadingSpeed * ddt * scale;
 
                 if (harvStorage - change > 0)
                 {

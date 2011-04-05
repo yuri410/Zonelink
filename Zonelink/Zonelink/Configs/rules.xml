@@ -1,5 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Rules>
+  <NRCommon>
+    <ORecoverBias>1</ORecoverBias>
+    <FRecoverBias>1</FRecoverBias>
+    <FRecoverRate>0.0015</FRecoverRate>
+  </NRCommon>
   <CityCommon>
     <MaxDevelopment>10000</MaxDevelopment>
     <DevHealthRate>0.1</DevHealthRate>
@@ -13,13 +18,13 @@
   <OilCity>
     <GatherDistance>150</GatherDistance>
     <HarvHealth>150</HarvHealth>
-    <HarvStorage>5</HarvStorage>
+    <HarvStorage>7.5</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
   </OilCity>
   <GreenCity>
     <GatherDistance>150</GatherDistance>
     <HarvHealth>150</HarvHealth>
-    <HarvStorage>5</HarvStorage>
+    <HarvStorage>7.5</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
   </GreenCity>
 </Rules>

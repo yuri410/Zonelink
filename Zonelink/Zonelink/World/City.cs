@@ -31,6 +31,7 @@ namespace Zonelink.World
 
     /// <summary>
     ///  表示游戏世界中的城市
+    ///  是特殊的类型才继承，比如那些带矿车的
     /// </summary>
     class City : Entity
     {
