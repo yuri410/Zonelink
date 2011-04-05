@@ -166,8 +166,9 @@
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\ZonelinkContent\ZonelinkContent.contentproj">
-      <Name>ZonelinkContent</Name>
+      <Name>ZonelinkContent %28Content%29</Name>
       <XnaReferenceType>Content</XnaReferenceType>
+      <Project>{829D3310-2A94-4351-BD60-E69B57B7DF5B}</Project>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
