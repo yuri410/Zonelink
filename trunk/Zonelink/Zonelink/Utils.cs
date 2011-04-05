@@ -25,10 +25,12 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using Code2015.EngineEx;
+using Zonelink;
 
 namespace Apoc3D
 {
-    public unsafe static class Utils
+    unsafe static class Utils
     {
         public static string[] EmptyStringArray
         {
@@ -40,6 +42,15 @@ namespace Apoc3D
         {
             EmptyStringArray = new string[0];
         }
+
+        public static GameConfiguration LoadConfig(string configName)
+        {
+            string path = Path.Combine(GameFileLocs.Configs, configName);
+            GameConfiguration resCon = new GameConfiguration(path);
+            
+            return resCon;
+        }
+
 
         //public static string GetTempFileName() { throw new NotImplementedException(); }
     }

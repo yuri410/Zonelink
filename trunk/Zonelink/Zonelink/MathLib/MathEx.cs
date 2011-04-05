@@ -44,5 +44,23 @@ namespace Zonelink.MathLib
         {
             return p * p;
         }
+
+
+        /// <summary>
+        /// 线形插值
+        /// </summary>
+        /// <param name="f1">第一个值</param>
+        /// <param name="f2">第二个值</param>
+        /// <param name="amount">插值系数</param>
+        /// <returns></returns>
+        public static float LinearInterpose(float f1, float f2, float amount)
+        {
+            return (f2 - f1) * amount + f1;
+        }
+
+        public static Vector3 LinearInterpose(Vector3 f1, Vector3 f2, float amount)
+        {
+            return (f2 - f1) * amount + f1;
+        }
     }
 }
