@@ -32,7 +32,6 @@ namespace Zonelink
 
         #region 骨骼测试
         Model skinnedModel;
-        Matrix skinnedWorld;
         bool playingSkinned;
         RootAnimationPlayer skinnedRootPlayer;
         ModelAnimationClip skinnedRootClip;
@@ -234,18 +233,31 @@ namespace Zonelink
                 camera.MoveRight();
             }
 
-            if (skinnedPlayer != null && skinnedClip != null)
-            {
-                skinnedPlayer.StartClip(skinnedClip, 1, TimeSpan.Zero);
-                playingSkinned = true;
-            }
+            //if (skinnedPlayer != null && skinnedClip != null)
+            //{
+            //    skinnedPlayer.StartClip(skinnedClip, 1, TimeSpan.Zero);
+            //    playingSkinned = true;
+            //}
 
-            if (skinnedRootPlayer != null && skinnedRootClip != null)
+            //if (skinnedRootPlayer != null && skinnedRootClip != null)
+            //{
+            //    skinnedRootPlayer.StartClip(skinnedRootClip, 1, TimeSpan.Zero);
+            //    playingSkinned = true;
+            //}
+            if (playingSkinned == false)
             {
-                skinnedRootPlayer.StartClip(skinnedRootClip, 1, TimeSpan.Zero);
-                playingSkinned = true;
-            }
+                if (skinnedPlayer != null && skinnedClip != null)
+                {
+                    skinnedPlayer.StartClip(skinnedClip, 1, TimeSpan.Zero);
+                    playingSkinned = true;
+                }
 
+                if (skinnedRootPlayer != null && skinnedRootClip != null)
+                {
+                    skinnedRootPlayer.StartClip(skinnedRootClip, 1, TimeSpan.Zero);
+                    playingSkinned = true;
+                }
+            }
             // If we are playing skinned animations, update the players
             if (playingSkinned)
             {
@@ -277,7 +289,7 @@ namespace Zonelink
                     effect.View = camera.ViewMatrix;
                     if (boneTransforms != null)
                         effect.SetBoneTransforms(boneTransforms);
-                    effect.World = rootTransform * skinnedWorld * transform;
+                    effect.World = rootTransform * transform;
                     effect.SpecularColor = Vector3.Zero;
                 }
 
