@@ -807,7 +807,7 @@ namespace ModelRip
                     br = data.GetData(TextureTag + i.ToString());
 
                     string fn = br.ReadStringUnicode();
-                    textureFiles[i] = fn;
+                    textureFiles[i] = Path.GetFileNameWithoutExtension(fn) + ".dds";
                     //textures[i] = LoadTexture(br, i);
                     br.Close();
                 }
@@ -907,8 +907,8 @@ namespace ModelRip
                     int totalVertexCount = 0;
                     for (int j = 0; j < entCount; j++)
                     {
-                        totalFaceCount += entities[i].Faces.Length;
-                        totalVertexCount += entities[i].VertexCount;
+                        totalFaceCount += entities[j].Faces.Length;
+                        totalVertexCount += entities[j].VertexCount;
                     }
 
 
@@ -994,7 +994,7 @@ namespace ModelRip
                     mesh.SetMaterials(materials.ToArray());
                     mesh.OptimizeInPlace(MeshOptimizeFlags.AttributeSort);
 
-                    Mesh.ToXFile(mesh, Path.Combine(OutputDir, srcFileName), XFileFormat.Text);
+                    Mesh.ToXFile(mesh, Path.Combine(OutputDir, srcFileName + ".x"), XFileFormat.Text);
                     mesh.Dispose();
                 }
                 else
