@@ -39,7 +39,8 @@ namespace Apoc3D.Scene
         
 
         #region 字段
-
+  
+        
         /// <summary>
         ///  该物体的包围球
         /// </summary>
@@ -49,6 +50,11 @@ namespace Apoc3D.Scene
         ///  该物体在世界坐标系中的变换矩阵
         /// </summary>
         public Matrix Transformation = Matrix.Identity;
+
+        /// <summary>
+        ///  该物体在世界坐标系中的变换矩阵
+        /// </summary>
+        public Matrix InvTransformation = Matrix.Identity;
 
         #endregion
 

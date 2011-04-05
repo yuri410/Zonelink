@@ -130,6 +130,7 @@
     <Compile Include="Graphics\ViewCamera.cs" />
     <Compile Include="MathLib\Frustum.cs" />
     <Compile Include="MathLib\MathEx.cs" />
+    <Compile Include="ResourceBallType.cs" />
     <Compile Include="Singleton.cs" />
     <Compile Include="State\CityState.cs" />
     <Compile Include="State\Message.cs" />
@@ -146,8 +147,8 @@
     <Compile Include="State\RBallState.cs" />
     <Compile Include="Utils.cs" />
     <Compile Include="World\City.cs" />
-    <Compile Include="World\CityType.cs" />
     <Compile Include="World\Map.cs" />
+    <Compile Include="World\NatureResource.cs" />
     <Compile Include="World\PathFinder.cs" />
     <Compile Include="World\PlanetEarth.cs" />
     <Compile Include="World\RBall.cs" />
@@ -161,6 +162,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </None>
+    <Content Include="Configs\cities.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>
