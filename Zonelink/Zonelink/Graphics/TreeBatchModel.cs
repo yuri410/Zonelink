@@ -26,12 +26,13 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
-using Apoc3D.Core;
 using Apoc3D.Graphics;
-using Apoc3D.MathLib;
-using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.World;
+using Microsoft.Xna.Framework;
+using Microsoft.Xna.Framework.Graphics;
+using Zonelink.World;
+using Zonelink.MathLib;
+using Zonelink;
 
 namespace Code2015.EngineEx
 {
@@ -44,8 +45,11 @@ namespace Code2015.EngineEx
         public float Amount;
     }
 
-    class TreeBatchModel : Resource, IRenderable
+    class TreeBatchModel
     {
+        public const float TreeScale = GameScene.OldModelScale * 3.33f;
+
+
         struct TreeVertex
         {
             public Vector3 pos;
@@ -54,7 +58,7 @@ namespace Code2015.EngineEx
 
             public static int Size
             {
-                get { return Vector3.SizeInBytes + Vector3.SizeInBytes + Vector3.SizeInBytes; }
+                get { return sizeof(float) * 3 + sizeof(float) * 3 + sizeof(float) * 3; }
             }
 
             static VertexElement[] elements;
@@ -62,9 +66,9 @@ namespace Code2015.EngineEx
             static TreeVertex()
             {
                 elements = new VertexElement[3];
-                elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
-                elements[1] = new VertexElement(elements[0].Size, VertexElementFormat.Vector3, VertexElementUsage.Normal);
-                elements[2] = new VertexElement(elements[1].Offset + elements[1].Size, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0);
+                elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0);
+                elements[1] = new VertexElement(sizeof(float) * 3, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0);
+                elements[2] = new VertexElement(elements[1].Offset + sizeof(float) * 3, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0);
             }
 
             public static VertexElement[] Elements
@@ -74,18 +78,84 @@ namespace Code2015.EngineEx
 
         }
 
-        RenderSystem renderSys;
+        /// <summary>
+        ///  定义具有位置、法向量和一组二维纹理坐标的顶点
+        /// </summary>
+        public struct VertexPNT1
+        {
+            static VertexElement[] elements;
+
+            /// <summary>
+            ///  获取或设置顶点的位置
+            /// </summary>
+            public Vector3 pos;
+
+            /// <summary>
+            ///  获取或设置顶点的法向量
+            /// </summary>
+            public Vector3 n;
+
+            /// <summary>
+            ///  获取或设置纹理坐标u
+            /// </summary>
+            public float u;
+
+            /// <summary>
+            ///  获取或设置纹理坐标v
+            /// </summary>
+            public float v;
+
+
+            static VertexPNT1()
+            {
+                elements = new VertexElement[3];
+
+                elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position, 0);
+                elements[1] = new VertexElement(sizeof(float) * 3, VertexElementFormat.Vector3, VertexElementUsage.Normal, 0);
+                elements[2] = new VertexElement(elements[1].Offset + sizeof(float) * 3, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 0);
+            }
+
+            /// <summary>
+            ///  获取一个VertexElement数组，包含该顶点格式的元素
+            /// </summary>
+            public static VertexElement[] Elements
+            {
+                get { return elements; }
+            }
+
+            public unsafe static int Size
+            {
+                get { return sizeof(VertexPNT1); }
+            }
+
+            public override int GetHashCode()
+            {
+                return pos.GetHashCode() ^ n.GetHashCode() ^ u.GetHashCode() ^ v.GetHashCode();
+            }
+
+
+            /// <summary>
+            ///  获取该顶点的System.String表达形式
+            /// </summary>
+            /// <returns>该顶点的System.String表达形式</returns>
+            public override string ToString()
+            {
+                return "Pos: " + pos.ToString() + "N: " + n.ToString() + "uv: " + u.ToString() + "," + v.ToString();
+            }
+        }
+
+        GraphicsDevice renderSys;
 
         VertexBuffer vtxBuffer;
         VertexDeclaration vtxDecl;
         IndexBuffer[] idxBuffer;
         Material[] materials;
-        RenderOperation[] opBuf;
+        //RenderOperation[] opBuf;
 
         VertexBuffer vtxBuffer2;
         IndexBuffer idxBuffer2;
         Material material2;
-        RenderOperation[] opbuf2;
+        //RenderOperation[] opbuf2;
 
 
         int resourceSize;
@@ -102,38 +172,31 @@ namespace Code2015.EngineEx
             return info.Longitude.ToString() + "_" + info.Latitude.ToString() + "_" + info.Radius.ToString();
         }
 
-        public TreeBatchModel(RenderSystem rs, ForestInfo info)
-            : base(TreeBatchModelManager.Instance,
-            GetHashString(info))
+        public TreeBatchModel(GraphicsDevice rs, ForestInfo info)
         {
             this.info = info;
             this.renderSys = rs;
 
-            float radlng = MathEx.Degree2Radian(info.Longitude);
-            float radlat = MathEx.Degree2Radian(info.Latitude);
+            float radlng = MathHelper.ToRadians(info.Longitude);
+            float radlat = MathHelper.ToRadians(info.Latitude);
 
             Transformation = Matrix.Identity;// PlanetEarth.GetOrientation(radlng, radlat);
             //Transformation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat);
 
             BoundingVolume.Center = PlanetEarth.GetPosition(radlng, radlat);
-            BoundingVolume.Radius = PlanetEarth.GetTileArcLength(MathEx.Degree2Radian(info.Radius));
+            BoundingVolume.Radius = PlanetEarth.GetTileArcLength(MathHelper.ToRadians(info.Radius));
         }
 
-        public override int GetSize()
-        {
-            return resourceSize;
-        }
-
-        protected unsafe override void load()
+        unsafe void load()
         {
             resourceSize = 0;
 
-            float radlng = MathEx.Degree2Radian(info.Longitude);
-            float radlat = MathEx.Degree2Radian(info.Latitude);
-            float radr = MathEx.Degree2Radian(info.Radius) * 2;
+            float radlng = MathHelper.ToRadians(info.Longitude);
+            float radlat = MathHelper.ToRadians(info.Latitude);
+            float radr = MathHelper.ToRadians(info.Radius) * 2;
 
             TreeOrientation = PlanetEarth.GetOrientation(radlng, radlat);
-            TreeOrientation.TranslationValue = PlanetEarth.GetPosition(radlng, radlat, PlanetEarth.PlanetRadius);
+            TreeOrientation.Translation = PlanetEarth.GetPosition(radlng, radlat, PlanetEarth.PlanetRadius);
 
 
             int vtxCount = 0;
@@ -187,12 +250,12 @@ namespace Code2015.EngineEx
 
 
                         Matrix treeOrientation = PlanetEarth.GetOrientation(treeLng, treeLat);
-                        treeOrientation.TranslationValue = PlanetEarth.GetPosition(treeLng, treeLat,
+                        treeOrientation.Translation = PlanetEarth.GetPosition(treeLng, treeLat,
                             PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
 
                         float instanceData = Randomizer.GetRandomSingle();
 
-                        float theta = instanceData * MathEx.PIf * 2;
+                        float theta = instanceData * MathHelper.Pi * 2;
                         float rotCos = (float)Math.Cos(theta);
                         float rotSin = (float)Math.Sin(theta);
 
@@ -211,10 +274,10 @@ namespace Code2015.EngineEx
                                 p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
                                 p.pos.Y = ptr[j].pos.Y;
 
-                                p.pos = p.pos * (Game.TreeScale * (instanceData * 0.4f + 0.8f));
+                                p.pos = p.pos * (TreeScale * (instanceData * 0.4f + 0.8f));
 
                                 Vector3 pp;
-                                Vector3.TransformSimple(ref p.pos, ref treeOrientation, out pp);
+                                MathEx.Vec3TransformSimple(ref p.pos, ref treeOrientation, out pp);
                                 p.pos = pp;
 
                                 p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
@@ -275,10 +338,10 @@ namespace Code2015.EngineEx
                                 p.pos.Z = rotSin * ptr[j].pos.X + rotCos * ptr[j].pos.Z;
                                 p.pos.Y = ptr[j].pos.Y;
 
-                                p.pos = p.pos * (Game.TreeScale * (instanceData * 0.4f + 0.8f));
+                                p.pos = p.pos * (TreeScale * (instanceData * 0.4f + 0.8f));
 
                                 Vector3 pp;
-                                Vector3.TransformSimple(ref p.pos, ref treeOrientation, out pp);
+                                MathEx.Vec3TransformSimple(ref p.pos, ref treeOrientation, out pp);
                                 p.pos = pp;
 
                                 p.n.X = rotCos * ptr[j].n.X - rotSin * ptr[j].n.Z;
@@ -315,16 +378,16 @@ namespace Code2015.EngineEx
 
             // ============================================================================
 
-            ObjectFactory fac = renderSys.ObjectFactory;
-            vtxDecl = fac.CreateVertexDeclaration(TreeVertex.Elements);
-            int vtxSize = vtxDecl.GetVertexSize();
 
-            vtxBuffer = fac.CreateVertexBuffer(vtxCount, vtxDecl, BufferUsage.Static);
+            vtxDecl = new VertexDeclaration(TreeVertex.Elements);
+            int vtxSize = TreeVertex.Size;
+
+            vtxBuffer = new VertexBuffer(renderSys, vtxDecl, vtxCount, BufferUsage.WriteOnly);
 
             vertices.Trim();
             vtxBuffer.SetData<byte>(vertices.Elements);
 
-            vtxBuffer2 = fac.CreateVertexBuffer(vtxCount2, vtxDecl, BufferUsage.Static);
+            vtxBuffer2 = new VertexBuffer(renderSys, vtxDecl, vtxCount2, BufferUsage.WriteOnly);
             vertices2.Trim();
             vtxBuffer2.SetData<byte>(vertices2.Elements);
 
@@ -332,7 +395,7 @@ namespace Code2015.EngineEx
 
             idxBuffer = new IndexBuffer[partCount];
             materials = new Material[partCount];
-            opBuf = new RenderOperation[partCount];
+            //opBuf = new RenderOperation[partCount];
 
             int index = 0;
 
@@ -342,7 +405,7 @@ namespace Code2015.EngineEx
                 list.Trim();
 
                 materials[index] = e.Key;
-                idxBuffer[index] = fac.CreateIndexBuffer(IndexBufferType.Bit32, list.Count, BufferUsage.Static);
+                idxBuffer[index] = new IndexBuffer(renderSys, IndexElementSize.ThirtyTwoBits, list.Count, BufferUsage.WriteOnly);
 
                 idxBuffer[index].SetData<int>(list.Elements);
 
@@ -367,7 +430,7 @@ namespace Code2015.EngineEx
 
             indices2.Trim();
 
-            idxBuffer2 = fac.CreateIndexBuffer(IndexBufferType.Bit32, indices2.Count, BufferUsage.Static);
+            idxBuffer2 = new IndexBuffer(renderSys, IndexElementSize.ThirtyTwoBits, indices2.Count, BufferUsage.WriteOnly);
             idxBuffer2.SetData<int>(indices2.Elements);
             opbuf2 = new RenderOperation[1];
             opbuf2[0].Material = material2;
@@ -384,7 +447,7 @@ namespace Code2015.EngineEx
             opbuf2[0].Sender = this;
         }
 
-        protected override void unload()
+        void unload()
         {
             if (vtxBuffer != null)
             {

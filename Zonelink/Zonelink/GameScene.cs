@@ -17,37 +17,43 @@ namespace Zonelink
 {
     class GameScene : DrawableGameComponent
     {
+        public const float OldModelScale = 3;
         Game1 game;
         GameState state;
         
-#region  Terrain
+        #region  Terrain
         TerrainTile[] terrainTiles;
         TerrainMaterialLibrary terrainLibrary;
         Effect terrainEffect;
-#endregion
-      
-        
+        #endregion
+
+        #region CityModel
+        /// <summary>
+        ///  游戏场景中的City与RigidModel一一对应的表
+        /// </summary>
+        Dictionary<City, RigidModel> cityModelStopped;
+        Dictionary<City, RigidModel> cityModelIdle;
+        Dictionary<City, RigidModel> cityModelSend;
+        Dictionary<City, RigidModel> cityModelReceive;
 
 
-        Model CityModel;
-        Matrix[] CityModelTransforms;
-        BasicEffect basicEffect;
-    
+        #endregion
 
+        #region NaturalResources
+        Model[] oilDerrick;
+        Model[] oilDerrickSea;
+        Matrix oilDerrickPremult;
+        #endregion
+
+        #region Harvester
+        Model[] harvester;
+        Matrix harvesterPremult;
+        #endregion
         RtsCamera camera;
 
-        
+        bool isCityModelLoaded;
+
         bool isLoaded;
-
-        SkinnedModel model;
-
-
-        
-
-        RigidModel modelSend;
-        RigidModel modelIdle;
-        RigidModel modelStopped;
-        RigidModel modelReceive;
 
 
         public RtsCamera Camera { get { return camera; } }
@@ -73,27 +79,17 @@ namespace Zonelink
 
             base.Initialize();
         }
+
+        #region 加载资源
         protected override void LoadContent()
         {
             LoadTerrain();
-          
-            //加载城市资源
-            CityModel = game.Content.Load<Model>("Model\\test");
-            CityModelTransforms = new Matrix[CityModel.Bones.Count];
-            basicEffect = new BasicEffect(game.GraphicsDevice);
-
-            
-            model = new SkinnedModel(game, "DudeWalk");
-
-            modelSend = new RigidModel(game, "testSend");
-            modelReceive = new RigidModel(game, "testRecv");
-            modelStopped = new RigidModel(game, "testStopped");
-            modelIdle = new RigidModel(game, "testIdle");         
+            LoadResourceModel();
 
             isLoaded = true;
         }
 
-       
+
 
         private void LoadTerrain()
         {
@@ -115,6 +111,61 @@ namespace Zonelink
 
         }
 
+        private void LoadResourceModel()
+        {
+            oilDerrick = new Model[NatureResource.OilFrameCount];
+            oilDerrickSea = new Model[NatureResource.OilFrameCount];
+
+            for (int i = 0; i < NatureResource.OilFrameCount; i++)
+            {
+                oilDerrick[i] = game.Content.Load<Model>("Model\\OilDerrick\\oilderrick" + i.ToString("D2"));
+                oilDerrickSea[i] = game.Content.Load<Model>("Model\\OilDerrick\\oilderricksea" + i.ToString("D2"));
+            }
+            oilDerrickPremult = Matrix.CreateScale(2.2f * OldModelScale, 2.2f * OldModelScale, 2.2f * OldModelScale) *
+                   Matrix.CreateTranslation(0, 18, 0) * Matrix.CreateRotationY(-MathHelper.PiOver4);
+
+
+            harvester = new Model[Harvester.NumModels];
+            for (int i = 0; i < Harvester.NumModels; i++)
+            {
+                harvester[i] = game.Content.Load<Model>("Model\\Harvester\\cow" + i.ToString("D2"));
+            }
+
+            harvesterPremult = Matrix.CreateRotationY(MathHelper.Pi) *
+                Matrix.CreateScale(OldModelScale * 0.67f, OldModelScale * 0.67f, OldModelScale * 0.67f);
+        }
+       
+
+        private void LoadCityModel()
+        {
+            this.cityModelSend = new Dictionary<City, RigidModel>(BattleField.MaxCities);
+            this.cityModelStopped = new Dictionary<City, RigidModel>(BattleField.MaxCities);
+            this.cityModelReceive = new Dictionary<City, RigidModel>(BattleField.MaxCities);
+            this.cityModelIdle = new Dictionary<City, RigidModel>(BattleField.MaxCities);
+
+            foreach (City city in state.Field.Cities)
+            {
+                RigidModel mdl=new RigidModel(game, "testSend");
+                city.HookAnimationEvent(mdl);
+                this.cityModelSend.Add(city, mdl);
+
+                mdl = new RigidModel(game, "testStopped");
+                city.HookAnimationEvent(mdl);
+                this.cityModelStopped.Add(city, new RigidModel(game, "testStopped"));
+
+                mdl = new RigidModel(game, "testIdle");
+                city.HookAnimationEvent(mdl);
+                this.cityModelIdle.Add(city, new RigidModel(game, "testIdle"));
+
+                mdl = new RigidModel(game, "testRecv");
+                city.HookAnimationEvent(mdl);
+                this.cityModelReceive.Add(city, new RigidModel(game, "testRecv"));
+            }
+
+        }
+
+        #endregion
+
         protected override void UnloadContent()
         {
             isLoaded = false;
@@ -123,6 +174,159 @@ namespace Zonelink
                 terrainTiles[i].Dispose();
             }
             terrainEffect.Dispose();
+        }
+
+
+        private void DrawSkinnedModel(Matrix transform, SkinnedModel model)
+        {
+
+            Model m = model.Model;
+
+            foreach (ModelMesh mesh in m.Meshes)
+            {
+                foreach (SkinnedEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.Projection = camera.ProjectionMatrix;
+                    effect.View = camera.ViewMatrix;
+                    model.SetupEffect(effect, transform);
+
+                    effect.SpecularColor = Vector3.Zero;
+                }
+
+                mesh.Draw();
+            }
+        }
+        private void DrawRigidModel(Matrix transform, RigidModel model)
+        {
+            Model m = model.Model;
+
+            foreach (ModelMesh mesh in m.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.Projection = camera.ProjectionMatrix;
+                    effect.View = camera.ViewMatrix;
+                    model.SetupEffect(effect, transform, mesh);
+
+                    effect.SpecularColor = Vector3.Zero;
+                }
+
+                mesh.Draw();
+            }
+        }
+        private void DrawCities(GameTime time)
+        {
+            Frustum frus = camera.Frustum;
+            
+            if (!isCityModelLoaded)
+            {
+                LoadCityModel();
+                isCityModelLoaded = true;
+            }
+
+
+            //渲染战场
+            foreach (City city in state.Field.Cities)
+            {
+                if (frus.IntersectsSphere(city.Position, city.BoundingSphere.Radius))
+                {
+                    switch (city.AnimationType)
+                    {
+                        case CityAnimationState.Stopped:
+                            DrawRigidModel(city.Transformation, cityModelStopped[city]);
+                            break;
+
+                        case CityAnimationState.SendBall:
+                            DrawRigidModel(city.Transformation, cityModelSend[city]);
+                            break;
+
+                        case CityAnimationState.ReceiveBall:
+                            DrawRigidModel(city.Transformation, cityModelReceive[city]);
+                            break; ;
+                    }
+
+
+                }
+
+
+                if (city.Type == CityType.Green || city.Type == CityType.Oil)
+                {
+                    GatherCity gcity = city as GatherCity;
+
+                    Harvester harv = gcity.Harvester;
+                    if (frus.IntersectsSphere(harv.Position, harv.BoundingSphere.Radius))
+                    {
+                        int fid = harv.ModelIndex;
+
+                        foreach (ModelMesh mesh in harvester[fid].Meshes)
+                        {
+                            foreach (BasicEffect effect in mesh.Effects)
+                            {
+                                effect.EnableDefaultLighting();
+                                effect.Projection = camera.ProjectionMatrix;
+                                effect.View = camera.ViewMatrix;
+                                effect.World = harvesterPremult * harv.Transformation;
+
+                                effect.SpecularColor = Vector3.Zero;
+                            }
+
+                            mesh.Draw();
+                        }
+                    }
+                }
+
+            }
+
+        }
+        private void DrawNaturalResource(GameTime time)
+        {
+            NatureResource[] resources = state.Field.NaturalResources;
+
+            for (int i = 0; i < resources.Length; i++) 
+            {
+                if (resources[i].Type == NaturalResourceType.Oil) 
+                {
+                    if (resources[i].IsInOcean)
+                    {
+                        int fid = resources[i].FrameIndex;
+                        foreach (ModelMesh mesh in oilDerrickSea[fid].Meshes)
+                        {
+                            foreach (BasicEffect effect in mesh.Effects)
+                            {
+                                effect.EnableDefaultLighting();
+                                effect.Projection = camera.ProjectionMatrix;
+                                effect.View = camera.ViewMatrix;
+                                effect.World = oilDerrickPremult * resources[i].Transformation;
+
+                                effect.SpecularColor = Vector3.Zero;
+                            }
+
+                            mesh.Draw();
+                        }
+                    }
+                    else 
+                    {
+                        int fid = resources[i].FrameIndex;
+                        foreach (ModelMesh mesh in oilDerrick[fid].Meshes)
+                        {
+                            foreach (BasicEffect effect in mesh.Effects)
+                            {
+                                effect.EnableDefaultLighting();
+                                effect.Projection = camera.ProjectionMatrix;
+                                effect.View = camera.ViewMatrix;
+                                effect.World = oilDerrickPremult * resources[i].Transformation;
+
+                                effect.SpecularColor = Vector3.Zero;
+                            }
+
+                            mesh.Draw();
+                        }
+                    }
+                    
+                }
+            }
         }
 
 
@@ -171,39 +375,8 @@ namespace Zonelink
         }
         private void DrawBattleField(GameTime time)
         {
-            Frustum frus = camera.Frustum;
-            
-            BattleField btfld = state.Field;
-
-
-            //渲染战场
-            foreach (City city in btfld.Cities)
-            {
-                if (frus.IntersectsSphere(city.Position, city.BoundingSphere.Radius))
-                {
-                    switch (city.AnimationType)
-                    {
-                        case CityAnimationType.Stopped:
-                            DrawRigidModel(city.Transformation, this.state.Field.CityModelStopped[city]);
-                            
-                            break;
-
-                        case CityAnimationType.SendBall:
-                            DrawRigidModel(city.Transformation, this.state.Field.CityModelSend[city]);
-                            if (modelStopped.IsPlaying == false)
-                            {
-                                city.animationPlayOver = true;
-                            }
-                            break;
-
-                        case CityAnimationType.ReceiveBall:
-                            DrawRigidModel(city.Transformation, this.state.Field.CityModelReceive[city]);
-                            break;;
-                    }
-                                      
-                }
-
-            }
+            DrawCities(time);
+            DrawNaturalResource(time);
         }
 
         public override void Draw(GameTime time)
@@ -240,7 +413,53 @@ namespace Zonelink
 
             BattleField btfld = this.state.Field;
             btfld.Update(time);
+            if (isLoaded)
+            {
+                if (isCityModelLoaded)
+                {
 
+                    foreach (City city in btfld.Cities)
+                    {
+
+                        if (!this.cityModelIdle[city].IsPlaying)
+                        {
+                            this.cityModelIdle[city].Play();
+                        }
+                        else
+                        {
+                            this.cityModelIdle[city].Update(time);
+                        }
+
+                        if (!this.cityModelStopped[city].IsPlaying)
+                        {
+                            this.cityModelStopped[city].Play();
+                        }
+                        else
+                        {
+                            this.cityModelStopped[city].Update(time);
+                        }
+
+                        if (!this.cityModelSend[city].IsPlaying)
+                        {
+                            this.cityModelSend[city].Play();
+                        }
+                        else
+                        {
+                            this.cityModelSend[city].Update(time);
+                        }
+                    }
+                }
+
+            }
+
+            //if (!this.cityModelReceive[city].IsPlaying)
+            //{
+            //    this.cityModelReceive[city].Play();
+            //}
+            //else
+            //{
+            //    this.cityModelReceive[city].Update(gameTime);
+            //}
             //if (!model.IsPlaying)
             //{
             //    model.Play();
@@ -250,23 +469,23 @@ namespace Zonelink
             //    model.Update(time);
             //}
 
-            if (!modelStopped.IsPlaying)
-            {
-                modelStopped.Play();
-            }
-            else
-            {
-                modelStopped.Update(time);
-            }
+            //if (!modelStopped.IsPlaying)
+            //{
+            //    modelStopped.Play();
+            //}
+            //else
+            //{
+            //    modelStopped.Update(time);
+            //}
 
-            if (!modelSend.IsPlaying)
-            {
-                modelSend.Play();
-            }
-            else
-            {
-                modelSend.Update(time);
-            }
+            //if (!modelSend.IsPlaying)
+            //{
+            //    modelSend.Play();
+            //}
+            //else
+            //{
+            //    modelSend.Update(time);
+            //}
 
 
 
@@ -282,46 +501,6 @@ namespace Zonelink
 
         }
 
-        private void DrawSkinnedModel(Matrix transform, SkinnedModel model)
-        {
-            
-            Model m = model.Model;
-            
-            foreach (ModelMesh mesh in m.Meshes)
-            {
-                foreach (SkinnedEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.Projection = camera.ProjectionMatrix;
-                    effect.View = camera.ViewMatrix;
-                    model.SetupEffect(effect, transform);
-                             
-                    effect.SpecularColor = Vector3.Zero;
-                }
-
-                mesh.Draw();
-            }
-        }
-
-        private void DrawRigidModel(Matrix transform, RigidModel model)
-        {
-            Model m = model.Model;
-
-            foreach (ModelMesh mesh in m.Meshes)
-            {
-                foreach (BasicEffect effect in mesh.Effects)
-                {
-                    effect.EnableDefaultLighting();
-                    effect.Projection = camera.ProjectionMatrix;
-                    effect.View = camera.ViewMatrix;
-                    model.SetupEffect(effect, transform, mesh);
-
-                    effect.SpecularColor = Vector3.Zero;
-                }
-
-                mesh.Draw();
-            }
-        }
 
 
     }

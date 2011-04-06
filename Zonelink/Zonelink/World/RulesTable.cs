@@ -40,7 +40,15 @@ namespace Zonelink
         public static float GreenHarvStorage { get; private set; }
         public static float GreenHarvSpeed { get; private set; }
 
-        public const float RBallProduceBall = 100;
+        //public const float RBallProduceBall = 100;
+
+
+        public static float OilBallCost { get; private set; }
+        public static float GreenBallCost { get; private set; }
+        public static float EducationBallInterval { get; private set; }
+        public static float HealthBallInterval { get; private set; }
+        public static float DiseaseBallInterval { get; private set; }
+        public static float VolienceBallInterval { get; private set; }
 
         //每种城市的发展速度
         public static float GreenDevelopStep { get; private set; }
@@ -49,12 +57,6 @@ namespace Zonelink
         public static float HealthDevelopStep { get; private set; }
         public static float DiseaseDevelopStep { get; private set; }
         public static float VolienceDevelopStep { get; private set; }
-
-        //每种城市产生资源球的时间间隔
-        public static float EducationBallInterval { get; private set; }
-        public static float HealthBallInterval { get; private set; }
-        public static float DiseaseBallInterval { get; private set; }
-        public static float VolienceBallInterval { get; private set; }
 
         public static void LoadRules()
         {
@@ -77,6 +79,27 @@ namespace Zonelink
             HarvLoadingSpeed = sect.GetSingle("LoadingSpeed", 2.5f);
             HarvLoadingTime = sect.GetSingle("HarvLoadingTime", 3);
 
+            #region 各种资源球配置读取
+            sect = con["OilBall"];
+            OilBallCost = sect.GetSingle("Cost", 15);
+
+            sect = con["GreebBall"];
+            GreenBallCost = sect.GetSingle("Cost", 15);
+
+            sect = con["EducationBall"];
+            EducationBallInterval = sect.GetSingle("GenInterval", 15);
+
+            sect = con["HealthBall"];
+            HealthDevelopStep = sect.GetSingle("GenInterval", 15);
+
+            sect = con["DiseaseBall"];
+            DiseaseDevelopStep = sect.GetSingle("GenInterval", 15);
+
+            sect = con["VolienceBall"];
+            VolienceDevelopStep = sect.GetSingle("GenInterval", 15);
+            #endregion
+
+            #region 各种城市的配置读取
             sect = con["OilCity"];
             OilGatherDistance = sect.GetSingle("GatherDistance", 150);
             OilHarvHP = sect.GetSingle("HarvHealth", 300);
@@ -93,20 +116,16 @@ namespace Zonelink
 
             sect = con["DiseaseCity"];
             DiseaseDevelopStep = sect.GetSingle("DevelopStep", 10);
-            DiseaseBallInterval = sect.GetSingle("ProduceBallInterval", 20);
 
             sect = con["VolienceCity"];
             VolienceDevelopStep = sect.GetSingle("VolienceCity", 10);
-            VolienceBallInterval = sect.GetSingle("ProduceBallInterval", 20); 
 
             sect = con["HealthCity"];
             HealthDevelopStep = sect.GetSingle("HealthCity", 10);
-            HealthBallInterval = sect.GetSingle("ProduceBallInterval", 20); 
 
             sect = con["EducationCity"];
             EducationDevelopStep = sect.GetSingle("EducationCity", 10);
-            EducationBallInterval = sect.GetSingle("ProduceBallInterval", 20);
-
+            #endregion
         }
 
 

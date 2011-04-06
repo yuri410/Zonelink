@@ -27,6 +27,7 @@ using System.IO;
 using System.Text;
 using Code2015.EngineEx;
 using Zonelink;
+using Zonelink.World;
 
 namespace Apoc3D
 {
@@ -51,6 +52,27 @@ namespace Apoc3D
             return resCon;
         }
 
+        public static RBallType GetProductionType(CityType type)
+        {
+            switch (type)
+            {
+                case CityType.Health:
+                    return RBallType.Health;
+                case CityType.Volience:
+                    return RBallType.Volience;
+                case CityType.Disease:
+                    return RBallType.Disease;
+                case CityType.Education:
+                    return RBallType.Education;
+                case CityType.Neutral:
+                    throw new InvalidOperationException();
+                case CityType.Oil:
+                    return RBallType.Oil;
+                case CityType.Green:
+
+                    return RBallType.Green;
+            } throw new InvalidOperationException();
+        }
 
         //public static string GetTempFileName() { throw new NotImplementedException(); }
     }

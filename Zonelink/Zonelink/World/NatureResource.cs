@@ -2,39 +2,44 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
+using Apoc3D;
+using Apoc3D.Scene;
 using Code2015.EngineEx;
+using Code2015.World;
+using Microsoft.Xna.Framework;
 
 namespace Zonelink.World
 {
-    public enum NatureResourceType
+    public enum NaturalResourceType
     {
         Wood,
         Oil
     }
 
-    class NatureResource
+    class NatureResource : Entity
     {
         const float OTimesMaxAmount = 2;
-        const float ORecoverBias = 1;
+        //const float ORecoverBias = 1;
 
 
-        const float FRecoverRate = 0.0015f;
-        const float FRecoverBias = 1;
+        //const float FRecoverRate = 0.0015f;
+        //const float FRecoverBias = 1;
         const float FTimesMaxAmount = 2;
 
-        public float Longitude { get; private set; }
-        public float Latitude { get; private set; }
-        public Vector3 Position 
-        {
-            get; 
-            private set;
-        }
+        public const int OilFrameCount = 30;
+        //public const float OilScale = 6.6f;
 
+
+        int counter;
+        int frameIndex;
+        int sign = 1;
+        public int FrameIndex { get { return frameIndex; } }
+
+        public bool IsInOcean { get; private set; }
         /// <summary>
         ///  获取自然资源的类型
         /// </summary>
-        public NatureResourceType Type
+        public NaturalResourceType Type
         {
             get;
             private set;
@@ -78,10 +83,10 @@ namespace Zonelink.World
 
             switch (Type)
             {
-                case NatureResourceType.Oil:
+                case NaturalResourceType.Oil:
                     MaxAmount = CurrentAmount * OTimesMaxAmount;
                     break;
-                case NatureResourceType.Wood:
+                case NaturalResourceType.Wood:
                     MaxAmount = CurrentAmount * FTimesMaxAmount;
                     break;
             }
@@ -107,46 +112,98 @@ namespace Zonelink.World
 
         } 
 
-        public void Update(GameTime time)
+        public override void Update(GameTime time)
         {
             float dt = (float)time.ElapsedGameTime.TotalSeconds;
 
             switch (Type)
             {
-                case NatureResourceType.Oil:
+                case NaturalResourceType.Oil:
 
                     if (CurrentAmount < MaxAmount)
                     {
-                        CurrentAmount +=  ORecoverBias * dt;
+                        CurrentAmount += RulesTable.ORecoverBias * dt;
                     }
+
+
+                    {
+
+                        counter++;
+                        if (counter == 2)
+                        {
+                            frameIndex += sign;
+                            counter = 0;
+                        }
+                        if (frameIndex >= OilFrameCount || frameIndex < 0)
+                        {
+                            sign = -sign;
+                            frameIndex += sign;
+                        }
+                    }
+
                     break;
-                case NatureResourceType.Wood:
+                case NaturalResourceType.Wood:
                     if (CurrentAmount < MaxAmount)
                     {
-                        CurrentAmount += (CurrentAmount * FRecoverRate + FRecoverBias) * dt;
+                        CurrentAmount += (CurrentAmount * RulesTable.FRecoverRate + RulesTable.FRecoverBias) * dt;
                     }
                     break;
             }
         }
 
 
-        public void Parse(GameConfigurationSection sect)
+        public override void Parse(GameConfigurationSection sect)
         {
+            base.Parse(sect);
+
             string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
-             if (type == "wood")
-             {
-                 this.Type = NatureResourceType.Wood;
-             }
-             else if (type == "petro")
-             {
-                 this.Type = NatureResourceType.Oil;               
-             }
+            if (type == "wood")
+            {
+                this.Type = NaturalResourceType.Wood;
+            }
+            else if (type == "petro")
+            {
+                this.Type = NaturalResourceType.Oil;
+            }
 
-             Longitude = sect.GetSingle("Longitude");
-             Latitude = sect.GetSingle("Latitude");
 
-             CurrentAmount = sect.GetSingle("Amount", 0);
-             MaxAmount = CurrentAmount * FTimesMaxAmount;
+            CurrentAmount = sect.GetSingle("Amount", 0);
+            MaxAmount = CurrentAmount * FTimesMaxAmount;
+
+            UpdateLocation();
         }
+
+        private void UpdateLocation()
+        {
+            float radLong = MathHelper.ToRadians(this.Longitude);
+            float radLat = MathHelper.ToRadians(this.Latitude);
+
+            float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
+
+            IsInOcean = false;
+            if (altitude < 0)
+            {
+                altitude = 0;
+                IsInOcean = true;
+            }
+            
+            this.Position = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude);
+
+            this.Transformation = PlanetEarth.GetOrientation(radLong, radLat);
+            this.InvTransformation = Matrix.Invert(Transformation);
+
+            this.Transformation.Translation = this.Position; // TranslationValue = pos;
+
+            BoundingSphere.Radius = RulesTable.CityRadius;
+            BoundingSphere.Center = this.Position;
+
+
+
+
+            frameIndex = Randomizer.GetRandomInt(OilFrameCount - 1);
+
+
+        }
+      
     }
 }

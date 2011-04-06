@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Zonelink.State;
-using Microsoft.Xna.Framework;
-using Code2015.World;
 using Code2015.EngineEx;
+using Code2015.World;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Zonelink.Graphics;
 
 namespace Zonelink.World
 {
@@ -28,12 +28,13 @@ namespace Zonelink.World
         Education
     }
 
-    enum CityAnimationType
+    enum CityAnimationState
     {
         Stopped,
         SendBall,
         ReceiveBall,
         Idle,
+
     }
 
 
@@ -43,36 +44,32 @@ namespace Zonelink.World
     /// </summary>
     class City : Entity
     {
-        //public static readonly float CityRadius = RulesTable.CityRadius;
-       
-        //public static readonly float MaxDevelopment = RulesTable.CityMaxDevelopment;
-
         protected BattleField battleField;
+
+        CityAnimationState animationType = CityAnimationState.ReceiveBall;
+       
+
+        //城市发展速度
+        float developStep;
+        float development;
+        float healthValue;
+
+        public CityAnimationState AnimationType { get { return animationType; } }
 
         //城市类型
         public CityType Type { get; protected set; }
-
-        //城市发展速度
-        private float DevelopStep;
-
-        //每隔多少时间产生资源球,对oil, green没用
-        private float ProduceBallInterval;
-        private float interval;
-        
 
         //城市名称
         public string Name { get; set; }
 
         //动画状态，由状态机改变
-        public CityAnimationType AnimationType { get; set; }
-        public bool animationPlayOver { get; set; }
 
-        public float HealthValue { get; set; }
-        public float Development { get; set; }
+        public float HealthValue { get { return healthValue; } }
+        public float Development { get { return development; } }
 
         public float HPRate
         {
-            get { return HealthValue / Development; }
+            get { return healthValue / development; }
         }
 
 
@@ -103,7 +100,7 @@ namespace Zonelink.World
         {
             this.battleField = btfld;
 
-            this.HealthValue = 1000;  
+            this.healthValue = 1000;  
         }  
 
 
@@ -114,25 +111,50 @@ namespace Zonelink.World
             return da.CompareTo(db);
         }
 
-
-        //根据dt，增加发展量
-        public void Develop(float dt)
+        /// <summary>
+        ///  城市自然发展。根据dt，增加发展量
+        /// </summary>
+        /// <param name="dt"></param>
+        private void NaturalDevelop(float dt)
         {
             float healthRate = (this.HealthValue / this.Development);
 
-            this.Development += dt * DevelopStep;
-            if (this.Development > RulesTable.CityMaxDevelopment)
-                this.Development = RulesTable.CityMaxDevelopment;
-            this.HealthValue = healthRate * this.Development;
+            development += dt * developStep;
+            if (development > RulesTable.CityMaxDevelopment)
+                development = RulesTable.CityMaxDevelopment;
+            healthValue = healthRate * this.Development;
+        }
+        private void Develop(float amount, float dt)
+        {
+            float healthRate = HPRate;
+
+
+            development += amount * dt;
+            if (development > RulesTable.CityMaxDevelopment)
+                development = RulesTable.CityMaxDevelopment;
+            healthValue = healthRate * development;
+        }
+
+        public void HookAnimationEvent(RigidModel model)
+        {
+            model.Completed += Animation_Complete;
+        }
+        private void Animation_Complete(object sender, EventArgs e)
+        {
+            switch (animationType)
+            {
+
+            }
+            ((RigidModel)sender).Play();
         }
 
         public void Damage(float v, Player owener)
         {
-            this.HealthValue -= v;
-            if (this.HealthValue < 0)
+            healthValue -= v;
+            if (healthValue < 0)
             {
-                this.HealthValue = this.Development;
-                this.Owner = owener;    
+                healthValue = this.Development;
+                this.Owner = owener;
             }
         }
 
@@ -149,64 +171,63 @@ namespace Zonelink.World
 
             StartUp = sect.GetInt("StartUp", -1);
 
-            Development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
+            development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
 
 
             //设置城市类型
-            string type = sect.GetString("Type", string.Empty);
+            string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
 
-            if (type == "oil")
+            if (type == CityType.Oil.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Oil;
-                DevelopStep = RulesTable.OilDevelopStep;
-                ProduceBallInterval = 0;
+                developStep = RulesTable.OilDevelopStep;
+                //ProduceBallInterval = 0;
                 
             }
-            else if (type == "green")
+            else if (type == CityType.Green.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Green;
-                DevelopStep = RulesTable.GreenDevelopStep;
-                ProduceBallInterval = 0;
+                developStep = RulesTable.GreenDevelopStep;
+                //ProduceBallInterval = 0;
             }
-            else if (type == "Neutral")
+            else if (type == CityType.Neutral.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Neutral;
-                DevelopStep = 20;
-                ProduceBallInterval = 20;
+                developStep = 20;
+                //ProduceBallInterval = 20;
             }
-            else if (type == "Volience")
+            else if (type == CityType.Volience.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Volience;
-                DevelopStep = RulesTable.VolienceDevelopStep;
-                ProduceBallInterval = RulesTable.VolienceBallInterval;
+                developStep = RulesTable.VolienceDevelopStep;
+                //ProduceBallInterval = RulesTable.VolienceBallInterval;
             }
-            else if (type == "Health")
+            else if (type == CityType.Health.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Health;
-                DevelopStep = RulesTable.HealthDevelopStep;
-                ProduceBallInterval = RulesTable.HealthBallInterval;
+                developStep = RulesTable.HealthDevelopStep;
+                //ProduceBallInterval = RulesTable.HealthBallInterval;
             }
-            else if (type == "Disease")
+            else if (type == CityType.Disease.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Disease;
-                DevelopStep = RulesTable.DiseaseDevelopStep;
-                ProduceBallInterval = RulesTable.DiseaseBallInterval;
+                developStep = RulesTable.DiseaseDevelopStep;
+                //ProduceBallInterval = RulesTable.DiseaseBallInterval;
             }
-            else if (type == "Education")
+            else if (type == CityType.Education.ToString().ToLowerInvariant())
             {
                 this.Type = CityType.Education;
-                DevelopStep = RulesTable.EducationDevelopStep;
-                ProduceBallInterval = RulesTable.EducationBallInterval;
+                developStep = RulesTable.EducationDevelopStep;
+                //ProduceBallInterval = RulesTable.EducationBallInterval;
             }
 
-            this.interval = this.ProduceBallInterval;
+            //this.interval = this.ProduceBallInterval;
             UpdateLocation();
 
             //进去默认状态a
-            this.fsmMachine.CurrentState = new CityDevelopmentState(); 
+            //this.fsmMachine.CurrentState = new CityDevelopmentState(); 
 
         }
-
 
         private void UpdateLocation()
         {
@@ -225,41 +246,47 @@ namespace Zonelink.World
             BoundingSphere.Center = this.Position;
         }
 
+        public override void Update(GameTime dt)
+        {
+            float ddt = (float)dt.ElapsedGameTime.TotalSeconds;
+
+            if (Owner != null)
+            {
+                NaturalDevelop(ddt);
+
+                float devIncr = 0;
+                // 计算附近同阵营资源球贡献发展量
+                for (int i = 0; i < nearbyBallList.Count; i++)
+                {
+                    devIncr++;
+                }
+
+                
+            }
+        }
 
         #region 发展状态
 
-        /// <summary>
-        ///  普通城市类型，当时间间隔小于0时，产生资源球
-        ///  Gather City 根据Buffer产生资源球
-        ///  在更新资源状态中调用，true则切换状态到产生球状态，播放动画
-        /// </summary>
-        /// <returns></returns>
-        public virtual bool CanProduceRBall()
-        {
-            return this.interval < 0;
-        }
-
-
-        //更新资源状态，在状态机中调用
-        //更新资源,  对一般城市来说，每隔一段时间产生资源球, Oil跟Green根据buffer产生
-        public virtual void UpdateResource(GameTime gameTime)
-        {
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
-            if (this.interval < 0)
-                this.interval = this.ProduceBallInterval;
-            this.interval -= dt * (float)5;
-            this.Develop(dt);     
-        }
+        ///// <summary>
+        /////  普通城市类型，当时间间隔小于0时，产生资源球
+        /////  Gather City 根据Buffer产生资源球
+        /////  在更新资源状态中调用，true则切换状态到产生球状态，播放动画
+        ///// </summary>
+        ///// <returns></returns>
+        //virtual bool CanProduceRBall()
+        //{
+        //    return this.interval < 0;
+        //}
 
         #endregion
 
-        #region 产生球状态
+        //#region 产生球状态
         public virtual void ProduceBall()
         {
-            this.battleField.CreateResourceBall(this);
+            //this.battleField.CreateResourceBall(this);
         }
 
-        #endregion
+        //#endregion
 
 
 

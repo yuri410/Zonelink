@@ -134,6 +134,508 @@
       <Importer>FbxImporter</Importer>
       <Processor>AnimatedModelProcessor</Processor>
     </Compile>
+    <Compile Include="Model\testball.FBX">
+      <Name>testball</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow00.x">
+      <Name>cow00</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow01.x">
+      <Name>cow01</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow02.x">
+      <Name>cow02</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow03.x">
+      <Name>cow03</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow04.x">
+      <Name>cow04</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow05.x">
+      <Name>cow05</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow06.x">
+      <Name>cow06</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow07.x">
+      <Name>cow07</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow08.x">
+      <Name>cow08</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow09.x">
+      <Name>cow09</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow10.x">
+      <Name>cow10</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow11.x">
+      <Name>cow11</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow12.x">
+      <Name>cow12</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow13.x">
+      <Name>cow13</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow14.x">
+      <Name>cow14</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow15.x">
+      <Name>cow15</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow16.x">
+      <Name>cow16</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow17.x">
+      <Name>cow17</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow18.x">
+      <Name>cow18</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow19.x">
+      <Name>cow19</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow20.x">
+      <Name>cow20</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow21.x">
+      <Name>cow21</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow22.x">
+      <Name>cow22</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow23.x">
+      <Name>cow23</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow24.x">
+      <Name>cow24</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow25.x">
+      <Name>cow25</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow26.x">
+      <Name>cow26</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow27.x">
+      <Name>cow27</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow28.x">
+      <Name>cow28</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\Harvester\cow29.x">
+      <Name>cow29</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <None Include="Model\Harvester\cow.dds">
+      <Name>cow</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <Compile Include="Model\OilDerrick\oilderrick00.x">
+      <Name>oilderrick00</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick01.x">
+      <Name>oilderrick01</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick02.x">
+      <Name>oilderrick02</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick03.x">
+      <Name>oilderrick03</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick04.x">
+      <Name>oilderrick04</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick05.x">
+      <Name>oilderrick05</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick06.x">
+      <Name>oilderrick06</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick07.x">
+      <Name>oilderrick07</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick08.x">
+      <Name>oilderrick08</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick09.x">
+      <Name>oilderrick09</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick10.x">
+      <Name>oilderrick10</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick11.x">
+      <Name>oilderrick11</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick12.x">
+      <Name>oilderrick12</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick13.x">
+      <Name>oilderrick13</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick14.x">
+      <Name>oilderrick14</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick15.x">
+      <Name>oilderrick15</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick16.x">
+      <Name>oilderrick16</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick17.x">
+      <Name>oilderrick17</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick18.x">
+      <Name>oilderrick18</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick19.x">
+      <Name>oilderrick19</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick20.x">
+      <Name>oilderrick20</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick21.x">
+      <Name>oilderrick21</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick22.x">
+      <Name>oilderrick22</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick23.x">
+      <Name>oilderrick23</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick24.x">
+      <Name>oilderrick24</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick25.x">
+      <Name>oilderrick25</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick26.x">
+      <Name>oilderrick26</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick27.x">
+      <Name>oilderrick27</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick28.x">
+      <Name>oilderrick28</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderrick29.x">
+      <Name>oilderrick29</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea00.x">
+      <Name>oilderricksea00</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea01.x">
+      <Name>oilderricksea01</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea02.x">
+      <Name>oilderricksea02</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea03.x">
+      <Name>oilderricksea03</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea04.x">
+      <Name>oilderricksea04</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea05.x">
+      <Name>oilderricksea05</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea06.x">
+      <Name>oilderricksea06</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea07.x">
+      <Name>oilderricksea07</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea08.x">
+      <Name>oilderricksea08</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea09.x">
+      <Name>oilderricksea09</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea10.x">
+      <Name>oilderricksea10</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea11.x">
+      <Name>oilderricksea11</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea12.x">
+      <Name>oilderricksea12</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea13.x">
+      <Name>oilderricksea13</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea14.x">
+      <Name>oilderricksea14</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea15.x">
+      <Name>oilderricksea15</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea16.x">
+      <Name>oilderricksea16</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea17.x">
+      <Name>oilderricksea17</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea18.x">
+      <Name>oilderricksea18</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea19.x">
+      <Name>oilderricksea19</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea20.x">
+      <Name>oilderricksea20</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea21.x">
+      <Name>oilderricksea21</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea22.x">
+      <Name>oilderricksea22</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea23.x">
+      <Name>oilderricksea23</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea24.x">
+      <Name>oilderricksea24</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea25.x">
+      <Name>oilderricksea25</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea26.x">
+      <Name>oilderricksea26</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea27.x">
+      <Name>oilderricksea27</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea28.x">
+      <Name>oilderricksea28</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\OilDerrick\oilderricksea29.x">
+      <Name>oilderricksea29</Name>
+      <Importer>XImporter</Importer>
+      <Processor>ModelProcessor</Processor>
+    </Compile>
+    <None Include="Model\OilDerrick\oilderrick.dds">
+      <Name>oilderrick</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Model\OilDerrick\oilderrick2.dds">
+      <Name>oilderrick2</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </None>
+    <None Include="Model\Trees\tree02_l0.mesh">
+      <Name>tree02_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree03_l0.mesh">
+      <Name>tree03_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree04_l0.mesh">
+      <Name>tree04_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree05_l0.mesh">
+      <Name>tree05_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree06_l0.mesh">
+      <Name>tree06_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree07_l0.mesh">
+      <Name>tree07_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree08_l0.mesh">
+      <Name>tree08_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Model\Trees\tree09_l0.mesh">
+      <Name>tree09_l0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Nature\density.raw">
       <Name>density</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>

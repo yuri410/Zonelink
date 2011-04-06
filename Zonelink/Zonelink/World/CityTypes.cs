@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
 using Code2015.World;
+using Code2015.EngineEx;
 
 namespace Zonelink.World
 {
@@ -30,7 +31,7 @@ namespace Zonelink.World
             }
         }
 
-
+        public Harvester Harvester { get { return harvester; } }
         public GatherCity(BattleField btfld, Player owner)
             : base(btfld, owner)
         {
@@ -49,7 +50,7 @@ namespace Zonelink.World
             {
                 gatherDistance = RulesTable.GreenGatherDistance;
             }
-
+           
         }
 
         public void SetTargetExResource(NatureResource res)
@@ -76,9 +77,11 @@ namespace Zonelink.World
         }
         void Harv_Home(object sender, EventArgs e)
         {
-            harvester.Move(exRes.Longitude, exRes.Latitude);
-            harvester.SetMovePurpose(MovePurpose.Gather);
-
+            if (IsCaptured)
+            {
+                harvester.Move(exRes.Longitude, exRes.Latitude);
+                harvester.SetMovePurpose(MovePurpose.Gather);
+            }
             if (!harvester.IsFullLoaded)
             {
                 FindNewNaturalResource();
@@ -91,34 +94,34 @@ namespace Zonelink.World
         }
 
 
-        public override void UpdateResource(GameTime gameTime)
-        {
-            //开采资源
-            //if (this.nearResource.Count > 0)
-            //{
-            //    float take = nearResource[resourceIndex].Exploit(10);
-            //    if (take < 10)
-            //    {
-            //        FindNewNaturalResource();
-            //    }
-            //    resourceBuffer += take;
-            //}
+        //public override void UpdateResource(GameTime gameTime)
+        //{
+        //    //开采资源
+        //    //if (this.nearResource.Count > 0)
+        //    //{
+        //    //    float take = nearResource[resourceIndex].Exploit(10);
+        //    //    if (take < 10)
+        //    //    {
+        //    //        FindNewNaturalResource();
+        //    //    }
+        //    //    resourceBuffer += take;
+        //    //}
 
-            harvester.Update(gameTime);
+        //    harvester.Update(gameTime);
 
-        }
+        //}
 
-        public override bool CanProduceRBall()
-        {
-            return this.resourceBuffer > RulesTable.RBallProduceBall;
-        }
+        //public override bool CanProduceRBall()
+        //{
+        //    return this.resourceBuffer > RulesTable.RBallProduceBall;
+        //}
 
-        //产生小球
-        public override void ProduceBall()
-        {
-            this.battleField.CreateResourceBall(this);
-            resourceBuffer -= RulesTable.RBallProduceBall;
-        }
+        ////产生小球
+        //public override void ProduceBall()
+        //{
+        //    this.battleField.CreateResourceBall(this);
+        //    resourceBuffer -= RulesTable.RBallProduceBall;
+        //}
 
 
         //周围资源资源
@@ -129,7 +132,18 @@ namespace Zonelink.World
                 float d = Vector3.Distance(resList[i].Position, this.Position);
                 if (d < gatherDistance)
                 {
-                    nearResource.Add(resList[i]);
+                    if (Type == CityType.Green)
+                    {
+                        if (resList[i].Type == NaturalResourceType.Wood)
+                            nearResource.Add(resList[i]);
+                    }
+                    else if (Type == CityType.Oil)
+                    {
+                        if (resList[i].Type == NaturalResourceType.Oil)
+                            nearResource.Add(resList[i]);
+
+                    }
+                    
                 }
 
             }
@@ -144,7 +158,10 @@ namespace Zonelink.World
         }
 
 
-        //寻找新的资源
+        
+        /// <summary>
+        ///  从附近的资源中寻找一个数量足够的新资源
+        /// </summary>
         private void FindNewNaturalResource()
         {
             for (int i = 0; i < nearResource.Count; i++)
@@ -159,12 +176,89 @@ namespace Zonelink.World
             this.resourceBuffer += change;
         }
 
-
+        
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
+
+            float required = Type == CityType.Green ? RulesTable.OilBallCost : RulesTable.GreenBallCost;
+
+            if (resourceBuffer > required) 
+            {
+                ProduceBall();
+                resourceBuffer -= required;
+            }
+            harvester.Update(gameTime);
+        }
+
+        public override void Parse(GameConfigurationSection sect)
+        {
+            base.Parse(sect);
+
+            harvester.SetPosition(MathHelper.ToRadians(Longitude), MathHelper.ToRadians(Latitude));
         }
     }
-           
 
+    class ProductionCity : City
+    {
+        /// <summary>
+        ///  产生资源球所需时间
+        /// </summary>
+        float generateRBallCD;
+
+
+        public ProductionCity(BattleField btfld, Player owner)
+            : base(btfld, owner)
+        {
+            
+        }
+
+
+        public override void Parse(GameConfigurationSection sect)
+        {
+            base.Parse(sect);
+            ResetGenerateRBallCD();
+        }
+        private void ResetGenerateRBallCD()
+        {
+            switch (Type)
+            {
+                case CityType.Health:
+                    generateRBallCD = RulesTable.HealthBallInterval;
+                    break;
+                case CityType.Volience:
+                    generateRBallCD = RulesTable.VolienceBallInterval;
+                    break;
+                case CityType.Disease:
+                    generateRBallCD = RulesTable.DiseaseBallInterval;
+                    break;
+                case CityType.Education:
+                    generateRBallCD = RulesTable.EducationBallInterval;
+                    break;
+                case CityType.Neutral:
+                    throw new InvalidOperationException();
+                case CityType.Green:
+                    throw new InvalidOperationException();
+            } throw new InvalidOperationException();
+        }
+      
+        public override void Update(GameTime dt)
+        {
+            base.Update(dt);
+
+
+            float ddt = (float)dt.ElapsedGameTime.TotalSeconds;
+            if (Owner != null)
+            {
+                generateRBallCD -= ddt;
+
+                if (generateRBallCD < 0)
+                {
+                    ResetGenerateRBallCD();
+                }
+            }
+        }
+
+
+    }
 }
