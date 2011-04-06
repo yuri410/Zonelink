@@ -10,6 +10,7 @@ namespace Zonelink
     {
         public static readonly string Configs = "Configs";
         public static readonly string Nature = Path.Combine(Game1.ContentDir, "Nature");
+        public static readonly string Model = Path.Combine(Game1.ContentDir, "Model");
         public static readonly string Terrain = Path.Combine(Game1.ContentDir, "Terrain");
         public static readonly string TerrainTexture = Path.Combine(Game1.ContentDir, "TerrainTexture");
 

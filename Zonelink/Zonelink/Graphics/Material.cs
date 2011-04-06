@@ -108,19 +108,19 @@ namespace Apoc3D.Graphics
         {
             DefaultMaterial = new Material();
 
-            Color clr = new Color();
-            clr.A = 1;
-            clr.B = 1;
-            clr.G = 1;
-            clr.R = 1;
+            Vector4 clr = new Vector4();
+            clr.W = 1;
+            clr.X = 1;
+            clr.Y = 1;
+            clr.Z = 1;
 
             DefaultMaterial.Ambient = clr;
             DefaultMaterial.Diffuse = clr;
             DefaultMaterial.Power = 0;
-            clr.A = 0;
-            clr.R = 0;
-            clr.G = 0;
-            clr.B = 0;
+            clr.W = 0;
+            clr.X = 0;
+            clr.Y = 0;
+            clr.Z = 0;
             DefaultMaterial.Emissive = clr;
             DefaultMaterial.Specular = clr;
 
@@ -133,10 +133,10 @@ namespace Apoc3D.Graphics
         #endregion
 
         #region Field
-        protected Color ambient;
-        protected Color diffuse;
-        protected Color specular;
-        protected Color emissive;
+        protected Vector4 ambient;
+        protected Vector4 diffuse;
+        protected Vector4 specular;
+        protected Vector4 emissive;
         protected float power;
 
 
@@ -149,25 +149,25 @@ namespace Apoc3D.Graphics
         #region 属性
 
 
-        public Color Ambient
+        public Vector4 Ambient
         {
             get { return ambient; }
             set { ambient = value; }
         }
 
-        public Color Diffuse
+        public Vector4 Diffuse
         {
             get { return diffuse; }
             set { diffuse = value; }
         }
 
-        public Color Specular
+        public Vector4 Specular
         {
             get { return specular; }
             set { specular = value; }
         }
 
-        public Color Emissive
+        public Vector4 Emissive
         {
             get { return emissive; }
             set { emissive = value; }
