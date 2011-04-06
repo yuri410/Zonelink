@@ -120,7 +120,9 @@
     <Compile Include="GameFileLocs.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="Graphics\Camera.cs" />
-    <Compile Include="Graphics\Material.cs" />
+    <Compile Include="Graphics\Material.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="Graphics\RigidModel.cs" />
     <Compile Include="Graphics\SceneObject.cs" />
     <Compile Include="Graphics\SkinnedModel.cs" />
@@ -172,6 +174,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
       <SubType>Designer</SubType>
     </Content>
+    <None Include="Configs\trees.xml">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <Content Include="Game.ico" />
     <Content Include="GameThumbnail.png" />
   </ItemGroup>

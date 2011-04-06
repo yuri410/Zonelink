@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.GamerServices;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using Microsoft.Xna.Framework.Media;
+using Code2015.EngineEx;
 
 namespace Zonelink
 {
@@ -31,6 +32,8 @@ namespace Zonelink
             Content.RootDirectory = ContentDir;
 
             RulesTable.LoadRules();
+
+            //TreeModelLibrary.Initialize(this);
 
             state = new GameState(this);
 
