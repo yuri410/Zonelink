@@ -169,7 +169,7 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Linkable>C0302, C0303</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture>Europe</Culture>
     </C0204>
     <C0205>
@@ -220,7 +220,7 @@
         <Maternal>1</Maternal>
         <Farm>1</Farm>
         <Linkable>C0307, C0308, C0105</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture>Europe</Culture>
     </C0209>
     <C0210>
@@ -245,7 +245,7 @@
         <Environment>2</Environment>
         <Hunger>1</Hunger>
         <Linkable>C0309, C0310, C0106, C0107</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture></Culture>
     </C0211>
     <C0212>
@@ -306,7 +306,7 @@
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
         <Linkable>C0203, C0204</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture>Europe</Culture>
     </C0302>
     <C0303>
@@ -334,7 +334,7 @@
         <Size>Small</Size>
         <Disease>1</Disease>
         <Linkable>C0206, C0207, C0401, C0402</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture>Africa</Culture>
     </C0305>
     <C0306>
@@ -386,7 +386,7 @@
         <Child>1</Child>
         <Hunger>1</Hunger>
         <Linkable>C0211, C0212, C0403, C0404</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture></Culture>
     </C0310>
     <C0311>

@@ -26,6 +26,9 @@ namespace Zonelink
 
         ResourceBallType[] resTypes = new ResourceBallType[4];
 
+        NatureResource[] naturalResource;
+
+
         Map map;
         //Technology techMgr;
         Player localPlayer;
@@ -60,6 +63,10 @@ namespace Zonelink
 
             //Init Cities
             LoadCities();
+
+            //Init Natural Resource
+            InitializeNaturalResource();
+
             //Load City Model
 
         }
@@ -73,15 +80,45 @@ namespace Zonelink
             {
                 City city = new City(this, null);
                 city.Parse(sect);                
-
                 cityList.Add(city);           
             }
         }
 
-        public void Update(GameTime gameTime)
+        void InitializeNaturalResource()
         {
+            GameConfiguration resCon = Utils.LoadConfig("resources.xml");    
+            GameConfiguration.ValueCollection resVals = resCon.Values;
+
+            List<NatureResource> resources = new List<NatureResource>(MaxCities);
+
+            foreach (GameConfigurationSection sect in resVals)
+            {
+                NatureResource res = new NatureResource();
+                res.Parse(sect);
+                res.Reset(100);
+                resources.Add(res);            
+            }
+            naturalResource = resources.ToArray();
+
+            for (int i = 0; i < cityList.Count; i++)
+            {
+                if ( cityList[i].Type == CityType.Oil || cityList[i].Type == CityType.Green)
+                {
+                    ((GatherCity)cityList[i]).FindResources(resources);
+                }
+            }   
+
 
         }
+
+        public void Update(GameTime gameTime)
+        {
+            foreach ( City city in cityList)
+            {
+                city.fsmMachine.Update(gameTime);
+            }
+        }
+
 
     }
 }

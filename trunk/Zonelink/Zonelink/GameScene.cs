@@ -19,7 +19,8 @@ namespace Zonelink
     {
         Game1 game;
         GameState state;
-
+        
+        
         TerrainTile[] terrainTiles;
         
         Model CityModel;
@@ -34,6 +35,11 @@ namespace Zonelink
         bool isLoaded;
 
         SkinnedModel model;
+
+        RigidModel modelSend;
+        RigidModel modelIdle;
+        RigidModel modelStopped;
+        RigidModel modelReceive;
 
 
         public RtsCamera Camera { get { return camera; } }
@@ -70,7 +76,12 @@ namespace Zonelink
 
             
             model = new SkinnedModel(game, "DudeWalk");
-          
+
+            modelSend = new RigidModel(game, "testSend");
+            modelReceive = new RigidModel(game, "testRecv");
+            modelStopped = new RigidModel(game, "testStopped");
+            modelIdle = new RigidModel(game, "testIdle");
+
 
             isLoaded = true;
         }
@@ -162,13 +173,27 @@ namespace Zonelink
             {
                 if (frus.IntersectsSphere(city.Position, city.BoundingSphere.Radius))
                 {
+                    switch (city.AnimationType)
+                    {
+                        case CityAnimationType.Stopped:
+                            DrawSkinnedModel(city.Transformation, modelReceive);
+                            break;
 
-                    DrawSkinnedModel(city.Transformation, model);
-                   
+                        case CityAnimationType.SendBall:
+                            DrawSkinnedModel(city.Transformation, modelSend);
+                            break;
+
+                        case CityAnimationType.ReceiveBall:
+                            DrawSkinnedModel(city.Transformation, modelSend);
+                            break;;
+                    }
+                                      
                 }
 
             }
         }
+
+
         public override void Draw(GameTime time)
         {
             if (!isLoaded)
@@ -201,7 +226,8 @@ namespace Zonelink
                 camera.MoveRight();
             }
 
-
+            BattleField btfld = this.state.Field;
+            btfld.Update(time);
 
             if (!model.IsPlaying)
             {
@@ -212,12 +238,21 @@ namespace Zonelink
                 model.Update(time);
             }
 
+            if (!modelReceive.IsPlaying)
+            {
+                modelReceive.Play();
+            }
+            else
+            {
+                modelReceive.Update(time);
+            }
+
+
         }
 
         private void DrawSkinnedModel(Matrix transform, SkinnedModel model)
         {
             Model m = model.Model;
-
 
             foreach (ModelMesh mesh in m.Meshes)
             {
@@ -227,15 +262,34 @@ namespace Zonelink
                     effect.Projection = camera.ProjectionMatrix;
                     effect.View = camera.ViewMatrix;
                     model.SetupEffect(effect, transform);
-                    
-                    
+                             
                     effect.SpecularColor = Vector3.Zero;
                 }
 
                 mesh.Draw();
             }
         }
-        
+
+        private void DrawSkinnedModel(Matrix transform, RigidModel model)
+        {
+            Model m = model.Model;
+
+            foreach (ModelMesh mesh in m.Meshes)
+            {
+                foreach (BasicEffect effect in mesh.Effects)
+                {
+                    effect.EnableDefaultLighting();
+                    effect.Projection = camera.ProjectionMatrix;
+                    effect.View = camera.ViewMatrix;
+                    model.SetupEffect(effect, transform, mesh);
+
+                    effect.SpecularColor = Vector3.Zero;
+                }
+
+                mesh.Draw();
+            }
+        }
+
 
     }
 }

@@ -58,7 +58,7 @@ namespace Zonelink.Graphics
         public RigidModel(Game1 game, string assetName)
         {
             // Load the skinned model
-            rigidModel = game.Content.Load<Model>(assetName);
+            rigidModel  = game.Content.Load<Model>(Path.Combine("Model", assetName));
             
             SetClipName(clipName);
             
@@ -72,7 +72,23 @@ namespace Zonelink.Graphics
                 Completed(this, EventArgs.Empty);
         }
 
-        public void SetupEffect(SkinnedEffect effect, Matrix transform)
+        //public void SetupEffect(SkinnedEffect effect, Matrix transform)
+        //{
+        //    Matrix[] boneTransforms = null;
+        //    if (rigidPlayer != null)
+        //        boneTransforms = rigidPlayer.GetBoneTransforms();
+
+        //    Matrix rootTransform = Matrix.Identity;
+        //    if (rigidRootPlayer != null)
+        //        rootTransform = rigidRootPlayer.GetCurrentTransform();
+
+        //    if (boneTransforms != null)
+        //        effect.SetBoneTransforms(boneTransforms);
+        //    effect.World = rootTransform * transform;
+        //    //effect.SpecularColor = Vector3.Zero;
+        //}
+
+        public void SetupEffect(BasicEffect effect, Matrix transform, ModelMesh mesh)
         {
             Matrix[] boneTransforms = null;
             if (rigidPlayer != null)
@@ -83,8 +99,10 @@ namespace Zonelink.Graphics
                 rootTransform = rigidRootPlayer.GetCurrentTransform();
 
             if (boneTransforms != null)
-                effect.SetBoneTransforms(boneTransforms);
-            effect.World = rootTransform * transform;
+                effect.World = boneTransforms[mesh.ParentBone.Index] * rootTransform * transform;
+            else
+                effect.World = rootTransform * transform;
+
             //effect.SpecularColor = Vector3.Zero;
         }
 
