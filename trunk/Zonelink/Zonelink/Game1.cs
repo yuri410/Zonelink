@@ -47,7 +47,6 @@ namespace Zonelink
         protected override void Initialize()
         {
             
-
             base.Initialize();
         }
 
@@ -59,12 +58,11 @@ namespace Zonelink
         {
             // Create a new SpriteBatch, which can be used to draw textures.
             spriteBatch = new SpriteBatch(GraphicsDevice);
-            
-
+         
             base.LoadContent();
 
             state.StartNewGame();
-            
+           
         }
 
         /// <summary>

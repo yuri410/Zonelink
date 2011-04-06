@@ -83,6 +83,8 @@ namespace Code2015.World
         MoveNode src;
         MoveNode target;
 
+        
+
         Map map;
         PathFinder finder;
         MovePurpose movePurpose;
@@ -101,8 +103,8 @@ namespace Code2015.World
         int currentNode;
         PathFinderResult cuurentPath;
 
-        
 
+        bool isFullLoaded;
         NatureResource exRes;
         bool isLoading;
         bool isUnloading;
@@ -113,7 +115,7 @@ namespace Code2015.World
 
 
 
-
+        public bool IsFullLoaded { get { return isFullLoaded; } set { isFullLoaded = value; } }
 
         public NatureResource ExRes
         {
@@ -271,6 +273,7 @@ namespace Code2015.World
 
                 if (loadingTime < 0)
                 {
+                    isFullLoaded = harvStorage >= props.Storage;
                     isLoading = false;
                     if (GotThere != null)
                         GotThere(this, EventArgs.Empty);

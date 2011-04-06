@@ -40,6 +40,22 @@ namespace Zonelink
         public static float GreenHarvStorage { get; private set; }
         public static float GreenHarvSpeed { get; private set; }
 
+        public const float RBallProduceBall = 100;
+
+        //每种城市的发展速度
+        public static float GreenDevelopStep { get; private set; }
+        public static float OilDevelopStep { get; private set; }
+        public static float EducationDevelopStep { get; private set; }
+        public static float HealthDevelopStep { get; private set; }
+        public static float DiseaseDevelopStep { get; private set; }
+        public static float VolienceDevelopStep { get; private set; }
+
+        //每种城市产生资源球的时间间隔
+        public static float EducationBallInterval { get; private set; }
+        public static float HealthBallInterval { get; private set; }
+        public static float DiseaseBallInterval { get; private set; }
+        public static float VolienceBallInterval { get; private set; }
+
         public static void LoadRules()
         {
    
@@ -66,12 +82,30 @@ namespace Zonelink
             OilHarvHP = sect.GetSingle("HarvHealth", 300);
             OilHarvStorage = sect.GetSingle("HarvStorage", 300);
             OilHarvSpeed = sect.GetSingle("HarvSpeed", 1);
+            OilDevelopStep = sect.GetSingle("DevelopStep", 10);
 
             sect = con["GreenCity"];
             GreenGatherDistance = sect.GetSingle("GatherDistance", 150);
             GreenHarvHP = sect.GetSingle("HarvHealth", 300);
             GreenHarvStorage = sect.GetSingle("HarvStorage", 300);
             GreenHarvSpeed = sect.GetSingle("HarvSpeed", 1);
+            GreenDevelopStep = sect.GetSingle("DevelopStep", 10);
+
+            sect = con["DiseaseCity"];
+            DiseaseDevelopStep = sect.GetSingle("DevelopStep", 10);
+            DiseaseBallInterval = sect.GetSingle("ProduceBallInterval", 20);
+
+            sect = con["VolienceCity"];
+            VolienceDevelopStep = sect.GetSingle("VolienceCity", 10);
+            VolienceBallInterval = sect.GetSingle("ProduceBallInterval", 20); 
+
+            sect = con["HealthCity"];
+            HealthDevelopStep = sect.GetSingle("HealthCity", 10);
+            HealthBallInterval = sect.GetSingle("ProduceBallInterval", 20); 
+
+            sect = con["EducationCity"];
+            EducationDevelopStep = sect.GetSingle("EducationCity", 10);
+            EducationBallInterval = sect.GetSingle("ProduceBallInterval", 20);
 
         }
 

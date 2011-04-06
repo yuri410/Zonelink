@@ -12,24 +12,29 @@ namespace Zonelink.State
     {
         public void EnterState(Entity entity)
         {
-            ((City)entity).AnimationType = CityAnimationType.Stopped;
+            City city = entity as City;
+            if (city != null)
+            {
+                city.AnimationType = CityAnimationType.Stopped;
+            }
         }
 
         public void ExecState(Entity entity, GameTime gameTime)
-        {                           
+        {  
+         
+            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
             City city = entity as City;
-            //更新城市状态Health, Development
-            if (city.Development < RulesTable.CityMaxDevelopment)
-            {
-                city.Development += RulesTable.CityDevHealthRate * city.HealthValue;
-            }
 
-            System.Console.WriteLine(city.Development);
-            //产生资源球
-            if (city.Development > 2000)
-            {
-                city.fsmMachine.ChangeState(new ProduceRBall());
-            }
+            //if (city.Owner != null)
+            //{
+                city.Develop(dt);
+                city.UpdateResource(gameTime);
+                if (city.CanProduceRBall())
+                {
+                    city.fsmMachine.ChangeState(new ProduceRBall());
+                }
+            //}         
+           
         }
 
         public void ExitState(Entity entity)
@@ -46,20 +51,19 @@ namespace Zonelink.State
     //产生资源球转台，控制动画
     class ProduceRBall : FSMState
     {
-
         #region FSMState Members
 
         public void EnterState(Entity entity)
         {
             ((City)entity).AnimationType = CityAnimationType.SendBall;
+            ((City)entity).animationPlayOver = false;
         }
 
         public void ExecState(Entity entity, GameTime gameTime)
         {
             City city = entity as City;
 
-            //转换为Send状态
-            city.AnimationType = CityAnimationType.SendBall;
+            city.ProduceBall();
 
             //产生完毕，切换状态
             if (city.animationPlayOver == true)
@@ -70,12 +74,12 @@ namespace Zonelink.State
 
         public void ExitState(Entity entity)
         {
-            throw new NotImplementedException();
+           
         }
 
         public bool OnHandleMessage(Entity entity, Message msg)
         {
-            throw new NotImplementedException();
+            return true;
         }
 
         #endregion

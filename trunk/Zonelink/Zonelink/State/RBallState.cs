@@ -12,7 +12,8 @@ namespace Zonelink.State
     {
         public  void EnterState(Entity entity)
         {
-
+            RBall ball = entity as RBall;
+            ball.IsIdle = true;
         }
 
         public  void ExecState(Entity entity, GameTime gameTime)
