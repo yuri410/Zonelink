@@ -7,7 +7,7 @@ using Code2015.World;
 
 namespace Zonelink.World
 {
-    abstract class GatherCity : City
+    class GatherCity : City
     {
         Harvester harvester;
         NatureResource exRes;
@@ -20,7 +20,7 @@ namespace Zonelink.World
 
         private List<NatureResource> nearResource = new List<NatureResource>();
 
-        public NatureResource ExWood
+        public NatureResource ExResource
         {
             get
             {
@@ -54,10 +54,10 @@ namespace Zonelink.World
 
         public void SetTargetExResource(NatureResource res)
         {
-            exRes = res;          
+            exRes = res;
         }
 
-        public  Harvester.Props getHarvProps()
+        public Harvester.Props getHarvProps()
         {
             Harvester.Props props = new Harvester.Props();
             props.HP = RulesTable.GreenHarvHP;
@@ -78,10 +78,50 @@ namespace Zonelink.World
         {
             harvester.Move(exRes.Longitude, exRes.Latitude);
             harvester.SetMovePurpose(MovePurpose.Gather);
+
+            if (!harvester.IsFullLoaded)
+            {
+                FindNewNaturalResource();
+            }
+
             harvester.ExRes = exRes;
+
+
             //harvSendWait = getHarvWaitTime();
         }
 
+
+        public override void UpdateResource(GameTime gameTime)
+        {
+            //开采资源
+            //if (this.nearResource.Count > 0)
+            //{
+            //    float take = nearResource[resourceIndex].Exploit(10);
+            //    if (take < 10)
+            //    {
+            //        FindNewNaturalResource();
+            //    }
+            //    resourceBuffer += take;
+            //}
+
+            harvester.Update(gameTime);
+
+        }
+
+        public override bool CanProduceRBall()
+        {
+            return this.resourceBuffer > RulesTable.RBallProduceBall;
+        }
+
+        //产生小球
+        public override void ProduceBall()
+        {
+            this.battleField.CreateResourceBall(this);
+            resourceBuffer -= RulesTable.RBallProduceBall;
+        }
+
+
+        //周围资源资源
         public void FindResources(List<NatureResource> resList)
         {
             for (int i = 0; i < resList.Count; i++)
@@ -91,7 +131,7 @@ namespace Zonelink.World
                 {
                     nearResource.Add(resList[i]);
                 }
-         
+
             }
             nearResource.Sort(Camparision);
         }
@@ -104,6 +144,7 @@ namespace Zonelink.World
         }
 
 
+        //寻找新的资源
         private void FindNewNaturalResource()
         {
             for (int i = 0; i < nearResource.Count; i++)
@@ -117,6 +158,13 @@ namespace Zonelink.World
         {
             this.resourceBuffer += change;
         }
+
+
+        public override void Update(GameTime gameTime)
+        {
+            base.Update(gameTime);
+        }
     }
+           
 
 }

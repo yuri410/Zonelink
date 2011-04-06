@@ -233,7 +233,7 @@
         <Gender>1</Gender>
         <Hunger>1</Hunger>
         <Linkable>C0308, C0309, C0106</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture></Culture>
     </C0210>
     <C0211>
@@ -324,7 +324,7 @@
         <Size>Small</Size>
         <Education>1</Education>
         <Linkable>C0205, C0206, C0401</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture>Africa</Culture>
     </C0304>
     <C0305>
@@ -354,7 +354,7 @@
         <Size>Medium</Size>
         <Disease>1</Disease>
         <Linkable>C0208, C0209</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture>Europe</Culture>
     </C0307>
     <C0308>
@@ -399,7 +399,7 @@
         <StartUp>2</StartUp>
         <Farm>3</Farm>
         <Linkable>C0212, C0213, C0404</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture></Culture>
     </C0311>
     <C0400>
@@ -411,7 +411,7 @@
         <Disease>1</Disease>
         <Maternal>1</Maternal>
         <Linkable>C0300, C0301, C0500</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture></Culture>
     </C0400>
     <C0401>
@@ -426,7 +426,7 @@
         <Maternal>1</Maternal>
         <Farm>1</Farm>
         <Linkable>C0304, C0305, C0501</Linkable>
-      <Type>Neutral</Type>
+      <Type>Disease</Type>
       <Culture>Africa</Culture>
     </C0401>
     <C0402>
@@ -449,7 +449,7 @@
         <Size>Medium</Size>
         <Maternal>1</Maternal>
         <Linkable>C0309, C0310, C0503, C0504</Linkable>
-      <Type>Neutral</Type>
+      <Type>Disease</Type>
       <Culture></Culture>
     </C0403>
     <C0404>
@@ -460,7 +460,7 @@
         <Child>1</Child>
         <Hunger>1</Hunger>
         <Linkable>C0310, C0311, C0504, C0505</Linkable>
-      <Type>Neutral</Type>
+      <Type>Volience</Type>
       <Culture></Culture>
     </C0404>
     <C0500>
@@ -488,7 +488,7 @@
         <Maternal>2</Maternal>
         <Farm>1</Farm>
         <Linkable>C0401, C0602</Linkable>
-      <Type>Neutral</Type>
+      <Type>Disease</Type>
       <Culture>Africa</Culture>
     </C0501>
     <C0502>
@@ -525,7 +525,7 @@
         <Maternal>1</Maternal>
         <Farm>4</Farm>
         <Linkable>C0403, C0404, C0605</Linkable>
-      <Type>Neutral</Type>
+      <Type>Volience</Type>
       <Culture></Culture>
     </C0504>
     <C0505>
@@ -546,7 +546,7 @@
         <Hunger>1</Hunger>
         <Farm>4</Farm>
         <Linkable>C0500, C0700</Linkable>
-      <Type>Neutral</Type>
+      <Type>Disease</Type>
       <Culture>American</Culture>
     </C0600>
     <C0601>
@@ -581,7 +581,7 @@
         <Gender>2</Gender>
         <Hunger>1</Hunger>
         <Maternal>2</Maternal>
-      <Type>Neutral</Type>
+      <Type>Disease</Type>
       <Linkable>C0502, C0703</Linkable>
       <Culture>Africa</Culture>
     </C0603>
@@ -606,7 +606,7 @@
         <Size>Small</Size>
         <Linkable>C0504, C0505, C0704</Linkable>
         <Farm>4</Farm>
-      <Type>Neutral</Type>
+      <Type>Disease</Type>
       <Culture></Culture>
     </C0605>
     <C0700>
@@ -654,7 +654,7 @@
         <Disease>2</Disease>
         <Education>1</Education>
         <Gender>1</Gender>
-      <Type>Neutral</Type>
+        <Type>Neutral</Type>
       <Hunger>2</Hunger>
         <Linkable>C0603, C0604, C0802, C0803</Linkable>
       <Culture>Africa</Culture>
@@ -665,7 +665,7 @@
         <Latitude>-6.818182</Latitude>
         <Size>Small</Size>
         <Linkable>C0605, C0806, C0807</Linkable>
-      <Type>Neutral</Type>
+        <Type>Neutral</Type>
       <Culture></Culture>
     </C0704>
     <C0705>
@@ -674,9 +674,9 @@
         <Latitude>-6.818182</Latitude>
         <Size>Small</Size>
         <Gender>2</Gender>
-      <Type>Neutral</Type>
-      <Linkable>C0807</Linkable>
-      <Culture></Culture>
+        <Type>Neutral</Type>
+        <Linkable>C0807</Linkable>
+        <Culture></Culture>
     </C0705>
     <C0800>
         <Name>Cuiaba</Name>
@@ -688,9 +688,9 @@
         <Maternal>1.5</Maternal>
         <StartUp>3</StartUp>
         <Farm>3</Farm>
-      <Type>Neutral</Type>
-      <Linkable>C0700, C0701, C0900</Linkable>
-      <Culture>American</Culture>
+        <Type>Volience</Type>
+        <Linkable>C0700, C0701, C0900</Linkable>
+        <Culture>American</Culture>
     </C0800>
     <C0801>
         <Name>Salvador</Name>
@@ -702,8 +702,8 @@
         <Hunger>1</Hunger>
         <Maternal>1</Maternal>
         <Linkable>C0701, C0702</Linkable>
-      <Type>Neutral</Type>
-      <Culture>American</Culture>
+        <Type>Neutral</Type>
+        <Culture>American</Culture>
     </C0801>
     <C0802>
         <Name>Huambo</Name>
@@ -715,8 +715,8 @@
         <Education>2</Education>
         <Hunger>2</Hunger>
         <Maternal>2</Maternal>
-      <Type>Neutral</Type>
-      <Farm>3</Farm>
+        <Type>Neutral</Type>
+        <Farm>3</Farm>
         <Linkable>C0703, C0901</Linkable>
       <Culture>Africa</Culture>
     </C0802>
@@ -739,7 +739,7 @@
         <Longitude>55.71428</Longitude>
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
-      <Type>Neutral</Type>
+      <Type>Education</Type>
       <Linkable>C0902, C0903</Linkable>
       <Culture></Culture>
     </C0804>
@@ -748,15 +748,15 @@
         <Longitude>74.22078</Longitude>
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
-      <Type>Neutral</Type>
-      <Linkable>C0903, C0904</Linkable>
+        <Type>Neutral</Type>
+        <Linkable>C0903, C0904</Linkable>
       <Culture></Culture>
     </C0805>
     <C0806>
         <Name>South Point</Name>
         <Longitude>111.2338</Longitude>
-      <Type>Neutral</Type>
-      <Latitude>-15.97403</Latitude>
+        <Type>Neutral</Type>
+        <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
         <Linkable>C0704, C0905, C0906</Linkable>
       <Culture></Culture>
@@ -767,8 +767,8 @@
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
         <Environment>2</Environment>
-      <Type>Neutral</Type>
-      <StartUp>4</StartUp>
+        <Type>Education</Type>
+        <StartUp>4</StartUp>
         <Farm>3</Farm>
         <Linkable>C0704, C0705, C0906, C0907</Linkable>
       <Culture></Culture>
@@ -779,8 +779,8 @@
         <Latitude>-25.32467</Latitude>
         <Size>Medium</Size>
         <Child>1</Child>
-      <Type>Neutral</Type>
-      <StartUp>3</StartUp>
+        <Type>Neutral</Type>
+        <StartUp>3</StartUp>
         <Farm>3</Farm>
         <Linkable>C0800, C1000</Linkable>
       <Culture>American</Culture>
@@ -791,8 +791,8 @@
         <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
         <Child>1</Child>
-      <Type>Neutral</Type>
-      <Disease>2</Disease>
+        <Type>Volience</Type>
+        <Disease>2</Disease>
         <Education>1</Education>
         <Hunger>1</Hunger>
         <Linkable>C0802, C0803, C1001</Linkable>
@@ -801,8 +801,8 @@
     <C0902>
         <Name>Ankillhago</Name>
         <Longitude>46.36364</Longitude>
-      <Type>Neutral</Type>
-      <Latitude>-25.32467</Latitude>
+        <Type>Education</Type>
+        <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
         <Linkable>C0803, C0804</Linkable>
       <Culture></Culture>
@@ -811,16 +811,16 @@
         <Name>Baile</Name>
         <Longitude>64.87012</Longitude>
         <Latitude>-25.32467</Latitude>
-      <Type>Neutral</Type>
-      <Size>Large</Size>
+        <Type>Neutral</Type>
+        <Size>Large</Size>
         <Linkable>C0804, C0805</Linkable>
       <Culture></Culture>
     </C0903>
     <C0904>
         <Name>Beau</Name>
         <Longitude>83.37662</Longitude>
-      <Type>Neutral</Type>
-      <Latitude>-25.32467</Latitude>
+        <Type>Neutral</Type>
+        <Latitude>-25.32467</Latitude>
         <Size>Large</Size>
         <Linkable>C0805, C1002</Linkable>
       <Culture></Culture>
@@ -829,8 +829,8 @@
         <Name>Canarvon</Name>
         <Longitude>101.8831</Longitude>
         <Latitude>-25.32467</Latitude>
-      <Type>Neutral</Type>
-      <Size>Large</Size>
+        <Type>Volience</Type>
+        <Size>Large</Size>
         <Linkable>C0806, C1002</Linkable>
       <Culture></Culture>
     </C0905>
@@ -839,8 +839,8 @@
         <Longitude>120.3896</Longitude>
         <Latitude>-25.32467</Latitude>
         <Size>Medium</Size>
-      <Type>Neutral</Type>
-      <Environment>2</Environment>
+        <Type>Neutral</Type>
+        <Environment>2</Environment>
         <StartUp>4</StartUp>
         <Farm>3</Farm>
         <Linkable>C0806, C0807</Linkable>
@@ -850,8 +850,8 @@
         <Name>Mt Isa</Name>
         <Longitude>138.8961</Longitude>
         <Latitude>-25.32467</Latitude>
-      <Type>Neutral</Type>
-      <Size>Medium</Size>
+        <Type>Neutral</Type>
+        <Size>Medium</Size>
         <Environment>2</Environment>
         <StartUp>4</StartUp>
         <Farm>3</Farm>
@@ -862,8 +862,8 @@
         <Name>Montevideo</Name>
         <Longitude>-55.32467</Longitude>
         <Latitude>-34.67532</Latitude>
-      <Type>Neutral</Type>
-      <Size>Medium</Size>
+        <Type>Neutral</Type>
+        <Size>Medium</Size>
         <Child>1</Child>
         <StartUp>3</StartUp>
         <Farm>3</Farm>
@@ -874,8 +874,8 @@
         <Name>Cape Town</Name>
         <Longitude>18.7013</Longitude>
         <Latitude>-34.67532</Latitude>
-      <Type>Neutral</Type>
-      <Size>Large</Size>
+        <Type>Neutral</Type>
+        <Size>Large</Size>
         <Disease>2</Disease>
         <Hunger>1</Hunger>
         <Farm>3</Farm>
@@ -886,8 +886,8 @@
         <Name>Perth</Name>
         <Longitude>92.72727</Longitude>
         <Latitude>-34.67532</Latitude>
-      <Type>Neutral</Type>
-      <Size>Large</Size>
+        <Type>Neutral</Type>
+        <Size>Large</Size>
         <Linkable>C0904, C0905</Linkable>
       <Culture></Culture>
     </C1002>
@@ -895,8 +895,8 @@
         <Name>Sydney</Name>
         <Longitude>148.2467</Longitude>
         <Latitude>-34.67532</Latitude>
-      <Type>Neutral</Type>
-      <Size>Large</Size>
+        <Type>Neutral</Type>
+        <Size>Large</Size>
         <Environment>2</Environment>
         <StartUp>4</StartUp>
         <Farm>3</Farm>
@@ -905,8 +905,8 @@
     </C1003>
     <C1100>
         <Name>Trelew</Name>
-      <Type>Neutral</Type>
-      <Longitude>-64.67532</Longitude>
+        <Type>Education</Type>
+        <Longitude>-64.67532</Longitude>
         <Latitude>-43.63636</Latitude>
         <Size>Large</Size>
         <StartUp>3</StartUp>

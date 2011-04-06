@@ -20,21 +20,29 @@ namespace Zonelink
         Game1 game;
         GameState state;
         
-        
+#region  Terrain
         TerrainTile[] terrainTiles;
+        TerrainMaterialLibrary terrainLibrary;
+        Effect terrainEffect;
+#endregion
+      
         
+
+
         Model CityModel;
         Matrix[] CityModelTransforms;
         BasicEffect basicEffect;
-
+    
 
         RtsCamera camera;
 
-        TerrainMaterialLibrary terrainLibrary;
-        Effect terrainEffect;
+        
         bool isLoaded;
 
         SkinnedModel model;
+
+
+        
 
         RigidModel modelSend;
         RigidModel modelIdle;
@@ -80,11 +88,12 @@ namespace Zonelink
             modelSend = new RigidModel(game, "testSend");
             modelReceive = new RigidModel(game, "testRecv");
             modelStopped = new RigidModel(game, "testStopped");
-            modelIdle = new RigidModel(game, "testIdle");
-
+            modelIdle = new RigidModel(game, "testIdle");         
 
             isLoaded = true;
         }
+
+       
 
         private void LoadTerrain()
         {
@@ -115,7 +124,6 @@ namespace Zonelink
             }
             terrainEffect.Dispose();
         }
-
 
 
         private void DrawTerrain(GameTime time)
@@ -164,7 +172,7 @@ namespace Zonelink
         private void DrawBattleField(GameTime time)
         {
             Frustum frus = camera.Frustum;
-
+            
             BattleField btfld = state.Field;
 
 
@@ -176,15 +184,20 @@ namespace Zonelink
                     switch (city.AnimationType)
                     {
                         case CityAnimationType.Stopped:
-                            DrawSkinnedModel(city.Transformation, modelReceive);
+                            DrawRigidModel(city.Transformation, this.state.Field.CityModelStopped[city]);
+                            
                             break;
 
                         case CityAnimationType.SendBall:
-                            DrawSkinnedModel(city.Transformation, modelSend);
+                            DrawRigidModel(city.Transformation, this.state.Field.CityModelSend[city]);
+                            if (modelStopped.IsPlaying == false)
+                            {
+                                city.animationPlayOver = true;
+                            }
                             break;
 
                         case CityAnimationType.ReceiveBall:
-                            DrawSkinnedModel(city.Transformation, modelSend);
+                            DrawRigidModel(city.Transformation, this.state.Field.CityModelReceive[city]);
                             break;;
                     }
                                       
@@ -192,7 +205,6 @@ namespace Zonelink
 
             }
         }
-
 
         public override void Draw(GameTime time)
         {
@@ -229,31 +241,52 @@ namespace Zonelink
             BattleField btfld = this.state.Field;
             btfld.Update(time);
 
-            if (!model.IsPlaying)
+            //if (!model.IsPlaying)
+            //{
+            //    model.Play();
+            //}
+            //else
+            //{
+            //    model.Update(time);
+            //}
+
+            if (!modelStopped.IsPlaying)
             {
-                model.Play();
+                modelStopped.Play();
             }
             else
             {
-                model.Update(time);
+                modelStopped.Update(time);
             }
 
-            if (!modelReceive.IsPlaying)
+            if (!modelSend.IsPlaying)
             {
-                modelReceive.Play();
+                modelSend.Play();
             }
             else
             {
-                modelReceive.Update(time);
+                modelSend.Update(time);
             }
+
+
+
+            //if (!modelReceive.IsPlaying)
+            //{
+            //    modelReceive.Play();
+            //}
+            //else
+            //{
+            //    modelReceive.Update(time);
+            //}
 
 
         }
 
         private void DrawSkinnedModel(Matrix transform, SkinnedModel model)
         {
+            
             Model m = model.Model;
-
+            
             foreach (ModelMesh mesh in m.Meshes)
             {
                 foreach (SkinnedEffect effect in mesh.Effects)
@@ -270,7 +303,7 @@ namespace Zonelink
             }
         }
 
-        private void DrawSkinnedModel(Matrix transform, RigidModel model)
+        private void DrawRigidModel(Matrix transform, RigidModel model)
         {
             Model m = model.Model;
 

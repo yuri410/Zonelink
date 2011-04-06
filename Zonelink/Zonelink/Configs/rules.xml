@@ -20,11 +20,29 @@
     <HarvHealth>150</HarvHealth>
     <HarvStorage>7.5</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
+    <DevelopStep>10</DevelopStep>
   </OilCity>
   <GreenCity>
     <GatherDistance>150</GatherDistance>
     <HarvHealth>150</HarvHealth>
     <HarvStorage>7.5</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
+    <DevelopStep>10</DevelopStep>
   </GreenCity>
+  <DiseaseCity>
+    <ProduceBallInterval>10</ProduceBallInterval>
+    <DevelopStep>10</DevelopStep>
+  </DiseaseCity>
+  <VolienceCity>
+    <ProduceBallInterval>20</ProduceBallInterval>
+    <DevelopStep>10</DevelopStep>
+  </VolienceCity>
+  <HealthCity>
+    <ProduceBallInterval>10</ProduceBallInterval>
+    <DevelopStep>10</DevelopStep>
+  </HealthCity>
+  <EducationCity>
+    <ProduceBallInterval>5</ProduceBallInterval>
+    <DevelopStep>10</DevelopStep>
+  </EducationCity>
 </Rules>
