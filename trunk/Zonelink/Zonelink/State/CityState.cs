@@ -15,7 +15,7 @@ namespace Zonelink.State
             City city = entity as City;
             if (city != null)
             {
-                city.AnimationType = CityAnimationType.Stopped;
+                city.AnimationType = CityAnimationState.Stopped;
             }
         }
 
@@ -55,7 +55,7 @@ namespace Zonelink.State
 
         public void EnterState(Entity entity)
         {
-            ((City)entity).AnimationType = CityAnimationType.SendBall;
+            ((City)entity).AnimationType = CityAnimationState.SendBall;
             ((City)entity).animationPlayOver = false;
         }
 

@@ -61,6 +61,7 @@ namespace Code2015.World
 
     class Harvester : SceneObject
     {
+        public const int NumModels = 30;
         /// <summary>
         ///  矿车属性
         /// </summary>
@@ -73,7 +74,7 @@ namespace Code2015.World
 
         Props props;
         //Model model;
-        //int mdlIndex;
+        int mdlIndex;
         GatherCity parent;
         Matrix orientation = Matrix.Identity;
         Vector3 position;
@@ -89,7 +90,6 @@ namespace Code2015.World
         PathFinder finder;
         MovePurpose movePurpose;
 
-        float harvStorage;
 
 
         int destX;
@@ -103,14 +103,18 @@ namespace Code2015.World
         int currentNode;
         PathFinderResult cuurentPath;
 
+        #region 仓库
+        float harvStorage;
 
         bool isFullLoaded;
         NatureResource exRes;
         bool isLoading;
         bool isUnloading;
         float loadingTime;
-
-
+        #endregion
+        /// <summary>
+        /// 矿车当前的生命值
+        /// </summary>
         float currentHp;
 
 
@@ -122,6 +126,11 @@ namespace Code2015.World
             get { return exRes; }
             set { exRes = value; }
         }
+
+        public Vector3 Position 
+        {
+            get { return position; }
+        }
         public float Longtitude
         {
             get { return longtitude; }
@@ -132,6 +141,7 @@ namespace Code2015.World
             get { return latitude; }
             set { latitude = value; }
         }
+        public int ModelIndex { get { return mdlIndex; } }
 
         public Props GetProps() { return props; }
         public void SetProps(Props p)
@@ -183,7 +193,28 @@ namespace Code2015.World
         {
             this.movePurpose = purpose;
         }
-        
+
+        public void SetPosition(float longtitude, float latitude)
+        {
+            Point pt;
+            Map.GetMapCoord(longtitude, latitude, out pt.X, out pt.Y);
+            Point pt2 = pt;
+            pt2.X++;
+
+            Quaternion q = GetOrientation(pt, pt2);
+            orientation = Matrix.CreateFromQuaternion(q);
+
+            this.longtitude = longtitude;
+            this.latitude = latitude;
+            //float altitude = map.GetHeight(longtitude, latitude);
+
+            //position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
+
+            //Matrix.CreateTranslation(ref position, out Transformation);
+            //Matrix.Multiply(ref orientation, ref Transformation, out Transformation);
+
+
+        }
 
         void move(float lng, float lat)
         {
@@ -224,7 +255,7 @@ namespace Code2015.World
             currentNode = 0;
             currentPrg = 0;
         }
-
+        
         Quaternion GetOrientation(Point pa, Point pb)
         {
             float alng;
@@ -390,15 +421,15 @@ namespace Code2015.World
 
                     altitude = MathEx.LinearInterpose(src.Alt, target.Alt, currentPrg);
 
-                    //if (altitude < 0)
-                    //    mdlIndex++;
-                    //else
-                    //    mdlIndex--;
+                    if (altitude < 0)
+                        mdlIndex++;
+                    else
+                        mdlIndex--;
 
-                    //if (mdlIndex < 0)
-                    //    mdlIndex = 0;
-                    //if (mdlIndex >= model.Length)
-                    //    mdlIndex = model.Length - 1;
+                    if (mdlIndex < 0)
+                        mdlIndex = 0;
+                    if (mdlIndex >= NumModels)
+                        mdlIndex = NumModels - 1;
 
                     //ModelL0 = model[mdlIndex];
 

@@ -15,6 +15,24 @@
     <LoadingSpeed>2.5</LoadingSpeed>
     <LoadingTime>3</LoadingTime>
   </HarvCommon>
+  <OilBall>
+    <Cost>15</Cost>
+  </OilBall>
+  <GreebBall>
+    <Cost>15</Cost>
+  </GreebBall>
+  <EducationBall>
+    <GenInterval>15</GenInterval>
+  </EducationBall>
+  <HealthBall>
+    <GenInterval>15</GenInterval>
+  </HealthBall>
+  <DiseaseBall>
+    <GenInterval>15</GenInterval>
+  </DiseaseBall>
+  <VolienceBall>
+    <GenInterval>15</GenInterval>
+  </VolienceBall>
   <OilCity>
     <GatherDistance>150</GatherDistance>
     <HarvHealth>150</HarvHealth>
@@ -32,7 +50,7 @@
   <DiseaseCity>
     <ProduceBallInterval>10</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
-  </DiseaseCity>
+</DiseaseCity>
   <VolienceCity>
     <ProduceBallInterval>20</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
@@ -40,7 +58,7 @@
   <HealthCity>
     <ProduceBallInterval>10</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
-  </HealthCity>
+</HealthCity>
   <EducationCity>
     <ProduceBallInterval>5</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>

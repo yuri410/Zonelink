@@ -23,7 +23,7 @@ namespace Zonelink
     /// </summary>
     class BattleField
     {
-        const int MaxCities = 120;
+        public const int MaxCities = 120;
 
         ResourceBallType[] resTypes = new ResourceBallType[4];
 
@@ -34,31 +34,20 @@ namespace Zonelink
         Map map;
         //Technology techMgr;
         Player localPlayer;
+        Player[] aiPlayers;
 
         Game1 game;
-   
-#region CityModel
-        //cityXML中读取的城市
+
         List<City> cityList = new List<City>(MaxCities);
-        Dictionary<City, RigidModel> cityModelStopped;
-        Dictionary<City, RigidModel> cityModelIdle;
-        Dictionary<City, RigidModel> cityModelSend;
-        Dictionary<City, RigidModel> cityModelReceive;
-
-        //GameScene渲染需要访问
-        public Dictionary<City, RigidModel> CityModelStopped { get { return cityModelStopped; } }
-        public Dictionary<City, RigidModel> CityModelIdle { get { return cityModelIdle; } }
-        public Dictionary<City, RigidModel> CityModelSend { get { return cityModelSend; } }
-        public Dictionary<City, RigidModel> CityModelReceive { get { return cityModelReceive; } }
-
-#endregion
-
-       
 
         public Map Map { get { return map; } }
         public List<City> Cities
         {
             get { return cityList; }
+        }
+        public NatureResource[] NaturalResources 
+        {
+            get { return naturalResource; }
         }
                        
         public int CityCount
@@ -80,7 +69,6 @@ namespace Zonelink
             //Init Cities
             LoadCities();
 
-            LoadCityModel();
 
             //Init Natural Resource
             InitializeNaturalResource();
@@ -98,8 +86,8 @@ namespace Zonelink
             foreach (GameConfigurationSection sect in resVals)
             {
                 City city;
-                type = sect.GetString("Type", string.Empty);
-                if (type == "Green" || type == "oil")
+                type = sect.GetString("Type", string.Empty).ToLowerInvariant();
+                if (type == "green" || type == "oil")
                 {
                     city = new GatherCity(this, null);
                 }
@@ -108,26 +96,11 @@ namespace Zonelink
                     city = new City(this, null);
                 }
                 city.Parse(sect);
+                
                 cityList.Add(city);
             }
         }
 
-        private void LoadCityModel()
-        {
-            this.cityModelSend = new Dictionary<City, RigidModel>(CityCount);
-            this.cityModelStopped = new Dictionary<City, RigidModel>(CityCount);
-            this.cityModelReceive = new Dictionary<City, RigidModel>(CityCount);
-            this.cityModelIdle = new Dictionary<City, RigidModel>(CityCount);
-
-            foreach (City city in this.Cities)
-            {
-                this.cityModelSend.Add(city, new RigidModel(game, "testSend"));
-                this.cityModelStopped.Add(city, new RigidModel(game, "testStopped"));
-                this.cityModelIdle.Add(city, new RigidModel(game, "testIdle"));
-                this.cityModelReceive.Add(city, new RigidModel(game, "testRecv"));
-            }
-
-        }
         #endregion
 
        
@@ -173,42 +146,12 @@ namespace Zonelink
             {
                 city.Update(gameTime);
 
-                if (!this.cityModelIdle[city].IsPlaying)
-                {
-                    this.cityModelIdle[city].Play();
-                }
-                else
-                {
-                    this.cityModelIdle[city].Update(gameTime);
-                }
 
-                if (!this.cityModelStopped[city].IsPlaying)
-                {
-                    this.cityModelStopped[city].Play();
-                }
-                else
-                {
-                    this.cityModelStopped[city].Update(gameTime);
-                }
+            }
 
-                if (!this.cityModelSend[city].IsPlaying)
-                {
-                    this.cityModelSend[city].Play();
-                }
-                else
-                {
-                    this.cityModelSend[city].Update(gameTime);
-                }
-
-                if (!this.cityModelReceive[city].IsPlaying)
-                {
-                    this.cityModelReceive[city].Play();
-                }
-                else
-                {
-                    this.cityModelReceive[city].Update(gameTime);
-                }
-
+            for (int i = 0; i < naturalResource.Length; i++) 
+            {
+                naturalResource[i].Update(gameTime);
             }
         }
 

@@ -38,7 +38,20 @@ namespace Zonelink.MathLib
 
             return result;
         }
-
+        public static void Vec3TransformSimple(ref Vector3 vector, ref Matrix transformation, out Vector3 result)
+        {
+            result.X = vector.X * transformation.M11 + vector.Y * transformation.M21 + vector.Z * transformation.M31 + transformation.M41;
+            result.Y = vector.X * transformation.M12 + vector.Y * transformation.M22 + vector.Z * transformation.M32 + transformation.M42;
+            result.Z = vector.X * transformation.M13 + vector.Y * transformation.M23 + vector.Z * transformation.M33 + transformation.M43;
+        }
+        public static Vector3 Vec3TransformSimple(Vector3 position, Matrix matrix)
+        {
+            Vector3 vector;
+            vector.X = position.X * matrix.M11 + position.Y * matrix.M21 + position.Z * matrix.M31 + matrix.M41;
+            vector.Y = position.X * matrix.M12 + position.Y * matrix.M22 + position.Z * matrix.M32 + matrix.M42;
+            vector.Z = position.X * matrix.M13 + position.Y * matrix.M23 + position.Z * matrix.M33 + matrix.M43;
+            return vector;
+        }
         public static int Sqr(int p) { return p * p; }
         public static float Sqr(float p)
         {
@@ -62,5 +75,6 @@ namespace Zonelink.MathLib
         {
             return (f2 - f1) * amount + f1;
         }
+       
     }
 }

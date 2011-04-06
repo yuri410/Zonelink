@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using Zonelink.State;
+using Microsoft.Xna.Framework;
 
 namespace Zonelink.World
 {
@@ -62,13 +62,13 @@ namespace Zonelink.World
                 case CityType.Green:
                     {
                         this.TypeId = RBallType.Green;
-                        this.fsmMachine.CurrentState = new RStayState();
+                        //this.fsmMachine.CurrentState = new RStayState();
                         break;
                     }
                 case CityType.Oil:
                     {
                         this.TypeId = RBallType.Oil;
-                        this.fsmMachine.CurrentState = new RStayState();
+                        //this.fsmMachine.CurrentState = new RStayState();
                         break;
                     }
 
@@ -83,7 +83,7 @@ namespace Zonelink.World
             throw new NotImplementedException();
         }
 
-        public override void Update(Microsoft.Xna.Framework.GameTime dt)
+        public override void Update(GameTime dt)
         {
             throw new NotImplementedException();
         }
