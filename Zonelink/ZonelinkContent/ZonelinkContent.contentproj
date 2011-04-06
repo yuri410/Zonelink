@@ -114,6 +114,70 @@
       <Processor>SkinnedModelProcessor</Processor>
       <ProcessorParameters_DefaultEffect>SkinnedEffect</ProcessorParameters_DefaultEffect>
     </Compile>
+    <Compile Include="Model\testIdle.FBX">
+      <Name>testIdle</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimatedModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\testRecv.FBX">
+      <Name>testRecv</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimatedModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\testSend.FBX">
+      <Name>testSend</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimatedModelProcessor</Processor>
+    </Compile>
+    <Compile Include="Model\testStopped.FBX">
+      <Name>testStopped</Name>
+      <Importer>FbxImporter</Importer>
+      <Processor>AnimatedModelProcessor</Processor>
+    </Compile>
+    <None Include="Nature\density.raw">
+      <Name>density</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\grad.raw">
+      <Name>grad</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\mapHeight.raw">
+      <Name>mapHeight</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant0.raw">
+      <Name>plant0</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant1.raw">
+      <Name>plant1</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant2.raw">
+      <Name>plant2</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant3.raw">
+      <Name>plant3</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant4.raw">
+      <Name>plant4</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant5.raw">
+      <Name>plant5</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant6.raw">
+      <Name>plant6</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+    <None Include="Nature\plant7.raw">
+      <Name>plant7</Name>
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Include="Terrain\terrain_l1.tdmp">
       <Name>terrain_l1</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
@@ -129,6 +193,7 @@
       <Name>AnimationLoader</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

@@ -49,8 +49,12 @@ namespace Zonelink.World
             return fsmMachine.HandleMessage(msg);
         }
 
+        //更新状态
+        public override void Update(GameTime dt)
+        {
+            this.fsmMachine.Update(dt);
+        }
 
-      
 
         //资源解析
         public virtual void Parse(GameConfigurationSection sect)

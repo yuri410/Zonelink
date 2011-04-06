@@ -12,6 +12,23 @@ namespace Zonelink.World
         Harvester harvester;
         NatureResource exRes;
 
+        int resourceIndex = 0;
+        float resourceBuffer;
+
+        //资源搜索范围
+        float gatherDistance;
+
+        private List<NatureResource> nearResource = new List<NatureResource>();
+
+        public NatureResource ExWood
+        {
+            get
+            {
+                if (nearResource.Count == 0)
+                    return null;
+                return nearResource[resourceIndex];
+            }
+        }
 
 
         public GatherCity(BattleField btfld, Player owner)
@@ -23,17 +40,31 @@ namespace Zonelink.World
 
             Harvester.Props hprop = getHarvProps();
             harvester.SetProps(hprop);
+
+            if (this.Type == CityType.Oil)
+            {
+                gatherDistance = RulesTable.OilGatherDistance;
+            }
+            else if (this.Type == CityType.Green)
+            {
+                gatherDistance = RulesTable.GreenGatherDistance;
+            }
+
         }
 
         public void SetTargetExResource(NatureResource res)
         {
-            exRes = res;
-            
+            exRes = res;          
         }
 
-        public abstract void NotifyGotResource(float res);
-
-        protected abstract Harvester.Props getHarvProps();
+        public  Harvester.Props getHarvProps()
+        {
+            Harvester.Props props = new Harvester.Props();
+            props.HP = RulesTable.GreenHarvHP;
+            props.Speed = RulesTable.GreenHarvSpeed;
+            props.Storage = RulesTable.GreenHarvStorage;
+            return props;
+        }
 
         void Harv_Dest(object sender, EventArgs e)
         {
@@ -50,168 +81,42 @@ namespace Zonelink.World
             harvester.ExRes = exRes;
             //harvSendWait = getHarvWaitTime();
         }
-       
-
-        public override void Update(GameTime dt)
-        {
-            base.Update(dt);
-
-            harvester.Update(dt);
-
-
-        }
-    }
-    class OilCity : GatherCity
-    {
-        //public static readonly float GatherDistance = RulesTable.OilGatherDistance;
-        int oilIndex = 0;
-        float oilBuffer;
-
-        private List<NatureResource> nearOil = new List<NatureResource>();
-
-
-        public OilCity(BattleField btfld, Player owner)
-            : base(btfld, owner)
-        {
-
-        }
-
-        public override void NotifyGotResource(float res)
-        {
-            oilBuffer += res;
-        }
-        protected override Harvester.Props getHarvProps()
-        {
-            Harvester.Props props = new Harvester.Props();
-            props.HP = RulesTable.OilHarvHP;
-            props.Speed = RulesTable.OilHarvSpeed;
-            props.Storage = RulesTable.OilHarvStorage;
-            return props;
-        }
-        
-        void FindNewOil()
-        {
-            for (int i = 0; i < nearOil.Count; i++)
-            {
-                if (nearOil[i].CurrentAmount > 0)
-                    oilIndex = i;
-            }
-        }
-
-
-
-        int Camparision(NatureResource a, NatureResource b)
-        {
-            float da = Vector3.DistanceSquared(a.Position, this.Position);
-            float db = Vector3.DistanceSquared(b.Position, this.Position);
-            return da.CompareTo(db);
-        }
 
         public void FindResources(List<NatureResource> resList)
         {
             for (int i = 0; i < resList.Count; i++)
             {
                 float d = Vector3.Distance(resList[i].Position, this.Position);
-                if (d < RulesTable.OilGatherDistance)
+                if (d < gatherDistance)
                 {
-                    if (resList[i].Type == NatureResourceType.Oil)
-                    {
-                        nearOil.Add(resList[i]);
-                    }
-
+                    nearResource.Add(resList[i]);
                 }
+         
             }
-            nearOil.Sort(Camparision);
+            nearResource.Sort(Camparision);
         }
 
-        public override void Update(GameTime dt)
+        private int Camparision(NatureResource a, NatureResource b)
         {
-            base.Update(dt);
-
-            // 资源足够就造一个球
-        }
-    }
-
-    class GreenCity : GatherCity
-    {
-
-
-        int woodIndex = 0;
-
-        float woodBuffer;
-        //周围自然资源
-        private List<NatureResource> nearWood = new List<NatureResource>();
-
-        public override void NotifyGotResource(float res)
-        {
-            woodBuffer += res;
-        }
-        protected override Harvester.Props getHarvProps()
-        {
-            Harvester.Props props = new Harvester.Props();
-            props.HP = RulesTable.GreenHarvHP;
-            props.Speed = RulesTable.GreenHarvSpeed;
-            props.Storage = RulesTable.GreenHarvStorage;
-            return props;
-        }
-        public GreenCity(BattleField btfld, Player owner)
-            : base(btfld, owner)
-        {
-
-        }
-
-
-
-        public NatureResource ExWood
-        {
-            get
-            {
-                if (nearWood.Count == 0)
-                    return null;
-                return nearWood[woodIndex];
-            }
-        }
-
-
-        void FindNewWood()
-        {
-            for (int i = 0; i < nearWood.Count; i++)
-            {
-                if (nearWood[i].CurrentAmount > 0)
-                    woodIndex = i;
-            }
-        }
-
-        int Camparision(NatureResource a, NatureResource b)
-        {
-            float da = Vector3.DistanceSquared(a.Position, this.Position);
-            float db = Vector3.DistanceSquared(b.Position, this.Position);
+            float da = Vector3.DistanceSquared(a.Position, b.Position);
+            float db = Vector3.DistanceSquared(b.Position, b.Position);
             return da.CompareTo(db);
         }
 
-        public void FindResources(List<NatureResource> resList)
+
+        private void FindNewNaturalResource()
         {
-            for (int i = 0; i < resList.Count; i++)
+            for (int i = 0; i < nearResource.Count; i++)
             {
-                float d = Vector3.Distance(resList[i].Position, this.Position);
-                if (d < RulesTable.GreenGatherDistance)
-                {
-                    if (resList[i].Type == NatureResourceType.Wood)
-                    {
-                        nearWood.Add(resList[i]);
-                    }
-                }
+                if (nearResource[i].CurrentAmount > 0)
+                    resourceIndex = i;
             }
-            nearWood.Sort(Camparision);
         }
 
-        public override void Update(GameTime dt)
+        public void NotifyGotResource(float change)
         {
-            base.Update(dt);
-
-            // 资源足够就造一个球
+            this.resourceBuffer += change;
         }
     }
-
 
 }

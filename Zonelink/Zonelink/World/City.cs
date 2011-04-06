@@ -28,6 +28,13 @@ namespace Zonelink.World
         Education
     }
 
+    enum CityAnimationType
+    {
+        Stopped,
+        SendBall,
+        ReceiveBall
+    }
+
 
     /// <summary>
     ///  表示游戏世界中的城市
@@ -42,13 +49,18 @@ namespace Zonelink.World
         BattleField battleField;
 
         //城市类型
-        public CityType Type { get; private set; }
+        public CityType Type { get; protected set; }
 
         //城市名称
-        public string Name { get; set; } 
+        public string Name { get; set; }
 
-        public float HealthValue { get; private set; }
-        public float Development { get; private set; }
+        //动画状态，由状态机改变
+        public CityAnimationType AnimationType { get; set; }
+        public bool animationPlayOver { get; set; }
+
+        public float HealthValue { get; set; }
+        public float Development { get; set; }
+
         public float HPRate
         {
             get { return HealthValue / Development; }
@@ -81,7 +93,14 @@ namespace Zonelink.World
             : base(owner)
         {
             this.battleField = btfld;
-        }
+
+            this.HealthValue = 1000;
+            //进去默认状态
+            this.fsmMachine.CurrentState = new CityDevelopmentState();
+
+            
+        }  
+
 
         int Camparision(NatureResource a, NatureResource b)
         {
@@ -96,7 +115,6 @@ namespace Zonelink.World
         //{
         //    nearbyBallList.Add( Technology.Instance.CreateRBall(this) ) ;
         //}
-
 
         public void Develop(float v)
         {
@@ -160,11 +178,6 @@ namespace Zonelink.World
            
         }
 
-        public override void Update(GameTime dt)
-        {
-           //更新Transform
-
-            
-        }
+       
     }
 }

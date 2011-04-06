@@ -5,6 +5,7 @@ using System.Text;
 using Apoc3D;
 using Code2015.EngineEx;
 using Apoc3D.Config;
+using System.IO;
 
 namespace Zonelink
 {
@@ -41,7 +42,8 @@ namespace Zonelink
 
         public static void LoadRules()
         {
-            GameConfiguration con = Utils.LoadConfig("rules.xml");
+   
+            GameConfiguration con = Utils.LoadConfig("rules.xml"); 
             ConfigurationSection sect = con["CityCommon"];
 
             CityMaxDevelopment = sect.GetSingle("MaxDevelopment", 10000);

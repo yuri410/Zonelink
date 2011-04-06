@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Code2015.EngineEx;
 
 namespace Zonelink.World
 {
@@ -46,6 +47,7 @@ namespace Zonelink.World
             private set;
         }
 
+        //当前资源数量
         public float CurrentAmount
         {
             get;
@@ -64,11 +66,10 @@ namespace Zonelink.World
         }
 
 
-        public NatureResource(NatureResourceType type, Vector3 position)
+        public NatureResource()
             
         {
-            Type = type;
-            this.Position = position;
+      
         }
 
         public void Reset(float current) 
@@ -104,9 +105,7 @@ namespace Zonelink.World
             CurrentAmount = 0;
             return r;
 
-        }
-
-       
+        } 
 
         public void Update(GameTime time)
         {
@@ -128,6 +127,26 @@ namespace Zonelink.World
                     }
                     break;
             }
+        }
+
+
+        public void Parse(GameConfigurationSection sect)
+        {
+            string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
+             if (type == "wood")
+             {
+                 this.Type = NatureResourceType.Wood;
+             }
+             else if (type == "petro")
+             {
+                 this.Type = NatureResourceType.Oil;               
+             }
+
+             Longitude = sect.GetSingle("Longitude");
+             Latitude = sect.GetSingle("Latitude");
+
+             CurrentAmount = sect.GetSingle("Amount", 0);
+             MaxAmount = CurrentAmount * FTimesMaxAmount;
         }
     }
 }
