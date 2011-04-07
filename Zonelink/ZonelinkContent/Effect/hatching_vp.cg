@@ -1,0 +1,51 @@
+#include "api.cg"
+#ifdef SCAPE_CG_OPENGL
+#  pragma profileoption PosInv
+#endif
+
+const float SFUMATO_PERCENTAGE = 90;
+
+void main(float4 position: POSITION,
+          float2 texCoord: TEXCOORD0,
+          float2 hatchTexCoord: TEXCOORD1,
+          float3 normal: NORMAL,
+//          float4 color: COLOR,
+
+#ifndef SCAPE_CG_OPENGL
+          out float4 outPosition: POSITION,
+#endif
+//          out float4 outColor: COLOR,
+          out float4 outTexCoord: TEXCOORD0,
+          out float4 shadowCoord: TEXCOORD1,
+          out float3 outNormal: TEXCOORD2,
+          out float2 outAlphaAndBeta: TEXCOORD3,
+
+          uniform float4x4 modelViewProjectionMatrix,
+          uniform float4x4 modelViewMatrix,
+          uniform float4x4 modelMatrix,
+          uniform float4 cameraSettings)
+{
+  float4 clipSpacePos = mul(modelViewProjectionMatrix, position);
+#ifndef SCAPE_CG_OPENGL
+  outPosition = clipSpacePos;
+#endif
+  clipSpacePos.xy = (clipSpacePos.xy + float2(clipSpacePos.w)) * 0.5;
+  shadowCoord = clipSpacePos;
+
+  float4 viewSpacePosition = mul(modelViewMatrix, position);
+
+  float fadeFogNear = cameraSettings.x;
+  float fadeFogFar = cameraSettings.y;
+  float fadeHatchNear = cameraSettings.z;
+  float fadeHatchFar = cameraSettings.w;
+  
+  float depth = length(viewSpacePosition.xyz);
+  outAlphaAndBeta.x = clamp((depth - fadeHatchNear) / (fadeHatchFar - fadeHatchNear), 0, 1);
+  outAlphaAndBeta.y = clamp((depth - fadeFogNear) / (fadeFogFar - fadeFogNear), 0, SFUMATO_PERCENTAGE / 100.0);
+
+  outTexCoord = float4(texCoord.x, texCoord.y, hatchTexCoord.x, hatchTexCoord.y);
+
+//  outColor = color;
+  
+  outNormal = mul(float3x3(modelMatrix), normal);
+}
