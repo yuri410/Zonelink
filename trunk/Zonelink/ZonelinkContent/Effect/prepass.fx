@@ -58,3 +58,14 @@ float4 PS_Main(float4 viewSpaceNormal: TEXCOORD0,
     // put normal into rgb, shadow into alpha
     return float4(n * 0.5 + float3(0.5), shadow);
 }
+
+
+technique10 PrepassTech
+{
+    pass P0
+    {
+        SetVertexShader( CompileShader( vs_4_0, VS_Main() ) );
+        SetGeometryShader( NULL );
+        SetPixelShader( CompileShader( ps_4_0, PS_Main() ) );
+    }
+}
