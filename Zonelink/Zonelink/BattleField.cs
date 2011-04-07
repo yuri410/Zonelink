@@ -140,9 +140,9 @@ namespace Zonelink
 
         }
 
-        public void CreateResourceBall(City city)
+        public void CreateResourceBall(Player owner, City city, RBallType type)
         {
-            RBall ball = new RBall(city.Owner, city);
+            RBall ball = new RBall(owner, city, type);
             resBalls.Add(ball);
         }
 

@@ -11,7 +11,6 @@
 
 void VS_Main(float4 position: POSITION,
 			 float2 texCoord: TEXCOORD0,
-
           out float4 outPosition:  POSITION£¬
           out float4 outTexCoord1: TEXCOORD0,
           out float4 outTexCoord2: TEXCOORD1,

@@ -52,6 +52,34 @@ namespace Apoc3D
             return resCon;
         }
 
+        public static float GetRBallContribution(RBallType type)
+        {
+            switch (type)
+            {
+                case RBallType.Disease:
+                    return RulesTable.DiseaseBallContribution;
+
+                case RBallType.Health:
+                    return RulesTable.HealthBallContribution;
+
+                case RBallType.Education:
+                    return RulesTable.EducationBallContribution;
+
+                case RBallType.Oil:
+                    return RulesTable.OilBallContribution;
+
+                case RBallType.Green:
+                    return RulesTable.GreenBallContribution;
+
+                case RBallType.Volience:
+                    return RulesTable.VolienceBallContribution;
+
+               default:
+                    throw new InvalidOperationException();
+
+            }
+        }
+
         public static RBallType GetProductionType(CityType type)
         {
             switch (type)

@@ -58,6 +58,15 @@ namespace Zonelink
         public static float DiseaseDevelopStep { get; private set; }
         public static float VolienceDevelopStep { get; private set; }
 
+        //每种资源球对城市的贡献量
+        public static float OilBallContribution { get; private set; }
+        public static float GreenBallContribution { get; private set; }
+        public static float EducationBallContribution { get; private set; }
+        public static float HealthBallContribution { get; private set; }
+        public static float DiseaseBallContribution { get; private set; }
+        public static float VolienceBallContribution { get; private set; }
+
+
         public static void LoadRules()
         {
    
@@ -82,21 +91,28 @@ namespace Zonelink
             #region 各种资源球配置读取
             sect = con["OilBall"];
             OilBallCost = sect.GetSingle("Cost", 15);
+            OilBallContribution = sect.GetSingle("Contribution", 10);
 
             sect = con["GreebBall"];
             GreenBallCost = sect.GetSingle("Cost", 15);
+            GreenBallContribution = sect.GetSingle("Contribution", 10);
 
             sect = con["EducationBall"];
             EducationBallInterval = sect.GetSingle("GenInterval", 15);
+            EducationBallContribution = sect.GetSingle("Contribution", 10); 
 
             sect = con["HealthBall"];
             HealthDevelopStep = sect.GetSingle("GenInterval", 15);
+            HealthBallContribution = sect.GetSingle("Contribution", 10); ;
 
             sect = con["DiseaseBall"];
             DiseaseDevelopStep = sect.GetSingle("GenInterval", 15);
+            DiseaseBallContribution = sect.GetSingle("Contribution", 10);
 
             sect = con["VolienceBall"];
             VolienceDevelopStep = sect.GetSingle("GenInterval", 15);
+            VolienceBallContribution = sect.GetSingle("Contribution", 10); 
+
             #endregion
 
             #region 各种城市的配置读取
