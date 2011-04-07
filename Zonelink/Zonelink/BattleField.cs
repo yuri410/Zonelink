@@ -83,6 +83,7 @@ namespace Zonelink
             string type;
             GameConfiguration resCon = Utils.LoadConfig("cities.xml");
             GameConfiguration.ValueCollection resVals = resCon.Values;
+            Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
             foreach (GameConfigurationSection sect in resVals)
             {
                 City city;
@@ -96,14 +97,20 @@ namespace Zonelink
                     city = new City(this, null);
                 }
                 city.Parse(sect);
-                
+
+                resolveTable.Add(sect.Name, city);
                 cityList.Add(city);
+            }
+
+            for (int i = 0; i < cityList.Count; i++) 
+            {
+                cityList[i].ResolveCities(resolveTable);
             }
         }
 
         #endregion
 
-       
+
 
         //初始化自然资源
         void InitializeNaturalResource()

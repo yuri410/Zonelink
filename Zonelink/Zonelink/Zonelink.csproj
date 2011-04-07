@@ -139,6 +139,7 @@
     <Compile Include="Memory.cs" />
     <Compile Include="Randomizer.cs" />
     <Compile Include="ResourceBallType.cs" />
+    <Compile Include="World\BallPathFinder.cs" />
     <Compile Include="World\CityTypes.cs" />
     <Compile Include="World\Harvester.cs" />
     <Compile Include="World\RulesTable.cs" />
