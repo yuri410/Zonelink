@@ -7,6 +7,7 @@ using Code2015.World;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Zonelink.Graphics;
+using Apoc3D.Collections;
 
 namespace Zonelink.World
 {
@@ -47,13 +48,24 @@ namespace Zonelink.World
         protected BattleField battleField;
 
         CityAnimationState animationType = CityAnimationState.ReceiveBall;
-       
+
+        string[] linkableCityName;
+        FastList<City> linkableCity = new FastList<City>();
 
         //城市发展速度
         float developStep;
         float development;
         float healthValue;
 
+
+        public City GetLinkableCity(int i)
+        {
+            return linkableCity[i];
+        }
+        public int LinkableCityCount
+        {
+            get { return linkableCity.Count; }
+        }
         public CityAnimationState AnimationType { get { return animationType; } }
 
         //城市类型
@@ -164,12 +176,24 @@ namespace Zonelink.World
         }
 
 
+        public void ResolveCities(Dictionary<string, City> table)
+        {
+            if (linkableCityName == null)
+                return;
+            for (int i = 0; i < linkableCityName.Length; i++)
+            {
+                City city = table[linkableCityName[i]];
+                linkableCity.Add(city);
+            }
+        }
         public override void Parse(GameConfigurationSection sect)
         {
             base.Parse(sect);
             this.Name = sect.GetString("Name", string.Empty);
 
             StartUp = sect.GetInt("StartUp", -1);
+
+            linkableCityName = sect.GetStringArray("Linkable", null);
 
             development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
 
