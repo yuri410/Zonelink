@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Zonelink.Graphics;
 using Apoc3D.Collections;
+using Apoc3D;
 
 namespace Zonelink.World
 {
@@ -282,7 +283,7 @@ namespace Zonelink.World
                 // 计算附近同阵营资源球贡献发展量
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
-                    devIncr++;
+                    devIncr += ddt * Utils.GetRBallContribution(nearbyBallList[i].Type);
                 }
 
                 

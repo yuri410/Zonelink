@@ -45,6 +45,8 @@ namespace Apoc3D
             return (float)random.NextDouble();
         }
 
+        public static float NextFloat() { return (float)random.NextDouble(); }
+
         public unsafe static int Random(float* p, int count)
         {
             float total = 0;

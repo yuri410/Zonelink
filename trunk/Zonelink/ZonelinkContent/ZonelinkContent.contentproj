@@ -289,21 +289,6 @@
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <Compile Include="Effect\edgedetect.fx">
-      <Name>edgedetect</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Effect\hatching.fx">
-      <Name>hatching</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
-    <Compile Include="Effect\prepass.fx">
-      <Name>prepass</Name>
-      <Importer>EffectImporter</Importer>
-      <Processor>EffectProcessor</Processor>
-    </Compile>
     <None Include="Model\Harvester\cow.dds">
       <Name>cow</Name>
       <Importer>TextureImporter</Importer>

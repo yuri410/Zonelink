@@ -17,21 +17,27 @@
   </HarvCommon>
   <OilBall>
     <Cost>15</Cost>
+    <Contribution>10</Contribution>
   </OilBall>
   <GreebBall>
     <Cost>15</Cost>
+    <Contribution>10</Contribution>
   </GreebBall>
   <EducationBall>
     <GenInterval>15</GenInterval>
+    <Contribution>10</Contribution>
   </EducationBall>
   <HealthBall>
     <GenInterval>15</GenInterval>
+    <Contribution>10</Contribution>
   </HealthBall>
   <DiseaseBall>
     <GenInterval>15</GenInterval>
+    <Contribution>10</Contribution>
   </DiseaseBall>
   <VolienceBall>
     <GenInterval>15</GenInterval>
+    <Contribution>10</Contribution>
   </VolienceBall>
   <OilCity>
     <GatherDistance>150</GatherDistance>
