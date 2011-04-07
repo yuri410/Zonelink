@@ -82,7 +82,7 @@ float4 PS_Main(float4 texCoord1: TEXCOORD0,
 }
 
 
-technique10 ColorTech
+technique10 EdgeDetectTech
 {
     pass P0
     {
