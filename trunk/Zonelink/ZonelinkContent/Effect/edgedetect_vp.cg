@@ -1,0 +1,26 @@
+void main(float4 position: POSITION,
+          float2 texCoord: TEXCOORD0,
+          
+          out float4 outPosition: POSITION,
+          out float4 outTexCoord1: TEXCOORD0,
+          out float4 outTexCoord2: TEXCOORD1,
+          out float4 outTexCoord3: TEXCOORD2,
+          out float4 outTexCoord4: TEXCOORD3,
+          
+          uniform float4 normalBufferSize)
+{
+  outPosition = position;
+
+  // one pixel offset
+  float off = 1.0 / normalBufferSize.x;
+
+  // calculate all texture coords in the vertex shader to avoid pixel shader cost
+  outTexCoord1 = float4(texCoord.x - off, texCoord.y - off,
+                        texCoord.x, texCoord.y - off);
+  outTexCoord2 = float4(texCoord.x + off, texCoord.y - off,
+                        texCoord.x - off, texCoord.y);
+  outTexCoord3 = float4(texCoord.x + off, texCoord.y,
+                        texCoord.x - off, texCoord.y + off);
+  outTexCoord4 = float4(texCoord.x, texCoord.y + off,
+                        texCoord.x + off, texCoord.y + off);
+}

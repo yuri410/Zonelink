@@ -1,0 +1,18 @@
+float4 main(float4 viewSpaceNormal: TEXCOORD0,
+            float3 worldSpaceNormal: TEXCOORD1,
+            float4 shadowCoord: TEXCOORD2,
+
+            uniform sampler2D shadowMap: TEXUNIT0) : COLOR
+{
+  float3 N = normalize(worldSpaceNormal);
+  float3 L = normalize(float3(1000, 1000, 1000));
+  float diffuse = dot(N, L);
+
+  float alpha = viewSpaceNormal.w;
+  float3 n = lerp(normalize(viewSpaceNormal.xyz), float3(0, 0, 1), alpha);
+  n = normalize(n);
+  float shadow = tex2Dproj(shadowMap, shadowCoord).w;
+
+  // put normal into rgb, shadow into alpha
+  return float4(n * 0.5 + float3(0.5), shadow);
+}
