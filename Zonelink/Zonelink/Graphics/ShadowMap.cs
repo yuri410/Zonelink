@@ -178,6 +178,7 @@ namespace Apoc3D.Graphics
             this.renderSys = dev;
             //this.factory = dev.ObjectFactory;
             this.gaussBlur = dev.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffect, "blurShd"));
+            
             //this.vtxDecl = factory.CreateVertexDeclaration(RectVertex.Elements);
 
             loadUnmanagedResources();
@@ -190,30 +191,21 @@ namespace Apoc3D.Graphics
             smVp.Y = 0;
         }
 
-        void DrawSmallQuad(SpriteBatch sprite)
-        {
-            // ShadowMapLength, ShadowMapLength
-            //renderSys.RenderSimple(smallQuadOp);
-        }
+
 
         public void End(SpriteBatch sprite)
         {
             GraphicsDevice device = renderSys.GraphicsDevice;
             #region 高斯X
+
             device.SetRenderTarget(shadowRt2);
-
             sprite.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, gaussBlur);
-            //gaussBlur.Begin();
-
-
+         
             gaussBlur.Parameters["tex"].SetValue(shadowRt);
             gaussBlur.Parameters["SampleOffsets"].SetValue(guassFilter.SampleOffsetsX);
             gaussBlur.Parameters["SampleWeights"].SetValue(guassFilter.SampleWeights);
             
-            //gaussBlur.SetValue("SampleOffsets", SampleOffsetsX);
-            //gaussBlur.SetValue("SampleWeights", SampleWeights);
-
-            sprite.Draw(null, Vector2.Zero, Color.White);
+            sprite.Draw(shadowRt, Vector2.Zero, Color.White);
 
             sprite.End();
             #endregion
@@ -227,7 +219,7 @@ namespace Apoc3D.Graphics
             gaussBlur.Parameters["SampleOffsets"].SetValue(guassFilter.SampleOffsetsY);
             gaussBlur.Parameters["SampleWeights"].SetValue(guassFilter.SampleWeights);
 
-            sprite.Draw(null, Vector2.Zero, Color.White);
+            sprite.Draw(shadowRt2, Vector2.Zero, Color.White);
 
             sprite.End();
 
@@ -313,6 +305,8 @@ namespace Apoc3D.Graphics
             shadowRt2 = new RenderTarget2D(renderSys.GraphicsDevice, ShadowMapLength, ShadowMapLength, false, SurfaceFormat.Vector2, DepthFormat.Depth24Stencil8);
             
             guassFilter = new GuassBlurFilter(5, 2, ShadowMapLength, ShadowMapLength);
+
+            gaussBlur.CurrentTechnique = gaussBlur.Techniques[0];
             //#region 建立小quad
 
             //float adj = -0.5f;

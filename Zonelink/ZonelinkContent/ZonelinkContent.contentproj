@@ -289,10 +289,16 @@
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
-    <None Include="Effect\blurShd.fx">
+    <Compile Include="Effect\blurShd.fx">
       <Name>blurShd</Name>
       <Importer>EffectImporter</Importer>
-    </None>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <Compile Include="Effect\SMGen\StdGen.fx">
+      <Name>StdGen</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
     <None Include="Model\Harvester\cow.dds">
       <Name>cow</Name>
       <Importer>TextureImporter</Importer>

@@ -13,6 +13,8 @@ using Zonelink.Graphics;
 using Zonelink.MathLib;
 using Zonelink.World;
 using Apoc3D;
+using Apoc3D.Graphics;
+using Apoc3D.Collections;
 
 namespace Zonelink
 {
@@ -21,6 +23,7 @@ namespace Zonelink
         public const float OldModelScale = 3;
         Game1 game;
         GameState state;
+        SpriteBatch postSprite;
 
         #region  Terrain
         TerrainTile[] terrainTiles;
@@ -53,7 +56,9 @@ namespace Zonelink
 
         #region FX
         RenderTarget2D prepassBuffer;
-
+        ShadowMap vsm;
+        Effect stdSMGen;
+        Effect skinSMGen;
         #endregion
 
         RtsCamera camera;
@@ -92,10 +97,17 @@ namespace Zonelink
         {
             LoadTerrain();
             LoadResourceModel();
-  
+
+            LoadEffect();
             isLoaded = true;
         }
+        private void LoadEffect() 
+        {
+            postSprite = new SpriteBatch(game.GraphicsDevice);
+            vsm = new ShadowMap(game);
 
+
+        }
 
 
         private void LoadTerrain()
@@ -384,6 +396,7 @@ namespace Zonelink
 
         public override void Draw(GameTime time)
         {
+            EffectParameters.CurrentCamera = camera;
             if (!isLoaded)
                 return;
 
@@ -391,6 +404,15 @@ namespace Zonelink
             DrawBattleField(time);
         }
 
+        private void GenerateShadowMap() 
+        {
+            vsm.Begin(EffectParameters.LightDir, EffectParameters.CurrentCamera);
+
+
+
+
+            vsm.End(postSprite);
+        }
         public override void Update(GameTime time)
         {
             camera.Update(time);
