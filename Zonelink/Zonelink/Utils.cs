@@ -28,6 +28,7 @@ using System.Text;
 using Code2015.EngineEx;
 using Zonelink;
 using Zonelink.World;
+using Microsoft.Xna.Framework;
 
 namespace Apoc3D
 {
@@ -101,6 +102,24 @@ namespace Apoc3D
                     return RBallType.Green;
             } throw new InvalidOperationException();
         }
+
+
+        ///// <summary>
+        ///// 计算2D血条长度, 根据包围圈，camera 跟 Entity的位置关系计算
+        ///// </summary>
+        ///// <param name="entity"></param>
+        ///// <param name="camera"></param>
+        ///// <returns></returns>
+
+        //public static float Get2DLenth(Entity entity, RtsCamera camera)
+        //{
+        //    float distToCamera = (entity.BoundingSphere.Center - camera.Position).Length();
+        //    float distToNearPlane = camera.NearPlane;
+        //    float screenLength = 2 * entity.BoundingSphere.Radius * distToNearPlane / distToCamera;
+
+        //    return screenLength;
+
+        //}
 
         //public static string GetTempFileName() { throw new NotImplementedException(); }
     }

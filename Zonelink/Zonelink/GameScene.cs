@@ -12,6 +12,7 @@ using Microsoft.Xna.Framework.Input;
 using Zonelink.Graphics;
 using Zonelink.MathLib;
 using Zonelink.World;
+using Apoc3D;
 
 namespace Zonelink
 {
@@ -20,7 +21,7 @@ namespace Zonelink
         public const float OldModelScale = 3;
         Game1 game;
         GameState state;
-        
+
         #region  Terrain
         TerrainTile[] terrainTiles;
         TerrainMaterialLibrary terrainLibrary;
@@ -85,7 +86,7 @@ namespace Zonelink
         {
             LoadTerrain();
             LoadResourceModel();
-
+  
             isLoaded = true;
         }
 
@@ -247,9 +248,7 @@ namespace Zonelink
                             break; ;
                     }
 
-
-                }
-
+                } 
 
                 if (city.Type == CityType.Green || city.Type == CityType.Oil)
                 {
@@ -329,7 +328,6 @@ namespace Zonelink
             }
         }
 
-
         private void DrawTerrain(GameTime time)
         {
             Frustum frus = camera.Frustum;
@@ -359,7 +357,6 @@ namespace Zonelink
                         terrainEffect.Parameters["texCliff"].SetValue(terrainLibrary.CliffColor);
 
                     }
-
 
                     //float4 k_d;
                     //float4 k_a;
@@ -502,6 +499,31 @@ namespace Zonelink
         }
 
 
+        /// <summary>
+        /// 获取城市在屏幕坐标的位置区域
+        /// </summary>
+        /// <param name="city"></param>
+        /// <returns></returns>
+        private Rectangle GetCityScreenArea(City city)
+        {
+            Vector3 tangy = PlanetEarth.GetTangentY(MathHelper.ToRadians(city.Longitude),
+                MathHelper.ToRadians(city.Latitude));
 
+            Vector3 pposLeft = game.GraphicsDevice.Viewport.Project(city.Position - tangy * (RulesTable.CityRadius + 5),
+                camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+
+            Vector3 pposRight = game.GraphicsDevice.Viewport.Project(city.Position - tangy * (RulesTable.CityRadius + 5),
+               camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+
+
+            Point screenPosLeft = new Point((int)pposLeft.X, (int)pposLeft.Y);
+            int width = (int)(pposRight.X - pposRight.X);
+            int height = (int)(pposRight.Y - pposLeft.Y);
+
+            return new Rectangle(screenPosLeft.X, screenPosLeft.Y, width, height);
+        }
+
+
+       
     }
 }

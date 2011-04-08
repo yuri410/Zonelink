@@ -58,6 +58,15 @@ namespace Zonelink.MathLib
             return p * p;
         }
 
+        public static float Saturate(float value)
+        {
+            if (value < 0)
+                value = 0;
+            else if (value > 1)
+                value = 1;
+            return value;
+
+        }
 
         /// <summary>
         /// 线形插值
