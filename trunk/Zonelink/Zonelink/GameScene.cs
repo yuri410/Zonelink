@@ -106,14 +106,14 @@ namespace Zonelink
             postSprite = new SpriteBatch(game.GraphicsDevice);
             vsm = new ShadowMap(game);
 
-            terrainEffect = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffectSMGen, "TerrainEffect"));
+            terrainEffect = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffect, "TerrainEffect"));
             terrainEffect.CurrentTechnique = terrainEffect.Techniques[0];
 
             stdSMGen = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffectSMGen, "StdGen"));
-            stdSMGen.CurrentTechnique = terrainEffect.Techniques[0];
+            stdSMGen.CurrentTechnique = stdSMGen.Techniques[0];
            
             skinSMGen = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffectSMGen, "SkinGen"));
-            skinSMGen.CurrentTechnique = terrainEffect.Techniques[0];
+            skinSMGen.CurrentTechnique = skinSMGen.Techniques[0];
 
         }
 
