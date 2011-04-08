@@ -1,4 +1,4 @@
-#pragma profileoption PosInv 
+//#pragma profileoption PosInv 
 //#pragma profileoption Posinv only works in the vertex shader 
 //and causes the vertex shader to automatically match the fixed-function
 //transform for the vertex position. There is no fixed-function geometry pipeline, 
@@ -60,12 +60,11 @@ float4 PS_Main(float4 viewSpaceNormal: TEXCOORD0,
 }
 
 
-technique10 PrepassTech
+technique PrepassTech
 {
     pass P0
     {
-        SetVertexShader( CompileShader( vs_4_0, VS_Main() ) );
-        SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_4_0, PS_Main() ) );
+        VertexShader = compile vs_3_0 VS_Main();
+        PixelShader = compile ps_3_0 PS_Main();
     }
 }

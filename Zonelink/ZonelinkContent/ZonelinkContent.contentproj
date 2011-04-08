@@ -289,6 +289,10 @@
       <Importer>XImporter</Importer>
       <Processor>ModelProcessor</Processor>
     </Compile>
+    <None Include="Effect\blurShd.fx">
+      <Name>blurShd</Name>
+      <Importer>EffectImporter</Importer>
+    </None>
     <None Include="Model\Harvester\cow.dds">
       <Name>cow</Name>
       <Importer>TextureImporter</Importer>
@@ -688,6 +692,16 @@
       <Name>terrain_l2</Name>
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <Compile Include="Texture\hatch1-3RGB.dds">
+      <Name>hatch1-3RGB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
+    <Compile Include="Texture\hatch4-6RGB.dds">
+      <Name>hatch4-6RGB</Name>
+      <Importer>TextureImporter</Importer>
+      <Processor>TextureProcessor</Processor>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\AnimationLoader\AnimationLoader.csproj">
@@ -695,9 +709,7 @@
       <Name>AnimationLoader</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Texture\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\$(XnaFrameworkVersion)\Microsoft.Xna.GameStudio.ContentPipeline.targets" />
   <!--  To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

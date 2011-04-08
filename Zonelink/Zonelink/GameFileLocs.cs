@@ -24,6 +24,7 @@ namespace Zonelink
 
         public static readonly string CTexture = "Texture";
 
+        public static readonly string CEffect = "Effect";
 
     }
 }
