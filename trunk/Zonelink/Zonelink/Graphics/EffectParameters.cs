@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.Xna.Framework;
+using Apoc3D;
 
 namespace Zonelink.Graphics
 {
     static class EffectParameters
     {
+        public static ICamera CurrentCamera
+        {
+            get;
+            set;
+        }
 
         public static Vector3 LightDir = new Vector3(-1, 0, 0);
         public static Vector4 LightAmbient = new Vector4(1, .5f, .5f, .5f);
