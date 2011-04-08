@@ -24,7 +24,7 @@ namespace Zonelink
 
         #region  Terrain
         TerrainTile[] terrainTiles;
-        TerrainMaterialLibrary terrainLibrary;
+        MaterialLibrary terrainLibrary;
         Effect terrainEffect;
         #endregion
 
@@ -50,6 +50,12 @@ namespace Zonelink
         Model[] harvester;
         Matrix harvesterPremult;
         #endregion
+
+        #region FX
+        RenderTarget2D prepassBuffer;
+
+        #endregion
+
         RtsCamera camera;
 
         bool isCityModelLoaded;
@@ -94,7 +100,7 @@ namespace Zonelink
 
         private void LoadTerrain()
         {
-            terrainLibrary = new TerrainMaterialLibrary(game);
+            terrainLibrary = new MaterialLibrary(game);
             terrainLibrary.LoadTextureSet(Path.Combine(GameFileLocs.Configs, "terrainMaterial.xml"));
 
             terrainEffect = game.Content.Load<Effect>("Effect\\TerrainEffect");
@@ -388,6 +394,10 @@ namespace Zonelink
         public override void Update(GameTime time)
         {
             camera.Update(time);
+            EffectParameters.InvView = Matrix.Invert(camera.ViewMatrix);
+
+            Matrix view = Matrix.CreateRotationY(-MathHelper.Pi / 6) * EffectParameters.InvView;
+            EffectParameters.LightDir = -view.Forward;
 
             KeyboardState state = Keyboard.GetState();
 

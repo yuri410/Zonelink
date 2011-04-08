@@ -8,7 +8,6 @@ namespace Zonelink.Graphics
 {
     static class EffectParameters
     {
-        public Vector3 LightDir;
 
         public static Vector3 LightDir = new Vector3(-1, 0, 0);
         public static Vector4 LightAmbient = new Vector4(1, .5f, .5f, .5f);

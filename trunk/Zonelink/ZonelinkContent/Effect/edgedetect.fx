@@ -8,6 +8,7 @@
 //  2  0 -2      0  0  0
 //  1  0 -1     -1 -2 -1
 
+float4 normalBufferSize;
 
 void VS_Main(float4 position: POSITION,
 			 float2 texCoord: TEXCOORD0,
@@ -15,9 +16,7 @@ void VS_Main(float4 position: POSITION,
           out float4 outTexCoord1: TEXCOORD0,
           out float4 outTexCoord2: TEXCOORD1,
           out float4 outTexCoord3: TEXCOORD2,
-          out float4 outTexCoord4: TEXCOORD3,
-          
-          uniform float4 normalBufferSize)
+          out float4 outTexCoord4: TEXCOORD3)
 {
   outPosition = position;
 
@@ -81,13 +80,12 @@ float4 PS_Main(float4 texCoord1: TEXCOORD0,
 }
 
 
-technique10 EdgeDetectTech
+technique EdgeDetectTech
 {
     pass P0
     {
-        SetVertexShader( CompileShader( vs_4_0, VS_Main() ) );
-        SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_4_0, PS_Main() ) );
+        VertexShader = compile vs_3_0 VS_Main();
+        PixelShader = compile ps_3_0 PS_Main();
     }
 }
 

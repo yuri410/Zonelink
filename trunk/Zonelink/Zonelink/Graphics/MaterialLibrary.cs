@@ -34,7 +34,7 @@ using Microsoft.Xna.Framework.Graphics;
 
 namespace Code2015.EngineEx
 {
-    public class TerrainMaterialLibrary
+    public class MaterialLibrary
     {
         protected struct Entry
         {
@@ -79,6 +79,26 @@ namespace Code2015.EngineEx
             private set;
         }
 
+        public Texture2D Hatch0
+        {
+            get;
+            private set;
+        }
+        public Texture2D Hatch1
+        {
+            get;
+            private set;
+        }
+
+        private void LoadTextures()
+        {
+            string name = Path.Combine(GameFileLocs.CTexture, "hatch1-3RGB");
+            Hatch0 = game.Content.Load<Texture2D>(name);
+
+            name = Path.Combine(GameFileLocs.CTexture, "hatch4-6RGB");
+            Hatch1 = game.Content.Load<Texture2D>(name);
+
+        }
         public void LoadTextureSet(string configLoc)
         {
             GameConfiguration config = new GameConfiguration(configLoc);
@@ -124,11 +144,11 @@ namespace Code2015.EngineEx
 
             name = Path.Combine(GameFileLocs.CTerrainTexture, "cliff");
             CliffColor = game.Content.Load<Texture2D>(name);
-
+            LoadTextures();
 
         }
 
-        public TerrainMaterialLibrary(Game1 device)
+        public MaterialLibrary(Game1 device)
         {
             this.game = device;
             this.detailedMaps = new Dictionary<string, Entry>(CaseInsensitiveStringComparer.Instance);

@@ -1,7 +1,7 @@
-#include "api.cg"
-#ifdef SCAPE_CG_OPENGL
-#  pragma profileoption PosInv
-#endif
+////#include "api.cg"
+//#ifdef SCAPE_CG_OPENGL
+//#  pragma profileoption PosInv
+//#endif
 
 
 float4x4 modelViewProjectionMatrix;
@@ -12,6 +12,21 @@ float4 cameraSettings;
 
 const float SFUMATO_PERCENTAGE = 90;
 
+struct VSInput
+{
+    float4 position: POSITION,
+    float2 texCoord: TEXCOORD0,
+	float2 hatchTexCoord: TEXCOORD1,
+	float3 normal: NORMAL
+};
+struct VS_Output
+{
+	float4 Position: POSITION,
+	float4 TexCoord: TEXCOORD0,
+	float4 shadowCoord: TEXCOORD1,
+	float3 Normal: TEXCOORD2,
+	float2 AlphaAndBeta: TEXCOORD3
+};
 
 void VS_Main(float4 position: POSITION,
           float2 texCoord: TEXCOORD0,
@@ -19,9 +34,9 @@ void VS_Main(float4 position: POSITION,
           float3 normal: NORMAL,
 //        float4 color: COLOR,
 
-#ifndef SCAPE_CG_OPENGL
-          out float4 outPosition: POSITION,
-#endif
+//#ifndef SCAPE_CG_OPENGL
+//          out float4 outPosition: POSITION,
+//#endif
 //          out float4 outColor: COLOR,
           out float4 outTexCoord: TEXCOORD0,
           out float4 shadowCoord: TEXCOORD1,
@@ -30,9 +45,9 @@ void VS_Main(float4 position: POSITION,
 {
   float4 clipSpacePos = mul(modelViewProjectionMatrix, position);
   
-#ifndef SCAPE_CG_OPENGL
-  outPosition = clipSpacePos;
-#endif
+//#ifndef SCAPE_CG_OPENGL
+//  outPosition = clipSpacePos;
+//#endif
 
   clipSpacePos.xy = (clipSpacePos.xy + float2(clipSpacePos.w)) * 0.5;
   shadowCoord = clipSpacePos;
@@ -90,7 +105,7 @@ sampler2D samShadowMap = sampler_state
 texture hatch0;
 sampler2D samHatch0 = sampler_state
 {
-    Texture = shadowMap;
+    Texture = hatch0;
     MinFilter = LINEAR;
     MagFilter = LINEAR;    
     MipFilter = NONE;
@@ -103,7 +118,7 @@ sampler2D samHatch0 = sampler_state
 texture hatch1;
 sampler2D samHatch1 = sampler_state
 {
-    Texture = shadowMap;
+    Texture = hatch1;
     MinFilter = LINEAR;
     MagFilter = LINEAR;    
     MipFilter = NONE;
@@ -115,7 +130,25 @@ sampler2D samHatch1 = sampler_state
             
 
 
-#include "assets/shaders/computeweights.cg"
+//#include "assets/shaders/computeweights.cg"
+float3 computeWeights(float hatchFactor, float3 initialWeights) 
+{
+	float3 weights = max(float3(hatchFactor) - initialWeights, float3(0));
+
+	// flag weights which are <= 2
+	float3 flags = step(weights, float3(2.0));
+
+	// multiply component-wise to zero weights > 2
+	weights *= flags;
+
+	// flag weights which are > 1
+	flags = step(float3(1.0), weights);
+	weights = flags*2.0 - weights;
+	flags = step(float3(0.0), weights) - step(weights, float3(0.0));
+	weights *= flags;
+
+	return weights;
+}
 
 const float3 SHADOW_COLOR = float3(39,40,47) / 255.0;
 const float AMBIENT = 0.25;
@@ -125,9 +158,7 @@ const float AMBIENT = 0.25;
 float4 PS_Main(float4 texCoord: TEXCOORD0,
             float4 shadowCoord: TEXCOORD1,
             float3 normal: TEXCOORD2,
-            float2 alphaAndBeta: TEXCOORD3,
-//            float4 vertexColor: COLOR,
-            ) : COLOR
+            float2 alphaAndBeta: TEXCOORD3) : COLOR
 {
 	
     float3 N = normalize(normal);
@@ -168,12 +199,11 @@ float4 PS_Main(float4 texCoord: TEXCOORD0,
 }
 
 
-technique10 HatchingTech
+technique HatchingTech
 {
     pass P0
     {
-        SetVertexShader( CompileShader( vs_4_0, VS_Main() ) );
-        SetGeometryShader( NULL );
-        SetPixelShader( CompileShader( ps_4_0, PS_Main() ) );
+        VertexShader = compile vs_3_0 VS_Main();
+        PixelShader = compile ps_3_0 PS_Main();
     }
 }

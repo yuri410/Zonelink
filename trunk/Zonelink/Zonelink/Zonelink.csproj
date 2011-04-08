@@ -120,14 +120,16 @@
     <Compile Include="GameFileLocs.cs" />
     <Compile Include="GameScene.cs" />
     <Compile Include="Graphics\Camera.cs" />
+    <Compile Include="Graphics\EffectParameters.cs" />
     <Compile Include="Graphics\Material.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Graphics\RigidModel.cs" />
     <Compile Include="Graphics\SceneObject.cs" />
+    <Compile Include="Graphics\ShadowMap.cs" />
     <Compile Include="Graphics\SkinnedModel.cs" />
     <Compile Include="Graphics\TerrainData.cs" />
-    <Compile Include="Graphics\TerrainMaterialLibrary.cs" />
+    <Compile Include="Graphics\MaterialLibrary.cs" />
     <Compile Include="Graphics\TerrainMesh.cs" />
     <Compile Include="Graphics\TerrainMeshManager.cs" />
     <Compile Include="Graphics\TerrainTile.cs" />
