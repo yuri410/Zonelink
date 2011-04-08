@@ -506,13 +506,13 @@ namespace Zonelink
         /// <returns></returns>
         private Rectangle GetCityScreenArea(City city)
         {
-            Vector3 tangy = PlanetEarth.GetTangentY(MathHelper.ToRadians(city.Longitude),
+            Vector3 tangX = PlanetEarth.GetTangentX(MathHelper.ToRadians(city.Longitude),
                 MathHelper.ToRadians(city.Latitude));
 
-            Vector3 pposLeft = game.GraphicsDevice.Viewport.Project(city.Position - tangy * (RulesTable.CityRadius + 5),
+            Vector3 pposLeft = game.GraphicsDevice.Viewport.Project(city.Position - tangX * (RulesTable.CityRadius + 5),
                 camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
 
-            Vector3 pposRight = game.GraphicsDevice.Viewport.Project(city.Position - tangy * (RulesTable.CityRadius + 5),
+            Vector3 pposRight = game.GraphicsDevice.Viewport.Project(city.Position - tangX * (RulesTable.CityRadius + 5),
                camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
 
 
