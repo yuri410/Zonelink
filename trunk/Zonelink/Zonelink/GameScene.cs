@@ -301,19 +301,28 @@ namespace Zonelink
                     switch (city.AnimationType)
                     {
                         case CityAnimationState.Stopped:
-                            DrawRigidModel(city.Transformation, cityModelStopped[city]);
+                            if (smgen)
+                                DrawRigidModelSMGen(city.Transformation, cityModelStopped[city]);
+                            else
+                                DrawRigidModel(city.Transformation, cityModelStopped[city]);
                             break;
 
                         case CityAnimationState.SendBall:
-                            DrawRigidModel(city.Transformation, cityModelSend[city]);
+                            if (smgen)
+                                DrawRigidModelSMGen(city.Transformation, cityModelSend[city]);
+                            else
+                                DrawRigidModel(city.Transformation, cityModelSend[city]);
                             break;
 
                         case CityAnimationState.ReceiveBall:
-                            DrawRigidModel(city.Transformation, cityModelReceive[city]);
+                            if (smgen)
+                                DrawRigidModelSMGen(city.Transformation, cityModelReceive[city]);
+                            else
+                                DrawRigidModel(city.Transformation, cityModelReceive[city]);
                             break; ;
                     }
 
-                } 
+                }
 
                 if (city.Type == CityType.Green || city.Type == CityType.Oil)
                 {
@@ -323,20 +332,39 @@ namespace Zonelink
                     if (frus.IntersectsSphere(harv.Position, harv.BoundingSphere.Radius))
                     {
                         int fid = harv.ModelIndex;
-
-                        foreach (ModelMesh mesh in harvester[fid].Meshes)
+                        if (smgen)
                         {
-                            foreach (BasicEffect effect in mesh.Effects)
+                            foreach (ModelMesh mesh in harvester[fid].Meshes)
                             {
-                                effect.EnableDefaultLighting();
-                                effect.Projection = camera.ProjectionMatrix;
-                                effect.View = camera.ViewMatrix;
-                                effect.World = harvesterPremult * harv.Transformation;
+                                foreach (BasicEffect effect in mesh.Effects)
+                                {
+                                    effect.EnableDefaultLighting();
+                                    effect.Projection = camera.ProjectionMatrix;
+                                    effect.View = camera.ViewMatrix;
+                                    effect.World = harvesterPremult * harv.Transformation;
 
-                                effect.SpecularColor = Vector3.Zero;
+                                    effect.SpecularColor = Vector3.Zero;
+                                }
+
+                                mesh.Draw();
                             }
+                        }
+                        else 
+                        {
+                            foreach (ModelMesh mesh in harvester[fid].Meshes)
+                            {
+                                foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
+                                {
+                                    Matrix world = harvesterPremult * harv.Transformation;
+                                    Matrix lightPrjTrans;
+                                    Matrix.Multiply(ref world, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                                    stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
 
-                            mesh.Draw();
+                                    p.Apply();
+
+                                    mesh.Draw();
+                                }
+                            }
                         }
                     }
                 }
@@ -403,8 +431,9 @@ namespace Zonelink
                         {
                             foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
                             {
+                                Matrix world = oilDerrickPremult * resources[i].Transformation;
                                 Matrix lightPrjTrans;
-                                Matrix.Multiply(ref resources[i].Transformation, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                                Matrix.Multiply(ref world, ref EffectParameters.DepthViewProj, out lightPrjTrans);
                                 stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
 
                                 p.Apply();
@@ -514,6 +543,8 @@ namespace Zonelink
 
             GenerateShadowMap(time);
 
+            //game.GraphicsDevice.Clear(Color.White);
+
             DrawTerrain(time);
             DrawBattleField(time);
         }
@@ -585,52 +616,6 @@ namespace Zonelink
                 }
 
             }
-
-            //if (!this.cityModelReceive[city].IsPlaying)
-            //{
-            //    this.cityModelReceive[city].Play();
-            //}
-            //else
-            //{
-            //    this.cityModelReceive[city].Update(gameTime);
-            //}
-            //if (!model.IsPlaying)
-            //{
-            //    model.Play();
-            //}
-            //else
-            //{
-            //    model.Update(time);
-            //}
-
-            //if (!modelStopped.IsPlaying)
-            //{
-            //    modelStopped.Play();
-            //}
-            //else
-            //{
-            //    modelStopped.Update(time);
-            //}
-
-            //if (!modelSend.IsPlaying)
-            //{
-            //    modelSend.Play();
-            //}
-            //else
-            //{
-            //    modelSend.Update(time);
-            //}
-
-
-
-            //if (!modelReceive.IsPlaying)
-            //{
-            //    modelReceive.Play();
-            //}
-            //else
-            //{
-            //    modelReceive.Update(time);
-            //}
 
 
         }

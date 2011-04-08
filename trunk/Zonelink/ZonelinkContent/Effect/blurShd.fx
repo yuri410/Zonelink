@@ -41,8 +41,8 @@ technique ShadowBlur
 {
     pass P0
     {
-        VertexShader = NULL;
-        PixelShader = compile ps_3_0 PSMain();
+        //VertexShader = NULL;
+        PixelShader = compile ps_2_0 PSMain();
     }
 }
 
