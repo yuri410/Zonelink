@@ -25,6 +25,7 @@ namespace Zonelink
         public static readonly string CTexture = "Texture";
 
         public static readonly string CEffect = "Effect";
+        public static readonly string CEffectSMGen = Path.Combine(CEffect, "SMGen");
 
     }
 }

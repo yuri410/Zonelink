@@ -18,7 +18,7 @@ technique StdGenSM
 {
     pass P0
     {
-        VertexShader = compile ps_3_0 VSMain();
+        VertexShader = compile vs_3_0 VSMain();
         PixelShader = compile ps_3_0 PSMain();
     }
 }
