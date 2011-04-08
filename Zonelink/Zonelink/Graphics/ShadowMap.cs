@@ -225,10 +225,18 @@ namespace Apoc3D.Graphics
 
 
             #endregion
-
-            device.Viewport = stdVp;
+            
 
             device.SetRenderTarget(null);
+
+            sprite.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+
+            sprite.Draw(shadowRt2, Vector2.Zero, Color.White);
+
+            sprite.End();
+            device.Viewport = stdVp;
+            
+
             //stdRenderTarget = null;
         }
 
