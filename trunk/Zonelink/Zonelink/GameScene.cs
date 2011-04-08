@@ -95,10 +95,10 @@ namespace Zonelink
         #region 加载资源
         protected override void LoadContent()
         {
+            LoadEffect();
             LoadTerrain();
             LoadResourceModel();
 
-            LoadEffect();
             isLoaded = true;
         }
         private void LoadEffect() 
@@ -106,6 +106,14 @@ namespace Zonelink
             postSprite = new SpriteBatch(game.GraphicsDevice);
             vsm = new ShadowMap(game);
 
+            terrainEffect = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffectSMGen, "TerrainEffect"));
+            terrainEffect.CurrentTechnique = terrainEffect.Techniques[0];
+
+            stdSMGen = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffectSMGen, "StdGen"));
+            stdSMGen.CurrentTechnique = terrainEffect.Techniques[0];
+           
+            skinSMGen = game.Content.Load<Effect>(Path.Combine(GameFileLocs.CEffectSMGen, "SkinGen"));
+            skinSMGen.CurrentTechnique = terrainEffect.Techniques[0];
 
         }
 
@@ -114,9 +122,6 @@ namespace Zonelink
         {
             terrainLibrary = new MaterialLibrary(game);
             terrainLibrary.LoadTextureSet(Path.Combine(GameFileLocs.Configs, "terrainMaterial.xml"));
-
-            terrainEffect = game.Content.Load<Effect>("Effect\\TerrainEffect");
-            terrainEffect.CurrentTechnique = terrainEffect.Techniques[0];
 
             TerrainData.Initialize();
 

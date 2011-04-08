@@ -1,12 +1,14 @@
+#include "..\Skinning.fxh"
 
 float4x4 mvp;
 
-void VSMain(
-   float4 pos : POSITION,
+void VSMain(VSInputNmTxWeights vin,
    out float4 oPos : POSITION, 
    out float depth:TEXCOORD0)
 {
-    oPos = mul(pos, mvp);
+    Skin(vin, 1);
+
+    oPos = mul(vin.Position, mvp);
     depth = oPos.z;    
 }
 
@@ -18,7 +20,7 @@ technique StdGenSM
 {
     pass P0
     {
-        VertexShader = compile ps_3_0 VSMain();
+        VertexShader = compile vs_3_0 VSMain();
         PixelShader = compile ps_3_0 PSMain();
     }
 }

@@ -299,6 +299,17 @@
       <Importer>EffectImporter</Importer>
       <Processor>EffectProcessor</Processor>
     </Compile>
+    <Compile Include="Effect\SMGen\SkinGen.fx">
+      <Name>SkinGen</Name>
+      <Importer>EffectImporter</Importer>
+      <Processor>EffectProcessor</Processor>
+    </Compile>
+    <None Include="Effect\Common.fxh">
+      <Name>Common</Name>
+    </None>
+    <None Include="Effect\Skinning.fxh">
+      <Name>Skinning</Name>
+    </None>
     <None Include="Model\Harvester\cow.dds">
       <Name>cow</Name>
       <Importer>TextureImporter</Importer>

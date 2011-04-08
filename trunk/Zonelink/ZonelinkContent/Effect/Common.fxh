@@ -17,3 +17,4 @@ float VSM_FILTER(sampler2D sm, float2 tex, float fragDepth )
     
     return min(lit+0.25, 1);
 }
+
