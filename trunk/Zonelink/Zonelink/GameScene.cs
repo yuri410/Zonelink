@@ -224,7 +224,7 @@ namespace Zonelink
         private void DrawRigidModel(Matrix transform, RigidModel model)
         {
             Model m = model.Model;
-
+           
             foreach (ModelMesh mesh in m.Meshes)
             {
                 foreach (BasicEffect effect in mesh.Effects)
@@ -240,7 +240,51 @@ namespace Zonelink
                 mesh.Draw();
             }
         }
-        private void DrawCities(GameTime time)
+        private void DrawSkinnedModelSMGen(Matrix transform, SkinnedModel model)
+        {
+
+            Model m = model.Model;
+            transform = model.GetRootTransform() * transform;
+
+            foreach (ModelMesh mesh in m.Meshes)
+            {
+                foreach (EffectPass p in skinSMGen.CurrentTechnique.Passes)
+                {
+                    Matrix lightPrjTrans;
+                    Matrix.Multiply(ref transform, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                    skinSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
+                    skinSMGen.Parameters["Bones"].SetValue(model.GetBoneTransforms());
+
+                    p.Apply();
+
+                    mesh.Draw();
+                }
+            }
+        }
+        private void DrawRigidModelSMGen(Matrix transform, RigidModel model)
+        {
+            Model m = model.Model;
+
+            foreach (ModelMesh mesh in m.Meshes)
+            {
+                foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
+                {
+                    Matrix world = model.GetWorldTransform(transform, mesh);
+
+                    Matrix lightPrjTrans;
+                    Matrix.Multiply(ref world, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                    stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
+
+                    p.Apply();
+
+
+                    mesh.Draw();
+                }
+            }
+        }
+
+
+        private void DrawCities(GameTime time, bool smgen)
         {
             Frustum frus = camera.Frustum;
             
@@ -250,8 +294,6 @@ namespace Zonelink
                 isCityModelLoaded = true;
             }
 
-
-            //渲染战场
             foreach (City city in state.Field.Cities)
             {
                 if (frus.IntersectsSphere(city.Position, city.BoundingSphere.Radius))
@@ -302,18 +344,25 @@ namespace Zonelink
             }
 
         }
+      
+
         private void DrawNaturalResource(GameTime time)
-        {
+        { 
+            Frustum frus = camera.Frustum;
+           
             NatureResource[] resources = state.Field.NaturalResources;
 
-            for (int i = 0; i < resources.Length; i++) 
+            for (int i = 0; i < resources.Length; i++)
             {
-                if (resources[i].Type == NaturalResourceType.Oil) 
+                if (frus.IntersectsSphere(ref resources[i].BoundingSphere.Center,
+                    resources[i].BoundingSphere.Radius))
                 {
-                    if (resources[i].IsInOcean)
+                    if (resources[i].Type == NaturalResourceType.Oil)
                     {
+                        Model[] mdl = resources[i].IsInOcean ? oilDerrickSea : oilDerrick;
+
                         int fid = resources[i].FrameIndex;
-                        foreach (ModelMesh mesh in oilDerrickSea[fid].Meshes)
+                        foreach (ModelMesh mesh in mdl[fid].Meshes)
                         {
                             foreach (BasicEffect effect in mesh.Effects)
                             {
@@ -327,26 +376,48 @@ namespace Zonelink
 
                             mesh.Draw();
                         }
-                    }
-                    else 
-                    {
-                        int fid = resources[i].FrameIndex;
-                        foreach (ModelMesh mesh in oilDerrick[fid].Meshes)
-                        {
-                            foreach (BasicEffect effect in mesh.Effects)
-                            {
-                                effect.EnableDefaultLighting();
-                                effect.Projection = camera.ProjectionMatrix;
-                                effect.View = camera.ViewMatrix;
-                                effect.World = oilDerrickPremult * resources[i].Transformation;
 
-                                effect.SpecularColor = Vector3.Zero;
+                    }
+                }
+            }
+        }
+        private void DrawNaturalResourceSMGen(GameTime time)
+        {
+            Frustum frus = camera.Frustum;
+           
+            NatureResource[] resources = state.Field.NaturalResources;
+
+            for (int i = 0; i < resources.Length; i++)
+            {
+                if (frus.IntersectsSphere(ref resources[i].BoundingSphere.Center,
+                      resources[i].BoundingSphere.Radius))
+                {
+
+                    if (resources[i].Type == NaturalResourceType.Oil)
+                    {
+                        Model[] mdl = resources[i].IsInOcean ? oilDerrickSea : oilDerrick;
+
+
+                        int fid = resources[i].FrameIndex;
+                        foreach (ModelMesh mesh in mdl[fid].Meshes)
+                        {
+                            foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
+                            {
+                                Matrix lightPrjTrans;
+                                Matrix.Multiply(ref resources[i].Transformation, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                                stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
+
+                                p.Apply();
+
+
+                                mesh.Draw();
                             }
 
-                            mesh.Draw();
                         }
+
+
+
                     }
-                    
                 }
             }
         }
@@ -379,24 +450,60 @@ namespace Zonelink
                         terrainEffect.Parameters["texNorm"].SetValue(terrainLibrary.GlobalNormalTexture);
                         terrainEffect.Parameters["texCliff"].SetValue(terrainLibrary.CliffColor);
 
+
+                        //float4 k_d;
+                        //float4 k_a;
+
+                        //float4 i_a;
+                        //float4 i_d;
+                        p.Apply();
+
+                        terrainTiles[i].Render();
                     }
 
-                    //float4 k_d;
-                    //float4 k_a;
-
-                    //float4 i_a;
-                    //float4 i_d;
-
-                    p.Apply();
-
-                    terrainTiles[i].Render();
                 }
             }
         }
+        private void DrawTerrainSMGen(GameTime time)
+        {
+            Frustum frus = camera.Frustum;
+           
+            //渲染地形
+            game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
+            foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
+            {
+                for (int i = 0; i < terrainTiles.Length; i++)
+                {
+                    Vector3 center = terrainTiles[i].BoundingSphere.Center;
+                    if (frus.IntersectsSphere(ref center, terrainTiles[i].BoundingSphere.Radius))
+                    {
+                        Matrix lightPrjTrans;
+                        Matrix.Multiply(ref terrainTiles[i].Transformation, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                        stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
+
+                        p.Apply();
+
+                        terrainTiles[i].Render();
+                    }
+
+
+                }
+            }
+        }
+
         private void DrawBattleField(GameTime time)
         {
-            DrawCities(time);
+            DrawCities(time, false);
             DrawNaturalResource(time);
+        }
+        private void GenerateShadowMap(GameTime time)
+        {
+            vsm.Begin(EffectParameters.LightDir, EffectParameters.CurrentCamera);
+
+            DrawTerrainSMGen(time);
+            DrawNaturalResourceSMGen(time);
+
+            vsm.End(postSprite);
         }
 
         public override void Draw(GameTime time)
@@ -405,19 +512,12 @@ namespace Zonelink
             if (!isLoaded)
                 return;
 
+            GenerateShadowMap(time);
+
             DrawTerrain(time);
             DrawBattleField(time);
         }
 
-        private void GenerateShadowMap() 
-        {
-            vsm.Begin(EffectParameters.LightDir, EffectParameters.CurrentCamera);
-
-
-
-
-            vsm.End(postSprite);
-        }
         public override void Update(GameTime time)
         {
             camera.Update(time);

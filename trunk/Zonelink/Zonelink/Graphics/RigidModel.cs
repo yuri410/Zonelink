@@ -87,6 +87,21 @@ namespace Zonelink.Graphics
         //    effect.World = rootTransform * transform;
         //    //effect.SpecularColor = Vector3.Zero;
         //}
+        public Matrix GetWorldTransform(Matrix transform, ModelMesh mesh)
+        {
+            Matrix[] boneTransforms = null;
+            if (rigidPlayer != null)
+                boneTransforms = rigidPlayer.GetBoneTransforms();
+
+            Matrix rootTransform = Matrix.Identity;
+            if (rigidRootPlayer != null)
+                rootTransform = rigidRootPlayer.GetCurrentTransform();
+
+            if (boneTransforms != null)
+                return boneTransforms[mesh.ParentBone.Index] * rootTransform * transform;
+            else
+                return rootTransform * transform;
+        }
 
         public void SetupEffect(BasicEffect effect, Matrix transform, ModelMesh mesh)
         {

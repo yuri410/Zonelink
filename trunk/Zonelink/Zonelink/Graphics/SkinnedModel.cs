@@ -67,6 +67,20 @@ namespace Zonelink.Graphics
                 Completed(this, EventArgs.Empty);
         }
 
+        public Matrix[] GetBoneTransforms()
+        {
+            Matrix[] boneTransforms = null;
+            if (skinnedPlayer != null)
+                boneTransforms = skinnedPlayer.GetSkinTransforms();
+            return boneTransforms;
+        }
+        public Matrix GetRootTransform()
+        {
+            Matrix rootTransform = Matrix.Identity;
+            if (skinnedRootPlayer != null)
+                rootTransform = skinnedRootPlayer.GetCurrentTransform();
+            return rootTransform;
+        }
         public void SetupEffect(SkinnedEffect effect,Matrix transform) 
         {
             Matrix[] boneTransforms = null;
