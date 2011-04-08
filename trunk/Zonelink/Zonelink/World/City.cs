@@ -284,9 +284,7 @@ namespace Zonelink.World
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
                     devIncr += ddt * Utils.GetRBallContribution(nearbyBallList[i].Type);
-                }
-
-                
+                }         
             }
         }
 

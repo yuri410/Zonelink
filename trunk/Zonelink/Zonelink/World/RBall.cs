@@ -22,8 +22,8 @@ namespace Zonelink.World
         public RBallType Type { get; private set; }
 
         //属于哪个城市
-        City belongToCity;
-        public City Parent { get { return this.belongToCity; } }
+        private City dockCity;
+        public City Parent { get { return this.dockCity; } }
 
         //攻击目标
         City target;
@@ -67,16 +67,19 @@ namespace Zonelink.World
         //资源球的旋转半径
         float NextRadius()
         {
-            //return Randomizer.NextFloat() * (MaxRadius - MinRadius) + MinRadius;
-            return 0;
+            //if (Parent != null)
+            //{
+                
+            //}
+            return Parent.Radius * Randomizer.NextFloat() * (MaxRadius - MinRadius) + MinRadius;
+            
         }
-
 
         public RBall(Player owner, City city, RBallType type)
             : base(owner)
         {
             this.Owner = owner;
-            this.belongToCity = city;
+            this.dockCity = city;
             this.Type = type;
             //设置血量
             this.Health = city.Development * 0.15f;
