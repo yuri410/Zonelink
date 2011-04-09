@@ -136,6 +136,17 @@
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\Bone.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\ModelAnimationClip.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\ModelAnimationPlayerBase.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\AnimationData.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\ModelKeyframe.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\NoAnimaionPlayer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\RigidAnimationPlayer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\RootAnimationPlayer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\SkinnedAnimationPlayer.cs" />
     <Compile Include="GUI\ColorNotify.cs" />
     <Compile Include="GUI\IngameUI\Brackets.cs" />
     <Compile Include="GUI\IngameUI\CityEditPanel.cs" />
@@ -328,17 +339,9 @@
     <Compile Include="Engine\Apoc3D.Core\Vfs\Location.cs" />
     <Compile Include="Engine\Apoc3D.Core\Vfs\LpkArchive.cs" />
     <Compile Include="Engine\Apoc3D.Core\Vfs\Streams.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\Animation.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\Bone.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\EntityNode.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\KeyFrame.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\MaterialAnimation.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\SkinAnimation.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Animation\TransformAnimation.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Camera.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Collections\BoneCollection.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Collections\ClipPlaneCollection.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Collections\EntityNodeCollection.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Collections\SamplerStateCollection.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Collections\TextureWrapCollection.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Desgin\MeshFaceConverter.cs" />
@@ -355,7 +358,6 @@
     <Compile Include="Engine\Apoc3D.Graphics\Mesh.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\MeshSimplifier.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Model.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\ModelHelper.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\ModelManager.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\PostRenderer.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\RenderOperation.cs" />
