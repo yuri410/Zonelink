@@ -301,19 +301,28 @@ namespace Zonelink
                     switch (city.AnimationType)
                     {
                         case CityAnimationState.Stopped:
-                            DrawRigidModel(city.Transformation, cityModelStopped[city]);
+                            if (smgen)
+                                DrawRigidModelSMGen(city.Transformation, cityModelStopped[city]);
+                            else
+                                DrawRigidModel(city.Transformation, cityModelStopped[city]);
                             break;
 
                         case CityAnimationState.SendBall:
-                            DrawRigidModel(city.Transformation, cityModelSend[city]);
+                            if (smgen)
+                                DrawRigidModelSMGen(city.Transformation, cityModelSend[city]);
+                            else
+                                DrawRigidModel(city.Transformation, cityModelSend[city]);
                             break;
 
                         case CityAnimationState.ReceiveBall:
-                            DrawRigidModel(city.Transformation, cityModelReceive[city]);
+                            if (smgen)
+                                DrawRigidModelSMGen(city.Transformation, cityModelReceive[city]);
+                            else
+                                DrawRigidModel(city.Transformation, cityModelReceive[city]);
                             break; ;
                     }
 
-                } 
+                }
 
                 if (city.Type == CityType.Green || city.Type == CityType.Oil)
                 {
@@ -323,20 +332,39 @@ namespace Zonelink
                     if (frus.IntersectsSphere(harv.Position, harv.BoundingSphere.Radius))
                     {
                         int fid = harv.ModelIndex;
-
-                        foreach (ModelMesh mesh in harvester[fid].Meshes)
+                        if (!smgen)
                         {
-                            foreach (BasicEffect effect in mesh.Effects)
+                            foreach (ModelMesh mesh in harvester[fid].Meshes)
                             {
-                                effect.EnableDefaultLighting();
-                                effect.Projection = camera.ProjectionMatrix;
-                                effect.View = camera.ViewMatrix;
-                                effect.World = harvesterPremult * harv.Transformation;
+                                foreach (BasicEffect effect in mesh.Effects)
+                                {
+                                    effect.EnableDefaultLighting();
+                                    effect.Projection = camera.ProjectionMatrix;
+                                    effect.View = camera.ViewMatrix;
+                                    effect.World = harvesterPremult * harv.Transformation;
 
-                                effect.SpecularColor = Vector3.Zero;
+                                    effect.SpecularColor = Vector3.Zero;
+                                }
+
+                                mesh.Draw();
                             }
+                        }
+                        else 
+                        {
+                            foreach (ModelMesh mesh in harvester[fid].Meshes)
+                            {
+                                foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
+                                {
+                                    Matrix world = harvesterPremult * harv.Transformation;
+                                    Matrix lightPrjTrans;
+                                    Matrix.Multiply(ref world, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                                    stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
 
-                            mesh.Draw();
+                                    p.Apply();
+
+                                    mesh.Draw();
+                                }
+                            }
                         }
                     }
                 }
@@ -346,7 +374,7 @@ namespace Zonelink
         }
       
 
-        private void DrawNaturalResource(GameTime time)
+        private void DrawNaturalResource(GameTime time, bool smGen)
         { 
             Frustum frus = camera.Frustum;
            
@@ -362,8 +390,9 @@ namespace Zonelink
                         Model[] mdl = resources[i].IsInOcean ? oilDerrickSea : oilDerrick;
 
                         int fid = resources[i].FrameIndex;
+                       
                         foreach (ModelMesh mesh in mdl[fid].Meshes)
-                        {
+                        {                            
                             foreach (BasicEffect effect in mesh.Effects)
                             {
                                 effect.EnableDefaultLighting();
@@ -389,34 +418,29 @@ namespace Zonelink
 
             for (int i = 0; i < resources.Length; i++)
             {
-                if (frus.IntersectsSphere(ref resources[i].BoundingSphere.Center,
-                      resources[i].BoundingSphere.Radius))
+                //if (frus.IntersectsSphere(ref resources[i].BoundingSphere.Center,
+                //      resources[i].BoundingSphere.Radius))
                 {
 
                     if (resources[i].Type == NaturalResourceType.Oil)
                     {
                         Model[] mdl = resources[i].IsInOcean ? oilDerrickSea : oilDerrick;
 
-
                         int fid = resources[i].FrameIndex;
-                        foreach (ModelMesh mesh in mdl[fid].Meshes)
+                        foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
                         {
-                            foreach (EffectPass p in stdSMGen.CurrentTechnique.Passes)
+                            Matrix world = resources[i].Transformation;
+                            Matrix lightPrjTrans;
+                            Matrix.Multiply(ref world, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+                            stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
+
+                            p.Apply();
+
+                            foreach (ModelMesh mesh in mdl[fid].Meshes)
                             {
-                                Matrix lightPrjTrans;
-                                Matrix.Multiply(ref resources[i].Transformation, ref EffectParameters.DepthViewProj, out lightPrjTrans);
-                                stdSMGen.Parameters["mvp"].SetValue(lightPrjTrans);
-
-                                p.Apply();
-
-
                                 mesh.Draw();
                             }
-
                         }
-
-
-
                     }
                 }
             }
@@ -425,6 +449,8 @@ namespace Zonelink
         private void DrawTerrain(GameTime time)
         {
             Frustum frus = camera.Frustum;
+
+
 
             //渲染地形
             game.GraphicsDevice.RasterizerState = RasterizerState.CullNone;
@@ -436,13 +462,17 @@ namespace Zonelink
                     if (frus.IntersectsSphere(ref center, terrainTiles[i].BoundingSphere.Radius))
                     {
                         terrainEffect.Parameters["mvp"].SetValue(terrainTiles[i].Transformation * camera.ViewMatrix * camera.ProjectionMatrix);
-                        terrainEffect.Parameters["terrSize"].SetValue(33);
+                        terrainEffect.Parameters["terrSize"].SetValue(33.0f);
                         terrainEffect.Parameters["world"].SetValue(terrainTiles[i].Transformation);
+                        terrainEffect.Parameters["i_a"].SetValue(EffectParameters.LightAmbient);
+                        terrainEffect.Parameters["i_d"].SetValue(EffectParameters.LightDiffuse);
+                        terrainEffect.Parameters["lightDir"].SetValue(EffectParameters.LightDir);
 
                         terrainEffect.Parameters["texDet1"].SetValue(terrainLibrary.GetTexture("Snow"));
                         terrainEffect.Parameters["texDet2"].SetValue(terrainLibrary.GetTexture("Grass"));
                         terrainEffect.Parameters["texDet3"].SetValue(terrainLibrary.GetTexture("Sand"));
                         terrainEffect.Parameters["texDet4"].SetValue(terrainLibrary.GetTexture("Rock"));
+                        terrainEffect.Parameters["texShd"].SetValue(EffectParameters.ShadowMap);
 
 
                         terrainEffect.Parameters["texColor"].SetValue(terrainLibrary.GlobalColorTexture);
@@ -450,6 +480,12 @@ namespace Zonelink
                         terrainEffect.Parameters["texNorm"].SetValue(terrainLibrary.GlobalNormalTexture);
                         terrainEffect.Parameters["texCliff"].SetValue(terrainLibrary.CliffColor);
 
+                        terrainEffect.Parameters["k_a"].SetValue(EffectParameters.TerrainAmbient);
+                        terrainEffect.Parameters["k_d"].SetValue(EffectParameters.TerrainDiffuse);
+                        Matrix lightPrjTrans;
+                        Matrix.Multiply(ref terrainTiles[i].Transformation, ref EffectParameters.DepthViewProj, out lightPrjTrans);
+
+                        terrainEffect.Parameters["smTrans"].SetValue(lightPrjTrans);
 
                         //float4 k_d;
                         //float4 k_a;
@@ -500,10 +536,14 @@ namespace Zonelink
         {
             vsm.Begin(EffectParameters.LightDir, EffectParameters.CurrentCamera);
 
-            DrawTerrainSMGen(time);
+            //DrawTerrainSMGen(time);
+            DrawCities(time, true);
             DrawNaturalResourceSMGen(time);
 
             vsm.End(postSprite);
+
+            EffectParameters.ShadowMap = vsm.ShadowColorMap;
+
         }
 
         public override void Draw(GameTime time)
@@ -514,8 +554,17 @@ namespace Zonelink
 
             GenerateShadowMap(time);
 
-            DrawTerrain(time);
-            DrawBattleField(time);
+            //game.GraphicsDevice.Clear(Color.White);
+
+            //DrawTerrain(time);
+            //DrawBattleField(time);
+
+
+            //postSprite.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
+
+            //postSprite.Draw(vsm.ShadowColorMap, Vector2.Zero, Color.White);
+
+            //postSprite.End();
         }
 
         public override void Update(GameTime time)
@@ -585,52 +634,6 @@ namespace Zonelink
                 }
 
             }
-
-            //if (!this.cityModelReceive[city].IsPlaying)
-            //{
-            //    this.cityModelReceive[city].Play();
-            //}
-            //else
-            //{
-            //    this.cityModelReceive[city].Update(gameTime);
-            //}
-            //if (!model.IsPlaying)
-            //{
-            //    model.Play();
-            //}
-            //else
-            //{
-            //    model.Update(time);
-            //}
-
-            //if (!modelStopped.IsPlaying)
-            //{
-            //    modelStopped.Play();
-            //}
-            //else
-            //{
-            //    modelStopped.Update(time);
-            //}
-
-            //if (!modelSend.IsPlaying)
-            //{
-            //    modelSend.Play();
-            //}
-            //else
-            //{
-            //    modelSend.Update(time);
-            //}
-
-
-
-            //if (!modelReceive.IsPlaying)
-            //{
-            //    modelReceive.Play();
-            //}
-            //else
-            //{
-            //    modelReceive.Update(time);
-            //}
 
 
         }
