@@ -136,6 +136,9 @@ namespace Code2015.EngineEx
             string name = Path.Combine(GameFileLocs.CTerrainTexture, "index");
             GlobalIndexTexture = game.Content.Load<Texture2D>(name);
 
+            //FileStream fs = File.Open(@"E:\Desktop\sss.png", FileMode.OpenOrCreate, FileAccess.Write);            
+            //GlobalIndexTexture.SaveAsPng(fs, GlobalIndexTexture.Width, GlobalIndexTexture.Height);
+
             name = Path.Combine(GameFileLocs.CTerrainTexture, "planetClr");
             GlobalColorTexture = game.Content.Load<Texture2D>(name);
 
@@ -154,22 +157,22 @@ namespace Code2015.EngineEx
             this.detailedMaps = new Dictionary<string, Entry>(CaseInsensitiveStringComparer.Instance);
         }
 
-        public Color GetAmbient(string name)
-        {
-            return detailedMaps[name].Ambient;
-        }
-        public Color GetDiffuse(string name)
-        {
-            return detailedMaps[name].Diffuse;
-        }
-        public Color GetSpecular(string name)
-        {
-            return detailedMaps[name].Specular;
-        }
-        public Color GetColor(string name) 
-        {
-            return detailedMaps[name].Color;
-        }
+        //public Color GetAmbient(string name)
+        //{
+        //    return detailedMaps[name].Ambient;
+        //}
+        //public Color GetDiffuse(string name)
+        //{
+        //    return detailedMaps[name].Diffuse;
+        //}
+        //public Color GetSpecular(string name)
+        //{
+        //    return detailedMaps[name].Specular;
+        //}
+        //public Color GetColor(string name) 
+        //{
+        //    return detailedMaps[name].Color;
+        //}
         public Texture2D GetTexture(string name)
         {
             return detailedMaps[name].Map;

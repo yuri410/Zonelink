@@ -1,3 +1,4 @@
+#include "Common.fxh"
 
 float4x4 mvp;
 float4x4 smTrans;
@@ -31,8 +32,7 @@ VSOutput VSMain(VSInput ip)
     
     float4 wpos = mul(ip.Position, world);
     
-	//o.Height_Blend.x = GetHeight(wpos.xyz);
-	o.Height_Blend.x = 0;
+	o.Height_Blend.x = GetHeight(wpos.xyz);
 	o.Height_Blend.y = 0.5;//clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
     
     o.GlobeCoord = ip.GlobeCoord;
@@ -210,22 +210,18 @@ PSOutput PSMain(PSInput ip)
 	if (index[0]>0.01)
 	{
 		color += (index[0]) * tex2D(samTexDet1, ip.DetailCoord);
-		//color += (index[0]) * tex2D(samTexDet1, ip.DetailCoord*7);
 	}
 	if (index[1]>0.01)
 	{
 		color += (index[1]) * tex2D(samTexDet2, ip.DetailCoord);
-		//color += (index[1]) * tex2D(samTexDet2, ip.DetailCoord*7);
 	}
 	if (index[2]>0.01)
 	{
 		color += (index[2]) * tex2D(samTexDet3, ip.DetailCoord);
-		//color += (index[2]) * tex2D(samTexDet3, ip.DetailCoord*7);
 	}
 	if (index[3]>0.01)
 	{
 		color += (index[3]) * tex2D(samTexDet4, ip.DetailCoord);
-		//color += (index[3]) * tex2D(samTexDet4, ip.DetailCoord*7);
 	}
 	
     o.Color = lerp(color , tex2D(samTexColor, ip.GlobeCoord), ip.Height_Blend.y);
@@ -245,15 +241,14 @@ PSOutput PSMain(PSInput ip)
     float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
     ShadowTexC.y = 1.0f - ShadowTexC.y;
 
-	float shd = 1;//VSM_FILTER(samTexShd, ShadowTexC, ip.smLgtPos.z);
-	
+	float shd = VSM_FILTER(samTexShd, ShadowTexC, ip.smLgtPos.z);
+
     o.Color = o.Color * (amb + dif );
-   
-   
+    
     o.Color.rgb *= shd;
     
-    //o.Color = GetColor(o.Color, ip.Height_Blend.x);
-    o.Color = float4(0.5*(N+1),1);
+    o.Color = GetColor(o.Color, ip.Height_Blend.x);
+
     return o;
 }
 
