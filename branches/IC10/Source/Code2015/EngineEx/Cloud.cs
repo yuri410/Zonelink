@@ -106,12 +106,14 @@ namespace Code2015.EngineEx
         {
             if (model != null)
             {
-                model.CurrentAnimation = new NoAnimation(
-                    Matrix.Scaling(scale, scale, scale) * trans);
+                model.CurrentAnimation.Clear();
+                model.CurrentAnimation.Add(new NoAnimaionPlayer(
+                    Matrix.Scaling(scale, scale, scale) * trans));
 
                 for (int i = 0; i < strike.Length; i++)
                 {
-                    strike[i].CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans);
+                    strike[i].CurrentAnimation.Clear();
+                    strike[i].CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, -50, 0) * trans));
                 }
             }
         }

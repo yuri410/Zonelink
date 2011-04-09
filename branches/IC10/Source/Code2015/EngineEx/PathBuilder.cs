@@ -191,10 +191,10 @@ namespace Code2015.EngineEx
 
             surfMtrl.SetEffect(EffectManager.Instance.GetModelEffect(StandardEffectFactory.Name));
 
-            surface.MaterialAnimation = new MaterialAnimationInstance[]
-            {
-                new MaterialAnimationInstance(new MaterialAnimation(1, 1)) 
-            };
+            //surface.MaterialAnimation = new MaterialAnimationInstance[]
+            //{
+            //    new MaterialAnimationInstance(new MaterialAnimation(1, 1)) 
+            //};
             surface.Materials[0][0] = surfMtrl;
             
             // 侧栏

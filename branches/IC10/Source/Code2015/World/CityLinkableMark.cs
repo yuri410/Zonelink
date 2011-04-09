@@ -77,9 +77,10 @@ namespace Code2015.World
                     ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
                     ori.TranslationValue = pa + ori.Up * 75;
 
-                    linkArrow[i].CurrentAnimation = new NoAnimation(
+                    linkArrow[i].CurrentAnimation.Clear();
+                    linkArrow[i].CurrentAnimation .Add(new NoAnimaionPlayer(
                         Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) *
-                        Matrix.RotationY(-MathEx.PiOver2) * ori);
+                        Matrix.RotationY(-MathEx.PiOver2) * ori));
 
                 }
             }

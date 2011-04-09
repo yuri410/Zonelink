@@ -167,8 +167,8 @@ namespace Code2015.World
 
             FileLocation fl = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
             link_e = new Model(ModelManager.Instance.CreateInstance(renderSys, fl));
-            link_e.CurrentAnimation =
-                new NoAnimation(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) * ori);
+            link_e.CurrentAnimation.Clear();
+            link_e.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) * ori));
 
             orientation = Matrix.Identity;
             position = Vector3.Zero;// 0.5f * (pa + pb);

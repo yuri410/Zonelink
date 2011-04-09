@@ -139,14 +139,16 @@ namespace Code2015.World
             for (int i = 0; i < MdgSiteFull.Length; i++)
             {
                 MdgSiteFull[i] = new Model(data.MdgSiteFull[i]);
-                MdgSiteFull[i].CurrentAnimation = new NoAnimation(siteScale);
+                MdgSiteFull[i].CurrentAnimation.Clear();
+                MdgSiteFull[i].CurrentAnimation.Add(new NoAnimaionPlayer(siteScale));
             }
 
             MdgSiteEmpty = new Model[data.MdgSiteEmpty.Length];
             for (int i = 0; i < MdgSiteEmpty.Length; i++)
             {
                 MdgSiteEmpty[i] = new Model(data.MdgSiteEmpty[i]);
-                MdgSiteEmpty[i].CurrentAnimation = new NoAnimation(siteScale);
+                MdgSiteEmpty[i].CurrentAnimation.Clear();
+                MdgSiteEmpty[i].CurrentAnimation.Add(new NoAnimaionPlayer(siteScale));
             }
 
             MdgGoalIcon = new Model[data.MdgGoalIcon.Length];
@@ -162,11 +164,13 @@ namespace Code2015.World
             for (int i = 0; i < MdgGoalIconGray.Length; i++)
             {
                 MdgGoalIconGray[i] = new Model(data.MdgGoalIconGray[i]);
-                MdgGoalIconGray[i].CurrentAnimation = new NoAnimation(siteScale2);
+                MdgGoalIconGray[i].CurrentAnimation.Clear();
+                MdgGoalIconGray[i].CurrentAnimation.Add(new NoAnimaionPlayer(siteScale));
             }
 
             MdgSiteInactive = new Model(data.MdgSiteInactive);
-            MdgSiteInactive.CurrentAnimation = new NoAnimation(siteScale);
+            MdgSiteInactive.CurrentAnimation.Clear();
+            MdgSiteInactive.CurrentAnimation.Add(new NoAnimaionPlayer(siteScale));
 
             PluginTranslate = Game.ObjectScale * 68;
         }
@@ -630,27 +634,40 @@ namespace Code2015.World
 
             for (int i = 0; i < style.Base.Length; i++)
             {
-                style.Base[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Base[i]);
+                style.Base[i].CurrentAnimation.Clear();
+                style.Base[i].CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Base[i]));
             }
             for (int i = 0; i < style.Urban.Length; i++)
             {
-                style.Urban[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Urban[i]);
+                style.Urban[i].CurrentAnimation.Clear();
+                style.Urban[i].CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Urban[i]));
             }
 
-            style.BiofuelFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Biofuel * Matrix.RotationY(RandomAngle));
-            style.OilRefinary.CurrentAnimation = new NoAnimation(adjusts[(int)culture].OilRefinary * Matrix.RotationY(RandomAngle));
-            style.WoodFactory.CurrentAnimation = new NoAnimation(adjusts[(int)culture].WoodFactory * Matrix.RotationY(RandomAngle));
-            style.EducationOrgan.CurrentAnimation = new NoAnimation(adjusts[(int)culture].EducationOrgan * Matrix.RotationY(RandomAngle));
-            style.Hospital.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Hospital * Matrix.RotationY(RandomAngle));
+            style.BiofuelFactory.CurrentAnimation.Clear();
+            style.BiofuelFactory.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Biofuel * Matrix.RotationY(RandomAngle)));
+            style.OilRefinary.CurrentAnimation.Clear();
+            style.OilRefinary.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].OilRefinary * Matrix.RotationY(RandomAngle)));
+            style.WoodFactory.CurrentAnimation.Clear();
+            style.WoodFactory.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].WoodFactory * Matrix.RotationY(RandomAngle)));
+            style.EducationOrgan.CurrentAnimation.Clear();
+            style.EducationOrgan.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].EducationOrgan * Matrix.RotationY(RandomAngle)));
+            style.Hospital.CurrentAnimation.Clear();
+            style.Hospital.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Hospital * Matrix.RotationY(RandomAngle)));
 
             for (int i = 0; i < style.Cow.Length; i++)
             {
-                style.Cow[i].CurrentAnimation = new NoAnimation(adjusts[(int)culture].Cow);
+                style.Cow[i].CurrentAnimation.Clear();
+                style.Cow[i].CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Cow));
             }
-            style.FarmLand.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Farm);
+            style.FarmLand.CurrentAnimation.Clear();
+            style.FarmLand.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Farm));
 
-            style.Ring.CurrentAnimation = new NoAnimation(adjusts[(int)culture].Ring);
-            style.SelRing.CurrentAnimation = new NoAnimation(adjusts[(int)culture].SelRing);
+            style.Ring.CurrentAnimation.Clear();
+            style.Ring.CurrentAnimation .Add(new NoAnimaionPlayer(adjusts[(int)culture].Ring));
+
+
+            style.SelRing.CurrentAnimation.Clear();
+            style.SelRing.CurrentAnimation.Add(new NoAnimaionPlayer(adjusts[(int)culture].SelRing));
 
             return style;
         }

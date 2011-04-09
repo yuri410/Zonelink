@@ -44,8 +44,9 @@ namespace Code2015.World
             float rot = sect.GetSingle("Amount", 0);
 
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            ModelL0.CurrentAnimation = new NoAnimation(Matrix.Scaling(scale, scale, scale) * 
-                Matrix.RotationY(MathEx.Degree2Radian(rot)));
+            ModelL0.CurrentAnimation.Clear();
+            ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(scale, scale, scale) * 
+                Matrix.RotationY(MathEx.Degree2Radian(rot))));
 
             float lng = sect.GetSingle("Longitude");
             float lat = sect.GetSingle("Latitude");

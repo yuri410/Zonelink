@@ -147,6 +147,7 @@
     <Compile Include="Engine\Apoc3D.Graphics\Animation\RigidAnimationPlayer.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\RootAnimationPlayer.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\SkinnedAnimationPlayer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\MaterialAnimationPlayer.cs" />
     <Compile Include="GUI\ColorNotify.cs" />
     <Compile Include="GUI\IngameUI\Brackets.cs" />
     <Compile Include="GUI\IngameUI\CityEditPanel.cs" />
