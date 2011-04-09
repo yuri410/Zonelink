@@ -1,0 +1,57 @@
+#include "assets/shaders/computeweights.cg"
+
+const float3 SHADOW_COLOR = float3(39,40,47) / 255.0;
+const float AMBIENT = 0.25;
+
+//#define NEGATIVE_HATCH
+
+float4 main(float4 texCoord: TEXCOORD0,
+            float4 shadowCoord: TEXCOORD1,
+            float3 normal: TEXCOORD2,
+            float2 alphaAndBeta: TEXCOORD3,
+//            float4 vertexColor: COLOR,
+
+            uniform float hatchLayers,
+            uniform float4 blendColor,
+            uniform float3 sfumatoColor,
+            uniform float3 lightPosition,
+            uniform sampler2D diffuseMap: TEXUNIT0,
+            uniform sampler2D shadowMap: TEXUNIT1,
+            uniform sampler2D hatch0: TEXUNIT2,
+            uniform sampler2D hatch1: TEXUNIT3) : COLOR
+{
+  float3 N = normalize(normal);
+  float3 L = normalize(lightPosition-shadowCoord.xyz);
+  float diffuse = dot(N, L) * (1-AMBIENT) + AMBIENT;
+
+  float shadow = tex2Dproj(shadowMap, shadowCoord).a;
+  float ambientShadow = shadow * (1-AMBIENT) + AMBIENT;
+  float shadowFade = alphaAndBeta.x;
+  diffuse = lerp(ambientShadow*diffuse, diffuse, shadowFade);
+  float4 diffuseColor = tex2D(diffuseMap, texCoord.xy);
+  float ambient = diffuseColor.a;
+
+  float hatchFactor = clamp((diffuse) * ambient, 0, 1) * (hatchLayers - 1) + 1;
+  float3 weightsA = float3(5.0, 4.0, 3.0);
+  float3 hatchWeightsA = computeWeights(hatchFactor, weightsA);
+  float3 weightsB = float3(2.0, 1.0, 0.0);
+  float3 hatchWeightsB = computeWeights(hatchFactor, weightsB);
+
+#ifdef NEGATIVE_HATCH
+  float3 h0 = tex2D(hatch0, texCoord.zw).rgb;
+  float3 h1 = tex2D(hatch1, texCoord.zw).rgb;
+  h1 = float3(h1.r, 1-h0.b, 1-h0.g) * hatchWeightsB;
+  h0 = h0 * hatchWeightsA;
+#else
+  float3 h0 = tex2D(hatch0, texCoord.zw).rgb * hatchWeightsA;
+  float3 h1 = tex2D(hatch1, texCoord.zw).rgb * hatchWeightsB;
+#endif
+
+  float hatch = dot(h0, float3(1)) + dot(h1, float3(1));
+
+  float sfumatoFade = alphaAndBeta.y;
+  float3 hatchColor = SHADOW_COLOR + float3(hatch);
+  diffuseColor.rgb *= hatchColor;
+  float3 color = lerp(diffuseColor.rgb, sfumatoColor, sfumatoFade); 
+  return float4(color, 1);
+}

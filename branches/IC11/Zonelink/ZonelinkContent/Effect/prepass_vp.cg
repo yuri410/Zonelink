@@ -1,0 +1,25 @@
+#pragma profileoption PosInv
+
+void main(float4 position: POSITION,
+          float3 normal: NORMAL,
+
+          out float4 viewSpaceNormal: TEXCOORD0,
+          out float3 worldSpaceNormal: TEXCOORD1,
+          out float4 shadowCoord: TEXCOORD2,
+
+          uniform float4x4 modelMatrix,
+          uniform float4x4 modelViewMatrix,
+          uniform float4x4 shadowMatrix,
+          uniform float2 range)
+{
+  float4 viewSpacePosition = mul(modelViewMatrix, position);
+  float depth = -viewSpacePosition.z;
+  float fadeNear = range.x;
+  float fadeFar = range.y;
+  float alpha = clamp((depth - fadeNear) / (fadeFar - fadeNear), 0, 1);
+
+  shadowCoord = mul(shadowMatrix, viewSpacePosition);
+
+  viewSpaceNormal = float4(mul(float3x3(modelViewMatrix), normal), alpha);
+  worldSpaceNormal = mul(float3x3(modelMatrix), normal);
+}
