@@ -127,6 +127,7 @@
     <Compile Include="Effects\MMTerrainEffect.cs" />
     <Compile Include="Effects\MMWaterEffect.cs" />
     <Compile Include="Effects\MMCityLinkEffect.cs" />
+    <Compile Include="Effects\SkinnedStandardEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PathBuilder.cs" />
