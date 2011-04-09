@@ -126,6 +126,8 @@
     <None Include="Scene\goal.vs" />
     <None Include="Scene\bolt.ps" />
     <None Include="Scene\bolt.vs" />
+    <None Include="Scene\skinnedstandard.vs" />
+    <None Include="Scene\Skinning.vsh" />
     <None Include="UI\City\citylink.ps" />
     <None Include="UI\City\citylink.vs" />
     <None Include="UI\City\cityring.ps" />

@@ -81,7 +81,7 @@ namespace EffectLibrary
         static bool Compile(string start, string output, string aarg, bool isVS)
         {
             ProcessStartInfo info = new ProcessStartInfo("fxc.exe",
-                "\"" + start + "\" /T " + (isVS ? "vs_2_0" : "ps_2_0") + " /E main /O3 /Zpr /WX /nologo /Fo \"" + output + "\"" + aarg);
+                "\"" + start + "\" /T " + (isVS ? "vs_3_0" : "ps_3_0") + " /E main /O3 /Zpr /WX /nologo /Fo \"" + output + "\"" + aarg);
 
             info.RedirectStandardOutput = true;
             info.RedirectStandardError = true;

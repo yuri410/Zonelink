@@ -314,7 +314,7 @@ namespace Code2015.EngineEx
 
                 op.Material = material;
                 op.Geomentry = defGeometryData;
-
+                op.BoneTransforms = null;
                 op.Transformation = Matrix.Identity;
                 op.Sender = this;
                 opBuffer.Add(op);
