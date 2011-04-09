@@ -199,7 +199,10 @@ namespace Apoc3D.Graphics
             #region 高斯X
 
             device.SetRenderTarget(shadowRt2);
-            sprite.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, gaussBlur);
+
+            BlendState bs = new BlendState();
+            
+            sprite.Begin(SpriteSortMode.Immediate, bs, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, gaussBlur);
          
             gaussBlur.Parameters["tex"].SetValue(shadowRt);
             gaussBlur.Parameters["SampleOffsets"].SetValue(guassFilter.SampleOffsetsX);
@@ -213,8 +216,10 @@ namespace Apoc3D.Graphics
             #region 高斯Y
 
             device.SetRenderTarget(shadowRt);
-            sprite.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, gaussBlur);
 
+            sprite.Begin(SpriteSortMode.Immediate, bs, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone, gaussBlur);
+            
+            
             gaussBlur.Parameters["tex"].SetValue(shadowRt2);
             gaussBlur.Parameters["SampleOffsets"].SetValue(guassFilter.SampleOffsetsY);
             gaussBlur.Parameters["SampleWeights"].SetValue(guassFilter.SampleWeights);
@@ -229,14 +234,9 @@ namespace Apoc3D.Graphics
 
             device.SetRenderTarget(null);
 
-            sprite.Begin(SpriteSortMode.Immediate, BlendState.Opaque, SamplerState.PointClamp, DepthStencilState.Default, RasterizerState.CullNone);
-
-            sprite.Draw(shadowRt2, Vector2.Zero, Color.White);
-
-            sprite.End();
             device.Viewport = stdVp;
-            
 
+            
             //stdRenderTarget = null;
         }
 
@@ -278,8 +278,7 @@ namespace Apoc3D.Graphics
 
             device.Viewport = smVp;
 
-            //stdRenderTarget = renderSys.GetRenderTarget(0);
-            
+
             device.SetRenderTarget(shadowRt);
 
             device.Clear(ClearOptions.DepthBuffer | ClearOptions.Target, Color.White, 1, 0);
@@ -309,8 +308,8 @@ namespace Apoc3D.Graphics
         }
         unsafe void loadUnmanagedResources()
         {
-            shadowRt = new RenderTarget2D(renderSys.GraphicsDevice, ShadowMapLength, ShadowMapLength, false, SurfaceFormat.Vector2, DepthFormat.Depth24Stencil8);// G32R32F
-            shadowRt2 = new RenderTarget2D(renderSys.GraphicsDevice, ShadowMapLength, ShadowMapLength, false, SurfaceFormat.Vector2, DepthFormat.Depth24Stencil8);
+            shadowRt = new RenderTarget2D(renderSys.GraphicsDevice, ShadowMapLength, ShadowMapLength, false, SurfaceFormat.Rg32, DepthFormat.Depth24Stencil8);// G32R32F
+            shadowRt2 = new RenderTarget2D(renderSys.GraphicsDevice, ShadowMapLength, ShadowMapLength, false, SurfaceFormat.Rg32, DepthFormat.Depth24Stencil8);
             
             guassFilter = new GuassBlurFilter(5, 2, ShadowMapLength, ShadowMapLength);
 
