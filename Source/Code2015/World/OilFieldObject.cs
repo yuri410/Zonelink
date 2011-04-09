@@ -76,8 +76,9 @@ namespace Code2015.World
                      FileLocation fl = FileSystem.Instance.Locate("oilderricksea" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
                      model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                     model[i].CurrentAnimation = new NoAnimation(
-                         Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4));
+                     model[i].CurrentAnimation.Clear();
+                     model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
+                         Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4)));
                  }
             }
             else
@@ -88,8 +89,9 @@ namespace Code2015.World
                     FileLocation fl = FileSystem.Instance.Locate("oilderrick" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
                     model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                    model[i].CurrentAnimation = new NoAnimation(
-                        Matrix.Scaling(scale, scale, scale) * Matrix.RotationY(-MathEx.PiOver4));
+                    model[i].CurrentAnimation.Clear();
+                    model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
+                        Matrix.Scaling(scale, scale, scale) * Matrix.RotationY(-MathEx.PiOver4)));
                 }
 
             }

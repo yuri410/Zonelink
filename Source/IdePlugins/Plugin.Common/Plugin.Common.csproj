@@ -48,7 +48,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converter\TextureConverter.cs" />
     <Compile Include="Converter\IndexMapMixer4.cs" />
-    <Compile Include="Converter\Xml2ModelConverter.cs" />
     <Compile Include="Converter\Xml2ModelConverter2.cs" />
     <Compile Include="Converter\XMLModelParser.cs" />
   </ItemGroup>
