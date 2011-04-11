@@ -93,12 +93,24 @@ namespace Code2015.Effects
              
         }
 
+        public override bool SupportsMode(RenderMode mode)
+        {
+            if (mode == RenderMode.Depth)
+                return false;
+            return true;
+        }
+
         protected override int begin()
         {
             if (mode == RenderMode.Depth)
             {
                 renderSystem.BindShader(shdVtxShader);
                 renderSystem.BindShader(shdPixShader);
+            }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                renderSystem.BindShader(nrmGenPShader);
+                renderSystem.BindShader(nrmGenVShader);
             }
             else
             {
@@ -206,6 +218,12 @@ namespace Code2015.Effects
                 Matrix lightPrjTrans;
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
                 shdVtxShader.SetValue("mvp", ref lightPrjTrans);
+            }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+                nrmGenVShader.SetValue("mvp", ref mvp);
+                nrmGenVShader.SetValue("world", ref op.Transformation);
             }
             else
             {
