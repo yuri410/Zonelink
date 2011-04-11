@@ -37,7 +37,6 @@ using Apoc3D.Vfs;
 using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using Code2015.World.Screen;
 using Code2015.ParticleSystem;
 
 namespace Code2015.World
@@ -55,12 +54,12 @@ namespace Code2015.World
 
     public class CityObject : SceneObject, ISelectableObject
     {
-        [SLGValue]
-        public const int MaxPlugin = CityGrade.LargePluginCount;
+        //[SLGValue]
+       // public const int MaxPlugin = CityGrade.LargePluginCount;
 
         struct PluginEntry
         {
-            public CityPlugin plugin;
+            //public CityPlugin plugin;
             //public PluginPositionFlag position;
 
             /// <summary>
@@ -138,16 +137,16 @@ namespace Code2015.World
         CityOwnerRing sideRing;
 
 
-        CityGoalSite goalSite;
+        //CityGoalSite goalSite;
 
         RenderSystem renderSys;
         Map map;
         SmokeEffectBuffer smoke;
 
-        Dictionary<CityPlugin, Harvester> harvTable = new Dictionary<CityPlugin, Harvester>();
+        //Dictionary<CityPlugin, Harvester> harvTable = new Dictionary<CityPlugin, Harvester>();
 
         //FastList<Harvester> harvesters = new FastList<Harvester>();
-        PluginEntry[] plugins = new PluginEntry[CityGrade.LargePluginCount];
+        //PluginEntry[] plugins = new PluginEntry[CityGrade.LargePluginCount];
 
 
         //PluginPositionFlag pluginFlags;
@@ -163,15 +162,15 @@ namespace Code2015.World
         //bool isVisible;
         #region 属性
 
-        public MdgType MajorProblem
-        {
-            get { return city.MajorProblem; }
-        }
+        //public MdgType MajorProblem
+        //{
+        //    get { return city.MajorProblem; }
+        //}
 
-        public CityGoalSite GoalSite
-        {
-            get { return goalSite; }
-        }
+        //public CityGoalSite GoalSite
+        //{
+        //    get { return goalSite; }
+        //}
         public bool IsScaleIncreased
         {
             get;
@@ -218,10 +217,10 @@ namespace Code2015.World
         {
             get { return city.Latitude; }
         }
-        public UrbanSize Size
-        {
-            get { return city.Size; }
-        }
+        //public UrbanSize Size
+        //{
+        //    get { return city.Size; }
+        //}
         public void Flash(int duration)
         {
             sideRing.Flash(duration);
@@ -274,10 +273,10 @@ namespace Code2015.World
         {
             return style.GetPluginTranslation(i);
         }
-        public CityPlugin GetPlugin(int i)
-        {
-            return plugins[i].plugin;
-        }
+        //public CityPlugin GetPlugin(int i)
+        //{
+        //    return plugins[i].plugin;
+        //}
         
         
 
@@ -304,8 +303,8 @@ namespace Code2015.World
             this.style = styleSet.CreateStyle(city.Culture);
             this.renderSys = rs;
 
-            city.PluginAdded += City_PluginAdded;
-            city.PluginRemoved += City_PluginRemoved;
+            //city.PluginAdded += City_PluginAdded;
+            //city.PluginRemoved += City_PluginRemoved;
             city.NearbyCityAdded += City_Linked;
             city.NearbyCityRemoved += City_UnLinked;
             city.CaptureSet += City_CaptureSet;
@@ -331,7 +330,7 @@ namespace Code2015.World
                 City_OwnerChanged(city.Owner);
 
             sideRing = new CityOwnerRing(rs, this, style);
-            goalSite = new CityGoalSite(rs, this, style);
+            //goalSite = new CityGoalSite(rs, this, style);
 
             smoke = new SmokeEffectBuffer(rs, this);
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
@@ -341,11 +340,11 @@ namespace Code2015.World
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
-            if (disposing)
-            {
-                city.PluginAdded -= City_PluginAdded;
-                city.PluginRemoved -= City_PluginRemoved;
-            }
+            //if (disposing)
+            //{
+            //    city.PluginAdded -= City_PluginAdded;
+            //    city.PluginRemoved -= City_PluginRemoved;
+            //}
         }
 
 
@@ -384,57 +383,57 @@ namespace Code2015.World
             {
                 IsLinked = true;
 
-                goalSite.ClearCapturePiece(a);
+                //goalSite.ClearCapturePiece(a);
 
-                goalSite.ClearCapturePiece(b);
+                //goalSite.ClearCapturePiece(b);
 
 
             }
 
         }
-        void City_PluginAdded(City city, CityPlugin plugin)
-        {
-            PluginEntry ent = new PluginEntry();
+        //void City_PluginAdded(City city, CityPlugin plugin)
+        //{
+        //    PluginEntry ent = new PluginEntry();
 
-            //if ((pluginFlags & PluginPositionFlag.P1) == 0)
-            //{
-            //    pluginFlags |= PluginPositionFlag.P1;
-            //    ent.position = PluginPositionFlag.P1;
-            //}
-            //else if ((pluginFlags & PluginPositionFlag.P2) == 0)
-            //{
-            //    pluginFlags |= PluginPositionFlag.P2;
-            //    ent.position = PluginPositionFlag.P2;
-            //}
-            //else if ((pluginFlags & PluginPositionFlag.P3) == 0)
-            //{
-            //    pluginFlags |= PluginPositionFlag.P3;
-            //    ent.position = PluginPositionFlag.P3;
-            //}
-            //else if ((pluginFlags & PluginPositionFlag.P4) == 0)
-            //{
-            //    pluginFlags |= PluginPositionFlag.P4;
-            //    ent.position = PluginPositionFlag.P4;
-            //}
-            ent.plugin = plugin;
+        //    //if ((pluginFlags & PluginPositionFlag.P1) == 0)
+        //    //{
+        //    //    pluginFlags |= PluginPositionFlag.P1;
+        //    //    ent.position = PluginPositionFlag.P1;
+        //    //}
+        //    //else if ((pluginFlags & PluginPositionFlag.P2) == 0)
+        //    //{
+        //    //    pluginFlags |= PluginPositionFlag.P2;
+        //    //    ent.position = PluginPositionFlag.P2;
+        //    //}
+        //    //else if ((pluginFlags & PluginPositionFlag.P3) == 0)
+        //    //{
+        //    //    pluginFlags |= PluginPositionFlag.P3;
+        //    //    ent.position = PluginPositionFlag.P3;
+        //    //}
+        //    //else if ((pluginFlags & PluginPositionFlag.P4) == 0)
+        //    //{
+        //    //    pluginFlags |= PluginPositionFlag.P4;
+        //    //    ent.position = PluginPositionFlag.P4;
+        //    //}
+        //    ent.plugin = plugin;
 
-            int pos = -1;
-            for (int i = 0; i < MaxPlugin; i++)
-            {
-                if (plugins[i].plugin == null)
-                {
-                    pos = i;
-                    break;
-                }
-            }
+        //    int pos = -1;
+        //    for (int i = 0; i < MaxPlugin; i++)
+        //    {
+        //        if (plugins[i].plugin == null)
+        //        {
+        //            pos = i;
+        //            break;
+        //        }
+        //    }
 
-            ent.transform = Matrix.Translation(style.GetPluginTranslation(pos));
+        //    ent.transform = Matrix.Translation(style.GetPluginTranslation(pos));
 
-            plugins[pos] = ent;
+        //    plugins[pos] = ent;
 
-            goalSite.SetDesired(pos, CityGoalSite.GetDesired(plugin.TypeId));
+        //    //goalSite.SetDesired(pos, CityGoalSite.GetDesired(plugin.TypeId));
 
-        }
+        //}
 
         
         public void AddHarv(CityPlugin plugin)
@@ -688,59 +687,59 @@ namespace Code2015.World
             return false;
         }
 
-        void TryFarm()
-        {
-            for (int i = 0; i < CityGoalSite.SiteCount; i++)
-            {
-                if (goalSite.GetPieceType(i) != MdgType.Hunger || !goalSite.HasPiece(i))
-                {
-                    return;
-                }
-            }
+        //void TryFarm()
+        //{
+        //    for (int i = 0; i < CityGoalSite.SiteCount; i++)
+        //    {
+        //        if (goalSite.GetPieceType(i) != MdgType.Hunger || !goalSite.HasPiece(i))
+        //        {
+        //            return;
+        //        }
+        //    }
 
-            goalSite.Clear();
-            city.AddFarm();
-        }
+        //    goalSite.Clear();
+        //    city.AddFarm();
+        //}
 
-        public bool TryUpgrade()
-        {
-            TryFarm();
-            if (MatchSite())
-            {
-                Upgrade();
-                return true;
-            }
-            return false;
-        }
+        //public bool TryUpgrade()
+        //{
+        //    TryFarm();
+        //    if (MatchSite())
+        //    {
+        //        Upgrade();
+        //        return true;
+        //    }
+        //    return false;
+        //}
 
-        public bool MatchSite()
-        {
-            //if (plugins.Count == 0)
-            //    return false;
-            bool passed = false;
-            for (int i = 0; i < MaxPlugin; i++)
-            {
-                CityPlugin cp = plugins[i].plugin;
-                if (cp == null)
-                    continue;
+        //public bool MatchSite()
+        //{
+        //    //if (plugins.Count == 0)
+        //    //    return false;
+        //    bool passed = false;
+        //    for (int i = 0; i < MaxPlugin; i++)
+        //    {
+        //        CityPlugin cp = plugins[i].plugin;
+        //        if (cp == null)
+        //            continue;
 
-                if (!cp.IsBuilding && !cp.IsSelling)
-                {
-                    bool result = goalSite.Match(i, cp.TypeId);
-                    passed = true;
+        //        if (!cp.IsBuilding && !cp.IsSelling)
+        //        {
+        //            bool result = goalSite.Match(i, cp.TypeId);
+        //            passed = true;
 
-                    if (!result)
-                        return false;
-                }
-                else return false;
-            }
-            return passed;
-        }
+        //            if (!result)
+        //                return false;
+        //        }
+        //        else return false;
+        //    }
+        //    return passed;
+        //}
 
         public override void Update(GameTime dt)
         {
             if (IsCaptured && Owner.Type == PlayerType.LocalHuman)
-                TryUpgrade();
+               // TryUpgrade();
 
             BoundingSphere.Radius = CityStyleTable.CityRadius;
 
