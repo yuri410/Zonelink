@@ -43,7 +43,7 @@ namespace Code2015.AI
         List<City> cityBuffer = new List<City>();
 
         SimulationWorld world;
-        CityPluginFactory pluginFactory;
+        //CityPluginFactory pluginFactory;
 
         [SLGValue]
         const float AIDecisionDelay = 20;
@@ -143,11 +143,11 @@ namespace Code2015.AI
                                         switch (res.Type)
                                         {
                                             case NaturalResourceType.Petro:
-                                                CityPlugin plugin = pluginFactory.MakeOilRefinary();
+                                                //CityPlugin plugin = pluginFactory.MakeOilRefinary();
                                                 cc.Add(plugin);
                                                 break;
                                             case NaturalResourceType.Wood:
-                                                plugin = pluginFactory.MakeWoodFactory();
+                                                //plugin = pluginFactory.MakeWoodFactory();
                                                 cc.Add(plugin);
                                                 break;
                                         }
@@ -160,19 +160,19 @@ namespace Code2015.AI
 
                                 for (int j = 0; j < rem; j++)
                                 {
-                                    CityPlugin plugin;
+                                    //CityPlugin plugin;
 
                                     bool k = Randomizer.GetRandomBool();
 
                                     if (k)
                                     {
-                                        plugin = pluginFactory.MakeHospital();
+                                        //plugin = pluginFactory.MakeHospital();
                                     }
                                     else
                                     {
-                                        plugin = pluginFactory.MakeEducationAgent();
+                                        //plugin = pluginFactory.MakeEducationAgent();
                                     }
-                                    cc.Add(plugin);
+                                    //cc.Add(plugin);
                                 }
                             }
                             finished = true;
