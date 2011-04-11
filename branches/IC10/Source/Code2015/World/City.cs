@@ -10,6 +10,7 @@ using Apoc3D.MathLib;
 using Code2015.Logic;
 using Apoc3D.Config;
 using Zonelink.World;
+using Apoc3D.Graphics;
 
 namespace Code2015.World
 {
@@ -136,7 +137,7 @@ namespace Code2015.World
             this.healthValue = 1000;  
         }
 
-        public void Initialize() 
+        public override void InitalizeGraphics(RenderSystem rs) 
         {
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
             sound.Position = Position;

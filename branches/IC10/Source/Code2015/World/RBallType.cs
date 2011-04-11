@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     /// <summary>
     /// 资源球类型的标识
