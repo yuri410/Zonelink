@@ -115,7 +115,6 @@
     <Compile Include="Effects\SmokeEffect.cs" />
     <Compile Include="Effects\Post\GaussBlurShd.cs" />
     <Compile Include="Effects\RigidBaseEffect.cs" />
-    <Compile Include="Effects\SkyboxEffect.cs" />
     <Compile Include="Effects\StandardEffect.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\TreeEffect.cs" />
