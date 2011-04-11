@@ -335,69 +335,11 @@ namespace Code2015.BalanceSystem
         //{
         //    get { return localFood; }
         //}
-
-        public bool IsHomeCity
-        {
-            get;
-            set;
-        }
-
         public int StartUp
         {
             get;
             private set;
         }
-
-        /// <summary>
-        ///  获取城市的名称
-        /// </summary>
-        public string Name
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        ///  获取城市的发展度
-        /// </summary>
-        public float Development
-        {
-            get;
-            private set;
-        }
-        ///// <summary>
-        /////  获取城市的人口数量
-        ///// </summary>
-        //public float Population
-        //{
-        //    get;
-        //    private set;
-        //}
-        public float InitialDeveleopment
-        {
-            get;
-            private set;
-        }
-        //public float InitialPopulation
-        //{
-        //    get;
-        //    private set;
-        //}
-        ///// <summary>
-        /////  获取城市的疾病因数
-        ///// </summary>
-        //public float Disease
-        //{
-        //    get;
-        //    private set;
-        //}
-
-        //public float GetSelfFoodCostSpeedFull()
-        //{
-        //    float res = Population * CityGrade.FoodCostPerPeople;
-        //    if (res < 0)
-        //        res = 0;
-        //    return res;
-        //}
 
 
         public float AdditionalDevMult
@@ -1234,14 +1176,6 @@ namespace Code2015.BalanceSystem
             base.Update(time);
         }
 
-        public void ResolveCities(Dictionary<string, City> table)
-        {
-            for (int i = 0; i < linkableCityName.Length; i++)
-            {
-                City city = table[linkableCityName[i]];
-                linkableCity.Add(city);
-            }
-        }
 
 
         //public float ProblemEnvironment

@@ -51,6 +51,13 @@ namespace Code2015.World
 
         CityAnimationState animationType = CityAnimationState.ReceiveBall;
 
+
+        SoundObject sound;
+
+
+
+
+
         string[] linkableCityName;
         FastList<City> linkableCity = new FastList<City>();
 
@@ -73,12 +80,18 @@ namespace Code2015.World
         //城市类型
         public CityType Type { get; protected set; }
 
-        //城市名称
+
+        /// <summary>
+        ///  获取城市的名称
+        /// </summary>
         public string Name { get; set; }
 
-        //动画状态，由状态机改变
 
         public float HealthValue { get { return healthValue; } }
+
+        /// <summary>
+        ///  获取城市的发展度
+        /// </summary>
         public float Development { get { return development; } }
 
         public float HPRate
@@ -100,6 +113,11 @@ namespace Code2015.World
         }
 
 
+        public bool IsHomeCity
+        {
+            get;
+            set;
+        }
         /// <summary>
         ///  待选起始点
         /// </summary>
@@ -116,8 +134,13 @@ namespace Code2015.World
             this.battleField = btfld;
 
             this.healthValue = 1000;  
-        }  
+        }
 
+        public void Initialize() 
+        {
+            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
+            sound.Position = Position;
+        }
 
         int Camparision(NatureResource a, NatureResource b)
         {
@@ -260,7 +283,7 @@ namespace Code2015.World
             this.Transformation = PlanetEarth.GetOrientation(radLong, radLat);
             //this = Matrix.Invert(Transformation);
 
-            this.Transformation.Translation = this.Position; // TranslationValue = pos;
+            this.Transformation.TranslationValue = this.Position; // TranslationValue = pos;
 
             BoundingSphere.Radius = RulesTable.CityRadius;
             BoundingSphere.Center = this.Position;
