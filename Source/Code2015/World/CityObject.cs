@@ -205,18 +205,11 @@ namespace Code2015.World
             get { return position; }
         }
 
-        public float Satisfaction
-        {
-            get { return city.Satisfaction; }
-        }
-        public float Longitude
-        {
-            get { return city.Longitude; }
-        }
-        public float Latitude
-        {
-            get { return city.Latitude; }
-        }
+        //public float Satisfaction
+        //{
+        //    get { return city.Satisfaction; }
+        //}
+
         //public UrbanSize Size
         //{
         //    get { return city.Size; }
@@ -244,10 +237,6 @@ namespace Code2015.World
         public CaptureState Capture
         {
             get { return city.Capture; }
-        }
-        public Player Owner
-        {
-            get { return city.Owner; }
         }
 
         //public int HarvesterCount

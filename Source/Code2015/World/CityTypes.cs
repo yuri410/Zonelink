@@ -5,6 +5,7 @@ using System.Text;
 using Microsoft.Xna.Framework;
 using Code2015.World;
 using Code2015.EngineEx;
+using Code2015.Logic;
 
 namespace Zonelink.World
 {

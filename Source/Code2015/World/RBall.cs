@@ -1,11 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 using Apoc3D;
+using Code2015.Logic;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     /// <summary>
     ///  表示资源球
