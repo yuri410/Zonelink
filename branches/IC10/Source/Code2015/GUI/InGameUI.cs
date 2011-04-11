@@ -33,7 +33,6 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
-using Code2015.World.Screen;
 using XI = Microsoft.Xna.Framework.Input;
 
 namespace Code2015.GUI
@@ -95,10 +94,10 @@ namespace Code2015.GUI
         MouseCursor cursorState;
 
 
-        GoalIcons icons;
+        //GoalIcons icons;
         GoalPieceMaker pieceMaker;
 
-        ScreenPhysicsWorld physWorld;
+        //ScreenPhysicsWorld physWorld;
 
         Texture cursor;
         Texture cursor_up;
@@ -110,26 +109,18 @@ namespace Code2015.GUI
         Texture cursor_dl;
         Texture cursor_dr;
         
-        PieceContainer container;
         InfoUI infoUI;
         MiniMap miniMap;
-        NoticeBar noticeBar;
+        //NoticeBar noticeBar;
         DevelopmentMeter playerProgress;
         Picker picker;
-        CityEditPanel cityEdit;
-        Brackets brackets;
+        //CityEditPanel cityEdit;
         ExitConfirm exitConfirm;
         bool isEscPressed;
 
-        CO2Graph co2graph;
         Player player;
 
 
-
-        public ScreenPhysicsWorld PhysicsWorld
-        {
-            get { return physWorld; }
-        }
 
         
 
@@ -141,7 +132,7 @@ namespace Code2015.GUI
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.scene = scene;
-            this.physWorld = new ScreenPhysicsWorld();
+           // this.physWorld = new ScreenPhysicsWorld();
 
             this.player = parent.HumanPlayer;
 
@@ -356,7 +347,7 @@ namespace Code2015.GUI
                     }
                     pieceMaker.Update(time);
 
-                    physWorld.Update(time);
+                    //physWorld.Update(time);
                     //infoUI.SelectedObject = picker.SelectedObject;
                     //cityEdit.SelectedCity = picker.SelectedCity;
 

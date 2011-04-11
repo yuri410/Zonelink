@@ -37,13 +37,7 @@ using Code2015.GUI.Controls;
 
 namespace Code2015.GUI
 {
-    enum AnimState
-    {
-        Inside,
-        Outside,
-        In,
-        Out
-    }
+
 
     class CityEditPanel : UIComponent
     {
