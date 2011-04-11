@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
@@ -8,7 +7,7 @@ using Code2015.Logic;
 using Apoc3D.MathLib;
 using Apoc3D.Graphics;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     /// <summary>
     ///  表示游戏世界中实体
@@ -43,8 +42,8 @@ namespace Zonelink.World
         {
             //fsmMachine = new FSMMachine(this);
         }
-        
-        public abstract void InitalizeGraphics(RenderSystem rs) 
+
+        public abstract void InitalizeGraphics(RenderSystem rs);
 
         ////状态转换，事件处理
         //public bool HandleMessage(Message msg)
@@ -69,9 +68,11 @@ namespace Zonelink.World
             Latitude = sect.GetSingle("Latitude");
         }
 
-        public override void Render()
-        {
-            throw new NotSupportedException();
-        }
+
     }
+
+    abstract class WorldDynamicObject : DynamicObject 
+    {
+    }
+
 }

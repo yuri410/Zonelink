@@ -448,7 +448,8 @@
     <Compile Include="World\City.cs" />
     <Compile Include="World\CityLinkManager.cs" />
     <Compile Include="World\CityTypes.cs" />
-    <Compile Include="World\Entity.cs" />
+    <Compile Include="World\RBallType.cs" />
+    <Compile Include="World\WorldObject.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">

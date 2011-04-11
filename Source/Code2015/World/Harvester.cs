@@ -53,7 +53,7 @@ namespace Code2015.World
     }
 
 
-    class Harvester : DynamicObject
+    class Harvester : WorldDynamicObject
     {
         public const int NumModels = 30;
         /// <summary>
@@ -101,7 +101,7 @@ namespace Code2015.World
         float harvStorage;
 
         bool isFullLoaded;
-        NatureResource exRes;
+        NaturalResource exRes;
         bool isLoading;
         bool isUnloading;
         float loadingTime;
@@ -145,13 +145,7 @@ namespace Code2015.World
         }
 
         public GatherCity Parent { get { return parent; } }
-        ///// <summary>
-        /////  留着做动画
-        ///// </summary>
-        //public Model Model         
-        //{
-        //    get { return model; }
-        //}
+        
 
 
 
@@ -165,17 +159,21 @@ namespace Code2015.World
         {
             this.parent = parent;
 
-            this.model = mdl;
-
+            
             finder = map.PathFinder.CreatePathFinder();
             this.map = map;
 
 
             BoundingSphere.Radius = 50;
-            ModelL0 = mdl[0];
+            
         }
 
+        public void InitializeGraphics(Model[] mdl)
+        {
+            this.model = mdl;
 
+            ModelL0 = mdl[0];
+        }
         public event EventHandler GotThere;
         public event EventHandler GotHome;
 
@@ -425,7 +423,10 @@ namespace Code2015.World
                     if (mdlIndex >= NumModels)
                         mdlIndex = NumModels - 1;
 
-                    ModelL0 = model[mdlIndex];
+                    if (model != null)
+                    {
+                        ModelL0 = model[mdlIndex];
+                    }
 
                     if (altitude < 0)
                         altitude = 0;

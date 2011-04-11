@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using Microsoft.Xna.Framework;
 using Code2015.World;
 using Code2015.EngineEx;
 using Code2015.Logic;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     class GatherCity : City
     {
@@ -20,7 +18,7 @@ namespace Zonelink.World
         //资源搜索范围
         float gatherDistance;
 
-        private List<NatureResource> nearResource = new List<NaturalResource>();
+        private List<NaturalResource> nearResource = new List<NaturalResource>();
 
         public NatureResource ExResource
         {

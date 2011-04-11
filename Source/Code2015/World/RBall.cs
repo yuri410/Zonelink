@@ -3,13 +3,15 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Code2015.Logic;
+using Zonelink.World;
+using Apoc3D.MathLib;
 
 namespace Code2015.World
 {
     /// <summary>
     ///  表示资源球
     /// </summary>
-    class RBall : Entity
+    class RBall : WorldDynamicObject
     {
         const float MinRadius = 25;
         const float MaxRadius = 50;
@@ -70,7 +72,7 @@ namespace Code2015.World
             //{
                 
             //}
-            return Parent.Radius * Randomizer.NextFloat() * (MaxRadius - MinRadius) + MinRadius;
+            return Parent.Radius * Randomizer.GetRandomSingle() * (MaxRadius - MinRadius) + MinRadius;
             
         }
 
@@ -87,7 +89,7 @@ namespace Code2015.World
 
             currentRadius = NextRadius();
 
-            roundSpeed = Randomizer.NextFloat() * (MaxSpeed - MinSpeed) + MinSpeed;
+            roundSpeed = Randomizer.GetRandomSingle() * (MaxSpeed - MinSpeed) + MinSpeed;
             targetRadius = currentRadius;
 
         }
