@@ -1,16 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Code2015.EngineEx;
 using Code2015.World;
-using Microsoft.Xna.Framework;
-using Microsoft.Xna.Framework.Graphics;
-using Zonelink.Graphics;
 using Apoc3D.Collections;
 using Apoc3D;
+using Apoc3D.Scene;
+using Apoc3D.MathLib;
+using Code2015.Logic;
+using Apoc3D.Config;
+using Zonelink.World;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     /// <summary>
     /// 城市的类型的标识
@@ -44,7 +45,7 @@ namespace Zonelink.World
     ///  表示游戏世界中的城市
     ///  是特殊的类型才继承，比如那些带矿车的
     /// </summary>
-    class City : Entity
+    class City : WorldObject
     {
         protected BattleField battleField;
 
@@ -84,6 +85,7 @@ namespace Zonelink.World
         {
             get { return healthValue / development; }
         }
+    
 
 
         //城市附近的资源球 
@@ -148,18 +150,11 @@ namespace Zonelink.World
             healthValue = healthRate * development;
         }
 
-        public void HookAnimationEvent(RigidModel model)
-        {
-            model.Completed += Animation_Complete;
-        }
-        private void Animation_Complete(object sender, EventArgs e)
-        {
-            switch (animationType)
-            {
+        //public void HookAnimationEvent(RigidModel model)
+        //{
+        //    model.Completed += Animation_Complete;
+        //}
 
-            }
-            ((RigidModel)sender).Play();
-        }
 
         public void Damage(float v, Player owener)
         {
@@ -256,14 +251,14 @@ namespace Zonelink.World
 
         private void UpdateLocation()
         {
-            float radLong = MathHelper.ToRadians(this.Longitude);
-            float radLat = MathHelper.ToRadians(this.Latitude);
+            float radLong = MathEx.Degree2Radian(this.Longitude);
+            float radLat = MathEx.Degree2Radian(this.Latitude);
 
             float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
             this.Position = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude + 5);
 
             this.Transformation = PlanetEarth.GetOrientation(radLong, radLat);
-            this.InvTransformation = Matrix.Invert(Transformation);
+            //this = Matrix.Invert(Transformation);
 
             this.Transformation.Translation = this.Position; // TranslationValue = pos;
 
@@ -283,33 +278,19 @@ namespace Zonelink.World
                 // 计算附近同阵营资源球贡献发展量
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
-                    devIncr += ddt * Utils.GetRBallContribution(nearbyBallList[i].Type);
+                    devIncr += ddt;// *Utils.GetRBallContribution(nearbyBallList[i].Type);
                 }         
             }
         }
 
-        #region 发展状态
 
-        ///// <summary>
-        /////  普通城市类型，当时间间隔小于0时，产生资源球
-        /////  Gather City 根据Buffer产生资源球
-        /////  在更新资源状态中调用，true则切换状态到产生球状态，播放动画
-        ///// </summary>
-        ///// <returns></returns>
-        //virtual bool CanProduceRBall()
-        //{
-        //    return this.interval < 0;
-        //}
 
-        #endregion
 
-        //#region 产生球状态
         public virtual void ProduceBall()
         {
             //this.battleField.CreateResourceBall(this);
         }
 
-        //#endregion
 
 
 

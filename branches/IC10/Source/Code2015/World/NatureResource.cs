@@ -1,14 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.World;
-using Microsoft.Xna.Framework;
+using Code2015.Logic;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     public enum NaturalResourceType
     {
@@ -16,7 +15,7 @@ namespace Zonelink.World
         Oil
     }
 
-    class NatureResource : Entity
+    class NaturalResource : Entity
     {
         const float OTimesMaxAmount = 2;
         //const float ORecoverBias = 1;
@@ -71,7 +70,7 @@ namespace Zonelink.World
         }
 
 
-        public NatureResource()
+        public NaturalResource()
             
         {
       

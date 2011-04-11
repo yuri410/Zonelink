@@ -1,12 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using Apoc3D.Collections;
-using Microsoft.Xna.Framework;
-using Zonelink.MathLib;
+using Apoc3D.MathLib;
 
-namespace Zonelink.World
+namespace Code2015.World
 {
     class BallPathFinderResult
     {

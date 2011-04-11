@@ -445,8 +445,10 @@
     <Compile Include="SoundObject.cs" />
     <Compile Include="SoundObjectWorld.cs" />
     <Compile Include="StaticPlay.cs" />
-    <Compile Include="World\CityGoalSite.cs" />
+    <Compile Include="World\BallPathFinder.cs" />
+    <Compile Include="World\City.cs" />
     <Compile Include="World\CityLinkManager.cs" />
+    <Compile Include="World\CityTypes.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
@@ -479,6 +481,8 @@
     <Compile Include="World\Harvester.cs" />
     <Compile Include="World\ISelectableObject.cs" />
     <Compile Include="World\LightningStrom.cs" />
+    <Compile Include="World\NatureResource.cs" />
+    <Compile Include="World\RBall.cs" />
     <Compile Include="World\SceneryObject.cs" />
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
