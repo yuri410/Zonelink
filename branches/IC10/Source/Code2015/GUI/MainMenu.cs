@@ -31,7 +31,6 @@ using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.AI;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
@@ -216,7 +215,7 @@ namespace Code2015.GUI
 
         GameGoal CreateGoal()
         {
-            GameGoal goal = new GameGoal(CityGrade.LargeCityPointThreshold * 8);
+            GameGoal goal = new GameGoal(RulesTable.CityMaxDevelopment * 8);
 
             return goal;
         }

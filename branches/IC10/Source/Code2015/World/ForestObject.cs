@@ -29,7 +29,6 @@ using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 
 namespace Code2015.World
@@ -53,24 +52,26 @@ namespace Code2015.World
 
     class ForestObject : NaturalResource, ISelectableObject, IResourceObject
     {
-        Forest forest;
         ResourceHandle<TreeBatchModel> model;
         SoundObject sound;
 
         Vector3 stdPosition;
 
-        public ForestObject(RenderSystem rs, Forest forest)
-            : base(false)
+        public ForestObject()
         {
-            this.forest = forest;
+           
 
+        }
+
+        public override void InitalizeGraphics(RenderSystem rs)
+        {
 
             ForestInfo info;
-            info.Latitude = forest.Latitude;
-            info.Longitude = forest.Longitude;
-            info.Radius = forest.Radius;
+            info.Latitude = Latitude;
+            info.Longitude = Longitude;
+            info.Radius = Radius;
 
-            info.Amount = forest.CurrentAmount;
+            info.Amount = CurrentAmount;
 
             //info.Plants = TreeModelLibrary.Instance.Get(0);
 
@@ -85,8 +86,8 @@ namespace Code2015.World
             sound.Position = BoundingSphere.Center;
 
             {
-                float radLng = MathEx.Degree2Radian(forest.Longitude);
-                float radLat = MathEx.Degree2Radian(forest.Latitude);
+                float radLng = MathEx.Degree2Radian(Longitude);
+                float radLat = MathEx.Degree2Radian(Latitude);
 
                 float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
 
@@ -115,10 +116,6 @@ namespace Code2015.World
             get { return false; }
         }
 
-        public Forest Forest
-        {
-            get { return forest; }
-        }
 
         #region ISelectableObject 成员
 
@@ -133,15 +130,15 @@ namespace Code2015.World
         #region IResourceObject 成员
         public float MaxValue 
         {
-            get { return forest.MaxAmount / (7500f * 2); }
+            get { return MaxAmount / (7500f * 2); }
         }
         public float AmountPer
         {
-            get { return forest.CurrentAmount / (7500f * 2); }
+            get { return CurrentAmount / (7500f * 2); }
         }
         public NaturalResourceType Type
         {
-            get { return forest.Type; }
+            get { return Type; }
         }
         public event ResourceVisibleHander ResVisible;
 
@@ -153,17 +150,17 @@ namespace Code2015.World
 
         public float Longitude
         {
-            get { return forest.Longitude; }
+            get { return Longitude; }
         }
 
         public float Latitude
         {
-            get { return forest.Latitude; }
+            get { return Latitude; }
         }
 
         public float Radius 
         {
-            get { return forest.Radius; }
+            get { return Radius; }
         }
 
         #endregion

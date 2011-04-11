@@ -24,7 +24,6 @@ http://www.gnu.org/copyleft/gpl.txt.
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Code2015.Network;
 
 namespace Code2015.Logic
 {

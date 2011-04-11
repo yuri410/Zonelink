@@ -83,6 +83,7 @@ namespace Code2015.GUI
             DownRightArrow = DownArrow | RightArrow,
             UpLeftArrow = UpArrow | LeftArrow,
             DownLeftArrow = DownArrow | LeftArrow,
+            Selection = 64
         }
 
         GameScene scene;
@@ -95,7 +96,7 @@ namespace Code2015.GUI
 
 
         //GoalIcons icons;
-        GoalPieceMaker pieceMaker;
+        //GoalPieceMaker pieceMaker;
 
         //ScreenPhysicsWorld physWorld;
 
@@ -112,7 +113,7 @@ namespace Code2015.GUI
         InfoUI infoUI;
         MiniMap miniMap;
         //NoticeBar noticeBar;
-        DevelopmentMeter playerProgress;
+        //DevelopmentMeter playerProgress;
         Picker picker;
         //CityEditPanel cityEdit;
         ExitConfirm exitConfirm;
@@ -173,17 +174,17 @@ namespace Code2015.GUI
             //AddElement(cityEdit);
 
             this.infoUI = new InfoUI(game, parent, scene, gamelogic);
-            //AddElement(infoUI);
+            AddElement(infoUI);
 
             //this.brackets = new Brackets(game, parent, scene, gamelogic, picker);
            // AddElement(brackets);
 
-            this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
+            //this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
            // AddElement(icons);
 
            // brackets.SetGoalIcons(icons);
 
-            this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
+            //this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 
            
            // this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);

@@ -31,7 +31,6 @@ using Apoc3D.Config;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.Logic;
@@ -206,19 +205,19 @@ namespace Code2015
                 this.scene.Camera.Longitude = MathEx.Degree2Radian(hstart.Longitude);
                 this.scene.Camera.Latitude = MathEx.Degree2Radian(hstart.Latitude);
             }
-            SimulationWorld slgSystem = gameState.SLGWorld;
+            BattleField slgSystem = gameState.Field;
 
 
             map = new Map(slgSystem);
             for (int i = 0; i < slgSystem.CityCount; i++)
             {
-                City city = slgSystem.GetCity(i);
+                City city = slgSystem.Cities[i];
 
-                CityObject cityObj = new CityObject(renderSys, map, scene.Scene, linkMgr, city, cityStyles);
+                //CityObject cityObj = new CityObject(renderSys, map, scene.Scene, linkMgr, city, cityStyles);
 
-                cityObj.CityVisible += scene.City_Visible;
+                city.CityVisible += scene.City_Visible;
 
-                scene.Scene.AddObjectToScene(cityObj);
+                scene.Scene.AddObjectToScene(city);
             }
 
             AddResources(slgSystem);
@@ -230,7 +229,7 @@ namespace Code2015
             this.ingameUI = new InGameUI(game, this, scene, gameState);
         }
 
-        void AddResources(SimulationWorld slgSystem)
+        void AddResources(BattleField slgSystem)
         {
             for (int i = 0; i < slgSystem.ResourceCount; i++)
             {
@@ -238,19 +237,19 @@ namespace Code2015
                 switch (obj.Type)
                 {
                     case NaturalResourceType.Petro:
-                        OilField oilfld = obj as OilField;
+                        OilFieldObject oilfld = obj as OilFieldObject;
                         if (oilfld != null)
                         {
-                            OilFieldObject oilObj = new OilFieldObject(renderSys, oilfld);
+                            OilFieldObject oilObj = new OilFieldObject();
                             oilObj.ResVisible += scene.Resource_Visible;
                             scene.Scene.AddObjectToScene(oilObj);
                         }
                         break;
                     case NaturalResourceType.Wood:
-                        Forest forest = obj as Forest;
+                        ForestObject forest = obj as ForestObject;
                         if (forest != null)
                         {
-                            ForestObject forestObj = new ForestObject(renderSys, forest);
+                            ForestObject forestObj = new ForestObject();
                             forestObj.ResVisible += scene.Resource_Visible;
                             scene.Scene.AddObjectToScene(forestObj);
                         }
@@ -272,11 +271,11 @@ namespace Code2015
             }
         }
 
-        void DisasterArrived(Disaster d)
-        {
-            LightningStrom strom = new LightningStrom(renderSys, d);
-            scene.Scene.AddObjectToScene(strom);
-        }
+        //void DisasterArrived(Disaster d)
+        //{
+        //    LightningStrom strom = new LightningStrom(renderSys, d);
+        //    scene.Scene.AddObjectToScene(strom);
+        //}
 
 
         public void Render(Sprite sprite)

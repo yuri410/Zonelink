@@ -30,7 +30,6 @@ using Apoc3D.Graphics;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.World;
 

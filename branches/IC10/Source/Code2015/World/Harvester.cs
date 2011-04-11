@@ -115,7 +115,7 @@ namespace Code2015.World
 
         public bool IsFullLoaded { get { return isFullLoaded; } set { isFullLoaded = value; } }
 
-        public NatureResource ExRes
+        public NaturalResource ExRes
         {
             get { return exRes; }
             set { exRes = value; }
@@ -155,7 +155,7 @@ namespace Code2015.World
             get { return cuurentPath == null; }
         }
 
-        public Harvester(GatherCity parent, Map map, Model[] mdl)
+        public Harvester(GatherCity parent, Map map)
         {
             this.parent = parent;
 
@@ -456,9 +456,6 @@ namespace Code2015.World
         }
 
 
-        public override void Render()
-        {
-        }
     }
 
 }

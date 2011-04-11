@@ -31,7 +31,6 @@ using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
 
@@ -40,14 +39,14 @@ namespace Code2015.World
     class CityLinkableMark : SceneObject
     {
         Player player;
-        CityObject start;
-        CityObject[] targets;
+        City start;
+        City[] targets;
 
         Model[] linkArrow;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
-        public void SetCity(CityObject start, CityObject[] targets)
+        public void SetCity(City start, City[] targets)
         {
             this.start = start;
             this.targets = targets;
@@ -56,7 +55,7 @@ namespace Code2015.World
             {
                 for (int i = 0; i < targets.Length; i++)
                 {
-                    CityObject end = targets[i];
+                    City end = targets[i];
 
                     Vector3 dir = end.Position - start.Position;
 

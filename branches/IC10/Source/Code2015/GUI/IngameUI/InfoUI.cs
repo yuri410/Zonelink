@@ -30,7 +30,6 @@ using Apoc3D.Graphics;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.Logic;
@@ -60,7 +59,7 @@ namespace Code2015.GUI
 
 
         ISelectableObject selected;
-        CityObject city;
+        City city;
        
 
         Point selectedProjPos;
@@ -76,7 +75,7 @@ namespace Code2015.GUI
 
                     if (selected != null)
                     {
-                        city = selected as CityObject;
+                        city = selected as City;
 
                         if (city != null)
                         {
@@ -85,14 +84,14 @@ namespace Code2015.GUI
                             selectedProjPos.X = (int)ppos.X;
                             selectedProjPos.Y = (int)ppos.Y;
 
-                            City cc = city.City;
-                            CityObject[] nearby = new CityObject[cc.LinkableCityCount];
+                            City cc = city;
+                            City[] nearby = new City[cc.LinkableCityCount];
 
                             for (int i = 0; i < cc.LinkableCityCount; i++)
                             {
-                                nearby[i] = cc.GetLinkableCity(i).Parent;
+                                nearby[i] = cc.GetLinkableCity(i);
                             }
-
+                            
                             linkArrow.SetCity(city, nearby);
                         }
                     }

@@ -29,12 +29,12 @@ using Apoc3D.Scene;
 
 namespace Code2015.World
 {
-    public class CityLinkManager
+    class CityLinkManager
     {
         struct Entry
         {
-            public CityObject A;
-            public CityObject B;
+            public City A;
+            public City B;
 
             public override int GetHashCode()
             {
@@ -67,7 +67,7 @@ namespace Code2015.World
 
         }
 
-        public void Link(RenderSystem rs, SceneManagerBase mgr, CityObject a, CityObject b)
+        public void Link(RenderSystem rs, SceneManagerBase mgr, City a, City b)
         {
             Entry e;
             e.A = a;
@@ -82,7 +82,7 @@ namespace Code2015.World
             }
         }
 
-        public void Unlink(SceneManagerBase mgr, CityObject a, CityObject b)
+        public void Unlink(SceneManagerBase mgr, City a, City b)
         {
             Entry e;
             e.A = a;

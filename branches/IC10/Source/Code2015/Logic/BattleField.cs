@@ -5,7 +5,6 @@ using System.Text;
 using Apoc3D;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using Zonelink.World;
 using Code2015.World;
 
 namespace Code2015
@@ -17,9 +16,9 @@ namespace Code2015
     {
         public const int MaxCities = 120;
 
-        ResourceBallType[] resTypes = new ResourceBallType[4];
+        //ResourceBallType[] resTypes = new ResourceBallType[4];
 
-        NatureResource[] naturalResource;
+        NaturalResource[] naturalResource;
 
         List<RBall> resBalls = new List<RBall>();
 
@@ -37,7 +36,7 @@ namespace Code2015
         {
             get { return cityList; }
         }
-        public NatureResource[] NaturalResources 
+        public NaturalResource[] NaturalResources 
         {
             get { return naturalResource; }
         }
@@ -71,6 +70,9 @@ namespace Code2015
         private void LoadCities()
         {
             string type;
+
+            
+
             GameConfiguration resCon = Utils.LoadConfig("cities.xml");
             GameConfiguration.ValueCollection resVals = resCon.Values;
             Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
@@ -108,11 +110,11 @@ namespace Code2015
             GameConfiguration resCon = Utils.LoadConfig("resources.xml");    
             GameConfiguration.ValueCollection resVals = resCon.Values;
 
-            List<NatureResource> resources = new List<NatureResource>(MaxCities);
+            List<NaturalResource> resources = new List<NaturalResource>(MaxCities);
 
             foreach (GameConfigurationSection sect in resVals)
             {
-                NatureResource res = new NatureResource();
+                NaturalResource res = new NaturalResource();
                 res.Parse(sect);
                 res.Reset(100);
                 resources.Add(res);            

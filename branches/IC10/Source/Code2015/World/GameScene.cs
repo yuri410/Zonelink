@@ -45,7 +45,7 @@ namespace Code2015.World
         RtsCamera camera;
         SceneRenderer renderer;
 
-        FastList<CityObject> visibleList = new FastList<CityObject>();
+        FastList<City> visibleList = new FastList<City>();
         FastList<IResourceObject> visibleResource = new FastList<IResourceObject>();
 
         public RtsCamera Camera
@@ -97,7 +97,7 @@ namespace Code2015.World
 
         }
 
-        internal void City_Visible(CityObject obj) 
+        internal void City_Visible(City obj) 
         {
             visibleList.Add(obj);
         }
@@ -110,7 +110,7 @@ namespace Code2015.World
         {
             get { return visibleList.Count; }
         }
-        public CityObject GetVisibleCity(int i)
+        public City GetVisibleCity(int i)
         {
             return visibleList[i];
         }

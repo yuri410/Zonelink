@@ -31,7 +31,6 @@ using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.ParticleSystem;
 
@@ -59,8 +58,8 @@ namespace Code2015.World
         int updataCounter;
         SceneManagerBase sceneMgr;
 
-        CityObject start;
-        CityObject end;
+        City start;
+        City end;
         CityLink alink;
         CityLink blink;
 
@@ -95,7 +94,7 @@ namespace Code2015.World
 
         bool isVisible;
 
-        public CityLinkObject(RenderSystem renderSys, CityObject a, CityObject b)
+        public CityLinkObject(RenderSystem renderSys, City a, City b)
             : base(false)
         {
             start = a;

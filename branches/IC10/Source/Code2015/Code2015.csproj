@@ -112,7 +112,6 @@
     <Compile Include="Effects\SkinnedStandardEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
-    <Compile Include="EngineEx\PathBuilder.cs" />
     <Compile Include="EngineEx\PostRenderer.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
@@ -132,14 +131,10 @@
     <Compile Include="Engine\Apoc3D.Graphics\Animation\SkinnedAnimationPlayer.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\MaterialAnimationPlayer.cs" />
     <Compile Include="GUI\ColorNotify.cs" />
-    <Compile Include="GUI\IngameUI\Brackets.cs" />
-    <Compile Include="GUI\IngameUI\CityEditPanel.cs" />
     <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\IngameUI\CO2Graph.cs" />
     <Compile Include="GUI\CreditScreen.cs" />
-    <Compile Include="GUI\IngameUI\DevelopmentMeter.cs" />
     <Compile Include="GUI\GUIScreen.cs" />
     <Compile Include="GUI\IngameUI\InfoDisplay.cs" />
     <Compile Include="GUI\Controls\Control.cs">
@@ -173,8 +168,6 @@
     </Compile>
     <Compile Include="GUI\IngameUI\MiniMap.cs" />
     <Compile Include="GUI\MouseInput.cs" />
-    <Compile Include="GUI\IngameUI\NoticeBar.cs" />
-    <Compile Include="GUI\IngameUI\PieceContainer.cs" />
     <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\IngameUI\ResourceInfo.cs" />
     <Compile Include="GUI\ScoreScreen2.cs" />
@@ -182,8 +175,6 @@
     <Compile Include="GUI\ExitConfirm.cs" />
     <Compile Include="Logic\BattleField.cs" />
     <Compile Include="Logic\GameGoal.cs" />
-    <Compile Include="Logic\GoalPieceMaker.cs" />
-    <Compile Include="Logic\ILogicStateObject.cs" />
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
@@ -430,10 +421,6 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
     <Compile Include="Logic\RulesTable.cs" />
-    <Compile Include="Network\GameClient.cs" />
-    <Compile Include="Network\GamePeer.cs" />
-    <Compile Include="Network\GameServer.cs" />
-    <Compile Include="Network\NetworkGameStateData.cs" />
     <Compile Include="ParticleSystem\ParticleModifier.cs" />
     <Compile Include="ParticleSystem\SmokeEffect.cs" />
     <Compile Include="ParticleSystem\TransferEffect.cs" />
@@ -446,12 +433,17 @@
     <Compile Include="StaticPlay.cs" />
     <Compile Include="World\BallPathFinder.cs" />
     <Compile Include="World\City.cs" />
+    <Compile Include="World\CityLinkableMark.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="World\CityLinkManager.cs" />
+    <Compile Include="World\CityStyle.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="World\CityTypes.cs" />
     <Compile Include="World\RBallType.cs" />
     <Compile Include="World\WorldObject.cs" />
     <Compile Include="World\GameScene.cs" />
-    <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
       <SubType>Code</SubType>
     </Compile>
