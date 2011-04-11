@@ -151,65 +151,65 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            CityPlugin cplug = city.GetPlugin(Plugin);
+            //CityPlugin cplug = city.GetPlugin(Plugin);
 
-            if (cplug == null)
-                return;
-            Vector3 plpos;
-            Vector3 ppofs = city.GetPluginPosition(Plugin);
-            ppofs.Z += 45;
+            //if (cplug == null)
+            //    return;
+            //Vector3 plpos;
+            //Vector3 ppofs = city.GetPluginPosition(Plugin);
+            //ppofs.Z += 45;
 
-            Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
+            //Vector3.TransformSimple(ref ppofs, ref city.Transformation, out plpos);
 
-            plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
+            //plpos = renderSys.Viewport.Project(plpos, display.Projection, display.View, Matrix.Identity);
 
-            plpos.Y -= 36;
+            //plpos.Y -= 36;
 
-            int x = (int)plpos.X;
-            int y = (int)plpos.Y;
+            //int x = (int)plpos.X;
+            //int y = (int)plpos.Y;
 
-            switch (cplug.TypeId)
-            {
-                case CityPluginTypeId.BiofuelFactory:
-                case CityPluginTypeId.OilRefinary:
-                    sprite.Draw(oilRefbg, x - oilRefbg.Width / 2, y - oilRefbg.Height / 2, parent.DistanceMod);
-                    break;
-                case CityPluginTypeId.WoodFactory:
-                    sprite.Draw(woodFacbg, x - woodFacbg.Width / 2, y - woodFacbg.Height / 2, parent.DistanceMod);
-                    break;
-                case CityPluginTypeId.EducationOrg:
-                    sprite.Draw(edubg, x - edubg.Width / 2, y - edubg.Height / 2, parent.DistanceMod);
-                    break;
-                case CityPluginTypeId.Hospital:
-                    sprite.Draw(hospbg, x - hospbg.Width / 2, y - hospbg.Height / 2, parent.DistanceMod);
-                    break;
-            }
+            //switch (cplug.TypeId)
+            //{
+            //    case CityPluginTypeId.BiofuelFactory:
+            //    case CityPluginTypeId.OilRefinary:
+            //        sprite.Draw(oilRefbg, x - oilRefbg.Width / 2, y - oilRefbg.Height / 2, parent.DistanceMod);
+            //        break;
+            //    case CityPluginTypeId.WoodFactory:
+            //        sprite.Draw(woodFacbg, x - woodFacbg.Width / 2, y - woodFacbg.Height / 2, parent.DistanceMod);
+            //        break;
+            //    case CityPluginTypeId.EducationOrg:
+            //        sprite.Draw(edubg, x - edubg.Width / 2, y - edubg.Height / 2, parent.DistanceMod);
+            //        break;
+            //    case CityPluginTypeId.Hospital:
+            //        sprite.Draw(hospbg, x - hospbg.Width / 2, y - hospbg.Height / 2, parent.DistanceMod);
+            //        break;
+            //}
 
-            sprite.End();
+            //sprite.End();
 
-            Vector2 p = new Vector2(plpos.X , plpos.Y );
-            pieEffect.SetVSValue(0, ref p);
-            pieEffect.SetTexture("texDif", ring);
-            if (cplug.IsBuilding || cplug.IsSelling)
-            {
-                pieEffect.SetValue("weight", cplug.BuildProgress);
-            }
-            else
-            {
-                pieEffect.SetValue("weight", cplug.UpgradePoint);
-            }
-            pieEffect.SetValue("alpha", parent.DistanceMod.A / 255f);
-            sprite.DrawQuad(quad, pieEffect);
-
-
-            sprite.Begin();
+            //Vector2 p = new Vector2(plpos.X , plpos.Y );
+            //pieEffect.SetVSValue(0, ref p);
+            //pieEffect.SetTexture("texDif", ring);
+            //if (cplug.IsBuilding || cplug.IsSelling)
+            //{
+            //    pieEffect.SetValue("weight", cplug.BuildProgress);
+            //}
+            //else
+            //{
+            //    pieEffect.SetValue("weight", cplug.UpgradePoint);
+            //}
+            //pieEffect.SetValue("alpha", parent.DistanceMod.A / 255f);
+            //sprite.DrawQuad(quad, pieEffect);
 
 
-            if (cplug.IsSelling && !cplug.IsSold && cplug.BuildProgress < 0.1f) 
-            {
-                display.AddSellPopup(x, y);
-                cplug.IsSold = true;
-            }
+            //sprite.Begin();
+
+
+            //if (cplug.IsSelling && !cplug.IsSold && cplug.BuildProgress < 0.1f) 
+            //{
+            //    display.AddSellPopup(x, y);
+            //    cplug.IsSold = true;
+            //}
         }
 
         public override void Update(GameTime time)
@@ -296,29 +296,29 @@ namespace Code2015.GUI
                     city.IsScaleIncreased = false;
                 }
 
-                if (((ISelectableObject)city).IsSelected)
-                {
-                    for (int i = 0; i < CityObject.MaxPlugin; i++)
-                    {
-                        pluginInfo[i].Plugin = i;
-                        pluginInfo[i].Render(sprite);
-                    }
-                }
+                //if (((ISelectableObject)city).IsSelected)
+                //{
+                //    for (int i = 0; i < CityObject.MaxPlugin; i++)
+                //    {
+                //        pluginInfo[i].Plugin = i;
+                //        pluginInfo[i].Render(sprite);
+                //    }
+                //}
 
-                if (city.IsUpgraded)
-                {
-                    for (int i = 0; i < CityObject.MaxPlugin; i++)
-                    {
-                        if (city.GetPlugin(i) == null)
-                            continue;
+                //if (city.IsUpgraded)
+                //{
+                //    for (int i = 0; i < CityObject.MaxPlugin; i++)
+                //    {
+                //        if (city.GetPlugin(i) == null)
+                //            continue;
 
-                        pluginInfo[i].Plugin = i;
-                        Point pt = pluginInfo[i].GetProjectionPosition(i);
+                //        pluginInfo[i].Plugin = i;
+                //        Point pt = pluginInfo[i].GetProjectionPosition(i);
 
-                        parent.AddLVPopup(pt.X, pt.Y);
-                    }
-                    city.IsUpgraded = false;
-                }
+                //        parent.AddLVPopup(pt.X, pt.Y);
+                //    }
+                //    city.IsUpgraded = false;
+                //}
 
 
 
@@ -328,11 +328,11 @@ namespace Code2015.GUI
                 scrnPos.X -= 40;
                 scrnPos.Y -= 80;
                 ColorValue color = ColorValue.White;
-                if (city.City.IsLackFood)
-                {
-                    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + Math.PI / 2)))));
-                    sprite.Draw(needFood, scrnPos.X, scrnPos.Y, color);
-                }
+                //if (city.City.IsLackFood)
+                //{
+                //    color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)(0.5 * (1 - Math.Cos(flashCounter + Math.PI / 2)))));
+                //    sprite.Draw(needFood, scrnPos.X, scrnPos.Y, color);
+                //}
 
                 if (city.City.IsLackOil)
                 {

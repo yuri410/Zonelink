@@ -1,0 +1,14 @@
+
+struct PSInput
+{
+    float2 GlobeCoord : TEXCOORD0;
+};
+
+
+sampler2D texNorm : register(s0);
+
+float4 main( PSInput ip) : COLOR 
+{
+	float3 N = tex2D(texNorm, ip.GlobeCoord).rgb;
+    return float4(N,1);
+}

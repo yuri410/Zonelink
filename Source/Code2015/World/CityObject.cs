@@ -467,25 +467,25 @@ namespace Code2015.World
                 harvTable.Remove(plugin);
             }
         }
-        void City_PluginRemoved(City city, CityPlugin plugin)
-        {
-            RemoveHarv(plugin);
+        //void City_PluginRemoved(City city, CityPlugin plugin)
+        //{
+        //    RemoveHarv(plugin);
 
-            int idx = -1;
-            for (int i = 0; i < MaxPlugin; i++)
-            {
-                if (plugins[i].plugin == plugin)
-                {
-                    idx = i;
-                    break;
-                }
-            }
-            if (idx != -1)
-            {
-                goalSite.ClearDesired(idx);
-                plugins[idx].plugin = null;
-            }
-        }
+        //    int idx = -1;
+        //    for (int i = 0; i < MaxPlugin; i++)
+        //    {
+        //        if (plugins[i].plugin == plugin)
+        //        {
+        //            idx = i;
+        //            break;
+        //        }
+        //    }
+        //    if (idx != -1)
+        //    {
+        //        goalSite.ClearDesired(idx);
+        //        plugins[idx].plugin = null;
+        //    }
+        //}
         void City_OwnerChanged(Player owner)
         {
             if (IsCaptured)

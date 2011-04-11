@@ -68,7 +68,7 @@ namespace Code2015.World
         {
             SLGWorld = new SimulationWorld();
 
-            PluginFactory = new CityPluginFactory();
+            //PluginFactory = new CityPluginFactory();
 
             FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
 
@@ -274,7 +274,7 @@ namespace Code2015.World
         }
         public ScoreEntry[] GetScores()
         {
-            Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();
+            //Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();
 
             ScoreEntry[] result = new ScoreEntry[localPlayers.Length];
             for (int i = 0; i < result.Length; i++)
@@ -282,7 +282,7 @@ namespace Code2015.World
                 result[i].Player = localPlayers[i];
                 result[i].Development = localPlayerArea[i].GetTotalDevelopment();
 
-                co2s.TryGetValue(localPlayers[i], out result[i].CO2);
+                //co2s.TryGetValue(localPlayers[i], out result[i].CO2);
 
                 result[i].Total += result[i].Development - 0.2f * result[i].CO2;
             }
