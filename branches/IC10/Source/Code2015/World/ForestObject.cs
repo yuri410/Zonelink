@@ -51,7 +51,7 @@ namespace Code2015.World
         event ResourceVisibleHander ResVisible;
     }
 
-    class ForestObject : SceneObject, ISelectableObject, IResourceObject
+    class ForestObject : NaturalResource, ISelectableObject, IResourceObject
     {
         Forest forest;
         ResourceHandle<TreeBatchModel> model;

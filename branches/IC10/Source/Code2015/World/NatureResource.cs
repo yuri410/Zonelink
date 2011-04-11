@@ -6,6 +6,8 @@ using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.World;
 using Code2015.Logic;
+using Apoc3D.MathLib;
+using Zonelink.World;
 
 namespace Code2015.World
 {
@@ -15,7 +17,7 @@ namespace Code2015.World
         Oil
     }
 
-    class NaturalResource : Entity
+    class NaturalResource : WorldObject
     {
         const float OTimesMaxAmount = 2;
         //const float ORecoverBias = 1;
@@ -174,8 +176,8 @@ namespace Code2015.World
 
         private void UpdateLocation()
         {
-            float radLong = MathHelper.ToRadians(this.Longitude);
-            float radLat = MathHelper.ToRadians(this.Latitude);
+            float radLong = MathEx.Degree2Radian(this.Longitude);
+            float radLat = MathEx.Degree2Radian(this.Latitude);
 
             float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
 
@@ -189,9 +191,9 @@ namespace Code2015.World
             this.Position = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude);
 
             this.Transformation = PlanetEarth.GetOrientation(radLong, radLat);
-            this.InvTransformation = Matrix.Invert(Transformation);
+            //this.InvTransformation = Matrix.Invert(Transformation);
 
-            this.Transformation.Translation = this.Position; // TranslationValue = pos;
+            this.Transformation.TranslationValue = this.Position; // TranslationValue = pos;
 
             BoundingSphere.Radius = RulesTable.CityRadius;
             BoundingSphere.Center = this.Position;

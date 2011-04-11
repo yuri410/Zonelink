@@ -30,15 +30,13 @@ using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 
 namespace Code2015.World
 {
-    class OilFieldObject : StaticModelObject, ISelectableObject, IResourceObject
+    class OilFieldObject : NaturalResource, ISelectableObject, IResourceObject
     {
         const int FrameCount = 29;
-        OilField oilField;
 
         int counter;
         int frameIdx;
@@ -47,13 +45,18 @@ namespace Code2015.World
         Model[] model;
 
         SoundObject sound;
-        public OilFieldObject(RenderSystem rs, OilField field)
-        {
-            oilField = field;
 
-           
-            float radLng = MathEx.Degree2Radian(field.Longitude);
-            float radLat = MathEx.Degree2Radian(field.Latitude);
+
+        public OilFieldObject()
+        {
+        
+        }
+
+        public override void InitalizeGraphics(RenderSystem rs) 
+        {
+
+            float radLng = MathEx.Degree2Radian(Longitude);
+            float radLat = MathEx.Degree2Radian(Latitude);
 
             bool isOcean = false;
 
@@ -70,21 +73,21 @@ namespace Code2015.World
             float scale = Game.ObjectScale * 2.2f;
             if (isOcean)
             {
-                 model = new Model[FrameCount];
-                 for (int i = 0; i < FrameCount; i++)
-                 {
-                     FileLocation fl = FileSystem.Instance.Locate("oilderricksea" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                model = new Model[FrameCount];
+                for (int i = 0; i < FrameCount; i++)
+                {
+                    FileLocation fl = FileSystem.Instance.Locate("oilderricksea" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
-                     model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                     model[i].CurrentAnimation.Clear();
-                     model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
-                         Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4)));
-                 }
+                    model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                    model[i].CurrentAnimation.Clear();
+                    model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
+                        Matrix.Scaling(scale, scale, scale) * Matrix.Translation(0, 18, 0) * Matrix.RotationY(-MathEx.PiOver4)));
+                }
             }
             else
             {
                 model = new Model[FrameCount];
-                for (int i = 0; i < FrameCount; i++) 
+                for (int i = 0; i < FrameCount; i++)
                 {
                     FileLocation fl = FileSystem.Instance.Locate("oilderrick" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
@@ -97,7 +100,7 @@ namespace Code2015.World
             }
 
 
-          
+
             Position = PlanetEarth.GetPosition(radLng, radLat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
             BoundingSphere.Center = position;
 
@@ -108,16 +111,12 @@ namespace Code2015.World
             sound.Position = position;
         }
 
+
         public override bool IsSerializable
         {
             get { return false ; }
         }
 
-
-        public OilField OilField 
-        {
-            get { return oilField; }
-        }
 
         public override RenderOperation[] GetRenderOperation()
         {
@@ -175,27 +174,27 @@ namespace Code2015.World
         #region IResourceObject 成员
         public float MaxValue
         {
-            get { return oilField.MaxAmount / (7500f * 2); }
+            get { return MaxAmount / (7500f * 2); }
         }
         public float AmountPer
         {
-            get { return oilField.CurrentAmount / (7500f * 2); }
+            get { return CurrentAmount / (7500f * 2); }
         }
 
         public NaturalResourceType Type
         {
-            get { return oilField.Type; }
+            get { return Type; }
         }
         public event ResourceVisibleHander ResVisible;
 
         public float Longitude
         {
-            get { return oilField.Longitude; }
+            get { return Longitude; }
         }
 
         public float Latitude
         {
-            get { return oilField.Latitude; }
+            get { return Latitude; }
         }
 
         public float Radius
