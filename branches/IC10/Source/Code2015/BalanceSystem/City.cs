@@ -47,38 +47,38 @@ namespace Code2015.BalanceSystem
         Count = 4
     }
 
-    /// <summary>
-    ///  表示城市的大小
-    /// </summary>
-    public enum UrbanSize
-    {
-        /// <summary>
-        ///  小城
-        /// </summary>
-        Small = 0,
-        /// <summary>
-        ///  中型城市
-        /// </summary>
-        Medium = 1,
-        /// <summary>
-        ///  大型城市
-        /// </summary>
-        Large = 2
-    }
+    ///// <summary>
+    /////  表示城市的大小
+    ///// </summary>
+    //public enum UrbanSize
+    //{
+    //    /// <summary>
+    //    ///  小城
+    //    /// </summary>
+    //    Small = 0,
+    //    /// <summary>
+    //    ///  中型城市
+    //    /// </summary>
+    //    Medium = 1,
+    //    /// <summary>
+    //    ///  大型城市
+    //    /// </summary>
+    //    Large = 2
+    //}
 
-    public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
+    //public delegate void CitypluginEventHandle(City city, CityPlugin plugin);
     public delegate void NearbyCityAddedHandler(City city, City srcCity);
     public delegate void NearbyCityRemovedHandler(City city, City srcCity);
     public delegate void CityOwnerChanged(Player newOwner);
     public delegate void CityGrowHandler();
 
-    public struct PieceCategoryProbability
-    {
-        public float Health;
-        public float Environment;
-        public float Education;
-        public float Hunger;
-    }
+    //public struct PieceCategoryProbability
+    //{
+    //    public float Health;
+    //    public float Environment;
+    //    public float Education;
+    //    public float Hunger;
+    //}
 
     public class City : SimulationObject, IConfigurable, IUpdatable
     {
@@ -107,15 +107,15 @@ namespace Code2015.BalanceSystem
         const float DevBias = -0.001f;
 
         float recoverCooldown;
-        /// <summary>
-        ///  表示城市的附加设施
-        /// </summary>
-        FastList<CityPlugin> plugins = new FastList<CityPlugin>();
+        ///// <summary>
+        ///////  表示城市的附加设施
+        ///// </summary>
+        //FastList<CityPlugin> plugins = new FastList<CityPlugin>();
 
         ResourceStorage localLr;
         ResourceStorage localHr;
-        ResourceStorage localFood;
-        UrbanSize size;
+        //ResourceStorage localFood;
+        //UrbanSize size;
         Player owner;
         CultureId culture;
 
@@ -123,7 +123,7 @@ namespace Code2015.BalanceSystem
         FastList<City> linkableCity = new FastList<City>();
         FastList<CityLink> nearbyCity = new FastList<CityLink>();
         CityObject parent;
-        FastList<FarmLand> farms = new FastList<FarmLand>();
+        //FastList<FarmLand> farms = new FastList<FarmLand>();
 
         [SLGValue()]
         const int RecentCarbonLength = 5;
@@ -135,26 +135,26 @@ namespace Code2015.BalanceSystem
 
         int recentCounter = 0;
         ValueSmoother recentOil = new ValueSmoother(5);
-        ValueSmoother recentFood = new ValueSmoother(5);
+        //ValueSmoother recentFood = new ValueSmoother(5);
         ValueSmoother recentWood = new ValueSmoother(5);
 
-        int carbonAddCounter;
+        //int carbonAddCounter;
 
 
         bool stateChanged;
 
-        public float RecentCarbonAmount
-        {
-            get
-            {
-                float r = 0;
-                for (int i = 0; i < recentCarbon.Count; i++)
-                {
-                    r += recentCarbon.GetElement(i);
-                }
-                return r;
-            }
-        }
+        //public float RecentCarbonAmount
+        //{
+        //    get
+        //    {
+        //        float r = 0;
+        //        for (int i = 0; i < recentCarbon.Count; i++)
+        //        {
+        //            r += recentCarbon.GetElement(i);
+        //        }
+        //        return r;
+        //    }
+        //}
 
         public CityObject Parent
         {
@@ -167,21 +167,24 @@ namespace Code2015.BalanceSystem
         {
             localLr = new ResourceStorage(CityGrade.SmallMaxLPStorage, float.MaxValue);
             localHr = new ResourceStorage(CityGrade.SmallMaxHPStorage, float.MaxValue);
-            localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
+            //localFood = new ResourceStorage(CityGrade.SmallMaxFoodStorage, float.MaxValue);
             culture = CultureId.Asia;
 
             Capture = new CaptureState();
             UpgradeUpdate();
 
-            recentFood.Add(LocalFood.Current);
+            //recentFood.Add(LocalFood.Current);
             recentWood.Add(LocalLR.Current);
             recentOil.Add(localHr.Current);
         }
-        public City(SimulationWorld sim, UrbanSize size)
-            : this(sim)
-        {
-            this.Size = size;
-        }
+
+
+        //public City(SimulationWorld sim, UrbanSize size)
+        //    : this(sim)
+        //{
+        //    this.Size = size;
+        //}
+
         public City(SimulationWorld sim, string name)
             : this(sim)
         {
@@ -190,10 +193,10 @@ namespace Code2015.BalanceSystem
 
 
         #region  属性
-        public bool IsLackFood
-        {
-            get { return recentFood.Result < float.Epsilon; }
-        }
+        //public bool IsLackFood
+        //{
+        //    get { return recentFood.Result < float.Epsilon; }
+        //}
 
         public bool IsLackWood
         {
@@ -223,55 +226,55 @@ namespace Code2015.BalanceSystem
             return linkableCity[i];
         }
 
-        public MdgType MajorProblem
-        {
-            get;
-            private set;
-        }
+        //public MdgType MajorProblem
+        //{
+        //    get;
+        //    private set;
+        //}
 
-        public bool IsFarmFull
-        {
-            get { return farms.Count < MaxFarmLand; }
-        }
+        //public bool IsFarmFull
+        //{
+        //    get { return farms.Count < MaxFarmLand; }
+        //}
 
-        public int FarmLandCount
-        {
-            get { return farms.Count; }
-        }
+        //public int FarmLandCount
+        //{
+        //    get { return farms.Count; }
+        //}
         /// <summary>
         ///  获取该城市市民满意度
         /// </summary>
-        public float Satisfaction
-        {
-            get
-            {
-                switch (Size)
-                {
-                    case UrbanSize.Small:
-                        //float v = Population < CityGrade.SmallRefPop ?
-                        //    Development * MathEx.Saturate(Population / CityGrade.SmallRefPop) : 
-                        //    Development * MathEx.Saturate((2 * CityGrade.SmallRefPop - Population) / CityGrade.SmallRefPop);
+        //public float Satisfaction
+        //{
+        //    get
+        //    {
+        //        switch (Size)
+        //        {
+        //            case UrbanSize.Small:
+        //                //float v = Population < CityGrade.SmallRefPop ?
+        //                //    Development * MathEx.Saturate(Population / CityGrade.SmallRefPop) : 
+        //                //    Development * MathEx.Saturate((2 * CityGrade.SmallRefPop - Population) / CityGrade.SmallRefPop);
 
-                        return MathEx.Saturate(Development / CityGrade.SmallCityPointThreshold);
-                    case UrbanSize.Medium:
-                        //v = Population < CityGrade.MediumRefPop ?
-                        //   Development * MathEx.Saturate(Population / CityGrade.MediumRefPop) :
-                        //   Development * MathEx.Saturate((2 * CityGrade.MediumRefPop - Population) / CityGrade.MediumRefPop);
+        //                return MathEx.Saturate(Development / CityGrade.SmallCityPointThreshold);
+        //            case UrbanSize.Medium:
+        //                //v = Population < CityGrade.MediumRefPop ?
+        //                //   Development * MathEx.Saturate(Population / CityGrade.MediumRefPop) :
+        //                //   Development * MathEx.Saturate((2 * CityGrade.MediumRefPop - Population) / CityGrade.MediumRefPop);
 
-                        return MathEx.Saturate(Development / CityGrade.MediumCityPointThreshold);
-                    case UrbanSize.Large:
-                        //v = Population < CityGrade.LargeRefPop ?
-                        //   Development * MathEx.Saturate(Population / CityGrade.LargeRefPop) :
-                        //   Development * MathEx.Saturate((2 * CityGrade.LargeRefPop - Population) / CityGrade.LargeRefPop);
-                        return MathEx.Saturate(Development / CityGrade.LargeCityPointThreshold);
-                }
-                return 0;
-            }
-        }
-        public bool IsSatisfactionLow
-        {
-            get { return Satisfaction < SatThreshold; }
-        }
+        //                return MathEx.Saturate(Development / CityGrade.MediumCityPointThreshold);
+        //            case UrbanSize.Large:
+        //                //v = Population < CityGrade.LargeRefPop ?
+        //                //   Development * MathEx.Saturate(Population / CityGrade.LargeRefPop) :
+        //                //   Development * MathEx.Saturate((2 * CityGrade.LargeRefPop - Population) / CityGrade.LargeRefPop);
+        //                return MathEx.Saturate(Development / CityGrade.LargeCityPointThreshold);
+        //        }
+        //        return 0;
+        //    }
+        //}
+        //public bool IsSatisfactionLow
+        //{
+        //    get { return Satisfaction < SatThreshold; }
+        //}
 
         public Player CoolDownPlayer
         {
@@ -325,13 +328,13 @@ namespace Code2015.BalanceSystem
             get { return localLr; }
         }
 
-        /// <summary>
-        ///  获取城市已存储（已缓存）的食物数量
-        /// </summary>
-        public ResourceStorage LocalFood
-        {
-            get { return localFood; }
-        }
+        ///// <summary>
+        /////  获取城市已存储（已缓存）的食物数量
+        ///// </summary>
+        //public ResourceStorage LocalFood
+        //{
+        //    get { return localFood; }
+        //}
 
         public bool IsHomeCity
         {
@@ -361,40 +364,40 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        /// <summary>
-        ///  获取城市的人口数量
-        /// </summary>
-        public float Population
-        {
-            get;
-            private set;
-        }
+        ///// <summary>
+        /////  获取城市的人口数量
+        ///// </summary>
+        //public float Population
+        //{
+        //    get;
+        //    private set;
+        //}
         public float InitialDeveleopment
         {
             get;
             private set;
         }
-        public float InitialPopulation
-        {
-            get;
-            private set;
-        }
-        /// <summary>
-        ///  获取城市的疾病因数
-        /// </summary>
-        public float Disease
-        {
-            get;
-            private set;
-        }
+        //public float InitialPopulation
+        //{
+        //    get;
+        //    private set;
+        //}
+        ///// <summary>
+        /////  获取城市的疾病因数
+        ///// </summary>
+        //public float Disease
+        //{
+        //    get;
+        //    private set;
+        //}
 
-        public float GetSelfFoodCostSpeedFull()
-        {
-            float res = Population * CityGrade.FoodCostPerPeople;
-            if (res < 0)
-                res = 0;
-            return res;
-        }
+        //public float GetSelfFoodCostSpeedFull()
+        //{
+        //    float res = Population * CityGrade.FoodCostPerPeople;
+        //    if (res < 0)
+        //        res = 0;
+        //    return res;
+        //}
 
 
         public float AdditionalDevMult
@@ -425,23 +428,23 @@ namespace Code2015.BalanceSystem
             get;
             private set;
         }
-        /// <summary>
-        ///  获取一个浮点数，反应使用食物时，相应食物的供应率
-        /// </summary>
-        public float SelfFoodCostRatio
-        {
-            get;
-            private set;
-        }
+        ///// <summary>
+        /////  获取一个浮点数，反应使用食物时，相应食物的供应率
+        ///// </summary>
+        //public float SelfFoodCostRatio
+        //{
+        //    get;
+        //    private set;
+        //}
 
-        /// <summary>
-        ///  计算在当前供应率的情况下，使用食物的速度
-        /// </summary>
-        /// <returns></returns>
-        public float GetSelfFoodCostSpeed()
-        {
-            return GetSelfFoodCostSpeedFull() * SelfFoodCostRatio;
-        }
+        ///// <summary>
+        /////  计算在当前供应率的情况下，使用食物的速度
+        ///// </summary>
+        ///// <returns></returns>
+        //public float GetSelfFoodCostSpeed()
+        //{
+        //    return GetSelfFoodCostSpeedFull() * SelfFoodCostRatio;
+        //}
 
         /// <summary>
         ///  计算在当前供应率的情况下，使用HR的速度
@@ -474,21 +477,21 @@ namespace Code2015.BalanceSystem
         #endregion
 
 
-        /// <summary>
-        ///  获取城市的大小
-        /// </summary>
-        public UrbanSize Size
-        {
-            get { return size; }
-            private set
-            {
-                if (value != size)
-                {
-                    size = value;
-                    UpgradeUpdate();
-                }
-            }
-        }
+        ///// <summary>
+        /////  获取城市的大小
+        ///// </summary>
+        //public UrbanSize Size
+        //{
+        //    get { return size; }
+        //    private set
+        //    {
+        //        if (value != size)
+        //        {
+        //            size = value;
+        //            UpgradeUpdate();
+        //        }
+        //    }
+        //}
 
 
         /// <summary>
@@ -502,14 +505,14 @@ namespace Code2015.BalanceSystem
         {
             get { return localLr.Current < LPLowThreshold; }
         }
-        public bool IsFoodLow
-        {
-            get { return localFood.Current < FoodLowThreshold; }
-        }
+        //public bool IsFoodLow
+        //{
+        //    get { return localFood.Current < FoodLowThreshold; }
+        //}
         #endregion
 
-        public event CitypluginEventHandle PluginAdded;
-        public event CitypluginEventHandle PluginRemoved;
+        //public event CitypluginEventHandle PluginAdded;
+        //public event CitypluginEventHandle PluginRemoved;
         public event NearbyCityAddedHandler CaptureSet;
         public event NearbyCityRemovedHandler CaptureCancel;
         public event NearbyCityAddedHandler NearbyCityAdded;
@@ -518,59 +521,59 @@ namespace Code2015.BalanceSystem
 
         public event CityGrowHandler CityGrow;
 
-        public PieceCategoryProbability GetProbability()
-        {
-            PieceCategoryProbability r;
-            r.Education = 1;
-            r.Environment = 1;
-            r.Health = 1;
-            r.Hunger = 1;
+        //public PieceCategoryProbability GetProbability()
+        //{
+        //    PieceCategoryProbability r;
+        //    r.Education = 1;
+        //    r.Environment = 1;
+        //    r.Health = 1;
+        //    r.Hunger = 1;
 
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                switch (plugins[i].TypeId)
-                {
-                    case CityPluginTypeId.BiofuelFactory:
-                        r.Hunger -= ProbabilityDecr;
-                        break;
-                    case CityPluginTypeId.OilRefinary:
-                        r.Environment -= ProbabilityDecr * 0.3f;
-                        break;
-                    case CityPluginTypeId.WoodFactory:
+        //    for (int i = 0; i < plugins.Count; i++)
+        //    {
+        //        switch (plugins[i].TypeId)
+        //        {
+        //            case CityPluginTypeId.BiofuelFactory:
+        //                r.Hunger -= ProbabilityDecr;
+        //                break;
+        //            case CityPluginTypeId.OilRefinary:
+        //                r.Environment -= ProbabilityDecr * 0.3f;
+        //                break;
+        //            case CityPluginTypeId.WoodFactory:
 
-                        break;
-                    case CityPluginTypeId.Hospital:
-                        r.Health -= ProbabilityDecr;
-                        break;
-                    case CityPluginTypeId.EducationOrg:
-                        r.Education -= ProbabilityDecr;
-                        break;
-                }
-            }
+        //                break;
+        //            case CityPluginTypeId.Hospital:
+        //                r.Health -= ProbabilityDecr;
+        //                break;
+        //            case CityPluginTypeId.EducationOrg:
+        //                r.Education -= ProbabilityDecr;
+        //                break;
+        //        }
+        //    }
 
-            {
-                if (r.Education < MinProbability)
-                    r.Education = MinProbability;
-                if (r.Hunger < MinProbability)
-                    r.Hunger = MinProbability;
-                if (r.Environment < MinProbability)
-                    r.Environment = MinProbability;
-                if (r.Health < MinProbability)
-                    r.Health = MinProbability;
-                float len = r.Environment + r.Education + r.Hunger + r.Health;
-                if (len > float.Epsilon)
-                {
-                    len = 1.0f / len;
-                    r.Education *= len;
-                    r.Hunger *= len;
-                    r.Environment *= len;
-                    r.Health *= len;
-                }
+        //    {
+        //        if (r.Education < MinProbability)
+        //            r.Education = MinProbability;
+        //        if (r.Hunger < MinProbability)
+        //            r.Hunger = MinProbability;
+        //        if (r.Environment < MinProbability)
+        //            r.Environment = MinProbability;
+        //        if (r.Health < MinProbability)
+        //            r.Health = MinProbability;
+        //        float len = r.Environment + r.Education + r.Hunger + r.Health;
+        //        if (len > float.Epsilon)
+        //        {
+        //            len = 1.0f / len;
+        //            r.Education *= len;
+        //            r.Hunger *= len;
+        //            r.Environment *= len;
+        //            r.Health *= len;
+        //        }
 
-            }
+        //    }
 
-            return r;
-        }
+        //    return r;
+        //}
 
         public bool IsInCaptureRange(City city)
         {
@@ -590,7 +593,7 @@ namespace Code2015.BalanceSystem
         }
         public void Damage(float pop, float dev)
         {
-            Disease += pop;
+            //Disease += pop;
             //Population -= pop;
             Development -= dev / HealthCare;
         }
@@ -627,78 +630,78 @@ namespace Code2015.BalanceSystem
             stateChanged = true;
         }
 
-        public void AddFarm()
-        {
-            farms.Add(new FarmLand(Region, this));
-            stateChanged = true;
-        }
+        //public void AddFarm()
+        //{
+        //    farms.Add(new FarmLand(Region, this));
+        //    stateChanged = true;
+        //}
 
-        /// <summary>
-        ///  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
-        /// </summary>
-        /// <param name="plugin"></param>
-        public void Add(CityPlugin plugin)
-        {
-            if (CanAddPlugins)
-            {
-                plugins.Add(plugin);
-                plugin.NotifyAdded(this);
+        ///// <summary>
+        /////  添加一个<see cref="CityPlugin"/>到当前城市中，会用CityPlugin.NotifyAdded告知CityPlugin被添加了
+        ///// </summary>
+        ///// <param name="plugin"></param>
+        //public void Add(CityPlugin plugin)
+        //{
+        //    if (CanAddPlugins)
+        //    {
+        //        plugins.Add(plugin);
+        //        plugin.NotifyAdded(this);
 
-                if (PluginAdded != null)
-                {
-                    PluginAdded(this, plugin);
-                }
-            }
-            else
-            {
-                throw new InvalidOperationException();
-            }
-            stateChanged = true;
-        }
+        //        if (PluginAdded != null)
+        //        {
+        //            PluginAdded(this, plugin);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        throw new InvalidOperationException();
+        //    }
+        //    stateChanged = true;
+        //}
 
-        /// <summary>
-        ///  从当前城市中删除一个<see cref="CityPlugin"/>，会用CityPlugin.NotifyRemoved告知CityPlugin被删除了
-        /// </summary>
-        /// <param name="plugin"></param>
-        public void Remove(CityPlugin plugin)
-        {
-            plugins.Remove(plugin);
-            plugin.NotifyRemoved(this);
+        ///// <summary>
+        /////  从当前城市中删除一个<see cref="CityPlugin"/>，会用CityPlugin.NotifyRemoved告知CityPlugin被删除了
+        ///// </summary>
+        ///// <param name="plugin"></param>
+        //public void Remove(CityPlugin plugin)
+        //{
+        //    plugins.Remove(plugin);
+        //    plugin.NotifyRemoved(this);
 
-            if (PluginRemoved != null)
-            {
-                PluginRemoved(this, plugin);
-            }
-            stateChanged = true;
-        }
+        //    if (PluginRemoved != null)
+        //    {
+        //        PluginRemoved(this, plugin);
+        //    }
+        //    stateChanged = true;
+        //}
 
 
-        /// <summary>
-        ///  更新城市 所有与等级相关的属性
-        /// </summary>
-        void UpgradeUpdate()
-        {
-            switch (Size)
-            {
-                case UrbanSize.Large:
-                    localLr.MaxLimit = CityGrade.LargeMaxLPStorage;
-                    localHr.MaxLimit = CityGrade.LargeMaxHPStorage;
-                    localFood.MaxLimit = CityGrade.LargeMaxFoodStorage;
-                    break;
-                case UrbanSize.Medium:
+        ///// <summary>
+        /////  更新城市 所有与等级相关的属性
+        ///// </summary>
+        //void UpgradeUpdate()
+        //{
+        //    switch (Size)
+        //    {
+        //        case UrbanSize.Large:
+        //            localLr.MaxLimit = CityGrade.LargeMaxLPStorage;
+        //            localHr.MaxLimit = CityGrade.LargeMaxHPStorage;
+        //            localFood.MaxLimit = CityGrade.LargeMaxFoodStorage;
+        //            break;
+        //        case UrbanSize.Medium:
 
-                    localLr.MaxLimit = CityGrade.MediumMaxLPStorage;
-                    localHr.MaxLimit = CityGrade.MediumMaxHPStorage;
-                    localFood.MaxLimit = CityGrade.MediumMaxFoodStorage;
-                    break;
-                case UrbanSize.Small:
-                    localLr.MaxLimit = CityGrade.SmallMaxLPStorage;
-                    localHr.MaxLimit = CityGrade.SmallMaxHPStorage;
-                    localFood.MaxLimit = CityGrade.SmallMaxFoodStorage;
-                    break;
-            }
-            stateChanged = true;
-        }
+        //            localLr.MaxLimit = CityGrade.MediumMaxLPStorage;
+        //            localHr.MaxLimit = CityGrade.MediumMaxHPStorage;
+        //            localFood.MaxLimit = CityGrade.MediumMaxFoodStorage;
+        //            break;
+        //        case UrbanSize.Small:
+        //            localLr.MaxLimit = CityGrade.SmallMaxLPStorage;
+        //            localHr.MaxLimit = CityGrade.SmallMaxHPStorage;
+        //            localFood.MaxLimit = CityGrade.SmallMaxFoodStorage;
+        //            break;
+        //    }
+        //    stateChanged = true;
+        //}
 
 
         /// <summary>
@@ -709,15 +712,15 @@ namespace Code2015.BalanceSystem
             get { return plugins.Count; }
         }
 
-        /// <summary>
-        ///  通过索引获取城市的Plugin
-        /// </summary>
-        /// <param name="i">在容器中的索引</param>
-        /// <returns></returns>
-        public CityPlugin this[int i]
-        {
-            get { return plugins[i]; }
-        }
+        ///// <summary>
+        /////  通过索引获取城市的Plugin
+        ///// </summary>
+        ///// <param name="i">在容器中的索引</param>
+        ///// <returns></returns>
+        //public CityPlugin this[int i]
+        //{
+        //    get { return plugins[i]; }
+        //}
 
         public CityLink GetLink(City city)
         {
@@ -883,37 +886,37 @@ namespace Code2015.BalanceSystem
 
 
 
-            #region 城市自动级别调整
+            //#region 城市自动级别调整
 
-            if (Size != UrbanSize.Large)
-            {
-                float points = Development;
+            //if (Size != UrbanSize.Large)
+            //{
+            //    float points = Development;
 
-                UrbanSize newSize;
-                if (points < CityGrade.MediumCityPointThreshold)
-                {
-                    if (points < CityGrade.SmallCityPointThreshold)
-                    {
-                        newSize = UrbanSize.Small;
-                    }
-                    else
-                    {
-                        newSize = UrbanSize.Medium;
-                    }
-                }
-                else
-                {
-                    newSize = UrbanSize.Large;
-                }
-                if (newSize > Size)
-                {
-                    Size = newSize;
-                    if (CityGrow != null)
-                        CityGrow();
-                }
-            }
+            //    UrbanSize newSize;
+            //    if (points < CityGrade.MediumCityPointThreshold)
+            //    {
+            //        if (points < CityGrade.SmallCityPointThreshold)
+            //        {
+            //            newSize = UrbanSize.Small;
+            //        }
+            //        else
+            //        {
+            //            newSize = UrbanSize.Medium;
+            //        }
+            //    }
+            //    else
+            //    {
+            //        newSize = UrbanSize.Large;
+            //    }
+            //    if (newSize > Size)
+            //    {
+            //        Size = newSize;
+            //        if (CityGrow != null)
+            //            CityGrow();
+            //    }
+            //}
 
-            #endregion
+            //#endregion
 
             for (int i = 0; i < plugins.Count; i++)
             {
@@ -1241,41 +1244,41 @@ namespace Code2015.BalanceSystem
         }
 
 
-        public float ProblemEnvironment
-        {
-            get;
-            private set;
-        }
-        public float ProblemDisease
-        {
-            get;
-            private set;
-        }
-        public float ProblemGender
-        {
-            get;
-            private set;
-        }
-        public float ProblemHunger
-        {
-            get;
-            private set;
-        }
-        public float ProblemMaternal
-        {
-            get;
-            private set;
-        }
-        public float ProblemChild
-        {
-            get;
-            private set;
-        }
-        public float ProblemEducation
-        {
-            get;
-            private set;
-        }
+        //public float ProblemEnvironment
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public float ProblemDisease
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public float ProblemGender
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public float ProblemHunger
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public float ProblemMaternal
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public float ProblemChild
+        //{
+        //    get;
+        //    private set;
+        //}
+        //public float ProblemEducation
+        //{
+        //    get;
+        //    private set;
+        //}
 
         public virtual void SetCapture(City city)
         {
@@ -1315,7 +1318,7 @@ namespace Code2015.BalanceSystem
             ContentBinaryReader br = data.Reader;
 
             Development = br.ReadSingle();
-            Population = br.ReadSingle();
+            //Population = br.ReadSingle();
 
             int plugCount = br.ReadInt32();
 
@@ -1328,13 +1331,13 @@ namespace Code2015.BalanceSystem
 
                 int newCount = plugCount - plugins.Count;
 
-                CityPluginFactory factory = new CityPluginFactory();
-                for (int i = 0; i < newCount; i++)
-                {
-                    CityPlugin plugin = new CityPlugin(factory, factory.EducationOrgType, CityPluginTypeId.EducationOrg);
-                    plugin.Deserialize(br, Region);
-                    Add(plugin);
-                }
+                //CityPluginFactory factory = new CityPluginFactory();
+                //for (int i = 0; i < newCount; i++)
+                //{
+                //    CityPlugin plugin = new CityPlugin(factory, factory.EducationOrgType, CityPluginTypeId.EducationOrg);
+                //    plugin.Deserialize(br, Region);
+                //    Add(plugin);
+                //}
             }
             else if (plugCount < plugins.Count) 
             {
@@ -1350,24 +1353,24 @@ namespace Code2015.BalanceSystem
                 }
             }
 
-            int farmCount = br.ReadInt32();
+            //int farmCount = br.ReadInt32();
 
-            if (farmCount > FarmLandCount) 
-            {
-                int nc = farmCount - FarmLandCount;
-                for (int i = 0; i < nc; i++) 
-                {
-                    AddFarm();
-                }
-            }
-            else if (farmCount < FarmLandCount)
-            {
-                int nc = FarmLandCount - farmCount;
-                for (int i = 0; i < nc; i++)
-                {
-                    farms.RemoveAt(farms.Count - 1);
-                }
-            }
+            //if (farmCount > FarmLandCount) 
+            //{
+            //    int nc = farmCount - FarmLandCount;
+            //    for (int i = 0; i < nc; i++) 
+            //    {
+            //        AddFarm();
+            //    }
+            //}
+            //else if (farmCount < FarmLandCount)
+            //{
+            //    int nc = FarmLandCount - farmCount;
+            //    for (int i = 0; i < nc; i++)
+            //    {
+            //        farms.RemoveAt(farms.Count - 1);
+            //    }
+            //}
 
             Capture.Deserialize(br);
         }
@@ -1396,108 +1399,108 @@ namespace Code2015.BalanceSystem
             base.Parse(sect);
             Name = sect.GetString("Name", string.Empty);
             //Population = sect.GetSingle("Population");
-            Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", UrbanSize.Small.ToString()));
+            //Size = (UrbanSize)Enum.Parse(typeof(UrbanSize), sect.GetString("Size", UrbanSize.Small.ToString()));
             culture = (CultureId)Enum.Parse(typeof(CultureId), sect.GetString("Culture", CultureId.Asia.ToString()));
             StartUp = sect.GetInt("StartUp", -1);
 
-            switch (Size)
-            {
-                case UrbanSize.Small:
-                    InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.SmallCityPointThreshold;
-                    InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.SmallRefPop;
-                    break;
-                case UrbanSize.Medium:
-                    InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.MediumCityPointThreshold;
-                    InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.MediumRefPop;
-                    break;
-                case UrbanSize.Large:
-                    InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.LargeCityPointThreshold;
-                    InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.LargeRefPop;
-                    break;
-            }
+            //switch (Size)
+            //{
+            //    case UrbanSize.Small:
+            //        InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.SmallCityPointThreshold;
+            //        InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.SmallRefPop;
+            //        break;
+            //    case UrbanSize.Medium:
+            //        InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.MediumCityPointThreshold;
+            //        InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.MediumRefPop;
+            //        break;
+            //    case UrbanSize.Large:
+            //        InitialDeveleopment = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.LargeCityPointThreshold;
+            //        InitialPopulation = (Randomizer.GetRandomSingle() * 0.3f + 0.7f) * CityGrade.LargeRefPop;
+            //        break;
+            //}
 
             Development = InitialDeveleopment;
-            Population = InitialPopulation;
+            //Population = InitialPopulation;
 
 
-            int farmCount = Math.Min(MaxFarmLand, sect.GetInt("Farm", 0));
-            for (int i = 0; i < farmCount; i++)
-            {
-                farms.Add(new FarmLand(base.Region, this));
-            }
+            //int farmCount = Math.Min(MaxFarmLand, sect.GetInt("Farm", 0));
+            //for (int i = 0; i < farmCount; i++)
+            //{
+            //    farms.Add(new FarmLand(base.Region, this));
+            //}
 
             linkableCityName = sect.GetStringArray("Linkable", null);
 
-            float environment = sect.GetSingle("Environment", DefaultProblemWeight);
-            float disease = sect.GetSingle("Disease", DefaultProblemWeight);
-            float gender = sect.GetSingle("Gender", DefaultProblemWeight);
-            float hunger = sect.GetSingle("Hunger", DefaultProblemWeight);
-            float maternal = sect.GetSingle("Maternal", DefaultProblemWeight);
-            float child = sect.GetSingle("Child", DefaultProblemWeight);
-            float education = sect.GetSingle("Education", DefaultProblemWeight);
+            //float environment = sect.GetSingle("Environment", DefaultProblemWeight);
+            //float disease = sect.GetSingle("Disease", DefaultProblemWeight);
+            //float gender = sect.GetSingle("Gender", DefaultProblemWeight);
+            //float hunger = sect.GetSingle("Hunger", DefaultProblemWeight);
+            //float maternal = sect.GetSingle("Maternal", DefaultProblemWeight);
+            //float child = sect.GetSingle("Child", DefaultProblemWeight);
+            //float education = sect.GetSingle("Education", DefaultProblemWeight);
 
 
-            ProblemChild = child;
-            ProblemDisease = disease;
-            ProblemEducation = education;
-            ProblemEnvironment = environment;
-            ProblemGender = gender;
-            ProblemHunger = hunger;
-            ProblemMaternal = maternal;
+            //ProblemChild = child;
+            //ProblemDisease = disease;
+            //ProblemEducation = education;
+            //ProblemEnvironment = environment;
+            //ProblemGender = gender;
+            //ProblemHunger = hunger;
+            //ProblemMaternal = maternal;
 
-            float total = environment + disease + gender + hunger + maternal + child + education;
+            //float total = environment + disease + gender + hunger + maternal + child + education;
 
-            total = 1 / total;
+            //total = 1 / total;
 
-            environment *= total;
-            disease *= total;
-            gender *= total;
-            hunger *= total;
-            maternal *= total;
-            child *= total;
-            education *= total;
+            //environment *= total;
+            //disease *= total;
+            //gender *= total;
+            //hunger *= total;
+            //maternal *= total;
+            //child *= total;
+            //education *= total;
 
-            disease += environment;
-            gender += disease;
-            hunger += gender;
-            maternal += hunger;
-            child += maternal;
-            education += child;
-
-
-
-            float p = Randomizer.GetRandomSingle();
-            if (p < environment)
-            {
-                MajorProblem = MdgType.Environment;
-            }
-            else if (p < disease)
-            {
-                MajorProblem = MdgType.Diseases;
-            }
-            else if (p < gender)
-            {
-                MajorProblem = MdgType.GenderEquality;
-            }
-            else if (p < hunger)
-            {
-                MajorProblem = MdgType.Hunger;
-            }
-            else if (p < maternal)
-            {
-                MajorProblem = MdgType.MaternalHealth;
-            }
-            else if (p < child)
-            {
-                MajorProblem = MdgType.ChildMortality;
-            }
-            else
-            {
-                MajorProblem = MdgType.Education;
-            }
+            //disease += environment;
+            //gender += disease;
+            //hunger += gender;
+            //maternal += hunger;
+            //child += maternal;
+            //education += child;
 
 
-            UpgradeUpdate();
+
+            //float p = Randomizer.GetRandomSingle();
+            //if (p < environment)
+            //{
+            //    MajorProblem = MdgType.Environment;
+            //}
+            //else if (p < disease)
+            //{
+            //    MajorProblem = MdgType.Diseases;
+            //}
+            //else if (p < gender)
+            //{
+            //    MajorProblem = MdgType.GenderEquality;
+            //}
+            //else if (p < hunger)
+            //{
+            //    MajorProblem = MdgType.Hunger;
+            //}
+            //else if (p < maternal)
+            //{
+            //    MajorProblem = MdgType.MaternalHealth;
+            //}
+            //else if (p < child)
+            //{
+            //    MajorProblem = MdgType.ChildMortality;
+            //}
+            //else
+            //{
+            //    MajorProblem = MdgType.Education;
+            //}
+
+
+            //UpgradeUpdate();
         }
 
         #endregion

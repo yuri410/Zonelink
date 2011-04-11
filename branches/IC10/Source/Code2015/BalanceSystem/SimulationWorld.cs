@@ -39,13 +39,13 @@ namespace Code2015.BalanceSystem
         FastList<City> cities = new FastList<City>();
         FastList<NaturalResource> resources = new FastList<NaturalResource>();
 
-        EnergyStatus energyStatus;
-        SocietyStatus societyStatus;
+        //EnergyStatus energyStatus;
+        //SocietyStatus societyStatus;
 
-        public EnergyStatus EnergyStatus
-        {
-            get { return energyStatus; }
-        }
+        //public EnergyStatus EnergyStatus
+        //{
+        //    get { return energyStatus; }
+        //}
 
 
         public int CityCount
@@ -121,11 +121,11 @@ namespace Code2015.BalanceSystem
             }
         }
        
-        public SimulationWorld()
-        {
-            energyStatus = new EnergyStatus(this);
-            societyStatus = new SocietyStatus(this);
-        }
+        //public SimulationWorld()
+        //{
+        //    energyStatus = new EnergyStatus(this);
+        //    societyStatus = new SocietyStatus(this);
+        //}
 
         public void Update(GameTime time)
         {
@@ -134,8 +134,8 @@ namespace Code2015.BalanceSystem
                 simulateObject[i].Update(time);
             }
 
-            societyStatus.Update(time);
-            energyStatus.Update(time);
+            //societyStatus.Update(time);
+            //energyStatus.Update(time);
 
 
         }
