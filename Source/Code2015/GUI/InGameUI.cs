@@ -177,39 +177,39 @@ namespace Code2015.GUI
             picker = new Picker(game, parent, scene, gamelogic);
             AddElement(picker);
 
-            AddElement(new ColorNotify(player));
-            this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
-            AddElement(cityEdit);
+            //AddElement(new ColorNotify(player));
+            //this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
+            //AddElement(cityEdit);
 
             this.infoUI = new InfoUI(game, parent, scene, gamelogic);
-            AddElement(infoUI);
+            //AddElement(infoUI);
 
-            this.brackets = new Brackets(game, parent, scene, gamelogic, picker);
-            AddElement(brackets);
+            //this.brackets = new Brackets(game, parent, scene, gamelogic, picker);
+           // AddElement(brackets);
 
             this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
-            AddElement(icons);
+           // AddElement(icons);
 
-            brackets.SetGoalIcons(icons);
+           // brackets.SetGoalIcons(icons);
 
             this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
 
            
-            this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
-            AddElement(playerProgress);
+           // this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
+           // AddElement(playerProgress);
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
             AddElement(miniMap);
-            this.noticeBar = new NoticeBar(game, parent, scene, gamelogic, miniMap);
-            AddElement(noticeBar);
+            //this.noticeBar = new NoticeBar(game, parent, scene, gamelogic, miniMap);
+            //AddElement(noticeBar);
 
-            this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
-            AddElement(container);
-            PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
-            AddElement(overlay);
+            //this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
+            //AddElement(container);
+            //PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
+            //AddElement(overlay);
 
-            icons.SetPieceContainer(container);
-            co2graph = new CO2Graph(game, parent, scene, gamelogic);
-            AddElement(co2graph);
+            //icons.SetPieceContainer(container);
+            //co2graph = new CO2Graph(game, parent, scene, gamelogic);
+            //AddElement(co2graph);
 
             exitConfirm = new ExitConfirm();
             AddElement(exitConfirm);
@@ -220,8 +220,7 @@ namespace Code2015.GUI
             if (!parent.IsOver)
             {
                 if (parent.IsLoaded)
-                {
-                   
+                {                  
                     base.Render(sprite);
 
                     Point hsp = new Point();
@@ -358,8 +357,8 @@ namespace Code2015.GUI
                     pieceMaker.Update(time);
 
                     physWorld.Update(time);
-                    infoUI.SelectedObject = picker.SelectedObject;
-                    cityEdit.SelectedCity = picker.SelectedCity;
+                    //infoUI.SelectedObject = picker.SelectedObject;
+                    //cityEdit.SelectedCity = picker.SelectedCity;
 
                     base.Update(time);
                 }
