@@ -4,10 +4,13 @@ float4x4 world;
 
 void main(
    float4 pos : POSITION,
-   float3 n : NORMAL,   
+   float3 n : NORMAL, 
+   float2 tex : TEXCOORD0,  
    out float4 oPos : POSITION,
-   out float3 oN : TEXCOORD0)
+   out float3 oN : TEXCOORD0,
+   out float2 oTex : TEXCOORD1)
 {
     oPos = mul(pos, mvp);
-    oN = mul(n, (float3x3)world);
+    oN = normalize(mul(n, (float3x3)world));
+    oTex = tex;
 }

@@ -185,6 +185,31 @@ namespace Code2015.Effects
                 Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
                 nrmGenVShader.SetValue("mvp", ref mvp);
                 nrmGenVShader.SetValue("world", ref op.Transformation);
+
+                if (!stateSetted)
+                {
+                    ShaderSamplerState state = new ShaderSamplerState();
+                    state.AddressU = TextureAddressMode.Wrap;
+                    state.AddressV = TextureAddressMode.Wrap;
+                    state.AddressW = TextureAddressMode.Wrap;
+                    state.MinFilter = TextureFilter.Linear;
+                    state.MagFilter = TextureFilter.Linear;
+                    state.MipFilter = TextureFilter.Linear;
+                    state.MaxAnisotropy = 8;
+                    state.MipMapLODBias = 0;
+
+                    nrmGenPShader.SetSamplerState("texDif", ref state);
+
+                    ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+                    if (clrTex == null)
+                    {
+                        nrmGenPShader.SetTexture("texDif", noTexture);
+                    }
+                    else
+                    {
+                        nrmGenPShader.SetTexture("texDif", clrTex);
+                    }
+                }
             }
             else
             {

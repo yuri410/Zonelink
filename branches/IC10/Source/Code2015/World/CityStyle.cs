@@ -94,12 +94,12 @@ namespace Code2015.World
         public Model Ring;
         public Model SelRing;
 
-        public Model MdgSiteInactive;
-        public Model[] MdgSiteEmpty;
-        public Model[] MdgSiteFull;
-        public Model[] MdgGoalIcon;
-        public Model[] MdgGoalIconHL;
-        public Model[] MdgGoalIconGray;
+        //public Model MdgSiteInactive;
+        //public Model[] MdgSiteEmpty;
+        //public Model[] MdgSiteFull;
+        //public Model[] MdgGoalIcon;
+        //public Model[] MdgGoalIconHL;
+        //public Model[] MdgGoalIconGray;
 
         public float PluginTranslate;
 
@@ -280,31 +280,31 @@ namespace Code2015.World
 
         const float RingRadius = 100;
 
-        static readonly string SmallCityCenter_Am = "mz_small.mesh";
-        static readonly string MediumCityCenter_Am = "mz_medium.mesh";
+        //static readonly string SmallCityCenter_Am = "mz_small.mesh";
+        //static readonly string MediumCityCenter_Am = "mz_medium.mesh";
         static readonly string LargeCityCenter_Am = "mz_large.mesh";
 
-        static readonly string SmallCityCenter_Af = "fz_small.mesh";
-        static readonly string MediumCityCenter_Af = "fz_medium.mesh";
+        //static readonly string SmallCityCenter_Af = "fz_small.mesh";
+        //static readonly string MediumCityCenter_Af = "fz_medium.mesh";
         static readonly string LargeCityCenter_Af = "fz_large.mesh";
-        static readonly string SmallCityCenter_Er = "oz_small.mesh";
-        static readonly string MediumCityCenter_Er = "oz_medium.mesh";
+        //static readonly string SmallCityCenter_Er = "oz_small.mesh";
+        //static readonly string MediumCityCenter_Er = "oz_medium.mesh";
         static readonly string LargeCityCenter_Er = "oz_large.mesh";
 
-        static readonly string SmallCityCenter_Inv = "small.mesh";
-        static readonly string MediumCityCenter_Inv = "medium.mesh";
+        //static readonly string SmallCityCenter_Inv = "small.mesh";
+        //static readonly string MediumCityCenter_Inv = "medium.mesh";
         static readonly string LargeCityCenter_Inv = "large.mesh";
-        static readonly string SmallBase_Inv = "basesmall.mesh";
-        static readonly string MediumBase_Inv = "basemedium.mesh";
+        //static readonly string SmallBase_Inv = "basesmall.mesh";
+        //static readonly string MediumBase_Inv = "basemedium.mesh";
         static readonly string LargeBase_Inv = "baselarge.mesh";
 
-        static readonly string FarmLand_Inv = "farm.mesh";
-        static readonly string OilRefinary_Inv = "oilref.mesh";
-        static readonly string WoodFactory_Inv = "woodfac.mesh";
-        static readonly string BioFuelFactory_Inv = "biofuel.mesh";
-        static readonly string EducationOrgan_Inv = "eduorg.mesh";
-        static readonly string Hospital_Inv = "hospital.mesh";
-        static readonly string Cow_Inv = "cow";
+        //static readonly string FarmLand_Inv = "farm.mesh";
+        //static readonly string OilRefinary_Inv = "oilref.mesh";
+        //static readonly string WoodFactory_Inv = "woodfac.mesh";
+        //static readonly string BioFuelFactory_Inv = "biofuel.mesh";
+        //static readonly string EducationOrgan_Inv = "eduorg.mesh";
+        //static readonly string Hospital_Inv = "hospital.mesh";
+        //static readonly string Cow_Inv = "cow";
         static readonly string Ring_Inv = "cityring.mesh";
         static readonly string SelRing_Inv = "citysel.mesh";
         static readonly string SiteBase_Inv = "sitebase.mesh";

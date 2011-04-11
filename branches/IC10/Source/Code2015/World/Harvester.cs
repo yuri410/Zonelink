@@ -35,13 +35,14 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
-    enum UnitState
+    enum MovePurpose
     {
-        TargetAuto,
-        HomeAuto
+        None,
+        Gather,
+        Home,
     }
 
-    struct MoveNode 
+    struct MoveNode
     {
         public float Longitude;
         public float Latitude;
@@ -52,26 +53,40 @@ namespace Code2015.World
     }
 
 
-    public class Harvester : DynamicObject
+    class Harvester : DynamicObject
     {
+        public const int NumModels = 30;
+        /// <summary>
+        ///  矿车属性
+        /// </summary>
+        public struct Props
+        {
+            public float Speed;
+            public float HP;
+            public float Storage;
+        }
+
+        Props props;
         Model[] model;
         int mdlIndex;
+        GatherCity parent;
+        Matrix orientation = Matrix.Identity;
+        Vector3 position;
 
         float longtitude;
         float latitude;
         MoveNode src;
         MoveNode target;
 
+
+
         Map map;
         PathFinder finder;
-        UnitState state;
+        MovePurpose movePurpose;
 
-        float autoSLng;
-        float autoSLat;
-        float autoTLng;
-        float autoTLat;
 
-        int destX; 
+
+        int destX;
         int destY;
 
 
@@ -82,9 +97,35 @@ namespace Code2015.World
         int currentNode;
         PathFinderResult cuurentPath;
 
-        const float Speed = 1;
+        #region 仓库
+        float harvStorage;
 
-        public float Longtitude 
+        bool isFullLoaded;
+        NatureResource exRes;
+        bool isLoading;
+        bool isUnloading;
+        float loadingTime;
+        #endregion
+        /// <summary>
+        /// 矿车当前的生命值
+        /// </summary>
+        float currentHp;
+
+
+
+        public bool IsFullLoaded { get { return isFullLoaded; } set { isFullLoaded = value; } }
+
+        public NatureResource ExRes
+        {
+            get { return exRes; }
+            set { exRes = value; }
+        }
+
+        public Vector3 Position
+        {
+            get { return position; }
+        }
+        public float Longtitude
         {
             get { return longtitude; }
             set { longtitude = value; }
@@ -94,40 +135,82 @@ namespace Code2015.World
             get { return latitude; }
             set { latitude = value; }
         }
+        public int ModelIndex { get { return mdlIndex; } }
 
-
-        public bool IsAuto
+        public Props GetProps() { return props; }
+        public void SetProps(Props p)
         {
-            get;
-            private set;
+            props = p;
+            currentHp = p.HP;
         }
 
-        public Harvester(RenderSystem rs, Map map, Model[] mdl)
+        public GatherCity Parent { get { return parent; } }
+        ///// <summary>
+        /////  留着做动画
+        ///// </summary>
+        //public Model Model         
+        //{
+        //    get { return model; }
+        //}
+
+
+
+
+        public bool IsIdle
         {
+            get { return cuurentPath == null; }
+        }
+
+        public Harvester(GatherCity parent, Map map, Model[] mdl)
+        {
+            this.parent = parent;
+
             this.model = mdl;
-            
+
             finder = map.PathFinder.CreatePathFinder();
             this.map = map;
 
-            ModelL0 = mdl[0];
+
             BoundingSphere.Radius = 50;
-
+            ModelL0 = mdl[0];
         }
 
-        public void SetAuto(float tlng, float tlat, float slng, float slat)
+
+        public event EventHandler GotThere;
+        public event EventHandler GotHome;
+
+        /// <summary>
+        ///  调用Move之后设置目的，否则为无目的
+        /// </summary>
+        /// <param name="purpose"></param>
+        public void SetMovePurpose(MovePurpose purpose)
         {
-            IsAuto = true;
-           
-            autoSLat = slat;
-            autoSLng = slng;
-            autoTLat = tlat;
-            autoTLng = tlng;
-
-            move(autoTLng, autoTLat);
-            state = UnitState.TargetAuto;
+            this.movePurpose = purpose;
         }
 
-        void move(float lng, float lat) 
+        public void SetPosition(float longtitude, float latitude)
+        {
+            Point pt;
+            Map.GetMapCoord(longtitude, latitude, out pt.X, out pt.Y);
+            Point pt2 = pt;
+            pt2.X++;
+
+            Quaternion q = GetOrientation(pt, pt2);
+            orientation = Matrix.RotationQuaternion(q);
+
+            this.longtitude = longtitude;
+            this.latitude = latitude;
+            //float altitude = map.GetHeight(longtitude, latitude);
+
+            //position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
+
+            //Matrix.CreateTranslation(ref position, out Transformation);
+            //Matrix.Multiply(ref orientation, ref Transformation, out Transformation);
+
+
+        }
+
+        void move(float lng, float lat)
         {
             int sx, sy;
             Map.GetMapCoord(longtitude, latitude, out sx, out sy);
@@ -140,13 +223,14 @@ namespace Code2015.World
 
             finder.Reset();
             cuurentPath = finder.FindPath(sx, sy, tx, ty);
-            
+
             currentNode = 0;
             currentPrg = 0;
         }
         public void Move(float lng, float lat)
         {
-            IsAuto = false;
+            //IsAuto = false;
+            movePurpose = MovePurpose.None;
             move(lng, lat);
         }
         void Move(int x, int y)
@@ -198,11 +282,55 @@ namespace Code2015.World
         }
         protected override void Dispose(bool disposing)
         {
-            ModelL0 = null;
             base.Dispose(disposing);
         }
         public override void Update(GameTime dt)
         {
+            float ddt = (float)dt.ElapsedGameTime.TotalSeconds;
+
+            if (isLoading && exRes != null)
+            {
+                // 计算开矿倍数
+                float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
+
+                harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt * scale);
+                loadingTime -= ddt;
+
+                if (loadingTime < 0)
+                {
+                    isFullLoaded = harvStorage >= props.Storage;
+                    isLoading = false;
+                    if (GotThere != null)
+                        GotThere(this, EventArgs.Empty);
+                }
+            }
+            if (isUnloading)
+            {
+                // 计算开矿倍数
+                float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
+
+                float change = RulesTable.HarvLoadingSpeed * ddt * scale;
+
+                if (harvStorage - change > 0)
+                {
+                    harvStorage -= change;
+                    parent.NotifyGotResource(change);
+                }
+                else
+                {
+                    harvStorage = 0;
+                    parent.NotifyGotResource(harvStorage);
+                }
+
+                loadingTime -= ddt;
+                if (loadingTime < 0)
+                {
+                    isLoading = false;
+                    if (GotHome != null)
+                        GotHome(this, EventArgs.Empty);
+                }
+            }
+
             float altitude = map.GetHeight(longtitude, latitude);
 
             if (cuurentPath != null)
@@ -221,20 +349,32 @@ namespace Code2015.World
                     else
                     {
                         cuurentPath = null;
-                        if (IsAuto)
-                        {
-                            if (state == UnitState.HomeAuto)
-                            {
-                                move(autoTLng, autoTLat);
-                                state = UnitState.TargetAuto;
-                            }
-                            else if (state == UnitState.TargetAuto)
-                            {
-                                move(autoSLng, autoSLat);
-                                state = UnitState.HomeAuto;
-                            }
 
+                        if (movePurpose == MovePurpose.Gather)
+                        {
+                            isLoading = true;
+                            loadingTime = RulesTable.HarvLoadingTime;
                         }
+                        else if (movePurpose == MovePurpose.Home)
+                        {
+                            isUnloading = true;
+                            loadingTime = RulesTable.HarvLoadingTime;
+                        }
+
+                        //if (IsAuto)
+                        //{
+                        //    if (state == UnitState.HomeAuto)
+                        //    {
+                        //        move(autoTLng, autoTLat);
+                        //        state = UnitState.TargetAuto;
+                        //    }
+                        //    else if (state == UnitState.TargetAuto)
+                        //    {
+                        //        move(autoSLng, autoSLat);
+                        //        state = UnitState.HomeAuto;
+                        //    }
+
+                        //}
                     }
                 }
                 else
@@ -282,15 +422,15 @@ namespace Code2015.World
 
                     if (mdlIndex < 0)
                         mdlIndex = 0;
-                    if (mdlIndex >= model.Length)
-                        mdlIndex = model.Length - 1;
+                    if (mdlIndex >= NumModels)
+                        mdlIndex = NumModels - 1;
 
                     ModelL0 = model[mdlIndex];
 
                     if (altitude < 0)
                         altitude = 0;
 
-                    Orientation = Matrix.RotationQuaternion(
+                    orientation = Matrix.RotationQuaternion(
                         Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
 
                     currentPrg += 0.05f;
@@ -309,16 +449,15 @@ namespace Code2015.World
 
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
-           
-            Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
 
-            base.Update(dt);
+            position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
+
         }
 
 
-        public override bool IsSerializable
+        public override void Render()
         {
-            get { return false; ; }
         }
     }
+
 }

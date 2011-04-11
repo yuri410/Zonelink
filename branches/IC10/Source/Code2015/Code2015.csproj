@@ -88,23 +88,6 @@
     </Compile>
     <Compile Include="AI\AIPlayer.cs" />
     <Compile Include="Attributes.cs" />
-    <Compile Include="BalanceSystem\City.cs" />
-    <Compile Include="BalanceSystem\CityCaptureState.cs" />
-    <Compile Include="BalanceSystem\CityGrade.cs" />
-    <Compile Include="BalanceSystem\CityLink.cs" />
-    <Compile Include="BalanceSystem\CityPlugin.cs" />
-    <Compile Include="BalanceSystem\CityPluginFactory.cs" />
-    <Compile Include="BalanceSystem\CityPluginType.cs" />
-    <Compile Include="BalanceSystem\CityResourceStorage.cs" />
-    <Compile Include="BalanceSystem\EnergyStatus.cs" />
-    <Compile Include="BalanceSystem\FarmLand.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BalanceSystem\IncomingDisaster.cs" />
-    <Compile Include="BalanceSystem\MdgGoal.cs" />
-    <Compile Include="BalanceSystem\NaturalResource.cs" />
-    <Compile Include="BalanceSystem\Forest.cs" />
-    <Compile Include="BalanceSystem\OilField.cs" />
     <Compile Include="Effects\AtmosphereEffect.cs" />
     <Compile Include="Effects\CityLinkEffect.cs" />
     <Compile Include="Effects\CityRingEffect.cs" />
@@ -205,11 +188,6 @@
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
-    <Compile Include="BalanceSystem\SimulationObject.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Include="BalanceSystem\SimulationWorld.cs" />
-    <Compile Include="BalanceSystem\SocietyStatus.cs" />
     <Compile Include="Code2015.cs" />
     <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
@@ -452,6 +430,7 @@
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaUtils.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexDeclaration.cs" />
     <Compile Include="Engine\Apoc3D.RenderSystem.Xna\XnaVertexShader.cs" />
+    <Compile Include="Logic\RulesTable.cs" />
     <Compile Include="Network\GameClient.cs" />
     <Compile Include="Network\GamePeer.cs" />
     <Compile Include="Network\GameServer.cs" />
@@ -468,7 +447,6 @@
     <Compile Include="StaticPlay.cs" />
     <Compile Include="World\CityGoalSite.cs" />
     <Compile Include="World\CityLinkManager.cs" />
-    <Compile Include="World\CityStyle.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
@@ -500,11 +478,8 @@
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="World\Harvester.cs" />
     <Compile Include="World\ISelectableObject.cs" />
-    <Compile Include="World\CityOwnerRing.cs" />
     <Compile Include="World\LightningStrom.cs" />
     <Compile Include="World\SceneryObject.cs" />
-    <Compile Include="World\Screen\MdgResource.cs">
-    </Compile>
     <Compile Include="World\OceanWater.cs" />
     <Compile Include="World\OceanWaterData.cs" />
     <Compile Include="World\OceanWaterTile.cs" />
@@ -512,17 +487,12 @@
     <Compile Include="World\PlanetEarth.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="World\Screen\ScreenPhysicsWorld.cs" />
-    <Compile Include="World\Screen\ScreenRigidBody.cs" />
-    <Compile Include="World\Screen\ScreenStaticBody.cs" />
     <Compile Include="World\TerrainData.cs" />
     <Compile Include="World\TerrainTile.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="World\CityLinkableMark.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="BalanceSystem\BalanceSystemInfo.txt" />
     <None Include="Configs\resources.xml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

@@ -134,114 +134,114 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
-            //renderer.RenderScene(nrmRt, RenderMode.DeferredNormal);
+            renderer.RenderScene(screenTarget, RenderMode.DeferredNormal);
 
 
 
 
-            renderer.RenderScene(clrRt, RenderMode.Final);
-            //renderSys.RenderStates.FillMode = FillMode.Solid;
+            //renderer.RenderScene(clrRt, RenderMode.Final);
+            ////renderSys.RenderStates.FillMode = FillMode.Solid;
 
 
-            ShaderSamplerState sampler1;
-            sampler1.AddressU = TextureAddressMode.Clamp;
-            sampler1.AddressV = TextureAddressMode.Clamp;
-            sampler1.AddressW = TextureAddressMode.Clamp;
-            sampler1.BorderColor = ColorValue.Transparent;
-            sampler1.MagFilter = TextureFilter.Point;
-            sampler1.MaxAnisotropy = 0;
-            sampler1.MaxMipLevel = 0;
-            sampler1.MinFilter = TextureFilter.Point;
-            sampler1.MipFilter = TextureFilter.None;
-            sampler1.MipMapLODBias = 0;
+            //ShaderSamplerState sampler1;
+            //sampler1.AddressU = TextureAddressMode.Clamp;
+            //sampler1.AddressV = TextureAddressMode.Clamp;
+            //sampler1.AddressW = TextureAddressMode.Clamp;
+            //sampler1.BorderColor = ColorValue.Transparent;
+            //sampler1.MagFilter = TextureFilter.Point;
+            //sampler1.MaxAnisotropy = 0;
+            //sampler1.MaxMipLevel = 0;
+            //sampler1.MinFilter = TextureFilter.Point;
+            //sampler1.MipFilter = TextureFilter.None;
+            //sampler1.MipMapLODBias = 0;
 
-            ShaderSamplerState sampler2 = sampler1;
-            //sampler2.BorderColor = ColorValue.Transparent;
-            sampler2.MagFilter = TextureFilter.Linear;
-            sampler2.MinFilter = TextureFilter.Linear;
-
-
-            #region 分离高光
-            renderSys.SetRenderTarget(0, blmRt1);
-
-            bloomEff.Begin();
-
-            bloomEff.SetSamplerStateDirect(0, ref sampler1);
-            bloomEff.SetTexture("tex", clrRt.GetColorBufferTexture());
-            bloomEff.SetValue("BloomThreshold", BloomThreshold);
-
-            DrawSmallQuad();
-
-            bloomEff.End();
-            #endregion
-
-            #region 高斯X
-            renderSys.SetRenderTarget(0, blmRt2);
-
-            gaussBlur.Begin();
+            //ShaderSamplerState sampler2 = sampler1;
+            ////sampler2.BorderColor = ColorValue.Transparent;
+            //sampler2.MagFilter = TextureFilter.Linear;
+            //sampler2.MinFilter = TextureFilter.Linear;
 
 
-            gaussBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
+            //#region 分离高光
+            //renderSys.SetRenderTarget(0, blmRt1);
 
-            for (int i = 0; i < SampleCount; i++)
-            {
-                gaussBlur.SetValueDirect(i, ref guassFilter.SampleOffsetsX[i]);
-                gaussBlur.SetValueDirect(i + 15, guassFilter.SampleWeights[i]);
-            }
-            //gaussBlur.SetValue("SampleOffsets", SampleOffsetsX);
-            //gaussBlur.SetValue("SampleWeights", SampleWeights);
+            //bloomEff.Begin();
 
-            DrawSmallQuad();
+            //bloomEff.SetSamplerStateDirect(0, ref sampler1);
+            //bloomEff.SetTexture("tex", clrRt.GetColorBufferTexture());
+            //bloomEff.SetValue("BloomThreshold", BloomThreshold);
 
-            gaussBlur.End();
-            #endregion
+            //DrawSmallQuad();
 
+            //bloomEff.End();
+            //#endregion
 
-            #region 高斯Y
+            //#region 高斯X
+            //renderSys.SetRenderTarget(0, blmRt2);
 
-            renderSys.SetRenderTarget(0, blmRt1);
-            gaussBlur.Begin();
-            gaussBlur.SetTexture("tex", blmRt2.GetColorBufferTexture());
-
-            for (int i = 0; i < SampleCount; i++)
-            {
-                gaussBlur.SetValueDirect(i, ref guassFilter.SampleOffsetsY[i]);
-                gaussBlur.SetValueDirect(i + 15, guassFilter.SampleWeights[i]);
-            }
-            DrawSmallQuad();
-
-            gaussBlur.End();
+            //gaussBlur.Begin();
 
 
-            #endregion
+            //gaussBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
+
+            //for (int i = 0; i < SampleCount; i++)
+            //{
+            //    gaussBlur.SetValueDirect(i, ref guassFilter.SampleOffsetsX[i]);
+            //    gaussBlur.SetValueDirect(i + 15, guassFilter.SampleWeights[i]);
+            //}
+            ////gaussBlur.SetValue("SampleOffsets", SampleOffsetsX);
+            ////gaussBlur.SetValue("SampleWeights", SampleWeights);
+
+            //DrawSmallQuad();
+
+            //gaussBlur.End();
+            //#endregion
 
 
-            #region 合成
+            //#region 高斯Y
 
-            renderSys.SetRenderTarget(0, screenTarget);
+            //renderSys.SetRenderTarget(0, blmRt1);
+            //gaussBlur.Begin();
+            //gaussBlur.SetTexture("tex", blmRt2.GetColorBufferTexture());
 
-            compEff.Begin();
-            compEff.SetValue("BloomIntensity", BloomIntensity);
-            compEff.SetValue("BaseIntensity", BaseIntensity);
-            compEff.SetValue("BloomSaturation", BloomSaturation);
-            compEff.SetValue("BaseSaturation", BaseSaturation);
+            //for (int i = 0; i < SampleCount; i++)
+            //{
+            //    gaussBlur.SetValueDirect(i, ref guassFilter.SampleOffsetsY[i]);
+            //    gaussBlur.SetValueDirect(i + 15, guassFilter.SampleWeights[i]);
+            //}
+            //DrawSmallQuad();
+
+            //gaussBlur.End();
 
 
-            compEff.SetSamplerStateDirect(0, ref sampler1);
-            compEff.SetSamplerStateDirect(1, ref sampler2);
+            //#endregion
 
-            compEff.SetTextureDirect(0, clrRt.GetColorBufferTexture());
-            compEff.SetTextureDirect(1, blmRt1.GetColorBufferTexture());
 
-            renderSys.RenderStates.AlphaBlendEnable = true;
-            renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;
-            renderSys.RenderStates.DestinationBlend = Blend.InverseSourceAlpha;
-            renderSys.RenderStates.BlendOperation = BlendFunction.Add;
+            //#region 合成
+
+            //renderSys.SetRenderTarget(0, screenTarget);
+
+            //compEff.Begin();
+            //compEff.SetValue("BloomIntensity", BloomIntensity);
+            //compEff.SetValue("BaseIntensity", BaseIntensity);
+            //compEff.SetValue("BloomSaturation", BloomSaturation);
+            //compEff.SetValue("BaseSaturation", BaseSaturation);
+
+
+            //compEff.SetSamplerStateDirect(0, ref sampler1);
+            //compEff.SetSamplerStateDirect(1, ref sampler2);
+
+            //compEff.SetTextureDirect(0, clrRt.GetColorBufferTexture());
+            //compEff.SetTextureDirect(1, blmRt1.GetColorBufferTexture());
+
+            //renderSys.RenderStates.AlphaBlendEnable = true;
+            //renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;
+            //renderSys.RenderStates.DestinationBlend = Blend.InverseSourceAlpha;
+            //renderSys.RenderStates.BlendOperation = BlendFunction.Add;
             
-            DrawBigQuad();
+            //DrawBigQuad();
 
-            compEff.End();
-            #endregion
+            //compEff.End();
+            //#endregion
         }
 
         protected unsafe override void loadUnmanagedResources()

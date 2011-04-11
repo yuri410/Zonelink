@@ -171,7 +171,7 @@ namespace Code2015.BalanceSystem
             culture = CultureId.Asia;
 
             Capture = new CaptureState();
-            UpgradeUpdate();
+            //UpgradeUpdate();
 
             //recentFood.Add(LocalFood.Current);
             recentWood.Add(LocalLR.Current);
@@ -446,30 +446,30 @@ namespace Code2015.BalanceSystem
         //    return GetSelfFoodCostSpeedFull() * SelfFoodCostRatio;
         //}
 
-        /// <summary>
-        ///  计算在当前供应率的情况下，使用HR的速度
-        /// </summary>
-        /// <returns></returns>
-        public float GetSelfHRCSpeed()
-        {
-            return CityGrade.GetSelfHRCSpeed(Size) * SelfHRCRatio;
-        }
-        /// <summary>
-        ///  计算在当前供应率的情况下，使用LR的速度
-        /// </summary>
-        /// <returns></returns>
-        public float GetSelfLRCSpeed()
-        {
-            return CityGrade.GetSelfLRCSpeed(Size) * SelfLRCRatio;
-        }
+        ///// <summary>
+        /////  计算在当前供应率的情况下，使用HR的速度
+        ///// </summary>
+        ///// <returns></returns>
+        //public float GetSelfHRCSpeed()
+        //{
+        //    return CityGrade.GetSelfHRCSpeed(Size) * SelfHRCRatio;
+        //}
+        ///// <summary>
+        /////  计算在当前供应率的情况下，使用LR的速度
+        ///// </summary>
+        ///// <returns></returns>
+        //public float GetSelfLRCSpeed()
+        //{
+        //    return CityGrade.GetSelfLRCSpeed(Size) * SelfLRCRatio;
+        //}
 
-        /// <summary>
-        ///  获取是否可以添加Plugin
-        /// </summary>
-        public bool CanAddPlugins
-        {
-            get { return plugins.Count < CityGrade.GetMaxPlugins(Size); }
-        }
+        ///// <summary>
+        /////  获取是否可以添加Plugin
+        ///// </summary>
+        //public bool CanAddPlugins
+        //{
+        //    get { return plugins.Count < CityGrade.GetMaxPlugins(Size); }
+        //}
 
         #region 产出/投入
 
@@ -704,13 +704,13 @@ namespace Code2015.BalanceSystem
         //}
 
 
-        /// <summary>
-        ///  获取这个城市的Plugin数量
-        /// </summary>
-        public int PluginCount
-        {
-            get { return plugins.Count; }
-        }
+        ///// <summary>
+        /////  获取这个城市的Plugin数量
+        ///// </summary>
+        //public int PluginCount
+        //{
+        //    get { return plugins.Count; }
+        //}
 
         ///// <summary>
         /////  通过索引获取城市的Plugin
@@ -765,119 +765,119 @@ namespace Code2015.BalanceSystem
             CarbonProduceSpeed = 0;
 
 
-            if (Capture.IsCapturing && !IsCaptured)
-            {
-                float lra = 100 * hours;
-                float hra = 100 * hours;
-                if (Capture.NearbyCity1 != null)
-                {
-                    if (Capture.NewOwner1 == Capture.NearbyCity1.owner)
-                    {
-                        float capreq = Capture.NearbyCity1.LocalHR.Apply(hra);
-                        float capreq2 = Capture.NearbyCity1.LocalLR.Apply(lra);
-                        Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
-                    }
-                    else
-                    {
-                        CancelCapture(Capture.NearbyCity1);
-                    }
-                }
-                if (Capture.NearbyCity2 != null)
-                {
-                    if (Capture.NewOwner2 == Capture.NearbyCity2.owner)
-                    {
-                        float capreq = Capture.NearbyCity2.LocalHR.Apply(hra);
-                        float capreq2 = Capture.NearbyCity2.LocalLR.Apply(lra);
-                        Capture.ReceiveGood(Capture.NewOwner2, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
-                    }
-                    else
-                    {
-                        CancelCapture(Capture.NearbyCity2);
-                    }
-                }
-                if (Capture.NearbyCity3 != null)
-                {
-                    if (Capture.NewOwner3 == Capture.NearbyCity3.owner)
-                    {
-                        float capreq = Capture.NearbyCity3.LocalHR.Apply(hra);
-                        float capreq2 = Capture.NearbyCity3.LocalLR.Apply(lra);
-                        Capture.ReceiveGood(Capture.NewOwner3, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
-                    }
-                    else
-                    {
-                        CancelCapture(Capture.NearbyCity3);
-                    }
-                }
-                if (Capture.NearbyCity4 != null)
-                {
-                    if (Capture.NewOwner4 == Capture.NearbyCity4.owner)
-                    {
-                        float capreq = Capture.NearbyCity4.LocalHR.Apply(hra);
-                        float capreq2 = Capture.NearbyCity4.LocalLR.Apply(lra);
-                        Capture.ReceiveGood(Capture.NewOwner4, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
-                    }
-                    else
-                    {
-                        CancelCapture(Capture.NearbyCity4);
-                    }
-                }
+            //if (Capture.IsCapturing && !IsCaptured)
+            //{
+            //    float lra = 100 * hours;
+            //    float hra = 100 * hours;
+            //    if (Capture.NearbyCity1 != null)
+            //    {
+            //        if (Capture.NewOwner1 == Capture.NearbyCity1.owner)
+            //        {
+            //            float capreq = Capture.NearbyCity1.LocalHR.Apply(hra);
+            //            float capreq2 = Capture.NearbyCity1.LocalLR.Apply(lra);
+            //            Capture.ReceiveGood(Capture.NewOwner1, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+            //        }
+            //        else
+            //        {
+            //            CancelCapture(Capture.NearbyCity1);
+            //        }
+            //    }
+            //    if (Capture.NearbyCity2 != null)
+            //    {
+            //        if (Capture.NewOwner2 == Capture.NearbyCity2.owner)
+            //        {
+            //            float capreq = Capture.NearbyCity2.LocalHR.Apply(hra);
+            //            float capreq2 = Capture.NearbyCity2.LocalLR.Apply(lra);
+            //            Capture.ReceiveGood(Capture.NewOwner2, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+            //        }
+            //        else
+            //        {
+            //            CancelCapture(Capture.NearbyCity2);
+            //        }
+            //    }
+            //    if (Capture.NearbyCity3 != null)
+            //    {
+            //        if (Capture.NewOwner3 == Capture.NearbyCity3.owner)
+            //        {
+            //            float capreq = Capture.NearbyCity3.LocalHR.Apply(hra);
+            //            float capreq2 = Capture.NearbyCity3.LocalLR.Apply(lra);
+            //            Capture.ReceiveGood(Capture.NewOwner3, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+            //        }
+            //        else
+            //        {
+            //            CancelCapture(Capture.NearbyCity3);
+            //        }
+            //    }
+            //    if (Capture.NearbyCity4 != null)
+            //    {
+            //        if (Capture.NewOwner4 == Capture.NearbyCity4.owner)
+            //        {
+            //            float capreq = Capture.NearbyCity4.LocalHR.Apply(hra);
+            //            float capreq2 = Capture.NearbyCity4.LocalLR.Apply(lra);
+            //            Capture.ReceiveGood(Capture.NewOwner4, capreq / CityGrade.GetCapturePoint(size), capreq2 / CityGrade.GetCapturePoint(size));
+            //        }
+            //        else
+            //        {
+            //            CancelCapture(Capture.NearbyCity4);
+            //        }
+            //    }
 
 
 
-                Player player = Capture.CheckCapture();
-                if (player != null)
-                {
-                    bool passed = true;
-                    if (Capture.NewOwner1 != null && Capture.NewOwner1 != player)
-                    {
-                        CancelCapture(Capture.NearbyCity1);
-                        passed = false;
-                    }
-                    if (Capture.NewOwner2 != null && Capture.NewOwner2 != player)
-                    {
-                        CancelCapture(Capture.NearbyCity2);
-                        passed = false;
-                    }
-                    if (Capture.NewOwner3 != null && Capture.NewOwner3 != player)
-                    {
-                        CancelCapture(Capture.NearbyCity3);
-                        passed = false;
-                    }
-                    if (Capture.NewOwner4 != null && Capture.NewOwner4 != player)
-                    {
-                        CancelCapture(Capture.NearbyCity4);
-                        passed = false;
-                    }
+            //    Player player = Capture.CheckCapture();
+            //    if (player != null)
+            //    {
+            //        bool passed = true;
+            //        if (Capture.NewOwner1 != null && Capture.NewOwner1 != player)
+            //        {
+            //            CancelCapture(Capture.NearbyCity1);
+            //            passed = false;
+            //        }
+            //        if (Capture.NewOwner2 != null && Capture.NewOwner2 != player)
+            //        {
+            //            CancelCapture(Capture.NearbyCity2);
+            //            passed = false;
+            //        }
+            //        if (Capture.NewOwner3 != null && Capture.NewOwner3 != player)
+            //        {
+            //            CancelCapture(Capture.NearbyCity3);
+            //            passed = false;
+            //        }
+            //        if (Capture.NewOwner4 != null && Capture.NewOwner4 != player)
+            //        {
+            //            CancelCapture(Capture.NearbyCity4);
+            //            passed = false;
+            //        }
 
-                    if (passed)
-                    {
-                        Capture.CancelCapture(player);
+            //        if (passed)
+            //        {
+            //            Capture.CancelCapture(player);
 
-                        ChangeOwner(player);
-                    }
-                }
-            }
+            //            ChangeOwner(player);
+            //        }
+            //    }
+            //}
 
-            if (IsRecovering)
-            {
-                recoverCooldown -= hours;
-                if (recoverCooldown < 0)
-                {
-                    IsRecovering = false;
-                    CoolDownPlayer = null;
-                }
-            }
-            else if (!IsHomeCity && Satisfaction < CityGrade.GetMinSatRatio(Size) && IsCaptured)
-            {
-                CoolDownPlayer = Owner;
-                ChangeOwner(null);
+            //if (IsRecovering)
+            //{
+            //    recoverCooldown -= hours;
+            //    if (recoverCooldown < 0)
+            //    {
+            //        IsRecovering = false;
+            //        CoolDownPlayer = null;
+            //    }
+            //}
+            //else if (!IsHomeCity && Satisfaction < CityGrade.GetMinSatRatio(Size) && IsCaptured)
+            //{
+            //    CoolDownPlayer = Owner;
+            //    ChangeOwner(null);
 
-                Development = InitialDeveleopment;
-                Population = InitialPopulation;
+            //    Development = InitialDeveleopment;
+            //    Population = InitialPopulation;
 
-                IsRecovering = true;
-                recoverCooldown = CityGrade.GetRecoverCoolDown(Size);
-            }
+            //    IsRecovering = true;
+            //    recoverCooldown = CityGrade.GetRecoverCoolDown(Size);
+            //}
 
             if (!IsCaptured)
             {
@@ -918,319 +918,319 @@ namespace Code2015.BalanceSystem
 
             //#endregion
 
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                plugins[i].Update(time);
-            }
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    plugins[i].Update(time);
+            //}
 
 
             #region 补缺储备，物流
 
-            for (int i = 0; i < nearbyCity.Count; i++)
-            {
-                float transSpeed;
-                City sourceCity = nearbyCity[i].Target;
-                nearbyCity[i].HR = 0;
-                nearbyCity[i].LR = 0;
-                nearbyCity[i].Food = 0;
+            //for (int i = 0; i < nearbyCity.Count; i++)
+            //{
+            //    float transSpeed;
+            //    City sourceCity = nearbyCity[i].Target;
+            //    nearbyCity[i].HR = 0;
+            //    nearbyCity[i].LR = 0;
+            //    nearbyCity[i].Food = 0;
 
-                {
-                    float requirement = localLr.StandardStorageBalance - localLr.Current;
-                    transSpeed = Math.Min(CityGrade.GetLPTransportSpeed(Size), CityGrade.GetLPTransportSpeed(sourceCity.Size));
+            //    {
+            //        float requirement = localLr.StandardStorageBalance - localLr.Current;
+            //        transSpeed = Math.Min(CityGrade.GetLPTransportSpeed(Size), CityGrade.GetLPTransportSpeed(sourceCity.Size));
 
-                    if (requirement > 0)
-                    {
-                        bool passed = true;
-                        if (sourceCity.IsLRLow)
-                            passed ^= Randomizer.GetRandomBool();
-                        if (passed)
-                        {
-                            float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
-                            applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
-                            nearbyCity[i].LR += applyAmount;
-                            localLr.Commit(applyAmount);
-                        }
-                    }
+            //        if (requirement > 0)
+            //        {
+            //            bool passed = true;
+            //            if (sourceCity.IsLRLow)
+            //                passed ^= Randomizer.GetRandomBool();
+            //            if (passed)
+            //            {
+            //                float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
+            //                applyAmount = sourceCity.LocalLR.ApplyFar(applyAmount);
+            //                nearbyCity[i].LR += applyAmount;
+            //                localLr.Commit(applyAmount);
+            //            }
+            //        }
 
-                    //else
-                    //{
-                    //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
-                    //    commitAmount = sourceCity.LocalLR.Commit(commitAmount);
-                    //    localLr.Apply(commitAmount);
-                    //}
-                }
-                {
-                    float requirement = localHr.StandardStorageBalance - localHr.Current;
-                    transSpeed = Math.Min(CityGrade.GetHPTransportSpeed(Size), CityGrade.GetHPTransportSpeed(sourceCity.Size));
+            //        //else
+            //        //{
+            //        //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetLPTransportSpeed(Size) * hours);
+            //        //    commitAmount = sourceCity.LocalLR.Commit(commitAmount);
+            //        //    localLr.Apply(commitAmount);
+            //        //}
+            //    }
+            //    {
+            //        float requirement = localHr.StandardStorageBalance - localHr.Current;
+            //        transSpeed = Math.Min(CityGrade.GetHPTransportSpeed(Size), CityGrade.GetHPTransportSpeed(sourceCity.Size));
 
-                    if (requirement > 0)
-                    {
-                        bool passed = true;
-                        if (sourceCity.IsHRLow)
-                            passed ^= Randomizer.GetRandomBool();
-                        if (passed)
-                        {
+            //        if (requirement > 0)
+            //        {
+            //            bool passed = true;
+            //            if (sourceCity.IsHRLow)
+            //                passed ^= Randomizer.GetRandomBool();
+            //            if (passed)
+            //            {
 
-                            float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
-                            applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
-                            nearbyCity[i].HR += applyAmount;
-                            localHr.Commit(applyAmount);
-                        }
-                    }
-                    //else
-                    //{
-                    //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
-                    //    commitAmount = sourceCity.LocalHR.Commit(commitAmount);
-                    //    localHr.Apply(commitAmount);
-                    //}
-                }
-                {
-                    float requirement = localFood.StandardStorageBalance - localFood.Current;
-                    transSpeed = Math.Min(CityGrade.GetFoodTransportSpeed(Size), CityGrade.GetFoodTransportSpeed(sourceCity.Size));
+            //                float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
+            //                applyAmount = sourceCity.LocalHR.ApplyFar(applyAmount);
+            //                nearbyCity[i].HR += applyAmount;
+            //                localHr.Commit(applyAmount);
+            //            }
+            //        }
+            //        //else
+            //        //{
+            //        //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetHPTransportSpeed(Size) * hours);
+            //        //    commitAmount = sourceCity.LocalHR.Commit(commitAmount);
+            //        //    localHr.Apply(commitAmount);
+            //        //}
+            //    }
+            //    {
+            //        float requirement = localFood.StandardStorageBalance - localFood.Current;
+            //        transSpeed = Math.Min(CityGrade.GetFoodTransportSpeed(Size), CityGrade.GetFoodTransportSpeed(sourceCity.Size));
 
-                    if (requirement > 0)
-                    {
-                        bool passed = true;
-                        if (sourceCity.IsFoodLow)
-                            passed ^= Randomizer.GetRandomBool();
-                        if (passed)
-                        {
+            //        if (requirement > 0)
+            //        {
+            //            bool passed = true;
+            //            if (sourceCity.IsFoodLow)
+            //                passed ^= Randomizer.GetRandomBool();
+            //            if (passed)
+            //            {
 
-                            float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
-                            applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
-                            nearbyCity[i].Food += applyAmount;
-                            localFood.Commit(applyAmount);
-                        }
-                    }
-                    //else
-                    //{
-                    //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
-                    //    commitAmount = sourceCity.LocalFood.Commit(commitAmount);
-                    //    localFood.Apply(commitAmount);
-                    //}
-                }
-            }
+            //                float applyAmount = Math.Min(requirement * hours, transSpeed * hours);
+            //                applyAmount = sourceCity.LocalFood.ApplyFar(applyAmount);
+            //                nearbyCity[i].Food += applyAmount;
+            //                localFood.Commit(applyAmount);
+            //            }
+            //        }
+            //        //else
+            //        //{
+            //        //    float commitAmount = Math.Min(-requirement * hours, CityGrade.GetFoodTransportSpeed(Size) * hours);
+            //        //    commitAmount = sourceCity.LocalFood.Commit(commitAmount);
+            //        //    localFood.Apply(commitAmount);
+            //        //}
+            //    }
+            //}
 
             #endregion
 
 
-            float hrDev = 0;
-            float lrDev = 0;
+            //float hrDev = 0;
+            //float lrDev = 0;
 
-            // 严禁使用旧的模式，属性泛滥
-            #region 资源消耗计算
-            AdditionalDevMult = 1;
-            HealthCare = 1;
+            //// 严禁使用旧的模式，属性泛滥
+            //#region 资源消耗计算
+            //AdditionalDevMult = 1;
+            //HealthCare = 1;
             
-            // 计算插件
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                // 高能资源消耗量，消耗的其他计算在Plugin中
-                float hrChange = plugins[i].HRCSpeed * hours;
-                hrDev += hrChange * CityGrade.GetDevelopmentMult(Size);
+            //// 计算插件
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    // 高能资源消耗量，消耗的其他计算在Plugin中
+            //    float hrChange = plugins[i].HRCSpeed * hours;
+            //    hrDev += hrChange * CityGrade.GetDevelopmentMult(Size);
 
-                // 低能资源消耗量
-                float lrChange = plugins[i].LRCSpeed * hours;
-                lrDev += lrDev * CityGrade.GetDevelopmentMult(Size);
-
-
-                hrChange = plugins[i].HRPSpeed * hours;
-                if (hrChange > float.Epsilon)
-                    localHr.Commit(hrChange);
-
-                //if (actHrChange < hrChange) // 资源过剩，转为碳
-                //{
-                //    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
-                //float actCmt = localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
-                //}
+            //    // 低能资源消耗量
+            //    float lrChange = plugins[i].LRCSpeed * hours;
+            //    lrDev += lrDev * CityGrade.GetDevelopmentMult(Size);
 
 
+            //    hrChange = plugins[i].HRPSpeed * hours;
+            //    if (hrChange > float.Epsilon)
+            //        localHr.Commit(hrChange);
 
-                lrChange = plugins[i].LRPSpeed * hours;
-
-                if (lrChange > float.Epsilon)
-                    localLr.Commit(lrChange);
-
-                //if (actLrChange < lrChange)// 资源过剩，转为碳
-                //{
-                //    CarbonProduceSpeed += (lrChange - actLrChange) / hours;
-
-                //localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
-                //}
+            //    //if (actHrChange < hrChange) // 资源过剩，转为碳
+            //    //{
+            //    //    CarbonProduceSpeed += (hrChange - actHrChange) / hours;
+            //    //float actCmt = localHr.Commit(Math.Min(hrChange - actHrChange, CityGrade.GetHPTransportSpeed(Size) * hours));
+            //    //}
 
 
-                CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
 
-                if (plugins[i].TypeId == CityPluginTypeId.EducationOrg)
-                {
-                    AdditionalDevMult *= (1.5f + plugins[i].UpgradePoint);
-                }
-                else if (plugins[i].TypeId == CityPluginTypeId.Hospital)
-                {
-                    HealthCare *= (1.5f + plugins[i].UpgradePoint);
-                }
-            }
+            //    lrChange = plugins[i].LRPSpeed * hours;
 
+            //    if (lrChange > float.Epsilon)
+            //        localLr.Commit(lrChange);
 
-            float foodLack = 0;
-            // 计算自身
-            {
-                // 高能资源消耗量
-                float hrChange = CityGrade.GetSelfHRCSpeed(Size) * hours;
-                if (hrChange < -float.Epsilon)
-                {
-                    float actHrChange = localHr.Apply(-hrChange);
-                    SelfHRCRatio = -actHrChange / hrChange;
-                    hrDev += actHrChange * CityGrade.GetDevelopmentMult(Size);
-                }
-                else
-                {
-                    SelfHRCRatio = 0;
-                }
+            //    //if (actLrChange < lrChange)// 资源过剩，转为碳
+            //    //{
+            //    //    CarbonProduceSpeed += (lrChange - actLrChange) / hours;
 
-                // 低能资源消耗量
-                float lrChange = CityGrade.GetSelfLRCSpeed(Size) * hours;
-                if (lrChange < -float.Epsilon)
-                {
-                    float actLrChange = localLr.Apply(-lrChange);
-                    SelfLRCRatio = -actLrChange / lrChange;
-                    lrDev += actLrChange * CityGrade.GetDevelopmentMult(Size);
-                }
-                else
-                {
-                    SelfLRCRatio = 0;
-                }
-
-                float foodSpeedFull = GetSelfFoodCostSpeedFull();
-
-                for (int i = 0; i < farms.Count; i++)
-                {
-                    farms[i].Update(time);
-                    CarbonProduceSpeed += farms[i].CarbonProduceSpeed;
-                }
-
-                float foodChange = (-foodSpeedFull) * hours;
-
-                float actFood = localFood.Apply(-foodChange);
-
-                if (foodChange < -float.Epsilon)
-                {
-                    SelfFoodCostRatio = actFood / -foodChange;
-                }
-                else
-                {
-                    SelfFoodCostRatio = 0;
-                }
-
-                // 食物 碳排量计算
-                CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
-
-                // 计算疾病发生情况
-                foodLack = actFood + foodChange;
-
-                if (foodLack < 0)
-                {
-                    if (Disease < float.Epsilon)
-                    {
-                        Disease = 0.01f;
-                    }
-                    else
-                    {
-                        Disease -= foodLack * 0.005f;
-                        EventLogger.Instance.Log(EventType.Food, this);
-                    }
-                }
-                else
-                {
-                    Disease -= actFood * 0.033f;
-                }
+            //    //localLr.Commit(Math.Min(lrChange - actLrChange, CityGrade.GetLPTransportSpeed(Size) * hours));
+            //    //}
 
 
-            }
-            #endregion
+            //    CarbonProduceSpeed += plugins[i].CarbonProduceSpeed;
+
+            //    if (plugins[i].TypeId == CityPluginTypeId.EducationOrg)
+            //    {
+            //        AdditionalDevMult *= (1.5f + plugins[i].UpgradePoint);
+            //    }
+            //    else if (plugins[i].TypeId == CityPluginTypeId.Hospital)
+            //    {
+            //        HealthCare *= (1.5f + plugins[i].UpgradePoint);
+            //    }
+            //}
+
+
+            //float foodLack = 0;
+            //// 计算自身
+            //{
+            //    // 高能资源消耗量
+            //    float hrChange = CityGrade.GetSelfHRCSpeed(Size) * hours;
+            //    if (hrChange < -float.Epsilon)
+            //    {
+            //        float actHrChange = localHr.Apply(-hrChange);
+            //        SelfHRCRatio = -actHrChange / hrChange;
+            //        hrDev += actHrChange * CityGrade.GetDevelopmentMult(Size);
+            //    }
+            //    else
+            //    {
+            //        SelfHRCRatio = 0;
+            //    }
+
+            //    // 低能资源消耗量
+            //    float lrChange = CityGrade.GetSelfLRCSpeed(Size) * hours;
+            //    if (lrChange < -float.Epsilon)
+            //    {
+            //        float actLrChange = localLr.Apply(-lrChange);
+            //        SelfLRCRatio = -actLrChange / lrChange;
+            //        lrDev += actLrChange * CityGrade.GetDevelopmentMult(Size);
+            //    }
+            //    else
+            //    {
+            //        SelfLRCRatio = 0;
+            //    }
+
+            //    float foodSpeedFull = GetSelfFoodCostSpeedFull();
+
+            //    for (int i = 0; i < farms.Count; i++)
+            //    {
+            //        farms[i].Update(time);
+            //        CarbonProduceSpeed += farms[i].CarbonProduceSpeed;
+            //    }
+
+            //    float foodChange = (-foodSpeedFull) * hours;
+
+            //    float actFood = localFood.Apply(-foodChange);
+
+            //    if (foodChange < -float.Epsilon)
+            //    {
+            //        SelfFoodCostRatio = actFood / -foodChange;
+            //    }
+            //    else
+            //    {
+            //        SelfFoodCostRatio = 0;
+            //    }
+
+            //    // 食物 碳排量计算
+            //    CarbonProduceSpeed += foodSpeedFull * SelfFoodCostRatio;
+
+            //    // 计算疾病发生情况
+            //    foodLack = actFood + foodChange;
+
+            //    if (foodLack < 0)
+            //    {
+            //        if (Disease < float.Epsilon)
+            //        {
+            //            Disease = 0.01f;
+            //        }
+            //        else
+            //        {
+            //            Disease -= foodLack * 0.005f;
+            //            EventLogger.Instance.Log(EventType.Food, this);
+            //        }
+            //    }
+            //    else
+            //    {
+            //        Disease -= actFood * 0.033f;
+            //    }
+
+
+            //}
+            //#endregion
 
             
-            // 疾病发展传播计算
-            if (Disease > 0)
-            {
-                Disease += Disease * (float)Math.Log(Population, 1000) * 0.001f;
-                if (HealthCare > float.Epsilon)
-                    Disease /= HealthCare;
-            }
-            else
-            {
-                Disease = 0;
-            }
+            //// 疾病发展传播计算
+            //if (Disease > 0)
+            //{
+            //    Disease += Disease * (float)Math.Log(Population, 1000) * 0.001f;
+            //    if (HealthCare > float.Epsilon)
+            //        Disease /= HealthCare;
+            //}
+            //else
+            //{
+            //    Disease = 0;
+            //}
 
-            // 计算人口变化情况
-            float popChange = 0;
-            if (Disease > 0)
-            {
-                popChange -= Disease * 0.1f;
-            }
-            Population += popChange;
+            //// 计算人口变化情况
+            //float popChange = 0;
+            //if (Disease > 0)
+            //{
+            //    popChange -= Disease * 0.1f;
+            //}
+            //Population += popChange;
 
-            if (Population < 0)
-            {
-                Population = 0;
-            }
+            //if (Population < 0)
+            //{
+            //    Population = 0;
+            //}
 
 
-            float popDevAdj = 1;
-            CarbonProduceSpeed += hrDev / hours;
-            if (Owner.Type != PlayerType.LocalHuman)
-            {
-                CarbonProduceSpeed *= 0.5f;
-            }
-            float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias / CityGrade.GetDevelopmentMult(Size));
-            Development += AdditionalDevMult * (devIncr + foodLack);
-            if (Development < 0)
-            {
-                Development = 0;
-            }
-            if (devIncr > 0)
-            {
-                Population += (devIncr + foodLack) * 0.05f;
-            }
-            if (Population > CityGrade.GetRefPopulation(Size))
-            {
-                Population = CityGrade.GetRefPopulation(Size);
-            }
-            if (Development > CityGrade.GetUpgradePoint(UrbanSize.Large))
-            {
-                Development = CityGrade.GetUpgradePoint(UrbanSize.Large);
-            }
-            if (carbonAddCounter++ == 60)
-            {
-                recentCarbon.Enqueue(CarbonProduceSpeed * hours);
-                while (recentCarbon.Count > RecentCarbonLength)
-                    recentCarbon.Dequeue();
-                carbonAddCounter = 0;
-            }
+            //float popDevAdj = 1;
+            //CarbonProduceSpeed += hrDev / hours;
+            //if (Owner.Type != PlayerType.LocalHuman)
+            //{
+            //    CarbonProduceSpeed *= 0.5f;
+            //}
+            //float devIncr = popDevAdj * (lrDev * 0.5f + hrDev + DevBias / CityGrade.GetDevelopmentMult(Size));
+            //Development += AdditionalDevMult * (devIncr + foodLack);
+            //if (Development < 0)
+            //{
+            //    Development = 0;
+            //}
+            //if (devIncr > 0)
+            //{
+            //    Population += (devIncr + foodLack) * 0.05f;
+            //}
+            //if (Population > CityGrade.GetRefPopulation(Size))
+            //{
+            //    Population = CityGrade.GetRefPopulation(Size);
+            //}
+            //if (Development > CityGrade.GetUpgradePoint(UrbanSize.Large))
+            //{
+            //    Development = CityGrade.GetUpgradePoint(UrbanSize.Large);
+            //}
+            //if (carbonAddCounter++ == 60)
+            //{
+            //    recentCarbon.Enqueue(CarbonProduceSpeed * hours);
+            //    while (recentCarbon.Count > RecentCarbonLength)
+            //        recentCarbon.Dequeue();
+            //    carbonAddCounter = 0;
+            //}
 
-            if (owner.Type == PlayerType.LocalHuman)
-            {
-                if (recentCounter++ == 60)
-                {
-                    recentFood.Add(LocalFood.Current);
-                    recentWood.Add(LocalLR.Current);
-                    recentOil.Add(localHr.Current);
-                    recentCounter = 0;
+            //if (owner.Type == PlayerType.LocalHuman)
+            //{
+            //    if (recentCounter++ == 60)
+            //    {
+            //        recentFood.Add(LocalFood.Current);
+            //        recentWood.Add(LocalLR.Current);
+            //        recentOil.Add(localHr.Current);
+            //        recentCounter = 0;
 
-                    if (recentFood.Result < float.Epsilon) 
-                    {
-                        EventLogger.Instance.Log(EventType.Food, this);
-                    }
-                    if (recentWood.Result < float.Epsilon)
-                    {
-                        EventLogger.Instance.Log(EventType.Wood, this);
-                    }
-                    if (recentOil.Result < float.Epsilon)
-                    {
-                        EventLogger.Instance.Log(EventType.Oil, this);
-                    }
-                }
-            }
+            //        if (recentFood.Result < float.Epsilon) 
+            //        {
+            //            EventLogger.Instance.Log(EventType.Food, this);
+            //        }
+            //        if (recentWood.Result < float.Epsilon)
+            //        {
+            //            EventLogger.Instance.Log(EventType.Wood, this);
+            //        }
+            //        if (recentOil.Result < float.Epsilon)
+            //        {
+            //            EventLogger.Instance.Log(EventType.Oil, this);
+            //        }
+            //    }
+            //}
             base.Update(time);
         }
 
@@ -1297,98 +1297,82 @@ namespace Code2015.BalanceSystem
 
         public override void Serialize(StateDataBuffer data)
         {
-            ContentBinaryWriter bw = data.Writer;
+            //ContentBinaryWriter bw = data.Writer;
 
-            bw.Write(Development);
-            bw.Write(Population);
-            bw.Write(plugins.Count);
-            for (int i = 0; i < plugins.Count; i++)
-            {
-                plugins[i].Serialize(bw);
-            }
-            bw.Write(FarmLandCount);
+            //bw.Write(Development);
+            //bw.Write(Population);
+            //bw.Write(plugins.Count);
+            //for (int i = 0; i < plugins.Count; i++)
+            //{
+            //    plugins[i].Serialize(bw);
+            //}
+            //bw.Write(FarmLandCount);
 
-            Capture.Serialize(bw);
+            //Capture.Serialize(bw);
 
-            data.EndWrite();
-            stateChanged = false; 
+            //data.EndWrite();
+            //stateChanged = false; 
         }
         public override void Deserialize(StateDataBuffer data)
         {
-            ContentBinaryReader br = data.Reader;
+            //ContentBinaryReader br = data.Reader;
 
-            Development = br.ReadSingle();
-            //Population = br.ReadSingle();
+            //Development = br.ReadSingle();
+            ////Population = br.ReadSingle();
 
-            int plugCount = br.ReadInt32();
+            //int plugCount = br.ReadInt32();
 
-            if (plugCount > plugins.Count)
-            {
-                for (int i = 0; i < plugins.Count; i++) 
-                {
-                    plugins[i].Deserialize(br, Region);
-                }
-
-                int newCount = plugCount - plugins.Count;
-
-                //CityPluginFactory factory = new CityPluginFactory();
-                //for (int i = 0; i < newCount; i++)
-                //{
-                //    CityPlugin plugin = new CityPlugin(factory, factory.EducationOrgType, CityPluginTypeId.EducationOrg);
-                //    plugin.Deserialize(br, Region);
-                //    Add(plugin);
-                //}
-            }
-            else if (plugCount < plugins.Count) 
-            {
-                int nc = plugins.Count - plugCount;
-                for (int i = 0; i < nc; i++)
-                {
-                    Remove(plugins[plugins.Count - 1]);
-                }
-
-                for (int i = 0; i < plugins.Count; i++) 
-                {
-                    plugins[i].Deserialize(br, Region);
-                }
-            }
-
-            //int farmCount = br.ReadInt32();
-
-            //if (farmCount > FarmLandCount) 
+            //if (plugCount > plugins.Count)
             //{
-            //    int nc = farmCount - FarmLandCount;
-            //    for (int i = 0; i < nc; i++) 
+            //    for (int i = 0; i < plugins.Count; i++) 
             //    {
-            //        AddFarm();
+            //        plugins[i].Deserialize(br, Region);
             //    }
+
+            //    int newCount = plugCount - plugins.Count;
+
+            //    //CityPluginFactory factory = new CityPluginFactory();
+            //    //for (int i = 0; i < newCount; i++)
+            //    //{
+            //    //    CityPlugin plugin = new CityPlugin(factory, factory.EducationOrgType, CityPluginTypeId.EducationOrg);
+            //    //    plugin.Deserialize(br, Region);
+            //    //    Add(plugin);
+            //    //}
             //}
-            //else if (farmCount < FarmLandCount)
+            //else if (plugCount < plugins.Count) 
             //{
-            //    int nc = FarmLandCount - farmCount;
+            //    int nc = plugins.Count - plugCount;
             //    for (int i = 0; i < nc; i++)
             //    {
-            //        farms.RemoveAt(farms.Count - 1);
+            //        Remove(plugins[plugins.Count - 1]);
+            //    }
+
+            //    for (int i = 0; i < plugins.Count; i++) 
+            //    {
+            //        plugins[i].Deserialize(br, Region);
             //    }
             //}
 
-            Capture.Deserialize(br);
+
+
+            //Capture.Deserialize(br);
         }
         public override bool Changed
         {
             get
             {
-                bool result = stateChanged | Capture.Changed;
-                if (result)
-                    return true;
+                return false;
+                //bool result = stateChanged | Capture.Changed;
+                //if (result)
+                //    return true;
 
-                for (int i = 0; i < plugins.Count; i++)
-                {
-                    result |= plugins[i].Changed;
-                    if (result)
-                        break;
-                }
-                return result;
+                //for (int i = 0; i < plugins.Count; i++)
+                //{
+                //    result |= plugins[i].Changed;
+                //    if (result)
+                //        break;
+                //}
+                //return result;
             }
         }
 

@@ -223,7 +223,7 @@ namespace Code2015
 
             AddResources(slgSystem);
             AddScenery();
-            slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
+            //slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
             //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
             gameState.InitialStandards();
             

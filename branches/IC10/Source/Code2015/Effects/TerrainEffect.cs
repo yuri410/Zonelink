@@ -72,9 +72,12 @@ namespace Code2015.Effects
     {
         RenderSystem renderSystem;
 
+        PixelShader nrmPixShader;
+        VertexShader nrmVtxShader;
 
         PixelShader pixShader;
         VertexShader vtxShader;
+
         int terrSize;
         bool stateSetted;
 
@@ -90,7 +93,13 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("terrain.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
-             
+
+
+            fl = FileSystem.Instance.Locate("terrainNormalGen.cvs", GameFileLocs.Effect);
+            nrmVtxShader = LoadVertexShader(renderSystem, fl);
+
+            fl = FileSystem.Instance.Locate("terrainNormalGen.cps", GameFileLocs.Effect);
+            nrmPixShader = LoadPixelShader(renderSystem, fl);
         }
 
         public override bool SupportsMode(RenderMode mode)
@@ -109,8 +118,9 @@ namespace Code2015.Effects
             }
             else if (mode == RenderMode.DeferredNormal)
             {
-                renderSystem.BindShader(nrmGenPShader);
-                renderSystem.BindShader(nrmGenVShader);
+                renderSystem.BindShader(nrmVtxShader);
+                renderSystem.BindShader(nrmPixShader);
+                nrmPixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalNormalTexture);
             }
             else
             {
@@ -222,8 +232,7 @@ namespace Code2015.Effects
             else if (mode == RenderMode.DeferredNormal)
             {
                 Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
-                nrmGenVShader.SetValue("mvp", ref mvp);
-                nrmGenVShader.SetValue("world", ref op.Transformation);
+                nrmVtxShader.SetValue("mvp", ref mvp);
             }
             else
             {
