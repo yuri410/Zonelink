@@ -52,10 +52,8 @@ namespace Code2015
             return cityList[i];
         }
 
-        public BattleField(Game1 game)
+        public BattleField()
         {
-            this.game = game;
-
             map = new Map(this);
 
             //Init Cities

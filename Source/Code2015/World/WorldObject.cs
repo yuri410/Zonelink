@@ -6,6 +6,7 @@ using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Apoc3D.MathLib;
+using Apoc3D.Graphics;
 
 namespace Zonelink.World
 {
@@ -42,6 +43,8 @@ namespace Zonelink.World
         {
             //fsmMachine = new FSMMachine(this);
         }
+        
+        public abstract void InitalizeGraphics(RenderSystem rs) 
 
         ////状态转换，事件处理
         //public bool HandleMessage(Message msg)

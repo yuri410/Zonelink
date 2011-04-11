@@ -29,7 +29,6 @@ using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.Logic;
 
@@ -41,7 +40,7 @@ namespace Code2015.World
 
         public float Total;
         public float Development;
-        public float CO2;
+        //public float CO2;
     }
 
     /// <summary>
@@ -58,7 +57,7 @@ namespace Code2015.World
         //    private set;
         //}
 
-        public SimulationWorld SLGWorld
+        public BattleField Field
         {
             get;
             private set;
@@ -66,7 +65,7 @@ namespace Code2015.World
 
         public GameStateBuilder()
         {
-            SLGWorld = new SimulationWorld();
+            Field = new BattleField();
 
             //PluginFactory = new CityPluginFactory();
 
@@ -83,14 +82,14 @@ namespace Code2015.World
                
                 if (type == "wood")
                 {
-                    Forest forest = new Forest(SLGWorld);
+                    ForestObject forest = new ForestObject(SLGWorld);
                     forest.Parse(sect);
                     resources.Add(forest);
 
                 }
                 else if (type == "petro")
                 {
-                    OilField fld = new OilField(SLGWorld);
+                    OilFieldObject fld = new OilFieldObject(SLGWorld);
                     fld.Parse(sect);
                     resources.Add(fld);
                 }
@@ -135,7 +134,7 @@ namespace Code2015.World
     /// </summary>
     public class GameState
     {
-        SimulationWorld slgSystem;
+        BattleField battleField;
 
         GameTime newTime;
         PlayerArea[] localPlayerArea;
@@ -176,7 +175,7 @@ namespace Code2015.World
 
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
-            this.slgSystem = srcState.SLGWorld;
+            this.battleField = srcState.SLGWorld;
             //PluginFactory = srcState.PluginFactory;
 
             this.localPlayerArea = new PlayerArea[localPlayer.Length];
