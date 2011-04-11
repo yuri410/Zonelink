@@ -130,8 +130,6 @@ namespace Code2015.World
         }
 
 
-        SoundObject sound;
-
         City city;
         CityStyle style;
         CityOwnerRing sideRing;
@@ -162,15 +160,6 @@ namespace Code2015.World
         //bool isVisible;
         #region 属性
 
-        //public MdgType MajorProblem
-        //{
-        //    get { return city.MajorProblem; }
-        //}
-
-        //public CityGoalSite GoalSite
-        //{
-        //    get { return goalSite; }
-        //}
         public bool IsScaleIncreased
         {
             get;
@@ -239,35 +228,8 @@ namespace Code2015.World
             get { return city.Capture; }
         }
 
-        //public int HarvesterCount
-        //{
-        //    get { return harvTable.Count; }
-        //}
-        //public Harvester GetHarvester(int idx)
-        //{
-        //    return harvesters[idx];
-        //}
 
-        //public int PluginCount
-        //{
-        //    get { return plugins.Count; }
-        //}
         #endregion
-
-        //public Matrix GetPluginTransform(int i)
-        //{
-        //    return plugins[i].transform;
-        //}
-        public Vector3 GetPluginPosition(int i)
-        {
-            return style.GetPluginTranslation(i);
-        }
-        //public CityPlugin GetPlugin(int i)
-        //{
-        //    return plugins[i].plugin;
-        //}
-        
-        
 
         bool ISelectableObject.IsSelected
         {

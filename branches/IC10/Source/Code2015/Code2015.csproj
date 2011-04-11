@@ -180,8 +180,7 @@
     <Compile Include="GUI\ScoreScreen2.cs" />
     <Compile Include="GUI\Tutorial.cs" />
     <Compile Include="GUI\ExitConfirm.cs" />
-    <Compile Include="Logic\Disaster.cs" />
-    <Compile Include="Logic\EventLogger.cs" />
+    <Compile Include="Logic\BattleField.cs" />
     <Compile Include="Logic\GameGoal.cs" />
     <Compile Include="Logic\GoalPieceMaker.cs" />
     <Compile Include="Logic\ILogicStateObject.cs" />
@@ -449,6 +448,7 @@
     <Compile Include="World\City.cs" />
     <Compile Include="World\CityLinkManager.cs" />
     <Compile Include="World\CityTypes.cs" />
+    <Compile Include="World\Entity.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\IngameUI\GoalIcons.cs" />
     <Compile Include="GUI\UIComponent.cs">
@@ -459,7 +459,6 @@
     <Compile Include="ParticleSystem\ParticleEffect.cs" />
     <Compile Include="ParticleSystem\ParticleEmitter.cs" />
     <Compile Include="World\CityLinkObject.cs" />
-    <Compile Include="World\CityObject.cs" />
     <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
@@ -480,7 +479,6 @@
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="World\Harvester.cs" />
     <Compile Include="World\ISelectableObject.cs" />
-    <Compile Include="World\LightningStrom.cs" />
     <Compile Include="World\NatureResource.cs" />
     <Compile Include="World\RBall.cs" />
     <Compile Include="World\SceneryObject.cs" />

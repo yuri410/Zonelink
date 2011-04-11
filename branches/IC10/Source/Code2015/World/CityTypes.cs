@@ -20,7 +20,7 @@ namespace Zonelink.World
         //资源搜索范围
         float gatherDistance;
 
-        private List<NatureResource> nearResource = new List<NatureResource>();
+        private List<NatureResource> nearResource = new List<NaturalResource>();
 
         public NatureResource ExResource
         {
