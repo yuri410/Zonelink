@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class CloudEffect : ShadowedEffect
+    class CloudEffect : RigidEffect
     {
         bool stateSetted;
 

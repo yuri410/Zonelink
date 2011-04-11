@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class TreeEffect : ShadowedEffect
+    class TreeEffect : RigidEffect
     {
         bool stateSetted;
 

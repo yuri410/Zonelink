@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class BoltEffect : ShadowedEffect
+    class BoltEffect : RigidEffect
     {
         bool stateSetted;
 

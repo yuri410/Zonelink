@@ -34,7 +34,7 @@ namespace Code2015.EngineEx
     /// <summary>
     ///  后期效果渲染器
     /// </summary>
-    public class BloomPostRenderer : UnmanagedResource, IPostSceneRenderer
+    public class GamePostRenderer : UnmanagedResource, IPostSceneRenderer
     {
         const float BloomThreshold = 0.3f;
         const float BlurAmount = 4;
@@ -98,7 +98,7 @@ namespace Code2015.EngineEx
         GeomentryData quadOp;
         GeomentryData smallQuadOp;
 
-        public BloomPostRenderer(RenderSystem rs)
+        public GamePostRenderer(RenderSystem rs)
         {
             this.factory = rs.ObjectFactory;
 
