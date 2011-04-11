@@ -36,6 +36,13 @@ using Code2015.World;
 
 namespace Code2015.GUI
 {
+    enum AnimState
+    {
+        Inside,
+        Outside,
+        In,
+        Out
+    }
     class MiniMap : UIComponent
     {
         const int PanelX = -48;
