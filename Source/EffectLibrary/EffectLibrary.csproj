@@ -118,6 +118,8 @@
     <None Include="MM\mmterrain.vs" />
     <None Include="MM\mmwater.vs" />
     <None Include="MM\mmwater.ps" />
+    <None Include="NormalBuffer\normalGen.ps" />
+    <None Include="NormalBuffer\normalGen.vs" />
     <None Include="Particle\smoke.ps" />
     <None Include="Particle\smoke.vs" />
     <None Include="Scene\atmosphere.ps" />

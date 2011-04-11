@@ -68,7 +68,7 @@ namespace Code2015.Effects
         }
     }
 
-    class TerrainEffect : ShadowedEffect
+    class TerrainEffect : RigidEffect
     {
         RenderSystem renderSystem;
 

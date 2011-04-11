@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class StandardEffect : ShadowedEffect
+    class StandardEffect : RigidEffect
     {
         bool stateSetted;
 
@@ -121,6 +121,11 @@ namespace Code2015.Effects
                 renderSys.BindShader(shdVtxShader);
                 renderSys.BindShader(shdPixShader);
             }
+            else if (mode == RenderMode.DeferredNormal) 
+            {
+                renderSys.BindShader(nrmGenPShader);
+                renderSys.BindShader(nrmGenVShader);
+            }
             else
             {
                 renderSys.BindShader(vtxShader);
@@ -175,6 +180,12 @@ namespace Code2015.Effects
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
                 shdVtxShader.SetValue("mvp", ref lightPrjTrans);
             }
+            else if (mode == RenderMode.DeferredNormal) 
+            {
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+                nrmGenVShader.SetValue("mvp", ref mvp);
+                nrmGenVShader.SetValue("world", ref op.Transformation);
+            }
             else
             {
                 Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
@@ -206,7 +217,7 @@ namespace Code2015.Effects
                     pixShader.SetValue("k_e", mat.Emissive);
                     pixShader.SetValue("k_power", mat.Power);
 
-                   
+
                     pixShader.SetSamplerState("texDif", ref state);
 
                     ResourceHandle<Texture> clrTex = mat.GetTexture(0);

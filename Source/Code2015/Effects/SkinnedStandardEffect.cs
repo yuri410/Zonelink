@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class SkinnedStandardEffect : ShadowedEffect
+    class SkinnedStandardEffect : RigidEffect
     {
         bool stateSetted;
 

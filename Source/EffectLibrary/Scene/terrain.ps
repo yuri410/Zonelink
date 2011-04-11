@@ -43,32 +43,42 @@ PSOutput main(PSInput ip)
     
     float ndl = dot(N, ip.TangentSpaceLDir);
 	
-	float4 index = tex2D(texDif, ip.GlobeCoord);
+	float4 index = saturate(10*tex2D(texDif, ip.GlobeCoord));
+	
+	float mod = index[0] + index[1]+index[2]+index[3];
+	//index /= mod;
 	
 	float4 color = 0;
 	
-	if (index[0]>0.01)
+	//mod = 0;	
+	if (index[0]>=0.5)
 	{
 		color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
+		//mod += index[0];
 		//color += (index[0]) * tex2D(texDet1, ip.DetailCoord*7);
 	}
-	if (index[1]>0.01)
+	if (index[1]>=0.5)
 	{
 		color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
+		//mod += index[0];
 		//color += (index[1]) * tex2D(texDet2, ip.DetailCoord*7);
 	}
-	if (index[2]>0.01)
+	if (index[2]>=0.5)
 	{
 		color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
+		//mod += index[0];
 		//color += (index[2]) * tex2D(texDet3, ip.DetailCoord*7);
 	}
-	if (index[3]>0.01)
+	if (index[3]>=0.5)
 	{
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
+		//mod += index[0];
 		//color += (index[3]) * tex2D(texDet4, ip.DetailCoord*7);
 	}
 	
-    o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
+	color /= mod;
+	
+    o.Color = color + 0.001*lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
 
     float wgt = saturate(N.z);
     

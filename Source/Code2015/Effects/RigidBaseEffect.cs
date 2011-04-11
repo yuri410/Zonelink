@@ -31,12 +31,15 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    public abstract class ShadowedEffect : Effect
+    public abstract class RigidEffect : Effect
     {
-        protected PixelShader shdPixShader;
         protected VertexShader shdVtxShader;
+        protected PixelShader shdPixShader;        
 
-        public unsafe ShadowedEffect(RenderSystem rs, string name, bool inst)
+        protected VertexShader nrmGenVShader;
+        protected PixelShader nrmGenPShader;
+
+        public unsafe RigidEffect(RenderSystem rs, string name, bool inst)
             : base(inst, name)
         {
 
@@ -45,6 +48,14 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("shadowMap.cps", GameFileLocs.Effect);
             shdPixShader = LoadPixelShader(rs, fl);
+
+
+            fl = FileSystem.Instance.Locate("normalGen.cvs", GameFileLocs.Effect);
+            nrmGenVShader = LoadVertexShader(rs, fl);
+
+
+            fl = FileSystem.Instance.Locate("normalGen.cps", GameFileLocs.Effect);
+            nrmGenPShader = LoadPixelShader(rs, fl);
         }
 
         public override bool SupportsMode(RenderMode mode)

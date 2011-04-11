@@ -61,7 +61,7 @@ namespace Code2015.Effects
     }
     
 
-    class MMTerrainEffect : ShadowedEffect
+    class MMTerrainEffect : RigidEffect
     {
         RenderSystem renderSystem;
 
