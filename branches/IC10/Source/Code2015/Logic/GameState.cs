@@ -52,11 +52,11 @@ namespace Code2015.World
         const int MaxCities = 120;
         //const int MinCities = 85;
 
-        public CityPluginFactory PluginFactory
-        {
-            get;
-            private set;
-        }
+        //public CityPluginFactory PluginFactory
+        //{
+        //    get;
+        //    private set;
+        //}
 
         public SimulationWorld SLGWorld
         {
@@ -141,11 +141,11 @@ namespace Code2015.World
         PlayerArea[] localPlayerArea;
         Player[] localPlayers;
 
-        public CityPluginFactory PluginFactory
-        {
-            get;
-            private set;
-        }
+        //public CityPluginFactory PluginFactory
+        //{
+        //    get;
+        //    private set;
+        //}
 
         public Player LocalHumanPlayer
         {
@@ -164,20 +164,20 @@ namespace Code2015.World
         {
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
-                CityPluginFactory fac = new CityPluginFactory();
+                //CityPluginFactory fac = new CityPluginFactory();
 
 
-                CityPlugin woodFac = fac.MakeWoodFactory();
-                woodFac.Upgrade(0.4f);
+                //CityPlugin woodFac = fac.MakeWoodFactory();
+                //woodFac.Upgrade(0.4f);
 
-                localPlayerArea[i].RootCity.Add(woodFac);
+                //localPlayerArea[i].RootCity.Add(woodFac);
             }
         }
 
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
             this.slgSystem = srcState.SLGWorld;
-            PluginFactory = srcState.PluginFactory;
+            //PluginFactory = srcState.PluginFactory;
 
             this.localPlayerArea = new PlayerArea[localPlayer.Length];
             this.localPlayers = localPlayer;
