@@ -77,6 +77,10 @@ namespace Code2015.EngineEx
         RenderSystem renderSys;
 
         GuassBlurFilter guassFilter;
+
+
+        RenderTarget nrmRt;
+
         RenderTarget clrRt;
         RenderTarget blmRt1;
         RenderTarget blmRt2;
@@ -130,6 +134,11 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
+            //renderer.RenderScene(nrmRt, RenderMode.DeferredNormal);
+
+
+
+
             renderer.RenderScene(clrRt, RenderMode.Final);
             //renderSys.RenderStates.FillMode = FillMode.Solid;
 
@@ -245,6 +254,7 @@ namespace Code2015.EngineEx
             blmRt1 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
             blmRt2 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
             clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
+            nrmRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
 
             #region 计算参数
 
@@ -324,6 +334,8 @@ namespace Code2015.EngineEx
         {
             clrRt.Dispose();
             blmRt1.Dispose();
+            nrmRt.Dispose();
+
 
             indexBuffer.Dispose();
             quad.Dispose();

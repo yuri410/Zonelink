@@ -97,6 +97,11 @@ namespace Code2015.Effects
                 renderSys.BindShader(shdVtxShader);
                 renderSys.BindShader(shdPixShader);
             }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                renderSys.BindShader(nrmGenPShader);
+                renderSys.BindShader(nrmGenVShader);
+            }
             else
             {
                 renderSys.BindShader(vtxShader);
@@ -172,6 +177,12 @@ namespace Code2015.Effects
                 Matrix lightPrjTrans;
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
                 shdVtxShader.SetValue("mvp", ref lightPrjTrans);
+            }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+                nrmGenVShader.SetValue("mvp", ref mvp);
+                nrmGenVShader.SetValue("world", ref op.Transformation);
             }
             else
             {

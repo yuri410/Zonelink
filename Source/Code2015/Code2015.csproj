@@ -114,7 +114,7 @@
     <Compile Include="Effects\Post\CO2PieProgress.cs" />
     <Compile Include="Effects\SmokeEffect.cs" />
     <Compile Include="Effects\Post\GaussBlurShd.cs" />
-    <Compile Include="Effects\ShadowedEffect.cs" />
+    <Compile Include="Effects\RigidBaseEffect.cs" />
     <Compile Include="Effects\SkyboxEffect.cs" />
     <Compile Include="Effects\StandardEffect.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
