@@ -34,7 +34,7 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
-    public struct ScoreEntry
+    struct ScoreEntry
     {
         public Player Player;
 
@@ -46,7 +46,7 @@ namespace Code2015.World
     /// <summary>
     ///  随机构建场景
     /// </summary>
-    public class GameStateBuilder
+    class GameStateBuilder
     {
         const int MaxCities = 120;
         //const int MinCities = 85;
@@ -82,23 +82,23 @@ namespace Code2015.World
                
                 if (type == "wood")
                 {
-                    ForestObject forest = new ForestObject(SLGWorld);
+                    ForestObject forest = new ForestObject();
                     forest.Parse(sect);
                     resources.Add(forest);
 
                 }
                 else if (type == "petro")
                 {
-                    OilFieldObject fld = new OilFieldObject(SLGWorld);
+                    OilFieldObject fld = new OilFieldObject();
                     fld.Parse(sect);
                     resources.Add(fld);
                 }
             }
             for (int i = 0; i < resources.Count; i++)
             {
-                SLGWorld.Add(resources[i]);
+                Field.Add(resources[i]);
             }
-
+            
 
             fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
 
@@ -110,7 +110,7 @@ namespace Code2015.World
 
             foreach (GameConfigurationSection sect in resVals)
             {
-                City city = new City(SLGWorld);
+                City city = new City(Field, null);
                 city.Parse(sect);
                 cities.Add(city);
 
@@ -121,7 +121,7 @@ namespace Code2015.World
             for (int i = 0; i < cities.Count; i++)
             {
                 cities[i].ResolveCities(resolveTable);
-                SLGWorld.Add(cities[i]);
+                Field.Add(cities[i]);
             }
 
 
@@ -132,11 +132,11 @@ namespace Code2015.World
     /// <summary>
     ///  表示游戏逻辑状态。
     /// </summary>
-    public class GameState
+    class GameState
     {
         BattleField battleField;
 
-        GameTime newTime;
+        //GameTime newTime;
         PlayerArea[] localPlayerArea;
         Player[] localPlayers;
 
@@ -175,16 +175,16 @@ namespace Code2015.World
 
         public GameState(GameStateBuilder srcState, Player[] localPlayer)
         {
-            this.battleField = srcState.SLGWorld;
+            this.battleField = srcState.Field;
             //PluginFactory = srcState.PluginFactory;
 
             this.localPlayerArea = new PlayerArea[localPlayer.Length];
             this.localPlayers = localPlayer;
 
             Dictionary<int, FastList<City>> startAreas = new Dictionary<int, FastList<City>>();
-            for (int i = 0; i < slgSystem.CityCount; i++)
+            for (int i = 0; i < battleField.CityCount; i++)
             {
-                City cc = slgSystem.GetCity(i);
+                City cc = battleField.Cities[i];
                 if (cc.StartUp != -1)
                 {
                     FastList<City> list;
@@ -203,7 +203,7 @@ namespace Code2015.World
 
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
-                localPlayerArea[i] = new PlayerArea(slgSystem, localPlayer[i]);
+                localPlayerArea[i] = new PlayerArea(battleField, localPlayer[i]);
 
                 if (localPlayer[i].Type == PlayerType.LocalHuman)
                     LocalHumanPlayer = localPlayer[i];
@@ -231,7 +231,7 @@ namespace Code2015.World
                 }
             }
 
-            newTime = new GameTime();
+            //newTime = new GameTime();
 
             //remainingTime = TotalTime;
         }
@@ -246,16 +246,16 @@ namespace Code2015.World
 
             //remainingTime -= time.ElapsedGameTimeSeconds;
 
-            /////// 接受playerOperation，由127.0.0.1
-            newTime.SetElapsedGameTime(TimeSpan.FromSeconds(time.ElapsedGameTimeSeconds * 3600));
-            newTime.SetElapsedRealTime(time.ElapsedRealTime * 3600);
-            newTime.SetFramesPerSecond(time.FramesPerSecond);
-            newTime.SetIsRunningSlowly(time.IsRunningSlowly);
-            newTime.SetTotalGameTime(TimeSpan.FromSeconds(time.TotalGameTime.TotalSeconds * 3600));
-            newTime.SetTotalRealTime(time.TotalRealTime * 3600);
+            ///////// 接受playerOperation，由127.0.0.1
+            //newTime.SetElapsedGameTime(TimeSpan.FromSeconds(time.ElapsedGameTimeSeconds * 3600));
+            //newTime.SetElapsedRealTime(time.ElapsedRealTime * 3600);
+            //newTime.SetFramesPerSecond(time.FramesPerSecond);
+            //newTime.SetIsRunningSlowly(time.IsRunningSlowly);
+            //newTime.SetTotalGameTime(TimeSpan.FromSeconds(time.TotalGameTime.TotalSeconds * 3600));
+            //newTime.SetTotalRealTime(time.TotalRealTime * 3600);
 
 
-            slgSystem.Update(newTime);
+            battleField.Update(time);
         }
 
         int Comparision(ScoreEntry a, ScoreEntry b)
@@ -283,16 +283,16 @@ namespace Code2015.World
 
                 //co2s.TryGetValue(localPlayers[i], out result[i].CO2);
 
-                result[i].Total += result[i].Development - 0.2f * result[i].CO2;
+                result[i].Total += result[i].Development;// -0.2f * result[i].CO2;
             }
 
             Array.Sort<ScoreEntry>(result, Comparision);
             return result;
         }
 
-        public SimulationWorld SLGWorld
+        public BattleField Field
         {
-            get { return slgSystem; }
+            get { return battleField; }
         }
     }
 }

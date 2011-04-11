@@ -26,7 +26,6 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.MathLib;
-using Code2015.BalanceSystem;
 using Code2015.World;
 
 namespace Code2015.Logic
@@ -38,7 +37,7 @@ namespace Code2015.Logic
         Remote
     }
 
-    public class Player
+    class Player
     {
         public int ID
         {

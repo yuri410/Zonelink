@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Code2015.World;
+using Apoc3D;
+using Apoc3D.MathLib;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.World
 {
     class GatherCity : City
     {
         Harvester harvester;
-        NatureResource exRes;
+        NaturalResource exRes;
 
         int resourceIndex = 0;
         float resourceBuffer;
@@ -20,7 +22,7 @@ namespace Code2015.World
 
         private List<NaturalResource> nearResource = new List<NaturalResource>();
 
-        public NatureResource ExResource
+        public NaturalResource ExResource
         {
             get
             {
@@ -52,7 +54,7 @@ namespace Code2015.World
            
         }
 
-        public void SetTargetExResource(NatureResource res)
+        public void SetTargetExResource(NaturalResource res)
         {
             exRes = res;
         }
@@ -124,7 +126,7 @@ namespace Code2015.World
 
 
         //周围资源资源
-        public void FindResources(List<NatureResource> resList)
+        public void FindResources(List<NaturalResource> resList)
         {
             for (int i = 0; i < resList.Count; i++)
             {
@@ -149,7 +151,7 @@ namespace Code2015.World
             nearResource.Sort(Camparision);
         }
 
-        private int Camparision(NatureResource a, NatureResource b)
+        private int Camparision(NaturalResource a, NaturalResource b)
         {
             float da = Vector3.DistanceSquared(a.Position, b.Position);
             float db = Vector3.DistanceSquared(b.Position, b.Position);
@@ -194,7 +196,7 @@ namespace Code2015.World
         {
             base.Parse(sect);
 
-            harvester.SetPosition(MathHelper.ToRadians(Longitude), MathHelper.ToRadians(Latitude));
+            harvester.SetPosition(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
         }
     }
 

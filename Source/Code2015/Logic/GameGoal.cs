@@ -27,7 +27,7 @@ using System.Text;
 
 namespace Code2015.Logic
 {
-    public class GameGoal
+    class GameGoal
     {
         public float Development
         {

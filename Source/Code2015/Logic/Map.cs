@@ -27,26 +27,25 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.World;
 
 namespace Code2015.Logic
 {
-    public class Map
+    class Map
     {
         public const int MapWidth = PathFinderManager.DW;
         public const int MapHeight = PathFinderManager.DH;
         public const int HeightMapWidth = 64 * 36;
         public const int HeightMapHeight = 64 * 14;
 
-        SimulationWorld region;
+        BattleField region;
         PathFinderManager pathFinder;
         BitTable gradMap;
 
         ushort[][] heightData;
 
-        public Map(SimulationWorld region)
+        public Map(BattleField region)
         {
             this.region = region;
 

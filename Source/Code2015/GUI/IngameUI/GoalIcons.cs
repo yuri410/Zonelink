@@ -27,10 +27,8 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
-using Code2015.BalanceSystem;
 using Code2015.Logic;
 using Code2015.World;
-using Code2015.World.Screen;
 
 namespace Code2015.GUI
 {

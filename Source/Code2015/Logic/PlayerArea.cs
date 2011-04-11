@@ -27,24 +27,23 @@ using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
 using Apoc3D.MathLib;
-using Code2015.BalanceSystem;
 using Code2015.World;
 
 namespace Code2015.Logic
 {
-    public delegate void NewMessageHandler(string msg, int level);
+    delegate void NewMessageHandler(string msg, int level);
 
     /// <summary>
     ///  表示玩家当前所有的城市
     /// </summary>
-    public class PlayerArea //: IUpdatable
+    class PlayerArea //: IUpdatable
     {
         public const float CaptureDistanceThreshold = 12;
 
         FastList<City> cities = new FastList<City>();
 
         City rootCity;
-        SimulationWorld simulator;
+        BattleField simulator;
 
         Player owner;
 
@@ -69,7 +68,7 @@ namespace Code2015.Logic
             return result;
         }
 
-        public PlayerArea(SimulationWorld region, Player player)
+        public PlayerArea(BattleField region, Player player)
         {
             this.simulator = region;
             this.owner = player;
@@ -87,113 +86,113 @@ namespace Code2015.Logic
 
 
 
-        /// <summary>
-        ///  获取此玩家所有的城市中离目标城市最近的一个
-        /// </summary>
-        /// <param name="city">目标城市</param>
-        /// <returns></returns>
-        public City GetNearestCity(City city)
-        {
-            float dist = float.MaxValue;
-            City minCity = null;
-            for (int i = 0; i < cities.Count; i++)
-            {
-                if (!cities[i].IsRecovering && city != cities[i])
-                {
-                    float cdist = new Vector2(cities[i].Longitude - city.Longitude, cities[i].Latitude - city.Latitude).Length();
+        ///// <summary>
+        /////  获取此玩家所有的城市中离目标城市最近的一个
+        ///// </summary>
+        ///// <param name="city">目标城市</param>
+        ///// <returns></returns>
+        //public City GetNearestCity(City city)
+        //{
+        //    float dist = float.MaxValue;
+        //    City minCity = null;
+        //    for (int i = 0; i < cities.Count; i++)
+        //    {
+        //        if (!cities[i].IsRecovering && city != cities[i])
+        //        {
+        //            float cdist = new Vector2(cities[i].Longitude - city.Longitude, cities[i].Latitude - city.Latitude).Length();
 
-                    if (cdist < dist)
-                    {
-                        dist = cdist;
-                        minCity = cities[i];
-                    }
-                }
-            }
-            return minCity;
-        }
+        //            if (cdist < dist)
+        //            {
+        //                dist = cdist;
+        //                minCity = cities[i];
+        //            }
+        //        }
+        //    }
+        //    return minCity;
+        //}
 
         
 
-        /// <summary>
-        ///  计算一个城市是否可以被占据
-        ///  只有离玩家最近的城市才能占领，太远的，中间隔有更近的城市的无法占领
-        /// </summary>
-        /// <returns></returns>
-        [Obsolete]
-        public bool CanCapture(City city)
-        {
-            if (cities.Count == 0)
-                return false;
+        ///// <summary>
+        /////  计算一个城市是否可以被占据
+        /////  只有离玩家最近的城市才能占领，太远的，中间隔有更近的城市的无法占领
+        ///// </summary>
+        ///// <returns></returns>
+        //[Obsolete]
+        //public bool CanCapture(City city)
+        //{
+        //    if (cities.Count == 0)
+        //        return false;
 
-            City minCity = GetNearestCity(city);
+        //    City minCity = GetNearestCity(city);
 
-            if (minCity != null)
-            {
+        //    if (minCity != null)
+        //    {
                
-                // 检查是否在两个城市之间还有城市
-                City midCity = null;
-                float minDist = float.MaxValue;
+        //        // 检查是否在两个城市之间还有城市
+        //        City midCity = null;
+        //        float minDist = float.MaxValue;
 
-                for (int i = 0; i < simulator.CityCount; i++)
-                {
-                    City cc = simulator.GetCity(i);
+        //        for (int i = 0; i < simulator.CityCount; i++)
+        //        {
+        //            City cc = simulator.GetCity(i);
 
-                    bool flag1 = !object.ReferenceEquals(cc, minCity);
-                    bool flag2 = !object.ReferenceEquals(cc.Owner, minCity.Owner);
-                    if (flag1 && flag2)
-                    {
-                        float cdist = new Vector2(cc.Longitude - minCity.Longitude, cc.Latitude - minCity.Latitude).Length();
+        //            bool flag1 = !object.ReferenceEquals(cc, minCity);
+        //            bool flag2 = !object.ReferenceEquals(cc.Owner, minCity.Owner);
+        //            if (flag1 && flag2)
+        //            {
+        //                float cdist = new Vector2(cc.Longitude - minCity.Longitude, cc.Latitude - minCity.Latitude).Length();
 
-                        if (cdist < minDist)
-                        {
-                            minDist = cdist;
-                            midCity = cc;
-                        }
-                    }
-                }
+        //                if (cdist < minDist)
+        //                {
+        //                    minDist = cdist;
+        //                    midCity = cc;
+        //                }
+        //            }
+        //        }
 
-                Vector2 d = new Vector2(city.Longitude - minCity.Longitude, city.Latitude - minCity.Latitude);
-
-
-                return (object.ReferenceEquals(midCity, null) || object.ReferenceEquals(city, midCity)) || d.Length() < CaptureDistanceThreshold;
-            }
-            return false;
-        }
+        //        Vector2 d = new Vector2(city.Longitude - minCity.Longitude, city.Latitude - minCity.Latitude);
 
 
-        /// <summary>
-        ///  告知玩家控制了一个新的城市 
-        /// </summary>
-        /// <param name="city"></param>
-        public void NotifyNewCity(City city)
-        {
-            if (rootCity == null)
-            {
-                rootCity = city;
-            }
+        //        return (object.ReferenceEquals(midCity, null) || object.ReferenceEquals(city, midCity)) || d.Length() < CaptureDistanceThreshold;
+        //    }
+        //    return false;
+        //}
 
 
-            if (cities.Count > 0)
-            {
-                // 加入城市网络
-                City minCty = GetNearestCity(city);
-                if (minCty != null)
-                {
-                    city.AddNearbyCity(minCty);
-                    minCty.AddNearbyCity(city);
-                }
-            }
-            cities.Add(city);
-        }
-        public void NotifyLostCity(City city) 
-        {
-            if (object.ReferenceEquals(rootCity, city)) 
-            {
-                rootCity = null;
-            }
+        ///// <summary>
+        /////  告知玩家控制了一个新的城市 
+        ///// </summary>
+        ///// <param name="city"></param>
+        //public void NotifyNewCity(City city)
+        //{
+        //    if (rootCity == null)
+        //    {
+        //        rootCity = city;
+        //    }
 
-            cities.Remove(city);
-        }
+
+        //    if (cities.Count > 0)
+        //    {
+        //        // 加入城市网络
+        //        City minCty = GetNearestCity(city);
+        //        if (minCty != null)
+        //        {
+        //            city.AddNearbyCity(minCty);
+        //            minCty.AddNearbyCity(city);
+        //        }
+        //    }
+        //    cities.Add(city);
+        //}
+        //public void NotifyLostCity(City city) 
+        //{
+        //    if (object.ReferenceEquals(rootCity, city)) 
+        //    {
+        //        rootCity = null;
+        //    }
+
+        //    cities.Remove(city);
+        //}
 
         //public event NewMessageHandler NewMessage;
 

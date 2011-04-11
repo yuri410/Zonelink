@@ -42,7 +42,7 @@ namespace Code2015.GUI
         GameState logic;
         RtsCamera camera;
 
-        CityObject mouseHoverCity;
+        City mouseHoverCity;
 
         ISelectableObject selectedCity;
 
@@ -75,7 +75,7 @@ namespace Code2015.GUI
                 }
             }
         }
-        public CityObject SelectedCity
+        public City SelectedCity
         {
             get;
             private set;
@@ -86,7 +86,7 @@ namespace Code2015.GUI
             private set;
 
         }
-        public CityObject MouseHoverCity
+        public City MouseHoverCity
         {
             get { return mouseHoverCity; }
             private set
@@ -134,7 +134,7 @@ namespace Code2015.GUI
         {
             SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
             MouseHoverObject = obj as ISelectableObject;
-            MouseHoverCity = MouseHoverObject as CityObject;
+            MouseHoverCity = MouseHoverObject as City;
 
             if (MouseInput.IsMouseDownLeft)
             {

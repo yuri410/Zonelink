@@ -9,7 +9,6 @@ using Apoc3D.Scene;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Apoc3D.Config;
-using Zonelink.World;
 using Apoc3D.Graphics;
 
 namespace Code2015.World
@@ -41,6 +40,8 @@ namespace Code2015.World
 
     }
 
+
+    delegate void CityVisibleHander(City obj);    
 
     /// <summary>
     ///  表示游戏世界中的城市
@@ -128,6 +129,8 @@ namespace Code2015.World
             private set;
         }
 
+        public event CityVisibleHander CityVisible;
+
 
         public City(BattleField btfld, Player owner)
             : base(owner)
@@ -143,7 +146,7 @@ namespace Code2015.World
             sound.Position = Position;
         }
 
-        int Camparision(NatureResource a, NatureResource b)
+        int Camparision(NaturalResource a, NaturalResource b)
         {
             float da = Vector3.DistanceSquared(a.Position, this.Position);
             float db = Vector3.DistanceSquared(b.Position, this.Position);
@@ -317,12 +320,15 @@ namespace Code2015.World
 
 
 
-
-        public override void Render()
+        public override RenderOperation[] GetRenderOperation()
         {
-           
+            //isVisible = true;
+            //opBuffer.FastClear();
+            if (CityVisible != null)
+            {
+                CityVisible(this);
+            }
         }
-
        
     }
 }

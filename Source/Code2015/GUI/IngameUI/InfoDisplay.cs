@@ -29,7 +29,6 @@ using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
-using Code2015.BalanceSystem;
 using Code2015.EngineEx;
 using Code2015.GUI.Controls;
 using Code2015.Logic;
@@ -40,7 +39,7 @@ namespace Code2015.GUI
 {
     class CityInfoDisplay : UIComponent
     {
-        Dictionary<CityObject, CityInfo> cityTable;
+        Dictionary<City, CityInfo> cityTable;
         GameScene scene;
         RtsCamera camera;
         Player player;
@@ -63,7 +62,7 @@ namespace Code2015.GUI
         public CityInfoDisplay(GameScene scene, RenderSystem rs, Player player)
         {
             this.scene = scene;
-            this.cityTable = new Dictionary<CityObject, CityInfo>();
+            this.cityTable = new Dictionary<City, CityInfo>();
             this.renderSys = rs;
             this.player = player;
             this.camera = scene.Camera;
@@ -83,7 +82,7 @@ namespace Code2015.GUI
             pieEffect = new PieProgressEffect(rs);
         }
 
-        public CityInfo GetCityInfo(CityObject cc) 
+        public CityInfo GetCityInfo(City cc) 
         {
             CityInfo info;
 
@@ -103,7 +102,7 @@ namespace Code2015.GUI
 
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
-                CityObject cc = scene.GetVisibleCity(i);
+                City cc = scene.GetVisibleCity(i);
 
                 CityInfo info;
 
@@ -139,7 +138,7 @@ namespace Code2015.GUI
             } 
             for (int i = 0; i < scene.VisibleCityCount; i++)
             {
-                CityObject cc = scene.GetVisibleCity(i);
+                City cc = scene.GetVisibleCity(i);
 
                 CityInfo info;
 
