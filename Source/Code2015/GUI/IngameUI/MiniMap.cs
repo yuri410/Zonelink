@@ -249,11 +249,12 @@ namespace Code2015.GUI
                 sprite.Draw(switchButton.Image, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
             }
 
-            SimulationWorld slgWorld = gameLogic.SLGWorld;
+            BattleField field = gameLogic.Field;
 
-            for (int i = 0; i < slgWorld.CityCount; i++)
+            #region 遍历战场上的城市，绘制地图上点
+            for (int i = 0; i < field.CityCount; i++)
             {
-                City cc = slgWorld.GetCity(i);
+                City cc = field.Cities[i];
 
                 if (!cc.IsHomeCity)
                 {
@@ -334,7 +335,9 @@ namespace Code2015.GUI
 
                 }
             }
+            #endregion
 
+            #region 绘制摄像机
             {
                 Point pt = GetPosition(camera.Longitude, camera.Latitude);
 
@@ -346,15 +349,16 @@ namespace Code2015.GUI
 
                 sprite.Draw(cameraView, rect, ColorValue.White);
             }
-
+            #endregion
 
             sprite.SetTransform(Matrix.Identity);
 
-
+            #region 绘制事件标记
             for (int i = 0; i < marks.Count; i++)
             {
                 marks[i].Render(sprite);
             }
+            #endregion
 
             sprite.Draw(compass, -21, 666, ColorValue.White);
         }

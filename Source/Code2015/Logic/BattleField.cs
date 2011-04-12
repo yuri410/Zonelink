@@ -30,12 +30,12 @@ namespace Code2015
 
         
 
-        List<City> cityList = new List<City>(MaxCities);
+        City[] cities;// = new List<City>(MaxCities);
 
         public Map Map { get { return map; } }
-        public List<City> Cities
+        public City[] Cities
         {
-            get { return cityList; }
+            get { return cities; }
         }
         public NaturalResource[] NaturalResources 
         {
@@ -44,12 +44,12 @@ namespace Code2015
                        
         public int CityCount
         {
-            get { return cityList.Count; }
+            get { return cities.Count; }
         } 
 
         public City GetVisibleCity(int i)
         {
-            return cityList[i];
+            return cities[i];
         }
 
         public BattleField()
@@ -68,10 +68,14 @@ namespace Code2015
         }
 
         #region 初始化城市
+        /// <summary>
+        /// 初始化城市
+        /// </summary>
         private void LoadCities()
         {
             string type;
 
+            List<City> cityList = new List<City>(MaxCities);
 
             FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
             GameConfiguration resCon = new GameConfiguration(fl);
@@ -97,15 +101,19 @@ namespace Code2015
 
             for (int i = 0; i < cityList.Count; i++) 
             {
-                cityList[i].ResolveCities(resolveTable);
+                cities[i].ResolveCities(resolveTable);
             }
+
+            cities = cityList.ToArray();
         }
 
         #endregion
 
 
 
-        //初始化自然资源
+        /// <summary>
+        /// 初始化自然资源
+        /// </summary>
         void InitializeNaturalResource()
         {
             FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
@@ -123,11 +131,11 @@ namespace Code2015
             }
             naturalResource = resources.ToArray();
 
-            for (int i = 0; i < cityList.Count; i++)
+            for (int i = 0; i < cities.Count; i++)
             {
-                if ( cityList[i].Type == CityType.Oil || cityList[i].Type == CityType.Green)
+                if ( cities[i].Type == CityType.Oil || cities[i].Type == CityType.Green)
                 {
-                    ((GatherCity)cityList[i]).FindResources(resources);
+                    ((GatherCity)cities[i]).FindResources(resources);
                 }
             }   
 
@@ -143,7 +151,7 @@ namespace Code2015
 
         public void Update(GameTime gameTime)
         {
-            foreach ( City city in cityList)
+            foreach ( City city in cities)
             {
                 city.Update(gameTime);
 

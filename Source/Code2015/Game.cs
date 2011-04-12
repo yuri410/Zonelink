@@ -204,7 +204,7 @@ namespace Code2015
             BattleField slgSystem = gameState.Field;
 
 
-            map = new Map(slgSystem);
+            //map = new Map(slgSystem);
             for (int i = 0; i < slgSystem.CityCount; i++)
             {
                 City city = slgSystem.Cities[i];
