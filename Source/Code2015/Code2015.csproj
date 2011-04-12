@@ -90,6 +90,8 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="Effects\AtmosphereEffect.cs" />
     <Compile Include="Effects\CityLinkEffect.cs" />
+    <Compile Include="Effects\CityRingEffect.cs" />
+    <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
     <Compile Include="Effects\GoalEffect.cs" />
     <Compile Include="Effects\Post\PieProgress.cs" />

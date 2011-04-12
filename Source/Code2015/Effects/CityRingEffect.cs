@@ -68,6 +68,11 @@ namespace Code2015.Effects
 
     class CityRingEffect : Effect
     {
+        public static readonly Matrix WhiteMatrix =
+              new Matrix(1, 1, 1, 1,
+                         1, 1, 1, 1,
+                         1, 1, 1, 1,
+                         1, 1, 1, 1);
         bool stateSetted;
 
         RenderSystem renderSys;
@@ -135,27 +140,27 @@ namespace Code2015.Effects
             vtxShader.SetValue("mvp", ref mvp);
             vtxShader.SetValue("world", ref op.Transformation);
 
-            object sdr = op.Sender;
-            bool passed = false;
-            if (sdr != null)
-            {
-                CityOwnerRing ring = sdr as CityOwnerRing;
+            //object sdr = op.Sender;
+            //bool passed = false;
+            //if (sdr != null)
+            //{
+            //    CityOwnerRing ring = sdr as CityOwnerRing;
 
-                if (ring != null)
-                {
-                    pixShader.SetValue("weights", ring.GetWeights());
+            //    if (ring != null)
+            //    {
+            //        pixShader.SetValue("weights", new Vector4(1, 0, 0, 0));
 
-                    pixShader.SetValue("ownerColors", ring.GetColorMatrix());
-                    passed = true;
+            //        pixShader.SetValue("ownerColors", ring.GetColorMatrix());
+            //        passed = true;
 
-                }
-            }
-            if (!passed)
-            {
-                pixShader.SetValue("weights", new Vector4());
+            //    }
+            //}
+            //if (!passed)
+            //{
+                pixShader.SetValue("weights", new Vector4(0,0,0,0));
 
-                pixShader.SetValue("ownerColors", CityOwnerRing.WhiteMatrix);
-            }
+                pixShader.SetValue("ownerColors", WhiteMatrix);
+            //}
             
 
             if (!stateSetted)

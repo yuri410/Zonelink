@@ -248,7 +248,7 @@ namespace Code2015.World
             base.Update(dt);
 
 
-            float ddt = (float)dt.ElapsedGameTime.TotalSeconds;
+            float ddt = (float)dt.ElapsedGameTimeSeconds;
             if (Owner != null)
             {
                 generateRBallCD -= ddt;

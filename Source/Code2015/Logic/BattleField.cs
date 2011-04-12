@@ -54,9 +54,6 @@ namespace Code2015
 
             //Init Natural Resource
             InitializeNaturalResource();
-
-            //Load City Model
-
         }
 
         #region 初始化城市
@@ -93,7 +90,7 @@ namespace Code2015
 
             for (int i = 0; i < cityList.Count; i++) 
             {
-                cities[i].ResolveCities(resolveTable);
+                cityList[i].ResolveCities(resolveTable);
             }
 
             cities = cityList.ToArray();
@@ -116,10 +113,21 @@ namespace Code2015
 
             foreach (GameConfigurationSection sect in resVals)
             {
-                //NaturalResource res = new NaturalResource();
-                //res.Parse(sect);
+                string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
 
-                //resources.Add(res);            
+                if (type == "wood")
+                {
+                    ForestObject forest = new ForestObject();
+                    forest.Parse(sect);
+                    resources.Add(forest);
+
+                }
+                else if (type == "petro")
+                {
+                    OilFieldObject fld = new OilFieldObject();
+                    fld.Parse(sect);
+                    resources.Add(fld);
+                }           
             }
             naturalResource = resources.ToArray();
 
@@ -143,17 +151,17 @@ namespace Code2015
 
         public void Update(GameTime gameTime)
         {
-            foreach ( City city in cities)
-            {
-                city.Update(gameTime);
+            //foreach ( City city in cities)
+            //{
+            //    city.Update(gameTime);
 
 
-            }
+            //}
 
-            for (int i = 0; i < naturalResource.Length; i++) 
-            {
-                naturalResource[i].Update(gameTime);
-            }
+            //for (int i = 0; i < naturalResource.Length; i++) 
+            //{
+            //    naturalResource[i].Update(gameTime);
+            //}
         }
 
 
