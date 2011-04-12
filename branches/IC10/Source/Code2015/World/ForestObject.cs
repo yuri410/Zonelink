@@ -52,11 +52,11 @@ namespace Code2015.World
     }
 
     class ForestObject : NaturalResource, ISelectableObject, IResourceObject
-    {
+    {        
         ResourceHandle<TreeBatchModel> model;
         SoundObject sound;
 
-        //Vector3 stdPosition;
+        Vector3 stdPosition;
 
         public float Radius
         {
@@ -104,7 +104,7 @@ namespace Code2015.World
 
                 float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
 
-                position = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
+                stdPosition = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
             }
         }
 
@@ -166,7 +166,7 @@ namespace Code2015.World
 
         Vector3 IResourceObject.Position
         {
-            get { return position; }
+            get { return stdPosition; }
         }
 
         float IResourceObject.Longitude

@@ -134,34 +134,7 @@ namespace Code2015.World
             Reset(CurrentAmount);
         }
 
-        private void UpdateLocation()
-        {
-            float radLong = MathEx.Degree2Radian(this.Longitude);
-            float radLat = MathEx.Degree2Radian(this.Latitude);
-
-            float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
-
-            //IsInOcean = false;
-            //if (altitude < 0)
-            //{
-            //    altitude = 0;
-            //    IsInOcean = true;
-            //}
-            
-            this.Position = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude);
-
-            this.Transformation = PlanetEarth.GetOrientation(radLong, radLat);
-            //this.InvTransformation = Matrix.Invert(Transformation);
-
-            this.Transformation.TranslationValue = this.Position; // TranslationValue = pos;
-
-            BoundingSphere.Radius = RulesTable.CityRadius;
-            BoundingSphere.Center = this.Position;
-
-
-
-
-        }
+        protected virtual void UpdateLocation() { }
       
     }
 }
