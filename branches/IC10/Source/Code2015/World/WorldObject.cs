@@ -20,22 +20,22 @@ namespace Code2015.World
         public Player Owner { get; protected set; }
 
 
-        //是否被选中
-        public bool IsSelected { get; set; }
-       
-        //经纬度
+        /// <summary>
+        ///  经度
+        /// </summary>
         public float Longitude { get; protected set; }
+        /// <summary>
+        ///  纬度
+        /// </summary>
         public float Latitude { get; protected set; }
-        public float Radius { get; protected set; }
+        //public float Radius { get; protected set; }
 
-        //Entey中心位置 
-        public Vector3 Position { get; set; }
 
         protected WorldObject(Player owner) 
         {
             this.Owner = owner;
             //fsmMachine = new FSMMachine(this);
-            this.IsSelected = false;
+            //this.IsSelected = false;
         }
 
         protected WorldObject() 
@@ -71,8 +71,24 @@ namespace Code2015.World
 
     }
 
-    abstract class WorldDynamicObject : DynamicObject 
-    {
+    abstract class WorldDynamicObject : DynamicObject
+    { 
+        /// <summary>
+        ///  拥有此物体的玩家
+        /// </summary>
+        public Player Owner { get; protected set; }
+
+        protected WorldDynamicObject(Player owner) 
+        {
+            this.Owner = owner;
+            //fsmMachine = new FSMMachine(this);
+            //this.IsSelected = false;
+        }
+
+        protected WorldDynamicObject() 
+        {
+            //fsmMachine = new FSMMachine(this);
+        }
     }
 
 }

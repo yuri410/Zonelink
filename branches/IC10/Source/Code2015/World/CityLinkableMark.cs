@@ -91,7 +91,26 @@ namespace Code2015.World
             this.player = player;
             this.linkArrow = new Model[4];
 
-            FileLocation fl = FileSystem.Instance.Locate("linkArrow.mesh", GameFileLocs.Model);
+            ColorValue color = player.SideColor;
+            string fileName;
+            if (color == ColorValue.Red)
+            {
+                fileName = "link_e_red.mesh";
+            }
+            else if (color == ColorValue.Green)
+            {
+                fileName = "link_e_green.mesh";
+            }
+            else if (color == ColorValue.Blue)
+            {
+                fileName = "link_e_blue.mesh";
+            }
+            else
+            {
+                fileName = "link_e_yellow.mesh";
+            }
+
+            FileLocation fl = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
             for (int i = 0; i < linkArrow.Length; i++)
             {
                 linkArrow[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));

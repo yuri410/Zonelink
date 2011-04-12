@@ -99,7 +99,7 @@ namespace Code2015
         GameState gameState;
         #endregion
 
-        CityLinkManager linkMgr;
+        //CityLinkManager linkMgr;
 
         bool isLoaded;
         int loadingCountDown = 100;

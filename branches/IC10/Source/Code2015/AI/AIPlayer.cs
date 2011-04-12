@@ -49,7 +49,7 @@ namespace Code2015.AI
 
         public override void SetParent(GameState state)
         {
-            decision = new AIDecision(state.SLGWorld, this);
+            decision = new AIDecision(state.Field, this);
         }
     }
 }
