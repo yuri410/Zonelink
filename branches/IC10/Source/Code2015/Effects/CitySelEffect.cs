@@ -76,7 +76,7 @@ namespace Code2015.Effects
         VertexShader vtxShader;
 
         public unsafe CitySelEffect(RenderSystem rs)
-            : base(false, CityRingEffectFactory.Name)
+            : base(false, CitySelEffectFactory.Name)
         {
             this.renderSys = rs;
 

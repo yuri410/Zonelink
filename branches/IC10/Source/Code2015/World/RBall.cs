@@ -114,7 +114,7 @@ namespace Code2015.World
 
         public override void Update(GameTime gameTime)
         {
-            float dt = (float)gameTime.ElapsedGameTime.TotalSeconds;
+            float dt = (float)gameTime.ElapsedGameTimeSeconds;
             levelChange -= dt;
             roundAngle += dt * GoRoundVel * roundSpeed;
 

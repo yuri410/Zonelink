@@ -331,7 +331,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
-            float ddt = (float)dt.ElapsedGameTime.TotalSeconds;
+            float ddt = (float)dt.ElapsedGameTimeSeconds;
 
             if (Owner != null)
             {
@@ -364,6 +364,8 @@ namespace Code2015.World
             {
                 CityVisible(this);
             }
+            return null;
+            // TODO: Render City here
             throw new NotImplementedException();
         }
        
