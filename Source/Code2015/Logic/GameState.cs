@@ -49,13 +49,8 @@ namespace Code2015.World
     class GameStateBuilder
     {
         const int MaxCities = 120;
-        //const int MinCities = 85;
+        
 
-        //public CityPluginFactory PluginFactory
-        //{
-        //    get;
-        //    private set;
-        //}
 
         public BattleField Field
         {
@@ -67,7 +62,6 @@ namespace Code2015.World
         {
             Field = new BattleField();
 
-            //PluginFactory = new CityPluginFactory();
 
             FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
 
