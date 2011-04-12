@@ -1,4 +1,9 @@
-sampler2D tex : register(s0);
+//  SobelX       SobelY
+//  1  0 -1      1  2  1
+//  2  0 -2      0  0  0
+//  1  0 -1     -1 -2 -1
+
+sampler2D normal : register(s0);
 
 struct PSInput
 {
@@ -7,6 +12,37 @@ struct PSInput
 
 float4 main(PSInput ip) : COLOR
 {
+	float3 s[3][3];
+	
+	float s00 = float2(ip.TexCoord.x - off, ip.TexCoord.y - off);
+	float s01 = float2(ip.TexCoord.x,       ip.TexCoord.y - off);
+	
+	float s02 = float2(ip.TexCoord.x + off, ip.TexCoord.y - off);
+	float s10 = float2(ip.TexCoord.x - off, ip.TexCoord.y);
+	
+	float s12 = float2(ip.TexCoord.x + off, ip.TexCoord.y);
+	float s20 = float2(ip.TexCoord.x - off, ip.TexCoord.y + off);
+	
+	float s21 = float2(ip.TexCoord.x,       ip.TexCoord.y + off);
+	float s22 = float2(ip.TexCoord.x + off, ip.TexCoord.y + off);
+	
+	
+	s[0][0] = tex2D(samNormalBuffer, s00).rgb;
+	s[0][1] = tex2D(samNormalBuffer, s01).rgb;
+	s[0][2] = tex2D(samNormalBuffer, s02).rgb;
+	s[1][0] = tex2D(samNormalBuffer, s10).rgb;
+	s[1][2] = tex2D(samNormalBuffer, s12).rgb;
+	s[2][0] = tex2D(samNormalBuffer, s20).rgb;
+	s[2][1] = tex2D(samNormalBuffer, s21).rgb;
+	s[2][2] = tex2D(samNormalBuffer, s22).rgb;
 
-	return tex2D(tex, ip.TexCoord);
+	// Sobel filter in X direction
+	float3 sobelX = s[0][0] + 2 * s[1][0] + s[2][0] - s[0][2] - 2 * s[1][2] - s[2][2];
+	// Sobel filter in Y direction
+	float3 sobelY = s[0][0] + 2 * s[0][1] + s[0][2] - s[2][0] - 2 * s[2][1] - s[2][2];
+
+	// Find edge
+	float3 edgeSqr = (sobelX * sobelX + sobelY * sobelY);
+  	 value = dot(edgeSqr, float3(1,1,1));
+	return float4(0, 0, 0, value * 0.1);
 }

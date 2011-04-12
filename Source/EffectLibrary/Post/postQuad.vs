@@ -18,7 +18,7 @@ VSOutput main(VSInput ip)
 	o.Position = ip.Position;
 	
 	o.Position.xy -= 0.5;
-	o.Position.xy /= float2(1024, 768);
+	o.Position.xy /= float2(1280, 800);
 	o.Position.xy *= float2(2, -2);
 	o.Position.xy -= float2(1, -1);
 
