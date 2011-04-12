@@ -436,7 +436,6 @@
     <Compile Include="World\CityLinkableMark.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="World\CityLinkManager.cs" />
     <Compile Include="World\CityStyle.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -451,7 +450,6 @@
     <Compile Include="ParticleSystem\Particle.cs" />
     <Compile Include="ParticleSystem\ParticleEffect.cs" />
     <Compile Include="ParticleSystem\ParticleEmitter.cs" />
-    <Compile Include="World\CityLinkObject.cs" />
     <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
