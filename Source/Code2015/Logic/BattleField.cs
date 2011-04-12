@@ -6,6 +6,7 @@ using Apoc3D;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.Vfs;
 
 namespace Code2015
 {
@@ -71,9 +72,9 @@ namespace Code2015
         {
             string type;
 
-            
 
-            GameConfiguration resCon =  Utils.LoadConfig("cities.xml");
+            FileLocation fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
+            GameConfiguration resCon = new GameConfiguration(fl);
             GameConfiguration.ValueCollection resVals = resCon.Values;
             Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
             foreach (GameConfigurationSection sect in resVals)
@@ -107,7 +108,8 @@ namespace Code2015
         //初始化自然资源
         void InitializeNaturalResource()
         {
-            GameConfiguration resCon = Utils.LoadConfig("resources.xml");    
+            FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
+            GameConfiguration resCon = new GameConfiguration(fl);
             GameConfiguration.ValueCollection resVals = resCon.Values;
 
             List<NaturalResource> resources = new List<NaturalResource>(MaxCities);

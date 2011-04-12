@@ -43,85 +43,85 @@ namespace Code2015.World
         //public float CO2;
     }
 
-    /// <summary>
-    ///  随机构建场景
-    /// </summary>
-    class GameStateBuilder
-    {
-        const int MaxCities = 120;
+    ///// <summary>
+    /////  随机构建场景
+    ///// </summary>
+    //class GameStateBuilder
+    //{
+    //    const int MaxCities = 120;
         
 
 
-        public BattleField Field
-        {
-            get;
-            private set;
-        }
+    //    public BattleField Field
+    //    {
+    //        get;
+    //        private set;
+    //    }
 
-        public GameStateBuilder()
-        {
-            Field = new BattleField();
+    //    public GameStateBuilder()
+    //    {
+    //        Field = new BattleField();
 
 
-            FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
+    //        FileLocation fl = FileSystem.Instance.Locate("resources.xml", GameFileLocs.Config);
 
-            GameConfiguration resCon = new GameConfiguration(fl);
-            GameConfiguration.ValueCollection resVals = resCon.Values;
+    //        GameConfiguration resCon = new GameConfiguration(fl);
+    //        GameConfiguration.ValueCollection resVals = resCon.Values;
 
-            FastList<NaturalResource> resources = new FastList<NaturalResource>(MaxCities);
+    //        FastList<NaturalResource> resources = new FastList<NaturalResource>(MaxCities);
 
-            foreach (GameConfigurationSection sect in resVals)
-            {
-                string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
+    //        foreach (GameConfigurationSection sect in resVals)
+    //        {
+    //            string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
                
-                if (type == "wood")
-                {
-                    ForestObject forest = new ForestObject();
-                    forest.Parse(sect);
-                    resources.Add(forest);
+    //            if (type == "wood")
+    //            {
+    //                ForestObject forest = new ForestObject();
+    //                forest.Parse(sect);
+    //                resources.Add(forest);
 
-                }
-                else if (type == "petro")
-                {
-                    OilFieldObject fld = new OilFieldObject();
-                    fld.Parse(sect);
-                    resources.Add(fld);
-                }
-            }
-            for (int i = 0; i < resources.Count; i++)
-            {
-                Field.Add(resources[i]);
-            }
+    //            }
+    //            else if (type == "petro")
+    //            {
+    //                OilFieldObject fld = new OilFieldObject();
+    //                fld.Parse(sect);
+    //                resources.Add(fld);
+    //            }
+    //        }
+    //        for (int i = 0; i < resources.Count; i++)
+    //        {
+    //            Field.Add(resources[i]);
+    //        }
             
 
-            fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
+    //        fl = FileSystem.Instance.Locate("cities.xml", GameFileLocs.Config);
 
-            resCon = new GameConfiguration(fl);
-            resVals = resCon.Values;
+    //        resCon = new GameConfiguration(fl);
+    //        resVals = resCon.Values;
 
-            FastList<City> cities = new FastList<City>(MaxCities);
-            Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
+    //        FastList<City> cities = new FastList<City>(MaxCities);
+    //        Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
 
-            foreach (GameConfigurationSection sect in resVals)
-            {
-                City city = new City(Field, null);
-                city.Parse(sect);
-                cities.Add(city);
+    //        foreach (GameConfigurationSection sect in resVals)
+    //        {
+    //            City city = new City(Field, null);
+    //            city.Parse(sect);
+    //            cities.Add(city);
 
-                resolveTable.Add(sect.Name, city);
-            }
-
-
-            for (int i = 0; i < cities.Count; i++)
-            {
-                cities[i].ResolveCities(resolveTable);
-                Field.Add(cities[i]);
-            }
+    //            resolveTable.Add(sect.Name, city);
+    //        }
 
 
+    //        for (int i = 0; i < cities.Count; i++)
+    //        {
+    //            cities[i].ResolveCities(resolveTable);
+    //            Field.Add(cities[i]);
+    //        }
 
-        }
-    }
+
+
+    //    }
+    //}
 
     /// <summary>
     ///  表示游戏逻辑状态。
@@ -167,7 +167,7 @@ namespace Code2015.World
             }
         }
 
-        public GameState(GameStateBuilder srcState, Player[] localPlayer)
+        public GameState(Player[] localPlayer)
         {
             this.battleField = srcState.Field;
             //PluginFactory = srcState.PluginFactory;

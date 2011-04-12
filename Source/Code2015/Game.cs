@@ -187,10 +187,10 @@ namespace Code2015
             this.linkMgr = new CityLinkManager();
 
             // 初始化GameState
-            GameStateBuilder stateBuilder = new GameStateBuilder();
+            //GameStateBuilder stateBuilder = new GameStateBuilder();
 
 
-            gameState = new GameState(stateBuilder, GetLocalPlayers(gcp));
+            gameState = new GameState(GetLocalPlayers(gcp));
             HumanPlayer = gameState.LocalHumanPlayer;
 
             // 初始化场景
