@@ -124,7 +124,10 @@ namespace Code2015.World
         public override void Parse(GameConfigurationSection sect)
         {
             base.Parse(sect);
+        }
 
+        protected override void UpdateLocation()
+        {
             float radLong = MathEx.Degree2Radian(this.Longitude);
             float radLat = MathEx.Degree2Radian(this.Latitude);
 
@@ -136,6 +139,17 @@ namespace Code2015.World
                 altitude = 0;
                 IsInOcean = true;
             }
+
+            this.Position = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude);
+
+            this.Transformation = PlanetEarth.GetOrientation(radLong, radLat);
+            //this.InvTransformation = Matrix.Invert(Transformation);
+
+            this.Transformation.TranslationValue = this.Position; // TranslationValue = pos;
+
+            BoundingSphere.Radius = RulesTable.CityRadius;
+            BoundingSphere.Center = this.Position;
+
         }
 
         public override RenderOperation[] GetRenderOperation()
