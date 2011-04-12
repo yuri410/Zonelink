@@ -94,7 +94,6 @@ namespace Code2015
 
         #endregion
 
-        Map map;
 
         #region 游戏状态
         GameState gameState;
@@ -145,10 +144,7 @@ namespace Code2015
             private set;
         }
 
-        public Map Map
-        {
-            get { return map; }
-        }
+
         public void Over()
         {
             ResultScore = gameState.GetScores();
@@ -270,12 +266,6 @@ namespace Code2015
                 scene.Scene.AddObjectToScene(obj);
             }
         }
-
-        //void DisasterArrived(Disaster d)
-        //{
-        //    LightningStrom strom = new LightningStrom(renderSys, d);
-        //    scene.Scene.AddObjectToScene(strom);
-        //}
 
 
         public void Render(Sprite sprite)
