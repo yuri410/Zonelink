@@ -75,11 +75,11 @@ namespace ModelStudio
 
             EffectManager.Instance.RegisterModelEffectType(AtmosphereEffectFactory.Name, new AtmosphereEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CityLinkEffectFactory.Name, new CityLinkEffectFactory(renderSys));
-            EffectManager.Instance.RegisterModelEffectType(CityRingEffectFactory.Name, new CityRingEffectFactory(renderSys));
+            //EffectManager.Instance.RegisterModelEffectType(CityRingEffectFactory.Name, new CityRingEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(TreeEffectFactory.Name, new TreeEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CloudEffectFactory.Name, new CloudEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(BoltEffectFactory.Name, new BoltEffectFactory(renderSys));
-            EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
+            //EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(MMTerrainEffectFactory.Name, new MMTerrainEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(MMCityLinkEffectFactory.Name, new MMCityLinkEffectFactory(renderSys));
