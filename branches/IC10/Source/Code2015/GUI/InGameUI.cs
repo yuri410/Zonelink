@@ -346,9 +346,7 @@ namespace Code2015.GUI
                             camera.Move(dx * -0.05f, dy * -0.05f);
                         }
                     }
-                    pieceMaker.Update(time);
 
-                    //physWorld.Update(time);
                     //infoUI.SelectedObject = picker.SelectedObject;
                     //cityEdit.SelectedCity = picker.SelectedCity;
 

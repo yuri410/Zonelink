@@ -44,7 +44,7 @@ namespace Code2015
                        
         public int CityCount
         {
-            get { return cities.Count; }
+            get { return cities.Length; }
         } 
 
         public City GetVisibleCity(int i)
@@ -126,12 +126,12 @@ namespace Code2015
             {
                 NaturalResource res = new NaturalResource();
                 res.Parse(sect);
-                res.Reset(100);
+                //res.Reset(100);
                 resources.Add(res);            
             }
             naturalResource = resources.ToArray();
 
-            for (int i = 0; i < cities.Count; i++)
+            for (int i = 0; i < cities.Length; i++)
             {
                 if ( cities[i].Type == CityType.Oil || cities[i].Type == CityType.Green)
                 {

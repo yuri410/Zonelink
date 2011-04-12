@@ -77,7 +77,7 @@ namespace Code2015.World
       
         }
 
-        public void Reset(float current) 
+        private void Reset(float current) 
         {
             CurrentAmount = current;
 
@@ -168,9 +168,11 @@ namespace Code2015.World
 
 
             CurrentAmount = sect.GetSingle("Amount", 0);
-            MaxAmount = CurrentAmount * FTimesMaxAmount;
+            //MaxAmount = CurrentAmount * FTimesMaxAmount;
 
             UpdateLocation();
+
+            Reset(CurrentAmount);
         }
 
         private void UpdateLocation()
