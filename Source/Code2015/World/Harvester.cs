@@ -70,8 +70,8 @@ namespace Code2015.World
         Model[] model;
         int mdlIndex;
         GatherCity parent;
-        Matrix orientation = Matrix.Identity;
-        Vector3 position;
+        //Matrix orientation = Matrix.Identity;
+        //Vector3 position;
 
         float longtitude;
         float latitude;
@@ -121,10 +121,6 @@ namespace Code2015.World
             set { exRes = value; }
         }
 
-        public Vector3 Position
-        {
-            get { return position; }
-        }
         public float Longtitude
         {
             get { return longtitude; }

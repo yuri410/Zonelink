@@ -328,6 +328,7 @@ namespace Code2015.World
             {
                 CityVisible(this);
             }
+            throw new NotImplementedException();
         }
        
     }

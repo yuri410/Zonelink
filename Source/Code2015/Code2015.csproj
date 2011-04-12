@@ -90,11 +90,11 @@
     <Compile Include="Attributes.cs" />
     <Compile Include="Effects\AtmosphereEffect.cs" />
     <Compile Include="Effects\CityLinkEffect.cs" />
-    <Compile Include="Effects\CityRingEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
     <Compile Include="Effects\GoalEffect.cs" />
     <Compile Include="Effects\Post\PieProgress.cs" />
     <Compile Include="Effects\Post\CO2PieProgress.cs" />
+    <Compile Include="Effects\Post\EdgeDetect.cs" />
     <Compile Include="Effects\SmokeEffect.cs" />
     <Compile Include="Effects\Post\GaussBlurShd.cs" />
     <Compile Include="Effects\RigidBaseEffect.cs" />
@@ -103,7 +103,6 @@
     <Compile Include="Effects\TreeEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
     <Compile Include="Effects\CloudEffect.cs" />
-    <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\ParticleEffect.cs" />
     <Compile Include="Effects\BoltEffect.cs" />
     <Compile Include="Effects\MMTerrainEffect.cs" />

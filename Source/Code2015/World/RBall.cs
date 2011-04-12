@@ -71,8 +71,8 @@ namespace Code2015.World
             //{
                 
             //}
-            return Parent.Radius * Randomizer.GetRandomSingle() * (MaxRadius - MinRadius) + MinRadius;
-            
+            //return Parent.Radius * Randomizer.GetRandomSingle() * (MaxRadius - MinRadius) + MinRadius;
+            return 100;
         }
 
         public RBall(Player owner, City city, RBallType type)
@@ -110,10 +110,7 @@ namespace Code2015.World
         }
 
 
-        public override void Render()
-        {
-            throw new NotImplementedException();
-        }
+
 
         public override void Update(GameTime gameTime)
         {

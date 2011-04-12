@@ -28,7 +28,6 @@ namespace Code2015.World
         ///  纬度
         /// </summary>
         public float Latitude { get; protected set; }
-        //public float Radius { get; protected set; }
 
 
         protected WorldObject(Player owner) 
@@ -69,6 +68,11 @@ namespace Code2015.World
         }
 
 
+        public override bool IsSerializable
+        {
+            get { return false; }
+        }
+
     }
 
     abstract class WorldDynamicObject : DynamicObject
@@ -88,6 +92,11 @@ namespace Code2015.World
         protected WorldDynamicObject() 
         {
             //fsmMachine = new FSMMachine(this);
+        }
+
+        public override bool IsSerializable
+        {
+            get { return false; }
         }
     }
 

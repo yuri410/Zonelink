@@ -31,6 +31,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.Logic;
 
 namespace Code2015.World
 {
@@ -42,6 +43,8 @@ namespace Code2015.World
         int frameIdx;
         int sign = 1;
 
+        public bool IsInOcean { get; private set; }
+
         Model[] model;
 
         SoundObject sound;
@@ -49,7 +52,8 @@ namespace Code2015.World
 
         public OilFieldObject()
         {
-        
+            frameIdx = Randomizer.GetRandomInt(OilFrameCount - 1);
+
         }
 
         public override void InitalizeGraphics(RenderSystem rs) 
@@ -117,6 +121,22 @@ namespace Code2015.World
             get { return false ; }
         }
 
+        public override void Parse(GameConfigurationSection sect)
+        {
+            base.Parse(sect);
+
+            float radLong = MathEx.Degree2Radian(this.Longitude);
+            float radLat = MathEx.Degree2Radian(this.Latitude);
+
+            float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
+
+            IsInOcean = false;
+            if (altitude < 0)
+            {
+                altitude = 0;
+                IsInOcean = true;
+            }
+        }
 
         public override RenderOperation[] GetRenderOperation()
         {
@@ -138,9 +158,12 @@ namespace Code2015.World
             }
             return base.GetRenderOperation(level);
         }
-        public override void Update(Apoc3D.GameTime dt)
+        public override void Update(GameTime dt)
         {
             base.Update(dt);
+
+            float ddt = dt.ElapsedGameTimeSeconds;
+
             sound.Update(dt);
 
             counter++;
@@ -159,7 +182,11 @@ namespace Code2015.World
             {
                 ModelL0 = model[frameIdx];
             }
-            
+
+            if (CurrentAmount < MaxAmount)
+            {
+                CurrentAmount += RulesTable.ORecoverBias * ddt;
+            }
         }
         #region ISelectableObject 成员
 
@@ -172,32 +199,32 @@ namespace Code2015.World
         #endregion
 
         #region IResourceObject 成员
-        public float MaxValue
+        float IResourceObject.MaxValue
         {
             get { return MaxAmount / (7500f * 2); }
         }
-        public float AmountPer
+        float IResourceObject.AmountPer
         {
             get { return CurrentAmount / (7500f * 2); }
         }
 
-        public NaturalResourceType Type
+        NaturalResourceType IResourceObject.Type
         {
             get { return Type; }
         }
         public event ResourceVisibleHander ResVisible;
 
-        public float Longitude
+        float IResourceObject.Longitude
         {
             get { return Longitude; }
         }
 
-        public float Latitude
+        float IResourceObject.Latitude
         {
             get { return Latitude; }
         }
 
-        public float Radius
+        float IResourceObject.Radius
         {
             get { return BoundingSphere.Radius; }
         }

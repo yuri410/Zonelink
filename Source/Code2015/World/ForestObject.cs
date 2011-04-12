@@ -30,6 +30,7 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
+using Code2015.Logic;
 
 namespace Code2015.World
 {
@@ -55,12 +56,24 @@ namespace Code2015.World
         ResourceHandle<TreeBatchModel> model;
         SoundObject sound;
 
-        Vector3 stdPosition;
+        //Vector3 stdPosition;
+
+        public float Radius
+        {
+            get;
+            private set;
+        }
 
         public ForestObject()
         {
            
 
+        }
+        public override void Parse(GameConfigurationSection sect)
+        {
+            base.Parse(sect);
+
+            Radius = sect.GetSingle("Radius");
         }
 
         public override void InitalizeGraphics(RenderSystem rs)
@@ -91,7 +104,7 @@ namespace Code2015.World
 
                 float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
 
-                stdPosition = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
+                position = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
             }
         }
 
@@ -108,7 +121,15 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
+            base.Update(dt);
+
+            float ddt = dt.ElapsedGameTimeSeconds;
             sound.Update(dt);
+         
+            if (CurrentAmount < MaxAmount)
+            {
+                CurrentAmount += (CurrentAmount * RulesTable.FRecoverRate + RulesTable.FRecoverBias) * ddt;
+            }
         }
 
         public override bool IsSerializable
@@ -128,37 +149,37 @@ namespace Code2015.World
         #endregion
 
         #region IResourceObject 成员
-        public float MaxValue 
+        float IResourceObject.MaxValue 
         {
             get { return MaxAmount / (7500f * 2); }
         }
-        public float AmountPer
+        float IResourceObject.AmountPer
         {
             get { return CurrentAmount / (7500f * 2); }
         }
-        public NaturalResourceType Type
+        NaturalResourceType IResourceObject.Type
         {
             get { return Type; }
         }
         public event ResourceVisibleHander ResVisible;
 
 
-        public Vector3 Position
+        Vector3 IResourceObject.Position
         {
-            get { return stdPosition; }
+            get { return position; }
         }
 
-        public float Longitude
+        float IResourceObject.Longitude
         {
             get { return Longitude; }
         }
 
-        public float Latitude
+        float IResourceObject.Latitude
         {
             get { return Latitude; }
         }
 
-        public float Radius 
+        float IResourceObject.Radius 
         {
             get { return Radius; }
         }
