@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
-using Code2015.World;
 using Code2015.Logic;
-using Apoc3D.MathLib;
+using Code2015.World;
 
 namespace Code2015.World
 {
@@ -16,7 +16,7 @@ namespace Code2015.World
         Oil
     }
 
-    class NaturalResource : WorldObject
+    abstract class NaturalResource : WorldObject
     {
         const float OTimesMaxAmount = 2;
         //const float ORecoverBias = 1;
@@ -29,13 +29,6 @@ namespace Code2015.World
         public const int OilFrameCount = 30;
         //public const float OilScale = 6.6f;
 
-
-        int counter;
-        int frameIndex;
-        int sign = 1;
-        public int FrameIndex { get { return frameIndex; } }
-
-        public bool IsInOcean { get; private set; }
         /// <summary>
         ///  获取自然资源的类型
         /// </summary>
@@ -114,41 +107,7 @@ namespace Code2015.World
 
         public override void Update(GameTime time)
         {
-            float dt = (float)time.ElapsedGameTime.TotalSeconds;
-
-            switch (Type)
-            {
-                case NaturalResourceType.Oil:
-
-                    if (CurrentAmount < MaxAmount)
-                    {
-                        CurrentAmount += RulesTable.ORecoverBias * dt;
-                    }
-
-
-                    {
-
-                        counter++;
-                        if (counter == 2)
-                        {
-                            frameIndex += sign;
-                            counter = 0;
-                        }
-                        if (frameIndex >= OilFrameCount || frameIndex < 0)
-                        {
-                            sign = -sign;
-                            frameIndex += sign;
-                        }
-                    }
-
-                    break;
-                case NaturalResourceType.Wood:
-                    if (CurrentAmount < MaxAmount)
-                    {
-                        CurrentAmount += (CurrentAmount * RulesTable.FRecoverRate + RulesTable.FRecoverBias) * dt;
-                    }
-                    break;
-            }
+            base.Update(time);
         }
 
 
@@ -182,12 +141,12 @@ namespace Code2015.World
 
             float altitude = TerrainData.Instance.QueryHeight(radLong, radLat);
 
-            IsInOcean = false;
-            if (altitude < 0)
-            {
-                altitude = 0;
-                IsInOcean = true;
-            }
+            //IsInOcean = false;
+            //if (altitude < 0)
+            //{
+            //    altitude = 0;
+            //    IsInOcean = true;
+            //}
             
             this.Position = PlanetEarth.GetPosition(radLong, radLat, PlanetEarth.PlanetRadius + TerrainMeshManager.PostHeightScale * altitude);
 
@@ -200,9 +159,6 @@ namespace Code2015.World
             BoundingSphere.Center = this.Position;
 
 
-
-
-            frameIndex = Randomizer.GetRandomInt(OilFrameCount - 1);
 
 
         }

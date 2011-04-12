@@ -124,10 +124,10 @@ namespace Code2015
 
             foreach (GameConfigurationSection sect in resVals)
             {
-                NaturalResource res = new NaturalResource();
-                res.Parse(sect);
-                //res.Reset(100);
-                resources.Add(res);            
+                //NaturalResource res = new NaturalResource();
+                //res.Parse(sect);
+
+                //resources.Add(res);            
             }
             naturalResource = resources.ToArray();
 

@@ -184,12 +184,7 @@ namespace Code2015
             this.renderSys = game.RenderSystem;
             this.parameters = gcp;
             this.soundWorld = new SoundObjectWorld();
-            this.linkMgr = new CityLinkManager();
-
-            // 初始化GameState
-            //GameStateBuilder stateBuilder = new GameStateBuilder();
-
-
+            
             gameState = new GameState(GetLocalPlayers(gcp));
             HumanPlayer = gameState.LocalHumanPlayer;
 

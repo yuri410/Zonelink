@@ -157,7 +157,7 @@ namespace Code2015.GUI
             string msg = ((int)Math.Round(scores.Elements[0].Development)).ToString("G");
             DrawString(sprite, msg, 351, 355);
 
-            msg = ((int)Math.Round(scores.Elements[0].CO2)).ToString("G");
+            msg = "";//((int)Math.Round(scores.Elements[0].CO2)).ToString("G");
             DrawString(sprite, msg, 352, 384);
 
             msg = ((int)Math.Round(scores.Elements[0].Total)).ToString("G");
@@ -176,7 +176,7 @@ namespace Code2015.GUI
             msg = ((int)Math.Round(scores.Elements[1].Development)).ToString("G");
             DrawString(sprite, msg, 719, 371);
 
-            msg = ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
+            msg = "";// ((int)Math.Round(scores.Elements[1].CO2)).ToString("G");
             DrawString(sprite, msg, 719, 395); 
 
             msg = ((int)Math.Round(scores.Elements[1].Total)).ToString("G");
@@ -195,8 +195,8 @@ namespace Code2015.GUI
 
             msg = ((int)Math.Round(scores.Elements[2].Development)).ToString("G");
             DrawString(sprite, msg, 341, 571);
-           
-            msg = ((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
+
+            msg = "";//((int)Math.Round(scores.Elements[2].CO2)).ToString("G");
             DrawString(sprite, msg, 341, 594);
            
             msg = ((int)Math.Round(scores.Elements[2].Total)).ToString("G");
@@ -214,9 +214,9 @@ namespace Code2015.GUI
 
             msg = ((int)Math.Round(scores.Elements[3].Development)).ToString("G");
             DrawString(sprite, msg, 715, 571);
-            
 
-            msg = ((int)Math.Round(scores.Elements[3].CO2)).ToString("G");
+
+            msg = "";//((int)Math.Round(scores.Elements[3].CO2)).ToString("G");
             DrawString(sprite, msg, 715, 594);
            
             msg = ((int)Math.Round(scores.Elements[3].Total)).ToString("G");
