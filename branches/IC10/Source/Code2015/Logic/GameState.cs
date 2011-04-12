@@ -169,7 +169,7 @@ namespace Code2015.World
 
         public GameState(Player[] localPlayer)
         {
-            this.battleField = srcState.Field;
+            this.battleField = new BattleField();// srcState.Field;
             //PluginFactory = srcState.PluginFactory;
 
             this.localPlayerArea = new PlayerArea[localPlayer.Length];
@@ -192,7 +192,7 @@ namespace Code2015.World
                 }
             }
 
-
+            #region 确定玩家起始城市
             ExistTable<int> startAreaTable = new ExistTable<int>(startAreas.Count);
 
             for (int i = 0; i < localPlayerArea.Length; i++)
@@ -224,6 +224,7 @@ namespace Code2015.World
                     }
                 }
             }
+            #endregion
 
             //newTime = new GameTime();
 
