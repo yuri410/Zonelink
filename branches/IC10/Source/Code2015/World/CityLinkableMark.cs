@@ -61,8 +61,8 @@ namespace Code2015.World
 
                     dir.Normalize();
 
-                    Vector3 pa = start.Position + dir * (CityStyleTable.CityRadiusRing + 130);
-                    Vector3 pb = end.Position - dir * (CityStyleTable.CityRadiusRing + 130);
+                    Vector3 pa = start.Position + dir * (City.CityOutterRadius + 130);
+                    Vector3 pb = end.Position - dir * (City.CityOutterRadius + 130);
 
 
                     float dist = Vector3.Distance(pa, pb);

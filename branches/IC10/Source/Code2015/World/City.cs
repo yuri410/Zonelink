@@ -49,6 +49,26 @@ namespace Code2015.World
     /// </summary>
     class City : WorldObject
     {
+        const float RingRadius = 100;
+
+        public const float CityRadiusDeg = 3.5f;
+
+        /// <summary>
+        ///  城市底座所占圆的半径
+        /// </summary>
+        public const float CityRadius = Game.ObjectScale * 100;
+
+        /// <summary>
+        ///  城市所属圈的半径（过时）
+        /// </summary>
+        public const float CityOutterRadius = CityRadius + Game.ObjectScale * 15;
+
+        /// <summary>
+        ///  城市选择圈的半径
+        /// </summary>
+        public const float CitySelRingScale = 2.6f;
+
+
         protected BattleField battleField;
 
         CityAnimationState animationType = CityAnimationState.ReceiveBall;
@@ -142,7 +162,14 @@ namespace Code2015.World
 
         public override void InitalizeGraphics(RenderSystem rs) 
         {
-            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityStyleTable.CityRadius * 2);
+            switch (Type) 
+            {
+                case CityType.Oil:
+                    break;
+                case CityType.Neutral:
+                    break;
+            }
+            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityRadius * 2);
             sound.Position = Position;
         }
 
@@ -193,9 +220,18 @@ namespace Code2015.World
             }
         }
 
-        public void ChangeOwner(Player belong)
+        public void ChangeOwner(Player player)
         {
-            this.Owner = belong;
+            if (IsCaptured && player == null)
+            {
+                Owner.Area.NotifyLostCity(this);
+            }
+            this.Owner = player;
+
+            if (player != null)
+            {
+                Owner.Area.NotifyNewCity(this);
+            }
         }
 
 

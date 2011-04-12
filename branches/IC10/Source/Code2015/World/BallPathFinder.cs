@@ -58,6 +58,7 @@ namespace Code2015.World
         {
             this.cityList = terr;
 
+            units = new AStarNodeBall[terr.Length];
             for (int i = 0; i < terr.Length; i++) 
             {
                 units[i] = new AStarNodeBall(terr[i]);

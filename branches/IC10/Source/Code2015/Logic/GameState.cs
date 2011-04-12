@@ -130,15 +130,8 @@ namespace Code2015.World
     {
         BattleField battleField;
 
-        //GameTime newTime;
         PlayerArea[] localPlayerArea;
         Player[] localPlayers;
-
-        //public CityPluginFactory PluginFactory
-        //{
-        //    get;
-        //    private set;
-        //}
 
         public Player LocalHumanPlayer
         {
