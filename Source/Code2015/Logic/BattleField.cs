@@ -73,7 +73,7 @@ namespace Code2015
 
             
 
-            GameConfiguration resCon = Utils.LoadConfig("cities.xml");
+            GameConfiguration resCon =  Utils.LoadConfig("cities.xml");
             GameConfiguration.ValueCollection resVals = resCon.Values;
             Dictionary<string, City> resolveTable = new Dictionary<string, City>(MaxCities);
             foreach (GameConfigurationSection sect in resVals)
