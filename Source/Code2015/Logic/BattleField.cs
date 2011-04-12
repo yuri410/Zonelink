@@ -17,20 +17,13 @@ namespace Code2015
     {
         public const int MaxCities = 120;
 
-        //ResourceBallType[] resTypes = new ResourceBallType[4];
-
         NaturalResource[] naturalResource;
 
         List<RBall> resBalls = new List<RBall>();
 
         Map map;
-        //Technology techMgr;
-        Player localPlayer;
-        Player[] aiPlayers;
 
-        
-
-        City[] cities;// = new List<City>(MaxCities);
+        City[] cities;
 
         public Map Map { get { return map; } }
         public City[] Cities
@@ -58,7 +51,6 @@ namespace Code2015
 
             //Init Cities
             LoadCities();
-
 
             //Init Natural Resource
             InitializeNaturalResource();
