@@ -90,7 +90,6 @@ namespace Code2015
 
         RenderSystem renderSys;
         GameScene scene;
-        CityStyleTable cityStyles;
 
         #endregion
 
@@ -189,23 +188,20 @@ namespace Code2015
             HumanPlayer = gameState.LocalHumanPlayer;
 
             // 初始化场景
-            this.cityStyles = new CityStyleTable(renderSys);
             this.scene = new GameScene(renderSys);
             {
                 City hstart = HumanPlayer.Area.RootCity;
                 this.scene.Camera.Longitude = MathEx.Degree2Radian(hstart.Longitude);
                 this.scene.Camera.Latitude = MathEx.Degree2Radian(hstart.Latitude);
             }
+
             BattleField field = gameState.Field;
 
-
-            //map = new Map(slgSystem);
             for (int i = 0; i < field.CityCount; i++)
             {
                 City city = field.Cities[i];
 
-                //CityObject cityObj = new CityObject(renderSys, map, scene.Scene, linkMgr, city, cityStyles);
-
+                city.InitalizeGraphics(renderSys);
                 city.CityVisible += scene.City_Visible;
 
                 scene.Scene.AddObjectToScene(city);
@@ -213,8 +209,6 @@ namespace Code2015
 
             AddResources(field);
             AddScenery();
-            //slgSystem.EnergyStatus.DisasterArrived += this.DisasterArrived;
-            //slgSystem.EnergyStatus.DisasterOver += this.DisasterOver;
             gameState.InitialStandards();
             
             this.ingameUI = new InGameUI(game, this, scene, gameState);
@@ -234,6 +228,7 @@ namespace Code2015
                         if (oilfld != null)
                         {
                             oilfld.ResVisible += scene.Resource_Visible;
+                            oilfld.InitalizeGraphics(renderSys);
                             scene.Scene.AddObjectToScene(oilfld);
                         }
                         break;
@@ -242,6 +237,7 @@ namespace Code2015
                         if (forest != null)
                         {
                             forest.ResVisible += scene.Resource_Visible;
+                            forest.InitalizeGraphics(renderSys);
                             scene.Scene.AddObjectToScene(forest);
                         }
                         break;
@@ -373,8 +369,7 @@ namespace Code2015
             {
                 ingameUI.Dispose();
                 ingameUI = null;
-                //cityStyles.Dispose();
-                cityStyles = null;
+
 
                 scene = null;
                 soundWorld = null;

@@ -97,7 +97,7 @@ namespace Code2015.Logic
         //    City minCity = null;
         //    for (int i = 0; i < cities.Count; i++)
         //    {
-        //        if (!cities[i].IsRecovering && city != cities[i])
+        //        if (city != cities[i])
         //        {
         //            float cdist = new Vector2(cities[i].Longitude - city.Longitude, cities[i].Latitude - city.Latitude).Length();
 
@@ -160,39 +160,39 @@ namespace Code2015.Logic
         //}
 
 
-        ///// <summary>
-        /////  告知玩家控制了一个新的城市 
-        ///// </summary>
-        ///// <param name="city"></param>
-        //public void NotifyNewCity(City city)
-        //{
-        //    if (rootCity == null)
-        //    {
-        //        rootCity = city;
-        //    }
+        /// <summary>
+        ///  告知玩家控制了一个新的城市 
+        /// </summary>
+        /// <param name="city"></param>
+        public void NotifyNewCity(City city)
+        {
+            if (rootCity == null)
+            {
+                rootCity = city;
+            }
 
 
-        //    if (cities.Count > 0)
-        //    {
-        //        // 加入城市网络
-        //        City minCty = GetNearestCity(city);
-        //        if (minCty != null)
-        //        {
-        //            city.AddNearbyCity(minCty);
-        //            minCty.AddNearbyCity(city);
-        //        }
-        //    }
-        //    cities.Add(city);
-        //}
-        //public void NotifyLostCity(City city) 
-        //{
-        //    if (object.ReferenceEquals(rootCity, city)) 
-        //    {
-        //        rootCity = null;
-        //    }
+            //if (cities.Count > 0)
+            //{
+            //    // 加入城市网络
+            //    City minCty = GetNearestCity(city);
+            //    if (minCty != null)
+            //    {
+            //        city.AddNearbyCity(minCty);
+            //        minCty.AddNearbyCity(city);
+            //    }
+            //}
+            cities.Add(city);
+        }
+        public void NotifyLostCity(City city)
+        {
+            if (object.ReferenceEquals(rootCity, city))
+            {
+                rootCity = null;
+            }
 
-        //    cities.Remove(city);
-        //}
+            cities.Remove(city);
+        }
 
         //public event NewMessageHandler NewMessage;
 

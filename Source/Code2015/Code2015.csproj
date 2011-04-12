@@ -435,9 +435,6 @@
     <Compile Include="World\CityLinkableMark.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="World\CityStyle.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="World\CityTypes.cs" />
     <Compile Include="World\RBallType.cs" />
     <Compile Include="World\WorldObject.cs" />

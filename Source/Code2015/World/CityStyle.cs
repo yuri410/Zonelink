@@ -277,25 +277,23 @@ namespace Code2015.World
             //}
         }
 
-        const float RingRadius = 100;
-
         //static readonly string SmallCityCenter_Am = "mz_small.mesh";
         //static readonly string MediumCityCenter_Am = "mz_medium.mesh";
-        static readonly string LargeCityCenter_Am = "mz_large.mesh";
+        //static readonly string LargeCityCenter_Am = "mz_large.mesh";
 
         //static readonly string SmallCityCenter_Af = "fz_small.mesh";
         //static readonly string MediumCityCenter_Af = "fz_medium.mesh";
-        static readonly string LargeCityCenter_Af = "fz_large.mesh";
+        //static readonly string LargeCityCenter_Af = "fz_large.mesh";
         //static readonly string SmallCityCenter_Er = "oz_small.mesh";
         //static readonly string MediumCityCenter_Er = "oz_medium.mesh";
-        static readonly string LargeCityCenter_Er = "oz_large.mesh";
+        //static readonly string LargeCityCenter_Er = "oz_large.mesh";
 
         //static readonly string SmallCityCenter_Inv = "small.mesh";
         //static readonly string MediumCityCenter_Inv = "medium.mesh";
-        static readonly string LargeCityCenter_Inv = "large.mesh";
+        //static readonly string LargeCityCenter_Inv = "large.mesh";
         //static readonly string SmallBase_Inv = "basesmall.mesh";
         //static readonly string MediumBase_Inv = "basemedium.mesh";
-        static readonly string LargeBase_Inv = "baselarge.mesh";
+        //static readonly string LargeBase_Inv = "baselarge.mesh";
 
         //static readonly string FarmLand_Inv = "farm.mesh";
         //static readonly string OilRefinary_Inv = "oilref.mesh";
@@ -333,13 +331,6 @@ namespace Code2015.World
         //    "goal1site1.mesh", "goal2site1.mesh", "goal3site1.mesh", 
         //    "goal4site1.mesh", "goal5site1.mesh", "goal6site1.mesh", "goal7site1.mesh"
         //};
-
-
-        public const float CityRadiusDeg = 3.5f;
-        public const float CityRadius = Game.ObjectScale * 100;
-        public const float CityRadiusRing = CityRadius + Game.ObjectScale * 15;
-
-        public const float CitySelRingScale = 2.6f;
 
 
 

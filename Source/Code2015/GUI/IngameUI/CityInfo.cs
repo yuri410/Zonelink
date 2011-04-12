@@ -267,7 +267,7 @@ namespace Code2015.GUI
         {
             Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(city.Longitude), MathEx.Degree2Radian(city.Latitude));
 
-            Vector3 ppos = renderSys.Viewport.Project(city.Position - tangy * (CityStyleTable.CityRadius + 5),
+            Vector3 ppos = renderSys.Viewport.Project(city.Position - tangy * (City.CityRadius + 5),
                 parent.Projection, parent.View, Matrix.Identity);
             Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
 
@@ -321,7 +321,7 @@ namespace Code2015.GUI
 
 
 
-                ppos = renderSys.Viewport.Project(city.Position + tangy * (CityStyleTable.CityRadius + 25),
+                ppos = renderSys.Viewport.Project(city.Position + tangy * (City.CityRadius + 25),
                    parent.Projection, parent.View, Matrix.Identity);
                 scrnPos = new Point((int)ppos.X, (int)ppos.Y);
                 scrnPos.X -= 40;
