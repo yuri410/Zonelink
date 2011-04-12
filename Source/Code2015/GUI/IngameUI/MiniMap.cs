@@ -205,7 +205,7 @@ namespace Code2015.GUI
             return new Point(cx, cy);
         }
 
-        public void AddNotifyRed(float lnt, float lat, ColorValue color)
+        public void AddNotificationMark(float lnt, float lat, ColorValue color)
         {
             Point pt = GetPosition(MathEx.Degree2Radian(lnt), MathEx.Degree2Radian(lat));
 
