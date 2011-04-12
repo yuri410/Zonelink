@@ -1,10 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using Apoc3D;
-using Code2015.EngineEx;
 using Apoc3D.Config;
-using System.IO;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
 
 namespace Code2015.Logic
 {
@@ -68,8 +69,8 @@ namespace Code2015.Logic
 
         public static void LoadRules()
         {
-   
-            GameConfiguration con = Utils.LoadConfig("rules.xml"); 
+            FileLocation fl = FileSystem.Instance.Locate("rules.xml", GameFileLocs.Config);
+            GameConfiguration con = new GameConfiguration(fl);// Utils.LoadConfig("rules.xml"); 
             ConfigurationSection sect = con["CityCommon"];
 
             CityMaxDevelopment = sect.GetSingle("MaxDevelopment", 10000);
