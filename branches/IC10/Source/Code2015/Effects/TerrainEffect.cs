@@ -120,7 +120,7 @@ namespace Code2015.Effects
             {
                 renderSystem.BindShader(nrmVtxShader);
                 renderSystem.BindShader(nrmPixShader);
-                nrmPixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalNormalTexture);
+                nrmPixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalBakedNormalTexture);
             }
             else
             {

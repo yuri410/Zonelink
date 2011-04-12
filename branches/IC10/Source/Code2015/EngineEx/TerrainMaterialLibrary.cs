@@ -71,6 +71,11 @@ namespace Code2015.EngineEx
             private set { defaultMap = value; }
         }
 
+        public ResourceHandle<Texture> GlobalBakedNormalTexture 
+        {
+            get;
+            private set;
+        }
         public ResourceHandle<Texture> GlobalIndexTexture
         {
             get;
@@ -139,6 +144,9 @@ namespace Code2015.EngineEx
 
             fl2 = FileSystem.Instance.Locate("cliff.tex", GameFileLocs.TerrainTexture);
             CliffColor = TextureManager.Instance.CreateInstance(fl2);
+          
+            fl2 = FileSystem.Instance.Locate("normal_baked.tex", GameFileLocs.TerrainTexture);
+            GlobalBakedNormalTexture = TextureManager.Instance.CreateInstance(fl2);
 
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 
