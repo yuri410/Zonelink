@@ -88,6 +88,7 @@ namespace Code2015.EngineEx
 
         Bloom bloomEff;
         Composite compEff;
+        EdgeDetect edgeEff;
 
         GaussBlur gaussBlur;
 
@@ -111,6 +112,7 @@ namespace Code2015.EngineEx
             bloomEff = new Bloom(rs);
             compEff = new Composite(rs);
             gaussBlur = new GaussBlur(rs);
+            edgeEff = new EdgeDetect(rs);
 
             vtxDecl = factory.CreateVertexDeclaration(RectVertex.Elements);
 
@@ -134,32 +136,44 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
-            renderer.RenderScene(screenTarget, RenderMode.DeferredNormal);
+            renderer.RenderScene(nrmRt, RenderMode.DeferredNormal);
+
+            Viewport vp = renderSys.Viewport;
 
 
 
+            ShaderSamplerState sampler1;
+            sampler1.AddressU = TextureAddressMode.Clamp;
+            sampler1.AddressV = TextureAddressMode.Clamp;
+            sampler1.AddressW = TextureAddressMode.Clamp;
+            sampler1.BorderColor = ColorValue.Transparent;
+            sampler1.MagFilter = TextureFilter.Point;
+            sampler1.MaxAnisotropy = 0;
+            sampler1.MaxMipLevel = 0;
+            sampler1.MinFilter = TextureFilter.Point;
+            sampler1.MipFilter = TextureFilter.None;
+            sampler1.MipMapLODBias = 0;
+
+            //renderSys.SetRenderTarget(0, screenTarget);
+            edgeEff.Begin();
+
+            edgeEff.SetSamplerState("samNormalBuffer", ref sampler1);
+            edgeEff.SetTexture("samNormalBuffer", nrmRt.GetColorBufferTexture());
+
+            Vector2 nrmBufSize = new Vector2(vp.Width, vp.Height);
+            edgeEff.SetValue("normalBufferSize", ref nrmBufSize);
+
+            DrawBigQuad();
+            edgeEff.End();
 
             //renderer.RenderScene(clrRt, RenderMode.Final);
             ////renderSys.RenderStates.FillMode = FillMode.Solid;
 
 
-            //ShaderSamplerState sampler1;
-            //sampler1.AddressU = TextureAddressMode.Clamp;
-            //sampler1.AddressV = TextureAddressMode.Clamp;
-            //sampler1.AddressW = TextureAddressMode.Clamp;
-            //sampler1.BorderColor = ColorValue.Transparent;
-            //sampler1.MagFilter = TextureFilter.Point;
-            //sampler1.MaxAnisotropy = 0;
-            //sampler1.MaxMipLevel = 0;
-            //sampler1.MinFilter = TextureFilter.Point;
-            //sampler1.MipFilter = TextureFilter.None;
-            //sampler1.MipMapLODBias = 0;
-
-            //ShaderSamplerState sampler2 = sampler1;
-            ////sampler2.BorderColor = ColorValue.Transparent;
-            //sampler2.MagFilter = TextureFilter.Linear;
-            //sampler2.MinFilter = TextureFilter.Linear;
-
+            ShaderSamplerState sampler2 = sampler1;
+            //sampler2.BorderColor = ColorValue.Transparent;
+            sampler2.MagFilter = TextureFilter.Linear;
+            sampler2.MinFilter = TextureFilter.Linear;
 
             //#region 分离高光
             //renderSys.SetRenderTarget(0, blmRt1);

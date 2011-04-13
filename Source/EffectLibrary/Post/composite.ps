@@ -1,6 +1,8 @@
 sampler2D texA : register(s0);
 sampler2D texB : register(s1);
 
+sampler2D edgeTex : register(s2);
+
 float BloomIntensity : register(c0);
 float BaseIntensity : register(c1);
 
@@ -39,5 +41,8 @@ float4 main(float2 texCoord : TEXCOORD0) : COLOR0
     base *= (1 - saturate(bloom));
     
     // Combine the two images.
-    return base + bloom;
+    float4 color = base + bloom;
+    
+    float4 edge = tex2D(edgeTex, texCoord);
+    return color + float4(edge.a * edge.rgb, 0);
 }

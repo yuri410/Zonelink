@@ -57,7 +57,10 @@ namespace Code2015.Effects
         {
             pixShader.SetTextureDirect(si, tex);
         }
-
+        public void SetValue(string name, ref Vector2 value)
+        {
+            pixShader.SetValue(name, ref value);
+        }
         public void SetValue(string name, Vector2[] value)
         {
             pixShader.SetValue(name, value);
