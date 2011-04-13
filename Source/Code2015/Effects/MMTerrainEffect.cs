@@ -119,10 +119,10 @@ namespace Code2015.Effects
                 state.MipMapLODBias = -1;
 
 
-                pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
-                pixShader.SetTexture("texDif", TerrainMaterialLibrary.Instance.GlobalIndexTexture);
+                pixShader.SetTexture("texColor", MaterialLibrary.Instance.GlobalColorTexture);
+                pixShader.SetTexture("texDif", MaterialLibrary.Instance.GlobalIndexTexture);
                 pixShader.SetTexture("texNorm", terrainNormal);
-                pixShader.SetTexture("texCliff", TerrainMaterialLibrary.Instance.CliffColor);
+                pixShader.SetTexture("texCliff", MaterialLibrary.Instance.CliffColor);
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texColor", ref state);
@@ -131,16 +131,16 @@ namespace Code2015.Effects
 
 
                 TerrainTexture tex;
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Snow");
+                tex = MaterialLibrary.Instance.GetTexture("Snow");
                 pixShader.SetTexture("texDet1", tex.Texture);
                 pixShader.SetSamplerState("texDet1", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Grass");
+                tex = MaterialLibrary.Instance.GetTexture("Grass");
                 pixShader.SetTexture("texDet2", tex.Texture);
                 pixShader.SetSamplerState("texDet2", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Sand");
+                tex = MaterialLibrary.Instance.GetTexture("Sand");
                 pixShader.SetTexture("texDet3", tex.Texture);
                 pixShader.SetSamplerState("texDet3", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Rock");
+                tex = MaterialLibrary.Instance.GetTexture("Rock");
                 pixShader.SetTexture("texDet4", tex.Texture);
                 pixShader.SetSamplerState("texDet4", ref state);
 

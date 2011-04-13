@@ -1,6 +1,9 @@
 #include "waterDepth.psh"
 #include "ShadowMapping.psh"
+#include "hatching.psh"
 
+
+    
 sampler2D texDet1 : register(s0);
 sampler2D texDet2 : register(s1);
 sampler2D texDet3 : register(s2);
@@ -12,6 +15,10 @@ sampler2D texNorm : register(s6);
 sampler2D texShd : register(s7);
 
 sampler2D texCliff : register(s8);
+
+sampler2D hatch0 : register(s9);
+sampler2D hatch1 : register(s10);
+
 
 float4 k_d : register(c0);
 float4 k_a : register(c1);
@@ -43,42 +50,31 @@ PSOutput main(PSInput ip)
     
     float ndl = dot(N, ip.TangentSpaceLDir);
 	
-	float4 index = saturate(10*tex2D(texDif, ip.GlobeCoord));
+	float4 index = tex2D(texDif, ip.GlobeCoord);
 	
-	float mod = index[0] + index[1]+index[2]+index[3];
-	//index /= mod;
-	
+
 	float4 color = 0;
 	
-	//mod = 0;	
-	if (index[0]>=0.5)
+	if (index[0]>=0.1)
 	{
 		color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
-		//mod += index[0];
-		//color += (index[0]) * tex2D(texDet1, ip.DetailCoord*7);
 	}
-	if (index[1]>=0.5)
+	if (index[1]>=0.1)
 	{
 		color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
-		//mod += index[0];
-		//color += (index[1]) * tex2D(texDet2, ip.DetailCoord*7);
 	}
-	if (index[2]>=0.5)
+	if (index[2]>=0.1)
 	{
 		color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
-		//mod += index[0];
-		//color += (index[2]) * tex2D(texDet3, ip.DetailCoord*7);
 	}
-	if (index[3]>=0.5)
+	if (index[3]>=0.1)
 	{
 		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
-		//mod += index[0];
-		//color += (index[3]) * tex2D(texDet4, ip.DetailCoord*7);
 	}
 	
-	color /= mod;
 	
-    o.Color = color + 0.001*lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
+	
+    o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
 
     float wgt = saturate(N.z);
     
@@ -100,9 +96,35 @@ PSOutput main(PSInput ip)
     o.Color = o.Color * (amb + dif );
    
    
-    o.Color.rgb *= shd;
+    o.Color.rgb *= 0.7 + shd * 0.3;
     
     o.Color = GetColor(o.Color, ip.Height_Blend.x);
+    
+    
+    
+    // =========================================================
+    float2 hatchTexCoord = ip.DetailCoord*2;
+    float hatchLayers = 5.5;
+    float hatchFactor = saturate(max(0, ndl) * shd) * (hatchLayers - 1) + 1;
+    
+    float3 weightsA = float3(5.0, 4.0, 3.0);
+    float3 hatchWeightsA = computeWeights(hatchFactor, weightsA);
+    float3 weightsB = float3(2.0, 1.0, 0.0);
+    float3 hatchWeightsB = computeWeights(hatchFactor, weightsB);
+
+    float3 h0 = tex2D(hatch0, hatchTexCoord).rgb * hatchWeightsA;
+    float3 h1 = tex2D(hatch1, hatchTexCoord).rgb * hatchWeightsB;
+
+    float hatch = dot(h0, float3(1,1,1)) + dot(h1, float3(1,1,1));
+	float3 hatchColor = SHADOW_COLOR + float3(hatch,hatch,hatch);
+    
+    
+    o.Color.rgb *= hatchColor;
+    
+    
+    
+    
+    
     
     return o;
 }

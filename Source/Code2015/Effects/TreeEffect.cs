@@ -184,9 +184,10 @@ namespace Code2015.Effects
             }
             else if (mode == RenderMode.DeferredNormal)
             {
-                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+                Matrix worldView = op.Transformation * EffectParams.CurrentCamera.ViewMatrix;
+                Matrix mvp = worldView * EffectParams.CurrentCamera.ProjectionMatrix;
                 nrmGenVShader.SetValue("mvp", ref mvp);
-                nrmGenVShader.SetValue("world", ref op.Transformation);
+                nrmGenVShader.SetValue("worldView", ref worldView);
 
                 if (!stateSetted)
                 {

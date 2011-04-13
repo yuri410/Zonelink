@@ -104,8 +104,8 @@ namespace Code2015.Effects
 
         public override bool SupportsMode(RenderMode mode)
         {
-            if (mode == RenderMode.Depth)
-                return false;
+            //if (mode == RenderMode.Depth)
+                //return false;
             return true;
         }
 
@@ -120,7 +120,9 @@ namespace Code2015.Effects
             {
                 renderSystem.BindShader(nrmVtxShader);
                 renderSystem.BindShader(nrmPixShader);
-                nrmPixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalBakedNormalTexture);
+
+
+                nrmPixShader.SetTexture("texNorm", MaterialLibrary.Instance.GlobalBakedNormalTexture);
             }
             else
             {
@@ -148,10 +150,27 @@ namespace Code2015.Effects
                 state.MipMapLODBias = -1;
 
 
-                pixShader.SetTexture("texColor", TerrainMaterialLibrary.Instance.GlobalColorTexture);
-                pixShader.SetTexture("texDif", TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-                pixShader.SetTexture("texNorm", TerrainMaterialLibrary.Instance.GlobalNormalTexture);
-                pixShader.SetTexture("texCliff", TerrainMaterialLibrary.Instance.CliffColor);
+                ShaderSamplerState state2 = new ShaderSamplerState();
+                state2.AddressU = TextureAddressMode.Wrap;
+                state2.AddressV = TextureAddressMode.Wrap;
+                state2.AddressW = TextureAddressMode.Wrap;
+                state2.MinFilter = TextureFilter.Anisotropic;
+                state2.MagFilter = TextureFilter.Anisotropic;
+                state2.MipFilter = TextureFilter.Linear;
+                state2.MaxAnisotropy = 8;
+                state2.MipMapLODBias = 0;
+
+                pixShader.SetTexture("texColor", MaterialLibrary.Instance.GlobalColorTexture);
+                pixShader.SetTexture("texDif", MaterialLibrary.Instance.GlobalIndexTexture);
+                pixShader.SetTexture("texNorm", MaterialLibrary.Instance.GlobalNormalTexture);
+                pixShader.SetTexture("texCliff", MaterialLibrary.Instance.CliffColor);
+
+
+
+                pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
+                pixShader.SetTexture("hatch1", MaterialLibrary.Instance.Hatch1);
+                pixShader.SetSamplerState("hatch0", ref state2);
+                pixShader.SetSamplerState("hatch1", ref state2);
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texColor", ref state);
@@ -160,16 +179,16 @@ namespace Code2015.Effects
 
 
                 TerrainTexture tex;
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Snow");
+                tex = MaterialLibrary.Instance.GetTexture("Snow");
                 pixShader.SetTexture("texDet1", tex.Texture);
                 pixShader.SetSamplerState("texDet1", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Grass");
+                tex = MaterialLibrary.Instance.GetTexture("Grass");
                 pixShader.SetTexture("texDet2", tex.Texture);
                 pixShader.SetSamplerState("texDet2", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Sand");
+                tex = MaterialLibrary.Instance.GetTexture("Sand");
                 pixShader.SetTexture("texDet3", tex.Texture);
                 pixShader.SetSamplerState("texDet3", ref state);
-                tex = TerrainMaterialLibrary.Instance.GetTexture("Rock");
+                tex = MaterialLibrary.Instance.GetTexture("Rock");
                 pixShader.SetTexture("texDet4", tex.Texture);
                 pixShader.SetSamplerState("texDet4", ref state);
 
@@ -231,6 +250,8 @@ namespace Code2015.Effects
             }
             else if (mode == RenderMode.DeferredNormal)
             {
+                nrmPixShader.SetValue("view", EffectParams.CurrentCamera.ViewMatrix);
+
                 Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
                 nrmVtxShader.SetValue("mvp", ref mvp);
             }
