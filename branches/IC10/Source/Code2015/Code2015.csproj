@@ -456,7 +456,7 @@
     <Compile Include="EngineEx\TerrainMeshManager.cs" />
     <Compile Include="EngineEx\TerrainTexture.cs" />
     <Compile Include="EngineEx\TerrainTextureManager.cs" />
-    <Compile Include="EngineEx\TerrainMaterialLibrary.cs">
+    <Compile Include="EngineEx\MaterialLibrary.cs">
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Game.cs" />

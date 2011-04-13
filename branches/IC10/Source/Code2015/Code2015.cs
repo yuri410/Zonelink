@@ -127,13 +127,13 @@ namespace Code2015
 
             TextureManager.Initialize(1048576 * 200);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;
-            TerrainMaterialLibrary.Initialize(renderSys);
+            MaterialLibrary.Initialize(renderSys);
 
             ModelManager.Initialize();
 
             EffectManager.Instance.LoadEffects();
             FileLocation fl = FileSystem.Instance.Locate("terrainMaterial.ini", GameFileLocs.Config);
-            TerrainMaterialLibrary.Instance.LoadTextureSet(fl);
+            MaterialLibrary.Instance.LoadTextureSet(fl);
             TreeModelLibrary.Initialize(renderSys);
 
             GameFontManager.Initiaize(renderSys);

@@ -34,19 +34,19 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
-    public class TerrainMaterialLibrary : Singleton
+    public class MaterialLibrary : Singleton
     {
-        static TerrainMaterialLibrary singleton;
+        static MaterialLibrary singleton;
 
 
-        public static TerrainMaterialLibrary Instance
+        public static MaterialLibrary Instance
         {
             get { return singleton; }
         }
 
         public static void Initialize(RenderSystem device)
         {
-            singleton = new TerrainMaterialLibrary(device);
+            singleton = new MaterialLibrary(device);
         }
 
         protected struct Entry
@@ -63,6 +63,8 @@ namespace Code2015.EngineEx
         RenderSystem renderSystem;
         Dictionary<string, Entry> detailedMaps;
 
+
+
         static string defaultMap = "default";
 
         public static string DefaultMap
@@ -71,6 +73,16 @@ namespace Code2015.EngineEx
             private set { defaultMap = value; }
         }
 
+        public ResourceHandle<Texture> Hatch0
+        {
+            get;
+            private set;
+        }
+        public ResourceHandle<Texture> Hatch1
+        {
+            get;
+            private set;
+        }
         public ResourceHandle<Texture> GlobalBakedNormalTexture 
         {
             get;
@@ -151,9 +163,16 @@ namespace Code2015.EngineEx
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 
             EngineConsole.Instance.Write(string.Format(msg, detailedMaps.Count.ToString()), ConsoleMessageType.Information);
+
+            fl2 = FileSystem.Instance.Locate("hatch1-3RGB.tex", GameFileLocs.Texture);
+            Hatch0 = TextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("hatch4-6RGB.tex", GameFileLocs.Texture);
+            Hatch1 = TextureManager.Instance.CreateInstance(fl2);
+
         }
 
-        private TerrainMaterialLibrary(RenderSystem device)
+        private MaterialLibrary(RenderSystem device)
         {
             this.renderSystem = device;
             this.detailedMaps = new Dictionary<string, Entry>(CaseInsensitiveStringComparer.Instance);

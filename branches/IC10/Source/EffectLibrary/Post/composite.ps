@@ -1,6 +1,5 @@
 sampler2D texA : register(s0);
 sampler2D texB : register(s1);
-
 sampler2D edgeTex : register(s2);
 
 float BloomIntensity : register(c0);
@@ -38,11 +37,11 @@ float4 main(float2 texCoord : TEXCOORD0) : COLOR0
     
     // Darken down the base image in areas where there is a lot of bloom,
     // to prevent things looking excessively burned-out.
-    base *= (1 - saturate(bloom));
+    base.rgb *= (1 - saturate(bloom)).rgb;
     
     // Combine the two images.
-    float4 color = base + bloom;
+    float4 color = tex2D(texA, texCoord) + 0.0001 * (base + bloom);
     
     float4 edge = tex2D(edgeTex, texCoord);
-    return color + float4(edge.a * edge.rgb, 0);
+    return lerp( color, float4(edge.rgb, 1), edge.a);
 }

@@ -1,6 +1,6 @@
 
 float4x4 mvp;
-float4x4 world;
+float4x4 worldView;
 
 void main(
    float4 pos : POSITION,
@@ -11,6 +11,6 @@ void main(
    out float2 oTex : TEXCOORD1)
 {
     oPos = mul(pos, mvp);
-    oN = normalize(mul(n, (float3x3)world));
+    oN = normalize(mul(n, (float3x3)worldView));
     oTex = tex;
 }
