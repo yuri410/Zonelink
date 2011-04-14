@@ -49,9 +49,19 @@ namespace EffectLibrary
         {
             if (!File.Exists(target))
                 return true;
+            if (OutdateOverride)
+                return true;
 
             FileInfo fi = new FileInfo(file);
+            FileInfo ft = new FileInfo(target);
+            
+            return (fi.LastWriteTime > ft.LastWriteTime);
+        }
 
+        public bool IsHeaderOutDated(string file)
+        {
+
+            FileInfo fi = new FileInfo(file);
             DateTime time;
             if (times.TryGetValue(file, out time))
             {
@@ -59,7 +69,6 @@ namespace EffectLibrary
             }
             return true;
         }
-
         public void Save(string src)
         {
             BinaryWriter bw = new BinaryWriter(File.Open("ts.dat", FileMode.OpenOrCreate), Encoding.UTF8);
@@ -74,6 +83,8 @@ namespace EffectLibrary
 
             bw.Close();
         }
+
+        public bool OutdateOverride { get; set; }
     }
 
     static class Program
@@ -110,7 +121,26 @@ namespace EffectLibrary
             //string taget = @"E:\Desktop\ssssss";// args[1];
             string src = args[0];
             string taget = args[1];
+
             TimeStamp ts = new TimeStamp();
+
+            string[] hfiles = Directory.GetFiles(src, "*.*sh", SearchOption.AllDirectories);
+
+            bool passed = false;
+
+            for (int i = 0; i < hfiles.Length; i++)
+            {
+                if (ts.IsHeaderOutDated(hfiles[i]))
+                {
+                    passed = true;
+                    break;
+                }
+            }
+
+            ts.OutdateOverride = passed;
+
+
+            
 
             string[] files = Directory.GetFiles(src, "*.vs", SearchOption.AllDirectories);
             string[] dirs = Directory.GetDirectories(src, "*", SearchOption.AllDirectories);
