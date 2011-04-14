@@ -16,8 +16,6 @@ sampler2D texShd : register(s7);
 
 sampler2D texCliff : register(s8);
 
-sampler2D hatch0 : register(s9);
-sampler2D hatch1 : register(s10);
 
 
 float4 k_d : register(c0);
@@ -105,7 +103,7 @@ PSOutput main(PSInput ip)
     // =========================================================
     float2 hatchTexCoord = ip.DetailCoord*2;
     
-	float3 hatchColor = computeHatchColor(max(0, ndl) * shd, hatchTexCoord, hatch0, hatch1);
+	float3 hatchColor = computeHatchColor(max(0, ndl) * shd, hatchTexCoord);
     
     
     o.Color.rgb *=  hatchColor;
