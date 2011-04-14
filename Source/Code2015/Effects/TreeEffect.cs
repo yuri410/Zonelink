@@ -146,6 +146,22 @@ namespace Code2015.Effects
                 winding += sign * 0.0033f;
                 if (winding > 2 * MathEx.PIf)
                     winding -= 2 * MathEx.PIf;
+
+
+                ShaderSamplerState state2 = new ShaderSamplerState();
+                state2.AddressU = TextureAddressMode.Wrap;
+                state2.AddressV = TextureAddressMode.Wrap;
+                state2.AddressW = TextureAddressMode.Wrap;
+                state2.MinFilter = TextureFilter.Anisotropic;
+                state2.MagFilter = TextureFilter.Anisotropic;
+                state2.MipFilter = TextureFilter.Linear;
+                state2.MaxAnisotropy = 8;
+                state2.MipMapLODBias = 0;
+
+                pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
+                pixShader.SetTexture("hatch1", MaterialLibrary.Instance.Hatch1);
+                pixShader.SetSamplerState("hatch0", ref state2);
+                pixShader.SetSamplerState("hatch1", ref state2);
                 //if (winding > 1f)
                 //{
                 //    sign = -1;
