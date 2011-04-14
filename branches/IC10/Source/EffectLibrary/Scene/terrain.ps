@@ -46,6 +46,9 @@ PSOutput main(PSInput ip)
     
     float3 N = 2 * (float3)tex2D(texNorm, ip.GlobeCoord) - 1;
     
+    N.xy *= 1.5;
+    N = normalize(N);
+    
     float ndl = dot(N, ip.TangentSpaceLDir);
 	
 	float4 index = tex2D(texDif, ip.GlobeCoord);
