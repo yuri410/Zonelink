@@ -38,6 +38,10 @@ namespace Code2015.World
 {
     class CityLinkableMark : SceneObject
     {
+        public const float LinkWidthScale = 0.006f;
+        public const float LinkHeightScale = 4 * 1f / LinkBaseLength;
+        public const float LinkBaseLength = 100;
+
         Player player;
         City start;
         City[] targets;
@@ -61,8 +65,8 @@ namespace Code2015.World
 
                     dir.Normalize();
 
-                    Vector3 pa = start.Position + dir * (City.CityOutterRadius + 130);
-                    Vector3 pb = end.Position - dir * (City.CityOutterRadius + 130);
+                    Vector3 pa = start.Position + dir * (City.CityRadius + 130);
+                    Vector3 pb = end.Position - dir * (City.CityRadius + 130);
 
 
                     float dist = Vector3.Distance(pa, pb);
@@ -70,6 +74,7 @@ namespace Code2015.World
                     float longitude = MathEx.Degree2Radian(MathEx.LinearInterpose(start.Longitude, end.Longitude, 0.3f));
                     float latitude = MathEx.Degree2Radian(MathEx.LinearInterpose(start.Latitude, end.Latitude, 0.3f));
 
+                    float scale = dist;
                     Matrix ori = Matrix.Identity;
                     ori.Right = Vector3.Normalize(pa - pb);
                     ori.Up = Vector3.Normalize(pa);
@@ -78,8 +83,8 @@ namespace Code2015.World
 
                     linkArrow[i].CurrentAnimation.Clear();
                     linkArrow[i].CurrentAnimation .Add(new NoAnimaionPlayer(
-                        Matrix.Scaling(Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f, Game.ObjectScale * 1.5f) *
-                        Matrix.RotationY(-MathEx.PiOver2) * ori));
+                        Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) *
+                        ori));//Matrix.RotationY(-MathEx.PiOver2) *
 
                 }
             }
