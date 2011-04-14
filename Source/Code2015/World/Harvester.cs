@@ -254,7 +254,7 @@ namespace Code2015.World
 
             finder.Reset();
             currentPath = finder.FindPath(sx, sy, tx, ty);
-
+            
             // 新的动作要先调整朝向
             isAdjustingDirection = true;
 

@@ -72,7 +72,7 @@ namespace Code2015.GUI.IngameUI
 
         public override bool HitTest(int x, int y)
         {
-            return selectCity != null;
+            return false;
         }
 
 
@@ -83,7 +83,8 @@ namespace Code2015.GUI.IngameUI
             {
                 int hp = (int)selectCity.HealthValue;
                 int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
-                string hpInfo = hp.ToString() + @" / " + hpFull.ToString();
+
+                string hpInfo = hp.ToString() + "   " + hpFull.ToString();
                 string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
                 f14.DrawString(sprite, hpInfo, 1100, 680, ColorValue.White);
                 f14.DrawString(sprite, developmentInfo, 1100, 700, ColorValue.White);

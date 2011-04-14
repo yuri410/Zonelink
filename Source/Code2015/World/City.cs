@@ -114,7 +114,7 @@ namespace Code2015.World
 
         public float HPRate
         {
-            get { return healthValue / development; }
+            get { return healthValue / (development * RulesTable.CityDevHealthRate); }
         }
     
 
@@ -153,7 +153,6 @@ namespace Code2015.World
         {
             this.battleField = btfld;
             this.Type = type;
-            this.healthValue = 1000;
 
             BoundingSphere.Radius = CityRadius;
         }
@@ -291,7 +290,7 @@ namespace Code2015.World
             linkableCityName = sect.GetStringArray("Linkable", null);
 
             development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
-
+            healthValue = development * RulesTable.CityDevHealthRate;
 
             //设置城市类型
             switch (Type) 

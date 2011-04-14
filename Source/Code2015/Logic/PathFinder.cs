@@ -394,18 +394,19 @@ namespace Code2015.Logic
             if (found)
             {
                 AStarNode curNode = finalNode;
-                for (int i = 0; i < curNode.depth; i++)
+                for (int i = 0; i < curNode.depth + 1; i++)
                 {
                     result.Add(Point.Zero);
                 }
                 do
                 {
                     //result.Add(curNode);
-                    result[curNode.depth - 1] = new Point(curNode.X, curNode.Y);
+                    result[curNode.depth] = new Point(curNode.X, curNode.Y);
                     curNode = curNode.parent;
                 }
                 while (curNode.parent != null);
 
+                result[0] = new Point(sx, sy);
                 return new PathFinderResult(result, false);
             }
             return null;
