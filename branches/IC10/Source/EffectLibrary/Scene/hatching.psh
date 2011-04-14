@@ -27,6 +27,8 @@ float3 computeWeights(float hatchFactor, float3 initialWeights)
 
 float3 computeHatchColor(float lum, float2 hatchTexCoord) //max(0, ndl) * shd)
 {
+
+                
     float hatchLayers = 5;
     float hatchFactor = saturate(lum + AMBIENT) * (hatchLayers - 1) + 1;
     
