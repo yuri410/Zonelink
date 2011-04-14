@@ -204,6 +204,12 @@ namespace Code2015
                 city.InitalizeGraphics(renderSys);
                 city.CityVisible += scene.City_Visible;
 
+                GatherCity gaCity = city as GatherCity;
+                if (gaCity != null)
+                {
+                    gaCity.Harvester.InitializeGraphics(renderSys);
+                    scene.Scene.AddObjectToScene(gaCity.Harvester);
+                }
                 scene.Scene.AddObjectToScene(city);
             }
 

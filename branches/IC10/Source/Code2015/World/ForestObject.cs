@@ -58,6 +58,10 @@ namespace Code2015.World
 
         Vector3 stdPosition;
 
+        public Vector3 ForestCenter 
+        {
+            get { return stdPosition; }
+        }
         public float Radius
         {
             get;
@@ -74,6 +78,11 @@ namespace Code2015.World
             base.Parse(sect);
 
             Radius = sect.GetSingle("Radius");
+
+            float radLng = MathEx.Degree2Radian(Longitude);
+            float radLat = MathEx.Degree2Radian(Latitude);
+
+            stdPosition = PlanetEarth.GetPosition(radLng, radLat, PlanetEarth.PlanetRadius);
         }
 
         public override void InitalizeGraphics(RenderSystem rs)
@@ -151,11 +160,11 @@ namespace Code2015.World
         #region IResourceObject 成员
         float IResourceObject.MaxValue 
         {
-            get { return MaxAmount / (7500f * 2); }
+            get { return MaxAmount / (7500f * 2 / 20.0f); }
         }
         float IResourceObject.AmountPer
         {
-            get { return CurrentAmount / (7500f * 2); }
+            get { return CurrentAmount / (7500f * 2 / 20.0f); }
         }
         NaturalResourceType IResourceObject.Type
         {

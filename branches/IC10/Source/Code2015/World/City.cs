@@ -151,11 +151,11 @@ namespace Code2015.World
         public event CityVisibleHander CityVisible;
 
 
-        public City(BattleField btfld, Player owner)
+        public City(BattleField btfld, Player owner, CityType type)
             : base(owner)
         {
             this.battleField = btfld;
-
+            this.Type = type;
             this.healthValue = 1000;
 
             BoundingSphere.Radius = CityRadius;
@@ -221,7 +221,7 @@ namespace Code2015.World
             }
         }
 
-        public void ChangeOwner(Player player)
+        public virtual void ChangeOwner(Player player)
         {
             if (IsCaptured && player == null)
             {
@@ -246,6 +246,44 @@ namespace Code2015.World
                 linkableCity.Add(city);
             }
         }
+
+        public static CityType ParseType(string typeString)
+        {
+            string typestr = typeString.ToLowerInvariant();
+
+            CityType type = CityType.Neutral;
+            if (typestr == CityType.Oil.ToString().ToLowerInvariant())
+            {
+                type = CityType.Oil;
+
+            }
+            else if (typestr == CityType.Green.ToString().ToLowerInvariant())
+            {
+                type = CityType.Green;
+            }
+            else if (typestr == CityType.Neutral.ToString().ToLowerInvariant())
+            {
+                type = CityType.Neutral;
+            }
+            else if (typestr == CityType.Volience.ToString().ToLowerInvariant())
+            {
+                type = CityType.Volience;
+            }
+            else if (typestr == CityType.Health.ToString().ToLowerInvariant())
+            {
+                type = CityType.Health;
+            }
+            else if (typestr == CityType.Disease.ToString().ToLowerInvariant())
+            {
+                type = CityType.Disease;
+            }
+            else if (typestr == CityType.Education.ToString().ToLowerInvariant())
+            {
+                type = CityType.Education;
+            }
+            return type;
+        }
+
         public override void Parse(GameConfigurationSection sect)
         {
             base.Parse(sect);
@@ -259,58 +297,32 @@ namespace Code2015.World
 
 
             //设置城市类型
-            string type = sect.GetString("Type", string.Empty).ToLowerInvariant();
-
-            if (type == CityType.Oil.ToString().ToLowerInvariant())
+            switch (Type) 
             {
-                this.Type = CityType.Oil;
-                developStep = RulesTable.OilDevelopStep;
-                //ProduceBallInterval = 0;
-                
-            }
-            else if (type == CityType.Green.ToString().ToLowerInvariant())
-            {
-                this.Type = CityType.Green;
-                developStep = RulesTable.GreenDevelopStep;
-                //ProduceBallInterval = 0;
-            }
-            else if (type == CityType.Neutral.ToString().ToLowerInvariant())
-            {
-                this.Type = CityType.Neutral;
-                developStep = 20;
-                //ProduceBallInterval = 20;
-            }
-            else if (type == CityType.Volience.ToString().ToLowerInvariant())
-            {
-                this.Type = CityType.Volience;
-                developStep = RulesTable.VolienceDevelopStep;
-                //ProduceBallInterval = RulesTable.VolienceBallInterval;
-            }
-            else if (type == CityType.Health.ToString().ToLowerInvariant())
-            {
-                this.Type = CityType.Health;
-                developStep = RulesTable.HealthDevelopStep;
-                //ProduceBallInterval = RulesTable.HealthBallInterval;
-            }
-            else if (type == CityType.Disease.ToString().ToLowerInvariant())
-            {
-                this.Type = CityType.Disease;
-                developStep = RulesTable.DiseaseDevelopStep;
-                //ProduceBallInterval = RulesTable.DiseaseBallInterval;
-            }
-            else if (type == CityType.Education.ToString().ToLowerInvariant())
-            {
-                this.Type = CityType.Education;
-                developStep = RulesTable.EducationDevelopStep;
-                //ProduceBallInterval = RulesTable.EducationBallInterval;
+                case CityType.Neutral:
+                    developStep = 20;
+                    break;
+                case CityType.Health:
+                    developStep = RulesTable.HealthDevelopStep;
+                    break;
+                case CityType.Green:
+                    developStep = RulesTable.GreenDevelopStep;
+                    break;
+                case CityType.Education:
+                    developStep = RulesTable.EducationDevelopStep;
+                    break;
+                case CityType.Disease:
+                    developStep = RulesTable.DiseaseDevelopStep;
+                    break;
+                case CityType.Oil:
+                    developStep = RulesTable.OilDevelopStep;
+                    break;
+                case CityType.Volience:
+                    developStep = RulesTable.VolienceDevelopStep;
+                    break;
             }
 
-            //this.interval = this.ProduceBallInterval;
             UpdateLocation();
-
-            //进去默认状态a
-            //this.fsmMachine.CurrentState = new CityDevelopmentState(); 
-
         }
 
         private void UpdateLocation()

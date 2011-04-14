@@ -40,14 +40,14 @@
     <Contribution>10</Contribution>
   </VolienceBall>
   <OilCity>
-    <GatherDistance>150</GatherDistance>
+    <GatherDistance>2500</GatherDistance>
     <HarvHealth>150</HarvHealth>
     <HarvStorage>7.5</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
     <DevelopStep>10</DevelopStep>
   </OilCity>
   <GreenCity>
-    <GatherDistance>150</GatherDistance>
+    <GatherDistance>2500</GatherDistance>
     <HarvHealth>150</HarvHealth>
     <HarvStorage>7.5</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
