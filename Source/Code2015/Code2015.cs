@@ -40,6 +40,7 @@ using X = Microsoft.Xna.Framework;
 using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
 using XFG = Microsoft.Xna.Framework.Graphics;
+using Code2015.Logic;
 
 namespace Code2015
 {
@@ -122,8 +123,8 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(MMWaterEffectFactory.Name, new MMWaterEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(MMTerrainEffectFactory.Name, new MMTerrainEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(MMCityLinkEffectFactory.Name, new MMCityLinkEffectFactory(renderSys));
-            
-            
+
+            RulesTable.LoadRules();
 
             TextureManager.Initialize(1048576 * 200);
             TextureManager.Instance.Factory = renderSys.ObjectFactory;

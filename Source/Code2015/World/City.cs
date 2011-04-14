@@ -47,7 +47,7 @@ namespace Code2015.World
     ///  表示游戏世界中的城市
     ///  是特殊的类型才继承，比如那些带矿车的
     /// </summary>
-    class City : WorldObject
+    class City : WorldObject, ISelectableObject
     {
         const float RingRadius = 100;
 
@@ -157,7 +157,9 @@ namespace Code2015.World
         {
             this.battleField = btfld;
 
-            this.healthValue = 1000;  
+            this.healthValue = 1000;
+
+            BoundingSphere.Radius = CityRadius;
         }
 
         public override void InitalizeGraphics(RenderSystem rs) 
@@ -325,7 +327,7 @@ namespace Code2015.World
 
             this.Transformation.TranslationValue = this.Position; // TranslationValue = pos;
 
-            BoundingSphere.Radius = RulesTable.CityRadius;
+            BoundingSphere.Radius = CityRadius;
             BoundingSphere.Center = this.Position;
         }
 
@@ -368,6 +370,16 @@ namespace Code2015.World
             // TODO: Render City here
             throw new NotImplementedException();
         }
-       
+
+
+        #region ISelectableObject 成员
+
+        public bool IsSelected
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 }

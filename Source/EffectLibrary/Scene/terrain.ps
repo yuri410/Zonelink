@@ -84,7 +84,7 @@ PSOutput main(PSInput ip)
     
 	float4 amb = i_a * k_a;
 	float4 dif = i_d * k_d;
-	dif.xyz *= max(0, ndl);
+	//dif.xyz *= max(0, ndl);
 	
     float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
     ShadowTexC.y = 1.0f - ShadowTexC.y;
@@ -103,7 +103,7 @@ PSOutput main(PSInput ip)
     // =========================================================
     float2 hatchTexCoord = ip.DetailCoord*2;
     
-	float3 hatchColor = computeHatchColor(max(0, ndl) * shd, hatchTexCoord);
+	float3 hatchColor = computeHatchColor( ndl * shd, hatchTexCoord);
     
     
     o.Color.rgb *=  hatchColor;
