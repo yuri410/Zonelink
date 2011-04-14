@@ -347,7 +347,7 @@ namespace Code2015.GUI
                         }
                     }
 
-                    //infoUI.SelectedObject = picker.SelectedObject;
+                    infoUI.SelectedObject = picker.SelectedObject;
                     //cityEdit.SelectedCity = picker.SelectedCity;
 
                     base.Update(time);

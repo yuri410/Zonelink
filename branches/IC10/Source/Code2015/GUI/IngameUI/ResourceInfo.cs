@@ -78,11 +78,26 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            Vector3 tangy = PlanetEarth.GetTangentY(MathEx.Degree2Radian(resource.Longitude), MathEx.Degree2Radian(resource.Latitude));
+            float radLng = MathEx.Degree2Radian(resource.Longitude);
+            float radLat = MathEx.Degree2Radian(resource.Latitude);
+
+            Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
+            Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);
+
+            Viewport vp = renderSys.Viewport;
 
             Vector3 pos = resource.Position;
-            Vector3 ppos = renderSys.Viewport.Project(pos - tangy * (resource.Radius + 5),
+            Vector3 ppos = vp.Project(pos - tangy * (resource.Radius + 5),
                 parent.Projection, parent.View, Matrix.Identity);
+
+
+            Vector3 lp = vp.Project(pos + tangx,
+                parent.Projection, parent.View, Matrix.Identity);
+
+            Vector3 rp = vp.Project(pos - tangx,
+                parent.Projection, parent.View, Matrix.Identity);
+
+            float scale = 1.5f * Vector3.Distance(lp, rp) / 2 ;
 
             float dist = Vector3.Distance(ref pos, ref parent.CameraPosition);
             //float d1 = 1 - MathEx.Saturate((dist - 1000) / 1500);
@@ -94,19 +109,32 @@ namespace Code2015.GUI
             {
                 ColorValue modColor = new ColorValue(byte.MaxValue, byte.MaxValue, byte.MaxValue, alpha);
 
-                Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
-                scrnPos.X -= amountBar.Width / 2;
-                scrnPos.Y -= amountBar.Height / 2;
+                //Point scrnPos = new Point((int)ppos.X, (int)ppos.Y);
+
 
                 amountBar.ModulateColor = modColor;
-                amountBar.X = scrnPos.X;
-                amountBar.Y = scrnPos.Y;
+                //amountBar.X = scrnPos.X;
+                //amountBar.Y = scrnPos.Y;
                 amountBar.Value = resource.AmountPer;
                 amountBar.MediumValue = resource.MaxValue;
-                amountBar.Render(sprite);
 
+                Matrix trans = Matrix.Translation(-amountBar.Width / 2, -amountBar.Height / 2, 0) *
+                    Matrix.Scaling(scale, 1, 1) * Matrix.Translation(ppos.X, ppos.Y, 0);
+
+                sprite.SetTransform(trans);
+                amountBar.Render(sprite);
+                sprite.SetTransform(Matrix.Identity);
+
+
+
+
+                Point scrnPos;
+                scrnPos.X = (int)(ppos.X - amountBar.Width / 2);
+                scrnPos.Y = (int)(ppos.Y - amountBar.Height / 2);
                 sprite.Draw(woodOverlay, scrnPos.X, scrnPos.Y, modColor);
+
             }
+
         }
 
         public override void Update(GameTime time)
