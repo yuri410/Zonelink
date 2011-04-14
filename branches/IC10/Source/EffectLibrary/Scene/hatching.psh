@@ -22,3 +22,21 @@ float3 computeWeights(float hatchFactor, float3 initialWeights)
 
 	return weights;
 }
+
+float3 computeHatchColor(float lum, float2 hatchTexCoord, uniform sampler2D hatch0, uniform sampler2D hatch1) //max(0, ndl) * shd)
+{
+    float hatchLayers = 6;
+    float hatchFactor = saturate(lum) * (hatchLayers - 1) + 1;
+    
+    float3 weightsA = float3(5.0, 4.0, 3.0);
+    float3 hatchWeightsA = computeWeights(hatchFactor, weightsA);
+    float3 weightsB = float3(2.0, 1.0, 0.0);
+    float3 hatchWeightsB = computeWeights(hatchFactor, weightsB);
+
+    float3 h0 = tex2D(hatch0, hatchTexCoord).rgb * hatchWeightsA;
+    float3 h1 = tex2D(hatch1, hatchTexCoord).rgb * hatchWeightsB;
+
+    float hatch = dot(h0, float3(1,1,1)) + dot(h1, float3(1,1,1));
+	float3 hatchColor = SHADOW_COLOR + float3(hatch,hatch,hatch);
+    return hatchColor;   
+}

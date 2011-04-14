@@ -104,19 +104,8 @@ PSOutput main(PSInput ip)
     
     // =========================================================
     float2 hatchTexCoord = ip.DetailCoord*2;
-    float hatchLayers = 5.5;
-    float hatchFactor = saturate(max(0, ndl) * shd) * (hatchLayers - 1) + 1;
     
-    float3 weightsA = float3(5.0, 4.0, 3.0);
-    float3 hatchWeightsA = computeWeights(hatchFactor, weightsA);
-    float3 weightsB = float3(2.0, 1.0, 0.0);
-    float3 hatchWeightsB = computeWeights(hatchFactor, weightsB);
-
-    float3 h0 = tex2D(hatch0, hatchTexCoord).rgb * hatchWeightsA;
-    float3 h1 = tex2D(hatch1, hatchTexCoord).rgb * hatchWeightsB;
-
-    float hatch = dot(h0, float3(1,1,1)) + dot(h1, float3(1,1,1));
-	float3 hatchColor = SHADOW_COLOR + float3(hatch,hatch,hatch);
+	float3 hatchColor = computeHatchColor(max(0, ndl) * shd, hatchTexCoord, hatch0, hatch1);
     
     
     o.Color.rgb *=  hatchColor;
