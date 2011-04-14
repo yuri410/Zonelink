@@ -76,9 +76,6 @@ namespace Code2015.World
         SoundObject sound;
 
 
-
-
-
         string[] linkableCityName;
         FastList<City> linkableCity = new FastList<City>();
 
