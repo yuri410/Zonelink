@@ -52,11 +52,14 @@ PSOutput main(PSInput ip)
   	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
 
 	o.Color = tex2D(texDif, ip.TexCoord) * p;
+	
+	o.Color = 0.5 + (o.Color -0.5)/ 4;
+	
 	o.Color.rgb *= 0.7 + 0.3*shd;
 	o.Color.rgb += spec.xyz;
  
  
-    float2 hatchTexCoord = ip.TexCoord * 1.5;
+    float2 hatchTexCoord = ip.TexCoord * 1.0;
     
 	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
     

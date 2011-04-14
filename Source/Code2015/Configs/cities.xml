@@ -8,7 +8,7 @@
         <Disease>1</Disease>
         <Environment>2</Environment>
         <Linkable>C0107, C0108</Linkable>
-        <Type>Neutral</Type>
+        <Type>Oil</Type>
     </C0000>
     <C0100>
         <Name>Mohall</Name>
@@ -19,8 +19,8 @@
         <StartUp>1</StartUp>
         <Farm>3</Farm>
         <Linkable>C0200, C0201</Linkable>
-      <Culture>Europe</Culture>
-      <Type>Neutral</Type>
+        <Culture>Europe</Culture>
+        <Type>Green</Type>
     </C0100>
     <C0101>
         <Name>Ontario</Name>
@@ -29,8 +29,8 @@
         <Size>Small</Size>
         <Environment>2</Environment>
         <Linkable>C0201, C0202</Linkable>
-      <Culture></Culture>
-      <Type>Neutral</Type>
+        <Culture></Culture>
+        <Type>Oil</Type>
     </C0101>
     <C0102>
         <Name>Gaspe</Name>
@@ -40,7 +40,7 @@
         <Environment>2</Environment>
         <Linkable>C0202, C0203</Linkable>
         <Culture></Culture>
-      <Type>Neutral</Type>
+        <Type>Green</Type>
     </C0102>
     <C0103>
         <Name>Stuttgart</Name>
@@ -49,8 +49,8 @@
         <Size>Large</Size>
         <Environment>2</Environment>
         <Linkable>C0206, C0207</Linkable>
-      <Culture>Europe</Culture>
-      <Type>Neutral</Type>
+        <Culture>Europe</Culture>
+        <Type>Oil</Type>
     </C0103>
     <C0104>
         <Name>Sharhorod</Name>
@@ -59,8 +59,8 @@
         <Size>Small</Size>
         <Environment>2</Environment>
         <Linkable>C0207, C0208</Linkable>
-      <Culture>Europe</Culture>
-      <Type>Neutral</Type>
+        <Culture>Europe</Culture>
+        <Type>Green</Type>
     </C0104>
     <C0105>
         <Name>Biyatov</Name>
@@ -69,8 +69,8 @@
         <Size>Small</Size>
         <Gender>1</Gender>
         <Linkable>C0208, C0209</Linkable>
-      <Culture>Europe</Culture>
-      <Type>Neutral</Type>
+        <Culture>Europe</Culture>
+        <Type>Oil</Type>
     </C0105>
     <C0106>
         <Name>Aksuat</Name>
@@ -81,8 +81,8 @@
         <Environment>2</Environment>
         <Hunger>1</Hunger>
         <Linkable>C0210, C0211</Linkable>
-      <Type>Neutral</Type>
-      <Culture></Culture>
+        <Type>Green</Type>
+        <Culture></Culture>
     </C0106>
     <C0107>
         <Name>Ulaanbaatar</Name>
@@ -93,8 +93,8 @@
         <Environment>2</Environment>
         <Hunger>1</Hunger>
         <Linkable>C0000, C0211, C0212</Linkable>
-      <Type>Neutral</Type>
-      <Culture></Culture>
+        <Type>Oil</Type>
+        <Culture></Culture>
     </C0107>
     <C0108>
         <Name>Hulun Buir</Name>
@@ -107,8 +107,8 @@
         <StartUp>2</StartUp>
         <Farm>3</Farm>
         <Linkable>C0000, C0212, C0213</Linkable>
-      <Type>Neutral</Type>
-      <Culture></Culture>
+        <Type>Green</Type>
+        <Culture></Culture>
     </C0108>
     <C0109>
         <Name>Khabarovskiy Kray</Name>
@@ -117,8 +117,8 @@
         <Size>Small</Size>
         <Disease>1</Disease>
         <Linkable>C0213</Linkable>
-      <Type>Neutral</Type>
-      <Culture></Culture>
+        <Type>Oil</Type>
+        <Culture></Culture>
     </C0109>
     <C0200>
         <Name>Price</Name>
@@ -129,8 +129,8 @@
         <StartUp>1</StartUp>
         <Farm>3</Farm>
         <Linkable>C0100, C0300</Linkable>
-      <Type>Neutral</Type>
-      <Culture>Europe</Culture>
+        <Type>Green</Type>
+        <Culture>Europe</Culture>
     </C0200>
     <C0201>
         <Name>Moberly</Name>
@@ -141,8 +141,8 @@
         <StartUp>1</StartUp>
         <Farm>3</Farm>
         <Linkable>C0100, C0101, C0300, C0301</Linkable>
-      <Type>Neutral</Type>
-      <Culture>Europe</Culture>
+        <Type>Oil</Type>
+        <Culture>Europe</Culture>
     </C0201>
     <C0202>
         <Name>Washington</Name>
@@ -151,8 +151,8 @@
         <Size>Large</Size>
         <Environment>2</Environment>
         <Linkable>C0101, C0102, C0301</Linkable>
-      <Type>Neutral</Type>
-      <Culture></Culture>
+        <Type>Green</Type>
+        <Culture></Culture>
     </C0202>
     <C0203>
       <Name>North Atlantis</Name>
@@ -160,7 +160,7 @@
       <Latitude>39.35065</Latitude>
       <Size>Small</Size>
       <Linkable>C0102, C0302</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture>Europe</Culture>
     </C0203>
     <C0204>
@@ -169,8 +169,8 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Linkable>C0302, C0303</Linkable>
-      <Type>Oil</Type>
-      <Culture>Europe</Culture>
+        <Type>Green</Type>
+        <Culture>Europe</Culture>
     </C0204>
     <C0205>
         <Name>Santa Cruz</Name>
@@ -178,8 +178,8 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Linkable>C0303, C0304</Linkable>
-      <Type>Neutral</Type>
-      <Culture>Europe</Culture>
+        <Type>Oil</Type>
+        <Culture>Europe</Culture>
     </C0205>
     <C0206>
         <Name>Barcelona</Name>
@@ -188,9 +188,9 @@
         <Size>Medium</Size>
         <Environment>2</Environment>
         <Farm>3</Farm>
-      <Type>Neutral</Type>
-      <Linkable>C0304, C0305, C0103</Linkable>
-      <Culture>Europe</Culture>
+        <Type>Green</Type>
+        <Linkable>C0304, C0305, C0103</Linkable>
+        <Culture>Europe</Culture>
     </C0206>
     <C0207>
         <Name>Argostoli</Name>
@@ -199,8 +199,8 @@
         <Size>Small</Size>
         <Environment>2</Environment>
         <Linkable>C0305, C0306, C0103, C0104</Linkable>
-      <Type>Neutral</Type>
-      <Culture>Europe</Culture>
+        <Type>Oil</Type>
+        <Culture>Europe</Culture>
     </C0207>
     <C0208>
         <Name>Sivas</Name>
@@ -208,7 +208,7 @@
         <Latitude>39.35065</Latitude>
         <Size>Small</Size>
         <Gender>1</Gender>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Linkable>C0306, C0307, C0104, C0105</Linkable>
       <Culture>Europe</Culture>
     </C0208>
@@ -260,7 +260,7 @@
         <StartUp>2</StartUp>
         <Farm>3</Farm>
         <Linkable>C0310, C0311, C0107, C0108</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture></Culture>
     </C0212>
     <C0213>
@@ -274,7 +274,7 @@
         <StartUp>2</StartUp>
         <Farm>3</Farm>
         <Linkable>C0311, C0108, C0109</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture></Culture>s
     </C0213>
     <C0300>
@@ -287,7 +287,7 @@
         <StartUp>1</StartUp>
         <Farm>3</Farm>
         <Linkable>C0200, C0201, C0400</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture>Europe</Culture>
     </C0300>
     <C0301>
@@ -297,7 +297,7 @@
         <Size>Medium</Size>
         <Environment>2</Environment>
         <Linkable>C0201, C0202, C0400</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture></Culture>
     </C0301>
     <C0302>
@@ -306,7 +306,7 @@
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
         <Linkable>C0203, C0204</Linkable>
-      <Type>Oil</Type>
+      <Type>Green</Type>
       <Culture>Europe</Culture>
     </C0302>
     <C0303>
@@ -315,6 +315,7 @@
         <Latitude>30.1948</Latitude>
         <Size>Small</Size>
         <Linkable>C0204, C0205</Linkable>
+      <Type>Oil</Type>
       <Culture>Europe</Culture>
     </C0303>
     <C0304>
@@ -344,7 +345,7 @@
         <Size>Medium</Size>
         <Farm>4</Farm>
         <Linkable>C0207, C0208, C0402</Linkable>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Culture>Africa</Culture>
     </C0306>
     <C0307>
@@ -354,7 +355,7 @@
         <Size>Medium</Size>
         <Disease>1</Disease>
         <Linkable>C0208, C0209</Linkable>
-      <Type>Green</Type>
+      <Type>Oil</Type>
       <Culture>Europe</Culture>
     </C0307>
     <C0308>
@@ -363,7 +364,7 @@
         <Latitude>30.1948</Latitude>
         <Size>Medium</Size>
         <Education>1</Education>
-      <Type>Neutral</Type>
+      <Type>Green</Type>
       <Linkable>C0209, C0210</Linkable>
       <Culture>Europe</Culture>
     </C0308>
@@ -375,7 +376,7 @@
         <Child>1</Child>
         <Hunger>2</Hunger>
         <Linkable>C0210, C0211, C0403</Linkable>
-      <Type>Neutral</Type>
+      <Type>Oil</Type>
       <Culture></Culture>
     </C0309>
     <C0310>
@@ -386,7 +387,7 @@
         <Child>1</Child>
         <Hunger>1</Hunger>
         <Linkable>C0211, C0212, C0403, C0404</Linkable>
-      <Type>Oil</Type>
+      <Type>Green</Type>
       <Culture></Culture>
     </C0310>
     <C0311>
@@ -399,7 +400,7 @@
         <StartUp>2</StartUp>
         <Farm>3</Farm>
         <Linkable>C0212, C0213, C0404</Linkable>
-      <Type>Green</Type>
+      <Type>Oil</Type>
       <Culture></Culture>
     </C0311>
     <C0400>
@@ -688,7 +689,7 @@
         <Maternal>1.5</Maternal>
         <StartUp>3</StartUp>
         <Farm>3</Farm>
-        <Type>Volience</Type>
+        <Type>Green</Type>
         <Linkable>C0700, C0701, C0900</Linkable>
         <Culture>American</Culture>
     </C0800>
@@ -767,7 +768,7 @@
         <Latitude>-15.97403</Latitude>
         <Size>Medium</Size>
         <Environment>2</Environment>
-        <Type>Education</Type>
+        <Type>Oil</Type>
         <StartUp>4</StartUp>
         <Farm>3</Farm>
         <Linkable>C0704, C0705, C0906, C0907</Linkable>
@@ -779,7 +780,7 @@
         <Latitude>-25.32467</Latitude>
         <Size>Medium</Size>
         <Child>1</Child>
-        <Type>Neutral</Type>
+        <Type>Green</Type>
         <StartUp>3</StartUp>
         <Farm>3</Farm>
         <Linkable>C0800, C1000</Linkable>
@@ -839,7 +840,7 @@
         <Longitude>120.3896</Longitude>
         <Latitude>-25.32467</Latitude>
         <Size>Medium</Size>
-        <Type>Neutral</Type>
+        <Type>Oil</Type>
         <Environment>2</Environment>
         <StartUp>4</StartUp>
         <Farm>3</Farm>
@@ -850,7 +851,7 @@
         <Name>Mt Isa</Name>
         <Longitude>138.8961</Longitude>
         <Latitude>-25.32467</Latitude>
-        <Type>Neutral</Type>
+        <Type>Green</Type>
         <Size>Medium</Size>
         <Environment>2</Environment>
         <StartUp>4</StartUp>
@@ -862,7 +863,7 @@
         <Name>Montevideo</Name>
         <Longitude>-55.32467</Longitude>
         <Latitude>-34.67532</Latitude>
-        <Type>Neutral</Type>
+        <Type>Oil</Type>
         <Size>Medium</Size>
         <Child>1</Child>
         <StartUp>3</StartUp>
@@ -895,7 +896,7 @@
         <Name>Sydney</Name>
         <Longitude>148.2467</Longitude>
         <Latitude>-34.67532</Latitude>
-        <Type>Neutral</Type>
+        <Type>Green</Type>
         <Size>Large</Size>
         <Environment>2</Environment>
         <StartUp>4</StartUp>
@@ -905,11 +906,11 @@
     </C1003>
     <C1100>
         <Name>Trelew</Name>
-        <Type>Education</Type>
         <Longitude>-64.67532</Longitude>
         <Latitude>-43.63636</Latitude>
         <Size>Large</Size>
         <StartUp>3</StartUp>
+        <Type>Oil</Type>
         <Farm>3</Farm>
         <Linkable>C1000</Linkable>
       <Culture>American</Culture>

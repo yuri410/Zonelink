@@ -215,11 +215,11 @@ namespace Code2015.World
         #region IResourceObject 成员
         float IResourceObject.MaxValue
         {
-            get { return MaxAmount / (7500f * 2); }
+            get { return MaxAmount / (7500f * 2 / 20.0f); }
         }
         float IResourceObject.AmountPer
         {
-            get { return CurrentAmount / (7500f * 2); }
+            get { return CurrentAmount / (7500f * 2 / 20.0f); }
         }
 
         NaturalResourceType IResourceObject.Type

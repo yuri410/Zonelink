@@ -12,7 +12,7 @@ namespace Code2015.World
     class GatherCity : City
     {
         Harvester harvester;
-        NaturalResource exRes;
+        //NaturalResource exRes;
 
         int resourceIndex = 0;
         float resourceBuffer;
@@ -33,8 +33,8 @@ namespace Code2015.World
         }
 
         public Harvester Harvester { get { return harvester; } }
-        public GatherCity(BattleField btfld, Player owner)
-            : base(btfld, owner)
+        public GatherCity(BattleField btfld, Player owner, CityType type)
+            : base(btfld, owner, type)
         {
             harvester = new Harvester(this, btfld.Map);
             harvester.GotHome += Harv_Home;
@@ -43,6 +43,7 @@ namespace Code2015.World
             Harvester.Props hprop = getHarvProps();
             harvester.SetProps(hprop);
 
+            
             if (this.Type == CityType.Oil)
             {
                 gatherDistance = RulesTable.OilGatherDistance;
@@ -54,10 +55,10 @@ namespace Code2015.World
            
         }
 
-        public void SetTargetExResource(NaturalResource res)
-        {
-            exRes = res;
-        }
+        //public void SetTargetExResource(NaturalResource res)
+        //{
+        //    exRes = res;
+        //}
 
         public Harvester.Props getHarvProps()
         {
@@ -70,7 +71,7 @@ namespace Code2015.World
 
         void Harv_Dest(object sender, EventArgs e)
         {
-            harvester.Move(this.Longitude, this.Latitude);
+            harvester.Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
             harvester.SetMovePurpose(MovePurpose.Home);
 
             // 自动返回
@@ -78,12 +79,13 @@ namespace Code2015.World
         }
         void Harv_Home(object sender, EventArgs e)
         {
-            if (IsCaptured)
+            NaturalResource exRes = ExResource;
+            if (IsCaptured && exRes!=null)
             {
-                harvester.Move(exRes.Longitude, exRes.Latitude);
+                harvester.Move(MathEx.Degree2Radian(exRes.Longitude), MathEx.Degree2Radian(exRes.Latitude));
                 harvester.SetMovePurpose(MovePurpose.Gather);
             }
-            if (!harvester.IsFullLoaded)
+            if (!harvester.IsFullLoaded && sender == harvester)
             {
                 FindNewNaturalResource();
             }
@@ -94,7 +96,15 @@ namespace Code2015.World
             //harvSendWait = getHarvWaitTime();
         }
 
+        public override void ChangeOwner(Player player)
+        {
+            base.ChangeOwner(player);
 
+            if (!(player is AI.AIPlayer))
+            {
+                Harv_Home(null, EventArgs.Empty);
+            }
+        }
         //public override void UpdateResource(GameTime gameTime)
         //{
         //    //开采资源
@@ -130,31 +140,51 @@ namespace Code2015.World
         {
             for (int i = 0; i < resList.Count; i++)
             {
-                float d = Vector3.Distance(resList[i].Position, this.Position);
-                if (d < gatherDistance)
+
+                if (Type == CityType.Green)
                 {
-                    if (Type == CityType.Green)
+                    if (resList[i].Type == NaturalResourceType.Wood)
                     {
-                        if (resList[i].Type == NaturalResourceType.Wood)
+                        ForestObject forest = (ForestObject)resList[i];
+                        float d = Vector3.Distance(forest.ForestCenter, this.Position);
+                        if (d < gatherDistance)
+                        {
                             nearResource.Add(resList[i]);
+                        }
                     }
-                    else if (Type == CityType.Oil)
-                    {
-                        if (resList[i].Type == NaturalResourceType.Oil)
-                            nearResource.Add(resList[i]);
-
-                    }
-                    
                 }
-
+                else if (Type == CityType.Oil)
+                {
+                    if (resList[i].Type == NaturalResourceType.Oil)
+                    {
+                        float d = Vector3.Distance(resList[i].Position, this.Position);
+                        if (d < gatherDistance)
+                        {
+                            nearResource.Add(resList[i]);
+                        }
+                    }
+                }
             }
-            nearResource.Sort(Camparision);
+            if (Type == CityType.Green)
+            {
+                nearResource.Sort(CamparisionForest);
+            }
+            else
+            {
+                nearResource.Sort(Camparision);
+            }
         }
 
+        private int CamparisionForest(NaturalResource a, NaturalResource b)
+        {
+            float da = Vector3.DistanceSquared(((ForestObject)a).ForestCenter, this.Position);
+            float db = Vector3.DistanceSquared(((ForestObject)b).ForestCenter, this.Position);
+            return da.CompareTo(db);
+        }
         private int Camparision(NaturalResource a, NaturalResource b)
         {
-            float da = Vector3.DistanceSquared(a.Position, b.Position);
-            float db = Vector3.DistanceSquared(b.Position, b.Position);
+            float da = Vector3.DistanceSquared(a.Position, this.Position);
+            float db = Vector3.DistanceSquared(b.Position, this.Position);
             return da.CompareTo(db);
         }
 
@@ -208,8 +238,8 @@ namespace Code2015.World
         float generateRBallCD;
 
 
-        public ProductionCity(BattleField btfld, Player owner)
-            : base(btfld, owner)
+        public ProductionCity(BattleField btfld, Player owner, CityType type)
+            : base(btfld, owner, type)
         {
             
         }
@@ -226,16 +256,16 @@ namespace Code2015.World
             {
                 case CityType.Health:
                     generateRBallCD = RulesTable.HealthBallInterval;
-                    break;
+                    return;
                 case CityType.Volience:
                     generateRBallCD = RulesTable.VolienceBallInterval;
-                    break;
+                    return;
                 case CityType.Disease:
                     generateRBallCD = RulesTable.DiseaseBallInterval;
-                    break;
+                    return;
                 case CityType.Education:
                     generateRBallCD = RulesTable.EducationBallInterval;
-                    break;
+                    return;
                 case CityType.Neutral:
                     throw new InvalidOperationException();
                 case CityType.Green:

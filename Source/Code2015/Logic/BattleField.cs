@@ -62,7 +62,6 @@ namespace Code2015
         /// </summary>
         private void LoadCities()
         {
-            string type;
 
             List<City> cityList = new List<City>(MaxCities);
 
@@ -73,15 +72,30 @@ namespace Code2015
             foreach (GameConfigurationSection sect in resVals)
             {
                 City city;
-                type = sect.GetString("Type", string.Empty).ToLowerInvariant();
-                if (type == "green" || type == "oil")
+                string typestr = sect.GetString("Type", string.Empty).ToLowerInvariant();
+
+                CityType type = City.ParseType(typestr);
+
+                switch (type)
                 {
-                    city = new GatherCity(this, null);
+                    case CityType.Neutral:
+                        city = new City(this, null, type);
+                        break;
+                    case CityType.Oil:
+                    case CityType.Green:
+                        city = new GatherCity(this, null, type);
+                        break;
+                    case CityType.Disease:
+                    case CityType.Education:
+                    case CityType.Health:
+                    case CityType.Volience:
+                        city = new ProductionCity(this, null, type);
+                        break;
+                    default:
+                        city = new City(this, null, type);
+                        break;
                 }
-                else
-                {
-                    city = new City(this, null);
-                }
+
                 city.Parse(sect);
 
                 resolveTable.Add(sect.Name, city);

@@ -70,8 +70,7 @@ namespace Code2015.World
         Model[] model;
         int mdlIndex;
         GatherCity parent;
-        //Matrix orientation = Matrix.Identity;
-        //Vector3 position;
+
 
         float longtitude;
         float latitude;
@@ -164,11 +163,28 @@ namespace Code2015.World
             
         }
 
-        public void InitializeGraphics(Model[] mdl)
+        public void InitializeGraphics(RenderSystem rs)
         {
-            this.model = mdl;
+            model = new Model[NumModels];
+            for (int i = 0; i < NumModels; i++)
+            {
+                FileLocation fl = FileSystem.Instance.Locate("cow" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
 
-            ModelL0 = mdl[0];
+                model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                model[i].CurrentAnimation.Clear();
+                model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
+                    Matrix.RotationY(MathEx.PIf) *
+                    Matrix.Scaling(Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f)));
+            }
+            //style.Cow = new ResourceHandle<ModelData>[CowFrameCount];
+            //for (int i = 0; i < CowFrameCount; i++)
+            //{
+            //    fl = FileSystem.Instance.Locate(Cow_Inv + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+            //    style.Cow[i] = ModelManager.Instance.CreateInstance(rs, fl);
+            //}
+            //this.model = mdl;
+
+            ModelL0 = model[0];
         }
         public event EventHandler GotThere;
         public event EventHandler GotHome;
@@ -190,7 +206,7 @@ namespace Code2015.World
             pt2.X++;
 
             Quaternion q = GetOrientation(pt, pt2);
-            orientation = Matrix.RotationQuaternion(q);
+            Orientation = Matrix.RotationQuaternion(q);
 
             this.longtitude = longtitude;
             this.latitude = latitude;
@@ -229,15 +245,12 @@ namespace Code2015.World
         }
         void Move(int x, int y)
         {
-
             int sx, sy;
             Map.GetMapCoord(longtitude, latitude, out sx, out sy);
 
             destX = x;
             destY = y;
 
-            //finder.Continue();
-            //cuurentPath = finder.FindPath(sx, sy, x, y);
             finder.Reset();
             cuurentPath = finder.FindPath(sx, sy, x, y);
             currentNode = 0;
@@ -319,7 +332,7 @@ namespace Code2015.World
                 loadingTime -= ddt;
                 if (loadingTime < 0)
                 {
-                    isLoading = false;
+                    isUnloading = false;
                     if (GotHome != null)
                         GotHome(this, EventArgs.Empty);
                 }
@@ -427,7 +440,7 @@ namespace Code2015.World
                     if (altitude < 0)
                         altitude = 0;
 
-                    orientation = Matrix.RotationQuaternion(
+                    Orientation = Matrix.RotationQuaternion(
                         Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
 
                     currentPrg += 0.05f;
@@ -447,8 +460,8 @@ namespace Code2015.World
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
 
-            position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
-
+            Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
+            base.Update(dt);
         }
 
 
