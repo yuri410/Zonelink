@@ -49,7 +49,6 @@ namespace Code2015.World
     /// </summary>
     class City : WorldObject, ISelectableObject
     {
-        const float RingRadius = 100;
 
         public const float CityRadiusDeg = 3.5f;
 
