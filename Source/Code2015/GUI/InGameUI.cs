@@ -34,6 +34,7 @@ using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
+using Code2015.GUI.IngameUI;
 
 namespace Code2015.GUI
 {
@@ -115,6 +116,8 @@ namespace Code2015.GUI
         //NoticeBar noticeBar;
         //DevelopmentMeter playerProgress;
         Picker picker;
+        CitySelectInfo citySelectInfo;
+
         //CityEditPanel cityEdit;
         ExitConfirm exitConfirm;
         bool isEscPressed;
@@ -202,6 +205,11 @@ namespace Code2015.GUI
             //icons.SetPieceContainer(container);
             //co2graph = new CO2Graph(game, parent, scene, gamelogic);
             //AddElement(co2graph);
+
+            //-----Ruan-----------
+            citySelectInfo = new CitySelectInfo(game, parent, scene, gamelogic, picker);
+            AddElement(citySelectInfo);
+
 
             exitConfirm = new ExitConfirm();
             AddElement(exitConfirm);
@@ -349,6 +357,7 @@ namespace Code2015.GUI
 
                     infoUI.SelectedObject = picker.SelectedObject;
                     //cityEdit.SelectedCity = picker.SelectedCity;
+                    citySelectInfo.SelectedCity = picker.SelectedCity;
 
                     base.Update(time);
                 }
