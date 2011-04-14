@@ -90,12 +90,22 @@ namespace Code2015.World
 
         float acceleration;
 
+        /// <summary>
+        ///  表示是否在原地旋转对准出发方向
+        /// </summary>
+        bool isAdjustingDirection;
+        /// <summary>
+        ///  表示是否获得下一节点的朝向信息
+        /// </summary>
         bool rotUpdated;
+        /// <summary>
+        ///  表示是否已经获得下一节点的位置信息
+        /// </summary>
         bool stateUpdated;
 
-        float currentPrg;
+        float nodeMotionProgress;
         int currentNode;
-        PathFinderResult cuurentPath;
+        PathFinderResult currentPath;
 
         #region 仓库
         float harvStorage;
@@ -148,7 +158,7 @@ namespace Code2015.World
 
         public bool IsIdle
         {
-            get { return cuurentPath == null; }
+            get { return currentPath == null; }
         }
 
         public Harvester(GatherCity parent, Map map)
@@ -199,30 +209,40 @@ namespace Code2015.World
             this.movePurpose = purpose;
         }
 
+        /// <summary>
+        ///  强制设置采集车位置
+        /// </summary>
+        /// <param name="longtitude"></param>
+        /// <param name="latitude"></param>
         public void SetPosition(float longtitude, float latitude)
         {
             Point pt;
             Map.GetMapCoord(longtitude, latitude, out pt.X, out pt.Y);
             Point pt2 = pt;
             pt2.X++;
+            // 计算pt点左边的一点
 
+
+            // 然后计算采集车在pt点朝向pt2的方向
             Quaternion q = GetOrientation(pt, pt2);
             Orientation = Matrix.RotationQuaternion(q);
 
+            // 设置位置
             this.longtitude = longtitude;
             this.latitude = latitude;
-            //float altitude = map.GetHeight(longtitude, latitude);
-
-            //position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
-
-            //Matrix.CreateTranslation(ref position, out Transformation);
-            //Matrix.Multiply(ref orientation, ref Transformation, out Transformation);
-
-
         }
 
-        void move(float lng, float lat)
+
+        /// <summary>
+        ///  让采集车移动到有经纬度确定的地点
+        /// </summary>
+        /// <param name="lng"></param>
+        /// <param name="lat"></param>
+        public void Move(float lng, float lat)
         {
+            //IsAuto = false;
+            movePurpose = MovePurpose.None;
+
             int sx, sy;
             Map.GetMapCoord(longtitude, latitude, out sx, out sy);
 
@@ -233,17 +253,20 @@ namespace Code2015.World
             destY = ty;
 
             finder.Reset();
-            cuurentPath = finder.FindPath(sx, sy, tx, ty);
+            currentPath = finder.FindPath(sx, sy, tx, ty);
+
+            // 新的动作要先调整朝向
+            isAdjustingDirection = true;
 
             currentNode = 0;
-            currentPrg = 0;
+            nodeMotionProgress = 0;
         }
-        public void Move(float lng, float lat)
-        {
-            //IsAuto = false;
-            movePurpose = MovePurpose.None;
-            move(lng, lat);
-        }
+
+        /// <summary>
+        ///  当寻路需要RCPF的时候，调用这个继续寻路
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
         void Move(int x, int y)
         {
             int sx, sy;
@@ -253,11 +276,17 @@ namespace Code2015.World
             destY = y;
 
             finder.Reset();
-            cuurentPath = finder.FindPath(sx, sy, x, y);
+            currentPath = finder.FindPath(sx, sy, x, y);
             currentNode = 0;
-            currentPrg = 0;
+            nodeMotionProgress = 0;
         }
 
+        /// <summary>
+        ///  有两个Map的坐标计算采集车朝向
+        /// </summary>
+        /// <param name="pa"></param>
+        /// <param name="pb"></param>
+        /// <returns></returns>
         Quaternion GetOrientation(Point pa, Point pb)
         {
             float alng;
@@ -265,11 +294,14 @@ namespace Code2015.World
             float blng;
             float blat;
 
+            // 先得到两个点的经纬度
             Map.GetCoord(pa.X, pa.Y, out alng, out alat);
             Map.GetCoord(pb.X, pb.Y, out blng, out blat);
 
+            // 法向
             Vector3 n = PlanetEarth.GetNormal(alng, alat);
 
+            // 高度
             float altA = map.GetHeight(alng, alat);
             Vector3 posA = PlanetEarth.GetPosition(alng, alat, altA + PlanetEarth.PlanetRadius);
             float altB = map.GetHeight(blng, blat);
@@ -282,6 +314,7 @@ namespace Code2015.World
 
             n = Vector3.Cross(dir, bi);
 
+            // 采集车旋转World矩阵由向量基构建
             Matrix result = Matrix.Identity;
             result.Right = bi;
             result.Up = n;
@@ -299,12 +332,13 @@ namespace Code2015.World
             #region 装货卸货
             if (isLoading && exRes != null)
             {
-                // 计算开矿倍数
+                // 计算开矿倍数，保证能够完成卸货
                 float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
 
                 harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt * scale);
                 loadingTime -= ddt;
 
+                // 开矿loadingTime时间之后，停止并引发事件
                 if (loadingTime < 0)
                 {
                     isFullLoaded = harvStorage >= props.Storage;
@@ -315,23 +349,29 @@ namespace Code2015.World
             }
             if (isUnloading)
             {
-                // 计算开矿倍数
+                // 计算开矿倍数，保证能够完成卸货
                 float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
 
                 float change = RulesTable.HarvLoadingSpeed * ddt * scale;
 
+                // 检查车上的存量是否足够
                 if (harvStorage - change > 0)
                 {
+                    // 足够时定量卸下
                     harvStorage -= change;
+                    // 并且通知城市得到资源
                     parent.NotifyGotResource(change);
                 }
                 else
                 {
+                    // 不够时把剩下的都卸了
                     harvStorage = 0;
                     parent.NotifyGotResource(harvStorage);
                 }
 
                 loadingTime -= ddt;
+
+                // 一定时间后停止
                 if (loadingTime < 0)
                 {
                     isUnloading = false;
@@ -343,23 +383,23 @@ namespace Code2015.World
 
             float altitude = map.GetHeight(longtitude, latitude);
 
-            if (cuurentPath != null)
+            if (currentPath != null)
             {
                 int nextNode = currentNode + 1;
 
-                if (nextNode >= cuurentPath.NodeCount)
+                if (nextNode >= currentPath.NodeCount)
                 {
                     #region 寻路完毕，状态转换
                     nextNode = 0;
-                    currentPrg = 0;
+                    nodeMotionProgress = 0;
 
-                    if (cuurentPath.RequiresPathFinding)
+                    if (currentPath.RequiresPathFinding)
                     {
                         Move(destX, destY);
                     }
                     else
                     {
-                        cuurentPath = null;
+                        currentPath = null;
 
                         if (movePurpose == MovePurpose.Gather)
                         {
@@ -377,42 +417,71 @@ namespace Code2015.World
                 else
                 {
                     #region 路径节点插值
-                    Point np = cuurentPath[nextNode];
-                    Point cp = cuurentPath[currentNode];
 
+                    // 采集车在每两个节点之间移动都是一定过程
+                    // 其位置/朝向是插值结果。差值参数为nodeMotionProgress
 
+                    Point cp = currentPath[currentNode];
+                    Point np = currentPath[nextNode];
+
+                    // 在一开始就尝试获取下一节点位置
                     if (!stateUpdated)
                     {
-                        Map.GetCoord(cp.X, cp.Y, out src.Longitude, out src.Latitude);
-                        Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
-
-                        src.Alt = map.GetHeight(src.Longitude, src.Latitude);
-                        target.Alt = map.GetHeight(target.Longitude, target.Latitude);
-                        stateUpdated = true;
-                    }
-
-                    if (currentPrg > 0.5f && !rotUpdated)
-                    {
-                        if (nextNode < cuurentPath.NodeCount - 1)
+                        if (isAdjustingDirection)
                         {
-                            src.Ori = GetOrientation(cp, np);
-                            target.Ori = GetOrientation(np, cuurentPath[nextNode + 1]);
+                            // 在调整方向时，车是位置不动的
+                            Map.GetCoord(np.X, np.Y, out src.Longitude, out src.Latitude);
+
+                            src.Alt = map.GetHeight(src.Longitude, src.Latitude);
+
+                            target.Longitude = src.Longitude;
+                            target.Latitude = src.Latitude;
+                            target.Alt = src.Alt;
                         }
                         else
                         {
+                            Map.GetCoord(cp.X, cp.Y, out src.Longitude, out src.Latitude);
+                            Map.GetCoord(np.X, np.Y, out target.Longitude, out target.Latitude);
+
+                            src.Alt = map.GetHeight(src.Longitude, src.Latitude);
+                            target.Alt = map.GetHeight(target.Longitude, target.Latitude);
+                        }
+                        stateUpdated = true;
+                    }
+                    
+                    // 在进行了一半之后开始获取下一节点朝向
+                    if (nodeMotionProgress > 0.5f && !rotUpdated)
+                    {
+                        if (isAdjustingDirection)
+                        {
                             target.Ori = GetOrientation(cp, np);
-                            src.Ori = target.Ori;
+                        }
+                        else 
+                        {
+                            if (nextNode < currentPath.NodeCount - 1)
+                            {
+                                src.Ori = GetOrientation(cp, np);
+                                target.Ori = GetOrientation(np, currentPath[nextNode + 1]);
+                            }
+                            else
+                            {
+                                target.Ori = GetOrientation(cp, np);
+                                src.Ori = target.Ori;
+                            }
                         }
                         rotUpdated = true;
                     }
 
-                    float x = MathEx.LinearInterpose(cp.X, np.X, currentPrg);
-                    float y = MathEx.LinearInterpose(cp.Y, np.Y, currentPrg);
+                    if (!isAdjustingDirection)
+                    {
+                        float x = MathEx.LinearInterpose(cp.X, np.X, nodeMotionProgress);
+                        float y = MathEx.LinearInterpose(cp.Y, np.Y, nodeMotionProgress);
 
-                    Map.GetCoord(x, y, out longtitude, out latitude);
+                        Map.GetCoord(x, y, out longtitude, out latitude);
+                    }
+                    altitude = MathEx.LinearInterpose(src.Alt, target.Alt, nodeMotionProgress);
 
-                    altitude = MathEx.LinearInterpose(src.Alt, target.Alt, currentPrg);
-
+                    #region 动画控制
                     if (altitude < 0)
                         mdlIndex++;
                     else
@@ -427,19 +496,37 @@ namespace Code2015.World
                     {
                         ModelL0 = model[mdlIndex];
                     }
+                    #endregion
 
+                    // 采集车不会潜水
                     if (altitude < 0)
                         altitude = 0;
 
+                    // 球面插值，计算出朝向
                     Orientation = Matrix.RotationQuaternion(
-                        Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
+                        Quaternion.Slerp(src.Ori, target.Ori, nodeMotionProgress > 0.5f ? nodeMotionProgress - 0.5f : nodeMotionProgress + 0.5f));
 
-                    currentPrg += 0.05f * acceleration;
-
-                    if (currentPrg > 1)
+                    if (isAdjustingDirection)
                     {
-                        currentPrg = 0;
-                        currentNode++;
+                        nodeMotionProgress += 0.5f * ddt;
+                    }
+                    else 
+                    {
+                        // 挺进节点插值进度
+                        nodeMotionProgress += 0.05f * acceleration;
+                    }
+
+                    // 检查节点之间插值是否完成
+                    if (nodeMotionProgress > 1)
+                    {
+                        nodeMotionProgress = 0;
+
+                        if (isAdjustingDirection)
+                            // 我们只允许调整方向一次，调整这次不会让车在节点上移动，currentNode不变
+                            isAdjustingDirection = false; 
+                        else
+                            currentNode++;
+                        
                         rotUpdated = false;
                         stateUpdated = false;
                     }
@@ -448,16 +535,20 @@ namespace Code2015.World
                 }
 
                 #region 加速度计算
-                if (cuurentPath != null)
+                if (currentPath != null)
                 {
-                    if (nextNode == cuurentPath.NodeCount - 1)
+                    // 检查是否是最后一个节点了
+                    if (nextNode == currentPath.NodeCount - 1)
                     {
+                        // 开始减速
                         acceleration -= ddt * 1.5f;
+                        // 防止减速的过慢
                         if (acceleration < 0.33f)
                             acceleration = 0.33f;
                     }
-                    else
+                    else if (!isAdjustingDirection)
                     {
+                        // 平时都是加速到最大为止
                         acceleration += ddt * 1.5f;
                         if (acceleration > 1)
                             acceleration = 1;
@@ -473,6 +564,7 @@ namespace Code2015.World
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
 
+            // 通过插值计算的经纬度得到坐标
             Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
             base.Update(dt);
         }
