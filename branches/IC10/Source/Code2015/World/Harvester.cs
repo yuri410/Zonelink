@@ -88,6 +88,7 @@ namespace Code2015.World
         int destX;
         int destY;
 
+        float acceleration;
 
         bool rotUpdated;
         bool stateUpdated;
@@ -295,6 +296,7 @@ namespace Code2015.World
         {
             float ddt = (float)dt.ElapsedGameTimeSeconds;
 
+            #region 装货卸货
             if (isLoading && exRes != null)
             {
                 // 计算开矿倍数
@@ -337,6 +339,7 @@ namespace Code2015.World
                         GotHome(this, EventArgs.Empty);
                 }
             }
+            #endregion
 
             float altitude = map.GetHeight(longtitude, latitude);
 
@@ -346,6 +349,7 @@ namespace Code2015.World
 
                 if (nextNode >= cuurentPath.NodeCount)
                 {
+                    #region 寻路完毕，状态转换
                     nextNode = 0;
                     currentPrg = 0;
 
@@ -367,25 +371,12 @@ namespace Code2015.World
                             isUnloading = true;
                             loadingTime = RulesTable.HarvLoadingTime;
                         }
-
-                        //if (IsAuto)
-                        //{
-                        //    if (state == UnitState.HomeAuto)
-                        //    {
-                        //        move(autoTLng, autoTLat);
-                        //        state = UnitState.TargetAuto;
-                        //    }
-                        //    else if (state == UnitState.TargetAuto)
-                        //    {
-                        //        move(autoSLng, autoSLat);
-                        //        state = UnitState.HomeAuto;
-                        //    }
-
-                        //}
                     }
+                    #endregion
                 }
                 else
                 {
+                    #region 路径节点插值
                     Point np = cuurentPath[nextNode];
                     Point cp = cuurentPath[currentNode];
 
@@ -443,7 +434,7 @@ namespace Code2015.World
                     Orientation = Matrix.RotationQuaternion(
                         Quaternion.Slerp(src.Ori, target.Ori, currentPrg > 0.5f ? currentPrg - 0.5f : currentPrg + 0.5f));
 
-                    currentPrg += 0.05f;
+                    currentPrg += 0.05f * acceleration;
 
                     if (currentPrg > 1)
                     {
@@ -452,10 +443,32 @@ namespace Code2015.World
                         rotUpdated = false;
                         stateUpdated = false;
                     }
+                    #endregion
 
                 }
-            }
 
+                #region 加速度计算
+                if (cuurentPath != null)
+                {
+                    if (nextNode == cuurentPath.NodeCount - 1)
+                    {
+                        acceleration -= ddt * 1.5f;
+                        if (acceleration < 0.33f)
+                            acceleration = 0.33f;
+                    }
+                    else
+                    {
+                        acceleration += ddt * 1.5f;
+                        if (acceleration > 1)
+                            acceleration = 1;
+                    }
+                }
+                #endregion
+            }
+            else
+            {
+                acceleration = 0;
+            }
 
 
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
