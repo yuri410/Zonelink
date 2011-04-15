@@ -66,7 +66,7 @@ namespace Code2015.Effects
         }
     }
 
-    class CitySelEffect : Effect
+    class CitySelEffect : RigidEffect
     {
         bool stateSetted;
 
@@ -76,7 +76,7 @@ namespace Code2015.Effects
         VertexShader vtxShader;
 
         public unsafe CitySelEffect(RenderSystem rs)
-            : base(false, CitySelEffectFactory.Name)
+            : base(rs, CitySelEffectFactory.Name, false)
         {
             this.renderSys = rs;
 
@@ -98,6 +98,8 @@ namespace Code2015.Effects
                 case RenderMode.Simple:
                 case RenderMode.Wireframe:
                     return true;
+                case RenderMode.DeferredNormal:
+                    return true;
             }
             return false;
         }
@@ -105,12 +107,17 @@ namespace Code2015.Effects
 
         protected override int begin()
         {
-            renderSys.BindShader(vtxShader);
-            renderSys.BindShader(pixShader);
-            pixShader.SetValue("lightDir", EffectParams.LightDir);
-            pixShader.SetValue("i_a", EffectParams.LightAmbient);
-            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-
+            if (mode == RenderMode.Final)
+            {
+                renderSys.BindShader(vtxShader);
+                renderSys.BindShader(pixShader);
+            }
+            else 
+            {
+                renderSys.BindShader(nrmGenVShader);
+                renderSys.BindShader(nrmGenPShader);
+            }
+            
             stateSetted = false;
             return 1;
             //return effect.Begin(FX.DoNotSaveState | FX.DoNotSaveShaderState | FX.DoNotSaveSamplerState);
@@ -132,33 +139,65 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
-
-            vtxShader.SetValue("mvp", ref mvp);
-            //vtxShader.SetValue("world", ref op.Transformation);
-
-            if (!stateSetted)
+            if (mode == RenderMode.Final)
             {
-                pixShader.SetValue("k_a", mat.Ambient);
-                pixShader.SetValue("k_d", mat.Diffuse);
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
-                ShaderSamplerState state = new ShaderSamplerState();
-                state.AddressU = TextureAddressMode.Wrap;
-                state.AddressV = TextureAddressMode.Wrap;
-                state.AddressW = TextureAddressMode.Wrap;
-                state.MinFilter = TextureFilter.Anisotropic;
-                state.MagFilter = TextureFilter.Anisotropic;
-                state.MipFilter = TextureFilter.Linear;
-                state.MaxAnisotropy = 8;
-                state.MipMapLODBias = 0;
+                vtxShader.SetValue("mvp", ref mvp);
+                //vtxShader.SetValue("world", ref op.Transformation);
+
+                if (!stateSetted)
+                {
+                    ShaderSamplerState state = new ShaderSamplerState();
+                    state.AddressU = TextureAddressMode.Wrap;
+                    state.AddressV = TextureAddressMode.Wrap;
+                    state.AddressW = TextureAddressMode.Wrap;
+                    state.MinFilter = TextureFilter.Anisotropic;
+                    state.MagFilter = TextureFilter.Anisotropic;
+                    state.MipFilter = TextureFilter.Linear;
+                    state.MaxAnisotropy = 8;
+                    state.MipMapLODBias = 0;
 
 
-                pixShader.SetSamplerState("texDif", ref state);
+                    pixShader.SetSamplerState("texDif", ref state);
 
-                ResourceHandle<Texture> clrTex = mat.GetTexture(0);
-                pixShader.SetTexture("texDif", clrTex != null ? clrTex.Resource : null);
+                    ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+                    pixShader.SetTexture("texDif", clrTex != null ? clrTex.Resource : null);
 
-                stateSetted = true;
+                    stateSetted = true;
+                }
+            }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                Matrix worldView = op.Transformation * EffectParams.CurrentCamera.ViewMatrix;
+                Matrix mvp = worldView * EffectParams.CurrentCamera.ProjectionMatrix;
+                nrmGenVShader.SetValue("mvp", ref mvp);
+                nrmGenVShader.SetValue("worldView", ref worldView);
+
+                if (!stateSetted)
+                {
+                    ShaderSamplerState state = new ShaderSamplerState();
+                    state.AddressU = TextureAddressMode.Wrap;
+                    state.AddressV = TextureAddressMode.Wrap;
+                    state.AddressW = TextureAddressMode.Wrap;
+                    state.MinFilter = TextureFilter.Linear;
+                    state.MagFilter = TextureFilter.Linear;
+                    state.MipFilter = TextureFilter.Linear;
+                    state.MaxAnisotropy = 8;
+                    state.MipMapLODBias = 0;
+
+                    nrmGenPShader.SetSamplerState("texDif", ref state);
+
+                    ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+                    if (clrTex == null)
+                    {
+                        nrmGenPShader.SetTexture("texDif", null);
+                    }
+                    else
+                    {
+                        nrmGenPShader.SetTexture("texDif", clrTex);
+                    }
+                }
             }
         }
 

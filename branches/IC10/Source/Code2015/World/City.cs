@@ -58,14 +58,14 @@ namespace Code2015.World
         public const float CityRadius = Game.ObjectScale * 100;
 
         /// <summary>
-        ///  城市所属圈的半径（过时）
+        ///  城市所属圈的半径
         /// </summary>
         public const float CityOutterRadius = CityRadius + Game.ObjectScale * 15;
 
         /// <summary>
         ///  城市选择圈的半径
         /// </summary>
-        public const float CitySelRingScale = 2.6f;
+        public const float CitySelRingScale = 2.35f;
 
 
         protected BattleField battleField;
