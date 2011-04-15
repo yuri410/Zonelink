@@ -55,14 +55,46 @@ namespace Code2015.GUI
 
         RtsCamera camera;
 
-        CityLinkableMark linkArrow;
+        CitySelectionMarker selectionMarker;
 
-
+        ISelectableObject mouseHoverObject;
         ISelectableObject selected;
-        City city;
+
+        City mouseHoverCity;
+        City selectedCity;
        
 
-        Point selectedProjPos;
+        //Point selectedProjPos;
+
+        public ISelectableObject MouseHoverObject 
+        {
+            get { return mouseHoverObject; }
+            set 
+            {
+                if (mouseHoverObject != value)
+                {
+                    mouseHoverObject = value;
+
+                    if (mouseHoverObject != null)
+                    {
+                        mouseHoverCity = mouseHoverObject as City;
+                        selectionMarker.MouseHoverCity = mouseHoverCity;
+                    }
+                    else
+                    {
+                        mouseHoverCity = null;
+                    }
+
+
+                    if (mouseHoverCity == null)
+                    {
+                        selectionMarker.MouseHoverCity = mouseHoverCity;
+                    }
+                }
+               
+
+            }
+        }
 
         public ISelectableObject SelectedObject
         {
@@ -75,16 +107,16 @@ namespace Code2015.GUI
 
                     if (selected != null)
                     {
-                        city = selected as City;
+                        selectedCity = selected as City;
 
-                        if (city != null)
+                        if (selectedCity != null)
                         {
-                            Vector3 ppos = renderSys.Viewport.Project(city.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
+                            //Vector3 ppos = renderSys.Viewport.Project(selectedCity.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
 
-                            selectedProjPos.X = (int)ppos.X;
-                            selectedProjPos.Y = (int)ppos.Y;
+                            //selectedProjPos.X = (int)ppos.X;
+                            //selectedProjPos.Y = (int)ppos.Y;
 
-                            City cc = city;
+                            City cc = selectedCity;
                             City[] nearby = new City[cc.LinkableCityCount];
 
                             for (int i = 0; i < cc.LinkableCityCount; i++)
@@ -92,17 +124,17 @@ namespace Code2015.GUI
                                 nearby[i] = cc.GetLinkableCity(i);
                             }
                             
-                            linkArrow.SetCity(city, nearby);
+                            selectionMarker.SetCity(selectedCity, nearby);
                         }
                     }
                     else
                     {
-                        city = null;
+                        selectedCity = null;
                     }
 
-                    if (city == null)
+                    if (selectedCity == null)
                     {
-                        linkArrow.SetCity(null, null);
+                        selectionMarker.SetCity(null, null);
                     }
                 }
             }
@@ -122,8 +154,8 @@ namespace Code2015.GUI
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
-            linkArrow = new CityLinkableMark(renderSys, player);
-            scene.Scene.AddObjectToScene(linkArrow);
+            selectionMarker = new CitySelectionMarker(renderSys, player);
+            scene.Scene.AddObjectToScene(selectionMarker);
         }
 
         public CityInfoDisplay CityInfoDisplay

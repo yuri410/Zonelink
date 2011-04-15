@@ -356,8 +356,13 @@ namespace Code2015.GUI
                     }
 
                     infoUI.SelectedObject = picker.SelectedObject;
+
+                    infoUI.MouseHoverObject = picker.MouseHoverObject;
+                    //cityEdit.SelectedCity = picker.SelectedCity;
+                 
                     //cityEdit.SelectedCity = picker.SelectedCity;      
                     selectInfo.SelectedCity = picker.SelectedCity;
+
                     base.Update(time);
                 }
             }
