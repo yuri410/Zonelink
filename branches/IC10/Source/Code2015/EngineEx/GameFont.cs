@@ -267,9 +267,9 @@ namespace Code2015.EngineEx
             IndexCast['-'] = 7;
             IndexCast['.'] = 8;
 
-            IndexCast[':'] = 18;
-            IndexCast[';'] = 19;
-            IndexCast['?'] = 20;
+            IndexCast[':'] = 19;
+            IndexCast[';'] = 20;
+            IndexCast['?'] = 21;
 
         }
 
@@ -330,7 +330,7 @@ namespace Code2015.EngineEx
                 }
             }
 
-            //sprite.Draw(font, new Rectangle(0, 0, font.Width, font.Height), ColorValue.White);
+          
         }
 
         public Size MeasureString(string text)
@@ -366,8 +366,6 @@ namespace Code2015.EngineEx
             FileLocation fl = FileSystem.Instance.Locate(fontName + ".raw", GameFileLocs.GUI);
             ContentBinaryReader br = new ContentBinaryReader(fl);
             byte[] buffur = br.ReadBytes(fl.Size);
-
-            //位图中每列所占的字节数
             //rowPitch = (int)fs.Length / font.Height;
 
             for (int row = 0; row < charsPerHeight; row++)

@@ -116,7 +116,8 @@ namespace Code2015.GUI
         //NoticeBar noticeBar;
         //DevelopmentMeter playerProgress;
         Picker picker;
-        CitySelectInfo citySelectInfo;
+
+        SelectInfo selectInfo;
 
         //CityEditPanel cityEdit;
         ExitConfirm exitConfirm;
@@ -207,9 +208,8 @@ namespace Code2015.GUI
             //AddElement(co2graph);
 
             //-----Ruan-----------
-            citySelectInfo = new CitySelectInfo(game, parent, scene, gamelogic, picker);
-            AddElement(citySelectInfo);
-
+            selectInfo = new SelectInfo(game, parent, scene, gamelogic);
+            AddElement(selectInfo);
 
             exitConfirm = new ExitConfirm();
             AddElement(exitConfirm);
@@ -356,9 +356,8 @@ namespace Code2015.GUI
                     }
 
                     infoUI.SelectedObject = picker.SelectedObject;
-                    //cityEdit.SelectedCity = picker.SelectedCity;
-                    citySelectInfo.SelectedCity = picker.SelectedCity;
-
+                    //cityEdit.SelectedCity = picker.SelectedCity;      
+                    selectInfo.SelectedCity = picker.SelectedCity;
                     base.Update(time);
                 }
             }

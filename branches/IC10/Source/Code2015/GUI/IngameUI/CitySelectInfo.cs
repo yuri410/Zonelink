@@ -99,8 +99,7 @@ namespace Code2015.GUI.IngameUI
 
         public override void Update(GameTime time)
         {
-            base.Update(time);
-           
+            base.Update(time);  
         }
     }
 }
