@@ -74,7 +74,7 @@ namespace Code2015.World
 
             frameIdx = Randomizer.GetRandomInt(FrameCount - 1);
 
-            float scale = Game.ObjectScale * 2.2f;
+            float scale = Game.ObjectScale * 2.9f;// 2.2f;
             if (isOcean)
             {
                 model = new Model[FrameCount];

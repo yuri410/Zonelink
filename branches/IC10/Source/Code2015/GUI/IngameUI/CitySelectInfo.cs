@@ -86,10 +86,12 @@ namespace Code2015.GUI.IngameUI
 
                 string hpInfo = hp.ToString() + "   " + hpFull.ToString();
                 string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
-                //f14.DrawString(sprite, hpInfo, 100, 100, ColorValue.White);
+                f14.DrawString(sprite, hpInfo, 100, 100, ColorValue.White);
 
-                string test = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                f14.DrawString(sprite, test, 100, 100, ColorValue.White);              
+                //string test = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                f14.DrawString(sprite, developmentInfo, 100, 250, ColorValue.White);
+
+                f14.DrawString(sprite, "/!\"$',-.:;", 100, 400, ColorValue.White);      
             }        
 
         }

@@ -52,6 +52,8 @@ PSOutput main(PSInput ip)
 	p.a = saturate(p.a);
 	
     o.Color = tex2D(texDif, ip.TexCoord) * p;
+    o.Color = 0.67 + (o.Color -0.5)/ 1.5;
+    
     o.Color.rgb *= 0.7 + 0.3*shd;
     
     o.Color.rgb += spec.xyz;
