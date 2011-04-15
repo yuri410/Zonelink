@@ -54,9 +54,9 @@ PSOutput main(PSInput ip)
 
 	o.Color = tex2D(texDif, ip.TexCoord.xy) * p;
 	
-	o.Color = 0.5 + (o.Color -0.5)/ 4;
+	o.Color = 0.6 + (o.Color -0.5)/ 2;
 	
-	o.Color.rgb *= 0.7 + 0.3*shd;
+	o.Color.rgb *= 0.8 + 0.2*shd;
 	o.Color.rgb += spec.xyz;
  
  
