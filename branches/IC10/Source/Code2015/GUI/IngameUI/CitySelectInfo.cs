@@ -23,8 +23,8 @@ namespace Code2015.GUI.IngameUI
         Game parent;
         Player player;
         Picker picker;
-        GameFont f14;
-
+        GameFontRuan f14;
+        
         City selectCity;
 
         public City SelectedCity
@@ -58,7 +58,7 @@ namespace Code2015.GUI.IngameUI
             this.game = game;
 
 
-            f14 = GameFontManager.Instance.F14;
+            f14 = GameFontManager.Instance.FRuan;
         }
 
         public override int Order
@@ -86,9 +86,10 @@ namespace Code2015.GUI.IngameUI
 
                 string hpInfo = hp.ToString() + "   " + hpFull.ToString();
                 string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
-                f14.DrawString(sprite, hpInfo, 1100, 680, ColorValue.White);
-                f14.DrawString(sprite, developmentInfo, 1100, 700, ColorValue.White);
-                     
+                //f14.DrawString(sprite, hpInfo, 100, 100, ColorValue.White);
+
+                string test = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+                f14.DrawString(sprite, test, 100, 100, ColorValue.White);              
             }        
 
         }
