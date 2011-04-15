@@ -2,7 +2,7 @@ float4x4 view;
 
 struct PSInput
 {
-    float2 GlobeCoord : TEXCOORD0;
+    float3 GlobeCoord : TEXCOORD0;
 };
 
 
@@ -10,9 +10,9 @@ sampler2D texNorm : register(s0);
 
 float4 main( PSInput ip) : COLOR 
 {
-	float3 N = tex2D(texNorm, ip.GlobeCoord).rgb * 2 - 1;
+	float3 N = tex2D(texNorm, ip.GlobeCoord.xy).rgb * 2 - 1;
 	
-	N = mul(N, (float3x3)view);
+	N = normalize( mul(N, (float3x3)view));
 	
-    return float4(0.5*(N + 1) ,1);
+    return float4((0.5*(N + 1)).xy, ip.GlobeCoord.z ,1);
 }

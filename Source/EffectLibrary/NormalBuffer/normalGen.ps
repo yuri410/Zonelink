@@ -1,8 +1,8 @@
 
 sampler2D texDif : register(s0);
 
-float4 main( float3 n : TEXCOORD0, float2 tex : TEXCOORD1) : COLOR 
+float4 main( float3 n : TEXCOORD0, float3 tex : TEXCOORD1) : COLOR 
 {
-    float alpha = tex2D(texDif, tex).a;
-    return float4(0.5*(n + 1),alpha);
+    float alpha = tex2D(texDif, tex.xy).a;
+    return float4((0.5*(n + 1)).xy, tex.z , alpha);
 }
