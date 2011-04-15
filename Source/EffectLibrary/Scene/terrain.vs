@@ -1,4 +1,5 @@
 #include "waterDepth.vsh"
+#include "fog.vsh"
 
 float4x4 mvp : register(c0);
 float4x4 smTrans : register(c4);
@@ -18,7 +19,6 @@ struct VSOutput
     float2 GlobeCoord : TEXCOORD0;
     float2 DetailCoord : TEXCOORD1;
     float4 smLgtPos : TEXCOORD2;
-    float Depth : TEXCOORD3;
     float3 TangentSpaceLDir : TEXCOORD4;
     float2 Height_Blend : TEXCOORD5;
 };
@@ -28,11 +28,11 @@ VSOutput main(VSInput ip)
     VSOutput o;
 
     o.Position = mul(ip.Position, mvp);
-    
+	
     float4 wpos = mul(ip.Position, world);
     
 	o.Height_Blend.x = GetHeight(wpos.xyz);
-	o.Height_Blend.y = 0.5;//clamp( distance(viewPos, (float3)wpos ) / 2500 ,0.4,0.6);
+	o.Height_Blend.y = GetFogFade(o.Position.z);
     
     o.GlobeCoord = ip.GlobeCoord;
     
@@ -56,7 +56,6 @@ VSOutput main(VSInput ip)
 
     o.TangentSpaceLDir = (float3)mul(float4(lightDir,0), tanTrans);
 
-	o.Depth = o.Position.z;
     o.smLgtPos = mul(ip.Position , smTrans);
 
     return o;

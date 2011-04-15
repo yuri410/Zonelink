@@ -1,6 +1,6 @@
 
 
-#define SAMPLE_COUNT 5
+#define SAMPLE_COUNT 3
 
 sampler2D tex : register(s0);
 
@@ -21,6 +21,7 @@ float4 main(PSInput ip) : COLOR
 {
 	float4 color = 0;
 
+	[unroll]
 	for (int i=0;i<SAMPLE_COUNT;i++)
 		color += tex2D(tex, ip.TexCoord + SampleOffsets[i])*SampleWeights[i];
 

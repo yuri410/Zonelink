@@ -147,7 +147,7 @@ namespace Code2015.Effects
                 state.MagFilter = TextureFilter.Anisotropic;
                 state.MipFilter = TextureFilter.Linear;
                 state.MaxAnisotropy = 8;
-                state.MipMapLODBias = -1;
+                state.MipMapLODBias = 0;
 
 
                 ShaderSamplerState state2 = new ShaderSamplerState();
@@ -163,8 +163,7 @@ namespace Code2015.Effects
                 pixShader.SetTexture("texColor", MaterialLibrary.Instance.GlobalColorTexture);
                 pixShader.SetTexture("texDif", MaterialLibrary.Instance.GlobalIndexTexture);
                 pixShader.SetTexture("texNorm", MaterialLibrary.Instance.GlobalNormalTexture);
-                pixShader.SetTexture("texCliff", MaterialLibrary.Instance.CliffColor);
-
+               
 
 
                 pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
@@ -192,6 +191,7 @@ namespace Code2015.Effects
                 pixShader.SetTexture("texDet4", tex.Texture);
                 pixShader.SetSamplerState("texDet4", ref state);
 
+                pixShader.SetTexture("texCliff", tex.Texture);
 
 
                 state.AddressU = TextureAddressMode.Clamp;

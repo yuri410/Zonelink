@@ -79,7 +79,7 @@ namespace Code2015.EngineEx
         /// <summary>
         ///  地形一条边上的顶点数
         /// </summary>
-        const int terrEdgeSize = 17;
+        const int terrEdgeSize = 33;
 
 
         VertexDeclaration vtxDecl;

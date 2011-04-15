@@ -1,5 +1,6 @@
 #include "ShadowMapping.psh"
 #include "hatching.psh"
+#include "fog.psh"
 
 sampler2D texDif : register(s0);
 sampler2D texShd : register(s1);
@@ -17,7 +18,7 @@ float3 lightDir : register(c8);
 
 struct PSInput
 {
-    float2 TexCoord : TEXCOORD0;
+    float3 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1; 
 	float4 smLgtPos : TEXCOORD2;
     float3 ViewDir : TEXCOORD5;
@@ -51,7 +52,7 @@ PSOutput main(PSInput ip)
 
   	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
 
-	o.Color = tex2D(texDif, ip.TexCoord) * p;
+	o.Color = tex2D(texDif, ip.TexCoord.xy) * p;
 	
 	o.Color = 0.5 + (o.Color -0.5)/ 4;
 	
@@ -59,11 +60,14 @@ PSOutput main(PSInput ip)
 	o.Color.rgb += spec.xyz;
  
  
-    float2 hatchTexCoord = ip.TexCoord * 1.0;
+    float2 hatchTexCoord = ip.TexCoord.xy * 1.0;
     
 	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
     
     o.Color.rgb *=  hatchColor;
+    
+    
+    o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.TexCoord.z);
     
     return o;
 }
