@@ -62,10 +62,15 @@ namespace Code2015.World
         {
             renderSys = rs;
 
+            Viewport vp = rs.Viewport;
+            float aspectRatio = vp.Width / (float)vp.Height;
+            camera = new RtsCamera(45, aspectRatio);
+
+
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctplSceneManager(PlanetEarth.PlanetRadius);
             sm.UseShadow = true;
-            sm.PostRenderer = new GamePostRenderer(renderSys);
+            sm.PostRenderer = new GamePostRenderer(renderSys, camera);
 
 
 
@@ -73,10 +78,7 @@ namespace Code2015.World
             renderer = new SceneRenderer(renderSys, sm);
             renderer.ClearColor = ColorValue.White;
 
-            Viewport vp = rs.Viewport;
-            float aspectRatio = vp.Width / (float)vp.Height;
 
-            camera = new RtsCamera(45, aspectRatio);
             camera.NearPlane = 20;
             camera.FarPlane = 6000;
             camera.Mode = RenderMode.Final;

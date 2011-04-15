@@ -270,7 +270,7 @@ namespace Code2015.GUI
         {
             SceneRendererParameter sm = new SceneRendererParameter();
             sm.SceneManager = new OctreeSceneManager(new OctreeBox(PlanetEarth.PlanetRadius * 4f), PlanetEarth.PlanetRadius / 75f);
-            sm.PostRenderer = new GamePostRenderer(rs);
+            sm.PostRenderer = new GamePostRenderer(rs, null);
             sm.UseShadow = true;
 
             MenuCamera camera = new MenuCamera(Program.ScreenWidth / (float)Program.ScreenHeight);
