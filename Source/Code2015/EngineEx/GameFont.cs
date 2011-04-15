@@ -221,14 +221,18 @@ namespace Code2015.EngineEx
         Texture font;
 
         private int[] charWidthReal;
+        private int[] charLeft;
+        //private int[] charRight;
 
         private int charHeight;
         private int charWidth;
 
-        private int rowPitch;
+        private int mapWidth;
+        //private int rowPitch;
 
 
         static readonly int[] IndexCast;
+
         static GameFontRuan()
         {
             IndexCast = new int[byte.MaxValue];
@@ -278,9 +282,12 @@ namespace Code2015.EngineEx
             charWidth = font.Width / charsPerWidth;
 
             charWidthReal = new int[byte.MaxValue];
+            charLeft = new int[byte.MaxValue];
+            //charRight = new int[byte.MaxValue];
+
+            mapWidth = font.Width;
 
             MeasureCharWidth(name);
-
         }
 
         public void DrawString(Sprite sprite, string text, int x, int y, ColorValue color)
@@ -289,13 +296,16 @@ namespace Code2015.EngineEx
             for (int i = 0; i < text.Length; i++)
             {
                 char ch = text[i];
-                if (ch != '\n')
+                if (ch == ' ') 
                 {
-
+                    x += charWidth / 3;
+                }
+                else if (ch != '\n')
+                {
                     Rectangle rect;
                     rect.X = x;
                     rect.Y = y;
-                    rect.Width = charWidth;
+                    rect.Width = charWidthReal[ch];
                     rect.Height = charHeight;
 
                     Rectangle srect;
@@ -303,15 +313,15 @@ namespace Code2015.EngineEx
 
                     int idx = IndexCast[ch];
 
-                    srect.X = charWidth * (idx % charsPerWidth);
+                    srect.X = charWidth * (idx % charsPerWidth) + charLeft[ch];
                     srect.Y = charHeight * (idx / charsPerWidth);
-                    srect.Width = charWidth;
+                    srect.Width = charWidthReal[ch];
                     srect.Height = charHeight;
 
 
 
                     sprite.Draw(font, rect, srect, color);
-                    x += charWidthReal[ch] + 6;
+                    x += charWidthReal[ch] + 5;
                 }
                 else
                 {
@@ -354,14 +364,11 @@ namespace Code2015.EngineEx
         private void MeasureCharWidth(string fontName)
         {
             FileLocation fl = FileSystem.Instance.Locate(fontName + ".raw", GameFileLocs.GUI);
-            //string name = @"C:\Users\hust_ruan\Desktop\font\" + fontName + ".raw";
-            //FileStream fs = new FileStream(name, FileMode.Open, FileAccess.Read);
             ContentBinaryReader br = new ContentBinaryReader(fl);
-            byte[] buffur = br.ReadBytes(fl.Size);// new byte[fs.Length];
-            //fs.Read(buffur, 0, (int)fs.Length);
+            byte[] buffur = br.ReadBytes(fl.Size);
 
             //位图中每列所占的字节数
-            rowPitch = (int)fs.Length / font.Height;
+            //rowPitch = (int)fs.Length / font.Height;
 
             for (int row = 0; row < charsPerHeight; row++)
             {
@@ -399,35 +406,84 @@ namespace Code2015.EngineEx
             int endX = startX + charWidth;
             int endY = startY + charHeight;
 
-            int leftMin = endX;
-            int rightMax = startX;
 
-            for (int row = startY; row < endY; row++)
+
+            int start = startX;
+            int end = endX - 1;
+
+            bool found = false;
+
+            for (int j = startX; (j < endX && !found); j++)
             {
-                int rowStart = row * rowPitch;
-
-                int leftPos = startX;
-                int rightPos = endX - 1;
-
-                while ((leftPos < endX) && (buffer[rowStart + leftPos] < 128))
+                for (int i = startY; i < endY; i++)
                 {
-                    leftPos++;
+                    if (buffer[i * mapWidth + j] > 127)
+                    {
+                        start = j;
+                        found = true;
+                        break;
+                    }
                 }
-
-                while ((rightPos >= startX) && (buffer[rowStart + rightPos] < 128))
-                {
-                    rightPos--;
-                }
-                //if (rightPos == -1)
-                //rightPos++;
-
-                if (leftPos < leftMin)
-                    leftMin = leftPos;
-                if (rightPos > rightMax)
-                    rightMax = rightPos;
             }
 
-            charWidthReal[ascii] = rightMax - leftMin;
+            found = false;
+            for (int j = endX - 1; (j >= startX && !found); j--)
+            {
+                for (int i = startY; i < endY; i++)
+                {
+                    if (buffer[i * mapWidth + j] > 127)
+                    {
+                        end = j;
+                        found = true;
+                        break;
+                    }
+                }
+            }
+
+            if (end < start)
+            {
+                charWidthReal[ascii] = 0;
+                charLeft[ascii] = 0;
+                //charRight[ascii] = 0;
+            }
+            else
+            {
+                charWidthReal[ascii] = end - start + 1;
+                charLeft[ascii] = start - startX;
+                //charRight[ascii] = end + 1 - startX;
+            }
+
+            //int leftMin = endX;
+            //int rightMax = startX;
+
+
+
+            //for (int row = startY; row < endY; row++)
+            //{
+            //    int rowStart = row * mapWidth;
+
+            //    int leftPos = startX;
+            //    int rightPos = endX - 1;
+
+            //    while ((leftPos < endX) && (buffer[rowStart + leftPos] < 128))
+            //    {
+            //        leftPos++;
+            //    }
+
+            //    while ((rightPos >= startX) && (buffer[rowStart + rightPos] < 128))
+            //    {
+            //        rightPos--;
+            //    }
+            //    //if (rightPos == -1)
+            //    //rightPos++;
+
+            //    if (leftPos < leftMin)
+            //        leftMin = leftPos;
+            //    if (rightPos > rightMax)
+            //        rightMax = rightPos;
+            //}
+
+            //charWidthReal[ascii] = rightMax - leftMin;
         }
     }
 }
