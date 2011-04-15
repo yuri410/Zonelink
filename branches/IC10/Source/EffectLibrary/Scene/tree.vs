@@ -1,4 +1,5 @@
 #include "waterDepth.vsh"
+#include "fog.vsh"
 
 float4x4 mvp : register(c0);
 
@@ -17,7 +18,7 @@ struct VSInput
 struct VSOutput
 {
     float4 Position : POSITION0;
-    float2 TexCoord : TEXCOORD0;
+    float3 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1;
     float4 smLgtPos : TEXCOORD2;
     float3 ViewDir : TEXCOORD5;
@@ -43,7 +44,8 @@ VSOutput main(VSInput ip)
     o.Position = mul(ip.Position, mvp);
 	
 
-    o.TexCoord = ip.TexCoord.xy;
+    o.TexCoord.xy = ip.TexCoord.xy;
+    o.TexCoord.z = GetFogFade(o.Position.z);
     if (isVeg_wind.x>10)
 	{
 		o.Normal = yas.xyz;
@@ -58,5 +60,5 @@ VSOutput main(VSInput ip)
 	o.ViewDir = normalize(wpos - viewPos);
 	
 	o.smLgtPos = mul(ip.Position , smTrans);
-   return o;
+    return o;
 }

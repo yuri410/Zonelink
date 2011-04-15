@@ -1,7 +1,7 @@
 #include "waterDepth.psh"
 #include "ShadowMapping.psh"
 #include "hatching.psh"
-
+#include "fog.psh"
 
     
 sampler2D texDet1 : register(s0);
@@ -30,7 +30,6 @@ struct PSInput
     float2 DetailCoord : TEXCOORD1; 
 
     float4 smLgtPos : TEXCOORD2;
-    float Depth : TEXCOORD3;
 	float3 TangentSpaceLDir : TEXCOORD4;
     float2 Height_Blend : TEXCOORD5;
 };
@@ -75,13 +74,13 @@ PSOutput main(PSInput ip)
 	
 	
 	
-    o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord), ip.Height_Blend.y);
+    o.Color = lerp(color , tex2D(texColor, ip.GlobeCoord) + 0.5, 0.4);
 
     float wgt = saturate(N.z);
     
     if (wgt > 0.2f)
     {
-		o.Color.rgb = lerp(tex2D(texCliff, ip.DetailCoord*1).rgb, o.Color.rgb, (wgt - 0.2)/0.8);
+		o.Color.rgb = lerp(tex2D(texCliff, ip.DetailCoord).rgb, o.Color.rgb, (wgt - 0.2)/0.8);
     }
     
     
@@ -112,9 +111,7 @@ PSOutput main(PSInput ip)
     o.Color.rgb *=  hatchColor;
     
     
-    
-    
-    
+    o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.Height_Blend.y);
     
     return o;
 }
