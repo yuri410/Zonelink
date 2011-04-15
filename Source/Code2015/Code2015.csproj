@@ -137,7 +137,6 @@
     </Compile>
     <Compile Include="GUI\CreditScreen.cs" />
     <Compile Include="GUI\GUIScreen.cs" />
-    <Compile Include="GUI\IngameUI\CitySelectInfo.cs" />
     <Compile Include="GUI\IngameUI\DevelopmentMeter.cs" />
     <Compile Include="GUI\IngameUI\InfoDisplay.cs" />
     <Compile Include="GUI\Controls\Control.cs">
@@ -163,6 +162,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\IngameUI\Picker.cs" />
+    <Compile Include="GUI\IngameUI\SelectInfo.cs" />
     <Compile Include="GUI\Intro.cs" />
     <Compile Include="GUI\LoadingOverlay.cs" />
     <Compile Include="GUI\MainMenu.cs" />
