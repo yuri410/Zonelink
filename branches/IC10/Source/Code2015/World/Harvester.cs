@@ -53,7 +53,7 @@ namespace Code2015.World
     }
 
 
-    class Harvester : WorldDynamicObject
+    class Harvester : WorldDynamicObject, ISelectableObject
     {
         public const int NumModels = 30;
         /// <summary>
@@ -570,6 +570,16 @@ namespace Code2015.World
         }
 
 
+
+        #region ISelectableObject 成员
+
+        public bool IsSelected
+        {
+            get;
+            set;
+        }
+
+        #endregion
     }
 
 }

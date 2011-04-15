@@ -55,7 +55,6 @@ namespace Code2015.GUI
 
         RtsCamera camera;
 
-        CitySelectionMarker selectionMarker;
 
         ISelectableObject mouseHoverObject;
         ISelectableObject selected;
@@ -64,81 +63,6 @@ namespace Code2015.GUI
         City selectedCity;
        
 
-        //Point selectedProjPos;
-
-        public ISelectableObject MouseHoverObject 
-        {
-            get { return mouseHoverObject; }
-            set 
-            {
-                if (mouseHoverObject != value)
-                {
-                    mouseHoverObject = value;
-
-                    if (mouseHoverObject != null)
-                    {
-                        mouseHoverCity = mouseHoverObject as City;
-                        selectionMarker.MouseHoverCity = mouseHoverCity;
-                    }
-                    else
-                    {
-                        mouseHoverCity = null;
-                    }
-
-
-                    if (mouseHoverCity == null)
-                    {
-                        selectionMarker.MouseHoverCity = mouseHoverCity;
-                    }
-                }
-               
-
-            }
-        }
-
-        public ISelectableObject SelectedObject
-        {
-            get { return selected; }
-            set
-            {
-                if (selected != value)
-                {
-                    selected = value;
-
-                    if (selected != null)
-                    {
-                        selectedCity = selected as City;
-
-                        if (selectedCity != null)
-                        {
-                            //Vector3 ppos = renderSys.Viewport.Project(selectedCity.Position, camera.ProjectionMatrix, camera.ViewMatrix, Matrix.Identity);
-
-                            //selectedProjPos.X = (int)ppos.X;
-                            //selectedProjPos.Y = (int)ppos.Y;
-
-                            City cc = selectedCity;
-                            City[] nearby = new City[cc.LinkableCityCount];
-
-                            for (int i = 0; i < cc.LinkableCityCount; i++)
-                            {
-                                nearby[i] = cc.GetLinkableCity(i);
-                            }
-                            
-                            selectionMarker.SetCity(selectedCity, nearby);
-                        }
-                    }
-                    else
-                    {
-                        selectedCity = null;
-                    }
-
-                    if (selectedCity == null)
-                    {
-                        selectionMarker.SetCity(null, null);
-                    }
-                }
-            }
-        }
 
         public InfoUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
@@ -154,8 +78,6 @@ namespace Code2015.GUI
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
             this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
-            selectionMarker = new CitySelectionMarker(renderSys, player);
-            scene.Scene.AddObjectToScene(selectionMarker);
         }
 
         public CityInfoDisplay CityInfoDisplay

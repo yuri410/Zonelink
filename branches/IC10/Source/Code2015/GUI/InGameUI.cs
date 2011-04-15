@@ -117,6 +117,9 @@ namespace Code2015.GUI
         //DevelopmentMeter playerProgress;
         Picker picker;
 
+        SelectionMarker selectionMarker;
+
+
         SelectInfo selectInfo;
 
         //CityEditPanel cityEdit;
@@ -213,6 +216,13 @@ namespace Code2015.GUI
 
             exitConfirm = new ExitConfirm();
             AddElement(exitConfirm);
+
+
+
+
+
+            selectionMarker = new SelectionMarker(renderSys, player);
+            scene.Scene.AddObjectToScene(selectionMarker);
         }
 
         public override void Render(Sprite sprite)
@@ -355,12 +365,9 @@ namespace Code2015.GUI
                         }
                     }
 
-                    infoUI.SelectedObject = picker.SelectedObject;
+                    selectionMarker.SelectedObject = picker.SelectedObject;
+                    selectionMarker.MouseHoverObject = picker.MouseHoverObject;
 
-                    infoUI.MouseHoverObject = picker.MouseHoverObject;
-                    //cityEdit.SelectedCity = picker.SelectedCity;
-                 
-                    //cityEdit.SelectedCity = picker.SelectedCity;      
                     selectInfo.SelectedCity = picker.SelectedCity;
 
                     base.Update(time);
