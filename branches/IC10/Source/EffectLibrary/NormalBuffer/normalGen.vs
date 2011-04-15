@@ -8,9 +8,10 @@ void main(
    float2 tex : TEXCOORD0,  
    out float4 oPos : POSITION,
    out float3 oN : TEXCOORD0,
-   out float2 oTex : TEXCOORD1)
+   out float3 oTex : TEXCOORD1)
 {
     oPos = mul(pos, mvp);
     oN = normalize(mul(n, (float3x3)worldView));
-    oTex = tex;
+    oTex.xy = tex;
+    oTex.z = saturate(oPos.z/6000);
 }
