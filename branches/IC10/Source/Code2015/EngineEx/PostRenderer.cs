@@ -28,6 +28,8 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Media;
 using Code2015.Effects;
+using Apoc3D.Graphics.Effects;
+using Code2015.World;
 
 namespace Code2015.EngineEx
 {
@@ -36,16 +38,16 @@ namespace Code2015.EngineEx
     /// </summary>
     public class GamePostRenderer : UnmanagedResource, IPostSceneRenderer
     {
-        const float BloomThreshold = 0.3f;
-        const float BlurAmount = 4;
+        //const float BloomThreshold = 0.3f;
+        const float BlurAmount = 3.5f;
 
-        const float BloomIntensity = 1;
-        const float BaseIntensity = 1;
+        //const float BloomIntensity = 1;
+        //const float BaseIntensity = 1;
 
-        const float BloomSaturation = 1;
-        const float BaseSaturation = 1;
+        //const float BloomSaturation = 1;
+        //const float BaseSaturation = 1;
 
-        const int SampleCount = 15;
+        const int SampleCount = 5;
 
         struct RectVertex
         {
@@ -75,16 +77,16 @@ namespace Code2015.EngineEx
         }
 
         RenderSystem renderSys;
-
+        RtsCamera camera;
         GuassBlurFilter guassFilter;
 
 
-        RenderTarget nrmRt;
-        RenderTarget edgeRt;
+        RenderTarget nrmDepthBuffer;
+        RenderTarget edgeResultBuffer;
 
-        RenderTarget clrRt;
-        RenderTarget blmRt1;
-        RenderTarget blmRt2;
+        RenderTarget colorBuffer;
+        RenderTarget blurredRt1;
+        RenderTarget blurredRt2;
 
 
         Bloom bloomEff;
@@ -104,11 +106,12 @@ namespace Code2015.EngineEx
         GeomentryData quadOp;
         GeomentryData smallQuadOp;
 
-        public GamePostRenderer(RenderSystem rs)
+        public GamePostRenderer(RenderSystem rs, RtsCamera camera)
         {
             this.factory = rs.ObjectFactory;
 
             this.renderSys = rs;
+            this.camera = camera;
 
             bloomEff = new Bloom(rs);
             compEff = new Composite(rs);
@@ -137,7 +140,11 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
-            renderer.RenderScene(nrmRt, RenderMode.DeferredNormal);
+            renderer.RenderScene(nrmDepthBuffer, RenderMode.DeferredNormal);
+
+            
+
+            renderer.RenderScene(colorBuffer, RenderMode.Final);
 
             Viewport vp = renderSys.Viewport;
 
@@ -153,69 +160,54 @@ namespace Code2015.EngineEx
             sampler1.MipFilter = TextureFilter.None;
             sampler1.MipMapLODBias = 0;
 
-            renderSys.SetRenderTarget(0, edgeRt);
+
+            ShaderSamplerState sampler2 = sampler1;
+            sampler2.MagFilter = TextureFilter.Linear;
+            sampler2.MinFilter = TextureFilter.Linear;
+
+            #region 边缘合成
+            renderSys.SetRenderTarget(0, edgeResultBuffer);
             edgeEff.Begin();
 
-            edgeEff.SetSamplerState("samNormalBuffer", ref sampler1);
-            edgeEff.SetTexture("samNormalBuffer", nrmRt.GetColorBufferTexture());
+            edgeEff.SetSamplerStateDirect(0, ref sampler1);
+            edgeEff.SetSamplerStateDirect(1, ref sampler1);
+
+            edgeEff.SetTextureDirect(0, nrmDepthBuffer.GetColorBufferTexture());
+            edgeEff.SetTextureDirect(1, colorBuffer.GetColorBufferTexture());
 
             Vector2 nrmBufSize = new Vector2(vp.Width, vp.Height);
             edgeEff.SetValue("normalBufferSize", ref nrmBufSize);
 
             DrawBigQuad();
             edgeEff.End();
-
-
-            renderer.RenderScene(clrRt, RenderMode.Final);
-            //renderSys.RenderStates.FillMode = FillMode.Solid;
-
-
-            ShaderSamplerState sampler2 = sampler1;
-            //sampler2.BorderColor = ColorValue.Transparent;
-            sampler2.MagFilter = TextureFilter.Linear;
-            sampler2.MinFilter = TextureFilter.Linear;
-
-            #region 分离高光
-            renderSys.SetRenderTarget(0, blmRt1);
-
-            bloomEff.Begin();
-
-            bloomEff.SetSamplerStateDirect(0, ref sampler1);
-            bloomEff.SetTexture("tex", clrRt.GetColorBufferTexture());
-            bloomEff.SetValue("BloomThreshold", BloomThreshold);
-
-            DrawSmallQuad();
-
-            bloomEff.End();
             #endregion
 
             #region 高斯X
-            renderSys.SetRenderTarget(0, blmRt2);
+            renderSys.SetRenderTarget(0, blurredRt1);
 
             gaussBlur.Begin();
 
-
-            gaussBlur.SetTexture("tex", blmRt1.GetColorBufferTexture());
+            gaussBlur.SetSamplerStateDirect(0, ref sampler1);
+            gaussBlur.SetTextureDirect(0, edgeResultBuffer.GetColorBufferTexture());
 
             for (int i = 0; i < SampleCount; i++)
             {
                 gaussBlur.SetValueDirect(i, ref guassFilter.SampleOffsetsX[i]);
                 gaussBlur.SetValueDirect(i + 15, guassFilter.SampleWeights[i]);
             }
-            //gaussBlur.SetValue("SampleOffsets", SampleOffsetsX);
-            //gaussBlur.SetValue("SampleWeights", SampleWeights);
 
             DrawSmallQuad();
 
             gaussBlur.End();
             #endregion
 
-
             #region 高斯Y
 
-            renderSys.SetRenderTarget(0, blmRt1);
+            renderSys.SetRenderTarget(0, blurredRt2);
             gaussBlur.Begin();
-            gaussBlur.SetTexture("tex", blmRt2.GetColorBufferTexture());
+
+            gaussBlur.SetSamplerStateDirect(0, ref sampler1);
+            gaussBlur.SetTextureDirect(0, blurredRt1.GetColorBufferTexture());
 
             for (int i = 0; i < SampleCount; i++)
             {
@@ -230,23 +222,29 @@ namespace Code2015.EngineEx
             #endregion
 
 
-            #region 合成
+            #region DOF合成
 
             renderSys.SetRenderTarget(0, screenTarget);
 
             compEff.Begin();
-            compEff.SetValue("BloomIntensity", BloomIntensity);
-            compEff.SetValue("BaseIntensity", BaseIntensity);
-            compEff.SetValue("BloomSaturation", BloomSaturation);
-            compEff.SetValue("BaseSaturation", BaseSaturation);
-            
 
             compEff.SetSamplerStateDirect(0, ref sampler1);
             compEff.SetSamplerStateDirect(1, ref sampler2);
+            compEff.SetSamplerStateDirect(2, ref sampler2);
 
-            compEff.SetTextureDirect(0, clrRt.GetColorBufferTexture());
-            compEff.SetTextureDirect(1, blmRt1.GetColorBufferTexture());
-            compEff.SetTextureDirect(2, edgeRt.GetColorBufferTexture());
+            compEff.SetTextureDirect(0, edgeResultBuffer.GetColorBufferTexture());
+            compEff.SetTextureDirect(1, blurredRt2.GetColorBufferTexture());
+            compEff.SetTextureDirect(2, nrmDepthBuffer.GetColorBufferTexture());
+
+            if (camera != null)
+            {
+                float focNear = (camera.Position.Length() - PlanetEarth.PlanetRadius) / camera.FarPlane;
+                compEff.SetValue("FocusNear", focNear);
+            }
+            else 
+            {
+                compEff.SetValue("FocusNear", 0.3f);
+            }
 
             renderSys.RenderStates.AlphaBlendEnable = true;
             renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;
@@ -266,11 +264,11 @@ namespace Code2015.EngineEx
             Size blmSize = new Size(vp.Width / 2, vp.Height / 2);
             Size scrnSize = new Size(vp.Width, vp.Height);
 
-            blmRt1 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
-            blmRt2 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
-            clrRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
-            nrmRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
-            edgeRt = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
+            blurredRt1 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
+            blurredRt2 = factory.CreateRenderTarget(blmSize.Width, blmSize.Height, ImagePixelFormat.A8R8G8B8);
+            colorBuffer = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
+            nrmDepthBuffer = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
+            edgeResultBuffer = factory.CreateRenderTarget(scrnSize.Width, scrnSize.Height, ImagePixelFormat.A8R8G8B8);
 
             #region 计算参数
 
@@ -348,10 +346,10 @@ namespace Code2015.EngineEx
 
         protected override void unloadUnmanagedResources()
         {
-            clrRt.Dispose();
-            blmRt1.Dispose();
-            nrmRt.Dispose();
-            edgeRt.Dispose();
+            colorBuffer.Dispose();
+            blurredRt1.Dispose();
+            nrmDepthBuffer.Dispose();
+            edgeResultBuffer.Dispose();
 
             indexBuffer.Dispose();
             quad.Dispose();
@@ -364,8 +362,8 @@ namespace Code2015.EngineEx
             smallQuad = null;
             indexBuffer = null;
 
-            clrRt = null;
-            blmRt1 = null;
+            colorBuffer = null;
+            blurredRt1 = null;
             //colorTarget = null;
             //bloom = null;
         }
