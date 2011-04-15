@@ -29,6 +29,7 @@ using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.GUI;
+using System.IO;
 
 namespace Code2015.EngineEx
 {
@@ -54,6 +55,7 @@ namespace Code2015.EngineEx
         GameFont f14;
         GameFont f20ig1;
         GameFont f18g1;
+        GameFontRuan fRuan;
 
         private GameFontManager(RenderSystem rs)
         {
@@ -62,6 +64,7 @@ namespace Code2015.EngineEx
             f201 = new GameFont("f20i");
             f14 = new GameFont("f14");
             f18 = new GameFont("f18");
+            fRuan = new GameFontRuan("font");
         }
         public GameFont F18G1 
         {
@@ -83,6 +86,10 @@ namespace Code2015.EngineEx
         public GameFont F20I
         {
             get { return f201; }
+        }
+        public GameFontRuan FRuan
+        {
+            get { return fRuan; }
         }
     }
     class GameFont
@@ -202,6 +209,225 @@ namespace Code2015.EngineEx
             }
             
             return result;
+        }
+    }
+
+
+    class GameFontRuan
+    {
+        const int charsPerWidth = 10;
+        const int charsPerHeight = 8;
+
+        Texture font;
+
+        private int[] charWidthReal;
+
+        private int charHeight;
+        private int charWidth;
+
+        private int rowPitch;
+
+
+        static readonly int[] IndexCast;
+        static GameFontRuan()
+        {
+            IndexCast = new int[byte.MaxValue];
+
+            for (int i = 0; i < 255; i++)
+                IndexCast[i] = -1;
+
+            int idx = 9;
+            for (char c = '0'; c <= '9'; c++)
+            {
+                IndexCast[c] = idx++;
+            }
+
+            idx = 22;
+            for (char c = 'A'; c <= 'Z'; c++)
+            {
+                IndexCast[c] = idx++;
+            }
+
+            idx = 44;
+            for (char c = 'a'; c <= 'z'; c++)
+            {
+                IndexCast[c] = idx++;
+            }
+
+            IndexCast['/'] = 0;
+            IndexCast['!'] = 1;
+            IndexCast['"'] = 2;
+            IndexCast['$'] = 3;
+            IndexCast[39] = 4;
+            IndexCast[','] = 6;
+            IndexCast['-'] = 7;
+            IndexCast['.'] = 8;
+
+            IndexCast[':'] = 18;
+            IndexCast[';'] = 19;
+            IndexCast['?'] = 20;
+
+        }
+
+        public GameFontRuan(string name)
+        {
+            FileLocation fl = FileSystem.Instance.Locate(name + ".tex", GameFileLocs.GUI);
+            font = UITextureManager.Instance.CreateInstance(fl);
+
+            charHeight = font.Height / charsPerHeight;
+            charWidth = font.Width / charsPerWidth;
+
+            charWidthReal = new int[byte.MaxValue];
+
+            MeasureCharWidth(name);
+
+        }
+
+        public void DrawString(Sprite sprite, string text, int x, int y, ColorValue color)
+        {
+            int std = x;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char ch = text[i];
+                if (ch != '\n')
+                {
+
+                    Rectangle rect;
+                    rect.X = x;
+                    rect.Y = y;
+                    rect.Width = charWidth;
+                    rect.Height = charHeight;
+
+                    Rectangle srect;
+
+
+                    int idx = IndexCast[ch];
+
+                    srect.X = charWidth * (idx % charsPerWidth);
+                    srect.Y = charHeight * (idx / charsPerWidth);
+                    srect.Width = charWidth;
+                    srect.Height = charHeight;
+
+
+
+                    sprite.Draw(font, rect, srect, color);
+                    x += charWidthReal[ch] + 6;
+                }
+                else
+                {
+                    x = std;
+                    y += charHeight;
+                }
+            }
+
+            //sprite.Draw(font, new Rectangle(0, 0, font.Width, font.Height), ColorValue.White);
+        }
+
+        public Size MeasureString(string text)
+        {
+            Size result = new Size(0, charHeight);
+
+            int x = 0, y = 0;
+            for (int i = 0; i < text.Length; i++)
+            {
+                char ch = text[i];
+                if (ch != '\n')
+                {
+                    x += (int)(charWidthReal[ch]);
+                }
+                else
+                {
+                    x = 0;
+                    y += charHeight;
+                }
+
+                if (result.Width < x)
+                    result.Width = x;
+                if (result.Height < y)
+                    result.Height = y;
+            }
+
+            return result;
+        }
+
+
+        private void MeasureCharWidth(string fontName)
+        {
+            FileLocation fl = FileSystem.Instance.Locate(fontName + ".raw", GameFileLocs.GUI);
+            //string name = @"C:\Users\hust_ruan\Desktop\font\" + fontName + ".raw";
+            //FileStream fs = new FileStream(name, FileMode.Open, FileAccess.Read);
+            ContentBinaryReader br = new ContentBinaryReader(fl);
+            byte[] buffur = br.ReadBytes(fl.Size);// new byte[fs.Length];
+            //fs.Read(buffur, 0, (int)fs.Length);
+
+            //位图中每列所占的字节数
+            rowPitch = (int)fs.Length / font.Height;
+
+            for (int row = 0; row < charsPerHeight; row++)
+            {
+                for (int col = 0; col < charsPerWidth; col++)
+                {
+                    byte ascii = Find(row, col);
+                    if (ascii != 0)
+                    {
+                        CharWidthHelper(buffur, col * charWidth, row * charHeight, ascii);
+                    }
+                    
+                }
+
+            }
+
+            br.Close();
+        }
+
+        private byte Find(int row, int col)
+        {
+            int num = row * charsPerWidth + col;
+            for (byte i = 0; i < byte.MaxValue; i++)
+            {
+                if (IndexCast[i] == num)
+                {
+                    return i;
+                }
+            }
+            
+           return 0;
+        }
+
+        private void CharWidthHelper(byte[] buffer, int startX, int startY, byte ascii)
+        {
+            int endX = startX + charWidth;
+            int endY = startY + charHeight;
+
+            int leftMin = endX;
+            int rightMax = startX;
+
+            for (int row = startY; row < endY; row++)
+            {
+                int rowStart = row * rowPitch;
+
+                int leftPos = startX;
+                int rightPos = endX - 1;
+
+                while ((leftPos < endX) && (buffer[rowStart + leftPos] < 128))
+                {
+                    leftPos++;
+                }
+
+                while ((rightPos >= startX) && (buffer[rowStart + rightPos] < 128))
+                {
+                    rightPos--;
+                }
+                //if (rightPos == -1)
+                //rightPos++;
+
+                if (leftPos < leftMin)
+                    leftMin = leftPos;
+                if (rightPos > rightMax)
+                    rightMax = rightPos;
+            }
+
+            charWidthReal[ascii] = rightMax - leftMin;
         }
     }
 }
