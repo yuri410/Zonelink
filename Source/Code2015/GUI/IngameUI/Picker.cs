@@ -80,11 +80,7 @@ namespace Code2015.GUI
             private set;
         }
 
-        public Harvester SelectedHarvester
-        {
-            get;
-            private set;
-        }
+
 
         public ISelectableObject MouseHoverObject
         {
@@ -147,9 +143,6 @@ namespace Code2015.GUI
             {
                 SelectedObject = MouseHoverObject;
                 SelectedCity = MouseHoverCity;
-
-             
-                SelectedHarvester = MouseHoverObject as Harvester;
             }
         }
     }

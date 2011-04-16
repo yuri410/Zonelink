@@ -109,6 +109,7 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(TerrainEffect33Factory.Name, new TerrainEffect33Factory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(WaterEffectFactory.Name, new WaterEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(StandardEffectFactory.Name, new StandardEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(SkinnedStandardEffectFactory.Name, new SkinnedStandardEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(EarthBaseEffectFactory.Name, new EarthBaseEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(AtmosphereEffectFactory.Name, new AtmosphereEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(CityLinkEffectFactory.Name, new CityLinkEffectFactory(renderSys));
