@@ -22,12 +22,6 @@ namespace Code2015.GUI.IngameUI
 
         GameFontRuan f6;
 
-
-        private const int X = 900;
-        private const int Y = 550;
-
-
-
         #region 选择城市
         /// <summary>
         /// Currently selected city, Null if not selected
