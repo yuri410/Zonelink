@@ -320,8 +320,8 @@ namespace Code2015.World
         {
             float ddt = time.ElapsedGameTimeSeconds;
             ringRotation += ddt / 4.5f;
-            if (ringRotation > MathEx.PIf)
-                ringRotation -= MathEx.PIf;
+            if (ringRotation > 2 * MathEx.PIf)
+                ringRotation -= 2 * MathEx.PIf;
 
             if (mouseHoverCity != null)
             {

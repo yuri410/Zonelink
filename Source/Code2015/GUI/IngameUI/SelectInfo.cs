@@ -32,7 +32,7 @@ namespace Code2015.GUI.IngameUI
         /// <summary>
         /// 泡泡漂浮在城市上空的高度
         /// </summary>
-        private const float bubbleHeight = 200;
+        private const float bubbleHeight = 500;
 
         private Texture cityBubbleTex;
 
