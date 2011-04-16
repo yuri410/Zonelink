@@ -168,7 +168,7 @@ namespace Code2015.World
             FileLocation fl = FileSystem.Instance.Locate("citybase.mesh", GameFileLocs.Model);
             cityBase = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             cityBase.CurrentAnimation.Clear();
-            cityBase.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2, 2, 1) * Matrix.RotationX(-MathEx.PiOver2)));
+            cityBase.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2, 2, 0.25f) * Matrix.RotationX(-MathEx.PiOver2)));
 
             switch (Type) 
             {

@@ -56,6 +56,15 @@ namespace Code2015.World
         //    this.fsmMachine.Update(dt);
         //}
 
+        public override bool IntersectsSelectionRay(ref Ray ray)
+        {
+            bool d = Vector3.DistanceSquared(ref ray.Position, ref position) < 6000 * 6000;
+            if (d)
+            {
+                return base.IntersectsSelectionRay(ref ray);
+            }
+            return false;
+        }
 
         /// <summary>
         ///  配置文件解析
@@ -97,6 +106,16 @@ namespace Code2015.World
         public override bool IsSerializable
         {
             get { return false; }
+        }
+
+        public override bool IntersectsSelectionRay(ref Ray ray)
+        {
+            bool d = Vector3.DistanceSquared(ref ray.Position, ref position) < 6000 * 6000;
+            if (d)
+            {
+                return base.IntersectsSelectionRay(ref ray);
+            }
+            return false;
         }
     }
 
