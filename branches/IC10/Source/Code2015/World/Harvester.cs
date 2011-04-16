@@ -131,7 +131,7 @@ namespace Code2015.World
             set { exRes = value; }
         }
 
-        public float Longtitude
+        public float Longitude
         {
             get { return longtitude; }
             set { longtitude = value; }

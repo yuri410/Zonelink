@@ -148,7 +148,7 @@ namespace Code2015.EngineEx
 
             FileLocation fl2 = FileSystem.Instance.Locate("index.tex", GameFileLocs.TerrainTexture);
             GlobalIndexTexture = TextureManager.Instance.CreateInstance(fl2);
-            fl2 = FileSystem.Instance.Locate("planetClr2.tex", GameFileLocs.TerrainTexture);
+            fl2 = FileSystem.Instance.Locate("planetClr.tex", GameFileLocs.TerrainTexture);
             GlobalColorTexture = TextureManager.Instance.CreateInstance(fl2);
 
             fl2 = FileSystem.Instance.Locate("normal.tex", GameFileLocs.TerrainTexture);

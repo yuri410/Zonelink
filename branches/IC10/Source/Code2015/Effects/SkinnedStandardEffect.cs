@@ -89,7 +89,7 @@ namespace Code2015.Effects
             fl = FileSystem.Instance.Locate("skinnedstandard.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("standard.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("skinnedstandard.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
         }
 
@@ -174,8 +174,6 @@ namespace Code2015.Effects
                 Matrix lightPrjTrans;
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
                 shdVtxShader.SetValue("mvp", ref lightPrjTrans);
-
-                
             }
             else
             {
