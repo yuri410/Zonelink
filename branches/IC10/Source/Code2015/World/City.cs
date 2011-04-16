@@ -10,6 +10,8 @@ using Apoc3D.MathLib;
 using Code2015.Logic;
 using Apoc3D.Config;
 using Apoc3D.Graphics;
+using Apoc3D.Vfs;
+using Apoc3D.Graphics.Animation;
 
 namespace Code2015.World
 {
@@ -71,6 +73,10 @@ namespace Code2015.World
         protected BattleField battleField;
 
         CityAnimationState animationType = CityAnimationState.ReceiveBall;
+
+        Model cityBase;
+
+
 
 
         SoundObject sound;
@@ -159,6 +165,11 @@ namespace Code2015.World
 
         public override void InitalizeGraphics(RenderSystem rs) 
         {
+            FileLocation fl = FileSystem.Instance.Locate("citybase.mesh", GameFileLocs.Model);
+            cityBase = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            cityBase.CurrentAnimation.Clear();
+            cityBase.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2, 2, 1) * Matrix.RotationX(-MathEx.PiOver2)));
+
             switch (Type) 
             {
                 case CityType.Oil:
@@ -166,6 +177,10 @@ namespace Code2015.World
                 case CityType.Neutral:
                     break;
             }
+
+
+            
+
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityRadius * 2);
             sound.Position = Position;
         }
@@ -373,9 +388,7 @@ namespace Code2015.World
             {
                 CityVisible(this);
             }
-            return null;
-            // TODO: Render City here
-            throw new NotImplementedException();
+            return cityBase.GetRenderOperation();                       
         }
 
 
