@@ -431,7 +431,8 @@ namespace Code2015.GUI
                     selectionMarker.MouseHoverObject = picker.MouseHoverObject;
 
                     selectInfo.SelectedCity = picker.SelectedCity;
-
+                    selectInfo.SelectedHarvester = picker.SelectedHarvester;
+                    
                     base.Update(time);
                 }
             }

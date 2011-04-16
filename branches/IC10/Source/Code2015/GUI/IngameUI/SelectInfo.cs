@@ -20,7 +20,12 @@ namespace Code2015.GUI.IngameUI
         private Game parent;
         private Player player;
 
-        GameFontRuan f14;
+        GameFontRuan f6;
+
+
+        private const int X = 900;
+        private const int Y = 550;
+
 
 
         #region 选择城市
@@ -28,26 +33,6 @@ namespace Code2015.GUI.IngameUI
         /// Currently selected city, Null if not selected
         /// </summary>
         private City selectCity;
-
-        /// <summary>
-        /// 泡泡漂浮在城市上空的高度
-        /// </summary>
-        private const float bubbleHeight = 500;
-
-        private Texture cityBubbleTex;
-
-        private const int X = 900;
-        private const int Y = 550;
-
-        #endregion
-        
-
- 
-        /// <summary>
-        /// Currently selected ball, Null if not selected
-        /// </summary>
-        private RBall selectBall;
-
 
         public City SelectedCity
         {
@@ -68,26 +53,73 @@ namespace Code2015.GUI.IngameUI
             }
         }
 
-        public RBall SelectedRBall
+        /// <summary>
+        /// 泡泡漂浮在城市上空的高度
+        /// </summary>
+        private const float bubbleHeight = 500;
+
+        private Texture cityBubbleTex;
+       
+        #endregion
+
+
+        //#region 选择资源球
+
+        ///// <summary>
+        ///// Currently selected ball, Null if not selected
+        ///// </summary>
+        //private RBall selectBall;
+
+        //public RBall SelectedRBall
+        //{
+        //    get { return selectBall; }
+        //    set
+        //    {
+        //        if (selectBall != value)
+        //        {
+        //            selectBall = value;
+        //            if (selectBall != null)
+        //            {
+        //                if (selectBall.Owner != player)
+        //                {
+        //                    selectBall = null;
+        //                }
+        //            }
+        //        }
+        //    }
+        //}
+
+        //#endregion
+
+
+        #region 选择矿车
+        private Harvester selectHarvester;
+
+        public Harvester SelectedHarvester
         {
-            get { return selectBall; }
+            get { return selectHarvester; }
             set
             {
-                if (selectBall != value)
+                if (selectHarvester != value)
                 {
-                    selectBall = value;
-                    if (selectBall != null)
-                    {
-                        if (selectBall.Owner != player)
-                        {
-                            selectBall = null;
-                        }
-                    }
+                    selectHarvester = value;
+                    //if (selectHarvester != null)
+                    //{
+                    //    if (selectHarvester.Owner != player)
+                    //    {
+                    //        selectHarvester = null;
+                    //    }
+                    //}
                 }
             }
         }
 
-         public SelectInfo(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        private Texture harvesterBubbleTex;
+        private const float harvesterBubbleHeight = 125;
+        #endregion
+
+
+        public SelectInfo(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.scene = scene;
             this.renderSys = game.RenderSystem;
@@ -95,10 +127,15 @@ namespace Code2015.GUI.IngameUI
             this.gameLogic = gamelogic;
             this.parent = parent;
             this.game = game;
-            this.f14 = GameFontManager.Instance.FRuan;
+            this.f6 = GameFontManager.Instance.FRuanEdged6;
 
             FileLocation fl = FileSystem.Instance.Locate("bubble_256x64.tex", GameFileLocs.GUI);
             cityBubbleTex = UITextureManager.Instance.CreateInstance(fl);
+
+
+            fl = FileSystem.Instance.Locate("bubble_64.tex", GameFileLocs.GUI);
+            harvesterBubbleTex = UITextureManager.Instance.CreateInstance(fl);
+
 
         }
 
@@ -120,6 +157,7 @@ namespace Code2015.GUI.IngameUI
          public override void Render(Sprite sprite)
          {
              RenderSelectCity(sprite);
+             RenderSelectHarvester(sprite);
          }
 
          public override void Update(GameTime time)
@@ -167,20 +205,80 @@ namespace Code2015.GUI.IngameUI
                  sprite.SetTransform(Matrix.Identity);
 
 
-                 //属性
+                 //属性,右下角显示
                  int hp = (int)selectCity.HealthValue;
                  int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
 
-                 string hpInfo = hp.ToString() + "/" + hpFull.ToString();
-                 string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
- 
-                 f14.DrawString(sprite, hpInfo, X, Y, ColorValue.White);
-                 f14.DrawString(sprite, developmentInfo, X, Y + 60, ColorValue.White);
+                 string hpInfo = "HP: " + hp.ToString() + "/" + hpFull.ToString() + "\n";
+                 string developmentInfo = "Development: " + selectCity.Name.ToString();
+                 string info = hpInfo + developmentInfo;
+                 info = info.ToUpperInvariant();
 
-                 f14.DrawString(sprite, "/!\"$',-.:;", 100, 100, ColorValue.White);  
+                 Size size = f6.MeasureString(info);
+
+                 f6.DrawString(sprite, info, 1150 - size.Width, 700 - size.Height, ColorValue.White);               
+                 
+
 
              }
          }
+
+         private void RenderSelectHarvester(Sprite sprite)
+         {
+             if (SelectedHarvester != null)
+             {
+                 float radLng = MathEx.Degree2Radian(SelectedHarvester.Longtitude);
+                 float radLat = MathEx.Degree2Radian(SelectedHarvester.Latitude);
+
+                 Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
+                 Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);
+
+                 Vector3 normal = PlanetEarth.GetNormal(radLng, radLat);
+                 normal.Normalize();
+
+                 Vector3 BubblePos = SelectedHarvester.Position + normal * harvesterBubbleHeight;
+
+                 Viewport vp = renderSys.Viewport;
+                 Vector3 screenPos = vp.Project(BubblePos, scene.Camera.ProjectionMatrix,
+                                                scene.Camera.ViewMatrix, Matrix.Identity);
+
+                 Vector3 lp = vp.Project(BubblePos + tangx, scene.Camera.ProjectionMatrix,
+                                                        scene.Camera.ViewMatrix, Matrix.Identity);
+
+                 Vector3 rp = vp.Project(BubblePos - tangx, scene.Camera.ProjectionMatrix,
+                                                        scene.Camera.ViewMatrix, Matrix.Identity);
+
+
+                 float scale = 2.5f * Vector3.Distance(lp, rp) / 2;
+
+                 Matrix trans = Matrix.Translation(-harvesterBubbleTex.Width / 2, -harvesterBubbleTex.Height / 2, 0) *
+                            Matrix.Scaling(scale, scale, 1) * Matrix.Translation(screenPos.X, screenPos.Y, 0);
+
+
+                 sprite.SetTransform(trans);
+                 sprite.Draw(harvesterBubbleTex, 0, 0, ColorValue.White);
+                 sprite.SetTransform(Matrix.Identity);
+
+
+                 //属性,右下角显示
+                 string storage = SelectedHarvester.GetProps().Storage.ToString();
+                 string hp = SelectedHarvester.GetProps().HP.ToString();
+                 string speed = SelectedHarvester.GetProps().Speed.ToString();
+
+                 string info = "Storage: " + storage + "\n" + "HP: " + hp + "\n" +
+                                "Speed: " + speed;
+                 info = info.ToUpperInvariant();
+
+                 Size size = f6.MeasureString(info);
+
+                 f6.DrawString(sprite, info, 1150 - size.Width, 700 - size.Height, ColorValue.White);               
+
+
+
+             }
+         }
+
+
 
     }
 }

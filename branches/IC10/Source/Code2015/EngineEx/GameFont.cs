@@ -55,7 +55,12 @@ namespace Code2015.EngineEx
         GameFont f14;
         GameFont f20ig1;
         GameFont f18g1;
-        GameFontRuan fRuan;
+        GameFontRuan fRuan4;
+        GameFontRuan fRuan6;
+        GameFontRuan fRuan8;
+        GameFontRuan fRuanEdged4;
+        GameFontRuan fRuanEdged6;
+        GameFontRuan fRuanEdged8;
 
         private GameFontManager(RenderSystem rs)
         {
@@ -64,7 +69,12 @@ namespace Code2015.EngineEx
             f201 = new GameFont("f20i");
             f14 = new GameFont("f14");
             f18 = new GameFont("f18");
-            fRuan = new GameFontRuan("font");
+            fRuan4 = new GameFontRuan("font");
+            fRuan6 = new GameFontRuan("font_s");
+            fRuan8 = new GameFontRuan("font_ss");
+            fRuanEdged4 = new GameFontRuan("font_edged");
+            fRuanEdged6 = new GameFontRuan("font_edgeds");
+            fRuanEdged8 = new GameFontRuan("font_edgedss");
         }
         public GameFont F18G1 
         {
@@ -87,10 +97,33 @@ namespace Code2015.EngineEx
         {
             get { return f201; }
         }
-        public GameFontRuan FRuan
+
+        public GameFontRuan FRuan4
         {
-            get { return fRuan; }
+            get { return fRuan4; }
         }
+        public GameFontRuan FRuan6
+        {
+            get { return fRuan6; }
+        }
+        public GameFontRuan FRuan8
+        {
+            get { return fRuan8; }
+        }
+
+        public GameFontRuan FRuanEdged4
+        {
+            get { return fRuanEdged4; }
+        }
+        public GameFontRuan FRuanEdged6
+        {
+            get { return fRuanEdged6; }
+        }
+        public GameFontRuan FRuanEdged8
+        {
+            get { return fRuanEdged8; }
+        }
+
     }
     class GameFont
     {        
@@ -188,7 +221,7 @@ namespace Code2015.EngineEx
         {
             Size result = new Size(0, charHeight);
 
-            int x = 0, y = 0;
+            int x = 0, y = charHeight;
             for (int i = 0; i < text.Length; i++)
             {
                 char ch = text[i];
@@ -222,7 +255,9 @@ namespace Code2015.EngineEx
 
         private int[] charWidthReal;
         private int[] charLeft;
-        //private int[] charRight;
+    
+
+        private int charHeightReal;
 
         private int charHeight;
         private int charWidth;
@@ -283,7 +318,8 @@ namespace Code2015.EngineEx
 
             charWidthReal = new int[byte.MaxValue];
             charLeft = new int[byte.MaxValue];
-            //charRight = new int[byte.MaxValue];
+
+            charHeightReal = (int)(font.Height / charsPerHeight * 0.75f);
 
             mapWidth = font.Width;
 
@@ -326,7 +362,7 @@ namespace Code2015.EngineEx
                 else
                 {
                     x = std;
-                    y += charHeight;
+                    y += charHeightReal;
                 }
             }
 
@@ -335,9 +371,9 @@ namespace Code2015.EngineEx
 
         public Size MeasureString(string text)
         {
-            Size result = new Size(0, charHeight);
+            Size result = new Size(0, charHeightReal);
 
-            int x = 0, y = 0;
+            int x = 0, y = charHeightReal;
             for (int i = 0; i < text.Length; i++)
             {
                 char ch = text[i];
@@ -348,7 +384,7 @@ namespace Code2015.EngineEx
                 else
                 {
                     x = 0;
-                    y += charHeight;
+                    y += charHeightReal;
                 }
 
                 if (result.Width < x)
@@ -403,7 +439,6 @@ namespace Code2015.EngineEx
         {
             int endX = startX + charWidth;
             int endY = startY + charHeight;
-
 
 
             int start = startX;

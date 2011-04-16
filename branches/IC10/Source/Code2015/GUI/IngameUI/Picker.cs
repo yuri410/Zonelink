@@ -46,7 +46,6 @@ namespace Code2015.GUI
 
         ISelectableObject selectedCity;
 
-
         Ray selectRay;
 
         public Ray SelectionRay
@@ -80,6 +79,13 @@ namespace Code2015.GUI
             get;
             private set;
         }
+
+        public Harvester SelectedHarvester
+        {
+            get;
+            private set;
+        }
+
         public ISelectableObject MouseHoverObject
         {
             get;
@@ -135,11 +141,15 @@ namespace Code2015.GUI
             SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
             MouseHoverObject = obj as ISelectableObject;
             MouseHoverCity = MouseHoverObject as City;
+            
 
             if (MouseInput.IsMouseDownLeft)
             {
                 SelectedObject = MouseHoverObject;
                 SelectedCity = MouseHoverCity;
+
+             
+                SelectedHarvester = MouseHoverObject as Harvester;
             }
         }
     }
