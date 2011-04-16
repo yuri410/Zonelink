@@ -56,11 +56,11 @@ namespace Code2015.GUI
         RtsCamera camera;
 
 
-        ISelectableObject mouseHoverObject;
-        ISelectableObject selected;
+        //ISelectableObject mouseHoverObject;
+        //ISelectableObject selected;
 
-        City mouseHoverCity;
-        City selectedCity;
+        //City mouseHoverCity;
+        //City selectedCity;
        
 
 

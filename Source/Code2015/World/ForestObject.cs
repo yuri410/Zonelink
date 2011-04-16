@@ -57,10 +57,15 @@ namespace Code2015.World
         SoundObject sound;
 
         Vector3 stdPosition;
+        Matrix stdTransform;
 
         public Vector3 ForestCenter 
         {
             get { return stdPosition; }
+        }
+        public Matrix ForestTransform 
+        {
+            get { return stdTransform; }
         }
         public float Radius
         {
@@ -114,6 +119,9 @@ namespace Code2015.World
                 float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
 
                 stdPosition = PlanetEarth.GetPosition(radLng, radLat, alt * TerrainMeshManager.PostHeightScale + PlanetEarth.PlanetRadius);
+
+                stdTransform = PlanetEarth.GetOrientation(radLng, radLat);
+                stdTransform.TranslationValue = stdPosition;
             }
         }
 

@@ -108,10 +108,10 @@ namespace Code2015.World
             Position = PlanetEarth.GetPosition(radLng, radLat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
             BoundingSphere.Center = position;
 
-            BoundingSphere.Radius = 50;
+            BoundingSphere.Radius = 200;
             Orientation = PlanetEarth.GetOrientation(radLng, radLat);
 
-            sound = SoundManager.Instance.MakeSoundObjcet("oil", null, BoundingSphere.Radius * 8);
+            sound = SoundManager.Instance.MakeSoundObjcet("oil", null, BoundingSphere.Radius * 8.0f / 3.0f);
             sound.Position = position;
         }
 
