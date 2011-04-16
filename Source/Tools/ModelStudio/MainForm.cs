@@ -68,6 +68,8 @@ namespace ModelStudio
 
                 Program.Viewer.CurrentModel = new Model(ModelManager.Instance.CreateInstance(renderSys, new FileLocation(openFileDialog1.FileName)));
 
+                Program.Viewer.CurrentModel.PlayAnimation();
+                Program.Viewer.CurrentModel.AutoLoop = true;
 
                 ModelData data = Program.Viewer.CurrentModel.GetData();
                 Mesh[] meshes = data.Entities;

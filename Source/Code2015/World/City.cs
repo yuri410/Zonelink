@@ -33,13 +33,17 @@ namespace Code2015.World
         Education
     }
 
-    enum CityAnimationState
+    enum CityState
     {
         Stopped,
-        SendBall,
-        ReceiveBall,
+        Throw,
+        Catch,
         Idle,
-
+        WakeingUp,
+        Laugh,
+        Fear,
+        Sleeping,
+        Rotate
     }
 
 
@@ -72,18 +76,47 @@ namespace Code2015.World
 
         protected BattleField battleField;
 
-        CityAnimationState animationType = CityAnimationState.ReceiveBall;
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
+
+        bool isVisible;
+        int visibleCountDown = 10;
 
         Model cityBase;
 
+        Model stopped;
+        Model throwing;
+        Model catching;
+        Model idle;
+        Model wakeingUp;
+        Model laugh;
+        Model fear;
+        Model sleeping;
 
+        bool currentStateEnded;
 
+        /// <summary>
+        ///  是否正在等待当前动画完成
+        /// </summary>
+        bool isWaitingAnimation;
 
-        SoundObject sound;
+        float nextIdleAnimationCD;
+
+        float currentFacing;
+        Matrix currentFacingMatrix;
+
+        CityState currentState;
+
 
 
         string[] linkableCityName;
         FastList<City> linkableCity = new FastList<City>();
+
+        /// <summary>
+        ///  附近友好城市列表
+        /// </summary>
+        FastList<City> nearbyCity = new FastList<City>();
+
+        SoundObject sound;
 
         //城市发展速度
         float developStep;
@@ -99,7 +132,10 @@ namespace Code2015.World
         {
             get { return linkableCity.Count; }
         }
-        public CityAnimationState AnimationType { get { return animationType; } }
+        public CityState AnimationState
+        { 
+            get { return currentState; }
+        }
 
         //城市类型
         public CityType Type { get; protected set; }
@@ -150,6 +186,13 @@ namespace Code2015.World
             get;
             private set;
         }
+        /// <summary>
+        ///  友好城市之间判断城市是否有空
+        /// </summary>
+        public bool IsIdle
+        {
+            get { return currentState == CityState.Stopped; }
+        }
 
         public event CityVisibleHander CityVisible;
 
@@ -160,6 +203,7 @@ namespace Code2015.World
             this.battleField = btfld;
             this.Type = type;
 
+            
             BoundingSphere.Radius = CityRadius;
         }
 
@@ -178,8 +222,44 @@ namespace Code2015.World
                     break;
             }
 
+            NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f));
+            fl = FileSystem.Instance.Locate("oil_catch.mesh", GameFileLocs.Model);
+            catching = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            catching.AnimationCompeleted += Animation_Completed;
+            catching.CurrentAnimation.Insert(0, scaling);
 
-            
+            fl = FileSystem.Instance.Locate("oil_fear.mesh", GameFileLocs.Model);
+            fear = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            fear.AnimationCompeleted += Animation_Completed;
+            fear.CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_idle.mesh", GameFileLocs.Model);
+            idle = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            idle.AnimationCompeleted += Animation_Completed;
+            idle.CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_laugh.mesh", GameFileLocs.Model);
+            laugh = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            laugh.AnimationCompeleted += Animation_Completed;
+            laugh.CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_sleeping.mesh", GameFileLocs.Model);
+            sleeping = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            sleeping.AnimationCompeleted += Animation_Completed;
+            sleeping.CurrentAnimation.Insert(0, scaling);
+            sleeping.AutoLoop = true;
+
+            fl = FileSystem.Instance.Locate("oil_stopped.mesh", GameFileLocs.Model);
+            stopped = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            stopped.AnimationCompeleted += Animation_Completed;
+            stopped.CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_wakeup.mesh", GameFileLocs.Model);
+            wakeingUp = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            wakeingUp.AnimationCompeleted += Animation_Completed;
+            wakeingUp.CurrentAnimation.Insert(0, scaling);
+
+            ChangeState(CityState.Sleeping);
 
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityRadius * 2);
             sound.Position = Position;
@@ -215,12 +295,6 @@ namespace Code2015.World
                 development = RulesTable.CityMaxDevelopment;
             healthValue = healthRate * development;
         }
-
-        //public void HookAnimationEvent(RigidModel model)
-        //{
-        //    model.Completed += Animation_Complete;
-        //}
-
 
         public void Damage(float v, Player owener)
         {
@@ -333,6 +407,9 @@ namespace Code2015.World
                     break;
             }
 
+            currentFacing = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+            currentFacingMatrix = Matrix.RotationY(currentFacing);
+
             UpdateLocation();
         }
 
@@ -353,6 +430,105 @@ namespace Code2015.World
             BoundingSphere.Center = this.Position;
         }
 
+        
+        void Animation_Completed(object sender, AnimationCompletedEventArgs e) 
+        {
+            switch (currentState) 
+            {
+
+            }
+            //currentStateEnded = true;
+        }
+
+        private void ChangeState(CityState state) 
+        {
+            switch (state) 
+            {
+                case CityState.Catch:
+                    
+                    break;
+                case CityState.Fear:
+                    break;
+                case CityState.Idle:
+                    idle.PlayAnimation();
+                    break;
+                case CityState.Laugh:
+                    break;
+                case CityState.Stopped:
+                    break;
+                case CityState.Throw:
+                    break;
+                case CityState.WakeingUp:
+                    break;
+                case CityState.Sleeping:
+                    sleeping.PlayAnimation();
+                    break;
+            }
+            currentState = state;
+        }
+        private void UpdateState(GameTime time)
+        {
+            float dt = time.ElapsedGameTimeSeconds;
+
+            if (currentStateEnded)
+            {
+                currentStateEnded = false;
+                switch (currentState)
+                {
+                    case CityState.Catch:
+                        break;
+                    case CityState.Fear:
+                        break;
+                    case CityState.Idle: // 每次Idle动画播放完后都先转到Stopped
+                        ChangeState(CityState.Stopped);
+                        break;
+                    case CityState.Laugh:
+                        break;
+                    case CityState.Stopped:
+                        break;
+                    case CityState.Throw:
+                        break;
+                    case CityState.WakeingUp:
+                        break;
+                    case CityState.Sleeping:
+                        break;
+                }
+            }
+            else
+            {
+                switch (currentState)
+                {
+                    case CityState.Catch:
+                        break;
+                    case CityState.Fear:
+                        break;
+                    case CityState.Idle:
+                        break;
+                    case CityState.Laugh:
+                        break;
+                    case CityState.Stopped:
+                        if (nextIdleAnimationCD > 0)
+                        {
+                            nextIdleAnimationCD -= dt;
+                        }
+                        else
+                        {
+                            ChangeState(CityState.Idle);
+                            nextIdleAnimationCD = Randomizer.GetRandomSingle() * 5 + 3;
+                        }
+                        if (isVisible) idle.Update(time);
+                        break;
+                    case CityState.Throw:
+                        break;
+                    case CityState.WakeingUp:
+                        break;
+                    case CityState.Sleeping:
+                        if (isVisible) sleeping.Update(time);
+                        break;
+                }
+            }
+        }
+
         public override void Update(GameTime dt)
         {
             float ddt = (float)dt.ElapsedGameTimeSeconds;
@@ -366,8 +542,20 @@ namespace Code2015.World
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
                     devIncr += ddt;// *Utils.GetRBallContribution(nearbyBallList[i].Type);
-                }         
+                }
             }
+
+            if (isVisible)
+            {
+                visibleCountDown--;
+                if (visibleCountDown < 0)
+                {
+                    visibleCountDown = 10;
+                    isVisible = false;
+                }
+            }
+
+            UpdateState(dt);
         }
 
 
@@ -382,13 +570,54 @@ namespace Code2015.World
 
         public override RenderOperation[] GetRenderOperation()
         {
-            //isVisible = true;
-            //opBuffer.FastClear();
+            isVisible = true;
+            opBuffer.FastClear();
             if (CityVisible != null)
             {
                 CityVisible(this);
             }
-            return cityBase.GetRenderOperation();                       
+
+
+            RenderOperation[] ops = cityBase.GetRenderOperation();
+            if (ops != null)
+            {
+                opBuffer.Add(ops);
+            }
+
+            ops = null;
+            switch (currentState)
+            {
+                case CityState.Catch:
+
+                    break;
+                case CityState.Fear:
+                    break;
+                case CityState.Idle:
+                    ops = idle.GetRenderOperation();
+                    break;
+                case CityState.Laugh:
+                    break;
+                case CityState.Stopped:
+                    break;
+                case CityState.Throw:
+                    break;
+                case CityState.WakeingUp:
+                    break;
+                case CityState.Sleeping:
+                    ops = sleeping.GetRenderOperation();
+                    break;                        
+            }
+            if (ops != null)
+            {
+                for (int i = 0; i < ops.Length; i++)
+                {
+                    ops[i].Transformation *= currentFacingMatrix;                    
+                }
+                opBuffer.Add(ops);
+            }
+
+            opBuffer.Trim();
+            return opBuffer.Elements;              
         }
 
 

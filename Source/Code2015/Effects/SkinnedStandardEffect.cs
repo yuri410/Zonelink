@@ -186,7 +186,11 @@ namespace Code2015.Effects
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
 
                 vtxShader.SetValue("smTrans", lightPrjTrans);
-                vtxShader.SetValue("Bones", op.BoneTransforms);
+
+                if (op.BoneTransforms != null)
+                {
+                    vtxShader.SetValue("Bones", op.BoneTransforms);
+                }
 
                 if (!stateSetted)
                 {
