@@ -236,15 +236,15 @@ namespace Code2015.EngineEx
             compEff.SetTextureDirect(1, blurredRt2.GetColorBufferTexture());
             compEff.SetTextureDirect(2, nrmDepthBuffer.GetColorBufferTexture());
 
-            if (camera != null)
-            {
-                float focNear = (camera.Position.Length() - PlanetEarth.PlanetRadius) / camera.FarPlane;
-                compEff.SetValue("FocusNear", focNear);
-            }
-            else 
-            {
-                compEff.SetValue("FocusNear", 0.3f);
-            }
+            //if (camera != null)
+            //{
+            //    float focNear = (camera.Position.Length() - PlanetEarth.PlanetRadius) / camera.FarPlane;
+            //    compEff.SetValue("FocusNear", focNear);
+            //}
+            //else 
+            //{
+            //    compEff.SetValue("FocusNear", 0.3f);
+            //}
 
             renderSys.RenderStates.AlphaBlendEnable = true;
             renderSys.RenderStates.SourceBlend = Blend.SourceAlpha;

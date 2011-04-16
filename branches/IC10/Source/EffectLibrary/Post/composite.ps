@@ -5,7 +5,7 @@ sampler2D colorTex : register(s0);
 sampler2D blurredTex : register(s1);
 sampler2D depthTex : register(s2);
 
-float FocusNear : register(c0);
+//float FocusNear : register(c0);
 
 
 struct PSInput
@@ -22,10 +22,10 @@ float4 main(float2 texCoord : TEXCOORD0) : COLOR0
     float depth = tex2D(depthTex, texCoord).z;
     
     
-    float nearBlurFactor = clamp((FocusNear - depth) / FocusNear * 2, 0.0, 1.0);
+    //float nearBlurFactor = clamp((FocusNear - depth) / FocusNear * 2, 0.0, 1.0);
     float farBlurFactor = clamp((depth - FocusFar) / (1.0 - FocusFar) * 2, 0.0, 1.0);
     
-    float blurFactor = max(nearBlurFactor, farBlurFactor);
+    //float blurFactor = max(nearBlurFactor, farBlurFactor);
     
-    return lerp(color, blurred, blurFactor);
+    return lerp(color, blurred, farBlurFactor);
 }
