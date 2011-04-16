@@ -45,7 +45,7 @@ PSOutput main(PSInput ip)
     
     float3 N = 2 * (float3)tex2D(texNorm, ip.GlobeCoord) - 1;
     
-    N.xy *= 1.5;
+    N.xy *= 1.7;
     N = normalize(N);
     
     float ndl = dot(N, ip.TangentSpaceLDir);
@@ -110,6 +110,7 @@ PSOutput main(PSInput ip)
     
     o.Color.rgb *=  hatchColor;
     
+    o.Color.rgb = (o.Color.rgb - 0.5) * 1.15 + 0.5;
     
     o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.Height_Blend.y);
     

@@ -100,8 +100,11 @@ namespace Code2015.GUI
         //GoalPieceMaker pieceMaker;
 
         //ScreenPhysicsWorld physWorld;
+        int selCurIndex;
+        int selCurAnimSign = 1;
 
         Texture cursor;
+        Texture[] cursor_sel;
         Texture cursor_up;
         Texture cursor_down;
         Texture cursor_left;
@@ -166,12 +169,19 @@ namespace Code2015.GUI
             cursor_dl = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("cursor_rd.tex", GameFileLocs.GUI);
             cursor_dr = UITextureManager.Instance.CreateInstance(fl);
-          
-            
+
+            cursor_sel = new Texture[11];
+
+            for (int i = 0; i < cursor_sel.Length; i++) 
+            {
+                fl = FileSystem.Instance.Locate("selcursor" + (i + 13).ToString("D2") + ".tex", GameFileLocs.GUI);
+                cursor_sel[i] = UITextureManager.Instance.CreateInstance(fl);
+            }
+
             
             cursorState = MouseCursor.Normal;
 
-
+            
 
             picker = new Picker(game, parent, scene, gamelogic);
             AddElement(picker);
@@ -238,7 +248,7 @@ namespace Code2015.GUI
                     switch (cursorState)
                     {
                         case MouseCursor.Normal:
-                            hsp = new Point(6, 6);
+                            hsp = new Point(15, 19);
                             ctex = cursor;
                             break;
                         case MouseCursor.LeftArrow:
@@ -272,6 +282,24 @@ namespace Code2015.GUI
                         case MouseCursor.UpRightArrow:
                             hsp = new Point(35, 8);
                             ctex = cursor_ur;
+                            break;
+                        case MouseCursor.Selection:
+                            hsp = new Point(33, 33);
+
+                            ctex = cursor_sel[selCurIndex];
+                            
+                            if (selCurIndex >= cursor_sel.Length -1) 
+                            {
+                                selCurAnimSign = -1;
+                                selCurIndex = cursor_sel.Length - 1;
+                            }
+                            else if (selCurIndex <= 0)
+                            {
+                                selCurAnimSign = 1;
+                                selCurIndex = 0;
+                            }
+
+                            selCurIndex += selCurAnimSign;
                             break;
                     }
 
@@ -362,6 +390,40 @@ namespace Code2015.GUI
                             if (dy < -10) dy = -20;
 
                             camera.Move(dx * -0.05f, dy * -0.05f);
+                        }
+                    }
+
+                    if (cursorState == MouseCursor.Normal)
+                    {
+                        if (selectionMarker.SelectedObject != null)
+                        {
+                            if (selectionMarker.MouseHoverObject != null)
+                            {
+                                if (selectionMarker.SelectedObject != selectionMarker.MouseHoverObject)
+                                {
+                                    cursorState = MouseCursor.Selection;
+                                }
+                                else
+                                {
+                                    cursorState = MouseCursor.Normal;
+                                }
+                            }
+                            else 
+                            {
+                                // command
+                                cursorState = MouseCursor.Normal;
+                            }
+                        }
+                        else 
+                        {
+                            if (selectionMarker.MouseHoverObject != null)
+                            {
+                                cursorState = MouseCursor.Selection;
+                            }
+                            else
+                            {
+                                cursorState = MouseCursor.Normal;
+                            }
                         }
                     }
 

@@ -42,8 +42,8 @@ namespace Code2015.World
         public const float LinkHeightScale = 4 * 1f / LinkBaseLength;
         public const float LinkBaseLength = 100;
 
-        public const float HarvestRingRadius = 100;
-        public const float ResourceRingRadius = 100;
+        public const float HarvestRingRadius = 175;
+        public const float ResourceRingRadius = 333;
 
         const float RingRadius = 100;
 
@@ -66,6 +66,7 @@ namespace Code2015.World
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
+        float ringRotation;
 
         ISelectableObject selectedObject;
         ISelectableObject mouseHoverObject;
@@ -85,23 +86,6 @@ namespace Code2015.World
                         mouseHoverResource = mouseHoverObject as NaturalResource;
                         mouseHoverHarv = mouseHoverObject as Harvester;
 
-                        if (mouseHoverCity != null)
-                        {
-                            float s = City.CitySelRingScale * (City.CityOutterRadius) / RingRadius;
-                            Matrix scale = Matrix.Scaling(s, 1, s);
-
-                            outter_marker.CurrentAnimation.Clear();
-                            outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(scale * mouseHoverCity.Transformation));
-                        }
-
-                        if (mouseHoverResource != null) 
-                        {
-                            float s = ResourceRingRadius / RingRadius;
-                            Matrix scale = Matrix.Scaling(s, 1, s);
-
-                            outter_marker.CurrentAnimation.Clear();
-                            outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(scale * mouseHoverResource.Transformation));
-                        }
                     }
                     else
                     {
@@ -164,7 +148,17 @@ namespace Code2015.World
                             Matrix scale = Matrix.Scaling(s, 1, s);
 
                             inner_marker.CurrentAnimation.Clear();
-                            inner_marker.CurrentAnimation.Add(new NoAnimaionPlayer(scale * selectedResource.Transformation));
+
+
+                            if (selectedResource.Type == NaturalResourceType.Wood)
+                            {
+                                ForestObject forest = selectedResource as ForestObject;
+                                inner_marker.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Translation(0, 5, 0) * scale * forest.ForestTransform));
+                            }
+                            else
+                            {
+                                inner_marker.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Translation(0, 5, 0) * scale * selectedResource.Transformation));
+                            }
                         }
                     }
                     else
@@ -294,7 +288,7 @@ namespace Code2015.World
                     }
                 }
             }
-            if (selectedCity != null)
+            if (selectedCity != null || selectedResource != null || selectedHarv != null)
             {
                 RenderOperation[] ops = inner_marker.GetRenderOperation();
                 if (ops != null)
@@ -303,14 +297,14 @@ namespace Code2015.World
                 }
 
             }
-            if (MouseHoverCity != null)
+            if (mouseHoverCity != null || mouseHoverHarv != null || mouseHoverResource != null)
             {
                 RenderOperation[] ops = outter_marker.GetRenderOperation();
                 if (ops != null)
                 {
                     opBuffer.Add(ops);
                 }
-            } 
+            }
             opBuffer.Trim();
             return opBuffer.Elements;
         }
@@ -324,21 +318,55 @@ namespace Code2015.World
 
         public override void Update(GameTime time)
         {
+            float ddt = time.ElapsedGameTimeSeconds;
+            ringRotation += ddt / 4.5f;
+            if (ringRotation > MathEx.PIf)
+                ringRotation -= MathEx.PIf;
+
+            if (mouseHoverCity != null)
+            {
+                float s = City.CitySelRingScale * (City.CityOutterRadius) / RingRadius;
+                Matrix scale = Matrix.Scaling(s, 1, s);
+
+                outter_marker.CurrentAnimation.Clear();
+                outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(scale * Matrix.RotationY(-ringRotation) * mouseHoverCity.Transformation));
+            }
+
+            if (mouseHoverResource != null)
+            {
+                float s = ResourceRingRadius / RingRadius;
+                Matrix scale = Matrix.Scaling(s, 1, s);
+
+                outter_marker.CurrentAnimation.Clear();
+
+                if (mouseHoverResource.Type == NaturalResourceType.Wood)
+                {
+                    ForestObject forest = mouseHoverResource as ForestObject;
+                    outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Translation(0, 5, 0) * scale * Matrix.RotationY(-ringRotation) * forest.ForestTransform));
+                }
+                else 
+                {
+                    outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Translation(0, 5, 0) * scale * Matrix.RotationY(-ringRotation) * mouseHoverResource.Transformation));
+                }
+            }
+
             if (mouseHoverHarv != null)
             {
                 float s = HarvestRingRadius / RingRadius;
                 Matrix scale = Matrix.Scaling(s, 1, s);
 
                 outter_marker.CurrentAnimation.Clear();
-                outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(scale * mouseHoverHarv.Transformation));
+                outter_marker.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Translation(0, 5, 0) * scale * Matrix.RotationY(-ringRotation) * mouseHoverHarv.Transformation));
             }
+
+
             if (selectedHarv != null) 
             {
                 float s = HarvestRingRadius / RingRadius;
                 Matrix scale = Matrix.Scaling(s, 1, s);
 
                 inner_marker.CurrentAnimation.Clear();
-                inner_marker.CurrentAnimation.Add(new NoAnimaionPlayer(scale * selectedHarv.Transformation));
+                inner_marker.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Translation(0, 5, 0) * scale * selectedHarv.Transformation));
             }
         }
 
