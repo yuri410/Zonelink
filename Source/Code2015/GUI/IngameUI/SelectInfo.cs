@@ -140,7 +140,7 @@ namespace Code2015.GUI.IngameUI
                  Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
                  Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);
 
-                 Vector3 cityNormal = PlanetEarth.GetNormal(selectCity.Longitude, selectCity.Latitude);
+                 Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
                  cityNormal.Normalize();
 
                  Vector3 BubblePos = selectCity.Position + cityNormal * bubbleHeight;
