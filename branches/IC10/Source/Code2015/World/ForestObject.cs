@@ -58,6 +58,7 @@ namespace Code2015.World
 
         Vector3 stdPosition;
         Matrix stdTransform;
+        BoundingSphere selectionSphere;
 
         public Vector3 ForestCenter 
         {
@@ -77,6 +78,16 @@ namespace Code2015.World
         {
            
 
+        }
+
+        public override bool IntersectsSelectionRay(ref Ray ray)
+        {
+            bool d = Vector3.DistanceSquared(ref ray.Position, ref stdPosition) < 6000 * 6000;
+            if (d)
+            {
+                return MathEx.BoundingSphereIntersects(ref selectionSphere, ref ray);
+            }
+            return false;
         }
         public override void Parse(GameConfigurationSection sect)
         {
@@ -122,6 +133,10 @@ namespace Code2015.World
 
                 stdTransform = PlanetEarth.GetOrientation(radLng, radLat);
                 stdTransform.TranslationValue = stdPosition;
+
+
+                selectionSphere.Center = stdPosition;
+                selectionSphere.Radius = 200;
             }
         }
 
