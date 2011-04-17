@@ -45,6 +45,8 @@ namespace Code2015.World
         public const float HarvestRingRadius = 175;
         public const float ResourceRingRadius = 333;
 
+        public const float CitySelScale = 1.9f;
+
         const float RingRadius = 100;
 
         Player player;
@@ -217,7 +219,7 @@ namespace Code2015.World
             }
 
             {
-                float s = City.CitySelRingScale * (City.CityOutterRadius) / RingRadius;
+                float s = CitySelScale * City.CityOutterRadius / RingRadius;
                 Matrix scale = Matrix.Scaling(s, 1, s);
 
                 inner_marker.CurrentAnimation.Clear();
@@ -325,7 +327,7 @@ namespace Code2015.World
 
             if (mouseHoverCity != null)
             {
-                float s = City.CitySelRingScale * (City.CityOutterRadius) / RingRadius;
+                float s = CitySelScale * City.CityOutterRadius / RingRadius;
                 Matrix scale = Matrix.Scaling(s, 1, s);
 
                 outter_marker.CurrentAnimation.Clear();

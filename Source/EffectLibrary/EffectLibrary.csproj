@@ -122,6 +122,7 @@
     <None Include="NormalBuffer\normalGen.vs" />
     <None Include="NormalBuffer\terrainNormalGen.ps" />
     <None Include="NormalBuffer\terrainNormalGen.vs" />
+    <None Include="NormalBuffer\skinnedNormalGen.vs" />
     <None Include="Particle\smoke.ps" />
     <None Include="Particle\smoke.vs" />
     <None Include="Scene\atmosphere.ps" />

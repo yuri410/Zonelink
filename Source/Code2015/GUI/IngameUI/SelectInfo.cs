@@ -209,8 +209,8 @@ namespace Code2015.GUI.IngameUI
          {
              if (selectedHarv != null)
              {
-                 float radLng = MathEx.Degree2Radian(selectedHarv.Longitude);
-                 float radLat = MathEx.Degree2Radian(selectedHarv.Latitude);
+                 float radLng = selectedHarv.Longitude;
+                 float radLat = selectedHarv.Latitude;
 
                  Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
                  Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);

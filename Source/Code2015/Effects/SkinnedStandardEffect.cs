@@ -73,7 +73,7 @@ namespace Code2015.Effects
 
         PixelShader pixShader;
         VertexShader vtxShader;
-
+        VertexShader nrmGenVtxShader;
         VertexShader skShdVtxShader;   
 
 
@@ -96,6 +96,10 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("skinnedShadowMap.cvs", GameFileLocs.Effect);
             skShdVtxShader = LoadVertexShader(renderSys, fl);
+          
+            fl = FileSystem.Instance.Locate("skinnedNormalGen.cvs", GameFileLocs.Effect);
+            nrmGenVtxShader = LoadVertexShader(renderSys, fl);
+
         }
 
         #region Instance
@@ -125,6 +129,11 @@ namespace Code2015.Effects
             {
                 renderSys.BindShader(skShdVtxShader);
                 renderSys.BindShader(shdPixShader);
+            }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                renderSys.BindShader(nrmGenPShader);
+                renderSys.BindShader(nrmGenVtxShader);
             }
             else
             {
@@ -182,6 +191,42 @@ namespace Code2015.Effects
                 if (op.BoneTransforms != null)
                 {
                     skShdVtxShader.SetValue("Bones", op.BoneTransforms);
+                }
+            }
+            else if (mode == RenderMode.DeferredNormal)
+            {
+                Matrix worldView = op.Transformation * EffectParams.CurrentCamera.ViewMatrix;
+                Matrix mvp = worldView * EffectParams.CurrentCamera.ProjectionMatrix;
+                nrmGenVtxShader.SetValue("mvp", ref mvp);
+                nrmGenVtxShader.SetValue("worldView", ref worldView);
+                if (op.BoneTransforms != null)
+                {
+                    nrmGenVtxShader.SetValue("Bones", op.BoneTransforms);
+                }
+
+                if (!stateSetted)
+                {
+                    ShaderSamplerState state = new ShaderSamplerState();
+                    state.AddressU = TextureAddressMode.Wrap;
+                    state.AddressV = TextureAddressMode.Wrap;
+                    state.AddressW = TextureAddressMode.Wrap;
+                    state.MinFilter = TextureFilter.Linear;
+                    state.MagFilter = TextureFilter.Linear;
+                    state.MipFilter = TextureFilter.Linear;
+                    state.MaxAnisotropy = 8;
+                    state.MipMapLODBias = 0;
+
+                    nrmGenPShader.SetSamplerState("texDif", ref state);
+
+                    ResourceHandle<Texture> clrTex = mat.GetTexture(0);
+                    if (clrTex == null)
+                    {
+                        nrmGenPShader.SetTexture("texDif", noTexture);
+                    }
+                    else
+                    {
+                        nrmGenPShader.SetTexture("texDif", clrTex);
+                    }
                 }
             }
             else
