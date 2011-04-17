@@ -93,21 +93,14 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
-        public ResourceHandle<Texture> GlobalColorTexture
-        {
-            get;
-            private set;
-        }
-        public ResourceHandle<Texture> CliffColor
-        {
-            get;
-            private set;
-        }
+
         public ResourceHandle<Texture> GlobalNormalTexture
         {
             get;
             private set;
         }
+        public ResourceHandle<Texture> FadeEdge { get; private set; }
+
 
         public void LoadTextureSet(FileLocation configLoc)
         {
@@ -148,17 +141,17 @@ namespace Code2015.EngineEx
 
             FileLocation fl2 = FileSystem.Instance.Locate("index.tex", GameFileLocs.TerrainTexture);
             GlobalIndexTexture = TextureManager.Instance.CreateInstance(fl2);
-            fl2 = FileSystem.Instance.Locate("planetClr.tex", GameFileLocs.TerrainTexture);
-            GlobalColorTexture = TextureManager.Instance.CreateInstance(fl2);
 
             fl2 = FileSystem.Instance.Locate("normal.tex", GameFileLocs.TerrainTexture);
             GlobalNormalTexture = TextureManager.Instance.CreateInstance(fl2);
 
-            fl2 = FileSystem.Instance.Locate("cliff.tex", GameFileLocs.TerrainTexture);
-            CliffColor = TextureManager.Instance.CreateInstance(fl2);
 
             fl2 = FileSystem.Instance.Locate("LevelTwo.tex", GameFileLocs.TerrainTexture);
             GlobalBakedNormalTexture = TextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("edge.tex", GameFileLocs.TerrainTexture);
+            FadeEdge = TextureManager.Instance.CreateInstance(fl2);
+
 
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
 

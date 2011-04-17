@@ -136,6 +136,7 @@
     <None Include="Scene\fog.vsh" />
     <None Include="Scene\fog.psh" />
     <None Include="Scene\skinnedstandard.ps" />
+    <None Include="ShadowMap\skinnedShadowMap.vs" />
     <None Include="UI\City\citylink.ps" />
     <None Include="UI\City\citylink.vs" />
     <None Include="UI\City\cityring.ps" />
