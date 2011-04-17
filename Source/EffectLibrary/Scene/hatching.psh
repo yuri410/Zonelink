@@ -1,7 +1,7 @@
 
 
-sampler2D hatch0 : register(s10);
-sampler2D hatch1 : register(s11);
+sampler2D hatch0 : register(s8);
+sampler2D hatch1 : register(s9);
 
 #define SHADOW_COLOR (float3(39,40,47) / 255.0)
 #define AMBIENT 0.25
@@ -25,7 +25,7 @@ float3 computeWeights(float hatchFactor, float3 initialWeights)
 	return weights;
 }
 
-float3 computeHatchColor(float lum, float2 hatchTexCoord) //max(0, ndl) * shd)
+float3 computeHatchColor(float lum, float2 hatchTexCoord)
 {
 
                 

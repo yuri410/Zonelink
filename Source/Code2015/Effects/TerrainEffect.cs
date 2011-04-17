@@ -137,7 +137,7 @@ namespace Code2015.Effects
                 //vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
                 pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
-
+                
 
                 ShaderSamplerState state = new ShaderSamplerState();
                 state.AddressU = TextureAddressMode.Wrap;
@@ -160,10 +160,9 @@ namespace Code2015.Effects
                 state2.MaxAnisotropy = 8;
                 state2.MipMapLODBias = 0;
 
-                pixShader.SetTexture("texColor", MaterialLibrary.Instance.GlobalColorTexture);
                 pixShader.SetTexture("texDif", MaterialLibrary.Instance.GlobalIndexTexture);
                 pixShader.SetTexture("texNorm", MaterialLibrary.Instance.GlobalNormalTexture);
-               
+                pixShader.SetTexture("texEdge", MaterialLibrary.Instance.FadeEdge);
 
 
                 pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
@@ -172,9 +171,7 @@ namespace Code2015.Effects
                 pixShader.SetSamplerState("hatch1", ref state2);
 
                 pixShader.SetSamplerState("texDif", ref state);
-                pixShader.SetSamplerState("texColor", ref state);
                 pixShader.SetSamplerState("texNorm", ref state);
-                pixShader.SetSamplerState("texCliff", ref state);
 
 
                 TerrainTexture tex;
@@ -191,7 +188,6 @@ namespace Code2015.Effects
                 pixShader.SetTexture("texDet4", tex.Texture);
                 pixShader.SetSamplerState("texDet4", ref state);
 
-                pixShader.SetTexture("texCliff", tex.Texture);
 
 
                 state.AddressU = TextureAddressMode.Clamp;

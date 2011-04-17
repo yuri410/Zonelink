@@ -119,10 +119,10 @@ namespace Code2015.Effects
                 state.MipMapLODBias = -1;
 
 
-                pixShader.SetTexture("texColor", MaterialLibrary.Instance.GlobalColorTexture);
+                //pixShader.SetTexture("texColor", MaterialLibrary.Instance.GlobalColorTexture);
                 pixShader.SetTexture("texDif", MaterialLibrary.Instance.GlobalIndexTexture);
                 pixShader.SetTexture("texNorm", terrainNormal);
-                pixShader.SetTexture("texCliff", MaterialLibrary.Instance.CliffColor);
+                //pixShader.SetTexture("texCliff", MaterialLibrary.Instance.CliffColor);
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texColor", ref state);

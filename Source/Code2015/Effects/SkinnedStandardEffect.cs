@@ -74,6 +74,8 @@ namespace Code2015.Effects
         PixelShader pixShader;
         VertexShader vtxShader;
 
+        VertexShader skShdVtxShader;   
+
 
         Texture noTexture;
 
@@ -91,6 +93,9 @@ namespace Code2015.Effects
 
             fl = FileSystem.Instance.Locate("skinnedstandard.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
+
+            fl = FileSystem.Instance.Locate("skinnedShadowMap.cvs", GameFileLocs.Effect);
+            skShdVtxShader = LoadVertexShader(renderSys, fl);
         }
 
         #region Instance
@@ -118,7 +123,7 @@ namespace Code2015.Effects
         {
             if (mode == RenderMode.Depth)
             {
-                renderSys.BindShader(shdVtxShader);
+                renderSys.BindShader(skShdVtxShader);
                 renderSys.BindShader(shdPixShader);
             }
             else
@@ -173,7 +178,11 @@ namespace Code2015.Effects
             {
                 Matrix lightPrjTrans;
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
-                shdVtxShader.SetValue("mvp", ref lightPrjTrans);
+                skShdVtxShader.SetValue("mvp", ref lightPrjTrans);
+                if (op.BoneTransforms != null)
+                {
+                    skShdVtxShader.SetValue("Bones", op.BoneTransforms);
+                }
             }
             else
             {
