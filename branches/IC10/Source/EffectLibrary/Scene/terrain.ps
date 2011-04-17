@@ -12,8 +12,6 @@ sampler2D texDif : register(s4);
 sampler2D texNorm : register(s5);
 sampler2D texShd : register(s6);
 
-sampler2D texEdge : register(s7);
-
 float4 k_d : register(c0);
 float4 k_a : register(c1);
 
@@ -36,27 +34,6 @@ struct PSOutput
     float4 Color : COLOR;
 };
 
-float4 SampleDetail(int idx, float weight, float2 texCoord)
-{
-    if (idx == 0)
-    {
-		return weight * tex2D(texDet1, texCoord);
-    }
-    else if (idx == 1)
-    {
-        return weight * tex2D(texDet2, texCoord);
-    }
-    else if (idx== 2)
-    {
-        return weight * tex2D(texDet3, texCoord);
-    }
-    else if (idx ==3)
-    {
-        return weight * tex2D(texDet4, texCoord);
-    }
-    return 0;
-}
-
 PSOutput main(PSInput ip)
 {
     PSOutput o;
@@ -75,42 +52,36 @@ PSOutput main(PSInput ip)
 	
 	float wgt = saturate(N.z);
     
-    //if (wgt < 0.8f)
-    //{
-//		index.xyz *= 0.5;
-//		index[3] += 2*( 1- (wgt/0.8) );
- //   }
+    if (wgt < 0.8f)
+    {
+		index.xyz *= 0.5;
+		index[3] += 2*( 1- (wgt/0.8) );
+    }
     
-    
-	float4 color = SampleDetail(ia, index.a, ip.DetailCoord) + 
-	    SampleDetail(ib, index.r,  ip.DetailCoord);
+	float mod = 0;
+	float4 color=0;
 	
-	
-	
-	
-	//float mod = 0;
-	
-	//if (index[0]>=0.1)
-	//{
-	//	color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
-	//	mod += index[0];
-	//}
-	//if (index[1]>=0.1)
-	//{
-	//	color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
-	//	mod += index[1];
-	//}
-	//if (index[2]>=0.1)
-	//{
-	//	color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
-	//	mod += index[2];
-	//}
-	//if (index[3]>=0.1)
-	//{
-	//	color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
-	//	mod += index[3];
-	//}
-	//color/=mod;
+	if (index[0]>=0.1)
+	{
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
+		mod += index[0];
+	}
+	if (index[1]>=0.1)
+	{
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
+		mod += index[1];
+	}
+	if (index[2]>=0.1)
+	{
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
+		mod += index[2];
+	}
+	if (index[3]>=0.1)
+	{
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
+		mod += index[3];
+	}
+	color/=mod;
 	
 	float4 amb = i_a * k_a;
 	float4 dif = i_d * k_d;

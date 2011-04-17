@@ -162,7 +162,7 @@ namespace Code2015.Effects
 
                 pixShader.SetTexture("texDif", MaterialLibrary.Instance.GlobalIndexTexture);
                 pixShader.SetTexture("texNorm", MaterialLibrary.Instance.GlobalNormalTexture);
-                pixShader.SetTexture("texEdge", MaterialLibrary.Instance.FadeEdge);
+                //pixShader.SetTexture("texEdge", MaterialLibrary.Instance.FadeEdge);
 
 
                 pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
