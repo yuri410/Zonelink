@@ -92,8 +92,6 @@ namespace Code2015.World
         Model fear;
         Model sleeping;
 
-        bool currentStateEnded;
-
         /// <summary>
         ///  是否正在等待当前动画完成
         /// </summary>
@@ -101,8 +99,13 @@ namespace Code2015.World
 
         float nextIdleAnimationCD;
 
-        float currentFacing;
-        Matrix currentFacingMatrix;
+        Quaternion currentFacing;
+        Quaternion rotationSrc;
+        Quaternion rotationTarget;
+        float rotationTime;
+        float remainingRotationTime;
+
+
 
         CityState currentState;
 
@@ -111,10 +114,6 @@ namespace Code2015.World
         string[] linkableCityName;
         FastList<City> linkableCity = new FastList<City>();
 
-        /// <summary>
-        ///  附近友好城市列表
-        /// </summary>
-        FastList<City> nearbyCity = new FastList<City>();
 
         SoundObject sound;
 
@@ -253,6 +252,7 @@ namespace Code2015.World
             stopped = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             stopped.AnimationCompeleted += Animation_Completed;
             stopped.CurrentAnimation.Insert(0, scaling);
+            stopped.AutoLoop = true;
 
             fl = FileSystem.Instance.Locate("oil_wakeup.mesh", GameFileLocs.Model);
             wakeingUp = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -317,7 +317,8 @@ namespace Code2015.World
             if (player != null)
             {
                 Owner.Area.NotifyNewCity(this);
-            }
+                ChangeState(CityState.WakeingUp);
+            }            
         }
 
 
@@ -408,9 +409,9 @@ namespace Code2015.World
             }
 
 
-            currentFacing = MathEx.PIf + (Randomizer.GetRandomSingle() - 0.5f) * MathEx.PiOver2;
+            float facing = MathEx.PIf + (Randomizer.GetRandomSingle() - 0.5f) * MathEx.PiOver2;
             //currentFacing =  MathEx.PIf * (5f / 6 + Randomizer.GetRandomSingle() / 3);
-            currentFacingMatrix = Matrix.RotationY(currentFacing);
+            currentFacing = Quaternion.RotationAxis(Vector3.UnitY, facing);
 
             UpdateLocation();
         }
@@ -431,14 +432,43 @@ namespace Code2015.World
             BoundingSphere.Radius = CityRadius;
             BoundingSphere.Center = this.Position;
         }
-
-        
-        void Animation_Completed(object sender, AnimationCompletedEventArgs e) 
+        void RotateTo(Quaternion angle, float time)
         {
-            switch (currentState) 
-            {
+            ChangeState(CityState.Rotate);
+            rotationSrc = currentFacing;
+            rotationTarget = angle;
+            rotationTime = time;
+            remainingRotationTime = time;
+        }
+        void RotateTo(float angle, float time) 
+        {
+            ChangeState(CityState.Rotate);
+            rotationSrc = currentFacing;
+            rotationTarget = Quaternion.RotationAxis(Vector3.UnitY, angle);
+            rotationTime = time;
+            remainingRotationTime = time;
+        }
+        void Animation_Completed(object sender, AnimationCompletedEventArgs e)
+        {
 
+            switch (currentState)
+            {
+                case CityState.Catch:
+                    break;
+                case CityState.Fear:
+                    break;
+                case CityState.Idle: // 每次Idle动画播放完后都先转到Stopped
+                    ChangeState(CityState.Stopped);
+                    break;
+                case CityState.Laugh:
+                    break;
+                case CityState.Throw:
+                    break;
+                case CityState.WakeingUp:
+                    ChangeState(CityState.Stopped);
+                    break;
             }
+
             //currentStateEnded = true;
         }
 
@@ -457,10 +487,22 @@ namespace Code2015.World
                 case CityState.Laugh:
                     break;
                 case CityState.Stopped:
+                    stopped.PlayAnimation();
+
+                    if (currentState == CityState.WakeingUp)
+                    {
+                        wakeingUp.PauseAnimation();
+                    }
                     break;
                 case CityState.Throw:
                     break;
                 case CityState.WakeingUp:
+                    wakeingUp.PlayAnimation();
+
+                    if (currentState == CityState.Sleeping)
+                    {
+                        sleeping.PauseAnimation();
+                    }
                     break;
                 case CityState.Sleeping:
                     sleeping.PlayAnimation();
@@ -472,63 +514,70 @@ namespace Code2015.World
         {
             float dt = time.ElapsedGameTimeSeconds;
 
-            if (currentStateEnded)
+
+            switch (currentState)
             {
-                currentStateEnded = false;
-                switch (currentState)
-                {
-                    case CityState.Catch:
-                        break;
-                    case CityState.Fear:
-                        break;
-                    case CityState.Idle: // 每次Idle动画播放完后都先转到Stopped
+                case CityState.Rotate:
+
+                    remainingRotationTime -= dt;
+                    if (remainingRotationTime<0)
+                    {
                         ChangeState(CityState.Stopped);
-                        break;
-                    case CityState.Laugh:
-                        break;
-                    case CityState.Stopped:
-                        break;
-                    case CityState.Throw:
-                        break;
-                    case CityState.WakeingUp:
-                        break;
-                    case CityState.Sleeping:
-                        break;
-                }
-            }
-            else
-            {
-                switch (currentState)
-                {
-                    case CityState.Catch:
-                        break;
-                    case CityState.Fear:
-                        break;
-                    case CityState.Idle:
-                        break;
-                    case CityState.Laugh:
-                        break;
-                    case CityState.Stopped:
-                        if (nextIdleAnimationCD > 0)
-                        {
-                            nextIdleAnimationCD -= dt;
-                        }
-                        else
+                        //?????
+                    }
+                    float progress = MathEx.Saturate(1 - remainingRotationTime / rotationTime);
+
+                    currentFacing = Quaternion.Slerp(rotationSrc, rotationTarget, progress);
+                  
+                    if (isVisible) stopped.Update(time);
+                    break;
+                case CityState.Catch:
+                    break;
+                case CityState.Fear:
+                    break;
+                case CityState.Idle:
+                    if (isVisible) idle.Update(time);
+                    break;
+                case CityState.Laugh:
+                    break;
+                case CityState.Stopped:
+                    if (nextIdleAnimationCD > 0)
+                    {
+                        nextIdleAnimationCD -= dt;
+                    }
+                    else
+                    {
+                        nextIdleAnimationCD = Randomizer.GetRandomSingle() * 3 + 2.5f;
+
+                        bool goIdle = Randomizer.GetRandomBool();
+                        
+                        if (goIdle)
                         {
                             ChangeState(CityState.Idle);
-                            nextIdleAnimationCD = Randomizer.GetRandomSingle() * 5 + 3;
                         }
-                        if (isVisible) idle.Update(time);
-                        break;
-                    case CityState.Throw:
-                        break;
-                    case CityState.WakeingUp:
-                        break;
-                    case CityState.Sleeping:
-                        if (isVisible) sleeping.Update(time);
-                        break;
-                }
+                        else 
+                        {
+                            float rotTime = Randomizer.GetRandomSingle() * 0.5f + 0.5f;
+
+                            float facingChange = Randomizer.GetRandomSingle() * MathEx.PIf - MathEx.PiOver2;
+                            Quaternion nextFacing = currentFacing * Quaternion.RotationAxis(Vector3.UnitY, facingChange);
+
+                            RotateTo(nextFacing, rotTime);
+                        }
+
+                    }
+                    if (isVisible) stopped.Update(time);
+                    break;
+                case CityState.Throw:
+                    break;
+                case CityState.WakeingUp:
+                    wakeingUp.Update(time);
+                    break;
+                case CityState.Sleeping:
+                    if (isVisible) sleeping.Update(time);
+                    break;
             }
+
         }
 
         public override void Update(GameTime dt)
@@ -590,25 +639,34 @@ namespace Code2015.World
             switch (currentState)
             {
                 case CityState.Catch:
-
+                    ops = catching.GetRenderOperation();
                     break;
                 case CityState.Fear:
+                    ops = fear.GetRenderOperation();
                     break;
                 case CityState.Idle:
                     ops = idle.GetRenderOperation();
                     break;
                 case CityState.Laugh:
+                    ops = laugh.GetRenderOperation();
                     break;
+                case CityState.Rotate:
                 case CityState.Stopped:
+                    ops = stopped.GetRenderOperation();
                     break;
                 case CityState.Throw:
+                    ops = throwing.GetRenderOperation();
                     break;
                 case CityState.WakeingUp:
+                    ops = wakeingUp.GetRenderOperation();
                     break;
                 case CityState.Sleeping:
                     ops = sleeping.GetRenderOperation();
                     break;                        
             }
+
+            Matrix currentFacingMatrix = Matrix.RotationQuaternion(currentFacing);
+            
             if (ops != null)
             {
                 for (int i = 0; i < ops.Length; i++)

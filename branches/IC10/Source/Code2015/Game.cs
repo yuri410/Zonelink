@@ -185,15 +185,11 @@ namespace Code2015
             this.soundWorld = new SoundObjectWorld();
             
             gameState = new GameState(GetLocalPlayers(gcp));
-            HumanPlayer = gameState.LocalHumanPlayer;
+          
 
             // 初始化场景
             this.scene = new GameScene(renderSys);
-            {
-                City hstart = HumanPlayer.Area.RootCity;
-                this.scene.Camera.Longitude = MathEx.Degree2Radian(hstart.Longitude);
-                this.scene.Camera.Latitude = MathEx.Degree2Radian(hstart.Latitude);
-            }
+           
 
             BattleField field = gameState.Field;
 
@@ -215,8 +211,14 @@ namespace Code2015
 
             AddResources(field);
             AddScenery();
-            gameState.InitialStandards();
             
+            gameState.InitialStandards();
+            {
+                HumanPlayer = gameState.LocalHumanPlayer;
+                City hstart = HumanPlayer.Area.RootCity;
+                this.scene.Camera.Longitude = MathEx.Degree2Radian(hstart.Longitude);
+                this.scene.Camera.Latitude = MathEx.Degree2Radian(hstart.Latitude);
+            }
             this.ingameUI = new InGameUI(game, this, scene, gameState);
         }
 

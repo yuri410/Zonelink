@@ -100,11 +100,9 @@ namespace Code2015.World
         {
             base.ChangeOwner(player);
 
-            if (!(player is AI.AIPlayer))
-            {
-                Harv_Home(null, EventArgs.Empty);
-            }
+            Harv_Home(null, EventArgs.Empty);
         }
+
         //public override void UpdateResource(GameTime gameTime)
         //{
         //    //开采资源

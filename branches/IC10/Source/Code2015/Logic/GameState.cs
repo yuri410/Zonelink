@@ -148,25 +148,6 @@ namespace Code2015.World
         }
         public void InitialStandards()
         {
-            for (int i = 0; i < localPlayerArea.Length; i++)
-            {
-                //CityPluginFactory fac = new CityPluginFactory();
-
-
-                //CityPlugin woodFac = fac.MakeWoodFactory();
-                //woodFac.Upgrade(0.4f);
-
-                //localPlayerArea[i].RootCity.Add(woodFac);
-            }
-        }
-
-        public GameState(Player[] localPlayer)
-        {
-            this.battleField = new BattleField();// srcState.Field;
-            //PluginFactory = srcState.PluginFactory;
-
-            this.localPlayerArea = new PlayerArea[localPlayer.Length];
-            this.localPlayers = localPlayer;
 
             Dictionary<int, FastList<City>> startAreas = new Dictionary<int, FastList<City>>();
             for (int i = 0; i < battleField.CityCount; i++)
@@ -190,13 +171,13 @@ namespace Code2015.World
 
             for (int i = 0; i < localPlayerArea.Length; i++)
             {
-                localPlayerArea[i] = new PlayerArea(battleField, localPlayer[i]);
+                localPlayerArea[i] = new PlayerArea(battleField, localPlayers[i]);
 
-                if (localPlayer[i].Type == PlayerType.LocalHuman)
-                    LocalHumanPlayer = localPlayer[i];
+                if (localPlayers[i].Type == PlayerType.LocalHuman)
+                    LocalHumanPlayer = localPlayers[i];
 
-                localPlayer[i].SetArea(localPlayerArea[i]);
-                localPlayer[i].SetParent(this);
+                localPlayers[i].SetArea(localPlayerArea[i]);
+                localPlayers[i].SetParent(this);
 
 
 
@@ -212,16 +193,24 @@ namespace Code2015.World
 
                         int cidx = Randomizer.GetRandomInt(list.Count);
                         list[cidx].IsHomeCity = true;
-                        list[cidx].ChangeOwner(localPlayer[i]);
+                        list[cidx].ChangeOwner(localPlayers[i]);
                         finished = true;
                     }
                 }
             }
             #endregion
 
-            //newTime = new GameTime();
+        }
 
-            //remainingTime = TotalTime;
+        public GameState(Player[] localPlayer)
+        {
+            this.battleField = new BattleField();// srcState.Field;
+            //PluginFactory = srcState.PluginFactory;
+
+            this.localPlayerArea = new PlayerArea[localPlayer.Length];
+            this.localPlayers = localPlayer;
+
+
         }
 
 

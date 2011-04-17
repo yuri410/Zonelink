@@ -122,6 +122,7 @@
     <Compile Include="Engine\Apoc3D.Graphics\Animation\Bone.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Engine\Apoc3D.Graphics\Animation\MaterialAnimationKeyFrame.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\ModelAnimationClip.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\ModelAnimationPlayerBase.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\AnimationData.cs" />
