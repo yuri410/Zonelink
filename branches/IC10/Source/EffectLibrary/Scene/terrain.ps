@@ -110,7 +110,7 @@ PSOutput main(PSInput ip)
     
     o.Color.rgb *=  hatchColor;
     
-    o.Color.rgb = (o.Color.rgb - 0.5) * 1.15 + 0.5;
+    o.Color.rgb = (o.Color.rgb - 0.5) * 1.15 + 0.45;
     
     o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.Height_Blend.y);
     

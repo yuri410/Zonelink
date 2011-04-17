@@ -1,4 +1,5 @@
 #include "waterDepth.vsh"
+#include "fog.vsh"
 
 #define SKINNED_EFFECT_MAX_BONES   60
 
@@ -40,7 +41,7 @@ void Skin(inout VSInputNmTxWeights vin)
 struct VSOutput
 {
     float4 Position : POSITION0;
-    float2 TexCoord : TEXCOORD0;
+    float3 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1;
     float4 smLgtPos : TEXCOORD2;
     float Depth : TEXCOORD3;
@@ -54,7 +55,8 @@ VSOutput main(VSInputNmTxWeights ip)
     Skin(ip);
     
     o.Position = mul(ip.Position, mvp);
-    o.TexCoord = ip.TexCoord;
+    o.TexCoord.xy = ip.TexCoord;
+    o.TexCoord.z = GetFogFade(o.Position.z);
     if (isVegetation.x>10)
 	{
 		ip.Normal = float3(0,1,0);
