@@ -99,7 +99,7 @@ namespace Code2015.EngineEx
             get;
             private set;
         }
-        public ResourceHandle<Texture> FadeEdge { get; private set; }
+
 
 
         public void LoadTextureSet(FileLocation configLoc)
@@ -149,8 +149,6 @@ namespace Code2015.EngineEx
             fl2 = FileSystem.Instance.Locate("LevelTwo.tex", GameFileLocs.TerrainTexture);
             GlobalBakedNormalTexture = TextureManager.Instance.CreateInstance(fl2);
 
-            fl2 = FileSystem.Instance.Locate("edge.tex", GameFileLocs.TerrainTexture);
-            FadeEdge = TextureManager.Instance.CreateInstance(fl2);
 
 
             string msg = "细节纹理库初始化完毕。加载了{0}种纹理。";
