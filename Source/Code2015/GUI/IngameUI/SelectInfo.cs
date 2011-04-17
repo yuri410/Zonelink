@@ -21,6 +21,7 @@ namespace Code2015.GUI.IngameUI
         private Player player;
 
         GameFontRuan f6;
+        GameFontRuan fe8;
 
         #region 选择城市
 
@@ -28,7 +29,7 @@ namespace Code2015.GUI.IngameUI
         /// <summary>
         /// Currently selected city, Null if not selected
         /// </summary>
-        private City selectCity;
+        private City selectedCity;
         private Harvester selectedHarv;
         private NaturalResource selectedResource;
 
@@ -41,7 +42,7 @@ namespace Code2015.GUI.IngameUI
             {
                 selectedObject = value;
 
-                selectCity = selectedObject as City;
+                selectedCity = selectedObject as City;
                 selectedHarv = selectedObject as Harvester;
                 selectedResource = selectedObject as NaturalResource;
             }
@@ -102,6 +103,7 @@ namespace Code2015.GUI.IngameUI
             this.parent = parent;
             this.game = game;
             this.f6 = GameFontManager.Instance.FRuanEdged6;
+            fe8 = GameFontManager.Instance.FRuanEdged8;
 
             FileLocation fl = FileSystem.Instance.Locate("bubble_256x64.tex", GameFileLocs.GUI);
             cityBubbleTex = UITextureManager.Instance.CreateInstance(fl);
@@ -144,10 +146,10 @@ namespace Code2015.GUI.IngameUI
 
          private void RenderSelectedCity(Sprite sprite)
          {
-             if (selectCity != null)
+             if (selectedCity != null)
              {
-                 float radLng = MathEx.Degree2Radian(selectCity.Longitude);
-                 float radLat = MathEx.Degree2Radian(selectCity.Latitude);
+                 float radLng = MathEx.Degree2Radian(selectedCity.Longitude);
+                 float radLat = MathEx.Degree2Radian(selectedCity.Latitude);
 
                  Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
                  Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);
@@ -155,7 +157,7 @@ namespace Code2015.GUI.IngameUI
                  Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
                  cityNormal.Normalize();
 
-                 Vector3 BubblePos = selectCity.Position + tangy * City.CityRadius + cityNormal * bubbleHeight;
+                 Vector3 BubblePos = selectedCity.Position + tangy * City.CityRadius + cityNormal * bubbleHeight;
 
                  Viewport vp = renderSys.Viewport;
                  Vector3 screenPos = vp.Project(BubblePos, scene.Camera.ProjectionMatrix,
@@ -178,13 +180,19 @@ namespace Code2015.GUI.IngameUI
                  sprite.Draw(cityBubbleTex, 0, 0, ColorValue.White);
                  sprite.SetTransform(Matrix.Identity);
 
+                 if (selectedCity.CityState == CityState.Sleeping)
+                 {
+                     Size s = fe8.MeasureString("ZZZ....");
+
+                     fe8.DrawString(sprite, "ZZZ....", (int)screenPos.X - s.Width / 2, (int)screenPos.Y - s.Height / 2, ColorValue.White);
+                 }
 
                  //属性,右下角显示
-                 int hp = (int)selectCity.HealthValue;
-                 int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
+                 int hp = (int)selectedCity.HealthValue;
+                 int hpFull = (int)(selectedCity.HealthValue / selectedCity.HPRate);
 
                  string hpInfo = "HP: " + hp.ToString() + "/" + hpFull.ToString() + "\n";
-                 string developmentInfo = "Development: " + selectCity.Name.ToString();
+                 string developmentInfo = "Development: " + selectedCity.Name.ToString();
                  string info = hpInfo + developmentInfo;
                  info = info.ToUpperInvariant();
 

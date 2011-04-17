@@ -132,7 +132,7 @@ namespace Code2015.World
         {
             get { return linkableCity.Count; }
         }
-        public CityState AnimationState
+        public CityState CityState
         { 
             get { return currentState; }
         }
