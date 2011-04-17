@@ -222,7 +222,7 @@ namespace Code2015.World
                     break;
             }
 
-            NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f));
+            NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f) ) ;
             fl = FileSystem.Instance.Locate("oil_catch.mesh", GameFileLocs.Model);
             catching = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             catching.AnimationCompeleted += Animation_Completed;
@@ -407,7 +407,9 @@ namespace Code2015.World
                     break;
             }
 
-            currentFacing = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
+
+            currentFacing = MathEx.PIf + (Randomizer.GetRandomSingle() - 0.5f) * MathEx.PiOver2;
+            //currentFacing =  MathEx.PIf * (5f / 6 + Randomizer.GetRandomSingle() / 3);
             currentFacingMatrix = Matrix.RotationY(currentFacing);
 
             UpdateLocation();
