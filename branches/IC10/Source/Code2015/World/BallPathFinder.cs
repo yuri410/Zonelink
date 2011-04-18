@@ -221,20 +221,12 @@ namespace Code2015.World
                 AStarNodeBall curPos = queue.Dequeue(); //将open列表中最前面的元素设为当前格
                 int curHash = curPos.GetHashCode();
 
-                //if (curPos.depth > MaxStep)
-                //{
-                //    rcpf = true;
-                //    finalNode = curPos;
-                //    break;
-                //}
-
 
                 inQueueTable.Remove(curHash);
                 passedTable.Add(curHash, curPos);
 
                 City cc = curPos.City;
-                //int cx = curPos.X;
-                //int cy = curPos.Y;
+
                 // BFS展开新节点
                 for (int i = 0; i < cc.LinkableCityCount; i++) 
                 {
@@ -252,7 +244,7 @@ namespace Code2015.World
                         np.parent = curPos;  //当前格坐标为终点的父方格坐标
                         break;
                     }
-                    else
+                    else if (np.City.Owner == start.Owner)
                     {
                         int npHash = np.GetHashCode();
                         float cost = Vector3.Distance(cc.Position, nc.Position) / 1000.0f;

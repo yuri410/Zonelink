@@ -219,7 +219,7 @@ namespace Code2015.World
             }
 
             {
-                float s = CitySelScale * City.CityOutterRadius / RingRadius;
+                float s = 0.8f * CitySelScale * City.CityOutterRadius / RingRadius;
                 Matrix scale = Matrix.Scaling(s, 1, s);
 
                 inner_marker.CurrentAnimation.Clear();

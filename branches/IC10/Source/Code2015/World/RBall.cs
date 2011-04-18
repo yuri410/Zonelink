@@ -44,7 +44,7 @@ namespace Code2015.World
         List<Vector3> ballOffsets;
         List<RBall> subBalls;
         Vector3 position;
-
+        City sourceCity;
         
         float targetAngle;
 
@@ -54,10 +54,34 @@ namespace Code2015.World
         float flyProgress;
         bool notifyedDest;
         City destCity;
-
+        
         Vector3 flyRoundCenter;
         #endregion
 
+        public List<RBall> Balls { get { return subBalls; } }
+
+        public City FollowingCity 
+        {
+            get
+            {
+                if (goPath.Count >= 2)
+                    return goPath[1];
+                return null;
+            }
+        }
+        public List<City> GetRemainingPath() 
+        {
+            if (goPath.Count >= 2)
+            {
+                List<City> result = new List<City>(goPath.Count - 1);
+                for (int i = 1; i < goPath.Count; i++) 
+                {
+                    result.Add(goPath[i]);
+                }
+                return result;
+            }
+            return null;
+        }
         public Vector3 Position
         {
             get { return position; }
@@ -89,6 +113,15 @@ namespace Code2015.World
             }
         }
 
+        void ReleaseBallGathering() 
+        {
+            
+            for (int i = 0; i < subBalls.Count; i++)
+            {
+                subBalls[i].Free(sourceCity);
+            }
+        }
+
         /// <summary>
         ///  计算在一定方向上，城市手中的RG球位置
         /// </summary>
@@ -113,6 +146,7 @@ namespace Code2015.World
             state = State.WaitingGathering;
             subBalls = balls;
             goPath = path;
+            sourceCity = dockCity;
 
 
             position = GetRGBallPosition(dockCity, dockCity.CurrentFacing);
@@ -136,6 +170,20 @@ namespace Code2015.World
             }
         }
 
+        public void Cancel()
+        {
+            switch (state)
+            {
+                case State.WaitingGathering:
+                    {
+                        ReleaseBallGathering();
+                        state = State.Finished;
+                        goPath.Clear(); 
+                        break;
+                    }                
+            }
+         
+        }
         public void NotifyThrow()
         {
             ChangeState(State.Flying);

@@ -1,64 +1,59 @@
+#include "ShadowMapping.psh"
+#include "hatching.psh"
+
+sampler2D texDif : register(s0);
+sampler2D texShd : register(s1);
+
+float4 k_d : register(c0);
+float4 k_a : register(c1);
+
+float4 i_a : register(c2);
+float4 i_d : register(c3);
+float3 lightDir : register(c4);
+
 struct PSInput
 {
     float2 TexCoord : TEXCOORD0;
-    float3 Normal : TEXCOORD1;
-    float3 Position : TEXCOORD2;
+    float3 Normal : TEXCOORD1; 
+    float4 smLgtPos : TEXCOORD2;
 };
 
 struct PSOutput
 {
     float4 Color : COLOR;
 };
-float3 lightDir : register(c5);
-
-#define pi 3.14159265
-
-float4x4 ownerColors : register(c0);
-float4 weights : register(c4);
-sampler2D texDif : register(s0);
 
 PSOutput main(PSInput ip)
 {
     PSOutput o;
     
-    float4 clr = tex2D(texDif, ip.TexCoord);
-    float ang = (atan2(ip.Position.z, ip.Position.x) + pi) / (2*pi);
-    
-   
-    float4 w2 = weights;
-    w2.yzw += weights.x;
-    w2.zw  += weights.y;
-    w2.w   += weights.z;
-    
-	if (ang<w2[3])
-	{
-		if (ang<w2[2])
-		{
-			if (ang<w2[1])
-			{
-				if (ang<w2[0])
-				{
-					clr = clr * ownerColors[0];
-				}
-				else
-				{
-					clr = clr * ownerColors[1];
-				}
-			}
-			else
-			{
-				clr = clr * ownerColors[2];
-			}
-		}
-		else
-		{
-			clr = clr * ownerColors[3];
-		}
-	}
-	
     float ndl = dot(ip.Normal, lightDir);
-	clr.xyz += max(0, ndl);
 	
-	o.Color = clr;
+    float3 R = normalize(2 * ndl * ip.Normal + lightDir);
+
+	float4 amb = i_a * k_a;
+	float4 dif = i_d * k_d;
+	//dif.xyz *= max(0, ndl);
+	
+    float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
+    ShadowTexC.y = 1.0f - ShadowTexC.y;
+   
+	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z); 
+	
+	float4 p = amb+dif;
+	p.a = saturate(p.a);
+	
+    o.Color = tex2D(texDif, ip.TexCoord) * p;
+    o.Color = 0.57 + (o.Color -0.5)/ 1.5;
+    
+    o.Color.rgb *= 0.7 + 0.3*shd;
+    
+  
+  
+    float2 hatchTexCoord = ip.TexCoord * 1.5;
+    
+	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
+    
+    o.Color.rgb *=  hatchColor;
     return o;
 }

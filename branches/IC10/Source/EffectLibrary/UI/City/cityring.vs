@@ -1,20 +1,22 @@
+
 float4x4 mvp : register(c0);
+
 float4x4 world : register(c4);
+float3 viewPos : register(c8);
+float4x4 smTrans : register(c9);
 
 struct VSInput
 {
     float4 Position : POSITION0;
+    float3 Normal : NORMAL;
     float2 TexCoord : TEXCOORD0;
-    float3 Normal : TEXCOORD1;
-
 };
 struct VSOutput
 {
     float4 Position : POSITION0;
     float2 TexCoord : TEXCOORD0;
     float3 Normal : TEXCOORD1;
-	
-	float3 psPosition : TEXCOORD2;
+    float4 smLgtPos : TEXCOORD2;
 };
 
 VSOutput main(VSInput ip)
@@ -23,7 +25,11 @@ VSOutput main(VSInput ip)
 
     o.Position = mul(ip.Position, mvp);
     o.TexCoord = ip.TexCoord;
+
+    o.smLgtPos = mul(ip.Position , smTrans);
 	o.Normal = normalize((float3)mul(float4(ip.Normal,0), world));
-	o.psPosition = ip.Position.xyz;
+    
+    float3 wpos = mul(ip.Position, world).xyz;
+    
     return o;
 }
