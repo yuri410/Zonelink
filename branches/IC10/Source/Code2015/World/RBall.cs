@@ -11,13 +11,15 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
-    enum RBallState 
+    enum RBallState
     {
         Standby,
+        Born,
         Gathering,
         Attack,
+        AttackCity,
         Gathered,
-        Free,        
+        Free,
     }
 
     /// <summary>
@@ -494,7 +496,7 @@ namespace Code2015.World
 
                 positioningProgress += dt * 1.5f;// (PositioningSpeed / positioningDistance) * dt;
             }
-            else if (positioningProgress < 1)
+            else if (positioningProgress < 1 && positioningProgress > 0.8f)
             {
                 Orientation = Matrix.RotationQuaternion(
                     Quaternion.Slerp(positioningStartOri, positioningEndOri, (positioningProgress - 0.8f) * 5));
@@ -520,6 +522,7 @@ namespace Code2015.World
             SetDockCity(city);
 
             Matrix dockOri = dockCity.Transformation;
+            dockOri.TranslationValue = Vector3.Zero;
             orientation = Matrix.RotationY(roundAngle) * dockOri;
           
             Vector3 y = dockOri.Forward;
@@ -528,7 +531,6 @@ namespace Code2015.World
 
             Vector3 dir = x * (float)Math.Cos(roundAngle) + y * (float)Math.Sin(roundAngle);
             Vector3 ofs = dir * currentRadius + z * currentHeight;
-            dockOri.TranslationValue = Vector3.Zero;
 
             Move(dockCity.Position + ofs, Quaternion.RotationMatrix(Matrix.RotationY(roundAngle) * dockOri));
             ChangeState(RBallState.Free);
@@ -599,6 +601,46 @@ namespace Code2015.World
             }
             base.Update(gameTime);
 
+            if (dockCity != null)
+            {
+                switch (Type)
+                {
+                    case RBallType.Green:
+                    case RBallType.Oil:
+                        {
+                            // 攻击
+
+                            if (dockCity.Owner != Owner)
+                            {
+                                // 在别人城里
+                                //if ( state != RBallState.AttackCity)
+                            }
+                            else
+                            {
+                                //在自己城里
+                                
+                            }
+                            break;
+                        }
+                    case RBallType.Disease:
+                        {
+                            break;
+                        }
+                    case RBallType.Health:
+                        {
+                            break;
+                        }
+                    case RBallType.Education:
+                        {
+                            break;
+                        }
+                    case RBallType.Volience:
+                        {
+                            break;
+                        }
+                }
+            }
+            
             //else if (this.target != null)
             //{
                 ////攻击城市
