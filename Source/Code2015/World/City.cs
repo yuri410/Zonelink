@@ -43,7 +43,8 @@ namespace Code2015.World
         Laugh,
         Fear,
         Sleeping,
-        Rotate
+        Rotate,
+        WaitingGather
     }
 
     enum CityRotationPurpose 
@@ -108,7 +109,8 @@ namespace Code2015.World
         #endregion
 
         #region Throw_State
-        
+
+        RGatheredBall rgball;
         RBallType typeToThrow;
         bool isTypedThrow;
         List<City> throwPath;
@@ -154,7 +156,10 @@ namespace Code2015.World
             get { return currentState; }
         }
 
-
+        public float CatchPreserveTime 
+        {
+            get { return catching.SkinAnimDuration; }
+        }
 
         public Quaternion CurrentFacing 
         {
@@ -488,13 +493,16 @@ namespace Code2015.World
             switch (currentState)
             {
                 case CityState.Catch:
+                    ChangeState(CityState.Stopped);
                     break;
                 case CityState.Fear:
+                    ChangeState(CityState.Stopped); 
                     break;
                 case CityState.Idle: // 每次Idle动画播放完后都先转到Stopped
                     ChangeState(CityState.Stopped);
                     break;
                 case CityState.Laugh:
+                    ChangeState(CityState.Stopped);
                     break;
                 case CityState.Throw:
                     ChangeState(CityState.Stopped);
@@ -508,7 +516,7 @@ namespace Code2015.World
         }
 
 
-        Quaternion GetOrientation(Vector3 pb) 
+        public Quaternion GetOrientation(Vector3 pb) 
         {
             Matrix invTransform;
             Matrix.Invert(ref Transformation, out invTransform);
@@ -528,52 +536,74 @@ namespace Code2015.World
             return targetRot;
         }
 
+
+        public void NotifyResourceBallMoveIn(RBall ball) 
+        {
+            nearbyBallList.Add(ball);
+        }
+        public void NotifyResourceBallMoveOut(RBall ball)
+        {
+            nearbyBallList.Remove(ball);
+        }
+
         public void NotifyIncomingBall(RGatheredBall rgball)
         {
-            Quaternion targetRot = GetOrientation(rgball.Position);
-
-            SetRotationPurpose(CityRotationPurpose.Receive);
-            //switch (currentState) 
-            //{
-             //   
-            //}
+            if (currentState == CityState.Sleeping)
+            {
+                ChangeState(CityState.WakeingUp);
+            }
+            else
+            {
+                Quaternion targetRot = GetOrientation(rgball.Position);
+                RotateTo(targetRot, 0.5f);
+                SetRotationPurpose(CityRotationPurpose.Receive);
+            }
         }
-        
+
+        void ReceiveNow() 
+        {
+            ChangeState(CityState.Catch);
+        }
+
         void ThrowNow()
         {
-            //if (throwPath == null)
-            //{
-            //    throw new InvalidOperationException();
-            //}
-            //List<RBall> toThrow = new List<RBall>(nearbyBallList.Count);
-            //if (isTypedThrow)
-            //{
-            //    for (int i = 0; i < nearbyBallList.Count; i++)
-            //    {
-            //        if (nearbyBallList[i].Owner == Owner && nearbyBallList[i].Type == typeToThrow)
-            //        {
-            //            toThrow.Add(nearbyBallList[i]);
-            //        }
-            //    }
-            //}
-            //else 
-            //{
-               
-            //    for (int i = 0; i < nearbyBallList.Count; i++)
-            //    {
-            //        if (nearbyBallList[i].Owner == Owner)
-            //        {
-            //            toThrow.Add(nearbyBallList[i]);
-            //        }
-            //    }
-            //}
+            if (throwPath == null)
+            {
+                throw new InvalidOperationException();
+            }
+            List<RBall> toThrow = new List<RBall>(nearbyBallList.Count);
+            if (isTypedThrow)
+            {
+                for (int i = 0; i < nearbyBallList.Count; i++)
+                {
+                    if (nearbyBallList[i].Owner == Owner && nearbyBallList[i].Type == typeToThrow)
+                    {
+                        toThrow.Add(nearbyBallList[i]);
+                    }
+                }
+            }
+            else
+            {
 
-            //battleField.CreateRGatherBall(toThrow, this, throwPath);
-            //throwPath = null;
-            ChangeState(CityState.Throw);
+                for (int i = 0; i < nearbyBallList.Count; i++)
+                {
+                    if (nearbyBallList[i].Owner == Owner)
+                    {
+                        toThrow.Add(nearbyBallList[i]);
+                    }
+                }
+            }
+
+            if (toThrow.Count == 0) 
+            {
+                return;
+            }
+            rgball = battleField.CreateRGatherBall(toThrow, this, throwPath);
+            throwPath = null;
+            ChangeState(CityState.WaitingGather);
         }
         public void Throw(City target)
-        {
+        {            
             battleField.BallPathFinder.Reset();
             BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
 
@@ -583,7 +613,7 @@ namespace Code2015.World
                 for (int i = 0; i < result.NodeCount; i++) 
                 {
                     throwPath.Add(result[i]);
-                }
+                }                
 
                 Quaternion targetRot = GetOrientation(result[0].Position); 
 
@@ -619,7 +649,7 @@ namespace Code2015.World
             switch (state) 
             {
                 case CityState.Catch:
-                    
+                    catching.PlayAnimation();
                     break;
                 case CityState.Fear:
                     break;
@@ -638,6 +668,8 @@ namespace Code2015.World
                     break;
                 case CityState.Throw:
                     throwing.PlayAnimation();
+                    rgball.NotifyThrow();
+                    rgball = null;
                     break;
                 case CityState.WakeingUp:
                     wakeingUp.PlayAnimation();
@@ -649,6 +681,9 @@ namespace Code2015.World
                     break;
                 case CityState.Sleeping:
                     sleeping.PlayAnimation();
+                    break;
+                case CityState.WaitingGather:
+                    catching.PlayAnimation();
                     break;
             }
             currentState = state;
@@ -668,27 +703,34 @@ namespace Code2015.World
                         if (rotationPurpose == CityRotationPurpose.Throw)
                         {
                             ThrowNow();
-                            rotationPurpose = CityRotationPurpose.None;
+                        }
+                        else if (rotationPurpose == CityRotationPurpose.Receive) 
+                        {
+                            ReceiveNow();
                         }
                         else
                         {
                             ChangeState(CityState.Stopped);
                         }
+                        rotationPurpose = CityRotationPurpose.None;
                     }
                     float progress = MathEx.Saturate(1 - remainingRotationTime / rotationTime);
 
                     currentFacing = Quaternion.Slerp(rotationSrc, rotationTarget, progress);
-                  
+
                     if (isVisible) stopped.Update(time);
                     break;
                 case CityState.Catch:
+                    catching.Update(time); 
                     break;
                 case CityState.Fear:
+                    if (isVisible) fear.Update(time); 
                     break;
                 case CityState.Idle:
                     if (isVisible) idle.Update(time);
                     break;
                 case CityState.Laugh:
+                    if (isVisible) laugh.Update(time); 
                     break;
                 case CityState.Stopped:
                     if (nextIdleAnimationCD > 0)
@@ -728,6 +770,13 @@ namespace Code2015.World
                 case CityState.Sleeping:
                     if (isVisible) sleeping.Update(time);
                     break;
+                case CityState.WaitingGather:
+                    if (rgball.CurrentState == RGatheredBall.State.WaitingThrow) 
+                    {
+                        ChangeState(CityState.Throw);
+                    }
+                    catching.Update(time);
+                    break;
             }
 
         }
@@ -759,6 +808,8 @@ namespace Code2015.World
             }
 
             UpdateState(dt);
+
+            // 城内资源球AI
         }
 
 
@@ -766,7 +817,7 @@ namespace Code2015.World
 
         public virtual void ProduceBall()
         {
-            //this.battleField.CreateResourceBall(this);
+            
         }
 
 
@@ -803,7 +854,13 @@ namespace Code2015.World
                     ops = laugh.GetRenderOperation();
                     break;
                 case CityState.Rotate:
+                    if (rgball != null  && rotationPurpose != CityRotationPurpose.Receive)
+                        ops = catching.GetRenderOperation();
+                    else
+                        ops = stopped.GetRenderOperation();
+                    break;
                 case CityState.Stopped:
+                case CityState.WaitingGather:
                     ops = stopped.GetRenderOperation();
                     break;
                 case CityState.Throw:

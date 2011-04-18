@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
-using Code2015.Logic;
-using Apoc3D.MathLib;
 using Apoc3D.Graphics;
+using Apoc3D.Graphics.Animation;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
-using Apoc3D.Graphics.Animation;
+using Code2015.Logic;
 
 namespace Code2015.World
 {
@@ -20,30 +20,92 @@ namespace Code2015.World
         Free,        
     }
 
-    class RGatheredBall 
+    /// <summary>
+    ///  大球只进行一次跳跃
+    /// </summary>
+    class RGatheredBall
     {
-        const float GBallRadius = 30;
+        const float GatherPositionRadius = City.CityRadius * 0.5f;
+        const float GatherPositionHeight = 250;
+
+        const float GBallRadius = 100;
 
         public enum State
         {
             WaitingGathering,
             WaitingThrow,
             Flying,
-            WaitingPass
+            Finished
         }
+
 
         List<City> goPath;
         State state;
+        List<Vector3> ballOffsets;
         List<RBall> subBalls;
         Vector3 position;
 
-        public Vector3 Position 
+        
+        float targetAngle;
+
+        #region FLY
+        Vector3 srcPosition;
+        Vector3 dstPosition;
+        float flyProgress;
+        bool notifyedDest;
+        City destCity;
+
+        Vector3 flyRoundCenter;
+        #endregion
+
+        public Vector3 Position
         {
             get { return position; }
         }
-        public State CurrentState 
+        public State CurrentState
         {
             get { return state; }
+        }
+
+        public bool IsOver 
+        {
+            get { return state == State.Finished; }
+        }
+        public bool IsPathFinished
+        {
+            get { return goPath.Count <= 1; }
+        }
+
+        /// <summary>
+        ///  释放所有资源球
+        /// </summary>
+        void ReleaseBalls() 
+        {
+            City cc = goPath[0];
+
+            for (int i = 0; i < subBalls.Count; i++)
+            {
+                subBalls[i].Free(cc);
+            }
+        }
+
+        /// <summary>
+        ///  计算在一定方向上，城市手中的RG球位置
+        /// </summary>
+        /// <param name="city"></param>
+        /// <param name="ori"></param>
+        /// <returns></returns>
+        static Vector3 GetRGBallPosition(City city, Quaternion ori)
+        {
+            Vector4 dir = Vector3.Transform(Vector3.UnitZ, ori);
+
+            Vector3 offset = new Vector3(dir.X, dir.Y, dir.Z);
+            offset *= GatherPositionRadius;
+            offset.Y += GatherPositionHeight;
+
+            offset = Vector3.TransformNormal(offset, city.Transformation);
+            
+            return city.Position + offset;
         }
 
         public RGatheredBall(List<RBall> balls, City dockCity, List<City> path)
@@ -53,17 +115,12 @@ namespace Code2015.World
             goPath = path;
 
 
-            Vector4 dir = Vector3.Transform(Vector3.UnitZ, dockCity.CurrentFacing);
-
-            Vector3 offset = new Vector3(dir.X, dir.Y, dir.Z);
-            offset *= City.CityRadius;
-            offset.Y += 100;
-
-            offset = Vector3.TransformNormal(offset, dockCity.Transformation);
-
+            position = GetRGBallPosition(dockCity, dockCity.CurrentFacing);
+            
             int lineCount = (int)Math.Ceiling(Math.Sqrt(balls.Count));
             float span = (MathEx.PIf * 2) / lineCount;
 
+            ballOffsets = new List<Vector3>(balls.Count);
             for (int i = 0; i < balls.Count; i++)
             {
                 int row = i / lineCount;
@@ -74,28 +131,107 @@ namespace Code2015.World
 
                 Vector3 positionInGBall = PlanetEarth.GetPosition(radLng, radLat, GBallRadius);
                 Quaternion oriInGBall = Quaternion.RotationMatrix(PlanetEarth.GetOrientation(radLng, radLat));
-                balls[i].Gather(this, positionInGBall, oriInGBall);
+                ballOffsets.Add(positionInGBall);
+                balls[i].Gather(this, positionInGBall + position, oriInGBall);
             }
         }
 
-        void NotifyThrow() 
+        public void NotifyThrow()
         {
-
+            ChangeState(State.Flying);
         }
 
-        void ChangeState(State newState) 
+        void ChangeState(State newState)
         {
+            if (newState == State.Flying)
+            {
+                for (int i = 0; i < subBalls.Count; i++)
+                {
+                    subBalls[i].SetDockCity(null);
+                }
+
+                srcPosition = position;
+
+
+                City dstCity = goPath[0];
+                this.destCity = dstCity;
+
+
+                if (dstCity.Type == CityType.Health)
+                {
+                    targetAngle = MathEx.PiOver4;
+                }
+                else
+                {
+                    targetAngle = MathEx.PIf / 6.0f;
+                }
+
+                Quaternion newDstOri = dstCity.GetOrientation(srcPosition);
+
+                dstPosition = GetRGBallPosition(dstCity, newDstOri);
+
+                flyRoundCenter = GetFlyCenter(dstCity.Transformation.Up);
+                notifyedDest = false;
+                flyProgress = 0;
+            }
+            else if (newState == State.Finished) 
+            {
+                ReleaseBalls();
+            }
+
             state = newState;
         }
 
-        public void Update(GameTime time) 
+
+        Vector3 GetFlyCenter(Vector3 n)
+        {
+            Vector3 d = dstPosition - srcPosition;
+            
+            Vector3 r = Vector3.Cross(d, n);
+            r = Vector3.Cross(r, d);
+            r.Normalize();
+            Vector3 cp = dstPosition + srcPosition;
+            cp *= 0.5f;
+            return cp - r * (float)Math.Tan(MathEx.PiOver2 - targetAngle) * d.Length() * 0.5f;
+        }
+        void UpdateFly(GameTime time)
+        {
+            //Vector3 r = Vector3.Lerp(srcPosition, dstPosition, flyProgress) - flyRoundCenter;
+            //r.Normalize();
+            //r *= (dstPosition - srcPosition).Length() * 0.5f;
+
+            position = Vector3.Lerp(srcPosition, dstPosition, flyProgress);
+
+            flyProgress += time.ElapsedGameTimeSeconds * 0.5f;
+
+
+            float timeStamp = destCity.CatchPreserveTime;
+
+            timeStamp = 1.5f - timeStamp;
+
+            if ((flyProgress / 0.5f) > timeStamp)
+            {
+                if (!notifyedDest)
+                {
+                    destCity.NotifyIncomingBall(this);
+                    notifyedDest = true;
+                }
+            }
+
+            if (flyProgress > 1)
+            {
+                ChangeState(State.Finished);
+            }
+            
+        }
+        public void Update(GameTime time)
         {
             switch (state)
             {
                 case State.WaitingGathering:
                     {
                         bool passed = true;
-                        for (int i = 0; i < subBalls.Count; i++) 
+                        for (int i = 0; i < subBalls.Count; i++)
                         {
                             if (subBalls[i].State != RBallState.Gathered)
                             {
@@ -104,15 +240,27 @@ namespace Code2015.World
                             }
                         }
 
-                        if (passed) 
+                        if (passed)
                         {
                             ChangeState(State.WaitingThrow);
                         }
                         break;
                     }
+                case State.Flying:
+                    {
+                        UpdateFly(time);
+                        for (int i = 0; i < subBalls.Count; i++) 
+                        {
+                            subBalls[i].Position = ballOffsets[i] + position;
+                        }
+                        break;
+                    }
+
             }
-            
+
         }
+
+        
     }
 
     /// <summary>
@@ -127,7 +275,7 @@ namespace Code2015.World
         const float MinSpeed = 0.8f;
         
         const float MaxLinSpeed = MaxRadius * MaxSpeed;
-        const float PositioningSpeed = 10;
+        //const float PositioningSpeed = 200;
         
 
         public RBallType Type { get; private set; }
@@ -142,7 +290,7 @@ namespace Code2015.World
         #region State_Positioning
         
         float positioningProgress;
-        float positioningDistance;
+        //float positioningDistance;
         Vector3 positioningEndPosition;
         Vector3 positioningStartPosition;
         Quaternion positioningStartOri;
@@ -153,10 +301,10 @@ namespace Code2015.World
 
 
 
-        /// <summary>
-        /// 在城=城市间移动的速度
-        /// </summary>
-        private Vector3 velocity;
+        ///// <summary>
+        ///// 在城=城市间移动的速度
+        ///// </summary>
+        //private Vector3 velocity;
 
 
 
@@ -190,6 +338,21 @@ namespace Code2015.World
         public float Health { get; private set; }
         public float MaxHealth { get; private set; }
 
+        public void SetDockCity(City c) 
+        {
+            if (c != dockCity)
+            {
+                if (c != null) 
+                {
+                    c.NotifyResourceBallMoveIn(this);                                       
+                }
+                if (dockCity != null) 
+                {
+                    dockCity.NotifyResourceBallMoveOut(this);
+                }
+                dockCity = c;
+            }
+        }
         
         static float NextRadius()
         {
@@ -203,10 +366,10 @@ namespace Code2015.World
             : base(owner)
         {
             this.Owner = owner;
-            this.dockCity = city;
             this.Type = type;
             //设置血量
             this.Health = city.Development * 0.15f;
+            SetDockCity(city);
 
             currentRadius = NextRadius();
             currentHeight = NextHeight();
@@ -277,16 +440,16 @@ namespace Code2015.World
 
         void MoveLerpUpdate(float dt)
         {
-            if (positioningProgress < 0.5f)
+            if (positioningProgress < 0.8f)
             {
-                Position = Vector3.Lerp(positioningStartPosition, positioningEndPosition, positioningProgress * 2);
+                Position = Vector3.Lerp(positioningStartPosition, positioningEndPosition, positioningProgress / 0.8f);
 
-                positioningProgress += (PositioningSpeed / positioningDistance) * dt;
+                positioningProgress += dt * 1.5f;// (PositioningSpeed / positioningDistance) * dt;
             }
             else if (positioningProgress < 1)
             {
                 Orientation = Matrix.RotationQuaternion(
-                    Quaternion.Slerp(positioningStartOri, positioningEndOri, (positioningProgress - 0.5f) * 2));
+                    Quaternion.Slerp(positioningStartOri, positioningEndOri, (positioningProgress - 0.8f) * 5));
                 positioningProgress += dt * 0.5f;
             }
         }
@@ -299,9 +462,29 @@ namespace Code2015.World
 
             positioningEndPosition = pos;
             positioningStartPosition = position;
-            positioningDistance = Vector3.Distance(ref positioningStartPosition, ref positioningEndPosition);
+            //positioningDistance = Vector3.Distance(ref positioningStartPosition, ref positioningEndPosition);
         }
 
+        public void Free(City city)
+        {
+            gatheredParent = null; 
+            
+            SetDockCity(city);
+
+            Matrix dockOri = dockCity.Transformation;
+            orientation = Matrix.RotationY(roundAngle) * dockOri;
+          
+            Vector3 y = dockOri.Forward;
+            Vector3 x = dockOri.Right;
+            Vector3 z = dockOri.Up;
+
+            Vector3 dir = x * (float)Math.Cos(roundAngle) + y * (float)Math.Sin(roundAngle);
+            Vector3 ofs = dir * currentRadius + z * currentHeight;
+            dockOri.TranslationValue = Vector3.Zero;
+
+            Move(dockCity.Position + ofs, Quaternion.RotationMatrix(Matrix.RotationY(roundAngle) * dockOri));
+            ChangeState(RBallState.Free);
+        }
         public void Gather(RGatheredBall ball, Vector3 endGatherPosition, Quaternion endGatherOrient)
         {            
             gatheredParent = ball;
@@ -353,6 +536,15 @@ namespace Code2015.World
                         if (positioningProgress > 1)
                         {
                             ChangeState(RBallState.Gathered);
+                        }
+                        break;
+                    }
+                case RBallState.Free:
+                    {
+                        MoveLerpUpdate(dt);
+                        if (positioningProgress > 1)
+                        {
+                            ChangeState(RBallState.Standby);
                         }
                         break;
                     }
