@@ -200,6 +200,17 @@ namespace Code2015.World
         FastList<RBall> nearbyEnemyBalls = new FastList<RBall>();
         FastList<RBall> nearbyOwnedBalls = new FastList<RBall>();
 
+        public int NearbyEnemyBallCount { get { return nearbyEnemyBalls.Count; } }
+        public int NearbyOwnedBallCount { get { return nearbyOwnedBalls.Count; } }
+
+        public RBall GetNearbyEnemyBall(int i)
+        {
+            return nearbyEnemyBalls[i];
+        }
+        public RBall GetNearbyOwnedBall(int i)
+        {
+            return nearbyOwnedBalls[i];
+        }
         /// <summary>
         ///  是否有被玩家占领
         /// </summary>
@@ -355,7 +366,7 @@ namespace Code2015.World
                 }
                 else 
                 {
-                    nearbyOwnedBalls.Add(nearbyBallList[i]);
+                    nearbyEnemyBalls.Add(nearbyBallList[i]);
                 }
             }
         }
@@ -623,10 +634,6 @@ namespace Code2015.World
                 Quaternion targetRot = GetOrientation(rgball.Position);
                 RotateTo(targetRot, 0.5f);
                 SetRotationPurpose(CityRotationPurpose.Receive);
-            }
-            else 
-            {
-                ChangeState(CityState.WakeingUp);
             }
             this.rgball = rgball;
         }
@@ -943,7 +950,24 @@ namespace Code2015.World
         }
         private void UpdateAI(GameTime time)
         {
-            
+            // 检查资源球死亡
+            for (int i = nearbyBallList.Count - 1; i >= 0; i--)
+            {
+                if (nearbyBallList[i].IsDied)
+                {
+                    RBall ball = nearbyBallList[i];
+                    if (ball.Owner == Owner)
+                    {
+                        nearbyOwnedBalls.Remove(ball);
+                    }
+                    else
+                    {
+                        nearbyEnemyBalls.Remove(ball);
+                    }
+                    nearbyBallList.RemoveAt(i);
+                    battleField.DestroyResourceBall(ball);
+                }
+            }
         }
 
         public override void Update(GameTime dt)
