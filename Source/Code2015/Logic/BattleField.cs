@@ -207,13 +207,25 @@ namespace Code2015
                 ResourceBallChanged(this, new ResourceBallEventArg(true, ball));
             }
         }
-
+        public void DestroyResourceBall(RBall ball)
+        {
+            resBalls.Remove(ball);
+            if (ResourceBallChanged != null)
+            {
+                ResourceBallChanged(this, new ResourceBallEventArg(false, ball));
+            }
+        }
 
         public void Update(GameTime gameTime)
         {
-            for (int i = 0; i < gatherBalls.Count; i++) 
+            for (int i = gatherBalls.Count-1; i >=0;i--)
             {
                 gatherBalls[i].Update(gameTime);
+
+                if (gatherBalls[i].IsOver)
+                {
+                    gatherBalls.RemoveAt(i);
+                }
             }
             //foreach ( City city in cities)
             //{

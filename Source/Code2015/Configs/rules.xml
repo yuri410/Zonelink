@@ -16,11 +16,11 @@
     <LoadingTime>3</LoadingTime>
   </HarvCommon>
   <OilBall>
-    <Cost>15</Cost>
+    <Cost>5</Cost>
     <Contribution>10</Contribution>
   </OilBall>
   <GreebBall>
-    <Cost>15</Cost>
+    <Cost>5</Cost>
     <Contribution>10</Contribution>
   </GreebBall>
   <EducationBall>
