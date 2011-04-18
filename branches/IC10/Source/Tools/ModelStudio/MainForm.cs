@@ -642,6 +642,11 @@ namespace ModelStudio
             SelectKeyFrame(-1, new MaterialAnimationKeyFrame());
         }
 
+        private void button11_Click(object sender, EventArgs e)
+        {
+            panel1.Invalidate();
+        }
+
 
     }
 }

@@ -192,6 +192,7 @@ namespace Code2015
            
 
             BattleField field = gameState.Field;
+            field.ResourceBallChanged += Field_ResourceBallChanged;
 
             for (int i = 0; i < field.CityCount; i++)
             {
@@ -266,6 +267,19 @@ namespace Code2015
             }
         }
 
+
+        void Field_ResourceBallChanged(object sender, ResourceBallEventArg e)
+        {
+            if (e.BornOrDie)
+            {
+                e.ResourceBall.InitializeGraphics(renderSys);
+                scene.Scene.AddObjectToScene(e.ResourceBall);
+            }
+            else
+            {
+                scene.Scene.RemoveObjectFromScene(e.ResourceBall);
+            }
+        }
 
         public void Render(Sprite sprite)
         {
