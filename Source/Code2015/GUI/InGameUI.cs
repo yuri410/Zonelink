@@ -393,9 +393,30 @@ namespace Code2015.GUI
                         }
                     }
 
-                    if (cursorState == MouseCursor.Normal)
+                    if (selectionMarker.SelectedObject != null)
                     {
-                        if (selectionMarker.SelectedObject != null)
+                        City selCity = selectionMarker.SelectedObject as City;
+                        City hoverCity = selectionMarker.MouseHoverObject as City;
+
+                        bool passed = false;
+                        if (selCity != null)
+                        {
+                            if (hoverCity != null)
+                            {
+                                if (selCity != hoverCity)
+                                {
+                                    // attack
+                                    cursorState = MouseCursor.Normal;
+                                    if (MouseInput.IsMouseUpRight)
+                                    {
+                                        selCity.Throw(hoverCity);
+                                    }
+                                    passed = true;
+                                }
+                            }
+                        }
+
+                        if (!passed)
                         {
                             if (selectionMarker.MouseHoverObject != null)
                             {
@@ -408,30 +429,31 @@ namespace Code2015.GUI
                                     cursorState = MouseCursor.Normal;
                                 }
                             }
-                            else 
-                            {
-                                // command
-                                cursorState = MouseCursor.Normal;
-                            }
-                        }
-                        else 
-                        {
-                            if (selectionMarker.MouseHoverObject != null)
-                            {
-                                cursorState = MouseCursor.Selection;
-                            }
                             else
                             {
+                                // command harv
                                 cursorState = MouseCursor.Normal;
                             }
                         }
                     }
+                    else
+                    {
+                        if (selectionMarker.MouseHoverObject != null)
+                        {
+                            cursorState = MouseCursor.Selection;
+                        }
+                        else
+                        {
+                            cursorState = MouseCursor.Normal;
+                        }
+                    }
+
 
                     selectionMarker.SelectedObject = picker.SelectedObject;
                     selectionMarker.MouseHoverObject = picker.MouseHoverObject;
 
                     selectInfo.SelectedObject = picker.SelectedObject;
-                    
+
                     base.Update(time);
                 }
             }

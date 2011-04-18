@@ -205,6 +205,19 @@ namespace Code2015.World
             this.resourceBuffer += change;
         }
 
+        public override void ProduceBall()
+        {
+            base.ProduceBall();
+
+            if (Type == CityType.Oil)
+            {
+                battleField.CreateResourceBall(Owner, this, RBallType.Oil);
+            }
+            else if (Type == CityType.Green)
+            {
+                battleField.CreateResourceBall(Owner, this, RBallType.Green);
+            }
+        }
         
         public override void Update(GameTime gameTime)
         {

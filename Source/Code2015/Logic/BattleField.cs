@@ -10,6 +10,29 @@ using Code2015.World;
 
 namespace Code2015
 {
+
+    class ResourceBallEventArg : EventArgs 
+    {
+        public RBall ResourceBall
+        {
+            get;
+            private set;
+        }
+
+        public bool BornOrDie
+        {
+            get;
+            private set;
+        }
+
+        public ResourceBallEventArg(bool bornOrDie, RBall ball)
+        {
+            BornOrDie = bornOrDie;
+            ResourceBall = ball;
+        }
+    }
+    delegate void ResourceBallEventHandler(object sender, ResourceBallEventArg e);
+
     /// <summary>
     ///  表示当前正在进行的游戏场景中的状态
     /// </summary>
@@ -22,6 +45,8 @@ namespace Code2015
         List<RBall> resBalls = new List<RBall>();
 
         Map map;
+        BallPathFinderManager ballPathFinderMgr;
+        BallPathFinder ballPathFinder;
 
         City[] cities;
 
@@ -34,7 +59,10 @@ namespace Code2015
         {
             get { return naturalResource; }
         }
-                       
+        public BallPathFinder BallPathFinder
+        {
+            get { return ballPathFinder; }
+        }
         public int CityCount
         {
             get { return cities.Length; }
@@ -51,6 +79,9 @@ namespace Code2015
 
             //Init Cities
             LoadCities();
+
+            ballPathFinderMgr = new BallPathFinderManager(cities);
+            ballPathFinder = ballPathFinderMgr.CreatePathFinder();
 
             //Init Natural Resource
             InitializeNaturalResource();
@@ -156,10 +187,23 @@ namespace Code2015
 
         }
 
+
+        public event ResourceBallEventHandler ResourceBallChanged;
+
+        public void CreateRGatherBall(List<RBall> balls, City dockCity, List<City> result) 
+        {
+            RGatheredBall ball = new RGatheredBall(balls, dockCity, result);
+
+        }
         public void CreateResourceBall(Player owner, City city, RBallType type)
         {
             RBall ball = new RBall(owner, city, type);
             resBalls.Add(ball);
+
+            if (ResourceBallChanged != null) 
+            {
+                ResourceBallChanged(this, new ResourceBallEventArg(true, ball));
+            }
         }
 
 

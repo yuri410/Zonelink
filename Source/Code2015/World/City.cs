@@ -46,7 +46,12 @@ namespace Code2015.World
         Rotate
     }
 
-
+    enum CityRotationPurpose 
+    {
+        None,
+        Throw,
+        Receive
+    }
     delegate void CityVisibleHander(City obj);    
 
     /// <summary>
@@ -97,7 +102,18 @@ namespace Code2015.World
         /// </summary>
         bool isWaitingAnimation;
 
+        #region Idle_State
         float nextIdleAnimationCD;
+
+        #endregion
+
+        #region Throw_State
+        
+        RBallType typeToThrow;
+        bool isTypedThrow;
+        List<City> throwPath;
+
+        #endregion
 
         Quaternion currentFacing;
         Quaternion rotationSrc;
@@ -105,7 +121,9 @@ namespace Code2015.World
         float rotationTime;
         float remainingRotationTime;
 
-
+        #region RotationPurpose
+        CityRotationPurpose rotationPurpose;
+        #endregion
 
         CityState currentState;
 
@@ -136,6 +154,13 @@ namespace Code2015.World
             get { return currentState; }
         }
 
+
+
+        public Quaternion CurrentFacing 
+        {
+            get { return currentFacing; }
+        }
+
         //城市类型
         public CityType Type { get; protected set; }
 
@@ -158,9 +183,10 @@ namespace Code2015.World
             get { return healthValue / (development * RulesTable.CityDevHealthRate); }
         }
     
-
-
-        //城市附近的资源球 
+        
+        /// <summary>
+        ///  城市附近敌我的资源球
+        /// </summary>
         protected List<RBall> nearbyBallList = new List<RBall>();
         
         /// <summary>
@@ -226,6 +252,11 @@ namespace Code2015.World
             catching = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             catching.AnimationCompeleted += Animation_Completed;
             catching.CurrentAnimation.Insert(0, scaling);
+          
+            fl = FileSystem.Instance.Locate("oil_throw.mesh", GameFileLocs.Model);
+            throwing = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            throwing.AnimationCompeleted += Animation_Completed;
+            throwing.CurrentAnimation.Insert(0, scaling);
 
             fl = FileSystem.Instance.Locate("oil_fear.mesh", GameFileLocs.Model);
             fear = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -432,6 +463,7 @@ namespace Code2015.World
             BoundingSphere.Radius = CityRadius;
             BoundingSphere.Center = this.Position;
         }
+        
         void RotateTo(Quaternion angle, float time)
         {
             ChangeState(CityState.Rotate);
@@ -448,6 +480,8 @@ namespace Code2015.World
             rotationTime = time;
             remainingRotationTime = time;
         }
+        void SetRotationPurpose(CityRotationPurpose porpose) { rotationPurpose = porpose; }
+        
         void Animation_Completed(object sender, AnimationCompletedEventArgs e)
         {
 
@@ -463,6 +497,7 @@ namespace Code2015.World
                 case CityState.Laugh:
                     break;
                 case CityState.Throw:
+                    ChangeState(CityState.Stopped);
                     break;
                 case CityState.WakeingUp:
                     ChangeState(CityState.Stopped);
@@ -470,6 +505,113 @@ namespace Code2015.World
             }
 
             //currentStateEnded = true;
+        }
+
+
+        Quaternion GetOrientation(Vector3 pb) 
+        {
+            Matrix invTransform;
+            Matrix.Invert(ref Transformation, out invTransform);
+
+
+            Matrix worldFacing = Matrix.Identity;
+            worldFacing.Right = Vector3.Normalize(position - pb);
+            worldFacing.Up = Transformation.Up;
+            worldFacing.Forward = Vector3.Normalize(Vector3.Cross(Transformation.Up, worldFacing.Right));
+            worldFacing.Right = Vector3.Cross(worldFacing.Forward, Transformation.Up);
+
+            worldFacing = Matrix.RotationY(-MathEx.PiOver2) * worldFacing;
+
+            Matrix.Multiply(ref worldFacing, ref invTransform, out worldFacing);
+
+            Quaternion targetRot = Quaternion.RotationMatrix(worldFacing);
+            return targetRot;
+        }
+
+        public void NotifyIncomingBall(RGatheredBall rgball)
+        {
+            Quaternion targetRot = GetOrientation(rgball.Position);
+
+            SetRotationPurpose(CityRotationPurpose.Receive);
+            //switch (currentState) 
+            //{
+             //   
+            //}
+        }
+        
+        void ThrowNow()
+        {
+            //if (throwPath == null)
+            //{
+            //    throw new InvalidOperationException();
+            //}
+            //List<RBall> toThrow = new List<RBall>(nearbyBallList.Count);
+            //if (isTypedThrow)
+            //{
+            //    for (int i = 0; i < nearbyBallList.Count; i++)
+            //    {
+            //        if (nearbyBallList[i].Owner == Owner && nearbyBallList[i].Type == typeToThrow)
+            //        {
+            //            toThrow.Add(nearbyBallList[i]);
+            //        }
+            //    }
+            //}
+            //else 
+            //{
+               
+            //    for (int i = 0; i < nearbyBallList.Count; i++)
+            //    {
+            //        if (nearbyBallList[i].Owner == Owner)
+            //        {
+            //            toThrow.Add(nearbyBallList[i]);
+            //        }
+            //    }
+            //}
+
+            //battleField.CreateRGatherBall(toThrow, this, throwPath);
+            //throwPath = null;
+            ChangeState(CityState.Throw);
+        }
+        public void Throw(City target)
+        {
+            battleField.BallPathFinder.Reset();
+            BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
+
+            if (result != null)
+            {
+                throwPath = new List<City>(result.NodeCount);
+                for (int i = 0; i < result.NodeCount; i++) 
+                {
+                    throwPath.Add(result[i]);
+                }
+
+                Quaternion targetRot = GetOrientation(result[0].Position); 
+
+                RotateTo(targetRot, 0.5f);
+                SetRotationPurpose(CityRotationPurpose.Throw);
+                isTypedThrow = false;
+            }
+        }
+        public void Throw(City target, RBallType type)
+        {
+            battleField.BallPathFinder.Reset();
+            BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
+
+            if (result != null)
+            {
+                throwPath = new List<City>(result.NodeCount);
+                for (int i = 0; i < result.NodeCount; i++)
+                {
+                    throwPath.Add(result[i]);
+                }
+
+                Quaternion targetRot = GetOrientation(result[0].Position); 
+
+                RotateTo(targetRot, 0.5f);
+                SetRotationPurpose(CityRotationPurpose.Throw);
+                isTypedThrow = true;
+                typeToThrow = type;
+            }
         }
 
         private void ChangeState(CityState state) 
@@ -495,6 +637,7 @@ namespace Code2015.World
                     }
                     break;
                 case CityState.Throw:
+                    throwing.PlayAnimation();
                     break;
                 case CityState.WakeingUp:
                     wakeingUp.PlayAnimation();
@@ -520,10 +663,17 @@ namespace Code2015.World
                 case CityState.Rotate:
 
                     remainingRotationTime -= dt;
-                    if (remainingRotationTime<0)
+                    if (remainingRotationTime < 0)
                     {
-                        ChangeState(CityState.Stopped);
-                        //?????
+                        if (rotationPurpose == CityRotationPurpose.Throw)
+                        {
+                            ThrowNow();
+                            rotationPurpose = CityRotationPurpose.None;
+                        }
+                        else
+                        {
+                            ChangeState(CityState.Stopped);
+                        }
                     }
                     float progress = MathEx.Saturate(1 - remainingRotationTime / rotationTime);
 
@@ -569,6 +719,8 @@ namespace Code2015.World
                     if (isVisible) stopped.Update(time);
                     break;
                 case CityState.Throw:
+
+                    throwing.Update(time);
                     break;
                 case CityState.WakeingUp:
                     wakeingUp.Update(time);
