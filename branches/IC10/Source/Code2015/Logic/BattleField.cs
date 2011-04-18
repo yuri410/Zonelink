@@ -43,6 +43,7 @@ namespace Code2015
         NaturalResource[] naturalResource;
 
         List<RBall> resBalls = new List<RBall>();
+        List<RGatheredBall> gatherBalls = new List<RGatheredBall>();
 
         Map map;
         BallPathFinderManager ballPathFinderMgr;
@@ -190,10 +191,11 @@ namespace Code2015
 
         public event ResourceBallEventHandler ResourceBallChanged;
 
-        public void CreateRGatherBall(List<RBall> balls, City dockCity, List<City> result) 
+        public RGatheredBall CreateRGatherBall(List<RBall> balls, City dockCity, List<City> result) 
         {
             RGatheredBall ball = new RGatheredBall(balls, dockCity, result);
-
+            gatherBalls.Add(ball);
+            return ball;
         }
         public void CreateResourceBall(Player owner, City city, RBallType type)
         {
@@ -209,6 +211,10 @@ namespace Code2015
 
         public void Update(GameTime gameTime)
         {
+            for (int i = 0; i < gatherBalls.Count; i++) 
+            {
+                gatherBalls[i].Update(gameTime);
+            }
             //foreach ( City city in cities)
             //{
             //    city.Update(gameTime);
