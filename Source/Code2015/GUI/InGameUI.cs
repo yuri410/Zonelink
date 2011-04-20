@@ -78,20 +78,6 @@ namespace Code2015.GUI
         Game parent;
         GameState logic;
 
-
-        int selCurIndex;
-        int selCurAnimSign = 1;
-
-        Texture cursor;
-        Texture[] cursor_sel;
-        Texture cursor_up;
-        Texture cursor_down;
-        Texture cursor_left;
-        Texture cursor_right;
-        Texture cursor_ul;
-        Texture cursor_ur;
-        Texture cursor_dl;
-        Texture cursor_dr;
         
         InfoUI infoUI;
         MiniMap miniMap;
@@ -109,9 +95,6 @@ namespace Code2015.GUI
         Player player;
 
 
-        
-        
-
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.parent = parent;
@@ -125,40 +108,6 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
 
 
-
-            FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
-            cursor = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("cursor_u.tex", GameFileLocs.GUI);
-            cursor_up = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("cursor_l.tex", GameFileLocs.GUI);
-            cursor_left = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("cursor_d.tex", GameFileLocs.GUI);
-            cursor_down = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("cursor_r.tex", GameFileLocs.GUI);
-            cursor_right = UITextureManager.Instance.CreateInstance(fl);
-
-            fl = FileSystem.Instance.Locate("cursor_lu.tex", GameFileLocs.GUI);
-            cursor_ul = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("cursor_ru.tex", GameFileLocs.GUI);
-            cursor_ur = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("cursor_ld.tex", GameFileLocs.GUI);
-            cursor_dl = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("cursor_rd.tex", GameFileLocs.GUI);
-            cursor_dr = UITextureManager.Instance.CreateInstance(fl);
-
-            cursor_sel = new Texture[11];
-
-            for (int i = 0; i < cursor_sel.Length; i++) 
-            {
-                fl = FileSystem.Instance.Locate("selcursor" + (i + 13).ToString("D2") + ".tex", GameFileLocs.GUI);
-                cursor_sel[i] = UITextureManager.Instance.CreateInstance(fl);
-            }
-
-            
-            cursorState = MouseCursor.Normal;
-
-            
 
             picker = new Picker(game, parent, scene, gamelogic);
             AddElement(picker);
@@ -205,12 +154,13 @@ namespace Code2015.GUI
             AddElement(exitConfirm);
 
 
-            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, selectInfo, selectionMarker);
-            AddElement(layeredCursor);
-
 
             selectionMarker = new SelectionMarker(renderSys, player);
             scene.Scene.AddObjectToScene(selectionMarker);
+
+
+            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, selectInfo, miniMap, selectionMarker);
+            AddElement(layeredCursor);
         }
 
         public override void Render(Sprite sprite)
@@ -224,8 +174,6 @@ namespace Code2015.GUI
             }
         }
 
-
-        Point mouseRightPosition;
 
         public override void Update(GameTime time)
         {

@@ -8,65 +8,92 @@
   <CityCommon>
     <MaxDevelopment>10000</MaxDevelopment>
     <DevHealthRate>0.1</DevHealthRate>
+    <DevRBallHealthRate>0.01</DevRBallHealthRate>
     <InitialDevelopment>1000</InitialDevelopment>
     <Radius>300</Radius>
+    <Armor>0.2</Armor>
   </CityCommon>
   <HarvCommon>
-    <LoadingSpeed>2.5</LoadingSpeed>
+    <LoadingSpeed>4</LoadingSpeed>
     <LoadingTime>3</LoadingTime>
   </HarvCommon>
   <OilBall>
-    <Cost>5</Cost>
-    <Contribution>10</Contribution>
+    <BaseHealth>150</BaseHealth>
+    <Cost>8</Cost>
+    <Contribution>0.5</Contribution>
+    <BaseDamage>50</BaseDamage>
+    <BaseHeal>0</BaseHeal>    
   </OilBall>
-  <GreebBall>
-    <Cost>5</Cost>
-    <Contribution>10</Contribution>
-  </GreebBall>
+  <GreenBall>
+    <BaseHealth>150</BaseHealth>
+    <Cost>8</Cost>
+    <Contribution>0.5</Contribution>
+    <BaseDamage>50</BaseDamage>
+    <BaseHeal>0</BaseHeal>
+  </GreenBall>
   <EducationBall>
+    <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
     <Contribution>10</Contribution>
+    <BaseDamage>10</BaseDamage>
+    <BaseHeal>0</BaseHeal>
   </EducationBall>
-  <HealthBall>
+  <VolienceBall>
+    <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
     <Contribution>10</Contribution>
+    <BaseDamage>10</BaseDamage>
+    <BaseHeal>0</BaseHeal>
+  </VolienceBall>
+  <HealthBall>
+    <BaseHealth>150</BaseHealth>
+    <GenInterval>15</GenInterval>
+    <Contribution>0.5</Contribution>
+    <BaseDamage>10</BaseDamage>
+    <BaseHeal>0</BaseHeal>
   </HealthBall>
   <DiseaseBall>
+    <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
-    <Contribution>10</Contribution>
+    <Contribution>0.5</Contribution>
+    <BaseDamage>10</BaseDamage>
+    <BaseHeal>0</BaseHeal>
   </DiseaseBall>
-  <VolienceBall>
-    <GenInterval>15</GenInterval>
-    <Contribution>10</Contribution>
-  </VolienceBall>
+
   <OilCity>
     <GatherDistance>2500</GatherDistance>
     <HarvHealth>150</HarvHealth>
-    <HarvStorage>7.5</HarvStorage>
+    <HarvStorage>12</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
     <DevelopStep>10</DevelopStep>
+    <AutoHeal>0.1</AutoHeal>
   </OilCity>
   <GreenCity>
     <GatherDistance>2500</GatherDistance>
     <HarvHealth>150</HarvHealth>
-    <HarvStorage>7.5</HarvStorage>
+    <HarvStorage>12</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
     <DevelopStep>10</DevelopStep>
+    <AutoHeal>0.1</AutoHeal>
   </GreenCity>
   <DiseaseCity>
     <ProduceBallInterval>10</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
-</DiseaseCity>
+    <AutoHeal>0.1</AutoHeal>
+  </DiseaseCity>
   <VolienceCity>
     <ProduceBallInterval>20</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
+    <AutoHeal>0.1</AutoHeal>
   </VolienceCity>
   <HealthCity>
     <ProduceBallInterval>10</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
-</HealthCity>
+    <AutoHeal>0.1</AutoHeal>
+  </HealthCity>
   <EducationCity>
     <ProduceBallInterval>5</ProduceBallInterval>
     <DevelopStep>10</DevelopStep>
+    <AutoHeal>0.1</AutoHeal>
   </EducationCity>
 </Rules>

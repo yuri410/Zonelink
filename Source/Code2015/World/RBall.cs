@@ -8,6 +8,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -16,8 +17,10 @@ namespace Code2015.World
         Standby,
         Born,
         Gathering,
+        BeginingAttackCity,
         Attack,
         AttackCity,
+        Defend,
         Gathered,
         Free,
     }
@@ -27,10 +30,10 @@ namespace Code2015.World
     /// </summary>
     class RGatheredBall
     {
-        const float GatherPositionRadius = City.CityRadius * 0.5f;
+        const float GatherPositionRadius = City.CityRadius * 0.75f;
         const float GatherPositionHeight = 250;
 
-        const float GBallRadius = 100;
+        const float GBallRadius = 75;
 
         public enum State
         {
@@ -318,48 +321,79 @@ namespace Code2015.World
     /// </summary>
     class RBall : WorldDynamicObject
     {
+        public struct Props
+        {
+            public float Damage;
+            public float Contribution;
+            public float Heal;
+
+            public float MaxHealth;
+        }
+
+        const float EnemyCheckTime = 0.75f;
+        const float WeaponCoolDownTime = 1;
+
         const float MinRadius = City.CityRadius * 0.8f;
         const float MaxRadius = City.CityRadius * 1.5f;
-        const float GoRoundVel = 0.35f;
-        const float MaxSpeed = 1.2f;
-        const float MinSpeed = 0.8f;
-        
-        const float MaxLinSpeed = MaxRadius * MaxSpeed;
-        //const float PositioningSpeed = 200;
-        
+
+        const float MinSpeedMod = 1;
+        const float GatherSpeedMod = 3.5f;
+        const float AttackCitySpeedMod = 7.0f;
+        const float DefenceSpeedMod = 1;
+        const float AttackSpeedMod = 2.5f;
+
+        const float MaxLinSpeed = 233;
+        const float MinLinSpeed = 190;
+
+        const float CitySafeRadius = 175;
+        const float CityAttackRadius = 150;
+
+
+
+        const float MoveDistanceThreshold = 50;
+
+        const float AttackRange = 100;
+
+        /// <summary>
+        ///  高生命值球的现实比例系数
+        /// </summary>
+        const float RBallHealthScale = 0.002f;
 
         public RBallType Type { get; private set; }
-        
+
         private City dockCity;
         public City DockCity { get { return this.dockCity; } }
 
-
         RBallState state;
 
+        readonly Props props;
 
-        #region State_Positioning
+        float weaponCoolDown;
+        float enemyCheckTime;
+
+        float speedModifierTarget = 1;
+        float speedModifier = 1;
+
+        Matrix displayScale;
+
+        #region State_NewMove
         
-        float positioningProgress;
-        //float positioningDistance;
-        Vector3 positioningEndPosition;
-        Vector3 positioningStartPosition;
-        Quaternion positioningStartOri;
-        Quaternion positioningEndOri;
+        bool isMoving;
+
+        Vector3 moveTarget;
+
+        float rotationLerp;
         #endregion
 
 
-        
-
         RGatheredBall gatheredParent;
 
+        
+        #region State_Attack
 
+        RBall target;
 
-        ///// <summary>
-        ///// 在城=城市间移动的速度
-        ///// </summary>
-        //private Vector3 velocity;
-
-
+        #endregion
 
 
         #region Standby
@@ -373,14 +407,12 @@ namespace Code2015.World
         /// 旋转角度
         /// </summary>
         private float roundAngle;
-
-        /// <summary>
-        /// 旋转速度
-        /// </summary>
-        private float roundSpeed;
         #endregion
 
-        public RBallState State 
+
+        float refrenceLinSpeed;
+
+        public RBallState State
         {
             get { return state; }
         }
@@ -389,49 +421,110 @@ namespace Code2015.World
 
         //血条
         public float Health { get; private set; }
-        public float MaxHealth { get; private set; }
+        public float MaxHealth { get { return props.MaxHealth; } }
 
-        public void SetDockCity(City c) 
+        public void SetDockCity(City c)
         {
             if (c != dockCity)
             {
-                if (c != null) 
+                if (c != null)
                 {
-                    c.NotifyResourceBallMoveIn(this);                                       
+                    c.NotifyResourceBallMoveIn(this);
                 }
-                if (dockCity != null) 
+                if (dockCity != null)
                 {
                     dockCity.NotifyResourceBallMoveOut(this);
                 }
                 dockCity = c;
             }
         }
-        
+
         static float NextRadius()
         {
             return Randomizer.GetRandomSingle() * (MaxRadius - MinRadius) + MinRadius;
         }
-        static float NextHeight() 
+        static float NextHeight()
         {
             return Randomizer.GetRandomSingle() * 150 + 150;
         }
+
         public RBall(Player owner, City city, RBallType type)
             : base(owner)
         {
             this.Owner = owner;
             this.Type = type;
-            //设置血量
-            this.Health = city.Development * 0.15f;
+
+
+            switch (type) 
+            {
+                case RBallType.Oil:
+                    {
+                        props.MaxHealth = RulesTable.OilBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.Contribution = RulesTable.OilBallContribution;
+                        props.Heal = RulesTable.OilBallBaseHeal;
+                        props.Damage = RulesTable.OilBallBaseDamage;
+                        
+                        break;
+                    }
+                case RBallType.Green:
+                    {
+                        props.MaxHealth = RulesTable.GreenBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.Contribution = RulesTable.GreenBallContribution;
+                        props.Heal = RulesTable.GreenBallBaseHeal;
+                        props.Damage = RulesTable.GreenBallBaseDamage;
+
+                        break;
+                    }
+                case RBallType.Disease:
+                    {
+                        props.MaxHealth = RulesTable.DiseaseBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.Contribution = RulesTable.DiseaseBallContribution;
+                        props.Heal = RulesTable.DiseaseBallBaseHeal;
+                        props.Damage = RulesTable.DiseaseBallBaseDamage;
+
+                        break;
+                    }
+                case RBallType.Health:
+                    {
+                        props.MaxHealth = RulesTable.HealthBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.Contribution = RulesTable.HealthBallContribution;
+                        props.Heal = RulesTable.HealthBallBaseHeal;
+                        props.Damage = RulesTable.HealthBallBaseDamage;
+
+                        break;
+                    }
+                case RBallType.Education:
+                    {
+                        props.MaxHealth = RulesTable.EducationBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.Contribution = RulesTable.EducationBallContribution;
+                        props.Heal = RulesTable.EducationBallBaseHeal;
+                        props.Damage = RulesTable.EducationBallBaseDamage;
+
+                        break;
+                    }
+                case RBallType.Volience:
+                    {
+                        props.MaxHealth = RulesTable.VolienceBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.Contribution = RulesTable.VolienceBallContribution;
+                        props.Heal = RulesTable.VolienceBallBaseHeal;
+                        props.Damage = RulesTable.VolienceBallBaseDamage;
+
+                        break;
+                    }            
+            }
+            Health = props.MaxHealth;
+
             SetDockCity(city);
 
             currentRadius = NextRadius();
             currentHeight = NextHeight();
 
-            roundSpeed = Randomizer.GetRandomSingle() * (MaxSpeed - MinSpeed) + MinSpeed;
+
+            refrenceLinSpeed = Randomizer.GetRandomSingle() * (MaxLinSpeed - MinLinSpeed) + MinLinSpeed;
             BoundingSphere.Radius = 15;
         }
 
-        public void InitializeGraphics(RenderSystem rs) 
+        public void InitializeGraphics(RenderSystem rs)
         {
             FileLocation fl = FileSystem.Instance.Locate("oil_ball.mesh", GameFileLocs.Model);
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -441,7 +534,7 @@ namespace Code2015.World
             switch (Type)
             {
                 case RBallType.Disease:
-                    
+
                     break;
                 case RBallType.Education:
                     break;
@@ -454,8 +547,8 @@ namespace Code2015.World
                 case RBallType.Volience:
                     break;
             }
-            
-            
+
+            UpdateDisplayScale();
         }
 
         public void Damage(float v)
@@ -467,19 +560,33 @@ namespace Code2015.World
             }
         }
 
-
-        //public void SetTarget(City target)
-        //{
-        //    this.target = target;
-        //}
-
-        void ChangeState(RBallState newState) 
+        void ChangeState(RBallState newState)
         {
+            switch (newState) 
+            {
+                case RBallState.AttackCity:                
+                    speedModifierTarget = (AttackCitySpeedMod);
+                    break;
+                case RBallState.BeginingAttackCity:
+                case RBallState.Free:
+                case RBallState.Standby:
+                    speedModifierTarget = (MinSpeedMod);
+                    break;
+                case RBallState.Gathering:
+                    speedModifierTarget = (GatherSpeedMod);
+                    break;
+                case RBallState.Defend:
+                    speedModifierTarget = DefenceSpeedMod;
+                    break;
+                case RBallState.Attack:
+                    speedModifierTarget = AttackSpeedMod;
+                    break;
+            }
             //switch (newState) 
             //{
             //    case RBallState.Positioning:
             //        {                        
-                       
+
             //            //positioningStartPosition = position;
             //            //positioningEndPosition = dockCity.Position + offset;
             //            positioningProgress = 0;
@@ -490,103 +597,273 @@ namespace Code2015.World
             state = newState;
         }
 
-
-        void MoveLerpUpdate(float dt)
+        void NewMove(Vector3 pos)
         {
-            if (positioningProgress < 0.8f)
-            {
-                Position = Vector3.Lerp(positioningStartPosition, positioningEndPosition, positioningProgress / 0.8f);
+            moveTarget = pos;
+            isMoving = true;
+        }
+        void NewMoveUpdate(float dt)
+        {
 
-                positioningProgress += dt * 1.5f;// (PositioningSpeed / positioningDistance) * dt;
-            }
-            else if (positioningProgress < 1 && positioningProgress > 0.8f)
+            Vector3 direction = moveTarget - position;
+            if (direction.LengthSquared() > MathEx.Sqr(MoveDistanceThreshold * (float)Math.Sqrt(speedModifier)))
             {
-                Orientation = Matrix.RotationQuaternion(
-                    Quaternion.Slerp(positioningStartOri, positioningEndOri, (positioningProgress - 0.8f) * 5));
-                positioningProgress += dt * 0.5f;
+
+                direction.Normalize();
+
+                if (dockCity != null)
+                {
+                    Vector3 cityNormal = dockCity.Transformation.Up;
+                    Ray ra = new Ray(dockCity.Position, cityNormal);
+                    float dist = MathEx.Distance(ref ra, ref position);
+
+                    if (state != RBallState.BeginingAttackCity)
+                    {
+                        if (dist < CitySafeRadius)
+                        {
+                            Vector3 newDir;
+                            Vector3.Cross(ref direction, ref cityNormal, out newDir);
+                            newDir.Normalize();
+
+                            direction = newDir;
+                        }
+                    }
+                    Vector3 currentDir = orientation.Forward;
+
+                    currentDir += 8 * direction * dt;
+                    currentDir.Normalize();
+
+                    Matrix newOri = orientation;
+                    newOri.Forward = currentDir;
+                    newOri.Up = cityNormal;
+                    newOri.Right = Vector3.Normalize(Vector3.Cross(currentDir, cityNormal));
+                    newOri.Up = Vector3.Cross(newOri.Right, currentDir);
+                    //Vector3 currentDir = orientation.Forward;
+
+                    //Quaternion rotmod = shortestArcQuat(currentDir, Vector3.Lerp(currentDir, direction, 0.5f), cityNormal);
+
+
+                    //orientation *= Matrix.RotationQuaternion(rotmod);
+                    orientation = newOri;
+
+                    //currentDir = orientation.Forward;
+                    Position += newOri.Forward * (refrenceLinSpeed * speedModifier * dt);
+                }
+                rotationLerp += dt;
+
+            }
+            else
+            {
+                isMoving = false;
+                rotationLerp = 0;
             }
         }
-        void Move(Vector3 pos, Quaternion ori)
+
+        void CalculateRoundTransform(float radius, bool clockwise, out Vector3 pos, out Matrix rot)
         {
-            positioningProgress = 0;
-
-            positioningEndOri = ori;
-            positioningStartOri = Quaternion.RotationMatrix(orientation);
-
-            positioningEndPosition = pos;
-            positioningStartPosition = position;
-            //positioningDistance = Vector3.Distance(ref positioningStartPosition, ref positioningEndPosition);
-        }
-
-        public void Free(City city)
-        {
-            gatheredParent = null; 
-            
-            SetDockCity(city);
-
             Matrix dockOri = dockCity.Transformation;
             dockOri.TranslationValue = Vector3.Zero;
             orientation = Matrix.RotationY(roundAngle) * dockOri;
-          
+
             Vector3 y = dockOri.Forward;
             Vector3 x = dockOri.Right;
             Vector3 z = dockOri.Up;
 
             Vector3 dir = x * (float)Math.Cos(roundAngle) + y * (float)Math.Sin(roundAngle);
-            Vector3 ofs = dir * currentRadius + z * currentHeight;
+            Vector3 ofs = dir * radius + z * currentHeight;
 
-            Move(dockCity.Position + ofs, Quaternion.RotationMatrix(Matrix.RotationY(roundAngle) * dockOri));
+            float rotYAngle = clockwise ? (roundAngle + MathEx.PIf) : roundAngle;
+
+            pos = dockCity.Position + ofs;
+            rot = Matrix.RotationY(rotYAngle) * dockOri;
+        }
+
+        void CalculateRoundTransform(float radius, bool clockwise, out Vector3 pos, out Quaternion rot)
+        {
+            Matrix dockOri = dockCity.Transformation;
+            dockOri.TranslationValue = Vector3.Zero;
+            orientation = Matrix.RotationY(roundAngle) * dockOri;
+
+            Vector3 y = dockOri.Forward;
+            Vector3 x = dockOri.Right;
+            Vector3 z = dockOri.Up;
+
+            Vector3 dir = x * (float)Math.Cos(roundAngle) + y * (float)Math.Sin(roundAngle);
+            Vector3 ofs = dir * radius + z * currentHeight;
+
+            float rotYAngle = clockwise ? (roundAngle + MathEx.PIf) : roundAngle;
+
+            pos = dockCity.Position + ofs;
+            rot = Quaternion.RotationMatrix(Matrix.RotationY(rotYAngle) * dockOri);
+        }
+
+        
+
+        void Attack()
+        {
+            if (dockCity.NearbyOwnedBallCount > 0)
+            {
+                int tries = 0;
+                int idx = Randomizer.GetRandomInt(dockCity.NearbyOwnedBallCount);
+
+                while (tries < dockCity.NearbyOwnedBallCount && dockCity.GetNearbyOwnedBall(idx).IsDied)
+                {
+                    tries++;
+                    idx++;
+                    idx %= dockCity.NearbyOwnedBallCount;
+                }
+
+                if (tries < dockCity.NearbyOwnedBallCount)
+                {
+                    target = dockCity.GetNearbyOwnedBall(idx);
+
+                    if (target != null)
+                    {
+                        ChangeState(RBallState.Attack);
+                    }
+                }
+            }
+            else if (dockCity.NearbyEnemyBallCount > 0)
+            {
+                // 其他阵营的敌人
+                int tries = 0;
+                int idx = Randomizer.GetRandomInt(dockCity.NearbyEnemyBallCount);
+
+                while (tries < dockCity.NearbyEnemyBallCount
+                    && dockCity.GetNearbyEnemyBall(idx).IsDied 
+                    && dockCity.GetNearbyEnemyBall(idx).Owner == Owner)
+                {
+                    idx++;
+                    idx %= dockCity.NearbyEnemyBallCount;
+                }
+
+                if (tries < dockCity.NearbyEnemyBallCount)
+                {
+                    target = dockCity.GetNearbyEnemyBall(idx);
+
+                    if (target != null)
+                    {
+                        ChangeState(RBallState.Attack);
+                    }
+                }
+            }
+        }
+        void Defend()
+        {
+            if (dockCity.NearbyEnemyBallCount > 0)
+            {
+                int tries = 0;
+                int idx = Randomizer.GetRandomInt(dockCity.NearbyEnemyBallCount);
+
+                while (tries<dockCity.NearbyEnemyBallCount && dockCity.GetNearbyEnemyBall(idx).IsDied)
+                {
+                    tries++;
+                    idx++;
+                    idx %=dockCity.NearbyEnemyBallCount;
+                }
+
+                if (tries < dockCity.NearbyEnemyBallCount)
+                {
+                    target = dockCity.GetNearbyEnemyBall(idx);
+
+                    if (target != null)
+                    {
+                        ChangeState(RBallState.Defend);
+                    }
+                }
+            }
+        }
+        void AttackCity()
+        {
+            Vector3 targetPos;
+            Quaternion dockOri;
+            CalculateRoundTransform(CityAttackRadius, true, out targetPos, out dockOri);
+            NewMove(targetPos);
+            ChangeState(RBallState.BeginingAttackCity);
+        }
+        public void Free(City city)
+        {
+            gatheredParent = null;
+
+            SetDockCity(city);
+
+            Vector3 targetPos;
+            Quaternion dockOri;
+            CalculateRoundTransform(currentRadius, false, out targetPos, out dockOri);
+            NewMove(targetPos);
+
             ChangeState(RBallState.Free);
+
+            enemyCheckTime = EnemyCheckTime;
         }
         public void Gather(RGatheredBall ball, Vector3 endGatherPosition, Quaternion endGatherOrient)
-        {            
+        {
             gatheredParent = ball;
-            Move(endGatherPosition, endGatherOrient);
+            NewMove(endGatherPosition);
             ChangeState(RBallState.Gathering);
         }
 
+        void UpdateDisplayScale() 
+        {
+            float s = 1 + Health * RBallHealthScale;
+            Matrix.Scaling(s,s,s, out displayScale);
+        }
         public override RenderOperation[] GetRenderOperation()
         {
-            return base.GetRenderOperation();
+            RenderOperation[] ops = base.GetRenderOperation();
+            for (int i = 0; i < ops.Length; i++) 
+            {
+                ops[i].Transformation = displayScale * ops[i].Transformation;
+            }
+            return ops;
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
-            return base.GetRenderOperation(level);
+            return GetRenderOperation();
         }
-        
-        public override void Update(GameTime gameTime)
-        {
 
+
+        void IntegrateRoundAngle(float dt)
+        {
+            
+            float sign = state == RBallState.AttackCity ? -1 : 1;
+            roundAngle += sign * dt * speedModifier * refrenceLinSpeed / currentRadius;
+            if (roundAngle > MathEx.PIf * 2)
+                roundAngle -= MathEx.PIf * 2;
+        }
+
+        public override void Update(GameTime gameTime)
+        {            
             float dt = (float)gameTime.ElapsedGameTimeSeconds;
 
-            switch (state) 
+            if (weaponCoolDown > 0)
+                weaponCoolDown -= dt;
+           
+            if (speedModifier < speedModifierTarget)
+            {
+                speedModifier += dt;
+            }
+            else if (speedModifier > speedModifierTarget)
+            {
+                speedModifier -= dt;
+            }
+
+            switch (state)
             {
                 case RBallState.Standby:
                     {
-                        roundAngle += dt * GoRoundVel * roundSpeed;
-                        if (roundAngle > MathEx.PIf * 2)
-                            roundAngle -= MathEx.PIf * 2;
-
-
-                        Matrix dockOri = dockCity.Transformation;
-
-                        Vector3 y = dockOri.Forward;
-                        Vector3 x = dockOri.Right;
-                        Vector3 z = dockOri.Up;
-
-                        Vector3 dir = x * (float)Math.Cos(roundAngle) + y * (float)Math.Sin(roundAngle);
-                        Vector3 ofs = dir * currentRadius + z * currentHeight;
-                        dockOri.TranslationValue = Vector3.Zero;
-
-                        orientation = Matrix.RotationY(roundAngle) *  dockOri;
-                        Position = dockCity.Position + ofs;
+                        IntegrateRoundAngle(dt);
+                        
+                        Vector3 pos;
+                        CalculateRoundTransform(currentRadius, false, out pos, out orientation);
+                        Position = pos;
                         break;
                     }
                 case RBallState.Gathering:
                     {
-                        MoveLerpUpdate(dt);
+                        NewMoveUpdate(dt);
 
-                        if (positioningProgress > 1)
+                        if (!isMoving)
                         {
                             ChangeState(RBallState.Gathered);
                         }
@@ -594,17 +871,78 @@ namespace Code2015.World
                     }
                 case RBallState.Free:
                     {
-                        MoveLerpUpdate(dt);
-                        if (positioningProgress > 1)
+                        NewMoveUpdate(dt);
+                        if (!isMoving)
                         {
                             ChangeState(RBallState.Standby);
+                        }
+                        break;
+                    }
+                case RBallState.BeginingAttackCity:
+                    {
+                        NewMoveUpdate(dt);
+                        if (!isMoving)
+                        {
+                            ChangeState(RBallState.AttackCity);
+                        }
+                        break;
+                    }
+                case RBallState.AttackCity:
+                    {
+                        if (dockCity.Owner != Owner)
+                        {
+                            IntegrateRoundAngle(dt);
+
+                            Vector3 pos;
+                            CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
+                            Position = pos;
+
+                            if (speedModifier >= AttackCitySpeedMod - 0.5f) 
+                            {
+                                if (weaponCoolDown <= 0)
+                                {
+                                    float dmg = Type == RBallType.Oil ? RulesTable.OilBallBaseDamage : RulesTable.GreenBallBaseDamage;
+                                    dockCity.Damage(dmg, Owner);
+                                    Damage(dmg * 0.07f);
+                                    weaponCoolDown = WeaponCoolDownTime;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            ChangeState(RBallState.Free);
+                        }
+                        break;
+                    }
+                case RBallState.Attack:
+                    {
+                        if (target == null || target.Owner == Owner  || target.IsDied)
+                        {
+                            ChangeState(RBallState.Free);
+                        }
+                        else 
+                        {
+                            NewMove(target.position);
+                            NewMoveUpdate(dt);
+
+                            float dist = Vector3.DistanceSquared(ref position, ref target.position);
+                            if (dist < AttackRange * AttackRange)
+                            {
+                                if (weaponCoolDown <= 0)
+                                {
+                                    float dmg = Type == RBallType.Oil ? RulesTable.OilBallBaseDamage : RulesTable.GreenBallBaseDamage;
+                                    target.Damage(dmg);
+                                    weaponCoolDown = WeaponCoolDownTime;
+                                }
+                            }
                         }
                         break;
                     }
             }
             base.Update(gameTime);
 
-            if (dockCity != null)
+            if (dockCity != null &&
+                (state != RBallState.Gathered || state != RBallState.Gathering || state != RBallState.Free))
             {
                 switch (Type)
                 {
@@ -612,56 +950,65 @@ namespace Code2015.World
                     case RBallType.Oil:
                         {
                             // 攻击
-
                             if (dockCity.Owner != Owner)
                             {
-                                // 在别人城里
-                                if (dockCity.NearbyOwnedBallCount == 0)
+                                enemyCheckTime -= dt;
+                                if (enemyCheckTime <= 0)
                                 {
-                                    if (state != RBallState.AttackCity)
-                                        ChangeState(RBallState.AttackCity);
+                                    // 在别人城里
+                                    if (dockCity.NearbyOwnedBallCount == 0)
+                                    {
+                                        if (state != RBallState.AttackCity && state != RBallState.BeginingAttackCity)
+                                            AttackCity();
+                                    }
+                                    else
+                                    {
+                                        if (state != RBallState.Attack)
+                                            Attack();
+                                    }
+                                    enemyCheckTime = EnemyCheckTime;
                                 }
-                                
+
                             }
                             else
                             {
-                                //在自己城里
-                                
+                                enemyCheckTime -= dt;
+                                if (enemyCheckTime <= 0)
+                                {
+                                    //在自己城里
+                                    if (dockCity.NearbyEnemyBallCount > 0)
+                                    {
+                                        if (state != RBallState.Attack)
+                                            Defend();
+                                    }
+                                }
                             }
                             break;
                         }
                     case RBallType.Disease:
                         {
+
                             break;
                         }
                     case RBallType.Health:
                         {
+
                             break;
                         }
                     case RBallType.Education:
                         {
+
                             break;
                         }
                     case RBallType.Volience:
                         {
+
                             break;
                         }
                 }
             }
-            
-            //else if (this.target != null)
-            //{
-                ////攻击城市
-                //Vector3 dir = target.Position - Position;
 
-                //if (this.Parent != null)
-                //{
 
-                //}
-
-            //}
-
-            
         }
     }
 }

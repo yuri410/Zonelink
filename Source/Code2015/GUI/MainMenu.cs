@@ -179,7 +179,6 @@ namespace Code2015.GUI
 
             mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
             mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
-            
 
         }
 
@@ -403,6 +402,7 @@ namespace Code2015.GUI
                     //isPostStarting = true;
                 }
             }
+
             //else if (isPostStarting)
             //{
                

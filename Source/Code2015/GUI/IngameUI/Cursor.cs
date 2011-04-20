@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Apoc3D.Graphics;
 using Apoc3D;
-using Code2015.World;
+using Apoc3D.Graphics;
+using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
-using Apoc3D.MathLib;
+using Code2015.World;
 
 namespace Code2015.GUI.IngameUI
 {
@@ -38,13 +38,13 @@ namespace Code2015.GUI.IngameUI
 
         SelectionMarker selectionMarker;
         SelectInfo selectInfo;
-
+        MiniMap miniMap;
 
         Texture cursor;
         Texture[] cursor_sel;
         Texture[] cursor_attack;
 
-        Texture[] cursor_move;
+        Texture cursor_move;
 
         Texture cursor_up;
         Texture cursor_down;
@@ -62,7 +62,8 @@ namespace Code2015.GUI.IngameUI
 
         Point mouseRightPosition;
 
-        public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic,Picker picker, SelectInfo selInfo, SelectionMarker marker)
+        public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker,
+            SelectInfo selInfo, MiniMap map, SelectionMarker marker)
         {
             this.parent = parent;
             this.logic = gamelogic;
@@ -75,6 +76,7 @@ namespace Code2015.GUI.IngameUI
 
             this.selectionMarker = marker;
             this.selectInfo = selInfo;
+            this.miniMap = map;
 
             FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
@@ -96,6 +98,8 @@ namespace Code2015.GUI.IngameUI
             cursor_dl = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("cursor_rd.tex", GameFileLocs.GUI);
             cursor_dr = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("cursor_move.tex", GameFileLocs.GUI);
+            cursor_move = UITextureManager.Instance.CreateInstance(fl);
 
             cursor_sel = new Texture[11];
 
@@ -105,6 +109,12 @@ namespace Code2015.GUI.IngameUI
                 cursor_sel[i] = UITextureManager.Instance.CreateInstance(fl);
             }
 
+            cursor_attack = new Texture[11];
+            for (int i = 0; i < cursor_attack.Length; i++)
+            {
+                fl = FileSystem.Instance.Locate("selcursor" + (i + 1).ToString("D2") + ".tex", GameFileLocs.GUI);
+                cursor_attack[i] = UITextureManager.Instance.CreateInstance(fl);
+            }
 
             cursorState = MouseCursor.Normal;
 
@@ -161,14 +171,20 @@ namespace Code2015.GUI.IngameUI
                 }
             }
         }
-
+        void UpdateMouseCursor(GameTime time) 
+        {
+            
+        }
         public override void Update(GameTime time)
         {
             base.Update(time);
+            UpdateScroll(time);
+
+            UpdateMouseCursor(time);
 
             if (MouseInput.IsMouseUpLeft)
             {
-
+                picker.SelectCurrentObject();
             }
             if (selectionMarker.SelectedObject != null)
             {

@@ -133,7 +133,7 @@ namespace Code2015.GUI
         }
 
 
-        public void Pick()
+        public void SelectCurrentObject()
         {
             SelectedObject = MouseHoverObject;
             SelectedCity = MouseHoverCity;
