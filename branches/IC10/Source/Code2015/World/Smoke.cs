@@ -13,45 +13,63 @@ namespace Code2015.World
 
     class Smokes : IRenderable
     {
+
+        private const int MinSmokeCount = 5;
+        private const int MaxSmokeCount = 10;
+
         struct Smoke
         {
             public Vector3 Position;
             public float Life;
             public float Scale;
+            public Vector3 Wind;
         };
 
         Smoke[] emitSmokes;
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         private Model smokeModel;
+
         private Vector3 emitPosition;
         private Vector3 emitDirection;
+        private Vector3 emitNormal;
 
 
-        public Smokes(Vector3 start, Vector3 dir, RenderSystem rs)
+        public Smokes(Vector3 start, Vector3 dir, Vector3 normal, RenderSystem rs)
         {
             emitPosition = start;
             emitDirection = dir;
-            emitSmokes = new Smoke[4];
+            emitNormal = normal;
+
+            int smokeCount = MinSmokeCount + (int)((MaxSmokeCount - MinSmokeCount) * Randomizer.GetRandomSingle());
+
+            emitSmokes = new Smoke[smokeCount];
 
             FileLocation fl = FileSystem.Instance.Locate("smoke.mesh", GameFileLocs.Model);
             smokeModel = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
-            emitSmokes[0].Position = emitPosition;
-            emitSmokes[0].Life = 1.0f;
-            emitSmokes[0].Scale = 1.0f;
 
-            emitSmokes[1].Position = emitPosition;
-            emitSmokes[1].Life = 1.2f;
-            emitSmokes[1].Scale = 1.0f;
+            for (int i = 0; i < emitSmokes.Length; i++)
+            {
+                emitSmokes[i].Position = emitPosition;
+                emitSmokes[i].Scale = 1.0f;
+                emitSmokes[i].Life = 1.0f + Randomizer.GetRandomSingle();
 
-            emitSmokes[2].Position = emitPosition;
-            emitSmokes[2].Life = 1.4f;
-            emitSmokes[2].Scale = 1.0f;
+                Vector3 tanget = Vector3.Cross(emitDirection, emitNormal);
 
-            emitSmokes[3].Position = emitPosition;
-            emitSmokes[3].Life = 1.6f;
-            emitSmokes[3].Scale = 1.0f;
+                float randomX = ( (-1) * Randomizer.GetRandomSingle() + 0.5f ) * MathEx.PiOver2;
+                Vector4 newDir = Vector3.Transform(emitDirection, Matrix.RotationAxis(normal, randomX));
+
+                float randomY = ( (-1) * Randomizer.GetRandomSingle() + 0.5f) * MathEx.PiOver2;
+                newDir = Vector4.Transform(newDir, Matrix.RotationAxis(tanget, randomY));
+                
+                emitSmokes[i].Wind.X = newDir.X;
+                emitSmokes[i].Wind.Y = newDir.Y;
+                emitSmokes[i].Wind.Z = newDir.Z;
+                emitSmokes[i].Wind.Normalize();   
+
+            }
+            
 
         }
 
@@ -65,22 +83,19 @@ namespace Code2015.World
 
                 if (emitSmokes[i].Life < 1)   //释放
                 {
-                    emitSmokes[i].Position += dt * emitDirection;
+                    emitSmokes[i].Position += dt * emitSmokes[i].Wind;
                     emitSmokes[i].Scale += dt;
                 }
 
                 if (emitSmokes[i].Life < 0)  //回收
                 {
-                    emitSmokes[i].Life = 1.2f;
+                    emitSmokes[i].Life = 1.0f + Randomizer.GetRandomSingle();
                     emitSmokes[i].Position = emitPosition;
                     emitSmokes[i].Scale = 1.0f;
-
                 }
                     
             }
         }
-
-
 
         #region IRenderable 成员
 
@@ -103,7 +118,7 @@ namespace Code2015.World
                         }
                     }
 
-                }
+                }        
             }
             opBuffer.Trim();
             return opBuffer.Elements;
