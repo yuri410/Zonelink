@@ -58,10 +58,10 @@ namespace Code2015.World
                 Vector3 tanget = Vector3.Cross(emitDirection, emitNormal);
 
                 float randomX = ( (-1) * Randomizer.GetRandomSingle() + 0.5f ) * MathEx.PiOver2;
-                Vector4 newDir = Vector3.Transform(emitDirection, Matrix.RotationAxis(normal, randomX));
+                Vector3 newDir = Vector3.TransformSimple(emitDirection, Matrix.RotationAxis(normal, randomX));
 
                 float randomY = ( (-1) * Randomizer.GetRandomSingle() + 0.5f) * MathEx.PiOver2;
-                newDir = Vector4.Transform(newDir, Matrix.RotationAxis(tanget, randomY));
+                newDir = Vector3.TransformSimple(newDir, Matrix.RotationAxis(tanget, randomY));
                 
                 emitSmokes[i].Wind.X = newDir.X;
                 emitSmokes[i].Wind.Y = newDir.Y;
@@ -105,19 +105,16 @@ namespace Code2015.World
             {
                 if (s.Life < 1)
                 {
-                    RenderOperation[] ops = null;
-                    ops = smokeModel.GetRenderOperation();
+                    RenderOperation[] ops = smokeModel.GetRenderOperation();
                     if (ops != null)
                     {
                         for (int i = 0; i < ops.Length; i++)
                         {
-                            RenderOperation op = ops[i];
-                            op.Transformation = Matrix.Scaling(new Vector3(s.Scale)) * Matrix.Translation(s.Position);
-                            op.Sender = this;
-                            opBuffer.Add(ref op);
+                            ops[i].Transformation = Matrix.Scaling(new Vector3(s.Scale)) * Matrix.Translation(s.Position);
                         }
-                    }
 
+                        opBuffer.Add(ops);
+                    }
                 }        
             }
             opBuffer.Trim();
@@ -127,7 +124,7 @@ namespace Code2015.World
 
         public RenderOperation[] GetRenderOperation(int level)
         {
-            throw new NotImplementedException();
+            return GetRenderOperation();
         }
 
         #endregion

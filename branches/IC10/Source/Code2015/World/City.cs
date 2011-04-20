@@ -63,6 +63,11 @@ namespace Code2015.World
     /// </summary>
     class City : WorldObject, ISelectableObject
     {
+        struct ModelFileTable 
+        {
+            static readonly string[] CityModels = { };
+        }
+
 
         public const float CityRadiusDeg = 3.5f;
 
@@ -141,8 +146,7 @@ namespace Code2015.World
 
         SoundObject sound;
 
-        //城市发展速度
-        float developStep;
+
         float development;
         float healthValue;
 
@@ -248,6 +252,28 @@ namespace Code2015.World
             BoundingSphere.Radius = CityRadius;
         }
 
+        public float GetDevelopmentStep()
+        { 
+            //设置城市类型
+            switch (Type)
+            {
+                case CityType.Neutral:
+                    return  20;                    
+                case CityType.Health:
+                    return RulesTable.HealthDevelopStep;
+                case CityType.Green:
+                    return RulesTable.GreenDevelopStep;                    
+                case CityType.Education:
+                    return RulesTable.EducationDevelopStep;                    
+                case CityType.Disease:
+                    return RulesTable.DiseaseDevelopStep;                    
+                case CityType.Oil:
+                    return RulesTable.OilDevelopStep;
+                case CityType.Volience:
+                    return RulesTable.VolienceDevelopStep;
+            }
+            throw new InvalidOperationException();
+        }
         public override void InitalizeGraphics(RenderSystem rs)
         {
             FileLocation fl = FileSystem.Instance.Locate("citybase.mesh", GameFileLocs.Model);
@@ -327,7 +353,7 @@ namespace Code2015.World
         {
             float healthRate = (this.HealthValue / this.Development);
 
-            development += dt * developStep;
+            development += dt * GetDevelopmentStep();
             if (development > RulesTable.CityMaxDevelopment)
                 development = RulesTable.CityMaxDevelopment;
             healthValue = healthRate * this.Development;
@@ -345,11 +371,11 @@ namespace Code2015.World
 
         public void Damage(float v, Player owener)
         {
-            healthValue -= v;
+            healthValue -= v * RulesTable.CityArmor;
             if (healthValue < 0)
             {
-                healthValue = this.Development;
-                this.Owner = owener;
+                healthValue =  development * RulesTable.CityDevHealthRate;
+                ChangeOwner(owener);
             }
         }
 
@@ -451,31 +477,7 @@ namespace Code2015.World
             development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
             healthValue = development * RulesTable.CityDevHealthRate;
 
-            //设置城市类型
-            switch (Type)
-            {
-                case CityType.Neutral:
-                    developStep = 20;
-                    break;
-                case CityType.Health:
-                    developStep = RulesTable.HealthDevelopStep;
-                    break;
-                case CityType.Green:
-                    developStep = RulesTable.GreenDevelopStep;
-                    break;
-                case CityType.Education:
-                    developStep = RulesTable.EducationDevelopStep;
-                    break;
-                case CityType.Disease:
-                    developStep = RulesTable.DiseaseDevelopStep;
-                    break;
-                case CityType.Oil:
-                    developStep = RulesTable.OilDevelopStep;
-                    break;
-                case CityType.Volience:
-                    developStep = RulesTable.VolienceDevelopStep;
-                    break;
-            }
+           
 
 
             float facing = MathEx.PIf + (Randomizer.GetRandomSingle() - 0.5f) * MathEx.PiOver2;
@@ -1018,19 +1020,19 @@ namespace Code2015.World
 
             RenderOperation[] ops = null;
 
-          
-                ops = cityBase.GetRenderOperation();
-                if (ops != null)
-                {
-                    for (int i = 0; i < ops.Length; i++)
-                    {
-                        RenderOperation op = ops[i];
-                        op.Sender = this;
-                        opBuffer.Add(ref op);
-                    }
 
+            ops = cityBase.GetRenderOperation();
+            if (ops != null)
+            {
+                for (int i = 0; i < ops.Length; i++)
+                {
+                    RenderOperation op = ops[i];
+                    op.Sender = this;
+                    opBuffer.Add(ref op);
                 }
-            
+
+            }
+
 
             ops = null;
             switch (currentState)
@@ -1048,10 +1050,7 @@ namespace Code2015.World
                     ops = laugh.GetRenderOperation();
                     break;
                 case CityState.Rotate:
-                    if (rgball != null && rotationPurpose != CityRotationPurpose.Receive)
-                        ops = catching.GetRenderOperation();
-                    else
-                        ops = stopped.GetRenderOperation();
+                    ops = stopped.GetRenderOperation();
                     break;
                 case CityState.Stopped:
                 case CityState.WaitingGather:

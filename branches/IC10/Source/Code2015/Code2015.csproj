@@ -138,6 +138,7 @@
     </Compile>
     <Compile Include="GUI\CreditScreen.cs" />
     <Compile Include="GUI\GUIScreen.cs" />
+    <Compile Include="GUI\IngameUI\Cursor.cs" />
     <Compile Include="GUI\IngameUI\InfoDisplay.cs" />
     <Compile Include="GUI\Controls\Control.cs">
       <SubType>Code</SubType>
@@ -441,6 +442,7 @@
     </Compile>
     <Compile Include="World\CityTypes.cs" />
     <Compile Include="World\RBallType.cs" />
+    <Compile Include="World\Smoke.cs" />
     <Compile Include="World\WorldObject.cs" />
     <Compile Include="World\GameScene.cs" />
     <Compile Include="GUI\UIComponent.cs">

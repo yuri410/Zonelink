@@ -23,6 +23,8 @@ namespace Code2015.Logic
         public static float CityDevHealthRate { get; private set; }        
         public static float CityInitialDevelopment { get; private set; }
         public static float CityRadius { get; private set; }
+        public static float CityDevRBallHealthRate { get; private set; }
+        public static float CityArmor { get; private set; }
 
         public static float HarvLoadingSpeed { get; private set; }
         public static float HarvLoadingTime { get; private set; }
@@ -40,15 +42,43 @@ namespace Code2015.Logic
         public static float GreenHarvStorage { get; private set; }
         public static float GreenHarvSpeed { get; private set; }
 
-        //public const float RBallProduceBall = 100;
 
-
+        public static float OilBallBaseHealth { get; private set; }
         public static float OilBallCost { get; private set; }
+        public static float OilBallContribution { get; private set; }
+        public static float OilBallBaseDamage { get; private set; }
+        public static float OilBallBaseHeal { get; private set; }
+
+        public static float GreenBallBaseHealth { get; private set; }
         public static float GreenBallCost { get; private set; }
-        public static float EducationBallInterval { get; private set; }
-        public static float HealthBallInterval { get; private set; }
-        public static float DiseaseBallInterval { get; private set; }
-        public static float VolienceBallInterval { get; private set; }
+        public static float GreenBallContribution { get; private set; }
+        public static float GreenBallBaseDamage { get; private set; }
+        public static float GreenBallBaseHeal { get; private set; }
+
+        public static float EducationBallBaseHealth { get; private set; }
+        public static float EducationBallGenInterval { get; private set; }
+        public static float EducationBallContribution { get; private set; }
+        public static float EducationBallBaseDamage { get; private set; }
+        public static float EducationBallBaseHeal { get; private set; }
+
+        public static float VolienceBallBaseHealth { get; private set; }
+        public static float VolienceBallGenInterval { get; private set; }
+        public static float VolienceBallContribution { get; private set; }
+        public static float VolienceBallBaseDamage { get; private set; }
+        public static float VolienceBallBaseHeal { get; private set; }
+
+        public static float HealthBallBaseHealth { get; private set; }
+        public static float HealthBallGenInterval { get; private set; }
+        public static float HealthBallContribution { get; private set; }
+        public static float HealthBallBaseDamage { get; private set; }
+        public static float HealthBallBaseHeal { get; private set; }
+
+        public static float DiseaseBallBaseHealth { get; private set; }
+        public static float DiseaseBallGenInterval { get; private set; }
+        public static float DiseaseBallContribution { get; private set; }
+        public static float DiseaseBallBaseDamage { get; private set; }
+        public static float DiseaseBallBaseHeal { get; private set; }
+
 
         //每种城市的发展速度
         public static float GreenDevelopStep { get; private set; }
@@ -58,13 +88,7 @@ namespace Code2015.Logic
         public static float DiseaseDevelopStep { get; private set; }
         public static float VolienceDevelopStep { get; private set; }
 
-        //每种资源球对城市的贡献量
-        public static float OilBallContribution { get; private set; }
-        public static float GreenBallContribution { get; private set; }
-        public static float EducationBallContribution { get; private set; }
-        public static float HealthBallContribution { get; private set; }
-        public static float DiseaseBallContribution { get; private set; }
-        public static float VolienceBallContribution { get; private set; }
+
 
 
         public static void LoadRules()
@@ -77,6 +101,8 @@ namespace Code2015.Logic
             CityDevHealthRate = sect.GetSingle("DevHealthRate", 0.1f);
             CityInitialDevelopment = sect.GetSingle("InitialDevelopment", 1000);
             CityRadius = sect.GetSingle("Radius", 300);
+            CityDevRBallHealthRate = sect.GetSingle("DevRBallHealthRate");
+            CityArmor = sect.GetSingle("Armor");
 
             sect = con["NRCommon"];
             FRecoverBias = sect.GetSingle("ORecoverBias", 1);
@@ -90,28 +116,46 @@ namespace Code2015.Logic
 
             #region 各种资源球配置读取
             sect = con["OilBall"];
-            OilBallCost = sect.GetSingle("Cost", 15);
-            OilBallContribution = sect.GetSingle("Contribution", 10);
+            OilBallBaseHeal = sect.GetSingle("BaseHealth");
+            OilBallCost = sect.GetSingle("Cost");
+            OilBallContribution = sect.GetSingle("Contribution");
+            OilBallBaseDamage = sect.GetSingle("BaseDamage");
+            OilBallBaseHeal = sect.GetSingle("BaseHeal");
 
-            sect = con["GreebBall"];
-            GreenBallCost = sect.GetSingle("Cost", 15);
-            GreenBallContribution = sect.GetSingle("Contribution", 10);
+            sect = con["GreenBall"];
+            GreenBallBaseHeal = sect.GetSingle("BaseHealth");
+            GreenBallCost = sect.GetSingle("Cost");
+            GreenBallContribution = sect.GetSingle("Contribution");
+            GreenBallBaseDamage = sect.GetSingle("BaseDamage");
+            GreenBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["EducationBall"];
-            EducationBallInterval = sect.GetSingle("GenInterval", 15);
-            EducationBallContribution = sect.GetSingle("Contribution", 10); 
+            EducationBallBaseHeal = sect.GetSingle("BaseHealth");
+            EducationBallGenInterval = sect.GetSingle("GenInterval");
+            EducationBallContribution = sect.GetSingle("Contribution");
+            EducationBallBaseDamage = sect.GetSingle("BaseDamage");
+            EducationBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["HealthBall"];
-            HealthDevelopStep = sect.GetSingle("GenInterval", 15);
-            HealthBallContribution = sect.GetSingle("Contribution", 10); ;
+            EducationBallBaseHeal = sect.GetSingle("BaseHealth");
+            HealthDevelopStep = sect.GetSingle("GenInterval");
+            HealthBallContribution = sect.GetSingle("Contribution"); ;
+            HealthBallBaseDamage = sect.GetSingle("BaseDamage");
+            HealthBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["DiseaseBall"];
-            DiseaseDevelopStep = sect.GetSingle("GenInterval", 15);
-            DiseaseBallContribution = sect.GetSingle("Contribution", 10);
+            DiseaseBallBaseHeal = sect.GetSingle("BaseHealth");
+            DiseaseDevelopStep = sect.GetSingle("GenInterval");
+            DiseaseBallContribution = sect.GetSingle("Contribution");
+            DiseaseBallBaseDamage = sect.GetSingle("BaseDamage");
+            DiseaseBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["VolienceBall"];
-            VolienceDevelopStep = sect.GetSingle("GenInterval", 15);
-            VolienceBallContribution = sect.GetSingle("Contribution", 10); 
+            VolienceBallBaseHeal = sect.GetSingle("BaseHealth");
+            VolienceDevelopStep = sect.GetSingle("GenInterval");
+            VolienceBallContribution = sect.GetSingle("Contribution");
+            VolienceBallBaseDamage = sect.GetSingle("BaseDamage");
+            VolienceBallBaseHeal = sect.GetSingle("BaseHeal");
 
             #endregion
 

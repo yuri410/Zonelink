@@ -266,16 +266,16 @@ namespace Code2015.World
             switch (Type)
             {
                 case CityType.Health:
-                    generateRBallCD = RulesTable.HealthBallInterval;
+                    generateRBallCD = RulesTable.HealthBallGenInterval;
                     return;
                 case CityType.Volience:
-                    generateRBallCD = RulesTable.VolienceBallInterval;
+                    generateRBallCD = RulesTable.VolienceBallGenInterval;
                     return;
                 case CityType.Disease:
-                    generateRBallCD = RulesTable.DiseaseBallInterval;
+                    generateRBallCD = RulesTable.DiseaseBallGenInterval;
                     return;
                 case CityType.Education:
-                    generateRBallCD = RulesTable.EducationBallInterval;
+                    generateRBallCD = RulesTable.EducationBallGenInterval;
                     return;
                 case CityType.Neutral:
                     throw new InvalidOperationException();
