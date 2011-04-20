@@ -72,34 +72,13 @@ namespace Code2015.GUI
     /// </summary>
     class InGameUI : GUIScreen
     {
-        [Flags]
-        enum MouseCursor
-        {
-            Normal = 0,
-            LeftArrow = 1,
-            RightArrow = 2,
-            UpArrow = 4,
-            DownArrow = 8,
-            UpRightArrow = UpArrow | RightArrow,
-            DownRightArrow = DownArrow | RightArrow,
-            UpLeftArrow = UpArrow | LeftArrow,
-            DownLeftArrow = DownArrow | LeftArrow,
-            Selection = 64
-        }
-
         GameScene scene;
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
         GameState logic;
 
-        MouseCursor cursorState;
 
-
-        //GoalIcons icons;
-        //GoalPieceMaker pieceMaker;
-
-        //ScreenPhysicsWorld physWorld;
         int selCurIndex;
         int selCurAnimSign = 1;
 
@@ -116,23 +95,21 @@ namespace Code2015.GUI
         
         InfoUI infoUI;
         MiniMap miniMap;
-        //NoticeBar noticeBar;
-        //DevelopmentMeter playerProgress;
+
         Picker picker;
+        Cursor layeredCursor;
 
         SelectionMarker selectionMarker;
 
-
         SelectInfo selectInfo;
 
-        //CityEditPanel cityEdit;
         ExitConfirm exitConfirm;
         bool isEscPressed;
 
         Player player;
 
 
-
+        
         
 
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
@@ -228,7 +205,8 @@ namespace Code2015.GUI
             AddElement(exitConfirm);
 
 
-
+            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, selectInfo, selectionMarker);
+            AddElement(layeredCursor);
 
 
             selectionMarker = new SelectionMarker(renderSys, player);
@@ -242,69 +220,6 @@ namespace Code2015.GUI
                 if (parent.IsLoaded)
                 {                  
                     base.Render(sprite);
-
-                    Point hsp = new Point();
-                    Texture ctex = cursor;
-                    switch (cursorState)
-                    {
-                        case MouseCursor.Normal:
-                            hsp = new Point(15, 19);
-                            ctex = cursor;
-                            break;
-                        case MouseCursor.LeftArrow:
-                            hsp = new Point(5, 24);
-                            ctex = cursor_left;
-                            break;
-                        case MouseCursor.DownArrow:
-                            hsp = new Point(24, 26);
-                            ctex = cursor_down;
-                            break;
-                        case MouseCursor.RightArrow:
-                            hsp = new Point(31, 24);
-                            ctex = cursor_right;
-                            break;
-                        case MouseCursor.UpArrow:
-                            hsp = new Point(25, 4);
-                            ctex = cursor_up;
-                            break;
-                        case MouseCursor.DownLeftArrow:
-                            hsp = new Point(8, 34);
-                            ctex = cursor_dl;
-                            break;
-                        case MouseCursor.DownRightArrow:
-                            hsp = new Point(34, 34);
-                            ctex = cursor_dr;
-                            break;
-                        case MouseCursor.UpLeftArrow:
-                            hsp = new Point(7, 7);
-                            ctex = cursor_ul;
-                            break;
-                        case MouseCursor.UpRightArrow:
-                            hsp = new Point(35, 8);
-                            ctex = cursor_ur;
-                            break;
-                        case MouseCursor.Selection:
-                            hsp = new Point(33, 33);
-
-                            ctex = cursor_sel[selCurIndex];
-                            
-                            if (selCurIndex >= cursor_sel.Length -1) 
-                            {
-                                selCurAnimSign = -1;
-                                selCurIndex = cursor_sel.Length - 1;
-                            }
-                            else if (selCurIndex <= 0)
-                            {
-                                selCurAnimSign = 1;
-                                selCurIndex = 0;
-                            }
-
-                            selCurIndex += selCurAnimSign;
-                            break;
-                    }
-
-                    sprite.Draw(ctex, MathEx.Clamp(0, Program.ScreenWidth, MouseInput.X) - hsp.X,
-                        MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y, ColorValue.White);
                 }
             }
         }
@@ -341,118 +256,6 @@ namespace Code2015.GUI
                     }
 
                     parent.IsPaused = exitConfirm.IsShown;
-
-                    #region 屏幕边缘滚动视野
-                    const int ScrollPadding = 3;
-                    RtsCamera camera = parent.Scene.Camera;
-
-                    camera.Height += MouseInput.DScrollWheelValue * 0.05f;
-                    cursorState = MouseCursor.Normal;
-                    if (MouseInput.X <= ScrollPadding)
-                    {
-                        camera.MoveLeft();
-                        cursorState |= MouseCursor.LeftArrow;
-                    }
-                    if (MouseInput.X >= Program.Window.ClientSize.Width - ScrollPadding)
-                    {
-                        camera.MoveRight();
-                        cursorState |= MouseCursor.RightArrow;
-                    }
-                    if (MouseInput.Y <= ScrollPadding)
-                    {
-                        camera.MoveFront();
-                        cursorState |= MouseCursor.UpArrow;
-                    }
-                    if (MouseInput.Y >= Program.Window.ClientSize.Height - ScrollPadding)
-                    {
-                        camera.MoveBack();
-                        cursorState |= MouseCursor.DownArrow;
-                    }
-
-                    #endregion
-
-
-                    if (MouseInput.IsMouseDownRight)
-                    {
-                        mouseRightPosition.X = MouseInput.X;
-                        mouseRightPosition.Y = MouseInput.Y;
-                    }
-                    if (MouseInput.IsRightPressed)
-                    {
-                        if (MouseInput.X != mouseRightPosition.X && MouseInput.Y != mouseRightPosition.Y)
-                        {
-                            int dx = MouseInput.X - mouseRightPosition.X;
-                            int dy = MouseInput.Y - mouseRightPosition.Y;
-
-                            if (dx > 10) dx = 20;
-                            if (dx < -10) dx = -20;
-                            if (dy > 10) dy = 20;
-                            if (dy < -10) dy = -20;
-
-                            camera.Move(dx * -0.05f, dy * -0.05f);
-                        }
-                    }
-
-                    if (selectionMarker.SelectedObject != null)
-                    {
-                        City selCity = selectionMarker.SelectedObject as City;
-                        City hoverCity = selectionMarker.MouseHoverObject as City;
-
-                        bool passed = false;
-                        if (selCity != null)
-                        {
-                            if (hoverCity != null)
-                            {
-                                if (selCity != hoverCity)
-                                {
-                                    // attack
-                                    cursorState = MouseCursor.Normal;
-                                    if (MouseInput.IsMouseUpRight)
-                                    {
-                                        selCity.Throw(hoverCity);
-                                    }
-                                    passed = true;
-                                }
-                            }
-                        }
-
-                        if (!passed)
-                        {
-                            if (selectionMarker.MouseHoverObject != null)
-                            {
-                                if (selectionMarker.SelectedObject != selectionMarker.MouseHoverObject)
-                                {
-                                    cursorState = MouseCursor.Selection;
-                                }
-                                else
-                                {
-                                    cursorState = MouseCursor.Normal;
-                                }
-                            }
-                            else
-                            {
-                                // command harv
-                                cursorState = MouseCursor.Normal;
-                            }
-                        }
-                    }
-                    else
-                    {
-                        if (selectionMarker.MouseHoverObject != null)
-                        {
-                            cursorState = MouseCursor.Selection;
-                        }
-                        else
-                        {
-                            cursorState = MouseCursor.Normal;
-                        }
-                    }
-
-
-                    selectionMarker.SelectedObject = picker.SelectedObject;
-                    selectionMarker.MouseHoverObject = picker.MouseHoverObject;
-
-                    selectInfo.SelectedObject = picker.SelectedObject;
 
                     base.Update(time);
                 }

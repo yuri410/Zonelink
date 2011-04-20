@@ -33,7 +33,7 @@ namespace ModelStudio
             FileSystem.Instance.AddWorkingDir(@"E:\Documents\ic10gd\Source\Code2015\bin\x86\Debug");
             FileSystem.Instance.AddWorkingDir(@"F:\ic10gd\Source\Code2015\bin\x86\Debug");
             // zou jia's res dir
-            FileSystem.Instance.AddWorkingDir(@"G:\lrvbsvnicg\Source\Code2015\bin\x86\Debug");
+            FileSystem.Instance.AddWorkingDir(@"D:\zonelink2");
 
             GraphicsAPIManager.Instance.RegisterGraphicsAPI(new Apoc3D.RenderSystem.Xna.XnaGraphicsAPIFactory());
 

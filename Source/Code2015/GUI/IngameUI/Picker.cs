@@ -132,18 +132,19 @@ namespace Code2015.GUI
             selectRay = new Ray(start, dir);
         }
 
+
+        public void Pick()
+        {
+            SelectedObject = MouseHoverObject;
+            SelectedCity = MouseHoverCity;
+        }
+
         public override void UpdateInteract(GameTime time)
         {
             SceneObject obj = parent.Scene.Scene.FindObject(selectRay, SelFilter.Instance);
             MouseHoverObject = obj as ISelectableObject;
             MouseHoverCity = MouseHoverObject as City;
             
-
-            if (MouseInput.IsMouseDownLeft)
-            {
-                SelectedObject = MouseHoverObject;
-                SelectedCity = MouseHoverCity;
-            }
         }
     }
 }

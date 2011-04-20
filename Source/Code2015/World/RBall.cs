@@ -347,6 +347,9 @@ namespace Code2015.World
         Quaternion positioningEndOri;
         #endregion
 
+
+        
+
         RGatheredBall gatheredParent;
 
 
@@ -613,7 +616,12 @@ namespace Code2015.World
                             if (dockCity.Owner != Owner)
                             {
                                 // 在别人城里
-                                //if ( state != RBallState.AttackCity)
+                                if (dockCity.NearbyOwnedBallCount == 0)
+                                {
+                                    if (state != RBallState.AttackCity)
+                                        ChangeState(RBallState.AttackCity);
+                                }
+                                
                             }
                             else
                             {
