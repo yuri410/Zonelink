@@ -65,7 +65,10 @@ namespace Code2015.World
     {
         struct ModelFileTable 
         {
-            static readonly string[] CityModels = { };
+            static readonly string[] CityModels = 
+            {
+                "Netural.mesh"
+            };
         }
 
 
@@ -351,14 +354,14 @@ namespace Code2015.World
         /// <param name="dt"></param>
         private void NaturalDevelop(float dt)
         {
-            float healthRate = (this.HealthValue / this.Development);
+            float healthRate = HPRate;
 
             development += dt * GetDevelopmentStep();
             if (development > RulesTable.CityMaxDevelopment)
                 development = RulesTable.CityMaxDevelopment;
-            healthValue = healthRate * this.Development;
+            healthValue = healthRate * this.Development * RulesTable.CityDevHealthRate;
         }
-        private void Develop(float amount, float dt)
+        public void Develop(float amount, float dt)
         {
             float healthRate = HPRate;
 
@@ -366,7 +369,7 @@ namespace Code2015.World
             development += amount * dt;
             if (development > RulesTable.CityMaxDevelopment)
                 development = RulesTable.CityMaxDevelopment;
-            healthValue = healthRate * development;
+            healthValue = healthRate * development * RulesTable.CityDevHealthRate;
         }
 
         public void Damage(float v, Player owener)
@@ -377,6 +380,12 @@ namespace Code2015.World
                 healthValue =  development * RulesTable.CityDevHealthRate;
                 ChangeOwner(owener);
             }
+        }
+        public void Heal(float v) 
+        {
+            healthValue += v;
+            if (healthValue > development * RulesTable.CityDevHealthRate)
+                healthValue = development * RulesTable.CityDevHealthRate;
         }
 
         void RefreshNearbyBalls() 
@@ -395,6 +404,10 @@ namespace Code2015.World
                     nearbyEnemyBalls.Add(nearbyBallList[i]);
                 }
             }
+        }
+        protected virtual void ChangeType(CityType newType)
+        {
+
         }
         public virtual void ChangeOwner(Player player)
         {
@@ -958,16 +971,36 @@ namespace Code2015.World
                 if (nearbyBallList[i].IsDied)
                 {
                     RBall ball = nearbyBallList[i];
-                    if (ball.Owner == Owner)
-                    {
-                        nearbyOwnedBalls.Remove(ball);
-                    }
-                    else
-                    {
-                        nearbyEnemyBalls.Remove(ball);
-                    }
+                    //if (ball.Owner == Owner)
+                    //{
+                        //bool r = nearbyOwnedBalls.Remove(ball);
+                        ////if (!r)
+                            //throw new InvalidOperationException();                        
+                    //}
+                    //else
+                    //{
+                        //bool r = nearbyEnemyBalls.Remove(ball);
+                        //if (!r)
+                            //throw new InvalidOperationException();
+                    //}
                     nearbyBallList.RemoveAt(i);
                     battleField.DestroyResourceBall(ball);
+                }
+            }
+            for (int i = nearbyOwnedBalls.Count - 1; i >= 0; i--)
+            {
+                if (nearbyOwnedBalls[i].IsDied)
+                {
+                    RBall ball = nearbyBallList[i];
+                    nearbyOwnedBalls.RemoveAt(i);
+                }
+            } 
+            for (int i = nearbyEnemyBalls.Count - 1; i >= 0; i--)
+            {
+                if (nearbyEnemyBalls[i].IsDied)
+                {
+                    RBall ball = nearbyEnemyBalls[i];
+                    nearbyEnemyBalls.RemoveAt(i);
                 }
             }
         }
@@ -980,12 +1013,12 @@ namespace Code2015.World
             {
                 NaturalDevelop(ddt);
 
-                float devIncr = 0;
-                // 计算附近同阵营资源球贡献发展量
-                for (int i = 0; i < nearbyBallList.Count; i++)
-                {
-                    devIncr += ddt;// *Utils.GetRBallContribution(nearbyBallList[i].Type);
-                }
+                //float devIncr = 0;
+                //// 计算附近同阵营资源球贡献发展量
+                //for (int i = 0; i < nearbyBallList.Count; i++)
+                //{
+                //    devIncr += ddt;// *Utils.GetRBallContribution(nearbyBallList[i].Type);
+                //}
             }
 
             if (isVisible)
@@ -1026,11 +1059,9 @@ namespace Code2015.World
             {
                 for (int i = 0; i < ops.Length; i++)
                 {
-                    RenderOperation op = ops[i];
-                    op.Sender = this;
-                    opBuffer.Add(ref op);
+                    ops[i].Sender = this;
                 }
-
+                opBuffer.Add(ops);
             }
 
 
