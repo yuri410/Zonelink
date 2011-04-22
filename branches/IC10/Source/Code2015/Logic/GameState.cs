@@ -120,6 +120,11 @@ namespace Code2015.World
                         list[cidx].ProduceBall();
                         list[cidx].ProduceBall();
                         list[cidx].ProduceBall();
+                        if (localPlayers[i].Type == PlayerType.LocalHuman)
+                        {
+                            for (int k = 0; k < 20; k++)
+                                list[cidx].ProduceBall();
+                        }
 
                         finished = true;
                     }

@@ -11,7 +11,7 @@
     <DevRBallHealthRate>0.01</DevRBallHealthRate>
     <InitialDevelopment>1000</InitialDevelopment>
     <Radius>300</Radius>
-    <Armor>0.2</Armor>
+    <Armor>0.02</Armor>
   </CityCommon>
   <HarvCommon>
     <LoadingSpeed>4</LoadingSpeed>

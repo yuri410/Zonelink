@@ -19,7 +19,7 @@ namespace Code2015.World
         Gathering,
         BeginingAttackCity,
         Attack,
-        AttackCity,
+        AttackCity,        
         Defend,
         Gathered,
         Free,
@@ -335,6 +335,7 @@ namespace Code2015.World
 
         const float MinRadius = City.CityRadius * 0.8f;
         const float MaxRadius = City.CityRadius * 1.5f;
+        const float EduMaxRadius = City.CityRadius * 1.9f;
 
         const float MinSpeedMod = 1;
         const float GatherSpeedMod = 3.5f;
@@ -439,8 +440,16 @@ namespace Code2015.World
             }
         }
 
-        static float NextRadius()
+        float NextRadius()
         {
+            if (Type == RBallType.Disease || Type == RBallType.Disease) 
+            {
+                return CitySafeRadius;
+            }
+            else if (Type == RBallType.Education || Type == RBallType.Volience)
+            {
+                return Randomizer.GetRandomSingle() * (EduMaxRadius - MaxRadius) + MaxRadius; 
+            }
             return Randomizer.GetRandomSingle() * (MaxRadius - MinRadius) + MinRadius;
         }
         static float NextHeight()
@@ -781,6 +790,16 @@ namespace Code2015.World
             NewMove(targetPos);
             ChangeState(RBallState.BeginingAttackCity);
         }
+        public void Reposition() 
+        {
+            Vector3 targetPos;
+            Quaternion dockOri;
+            CalculateRoundTransform(currentRadius, false, out targetPos, out dockOri);
+            NewMove(targetPos);
+
+            ChangeState(RBallState.Free);
+
+        }
         public void Free(City city)
         {
             gatheredParent = null;
@@ -833,12 +852,12 @@ namespace Code2015.World
         }
 
         public override void Update(GameTime gameTime)
-        {            
+        {
             float dt = (float)gameTime.ElapsedGameTimeSeconds;
 
             if (weaponCoolDown > 0)
                 weaponCoolDown -= dt;
-           
+
             if (speedModifier < speedModifierTarget)
             {
                 speedModifier += dt;
@@ -853,10 +872,13 @@ namespace Code2015.World
                 case RBallState.Standby:
                     {
                         IntegrateRoundAngle(dt);
-                        
+
                         Vector3 pos;
                         CalculateRoundTransform(currentRadius, false, out pos, out orientation);
                         Position = pos;
+
+                        dockCity.Heal(dt * props.Heal);
+                        dockCity.Develop(props.Contribution, dt);
                         break;
                     }
                 case RBallState.Gathering:
@@ -897,30 +919,37 @@ namespace Code2015.World
                             CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
                             Position = pos;
 
-                            if (speedModifier >= AttackCitySpeedMod - 0.5f) 
+                            if (speedModifier >= AttackCitySpeedMod - 0.5f)
                             {
                                 if (weaponCoolDown <= 0)
                                 {
                                     float dmg = Type == RBallType.Oil ? RulesTable.OilBallBaseDamage : RulesTable.GreenBallBaseDamage;
                                     dockCity.Damage(dmg, Owner);
-                                    Damage(dmg * 0.07f);
+                                    Damage(dmg * 0.005f);
                                     weaponCoolDown = WeaponCoolDownTime;
                                 }
                             }
                         }
                         else
                         {
-                            ChangeState(RBallState.Free);
+                            if (speedModifier < AttackCitySpeedMod * 0.3f || speedModifier < MinSpeedMod)
+                            {
+                                Reposition();
+                            }
+                            else 
+                            {
+                                speedModifierTarget = MinSpeedMod;
+                            }
                         }
                         break;
                     }
                 case RBallState.Attack:
                     {
-                        if (target == null || target.Owner == Owner  || target.IsDied)
+                        if (target == null || target.Owner == Owner || target.IsDied)
                         {
-                            ChangeState(RBallState.Free);
+                            Reposition();
                         }
-                        else 
+                        else
                         {
                             NewMove(target.position);
                             NewMoveUpdate(dt);
@@ -941,72 +970,54 @@ namespace Code2015.World
             }
             base.Update(gameTime);
 
+            
             if (dockCity != null &&
                 (state != RBallState.Gathered || state != RBallState.Gathering || state != RBallState.Free))
             {
-                switch (Type)
+
+                // 攻击
+                if (dockCity.Owner != Owner)
                 {
-                    case RBallType.Green:
-                    case RBallType.Oil:
+                    enemyCheckTime -= dt;
+                    if (enemyCheckTime <= 0)
+                    {
+                        // 在别人城里
+                        if (dockCity.NearbyOwnedBallCount == 0)
                         {
-                            // 攻击
-                            if (dockCity.Owner != Owner)
-                            {
-                                enemyCheckTime -= dt;
-                                if (enemyCheckTime <= 0)
-                                {
-                                    // 在别人城里
-                                    if (dockCity.NearbyOwnedBallCount == 0)
-                                    {
-                                        if (state != RBallState.AttackCity && state != RBallState.BeginingAttackCity)
-                                            AttackCity();
-                                    }
-                                    else
-                                    {
-                                        if (state != RBallState.Attack)
-                                            Attack();
-                                    }
-                                    enemyCheckTime = EnemyCheckTime;
-                                }
-
-                            }
-                            else
-                            {
-                                enemyCheckTime -= dt;
-                                if (enemyCheckTime <= 0)
-                                {
-                                    //在自己城里
-                                    if (dockCity.NearbyEnemyBallCount > 0)
-                                    {
-                                        if (state != RBallState.Attack)
-                                            Defend();
-                                    }
-                                }
-                            }
-                            break;
+                            if (state != RBallState.AttackCity && state != RBallState.BeginingAttackCity)
+                                AttackCity();
                         }
-                    case RBallType.Disease:
+                        else
                         {
-
-                            break;
+                            if (state != RBallState.Attack)
+                                Attack();
                         }
-                    case RBallType.Health:
-                        {
+                        enemyCheckTime = EnemyCheckTime;
+                    }
 
-                            break;
-                        }
-                    case RBallType.Education:
-                        {
-
-                            break;
-                        }
-                    case RBallType.Volience:
-                        {
-
-                            break;
-                        }
                 }
+                else
+                {
+                    if ((Type != RBallType.Health && Type != RBallType.Disease) && dockCity.HPRate > 1 - float.Epsilon)
+                    {
+                        enemyCheckTime -= dt;
+                        if (enemyCheckTime <= 0)
+                        {
+                            //在自己城里
+                            if (dockCity.NearbyEnemyBallCount > 0)
+                            {
+                                if (state != RBallState.Attack)
+                                    Defend();
+                            }
+                        }
+                    }
+                }
+
+                
             }
+
+
+
 
 
         }
