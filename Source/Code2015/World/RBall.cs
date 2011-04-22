@@ -50,7 +50,9 @@ namespace Code2015.World
         List<RBall> subBalls;
         Vector3 position;
         City sourceCity;
-        
+
+        Vector3 normal;
+
         float targetAngle;
 
         #region FLY
@@ -221,6 +223,9 @@ namespace Code2015.World
 
                 Quaternion newDstOri = dstCity.GetOrientation(srcPosition);
 
+                normal = sourceCity.Transformation.Up + dstCity.Transformation.Up;
+                normal.Normalize();
+
                 dstPosition = GetRGBallPosition(dstCity, newDstOri);
 
                 flyRoundCenter = GetFlyCenter(dstCity.Transformation.Up);
@@ -271,11 +276,27 @@ namespace Code2015.World
                 }
             }
 
+            {
+                float t = flyProgress * 2;
+                const float Gr = 1000;
+                float h;
+                if (t < 1)
+                {
+                    h = Gr * t - 0.5f * (Gr * t * t);
+                }
+                else
+                {
+                    h = 0.5f * Gr - 0.5f * Gr * MathEx.Sqr(t - 1);
+                }
+                
+                position += normal * h;
+            }
+
             if (flyProgress > 1)
             {
                 ChangeState(State.Finished);
             }
-            
+
         }
         public void Update(GameTime time)
         {
@@ -340,7 +361,7 @@ namespace Code2015.World
         const float MinSpeedMod = 1;
         const float GatherSpeedMod = 3.5f;
         const float AttackCitySpeedMod = 7.0f;
-        const float DefenceSpeedMod = 1;
+        const float DefenceSpeedMod = 3.5f;
         const float AttackSpeedMod = 2.5f;
 
         const float MaxLinSpeed = 233;
@@ -559,7 +580,15 @@ namespace Code2015.World
             }
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             ModelL0.CurrentAnimation.Clear();
-            ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.4f, 1.4f, 1.4f) * Matrix.RotationX(-MathEx.PiOver2)));
+
+            if (Type == RBallType.Oil)
+            {
+                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.6f, 1.6f, 1.6f) * Matrix.RotationX(-MathEx.PiOver2)));
+            }
+            else 
+            {
+                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.4f, 1.4f, 1.4f) * Matrix.RotationX(-MathEx.PiOver2)));
+            }
 
             UpdateDisplayScale();
         }
@@ -940,13 +969,20 @@ namespace Code2015.World
                             {
                                 Reposition();
                             }
-                            else 
+                            else
                             {
+                                IntegrateRoundAngle(dt);
+
+                                Vector3 pos;
+                                CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
+                                Position = pos;
+
                                 speedModifierTarget = MinSpeedMod;
                             }
                         }
                         break;
                     }
+                case RBallState.Defend:
                 case RBallState.Attack:
                     {
                         if (target == null || target.Owner == Owner || target.IsDied)
@@ -1002,19 +1038,31 @@ namespace Code2015.World
                 }
                 else
                 {
-                    if ((Type != RBallType.Health && Type != RBallType.Disease) && dockCity.HPRate > 1 - float.Epsilon)
+                    switch (Type)
                     {
-                        enemyCheckTime -= dt;
-                        if (enemyCheckTime <= 0)
-                        {
-                            //在自己城里
+                        case RBallType.Oil:
+                        case RBallType.Green:
+                        case RBallType.Education:
+                        case RBallType.Volience:
                             if (dockCity.NearbyEnemyBallCount > 0)
                             {
                                 if (state != RBallState.Attack)
                                     Defend();
                             }
-                        }
+                            break;
+                        case RBallType.Health:
+                        case RBallType.Disease:
+                            if (dockCity.HPRate > 1 - float.Epsilon)                             
+                            {
+                                if (dockCity.NearbyEnemyBallCount > 0)
+                                {
+                                    if (state != RBallState.Attack)
+                                        Defend();
+                                }
+                            }
+                            break;
                     }
+                   
                 }
 
                 

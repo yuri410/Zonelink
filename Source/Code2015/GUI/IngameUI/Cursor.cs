@@ -7,6 +7,7 @@ using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
+using Code2015.Logic;
 
 namespace Code2015.GUI.IngameUI
 {
@@ -33,6 +34,7 @@ namespace Code2015.GUI.IngameUI
         Code2015 game;
         Game parent;
         GameState logic;
+        Player player;
 
         Picker picker;
 
@@ -67,6 +69,7 @@ namespace Code2015.GUI.IngameUI
         {
             this.parent = parent;
             this.logic = gamelogic;
+            this.player = gamelogic.LocalHumanPlayer;
 
             this.game = game;
             this.renderSys = game.RenderSystem;
@@ -194,7 +197,7 @@ namespace Code2015.GUI.IngameUI
                 bool passed = false;
                 if (selCity != null)
                 {
-                    if (hoverCity != null)
+                    if (selCity.IsCaptured && selCity.Owner == player && hoverCity != null)
                     {
                         if (selCity != hoverCity)
                         {

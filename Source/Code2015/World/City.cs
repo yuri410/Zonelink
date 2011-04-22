@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Code2015.EngineEx;
-using Code2015.World;
-using Apoc3D.Collections;
 using Apoc3D;
-using Apoc3D.Scene;
-using Apoc3D.MathLib;
-using Code2015.Logic;
+using Apoc3D.Collections;
 using Apoc3D.Config;
 using Apoc3D.Graphics;
-using Apoc3D.Vfs;
 using Apoc3D.Graphics.Animation;
+using Apoc3D.MathLib;
+using Apoc3D.Scene;
+using Apoc3D.Vfs;
+using Code2015.EngineEx;
+using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.World
 {
@@ -36,9 +36,11 @@ namespace Code2015.World
     enum CityState
     {
         Stopped,
-        Throw,
+        Throw,        
         ThrowContinued,
+        PostThrow,
         Catch,
+        PostCatch,
         Idle,
         WakeingUp,
         Laugh,
@@ -63,14 +65,13 @@ namespace Code2015.World
     /// </summary>
     class City : WorldObject, ISelectableObject
     {
-        struct ModelFileTable 
+        struct Yangbing
         {
-            static readonly string[] CityModels = 
-            {
-                "netural.mesh", "oil.mesh", "disease.mesh", "volience.mesh", "green.mesh", "health.mesh", "education.mesh"
-            };
+            public const float SchoolPreseveTime = (62.0f / 30.0f) * (30.0f / 62.0f);
+            public const float GunPreseveTime = (68.0f / 30.0f) * (29.0f / 68.0f);
+            public const float HospitalPreseveTime = (29.0f / 30.0f) * (15.0f / 29.0f);
+            public const float FactoryPreseveTime = (44.0f / 30.0f) * (26.0f / 44.0f);
         }
-
 
         public const float CityRadiusDeg = 3.5f;
 
