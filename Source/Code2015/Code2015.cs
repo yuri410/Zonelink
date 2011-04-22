@@ -104,8 +104,6 @@ namespace Code2015
             ConfigurationManager.Instance.Register(new GameConfigurationFormat());
 
             EffectManager.Initialize(renderSys);
-            //EffectManager.Instance.RegisterModelEffectType(TerrainEffect513Factory.Name, new TerrainEffect513Factory(renderSys));
-            //EffectManager.Instance.RegisterModelEffectType(TerrainEffect129Factory.Name, new TerrainEffect129Factory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(TerrainEffect33Factory.Name, new TerrainEffect33Factory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(WaterEffectFactory.Name, new WaterEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(StandardEffectFactory.Name, new StandardEffectFactory(renderSys));
@@ -121,9 +119,6 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(CitySelEffectFactory.Name, new CitySelEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(SmokeRDEffectFactory.Name, new SmokeRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
-            EffectManager.Instance.RegisterModelEffectType(MMWaterEffectFactory.Name, new MMWaterEffectFactory(renderSys));
-            EffectManager.Instance.RegisterModelEffectType(MMTerrainEffectFactory.Name, new MMTerrainEffectFactory(renderSys));
-            EffectManager.Instance.RegisterModelEffectType(MMCityLinkEffectFactory.Name, new MMCityLinkEffectFactory(renderSys));
 
             RulesTable.LoadRules();
 

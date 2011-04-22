@@ -168,7 +168,7 @@ namespace Code2015.World
                 int col = i % lineCount;
 
                 float radLng = col * span;
-                float radLat = row * span;
+                float radLat = (2 * row - lineCount) * span;
 
                 Vector3 positionInGBall = PlanetEarth.GetPosition(radLng, radLat, GBallRadius);
                 Quaternion oriInGBall = Quaternion.RotationMatrix(PlanetEarth.GetOrientation(radLng, radLat));
@@ -379,7 +379,7 @@ namespace Code2015.World
         /// <summary>
         ///  高生命值球的现实比例系数
         /// </summary>
-        const float RBallHealthScale = 0.01f;
+        const float RBallHealthScale = 0.0125f;
 
         public RBallType Type { get; private set; }
 

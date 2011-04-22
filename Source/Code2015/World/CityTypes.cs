@@ -66,9 +66,14 @@ namespace Code2015.World
             props.HP = RulesTable.GreenHarvHP;
             props.Speed = RulesTable.GreenHarvSpeed;
             props.Storage = RulesTable.GreenHarvStorage;
-            return props;
+            return props;                        
         }
-
+        
+        protected override void ChangeType()
+        {
+            base.ChangeType();
+            FindResources(battleField.NaturalResources);
+        }
         void Harv_Dest(object sender, EventArgs e)
         {
             harvester.Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
@@ -134,8 +139,48 @@ namespace Code2015.World
 
 
         //周围资源资源
+        public void FindResources(NaturalResource[] resList)
+        {
+            nearResource.Clear();
+            for (int i = 0; i < resList.Length; i++)
+            {
+
+                if (Type == CityType.Green)
+                {
+                    if (resList[i].Type == NaturalResourceType.Wood)
+                    {
+                        ForestObject forest = (ForestObject)resList[i];
+                        float d = Vector3.Distance(forest.ForestCenter, this.Position);
+                        if (d < gatherDistance)
+                        {
+                            nearResource.Add(resList[i]);
+                        }
+                    }
+                }
+                else if (Type == CityType.Oil)
+                {
+                    if (resList[i].Type == NaturalResourceType.Oil)
+                    {
+                        float d = Vector3.Distance(resList[i].Position, this.Position);
+                        if (d < gatherDistance)
+                        {
+                            nearResource.Add(resList[i]);
+                        }
+                    }
+                }
+            }
+            if (Type == CityType.Green)
+            {
+                nearResource.Sort(CamparisionForest);
+            }
+            else
+            {
+                nearResource.Sort(Camparision);
+            }
+        }
         public void FindResources(List<NaturalResource> resList)
         {
+            nearResource.Clear();
             for (int i = 0; i < resList.Count; i++)
             {
 

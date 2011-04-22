@@ -1,9 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <Rules>
   <NRCommon>
-    <ORecoverBias>1</ORecoverBias>
-    <FRecoverBias>1</FRecoverBias>
-    <FRecoverRate>0.0015</FRecoverRate>
+    <ORecoverBias>0.5</ORecoverBias>
+    <FRecoverBias>0.5</FRecoverBias>
+    <FRecoverRate>0.0010</FRecoverRate>
   </NRCommon>
   <CityCommon>
     <MaxDevelopment>10000</MaxDevelopment>
@@ -20,44 +20,44 @@
   <OilBall>
     <BaseHealth>150</BaseHealth>
     <Cost>8</Cost>
-    <Contribution>0.5</Contribution>
+    <Contribution>0.2</Contribution>
     <BaseDamage>50</BaseDamage>
     <BaseHeal>0</BaseHeal>    
   </OilBall>
   <GreenBall>
     <BaseHealth>150</BaseHealth>
     <Cost>8</Cost>
-    <Contribution>0.5</Contribution>
+    <Contribution>0.2</Contribution>
     <BaseDamage>50</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </GreenBall>
   <EducationBall>
     <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
-    <Contribution>10</Contribution>
+    <Contribution>1</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </EducationBall>
   <VolienceBall>
     <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
-    <Contribution>10</Contribution>
+    <Contribution>1</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </VolienceBall>
   <HealthBall>
     <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
-    <Contribution>0.5</Contribution>
+    <Contribution>0.2</Contribution>
     <BaseDamage>10</BaseDamage>
-    <BaseHeal>0</BaseHeal>
+    <BaseHeal>5</BaseHeal>
   </HealthBall>
   <DiseaseBall>
     <BaseHealth>150</BaseHealth>
     <GenInterval>15</GenInterval>
-    <Contribution>0.5</Contribution>
+    <Contribution>0.2</Contribution>
     <BaseDamage>10</BaseDamage>
-    <BaseHeal>0</BaseHeal>
+    <BaseHeal>5</BaseHeal>
   </DiseaseBall>
 
   <OilCity>

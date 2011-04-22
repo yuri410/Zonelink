@@ -68,6 +68,7 @@ namespace Code2015.World
 
         Props props;
         Model[] model;
+        Model[] model_bad;
         int mdlIndex;
         GatherCity parent;
 
@@ -177,6 +178,8 @@ namespace Code2015.World
         public void InitializeGraphics(RenderSystem rs)
         {
             model = new Model[NumModels];
+            model_bad = new Model[NumModels];
+
             for (int i = 0; i < NumModels; i++)
             {
                 FileLocation fl = FileSystem.Instance.Locate("cow" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
@@ -184,6 +187,13 @@ namespace Code2015.World
                 model[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                 model[i].CurrentAnimation.Clear();
                 model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
+                    Matrix.RotationY(MathEx.PIf) *
+                    Matrix.Scaling(Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f)));
+            
+            fl = FileSystem.Instance.Locate("cow_bad" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                model_bad[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                model_bad[i].CurrentAnimation.Clear();
+                model_bad[i].CurrentAnimation.Add(new NoAnimaionPlayer(
                     Matrix.RotationY(MathEx.PIf) *
                     Matrix.Scaling(Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f)));
             }
@@ -494,7 +504,21 @@ namespace Code2015.World
 
                     if (model != null)
                     {
-                        ModelL0 = model[mdlIndex];
+                        if (parent.Owner != null)
+                        {
+                            if (parent.Type == CityType.Oil)
+                            {
+                                ModelL0 = model_bad[mdlIndex];
+                            }
+                            else
+                            {
+                                ModelL0 = model[mdlIndex];
+                            }
+                        }
+                        else
+                        {
+                            ModelL0 = null;
+                        }                        
                     }
                     #endregion
 
