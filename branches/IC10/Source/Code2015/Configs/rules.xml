@@ -65,7 +65,7 @@
     <HarvHealth>150</HarvHealth>
     <HarvStorage>12</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
-    <DevelopStep>10</DevelopStep>
+    <DevelopStep>3</DevelopStep>
     <AutoHeal>0.1</AutoHeal>
   </OilCity>
   <GreenCity>
@@ -73,27 +73,27 @@
     <HarvHealth>150</HarvHealth>
     <HarvStorage>12</HarvStorage>
     <HarvSpeed>1</HarvSpeed>
-    <DevelopStep>10</DevelopStep>
+    <DevelopStep>3</DevelopStep>
     <AutoHeal>0.1</AutoHeal>
   </GreenCity>
   <DiseaseCity>
     <ProduceBallInterval>10</ProduceBallInterval>
-    <DevelopStep>10</DevelopStep>
+    <DevelopStep>3</DevelopStep>
     <AutoHeal>0.1</AutoHeal>
   </DiseaseCity>
   <VolienceCity>
     <ProduceBallInterval>20</ProduceBallInterval>
-    <DevelopStep>10</DevelopStep>
+    <DevelopStep>3</DevelopStep>
     <AutoHeal>0.1</AutoHeal>
   </VolienceCity>
   <HealthCity>
     <ProduceBallInterval>10</ProduceBallInterval>
-    <DevelopStep>10</DevelopStep>
+    <DevelopStep>3</DevelopStep>
     <AutoHeal>0.1</AutoHeal>
   </HealthCity>
   <EducationCity>
     <ProduceBallInterval>5</ProduceBallInterval>
-    <DevelopStep>10</DevelopStep>
+    <DevelopStep>3</DevelopStep>
     <AutoHeal>0.1</AutoHeal>
   </EducationCity>
 </Rules>
