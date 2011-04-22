@@ -535,27 +535,31 @@ namespace Code2015.World
 
         public void InitializeGraphics(RenderSystem rs)
         {
-            FileLocation fl = FileSystem.Instance.Locate("oil_ball.mesh", GameFileLocs.Model);
-            ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            ModelL0.CurrentAnimation.Clear();
-            ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.4f, 1.4f, 1.4f) * Matrix.RotationX(-MathEx.PiOver2)));
-
+            FileLocation fl = null;
             switch (Type)
             {
                 case RBallType.Disease:
-
+                    fl = FileSystem.Instance.Locate("virus_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Education:
+                    fl = FileSystem.Instance.Locate("school_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Green:
+                    fl = FileSystem.Instance.Locate("green_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Health:
+                    fl = FileSystem.Instance.Locate("hospital_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Oil:
+                    fl = FileSystem.Instance.Locate("oil_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Volience:
+                    fl = FileSystem.Instance.Locate("volient_ball.mesh", GameFileLocs.Model);   
                     break;
             }
+            ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            ModelL0.CurrentAnimation.Clear();
+            ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.4f, 1.4f, 1.4f) * Matrix.RotationX(-MathEx.PiOver2)));
 
             UpdateDisplayScale();
         }

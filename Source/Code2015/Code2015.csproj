@@ -132,6 +132,9 @@
     <Compile Include="Engine\Apoc3D.Graphics\Animation\RootAnimationPlayer.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\SkinnedAnimationPlayer.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\MaterialAnimationPlayer.cs" />
+    <Compile Include="Engine\Apoc3D.Graphics\Scene\Atmosphere.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="GUI\ColorNotify.cs" />
     <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>
@@ -365,7 +368,6 @@
     <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\VertexElement.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\RenderSystem\VertexFormats.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\SceneRenderer.cs" />
-    <Compile Include="Engine\Apoc3D.Graphics\Scene\Atmosphere.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Scene\DynamicObject.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Scene\Entity.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Scene\IFindObjectCallBack.cs" />

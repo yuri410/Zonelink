@@ -337,7 +337,7 @@ namespace Code2015.GUI
                 sprite.Draw(exit, x, y, ColorValue.White);
             }
 
-            sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
+            //sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
             if (parent.CurrentScreen == null)
             {
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
