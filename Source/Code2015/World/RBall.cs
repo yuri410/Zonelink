@@ -367,7 +367,7 @@ namespace Code2015.World
         const float MaxLinSpeed = 233;
         const float MinLinSpeed = 190;
 
-        const float CitySafeRadius = 175;
+        const float CitySafeRadius = 193;
         const float CityAttackRadius = 150;
 
 
@@ -379,7 +379,7 @@ namespace Code2015.World
         /// <summary>
         ///  高生命值球的现实比例系数
         /// </summary>
-        const float RBallHealthScale = 0.002f;
+        const float RBallHealthScale = 0.01f;
 
         public RBallType Type { get; private set; }
 
@@ -560,22 +560,22 @@ namespace Code2015.World
             switch (Type)
             {
                 case RBallType.Disease:
-                    fl = FileSystem.Instance.Locate("virus_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_virus_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Education:
-                    fl = FileSystem.Instance.Locate("school_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_school_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Green:
-                    fl = FileSystem.Instance.Locate("green_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_green_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Health:
-                    fl = FileSystem.Instance.Locate("hospital_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_hospital_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Oil:
-                    fl = FileSystem.Instance.Locate("oil_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_oil_ball.mesh", GameFileLocs.Model);   
                     break;
                 case RBallType.Volience:
-                    fl = FileSystem.Instance.Locate("volient_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_volient_ball.mesh", GameFileLocs.Model);   
                     break;
             }
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -659,7 +659,7 @@ namespace Code2015.World
                     Ray ra = new Ray(dockCity.Position, cityNormal);
                     float dist = MathEx.Distance(ref ra, ref position);
 
-                    if (state != RBallState.BeginingAttackCity)
+                    if (state != RBallState.BeginingAttackCity && (Type != RBallType.Disease || Type != RBallType.Health))
                     {
                         if (dist < CitySafeRadius)
                         {

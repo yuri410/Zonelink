@@ -59,6 +59,7 @@ namespace Code2015.GUI.IngameUI
 
         MouseCursor cursorState;
 
+        int cursorYOffset;
         int selCurIndex;
         int selCurAnimSign = 1;
 
@@ -197,16 +198,26 @@ namespace Code2015.GUI.IngameUI
                 bool passed = false;
                 if (selCity != null)
                 {
-                    if (selCity.IsCaptured && selCity.Owner == player && hoverCity != null)
+                    if (selCity.IsCaptured && selCity.Owner == player && hoverCity != null && selCity.CanHandleCommand())
                     {
                         if (selCity != hoverCity)
                         {
                             // attack
-                            cursorState = MouseCursor.Normal;
+
                             if (MouseInput.IsMouseUpRight)
                             {
                                 selCity.Throw(hoverCity);
                             }
+
+                            if (hoverCity.Owner != selCity.Owner)
+                            {
+                                cursorState = MouseCursor.Attack;
+                            }
+                            else
+                            {
+                                cursorState = MouseCursor.Move;
+                            }
+
                             passed = true;
                         }
                     }
@@ -221,7 +232,7 @@ namespace Code2015.GUI.IngameUI
                             cursorState = MouseCursor.Selection;
                         }
                         else
-                        {
+                        {                            
                             cursorState = MouseCursor.Normal;
                         }
                     }
@@ -254,6 +265,8 @@ namespace Code2015.GUI.IngameUI
     
         public override void Render(Sprite sprite)
         {
+            cursorYOffset = 0;
+
             Point hsp = new Point();
             Texture ctex = cursor;
             switch (cursorState)
@@ -294,6 +307,42 @@ namespace Code2015.GUI.IngameUI
                     hsp = new Point(35, 8);
                     ctex = cursor_ur;
                     break;
+                case MouseCursor.Move:
+                    hsp = new Point(65, 86);
+                    ctex = cursor_move;
+
+
+                    if (cursorYOffset > 15)
+                    {
+                        selCurAnimSign = -1;
+                        cursorYOffset = 15;
+                    }
+                    else if (cursorYOffset < 0)
+                    {
+                        selCurAnimSign = 1;
+                        cursorYOffset = 0;
+                    }
+                    cursorYOffset += selCurAnimSign;
+                    break;
+                        
+                case MouseCursor.Attack:
+                    hsp = new Point(66, 62);
+
+                    ctex = cursor_attack[selCurIndex];
+
+                    if (selCurIndex >= cursor_sel.Length - 1)
+                    {
+                        selCurAnimSign = -1;
+                        selCurIndex = cursor_sel.Length - 1;
+                    }
+                    else if (selCurIndex <= 0)
+                    {
+                        selCurAnimSign = 1;
+                        selCurIndex = 0;
+                    }
+
+                    selCurIndex += selCurAnimSign;
+                    break;
                 case MouseCursor.Selection:
                     hsp = new Point(33, 33);
 
@@ -314,8 +363,9 @@ namespace Code2015.GUI.IngameUI
                     break;
             }
 
+            
             sprite.Draw(ctex, MathEx.Clamp(0, Program.ScreenWidth, MouseInput.X) - hsp.X,
-                MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y, ColorValue.White);
+                MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y - cursorYOffset, ColorValue.White);
         }
 
         public override bool HitTest(int x, int y)
