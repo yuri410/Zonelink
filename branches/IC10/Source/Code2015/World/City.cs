@@ -67,7 +67,7 @@ namespace Code2015.World
         {
             static readonly string[] CityModels = 
             {
-                "Netural.mesh"
+                "netural.mesh", "oil.mesh", "disease.mesh", "volience.mesh", "green.mesh", "health.mesh", "education.mesh"
             };
         }
 
@@ -97,17 +97,22 @@ namespace Code2015.World
         bool isVisible;
         int visibleCountDown = 10;
 
+        int currentForm;
+
         Model cityBase;
 
-        Model stopped;
-        Model throwing;
-        Model catching;
-        Model idle;
-        Model wakeingUp;
-        Model laugh;
-        Model fear;
-        Model sleeping;
+        Model[] stopped;
+        Model[] throwing;
+        Model[] throwingRelease;
+        Model[] catching;
+        Model[] catchingRelease;
+        Model[] idle;
+        Model[] wakeingUp;
+        Model[] laugh;
+        Model[] fear;
+        Model[] sleeping;
 
+        CityType cityType;
 
         #region Idle_State
         float nextIdleAnimationCD;
@@ -149,6 +154,8 @@ namespace Code2015.World
 
         SoundObject sound;
 
+        //SoundObject 
+
 
         float development;
         float healthValue;
@@ -169,7 +176,7 @@ namespace Code2015.World
 
         public float CatchPreserveTime
         {
-            get { return catching.SkinAnimDuration; }
+            get { return catching[currentForm].SkinAnimDuration; }
         }
 
         public Quaternion CurrentFacing
@@ -178,7 +185,18 @@ namespace Code2015.World
         }
 
         //城市类型
-        public CityType Type { get; protected set; }
+        public CityType Type
+        {
+            get { return cityType; }
+            protected set
+            {
+                cityType = value;
+                if (IsCaptured)
+                {
+                    currentForm = Owner.Type == PlayerType.LocalHuman ? 1 : 0;
+                }
+            }
+        }
 
 
         /// <summary>
@@ -284,56 +302,151 @@ namespace Code2015.World
             cityBase.CurrentAnimation.Clear();
             cityBase.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2, 2, 0.25f) * Matrix.RotationX(-MathEx.PiOver2)));
 
+
+            catching = new Model[2];
+            throwing = new Model[2];
+            fear = new Model[2];
+            idle = new Model[2];
+            laugh = new Model[2];
+            sleeping = new Model[2];
+            stopped = new Model[2];
+            wakeingUp = new Model[2];
+
+            NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f));
+
+            #region Oil
+            fl = FileSystem.Instance.Locate("oil_catch.mesh", GameFileLocs.Model);
+            catching[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            catching[0].AnimationCompeleted += Animation_Completed;
+            catching[0].CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_throw.mesh", GameFileLocs.Model);
+            throwing[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            throwing[0].AnimationCompeleted += Animation_Completed;
+            throwing[0].CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_fear.mesh", GameFileLocs.Model);
+            fear[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            fear[0].AnimationCompeleted += Animation_Completed;
+            fear[0].CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_idle.mesh", GameFileLocs.Model);
+            idle[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            idle[0].AnimationCompeleted += Animation_Completed;
+            idle[0].CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_laugh.mesh", GameFileLocs.Model);
+            laugh[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            laugh[0].AnimationCompeleted += Animation_Completed;
+            laugh[0].CurrentAnimation.Insert(0, scaling);
+
+            fl = FileSystem.Instance.Locate("oil_sleeping.mesh", GameFileLocs.Model);
+            sleeping[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            sleeping[0].AnimationCompeleted += Animation_Completed;
+            sleeping[0].CurrentAnimation.Insert(0, scaling);
+            sleeping[0].AutoLoop = true;
+
+            fl = FileSystem.Instance.Locate("oil_stopped.mesh", GameFileLocs.Model);
+            stopped[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            stopped[0].AnimationCompeleted += Animation_Completed;
+            stopped[0].CurrentAnimation.Insert(0, scaling);
+            stopped[0].AutoLoop = true;
+
+            fl = FileSystem.Instance.Locate("oil_wakeup.mesh", GameFileLocs.Model);
+            wakeingUp[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            wakeingUp[0].AnimationCompeleted += Animation_Completed;
+            wakeingUp[0].CurrentAnimation.Insert(0, scaling);
+            #endregion
+
+            catching[1] = catching[0];
+            throwing[1] = throwing[0];
+            fear[1] = fear[0];
+            idle[1] = idle[0];
+            laugh[1] = laugh[0];
+            sleeping[1] = sleeping[0];
+            stopped[1] = stopped[0];
+            wakeingUp[1] = wakeingUp[0];
             switch (Type)
             {
                 case CityType.Oil:
-                    break;
+                case CityType.Green:
+                    {
+                        
+
+                        //#region Green
+
+                        //fl = FileSystem.Instance.Locate("green_catch.mesh", GameFileLocs.Model);
+                        //catching[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //catching[1].AnimationCompeleted += Animation_Completed;
+                        //catching[1].CurrentAnimation.Insert(0, scaling);
+
+                        //fl = FileSystem.Instance.Locate("green_throw.mesh", GameFileLocs.Model);
+                        //throwing[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //throwing[1].AnimationCompeleted += Animation_Completed;
+                        //throwing[1].CurrentAnimation.Insert(0, scaling);
+
+                        //fl = FileSystem.Instance.Locate("green_fear.mesh", GameFileLocs.Model);
+                        //fear[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //fear[1].AnimationCompeleted += Animation_Completed;
+                        //fear[1].CurrentAnimation.Insert(0, scaling);
+
+                        //fl = FileSystem.Instance.Locate("green_idle.mesh", GameFileLocs.Model);
+                        //idle[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //idle[1].AnimationCompeleted += Animation_Completed;
+                        //idle[1].CurrentAnimation.Insert(0, scaling);
+
+                        //fl = FileSystem.Instance.Locate("green_laugh.mesh", GameFileLocs.Model);
+                        //laugh[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //laugh[1].AnimationCompeleted += Animation_Completed;
+                        //laugh[1].CurrentAnimation.Insert(0, scaling);
+
+                        //fl = FileSystem.Instance.Locate("green_sleeping.mesh", GameFileLocs.Model);
+                        //sleeping[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //sleeping[1].AnimationCompeleted += Animation_Completed;
+                        //sleeping[1].CurrentAnimation.Insert(0, scaling);
+                        //sleeping[1].AutoLoop = true;
+
+                        //fl = FileSystem.Instance.Locate("green_stopped.mesh", GameFileLocs.Model);
+                        //stopped[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //stopped[1].AnimationCompeleted += Animation_Completed;
+                        //stopped[1].CurrentAnimation.Insert(0, scaling);
+                        //stopped[1].AutoLoop = true;
+
+                        //fl = FileSystem.Instance.Locate("green_wakeup.mesh", GameFileLocs.Model);
+                        //wakeingUp[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //wakeingUp[1].AnimationCompeleted += Animation_Completed;
+                        //wakeingUp[1].CurrentAnimation.Insert(0, scaling);
+                        //#endregion
+
+                        break;
+                    }
+                case CityType.Education:
+                case CityType.Volience:
+                    {
+                        //NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(1.67f, 1.67f, 1.67f));
+                      
+
+                        break;
+                    }
+                case CityType.Disease:
+                case CityType.Health:
+                    {
+                        //NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(1.67f, 1.67f, 1.67f));
+
+                      
+                        break;
+                    }
                 case CityType.Neutral:
-                    break;
+                    {
+                        //NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f));
+                      
+
+
+                        break;
+                    }
             }
 
-            NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f));
-            fl = FileSystem.Instance.Locate("oil_catch.mesh", GameFileLocs.Model);
-            catching = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            catching.AnimationCompeleted += Animation_Completed;
-            catching.CurrentAnimation.Insert(0, scaling);
-
-            fl = FileSystem.Instance.Locate("oil_throw.mesh", GameFileLocs.Model);
-            throwing = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            throwing.AnimationCompeleted += Animation_Completed;
-            throwing.CurrentAnimation.Insert(0, scaling);
-
-            fl = FileSystem.Instance.Locate("oil_fear.mesh", GameFileLocs.Model);
-            fear = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            fear.AnimationCompeleted += Animation_Completed;
-            fear.CurrentAnimation.Insert(0, scaling);
-
-            fl = FileSystem.Instance.Locate("oil_idle.mesh", GameFileLocs.Model);
-            idle = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            idle.AnimationCompeleted += Animation_Completed;
-            idle.CurrentAnimation.Insert(0, scaling);
-
-            fl = FileSystem.Instance.Locate("oil_laugh.mesh", GameFileLocs.Model);
-            laugh = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            laugh.AnimationCompeleted += Animation_Completed;
-            laugh.CurrentAnimation.Insert(0, scaling);
-
-            fl = FileSystem.Instance.Locate("oil_sleeping.mesh", GameFileLocs.Model);
-            sleeping = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            sleeping.AnimationCompeleted += Animation_Completed;
-            sleeping.CurrentAnimation.Insert(0, scaling);
-            sleeping.AutoLoop = true;
-
-            fl = FileSystem.Instance.Locate("oil_stopped.mesh", GameFileLocs.Model);
-            stopped = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            stopped.AnimationCompeleted += Animation_Completed;
-            stopped.CurrentAnimation.Insert(0, scaling);
-            stopped.AutoLoop = true;
-
-            fl = FileSystem.Instance.Locate("oil_wakeup.mesh", GameFileLocs.Model);
-            wakeingUp = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            wakeingUp.AnimationCompeleted += Animation_Completed;
-            wakeingUp.CurrentAnimation.Insert(0, scaling);
+           
 
             ChangeState(CityState.Sleeping);
 
@@ -405,25 +518,64 @@ namespace Code2015.World
                 }
             }
         }
-        protected virtual void ChangeType(CityType newType)
+        protected virtual void ChangeType()
         {
-
+            if (IsCaptured)
+            {
+                if (Owner.Type == PlayerType.LocalHuman)
+                {
+                    switch (Type)
+                    {
+                        case CityType.Disease:
+                            Type = CityType.Health;
+                            break;
+                        case CityType.Volience:
+                            Type = CityType.Education;
+                            break;
+                        case CityType.Oil:
+                            Type = CityType.Green;
+                            break;
+                    }
+                }
+                else
+                {
+                    switch (Type)
+                    {
+                        case CityType.Health:
+                            Type = CityType.Disease;
+                            break;
+                        case CityType.Education:
+                            Type = CityType.Volience;
+                            break;
+                        case CityType.Green:
+                            Type = CityType.Oil;
+                            break;
+                    }
+                }
+            }
         }
         public virtual void ChangeOwner(Player player)
         {
             if (Owner != player)
             {
-                if (IsCaptured && player == null)
+                if (IsCaptured)
                 {
                     Owner.Area.NotifyLostCity(this);
                 }
+                else
+                {
+                    if (player != null)
+                    {
+                        ChangeState(CityState.WakeingUp);
+                    }
+                }
                 this.Owner = player;
 
-                if (player != null)
+                if (IsCaptured)
                 {
                     Owner.Area.NotifyNewCity(this);
-                    ChangeState(CityState.WakeingUp);
                 }
+                ChangeType();
 
                 RefreshNearbyBalls();
             }
@@ -815,41 +967,41 @@ namespace Code2015.World
             switch (state)
             {
                 case CityState.Catch:
-                    catching.PlayAnimation();
+                    catching[currentForm].PlayAnimation();
                     break;
                 case CityState.Fear:
                     break;
                 case CityState.Idle:
-                    idle.PlayAnimation();
+                    idle[currentForm].PlayAnimation();
                     break;
                 case CityState.Laugh:
                     break;
                 case CityState.Stopped:
-                    stopped.PlayAnimation();
+                    stopped[currentForm].PlayAnimation();
 
                     if (currentState == CityState.WakeingUp)
                     {
-                        wakeingUp.PauseAnimation();
+                        wakeingUp[currentForm].PauseAnimation();
                     }
                     break;
                 case CityState.Throw:
-                    throwing.PlayAnimation();
+                    throwing[currentForm].PlayAnimation();
                     rgball.NotifyThrow();
                     rgball = null;
                     break;
                 case CityState.WakeingUp:
-                    wakeingUp.PlayAnimation();
+                    wakeingUp[currentForm].PlayAnimation();
 
                     if (currentState == CityState.Sleeping)
                     {
-                        sleeping.PauseAnimation();
+                        sleeping[currentForm].PauseAnimation();
                     }
                     break;
                 case CityState.Sleeping:
-                    sleeping.PlayAnimation();
+                    sleeping[currentForm].PlayAnimation();
                     break;
                 case CityState.WaitingGather:
-                    catching.PlayAnimation();
+                    catching[currentForm].PlayAnimation();
                     break;
             }
             currentState = state;
@@ -888,19 +1040,19 @@ namespace Code2015.World
 
                     currentFacing = Quaternion.Slerp(rotationSrc, rotationTarget, progress);
 
-                    if (isVisible) stopped.Update(time);
+                    if (isVisible) stopped[currentForm].Update(time);
                     break;
                 case CityState.Catch:
-                    catching.Update(time);
+                    catching[currentForm].Update(time);
                     break;
                 case CityState.Fear:
-                    if (isVisible) fear.Update(time);
+                    if (isVisible) fear[currentForm].Update(time);
                     break;
                 case CityState.Idle:
-                    if (isVisible) idle.Update(time);
+                    if (isVisible) idle[currentForm].Update(time);
                     break;
                 case CityState.Laugh:
-                    if (isVisible) laugh.Update(time);
+                    if (isVisible) laugh[currentForm].Update(time);
                     break;
                 case CityState.Stopped:
                     if (reThrowDelay > 0)
@@ -937,28 +1089,28 @@ namespace Code2015.World
                         }
 
                     }
-                    if (isVisible) stopped.Update(time);
+                    if (isVisible) stopped[currentForm].Update(time);
                     break;
                 case CityState.Throw:
 
-                    throwing.Update(time);
+                    throwing[currentForm].Update(time);
                     break;
                 case CityState.ThrowContinued:
 
-                    throwing.Update(time);
+                    throwing[currentForm].Update(time);
                     break;
                 case CityState.WakeingUp:
-                    wakeingUp.Update(time);
+                    wakeingUp[currentForm].Update(time);
                     break;
                 case CityState.Sleeping:
-                    if (isVisible) sleeping.Update(time);
+                    if (isVisible) sleeping[currentForm].Update(time);
                     break;
                 case CityState.WaitingGather:
                     if (rgball.CurrentState == RGatheredBall.State.WaitingThrow)
                     {
                         ChangeState(CityState.Throw);
                     }
-                    catching.Update(time);
+                    catching[currentForm].Update(time);
                     break;
             }
 
@@ -1069,32 +1221,32 @@ namespace Code2015.World
             switch (currentState)
             {
                 case CityState.Catch:
-                    ops = catching.GetRenderOperation();
+                    ops = catching[currentForm].GetRenderOperation();
                     break;
                 case CityState.Fear:
-                    ops = fear.GetRenderOperation();
+                    ops = fear[currentForm].GetRenderOperation();
                     break;
                 case CityState.Idle:
-                    ops = idle.GetRenderOperation();
+                    ops = idle[currentForm].GetRenderOperation();
                     break;
                 case CityState.Laugh:
-                    ops = laugh.GetRenderOperation();
+                    ops = laugh[currentForm].GetRenderOperation();
                     break;
                 case CityState.Rotate:
-                    ops = stopped.GetRenderOperation();
+                    ops = stopped[currentForm].GetRenderOperation();
                     break;
                 case CityState.Stopped:
                 case CityState.WaitingGather:
-                    ops = stopped.GetRenderOperation();
+                    ops = stopped[currentForm].GetRenderOperation();
                     break;
                 case CityState.Throw:
-                    ops = throwing.GetRenderOperation();
+                    ops = throwing[currentForm].GetRenderOperation();
                     break;
                 case CityState.WakeingUp:
-                    ops = wakeingUp.GetRenderOperation();
+                    ops = wakeingUp[currentForm].GetRenderOperation();
                     break;
                 case CityState.Sleeping:
-                    ops = sleeping.GetRenderOperation();
+                    ops = sleeping[currentForm].GetRenderOperation();
                     break;
             }
 
