@@ -748,13 +748,6 @@ namespace Code2015.World
                 {
                     Owner.Area.NotifyLostCity(this);
                 }
-                else
-                {
-                    if (player != null)
-                    {
-                        ChangeState(CityState.WakeingUp);
-                    }
-                }
                 this.Owner = player;
 
                 if (IsCaptured)
@@ -762,8 +755,12 @@ namespace Code2015.World
                     Owner.Area.NotifyNewCity(this);
                 }
                 ChangeType();
-
                 RefreshNearbyBalls();
+
+                if (player != null)
+                {
+                    ChangeState(CityState.WakeingUp);
+                }
             }
         }
 
