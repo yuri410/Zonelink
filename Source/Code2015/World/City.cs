@@ -207,6 +207,34 @@ namespace Code2015.World
 
         public float HealthValue { get { return healthValue; } }
 
+
+        /// <summary>
+        ///  获取城市的发展等级
+        /// </summary>
+        public int Level 
+        {
+            get
+            {
+                float ratio = development / RulesTable.CityMaxDevelopment;
+
+                return (int)(Math.Ceiling(ratio * 10));
+            }
+        }
+        /// <summary>
+        ///  获取城市经验值，在[0, 1]区间
+        /// </summary>
+        public float LevelEP
+        {
+            get
+            {
+                float ratio = development / RulesTable.CityMaxDevelopment;
+                ratio *= 10;
+                ratio = (float)(Math.Ceiling(ratio) - ratio);
+
+                return ratio;
+            }
+        }
+
         /// <summary>
         ///  获取城市的发展度
         /// </summary>
@@ -438,7 +466,7 @@ namespace Code2015.World
                 case CityType.Disease:
                 case CityType.Health:
                     {
-                        NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(5, 5, 5));
+                        NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(50, 50, 50));
                         #region Disease
                         fl = FileSystem.Instance.Locate("ch_virus_catch.mesh", GameFileLocs.Model);
                         catching[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -691,7 +719,7 @@ namespace Code2015.World
                             Type = CityType.Green;
                             break;
                     }
-                    currentForm = 0;
+                    currentForm = 1;
                 }
                 else
                 {
@@ -1216,7 +1244,7 @@ namespace Code2015.World
                     if (catchingRelease[currentForm] != null)
                         catchingRelease[currentForm].Update(time);
                     else
-                        catchingRelease[currentForm].Update(time);
+                        catching[currentForm].Update(time);
                     break;
                 case CityState.Catch:
                     catching[currentForm].Update(time);

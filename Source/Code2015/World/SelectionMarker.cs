@@ -39,8 +39,8 @@ namespace Code2015.World
     class SelectionMarker : SceneObject
     {
         public const float LinkWidthScale = 0.006f;
-        public const float LinkHeightScale = 4 * 1f / LinkBaseLength;
-        public const float LinkBaseLength = 100;
+        public const float LinkHeightScale = 1.0f;
+        public const float LinkBaseLength = 300;
 
         public const float HarvestRingRadius = 175;
         public const float ResourceRingRadius = 333;
@@ -64,7 +64,7 @@ namespace Code2015.World
         Model inner_marker;
         Model outter_marker;
 
-        //Model[] linkArrow;
+        Model[] linkArrow;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
@@ -187,36 +187,38 @@ namespace Code2015.World
             this.nodes = targets;
 
 
-            //for (int i = 0; i < targets.Length; i++)
-            //{
-            //    City end = targets[i];
+            for (int i = 0; i < targets.Length; i++)
+            {
+                City end = targets[i];
 
-            //    Vector3 dir = end.Position - start.Position;
+                Vector3 dir = end.Position - start.Position;
 
-            //    dir.Normalize();
+                dir.Normalize();
 
-            //    Vector3 pa = start.Position + dir * (City.CityRadius + 130);
-            //    Vector3 pb = end.Position - dir * (City.CityRadius + 130);
+                Vector3 pa = start.Position + dir * (City.CityOutterRadius + 100);
+                Vector3 pb = end.Position - dir * (City.CityOutterRadius + 100);
 
 
-            //    float dist = Vector3.Distance(pa, pb);
+                Vector3 center = 0.5f * (pa + pb);
+                Vector3 normal = start.Transformation.Up + targets[i].Transformation.Up;
+                normal *= 0.5f;
 
-            //    float longitude = MathEx.Degree2Radian(MathEx.LinearInterpose(start.Longitude, end.Longitude, 0.3f));
-            //    float latitude = MathEx.Degree2Radian(MathEx.LinearInterpose(start.Latitude, end.Latitude, 0.3f));
+                float dist = Vector3.Distance(pa, pb);
 
-            //    float scale = dist;
-            //    Matrix ori = Matrix.Identity;
-            //    ori.Right = Vector3.Normalize(pa - pb);
-            //    ori.Up = Vector3.Normalize(pa);
-            //    ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
-            //    ori.TranslationValue = pa + ori.Up * 75;
+                float scale = dist;
+                Matrix ori = Matrix.Identity;
+                ori.Right = Vector3.Normalize(pa - pb);
+                ori.Up = normal;
+                ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
+                ori.TranslationValue = center + normal * 150;
 
-            //    linkArrow[i].CurrentAnimation.Clear();
-            //    linkArrow[i].CurrentAnimation.Add(new NoAnimaionPlayer(
-            //        Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) *
-            //        ori));
-
-            //}
+                linkArrow[i].CurrentAnimation.Clear();
+                linkArrow[i].CurrentAnimation.Add(new NoAnimaionPlayer(
+                    Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(-MathEx.PiOver2) * 
+                    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) *
+                    ori));
+                //
+            }
 
             {
                 float s = 0.8f * CitySelScale * City.CityOutterRadius / RingRadius;
@@ -231,34 +233,18 @@ namespace Code2015.World
             : base(false)
         {
             this.player = player;
-            //this.linkArrow = new Model[4];
+            this.linkArrow = new Model[4];
 
-            //ColorValue color = player.SideColor;
-            //string fileName;
-            //if (color == ColorValue.Red)
-            //{
-            //    fileName = "link_e_red.mesh";
-            //}
-            //else if (color == ColorValue.Green)
-            //{
-            //    fileName = "link_e_green.mesh";
-            //}
-            //else if (color == ColorValue.Blue)
-            //{
-            //    fileName = "link_e_blue.mesh";
-            //}
-            //else
-            //{
-            //    fileName = "link_e_yellow.mesh";
-            //}
 
-            //FileLocation fl = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
-            //for (int i = 0; i < linkArrow.Length; i++)
-            //{
-            //    linkArrow[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            //}
-            
-            FileLocation  fl = FileSystem.Instance.Locate("citysel_inner.mesh", GameFileLocs.Model);
+            string fileName = "linkarrow.mesh";
+            {
+                FileLocation fl2 = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
+                for (int i = 0; i < linkArrow.Length; i++)
+                {
+                    linkArrow[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl2));
+                }
+            }
+            FileLocation fl = FileSystem.Instance.Locate("citysel_inner.mesh", GameFileLocs.Model);
             inner_marker = new Model(ModelManager.Instance.CreateInstance(rs, fl));
 
             fl = FileSystem.Instance.Locate("citysel_outter.mesh", GameFileLocs.Model);
@@ -278,17 +264,17 @@ namespace Code2015.World
             {
                 if (selectedCity.IsCaptured && selectedCity.Owner == player)
                 {
-                    //for (int i = 0; i < targets.Length; i++)
-                    //{
-                    //    if (!targets[i].IsCaptured)
-                    //    {
-                    //        RenderOperation[] ops = linkArrow[i].GetRenderOperation();
-                    //        if (ops != null)
-                    //        {
-                    //            opBuffer.Add(ops);
-                    //        }
-                    //    }
-                    //}
+                    for (int i = 0; i < nodes.Length; i++)
+                    {
+                        if (!nodes[i].IsCaptured)
+                        {
+                            RenderOperation[] ops = linkArrow[i].GetRenderOperation();
+                            if (ops != null)
+                            {
+                                opBuffer.Add(ops);
+                            }
+                        }
+                    }
                 }
             }
             if (selectedCity != null || selectedResource != null || selectedHarv != null)
