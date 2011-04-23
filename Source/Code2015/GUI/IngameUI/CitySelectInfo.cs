@@ -296,7 +296,7 @@ namespace Code2015.GUI.IngameUI
                 int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
                 int level = selectCity.Level;
                 string name = selectCity.Name;
-                string hpInfo = hp.ToString() + "/" + hpFull.ToString();
+                
 
 
                 sprite.Draw(statusBackground, 405, 580, ColorValue.White);
@@ -315,16 +315,32 @@ namespace Code2015.GUI.IngameUI
 
                 
                 int hpTexWidth = (int)(statusHPTex.Width * SelectedCity.HPRate);
+                string hpInfo = hp.ToString() + "/" + hpFull.ToString();
 
-                //int expTexWidth = (int)(statusExpTex.Width * SelectedCity.
-
+                int expTexWidth = (int)(statusExpTex.Width * selectCity.LevelEP);
+                string expInfo = "EXP" + ((int)(selectCity.LevelEP * 100)).ToString() + "/100";
 
                 sprite.Draw(statusHPTex, new Rectangle(505, 638, hpTexWidth, statusHPTex.Height),
                     new Rectangle(0, 0, hpTexWidth, statusHPTex.Height), ColorValue.White);
                 sprite.Draw(statusHPBackground, 506, 640, ColorValue.White);
-                f8.DrawString(sprite, hpInfo, 599, 635, ColorValue.White);
 
+                Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(599, 638, 0));
+                sprite.SetTransform(trans);
+                f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
+                sprite.SetTransform(Matrix.Identity);
+                
+
+
+                sprite.Draw(statusExpTex, new Rectangle(578, 624, expTexWidth, statusExpTex.Height),
+                    new Rectangle(0, 0, expTexWidth, statusExpTex.Height), ColorValue.White);
                 sprite.Draw(statusExpBackground, 579, 624, ColorValue.White);
+
+                trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(635, 620, 0));
+                sprite.SetTransform(trans);
+                f8.DrawString(sprite, expInfo, 0, 0, ColorValue.White);
+                
+                //f8.DrawString(sprite, expInfo, 635, 614, ColorValue.White);
+                sprite.SetTransform(Matrix.Identity) ;
             }
 
         }
