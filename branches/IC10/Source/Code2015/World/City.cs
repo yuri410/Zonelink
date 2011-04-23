@@ -228,7 +228,7 @@ namespace Code2015.World
             {
                 float ratio = development / RulesTable.CityMaxDevelopment;
                 ratio *= 10;
-                ratio = (float)(Math.Floor(ratio) - ratio);
+                ratio = (float)(ratio - Math.Floor(ratio));
 
                 return ratio;
             }
