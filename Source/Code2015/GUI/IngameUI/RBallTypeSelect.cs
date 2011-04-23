@@ -126,7 +126,7 @@ namespace Code2015.GUI.IngameUI
             resBallsCount[2].Type = RBallType.Health;
             resBallsCount[2].count = 0;
 
-            startY[0] = 47;
+            startY[0] = 50;
             startY[1] = 111;
             startY[2] = 170;
         }
