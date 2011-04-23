@@ -28,8 +28,14 @@ namespace Code2015.GUI.IngameUI
         Texture statusHPTex;
         Texture statusExpBackground;
         Texture statusExpTex;
+
+
         Texture statusExpBuffTex;
+        bool isExpBuffer;
         Texture statusHPBufferTex;
+        bool isHPBuffer;
+        Texture statusExpdownBuff;
+        bool isDownShow;
         #endregion
         
         #region 血条
@@ -44,7 +50,8 @@ namespace Code2015.GUI.IngameUI
         Texture healthBallTex;
 
 
-        GameFontRuan feg8;
+        GameFontRuan f8;
+        GameFontRuan f6;
 
         struct BallRecord
         {
@@ -115,6 +122,9 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("nig_hp_buff.tex", GameFileLocs.GUI);
             statusHPBufferTex = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("nig_expdown_buff.tex", GameFileLocs.GUI);
+            statusExpdownBuff = UITextureManager.Instance.CreateInstance(fl);
+
             fl = FileSystem.Instance.Locate("nig_city_hp_group.tex", GameFileLocs.GUI);
             onCityHPBackground = UITextureManager.Instance.CreateInstance(fl);
 
@@ -143,7 +153,8 @@ namespace Code2015.GUI.IngameUI
             resBallsCount[2].Type = RBallType.Health;
             resBallsCount[2].count = 0;
 
-            feg8 = GameFontManager.Instance.FRuanEdged8;
+            f8 = GameFontManager.Instance.FRuanEdged8;
+            f6 = GameFontManager.Instance.FRuanEdged6;
 
         }
 
@@ -178,6 +189,9 @@ namespace Code2015.GUI.IngameUI
                 resBallsCount[0].count = 0;
                 resBallsCount[1].count = 0;
                 resBallsCount[2].count = 0;
+                isExpBuffer = false;
+                isHPBuffer = false;
+                isDownShow = false;
 
                 for (int i = 0; i < selectCity.NearbyOwnedBallCount; i++)
                 {
@@ -191,8 +205,28 @@ namespace Code2015.GUI.IngameUI
                     if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Health)
                         resBallsCount[2].count++;
                 }
+
+                for (int i = 0; i < selectCity.NearbyEnemyBallCount; i++)
+                {
+                    if (selectCity.GetNearbyEnemyBall(i).Type == RBallType.Volience)
+                    {
+                        isDownShow = true;
+                        break;
+                    }
+                }
+
+                if (resBallsCount[1].count != 0)
+                {
+                    isExpBuffer = true;
+                 }
+                if (resBallsCount[2].count != 0)
+                {
+                    isHPBuffer = true;
+                }
+
             }
 
+            
 
         }
 
@@ -254,28 +288,28 @@ namespace Code2015.GUI.IngameUI
             if (selectCity != null)
             {
 
+                int hp = (int)selectCity.HealthValue;
+                int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
+                int level = selectCity.Level;
+                string name = selectCity.Name;
+                string hpInfo = hp.ToString() + "/" + hpFull.ToString();
+
+
                 sprite.Draw(statusBackground, 405, 580, ColorValue.White);
-                sprite.Draw(statusExpBackground, 589, 623, ColorValue.White);
-               
-                sprite.Draw(statusHPBufferTex, 790, 620, ColorValue.White);
-                sprite.Draw(statusExpBuffTex, 828, 616, ColorValue.White);
+                
 
-
-                feg8.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 526, 604, ColorValue.White);
-
+                if (isHPBuffer )
+                    sprite.Draw(statusHPBufferTex, 776,624, ColorValue.White);
+                if (isExpBuffer)
+                    sprite.Draw(statusExpBuffTex, 802,624, ColorValue.White);
+                if (isDownShow)
+                    sprite.Draw(statusExpdownBuff, 839,622,ColorValue.White);
+                f6.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 526, 572, ColorValue.White);
+                f6.DrawString(sprite, level.ToString().ToUpperInvariant(), 775, 570, ColorValue.White);
                 //画资源球图标
                  
 
-                int hp = (int)selectCity.HealthValue;
-                int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
-
-
-                string hpInfo = hp.ToString() + "   " + hpFull.ToString();
-                string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
-
-
-
-
+                
                 int hpTexWidth = (int)(statusHPTex.Width * SelectedCity.HPRate);
 
                 //int expTexWidth = (int)(statusExpTex.Width * SelectedCity.
@@ -283,8 +317,10 @@ namespace Code2015.GUI.IngameUI
 
                 sprite.Draw(statusHPTex, new Rectangle(505, 638, hpTexWidth, statusHPTex.Height),
                     new Rectangle(0, 0, hpTexWidth, statusHPTex.Height), ColorValue.White);
+                sprite.Draw(statusHPBackground, 506, 640, ColorValue.White);
+                f8.DrawString(sprite, hpInfo, 599, 635, ColorValue.White);
 
-                sprite.Draw(statusHPBackground, 502, 640, ColorValue.White);
+                sprite.Draw(statusExpBackground, 579, 624, ColorValue.White);
             }
 
         }
@@ -307,7 +343,8 @@ namespace Code2015.GUI.IngameUI
                                     int x = 687 + 69 * left - greenBallTex.Width / 2;
                                     int y = 692 - greenBallTex.Height / 2;
                                     sprite.Draw(greenBallTex, x, y, ColorValue.White);
-                                    feg8.DrawString(sprite, resBallsCount[i].count.ToString(), x + 20, y + 20, ColorValue.Black);
+                                    f8.DrawString(sprite, resBallsCount[i].count.ToString(),
+                                            x + 37 - f8.MeasureString(resBallsCount[i].count.ToString()).Width, y + 15, ColorValue.Black);
                                     left++;
                                 }
                                 else
@@ -324,7 +361,8 @@ namespace Code2015.GUI.IngameUI
                                     int x = 687 + 69 * left - educationBallTex.Width / 2;
                                     int y = 692 - educationBallTex.Height /2 ;
                                     sprite.Draw(educationBallTex, x, y, ColorValue.White);
-                                    feg8.DrawString(sprite, resBallsCount[i].count.ToString(), x + 20, y + 20, ColorValue.Black);
+                                    f8.DrawString(sprite, resBallsCount[i].count.ToString(),
+                                        x + 37 - f8.MeasureString(resBallsCount[i].count.ToString()).Width, y + 15, ColorValue.Black);
 
                                     left++;
                                 }
@@ -341,7 +379,8 @@ namespace Code2015.GUI.IngameUI
                                     int x = 687 + 69 * left - healthBallTex.Width / 2;
                                     int y = 692 - healthBallTex.Height / 2;
                                     sprite.Draw(healthBallTex, x, y, ColorValue.White);
-                                    feg8.DrawString(sprite, resBallsCount[i].count.ToString(), x + 20, y + 20, ColorValue.Black);
+                                    f8.DrawString(sprite, resBallsCount[i].count.ToString(),
+                                        x + 37 - f8.MeasureString(resBallsCount[i].count.ToString()).Width, y + 15, ColorValue.Black);
                                     left++;
                                 }
                                 else
@@ -354,5 +393,7 @@ namespace Code2015.GUI.IngameUI
                 }
             }
         }
+
+
     }
 }
