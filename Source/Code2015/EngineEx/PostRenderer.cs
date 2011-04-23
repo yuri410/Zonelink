@@ -142,7 +142,6 @@ namespace Code2015.EngineEx
         {
             renderer.RenderScene(nrmDepthBuffer, RenderMode.DeferredNormal);
 
-            
 
             renderer.RenderScene(colorBuffer, RenderMode.Final);
 

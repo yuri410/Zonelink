@@ -1,3 +1,4 @@
+#include "hatching.psh"
 #include "ShadowMapping.psh"
 
 sampler2D dudvMap : register(s0);
@@ -56,14 +57,29 @@ PSOutput main(PSInput ip)
 	
 	float lum = dot(reflectionColor.xyz, float3(0.3, 0.59, 0.11))-0.35;
 	if (lum<0)lum =0;
-	//lum/=0.7;
+	
 	
     o.Color = lerp(ndl * float4(0, 0.205, 0.35, 0.7 * ndl + specular), float4(reflectionColor.xyz, specular+lum), fn) + specular;
-   
+    o.Color = o.Color * 0.001 +  float4(91/255.0,   225/255.0,   228/255.0, 1);
+    
+    o.Color.rgb *=ndl ;
+    
+    
     float2 ShadowTexC = ((ip.smLgtPos.xy + 0.33 * normalVector.xy) / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
     ShadowTexC.y = 1.0f - ShadowTexC.y;
     
+    
+    
 	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
-	o.Color.rgb *= shd;
+	o.Color.rgb *= 0.7 + 0.3 * shd;
+	
+  
+    float2 hatchTexCoord = (refrCoords + distOffset) * 0.5;
+    tmp = hatchTexCoord.x;
+    hatchTexCoord.x= hatchTexCoord.y;
+    hatchTexCoord.y = tmp;
+	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
+    o.Color.rgb *= hatchColor;
+	
     return o;
 }

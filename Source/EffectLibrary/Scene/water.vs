@@ -25,7 +25,7 @@ VSOutput main(VSInput ip)
     VSOutput o;
 
     o.Position = mul(ip.Position, mvp);
-    o.NormalCoord = ip.NormalCoord * 5;
+    o.NormalCoord = ip.NormalCoord * 3.5;
     o.Position2 = o.Position;
     
     float3 wpos = (float3)mul(ip.Position, world);
