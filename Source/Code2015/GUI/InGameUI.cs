@@ -144,7 +144,7 @@ namespace Code2015.GUI
 
            
 
-            selectionMarker = new SelectionMarker(renderSys, player);
+            selectionMarker = new SelectionMarker(renderSys, gamelogic.Field, player);
             scene.Scene.AddObjectToScene(selectionMarker);
 
 

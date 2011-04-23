@@ -181,14 +181,6 @@ namespace Code2015.GUI.IngameUI
         }
         void UpdateMouseCursor(GameTime time) 
         {
-            
-        }
-        public override void Update(GameTime time)
-        {
-            base.Update(time);
-            UpdateScroll(time);
-
-            UpdateMouseCursor(time);
 
             if (MouseInput.IsMouseUpLeft)
             {
@@ -236,7 +228,7 @@ namespace Code2015.GUI.IngameUI
                             cursorState = MouseCursor.Selection;
                         }
                         else
-                        {                            
+                        {
                             cursorState = MouseCursor.Normal;
                         }
                     }
@@ -258,10 +250,17 @@ namespace Code2015.GUI.IngameUI
                     cursorState = MouseCursor.Normal;
                 }
             }
+        }
+        public override void Update(GameTime time)
+        {
+            base.Update(time);
 
+            UpdateScroll(time);
 
             selectionMarker.SelectedObject = picker.SelectedObject;
             selectionMarker.MouseHoverObject = picker.MouseHoverObject;
+
+            UpdateMouseCursor(time);
 
             selectInfo.SelectedObject = picker.SelectedObject;
 

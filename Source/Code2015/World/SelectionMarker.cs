@@ -26,6 +26,7 @@ using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
 using Apoc3D.Collections;
+using Apoc3D.Core;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
 using Apoc3D.MathLib;
@@ -38,7 +39,7 @@ namespace Code2015.World
 {
     class SelectionMarker : SceneObject
     {
-        public const float LinkWidthScale = 0.006f;
+        public const float LinkWidthScale = 0.007f;
         public const float LinkHeightScale = 1.0f;
         public const float LinkBaseLength = 300;
 
@@ -49,6 +50,7 @@ namespace Code2015.World
 
         const float RingRadius = 100;
 
+        BattleField battleField;
         Player player;
         City mouseHoverCity;
         City selectedCity;
@@ -60,11 +62,13 @@ namespace Code2015.World
         Harvester mouseHoverHarv;
 
         City[] nodes;
+        City[] targets;
 
         Model inner_marker;
         Model outter_marker;
 
         Model[] linkArrow;
+        Model[] nodeLinks;
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
@@ -72,6 +76,13 @@ namespace Code2015.World
 
         ISelectableObject selectedObject;
         ISelectableObject mouseHoverObject;
+
+
+
+        public bool HasPath
+        {
+            get { return nodes != null; }
+        }
 
         public ISelectableObject MouseHoverObject
         {
@@ -96,7 +107,30 @@ namespace Code2015.World
                         mouseHoverResource = null;
                     }
 
+                    if (mouseHoverCity != null && selectedCity !=null && mouseHoverCity != selectedCity)
+                    {
 
+                        battleField.BallPathFinder.Reset();
+                        BallPathFinderResult result = battleField.BallPathFinder.FindPath(selectedCity, mouseHoverCity);
+                        if (result != null)
+                        {
+                            City[] nds = new City[result.NodeCount + 1];
+                            nds[0] = selectedCity;
+                            for (int i = 0; i < result.NodeCount; i++)
+                            {
+                                nds[i + 1] = result[i];
+                            }
+                            SetNodes(nds);
+                        }
+                        else 
+                        {
+                            SetNodes(null);
+                        }
+                    }
+                    else
+                    {
+                        SetNodes(null);
+                    }
                     //if (mouseHoverCity == null)
                     //{
                     //    selectionMarker.MouseHoverCity = null;
@@ -180,45 +214,69 @@ namespace Code2015.World
         }
 
 
+        Matrix GetCityLinkTransform(City start, City end) 
+        {
+            //City end = targets[i];
 
+            Vector3 dir = end.Position - start.Position;
+
+            dir.Normalize();
+
+            Vector3 pa = start.Position + dir * (City.CityOutterRadius + 120);
+            Vector3 pb = end.Position - dir * (City.CityOutterRadius + 120);
+
+
+            Vector3 center = 0.5f * (pa + pb);
+            Vector3 normal = start.Transformation.Up + end.Transformation.Up;
+            normal *= 0.5f;
+
+            float dist = Vector3.Distance(pa, pb);
+
+            float scale = dist;
+            Matrix ori = Matrix.Identity;
+            ori.Right = Vector3.Normalize(pa - pb);
+            ori.Up = normal;
+            ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
+            ori.TranslationValue = center + normal * 150;
+
+            return Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(-MathEx.PiOver2) *
+                    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) * ori;
+        }
+
+        private void SetNodes(City[] nodes)
+        {
+            this.nodes = nodes;
+
+            if (nodes != null)
+            {
+                for (int i = 0; i < nodes.Length - 1; i++)
+                {
+                    City a = nodes[i];
+                    City b = nodes[i + 1];
+
+                    Matrix ori = GetCityLinkTransform(a, b);
+
+                    nodeLinks[i].CurrentAnimation.Clear();
+                    nodeLinks[i].CurrentAnimation.Add(new NoAnimaionPlayer(ori));
+                }
+            }
+
+        }
         private void SetCity(City start, City[] targets)
         {
             this.selectedCity = start;
-            this.nodes = targets;
-
+            this.targets = targets;
+            this.nodes = null;
 
             for (int i = 0; i < targets.Length; i++)
             {
-                City end = targets[i];
-
-                Vector3 dir = end.Position - start.Position;
-
-                dir.Normalize();
-
-                Vector3 pa = start.Position + dir * (City.CityOutterRadius + 100);
-                Vector3 pb = end.Position - dir * (City.CityOutterRadius + 100);
-
-
-                Vector3 center = 0.5f * (pa + pb);
-                Vector3 normal = start.Transformation.Up + targets[i].Transformation.Up;
-                normal *= 0.5f;
-
-                float dist = Vector3.Distance(pa, pb);
-
-                float scale = dist;
-                Matrix ori = Matrix.Identity;
-                ori.Right = Vector3.Normalize(pa - pb);
-                ori.Up = normal;
-                ori.Forward = Vector3.Normalize(Vector3.Cross(ori.Up, ori.Right));
-                ori.TranslationValue = center + normal * 150;
+                Matrix ori = GetCityLinkTransform(start, targets[i]);
 
                 linkArrow[i].CurrentAnimation.Clear();
-                linkArrow[i].CurrentAnimation.Add(new NoAnimaionPlayer(
-                    Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(-MathEx.PiOver2) * 
-                    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) *
-                    ori));
-                //
+                linkArrow[i].CurrentAnimation.Add(new NoAnimaionPlayer(ori));
             }
+
+          
 
             {
                 float s = 0.8f * CitySelScale * City.CityOutterRadius / RingRadius;
@@ -229,19 +287,25 @@ namespace Code2015.World
             }
         }
 
-        public SelectionMarker(RenderSystem rs, Player player)
+        public SelectionMarker(RenderSystem rs, BattleField btfld, Player player)
             : base(false)
         {
+            this.battleField = btfld;
             this.player = player;
             this.linkArrow = new Model[4];
-
+            this.nodeLinks = new Model[BattleField.MaxCities];
 
             string fileName = "linkarrow.mesh";
             {
                 FileLocation fl2 = FileSystem.Instance.Locate(fileName, GameFileLocs.Model);
+                ResourceHandle<ModelData> mdlData = ModelManager.Instance.CreateInstance(rs, fl2);
                 for (int i = 0; i < linkArrow.Length; i++)
                 {
-                    linkArrow[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl2));
+                    linkArrow[i] = new Model(mdlData);                    
+                }
+                for (int i = 0; i < nodeLinks.Length; i++)
+                {
+                    nodeLinks[i] = new Model(mdlData);                    
                 }
             }
             FileLocation fl = FileSystem.Instance.Locate("citysel_inner.mesh", GameFileLocs.Model);
@@ -260,15 +324,31 @@ namespace Code2015.World
         {
             opBuffer.FastClear();
 
-            if (nodes != null)
+            if (selectedCity != null)
             {
-                if (selectedCity.IsCaptured && selectedCity.Owner == player)
+                if (nodes == null)
                 {
-                    for (int i = 0; i < nodes.Length; i++)
+                    if (selectedCity.IsCaptured && selectedCity.Owner == player)
                     {
-                        if (!nodes[i].IsCaptured)
+                        for (int i = 0; i < targets.Length; i++)
                         {
+
                             RenderOperation[] ops = linkArrow[i].GetRenderOperation();
+                            if (ops != null)
+                            {
+                                opBuffer.Add(ops);
+                            }
+
+                        }
+                    }
+                }
+                else if (nodes != null)
+                {
+                    if (selectedCity.IsCaptured && selectedCity.Owner == player)
+                    {
+                        for (int i = 0; i < nodes.Length - 1; i++)
+                        {
+                            RenderOperation[] ops = nodeLinks[i].GetRenderOperation();
                             if (ops != null)
                             {
                                 opBuffer.Add(ops);
