@@ -100,42 +100,17 @@ namespace Code2015.GUI.IngameUI
             this.player = parent.HumanPlayer;
             this.renderSys = game.RenderSystem;
 
-            //greenBallBtn = new Button();
-            //educationBallBtn = new Button();
-            //healthBallBtn = new Button();
-
             FileLocation fl = FileSystem.Instance.Locate("nig_icon_green.tex", GameFileLocs.GUI);
             greenBallBtn = UITextureManager.Instance.CreateInstance(fl);
-            //greenBallBtn.Image = UITextureManager.Instance.CreateInstance(fl);
-            //greenBallBtn.X = 0;
-            //greenBallBtn.Y = 0;
-            //greenBallBtn.Width = greenBallBtn.Image.Width;
-            //greenBallBtn.Height = greenBallBtn.Image.Height;
-            //greenBallBtn.Enabled = true;
-            //greenBallBtn.IsValid = true;
-            //greenBallBtn.MouseClick += GreenBallButton_MouseClick;
+            
 
             fl = FileSystem.Instance.Locate("nig_icon_edu.tex", GameFileLocs.GUI);
             educationBallBtn = UITextureManager.Instance.CreateInstance(fl);
-            //educationBallBtn.Image = UITextureManager.Instance.CreateInstance(fl);
-            //educationBallBtn.X = 0;
-            //educationBallBtn.Y = 0;
-            //educationBallBtn.Width = educationBallBtn.Image.Width;
-            //educationBallBtn.Height = educationBallBtn.Image.Height;
-            ////educationBallBtn.Enabled = true;
-            //educationBallBtn.IsValid = true;
-            //educationBallBtn.MouseClick += EducationBallButton_MouseClick;
+           
 
             fl = FileSystem.Instance.Locate("nig_icon_hospital.tex", GameFileLocs.GUI);
             healthBallBtn = UITextureManager.Instance.CreateInstance(fl);
-            //healthBallBtn.Image = UITextureManager.Instance.CreateInstance(fl);
-            //healthBallBtn.X = 0;
-            //healthBallBtn.Y = 0;
-            //healthBallBtn.Width = healthBallBtn.Image.Width;
-            //healthBallBtn.Height = healthBallBtn.Image.Height;
-            //healthBallBtn.Enabled = true;
-            //healthBallBtn.IsValid = true;
-            //healthBallBtn.MouseClick += HealthBallButton_MouseClick;
+           
 
 
             fl = FileSystem.Instance.Locate("nig_send_ball.tex", GameFileLocs.GUI);
@@ -150,6 +125,10 @@ namespace Code2015.GUI.IngameUI
 
             resBallsCount[2].Type = RBallType.Health;
             resBallsCount[2].count = 0;
+
+            startY[0] = 47;
+            startY[1] = 111;
+            startY[2] = 170;
         }
 
 
@@ -196,9 +175,7 @@ namespace Code2015.GUI.IngameUI
 
         public override void Update(Apoc3D.GameTime time)
         {
-            //greenBallBtn.Update(time);
-            //healthBallBtn.Update(time);
-            //educationBallBtn.Update(time);
+           
             if (state == State.Opened)
             {
                 StatisticRBall();
@@ -260,24 +237,7 @@ namespace Code2015.GUI.IngameUI
 
         }
 
-
-
-        //void GreenBallButton_MouseClick(object sender, MouseButtonFlags btn)
-        //{
-        //    selectedBallType = RBallType.Green;
-        //}
-
-        //void HealthBallButton_MouseClick(object sender, MouseButtonFlags btn)
-        //{
-        //    selectedBallType = RBallType.Health;
-        //}
-
-        //void EducationBallButton_MouseClick(object sender, MouseButtonFlags btn)
-        //{
-        //    selectedBallType = RBallType.Education;
-        //}
-
-
+       
          private void RenderSendBall(Sprite sprite)
          {
              if (targetCity != null)
@@ -292,7 +252,7 @@ namespace Code2015.GUI.IngameUI
                  Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
                  cityNormal.Normalize();
 
-                 Vector3 hpPos = targetCity.Position + cityNormal * 100 - tangx * City.CityRadius * 0.55f;
+                 Vector3 hpPos = targetCity.Position + cityNormal * 100 + tangx * City.CityRadius * 0.55f;
 
                  Viewport vp = renderSys.Viewport;
                  Vector3 screenPos = vp.Project(hpPos, scene.Camera.ProjectionMatrix,
@@ -331,6 +291,9 @@ namespace Code2015.GUI.IngameUI
              }
          }
 
+
+         int[] startY = new int[3];
+
          private void RenderBallIcon(Sprite sprite)
          {
              if (targetCity != null)
@@ -346,14 +309,11 @@ namespace Code2015.GUI.IngameUI
                              {
                                  if (resBallsCount[i].count != 0)
                                  {
-                                     int x = 42 - greenBallBtn.Width / 2;
-                                     int y = 35 - left * greenBallBtn.Height / 2;
+                                     int x = 82 - greenBallBtn.Width / 2;
+                                     int y = startY[left] - greenBallBtn.Height / 2; 
+                                                         
                                      sprite.Draw(greenBallBtn, x, y, ColorValue.White);
                                      left++;
-                                 }
-                                 else
-                                 {
-                                     break;
                                  }
 
                              }
@@ -362,29 +322,22 @@ namespace Code2015.GUI.IngameUI
                              {
                                  if (resBallsCount[i].count != 0)
                                  {
-                                     int x = 42 - educationBallBtn.Width / 2;
-                                     int y = 45 - left * educationBallBtn.Height / 2;
+                                     int x = 82 - educationBallBtn.Width / 2;
+                                     int y = startY[left] - educationBallBtn.Height / 2;
                                      sprite.Draw(educationBallBtn, x, y, ColorValue.White);
                                      left++;
                                  }
-                                 else
-                                 {
-                                     break;
-                                 }
+                                
                              }
                              break;
                          case RBallType.Health:
                              {
                                  if (resBallsCount[i].count != 0)
                                  {
-                                     int x = 42 - healthBallBtn.Width / 2;
-                                     int y = 45 - left * healthBallBtn.Height / 2;
+                                     int x = 82 - healthBallBtn.Width / 2;
+                                     int y = startY[left] - healthBallBtn.Height / 2;
                                      sprite.Draw(healthBallBtn, x, y, ColorValue.White);
                                      left++;
-                                 }
-                                 else
-                                 {
-                                     break;
                                  }
                              }
                              break;
