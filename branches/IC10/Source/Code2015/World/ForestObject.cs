@@ -31,6 +31,9 @@ using Apoc3D.MathLib;
 using Apoc3D.Scene;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Apoc3D.Vfs;
+using Apoc3D.Graphics.Animation;
+using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -55,10 +58,13 @@ namespace Code2015.World
     {        
         ResourceHandle<TreeBatchModel> model;
         SoundObject sound;
+        Model board;
 
         Vector3 stdPosition;
         Matrix stdTransform;
         BoundingSphere selectionSphere;
+
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         public Vector3 ForestCenter 
         {
@@ -138,6 +144,19 @@ namespace Code2015.World
                 selectionSphere.Center = stdPosition;
                 selectionSphere.Radius = 200;
             }
+
+            FileLocation fl = FileSystem.Instance.Locate("wooden_board.mesh", GameFileLocs.Model);
+
+            board = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            board.CurrentAnimation.Clear();
+            board.CurrentAnimation.Add(
+                new NoAnimaionPlayer(
+                    Matrix.Translation(0, 0, 25) *
+                    Matrix.Scaling(2.1f, 2.1f, 2.1f) *
+                    Matrix.RotationX(-MathEx.PiOver2) *
+                    Matrix.RotationY((-MathEx.PIf * 7.0f) / 8.0f)
+                    ));
+
         }
 
         public override RenderOperation[] GetRenderOperation()
@@ -146,9 +165,29 @@ namespace Code2015.World
             {
                 ResVisible(this);
             }
+
+            opBuffer.FastClear();
+
             TreeBatchModel mdl = model;
 
-            return mdl.GetRenderOperation();
+            RenderOperation[] ops = mdl.GetRenderOperation();
+            if (ops != null)
+            {
+                opBuffer.Add(ops);
+            }
+
+            ops = board.GetRenderOperation();
+            if (ops != null)
+            {
+                for (int i = 0; i < ops.Length; i++)
+                {
+                    ops[i].Transformation *= stdTransform;
+                }
+                opBuffer.Add(ops);
+            }
+
+            opBuffer.Trim();
+            return opBuffer.Elements;
         }
 
         public override void Update(GameTime dt)

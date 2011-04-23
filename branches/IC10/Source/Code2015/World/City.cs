@@ -115,9 +115,6 @@ namespace Code2015.World
         CityType cityType;
 
 
-        
-
-
         #region Idle_State
         float nextIdleAnimationCD;
 
@@ -981,13 +978,28 @@ namespace Code2015.World
 
         public void NotifyIncomingBall(RGatheredBall rgball)
         {
-            if (currentState != CityState.Sleeping)
+            bool flag = false;
+            if (currentState == CityState.Rotate)
+            {
+                if (rotationPurpose != CityRotationPurpose.None)
+                {
+                    flag = true;
+                }
+            }
+
+            bool flag2 = currentState == CityState.PostCatch || currentState == CityState.WaitingGather;
+
+
+
+
+            if (currentState != CityState.Sleeping && CanHandleCommand() && !flag && !flag2)
             {
                 Quaternion targetRot = GetOrientation(rgball.Position);
                 RotateTo(targetRot, 0.5f);
                 SetRotationPurpose(CityRotationPurpose.Receive);
+                this.rgball = rgball;
             }
-            this.rgball = rgball;
+          
         }
 
         void ReceiveNow()
