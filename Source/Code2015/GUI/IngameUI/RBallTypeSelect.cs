@@ -292,7 +292,7 @@ namespace Code2015.GUI.IngameUI
                  Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
                  cityNormal.Normalize();
 
-                 Vector3 hpPos = targetCity.Position + cityNormal * 100;
+                 Vector3 hpPos = targetCity.Position + cityNormal * 100 - tangx * City.CityRadius * 0.55f;
 
                  Viewport vp = renderSys.Viewport;
                  Vector3 screenPos = vp.Project(hpPos, scene.Camera.ProjectionMatrix,

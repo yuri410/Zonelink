@@ -99,6 +99,8 @@ namespace Code2015.World
 
         int currentForm;
 
+        Smokes smoke;
+
         Model cityBase;
 
         Model[] stopped;
@@ -214,7 +216,7 @@ namespace Code2015.World
             {
                 float ratio = development / RulesTable.CityMaxDevelopment;
 
-                return (int)(Math.Ceiling(ratio * 10));
+                return (int)(Math.Floor(ratio * 10));
             }
         }
         /// <summary>
@@ -226,7 +228,7 @@ namespace Code2015.World
             {
                 float ratio = development / RulesTable.CityMaxDevelopment;
                 ratio *= 10;
-                ratio = (float)(Math.Ceiling(ratio) - ratio);
+                ratio = (float)(Math.Floor(ratio) - ratio);
 
                 return ratio;
             }
@@ -627,7 +629,7 @@ namespace Code2015.World
                         break;
                     }
             }
-
+            smoke = new Smokes(this, rs); 
             ChangeState(CityState.Sleeping);
 
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityRadius * 2);
@@ -716,7 +718,7 @@ namespace Code2015.World
                             Type = CityType.Green;
                             break;
                     }
-                    currentForm = 1;
+                    currentForm = 0;
                 }
                 else
                 {
@@ -1217,7 +1219,7 @@ namespace Code2015.World
         {
             float dt = time.ElapsedGameTimeSeconds;
 
-
+            smoke.EmitEnabled = false;
             switch (currentState)
             {
                 case CityState.Rotate:
@@ -1276,6 +1278,8 @@ namespace Code2015.World
                             ThrowContinued(rgball.FollowingCity, rgball.GetRemainingPath(), rgball.Balls);
                         }
                     }
+                    
+                    smoke.EmitEnabled = true;
 
                     if (nextIdleAnimationCD > 0)
                     {
@@ -1384,9 +1388,15 @@ namespace Code2015.World
                 {
                     visibleCountDown = 10;
                     isVisible = false;
-                }
+                }                
             }
 
+            if (isVisible)
+            {
+                if (smoke != null)
+                    smoke.Update(dt);
+            }
+            
             UpdateState(dt);
 
             UpdateAI(dt);
@@ -1420,7 +1430,16 @@ namespace Code2015.World
                 opBuffer.Add(ops);
             }
 
+            if (smoke != null)
+            {
+                ops = smoke.GetRenderOperation();
+                if (ops != null)
+                {
+                    opBuffer.Add(ops);
+                }
+            }
 
+            
             ops = null;
             switch (currentState)
             {
