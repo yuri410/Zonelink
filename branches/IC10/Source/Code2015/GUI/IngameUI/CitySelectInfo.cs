@@ -278,7 +278,11 @@ namespace Code2015.GUI.IngameUI
                 sprite.Draw(onCityHPTex, new Rectangle(0, 0, hpTexWidth, onCityHPTex.Height),
                     new Rectangle(0, 0, hpTexWidth, onCityHPTex.Height), ColorValue.White);
                 sprite.Draw(onCityHPBackground, 0, 0, ColorValue.White);
+                f6.DrawString(sprite, SelectedCity.Level.ToString(), 25, -16, ColorValue.White);
+
                 sprite.SetTransform(Matrix.Identity);
+
+                
 
             }
         }
@@ -304,7 +308,7 @@ namespace Code2015.GUI.IngameUI
                     sprite.Draw(statusExpBuffTex, 802,624, ColorValue.White);
                 if (isDownShow)
                     sprite.Draw(statusExpdownBuff, 839,622,ColorValue.White);
-                f6.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 526, 572, ColorValue.White);
+                f6.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 456, 572, ColorValue.White);
                 f6.DrawString(sprite, level.ToString().ToUpperInvariant(), 775, 570, ColorValue.White);
                 //画资源球图标
                  
