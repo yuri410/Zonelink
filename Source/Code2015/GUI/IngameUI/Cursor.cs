@@ -27,7 +27,8 @@ namespace Code2015.GUI.IngameUI
             DownLeftArrow = DownArrow | LeftArrow,
             Selection = 64,
             Move = 65,
-            Attack = 66
+            Attack = 66,
+            Stop = 67
         }
         GameScene scene;
         RenderSystem renderSys;
@@ -58,6 +59,7 @@ namespace Code2015.GUI.IngameUI
         Texture cursor_ur;
         Texture cursor_dl;
         Texture cursor_dr;
+        Texture cursor_stop;
 
         MouseCursor cursorState;
 
@@ -108,6 +110,10 @@ namespace Code2015.GUI.IngameUI
             cursor_dr = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("cursor_move.tex", GameFileLocs.GUI);
             cursor_move = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("cursor_stop.tex", GameFileLocs.GUI);
+            cursor_stop = UITextureManager.Instance.CreateInstance(fl);
+
 
             cursor_sel = new Texture[11];
 
@@ -200,18 +206,25 @@ namespace Code2015.GUI.IngameUI
                         {
                             // attack
 
-                            if (MouseInput.IsMouseUpRight)
+                            if (MouseInput.IsMouseUpRight && selectionMarker.HasPath)
                             {
                                 selCity.Throw(hoverCity);
                             }
 
-                            if (hoverCity.Owner != selCity.Owner)
+                            if (selectionMarker.HasPath)
                             {
-                                cursorState = MouseCursor.Attack;
+                                if (hoverCity.Owner != selCity.Owner)
+                                {
+                                    cursorState = MouseCursor.Attack;
+                                }
+                                else
+                                {
+                                    cursorState = MouseCursor.Move;
+                                }
                             }
-                            else
+                            else 
                             {
-                                cursorState = MouseCursor.Move;
+                                cursorState = MouseCursor.Stop;
                             }
 
                             passed = true;
@@ -313,6 +326,10 @@ namespace Code2015.GUI.IngameUI
                 case MouseCursor.UpRightArrow:
                     hsp = new Point(35, 8);
                     ctex = cursor_ur;
+                    break;
+                case MouseCursor.Stop:
+                    hsp = new Point(33, 33);
+                    ctex = cursor_stop;
                     break;
                 case MouseCursor.Move:
                     hsp = new Point(65, 86);

@@ -126,7 +126,7 @@ namespace Code2015.GUI
 
           
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
-            //AddElement(miniMap);
+            AddElement(miniMap);
          
 
             //-----Ruan-----------
