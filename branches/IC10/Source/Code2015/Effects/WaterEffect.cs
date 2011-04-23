@@ -66,6 +66,9 @@ namespace Code2015.Effects
     {
         RenderSystem renderSystem;
 
+        PixelShader nrmGenPS;
+        VertexShader nrmGenVS;
+
         PixelShader pixShader;
         VertexShader vtxShader;
         float move;
@@ -82,49 +85,102 @@ namespace Code2015.Effects
             fl = FileSystem.Instance.Locate("water.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSystem, fl);
 
+
+            fl = FileSystem.Instance.Locate("waterNormalGen.cvs", GameFileLocs.Effect);
+            nrmGenVS = LoadVertexShader(renderSystem, fl);
+
+            fl = FileSystem.Instance.Locate("waterNormalGen.cps", GameFileLocs.Effect);
+            nrmGenPS = LoadPixelShader(renderSystem, fl);
+
+
+
             fl = FileSystem.Instance.Locate("reflection.tex", GameFileLocs.Nature);
             reflection = TextureManager.Instance.CreateInstance(fl);
         }
 
+
+
+
         protected override int begin()
         {
-            renderSystem.BindShader(vtxShader);
-            renderSystem.BindShader(pixShader);
+            if (mode == RenderMode.DeferredNormal)
+            {
+                renderSystem.BindShader(nrmGenVS);
+                renderSystem.BindShader(nrmGenPS);
 
-            vtxShader.SetValue("lightDir", EffectParams.LightDir);
+                ShaderSamplerState state = new ShaderSamplerState();
+                state.AddressU = TextureAddressMode.Wrap;
+                state.AddressV = TextureAddressMode.Wrap;
+                state.AddressW = TextureAddressMode.Wrap;
+                state.MinFilter = TextureFilter.Linear;
+                state.MagFilter = TextureFilter.Linear;
+                state.MipFilter = TextureFilter.Linear;
+                state.MaxAnisotropy = 8;
+                state.MipMapLODBias = 0;
 
-            ShaderSamplerState state = new ShaderSamplerState();
-            state.AddressU = TextureAddressMode.Wrap;
-            state.AddressV = TextureAddressMode.Wrap;
-            state.AddressW = TextureAddressMode.Wrap;
-            state.MinFilter = TextureFilter.Anisotropic;
-            state.MagFilter = TextureFilter.Anisotropic;
-            state.MipFilter = TextureFilter.Linear;
-            state.MaxAnisotropy = 8;
-            state.MipMapLODBias = 0;
+                nrmGenPS.SetSamplerState("dudvMap", ref state);
+                nrmGenPS.SetSamplerState("normalMap", ref state);
+
+            }
+            else
+            {
+                renderSystem.BindShader(vtxShader);
+                renderSystem.BindShader(pixShader);
+
+                vtxShader.SetValue("lightDir", EffectParams.LightDir);
+
+                ShaderSamplerState state = new ShaderSamplerState();
+                state.AddressU = TextureAddressMode.Wrap;
+                state.AddressV = TextureAddressMode.Wrap;
+                state.AddressW = TextureAddressMode.Wrap;
+                state.MinFilter = TextureFilter.Anisotropic;
+                state.MagFilter = TextureFilter.Anisotropic;
+                state.MipFilter = TextureFilter.Linear;
+                state.MaxAnisotropy = 8;
+                state.MipMapLODBias = 0;
 
 
-            pixShader.SetSamplerState("dudvMap", ref state);
-            pixShader.SetSamplerState("normalMap", ref state);
+                pixShader.SetSamplerState("dudvMap", ref state);
+                pixShader.SetSamplerState("normalMap", ref state);
 
-            pixShader.SetSamplerState("reflectionMap", ref state);
+                pixShader.SetSamplerState("reflectionMap", ref state);
 
-            pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
+                pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
 
-            state.AddressU = TextureAddressMode.Clamp;
-            state.AddressV = TextureAddressMode.Clamp;
-            state.AddressW = TextureAddressMode.Clamp;
-            state.AddressU = TextureAddressMode.Border;
-            state.AddressV = TextureAddressMode.Border;
-            state.AddressW = TextureAddressMode.Border;
-            state.MinFilter = TextureFilter.Linear;
-            state.MagFilter = TextureFilter.Linear;
-            state.MipFilter = TextureFilter.None;
-            state.BorderColor = ColorValue.White;
-            state.MaxAnisotropy = 0;
-            state.MipMapLODBias = 0;
+                state.AddressU = TextureAddressMode.Clamp;
+                state.AddressV = TextureAddressMode.Clamp;
+                state.AddressW = TextureAddressMode.Clamp;
+                state.AddressU = TextureAddressMode.Border;
+                state.AddressV = TextureAddressMode.Border;
+                state.AddressW = TextureAddressMode.Border;
+                state.MinFilter = TextureFilter.Linear;
+                state.MagFilter = TextureFilter.Linear;
+                state.MipFilter = TextureFilter.None;
+                state.BorderColor = ColorValue.White;
+                state.MaxAnisotropy = 0;
+                state.MipMapLODBias = 0;
 
-            pixShader.SetSamplerState("texShd", ref state);
+                pixShader.SetSamplerState("texShd", ref state);
+
+
+
+                ShaderSamplerState state2 = new ShaderSamplerState();
+                state2.AddressU = TextureAddressMode.Wrap;
+                state2.AddressV = TextureAddressMode.Wrap;
+                state2.AddressW = TextureAddressMode.Wrap;
+                state2.MinFilter = TextureFilter.Anisotropic;
+                state2.MagFilter = TextureFilter.Anisotropic;
+                state2.MipFilter = TextureFilter.Linear;
+                state2.MaxAnisotropy = 8;
+                state2.MipMapLODBias = 0;
+
+                pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
+                pixShader.SetTexture("hatch1", MaterialLibrary.Instance.Hatch1);
+                pixShader.SetSamplerState("hatch0", ref state2);
+                pixShader.SetSamplerState("hatch1", ref state2);
+
+
+            }
 
             move += 0.000033f;
             while (move > 1)
@@ -156,6 +212,7 @@ namespace Code2015.Effects
                 case RenderMode.Final:
                 case RenderMode.Simple:
                 case RenderMode.Wireframe:
+                case RenderMode.DeferredNormal:
                     return true;
             }
             return false;
@@ -163,21 +220,35 @@ namespace Code2015.Effects
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+            if (mode == RenderMode.DeferredNormal)
+            {
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
-            Vector3 vpos = EffectParams.CurrentCamera.Position;
-            vtxShader.SetValue("mvp", ref mvp);
-            vtxShader.SetValue("world", ref op.Transformation);
-            vtxShader.SetValue("viewPos", ref vpos);
-            Matrix lightPrjTrans;
-            Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
+                nrmGenVS.SetValue("mvp", ref mvp);
+                nrmGenPS.SetValue("move", move);
+                nrmGenPS.SetTexture("dudvMap", mat.GetTexture(0));
+                nrmGenPS.SetTexture("normalMap", mat.GetTexture(1));
+            }
+            else
+            {
+                Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
-            vtxShader.SetValue("smTrans", lightPrjTrans);
+                Vector3 vpos = EffectParams.CurrentCamera.Position;
+                vtxShader.SetValue("mvp", ref mvp);
+                vtxShader.SetValue("world", ref op.Transformation);
+                vtxShader.SetValue("viewPos", ref vpos);
+                Matrix lightPrjTrans;
+                Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
 
-            pixShader.SetTexture("dudvMap", mat.GetTexture(0));
-            pixShader.SetTexture("normalMap", mat.GetTexture(1));
-            pixShader.SetTexture("reflectionMap", reflection);
-            pixShader.SetValue("move", move);
+                vtxShader.SetValue("smTrans", lightPrjTrans);
+
+
+                pixShader.SetTexture("dudvMap", mat.GetTexture(0));
+                pixShader.SetTexture("normalMap", mat.GetTexture(1));
+                pixShader.SetTexture("reflectionMap", reflection);
+                pixShader.SetValue("move", move);
+
+            }
         }
 
         protected override void Dispose(bool disposing)
