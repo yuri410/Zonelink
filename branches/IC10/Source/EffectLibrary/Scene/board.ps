@@ -1,0 +1,128 @@
+#include "ShadowMapping.psh"
+#include "hatching.psh"
+
+sampler2D texDif : register(s0);
+sampler2D texSymbol : register(s1);
+sampler2D texShd : register(s2);
+
+float4 k_d : register(c0);
+float4 k_a : register(c1);
+
+float2 amount : register(c2);
+
+float4 i_a : register(c5);
+float4 i_d : register(c6);
+float3 lightDir : register(c8);
+
+struct PSInput
+{
+    float2 TexCoord : TEXCOORD0;
+    float3 Normal : TEXCOORD1; 
+    float4 smLgtPos : TEXCOORD2;
+    
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+float getFontColor(float2 texCoord, uniform int digit)
+{
+    float number = 0;
+    
+    
+    if (digit<3)
+    {
+        float r = pow(10, digit);
+        number = amount.x / r;
+    }
+    else
+    {
+        float r = pow(10, digit-3);
+        number = amount.y / r;
+    }
+    
+    number = fmod(number, 10);
+    texCoord.x = floor(number) * 0.1f;
+    
+    return tex2D(texSymbol, texCoord).a;
+} 
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+    float ndl = dot(ip.Normal, lightDir);
+	
+	
+	float4 amb = i_a * k_a;
+	float4 dif = i_d * k_d;
+	
+	
+	
+	const float2 tl = float2(421, 74)/1024;
+	const float2 br = float2(918, 515)/1024;
+	
+	const float2 gridSize = (br - tl) / float2(3,2);
+	
+	const float2 gridTL[3] = {  tl , tl + float2(gridSize.x,0), tl + 2 * float2(gridSize.x,0) };
+	
+	float fontcolor = 1;
+	if (ip.TexCoord.x> tl.x && ip.TexCoord.x< br.x && ip.TexCoord.y> tl.y && ip.TexCoord.y< br.y)
+	{
+	    int curline = ip.TexCoord.y > gridSize.y ? 3 : 0;
+	    
+	    if (ip.TexCoord.x > gridTL[2].x)
+	    {
+	        if (ip.TexCoord.x > gridTL[1].x)
+	        {
+	            if (ip.TexCoord.x > gridTL[0].x)
+	            {
+	                // 1
+	                float2 ntx = (ip.TexCoord - gridTL[0]) / gridSize;
+	                fontcolor = getFontColor(ntx, 2 + curline);
+	            }
+	            else
+	            {
+	                // 2
+	                float2 ntx = (ip.TexCoord - gridTL[1])/ gridSize;
+	                fontcolor = getFontColor(ntx, 1 + curline);
+	            }
+	        }
+	        else
+	        {
+	            // 3
+	            float2 ntx = (ip.TexCoord - gridTL[2]) / gridSize;
+	            fontcolor = getFontColor(ntx, 0 + curline);
+	        }	        
+	    }
+	}
+	
+	
+	
+	
+	
+	
+    float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
+    ShadowTexC.y = 1.0f - ShadowTexC.y;
+   
+	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z); 
+	
+	float4 p = amb+dif;
+	p.a = saturate(p.a);
+	
+    o.Color = tex2D(texDif, ip.TexCoord) * p;
+    o.Color = 0.67 + (o.Color -0.5)/ 1.5;
+    
+    o.Color.rgb *= 0.7 + 0.3*shd;
+    
+    
+  
+    float2 hatchTexCoord = ip.TexCoord * 1.5;
+    
+	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
+    
+    o.Color.rgb *=  hatchColor * fontcolor;
+    return o;
+}

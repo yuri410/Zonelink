@@ -108,6 +108,7 @@
     <Compile Include="Effects\ParticleEffect.cs" />
     <Compile Include="Effects\BoltEffect.cs" />
     <Compile Include="Effects\SkinnedStandardEffect.cs" />
+    <Compile Include="Effects\BoardEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PostRenderer.cs" />
