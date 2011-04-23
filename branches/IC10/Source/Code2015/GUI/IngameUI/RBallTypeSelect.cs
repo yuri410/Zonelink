@@ -244,9 +244,11 @@ namespace Code2015.GUI.IngameUI
                         if (resBallItemCount[selectedIndex] != 0)
                         {
                             selectedBallType = resBallsItemType[selectedIndex];
+                            isCancelled = false;
                         }
+          
 
-                        isCancelled = false;
+                        
                     }
 
                     Close();
@@ -262,10 +264,6 @@ namespace Code2015.GUI.IngameUI
                 resBallsCount[0].count = 0;
                 resBallsCount[1].count = 0;
                 resBallsCount[2].count = 0;
-
-                resBallItemCount[0] = 0;
-                resBallItemCount[1] = 0;
-                resBallItemCount[2] = 0;
 
                 for (int i = 0; i < sourceCity.NearbyOwnedBallCount; i++)
                 {
@@ -362,6 +360,10 @@ namespace Code2015.GUI.IngameUI
             if (targetCity != null)
             {
                 //Array.Sort(resBallsCount, BallRecordCompare);
+
+                resBallItemCount[0] = 0;
+                resBallItemCount[1] = 0;
+                resBallItemCount[2] = 0;
 
                 int left = 0;
                 for (int i = 0; i < resBallsCount.Length; i++)
