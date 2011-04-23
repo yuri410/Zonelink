@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Code2015.World;
 using Apoc3D.Graphics;
-using Code2015.Logic;
 using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.Logic;
+using Code2015.World;
 
 namespace Code2015.GUI.IngameUI
 {
@@ -18,7 +18,7 @@ namespace Code2015.GUI.IngameUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
-   
+        NIGMenu nigMenu;
 
         Button exitButton;
         bool isButtonClicked;
@@ -42,14 +42,14 @@ namespace Code2015.GUI.IngameUI
 
         
 
-        public ExitGame(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
+        public ExitGame(Code2015 game, Game parent, GameScene scene, GameState gamelogic, NIGMenu nigMenu)
         {
             this.scene = scene;
             this.renderSys = game.RenderSystem;
             this.gameLogic = gamelogic;
             this.parent = parent;
             this.game = game;
-
+            this.nigMenu = nigMenu;
             exitButton = new Button();
 
             FileLocation fl = FileSystem.Instance.Locate("nig_esc.tex", GameFileLocs.GUI);
@@ -79,8 +79,16 @@ namespace Code2015.GUI.IngameUI
         {
             base.Render(sprite);
 
-            sprite.Draw(exitButton.Image, new Rectangle(-13, 0, exitButton.Image.Width, exitButton.Image.Height),
-                                        ColorValue.White);
+            if (exitButton.IsMouseOver)
+            {
+                sprite.Draw(exitButton.Image, new Rectangle(-13, 0, exitButton.Image.Width, exitButton.Image.Height),
+                                            ColorValue.Yellow);
+            }
+            else
+            {
+                sprite.Draw(exitButton.Image, new Rectangle(-13, 0, exitButton.Image.Width, exitButton.Image.Height),
+                                            ColorValue.White);
+            }
             
         }
 
@@ -99,7 +107,7 @@ namespace Code2015.GUI.IngameUI
 
         void ExitButton_Pressed(object sender, MouseButtonFlags btn)
         {
-            isButtonClicked = true;
+            nigMenu.Show();
         }
 
       

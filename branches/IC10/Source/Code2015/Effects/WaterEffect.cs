@@ -182,7 +182,7 @@ namespace Code2015.Effects
 
             }
 
-            move += 0.000033f;
+            move += 0.0000067f;
             while (move > 1)
                 move--;
 
@@ -212,7 +212,7 @@ namespace Code2015.Effects
                 case RenderMode.Final:
                 case RenderMode.Simple:
                 case RenderMode.Wireframe:
-                case RenderMode.DeferredNormal:
+                //case RenderMode.DeferredNormal:
                     return true;
             }
             return false;

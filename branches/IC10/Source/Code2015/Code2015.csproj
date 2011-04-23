@@ -133,7 +133,6 @@
     <Compile Include="Engine\Apoc3D.Graphics\Scene\Atmosphere.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\ColorNotify.cs" />
     <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -165,6 +164,11 @@
     <Compile Include="GUI\IngameUI\InfoUI.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\IngameUI\NIGColor.cs" />
+    <Compile Include="GUI\IngameUI\NIGFail.cs" />
+    <Compile Include="GUI\IngameUI\NIGMenu.cs" />
+    <Compile Include="GUI\IngameUI\NIGObjective.cs" />
+    <Compile Include="GUI\IngameUI\NIGWin.cs" />
     <Compile Include="GUI\IngameUI\Picker.cs" />
     <Compile Include="GUI\IngameUI\Quest.cs" />
     <Compile Include="GUI\IngameUI\RankInfo.cs" />
@@ -180,7 +184,6 @@
     <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\ScoreScreen2.cs" />
     <Compile Include="GUI\Tutorial.cs" />
-    <Compile Include="GUI\ExitConfirm.cs" />
     <Compile Include="Logic\BattleField.cs" />
     <Compile Include="Logic\GameGoal.cs" />
     <Compile Include="Logic\Map.cs" />

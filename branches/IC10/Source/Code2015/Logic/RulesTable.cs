@@ -16,6 +16,7 @@ namespace Code2015.Logic
         public static float FRecoverBias { get; private set; }
         public static float FRecoverRate { get; private set; }
 
+        public static int CityBallLimit { get; private set; }
         public static float CityMaxDevelopment { get; private set; }
         /// <summary>
         ///  发展度的多少是最大生命
@@ -97,6 +98,7 @@ namespace Code2015.Logic
             GameConfiguration con = new GameConfiguration(fl);// Utils.LoadConfig("rules.xml"); 
             ConfigurationSection sect = con["CityCommon"];
 
+            CityBallLimit = sect.GetInt("BallLimit");
             CityMaxDevelopment = sect.GetSingle("MaxDevelopment", 10000);
             CityDevHealthRate = sect.GetSingle("DevHealthRate", 0.1f);
             CityInitialDevelopment = sect.GetSingle("InitialDevelopment", 1000);

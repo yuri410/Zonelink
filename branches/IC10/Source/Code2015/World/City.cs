@@ -54,7 +54,8 @@ namespace Code2015.World
         None,
         Throw,
         Receive,
-        ThrowContinued
+        ThrowContinued,
+        Fear
     }
     delegate void CityVisibleHander(City obj);
 
@@ -718,7 +719,7 @@ namespace Code2015.World
                             Type = CityType.Green;
                             break;
                     }
-                    currentForm = 0;
+                    currentForm = 1;
                 }
                 else
                 {
@@ -851,6 +852,34 @@ namespace Code2015.World
             BoundingSphere.Center = this.Position;
         }
 
+        public bool HasOwnedBalls(Player player)
+        {
+            for (int i = 0; i < nearbyEnemyBalls.Count; i++)
+            {
+                if (nearbyEnemyBalls[i].Owner == player)
+                {
+                    return true;
+                }
+            }
+            return false;
+        }
+        public bool HasMultipleTypeRBalls()
+        {
+            if (nearbyOwnedBalls.Count > 0)
+            {
+                RBallType detected = nearbyOwnedBalls[0].Type;
+                
+                for (int i = 1; i < nearbyOwnedBalls.Count; i++)
+                {
+                    if (nearbyOwnedBalls[i].Type != detected)
+                    {
+                        return true;
+                    }
+                }
+            }
+            return false;
+            
+        }
         public bool CanHandleCommand()
         {
             return currentState != CityState.Catch && currentState != CityState.Throw && currentState != CityState.ThrowContinued;
@@ -992,14 +1021,21 @@ namespace Code2015.World
             bool flag2 = currentState == CityState.PostCatch || currentState == CityState.WaitingGather;
 
 
-
-
             if (currentState != CityState.Sleeping && CanHandleCommand() && !flag && !flag2)
             {
-                Quaternion targetRot = GetOrientation(rgball.Position);
-                RotateTo(targetRot, 0.5f);
-                SetRotationPurpose(CityRotationPurpose.Receive);
-                this.rgball = rgball;
+                if (rgball.SourceCity != null && rgball.SourceCity.Owner != Owner)
+                {
+                    Quaternion targetRot = GetOrientation(rgball.Position);
+                    RotateTo(targetRot, 0.5f);
+                    SetRotationPurpose(CityRotationPurpose.Fear);
+                }
+                else
+                {
+                    Quaternion targetRot = GetOrientation(rgball.Position);
+                    RotateTo(targetRot, 0.5f);
+                    SetRotationPurpose(CityRotationPurpose.Receive);
+                    this.rgball = rgball;
+                }
             }
           
         }
@@ -1175,6 +1211,7 @@ namespace Code2015.World
                         catching[currentForm].ResumeAnimation();
                     break;
                 case CityState.Fear:
+                    fear[currentForm].PlayAnimation();
                     break;
                 case CityState.Idle:
                     idle[currentForm].PlayAnimation();
@@ -1227,22 +1264,26 @@ namespace Code2015.World
                     remainingRotationTime -= dt;
                     if (remainingRotationTime < 0)
                     {
-                        if (rotationPurpose == CityRotationPurpose.Throw)
+                        switch (rotationPurpose)
                         {
-                            ThrowNow();
+                            case CityRotationPurpose.Throw:
+                                ThrowNow();
+                                break;
+                            case CityRotationPurpose.Receive:
+                                ReceiveNow();
+                                break;
+                            case CityRotationPurpose.ThrowContinued:
+                                ThrowNowContinued();
+                                break;
+                            case CityRotationPurpose.Fear:
+                                ChangeState(CityState.Fear);
+                                break;
+                            default:
+                                ChangeState(CityState.Stopped);
+                                break;
+
                         }
-                        else if (rotationPurpose == CityRotationPurpose.Receive)
-                        {
-                            ReceiveNow();
-                        }
-                        else if (rotationPurpose == CityRotationPurpose.ThrowContinued)
-                        {
-                            ThrowNowContinued();
-                        }
-                        else
-                        {
-                            ChangeState(CityState.Stopped);
-                        }
+                        
                         rotationPurpose = CityRotationPurpose.None;
                     }
                     float progress = MathEx.Saturate(1 - remainingRotationTime / rotationTime);
@@ -1402,6 +1443,15 @@ namespace Code2015.World
             UpdateAI(dt);
         }
 
+        public void TestBalls()
+        {
+            for (int i = 0; i < 5; i++)
+            {
+                battleField.CreateResourceBall(Owner, this, RBallType.Health);
+                battleField.CreateResourceBall(Owner, this, RBallType.Education);
+
+            }
+        }
         public virtual void ProduceBall()
         {
 
@@ -1430,7 +1480,7 @@ namespace Code2015.World
                 opBuffer.Add(ops);
             }
 
-            if (smoke != null)
+            if (Type == CityType.Oil && smoke != null)
             {
                 ops = smoke.GetRenderOperation();
                 if (ops != null)

@@ -271,7 +271,7 @@ namespace Code2015.World
 
             float required = Type == CityType.Green ? RulesTable.OilBallCost : RulesTable.GreenBallCost;
 
-            if (resourceBuffer > required) 
+            if (resourceBuffer > required && nearbyBallList.Count < RulesTable.CityBallLimit)
             {
                 ProduceBall();
                 resourceBuffer -= required;

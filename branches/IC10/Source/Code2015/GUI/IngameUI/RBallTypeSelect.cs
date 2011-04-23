@@ -34,6 +34,7 @@ namespace Code2015.GUI.IngameUI
         Player player;
 
         Texture background;
+        Texture[] backgroundSelected;
 
         Texture greenBallBtn;
         Texture healthBallBtn;
@@ -80,6 +81,7 @@ namespace Code2015.GUI.IngameUI
         City sourceCity;
 
         bool isCancelled;
+        int selectedIndex;
 
         public bool IsCancelled
         {
@@ -135,6 +137,15 @@ namespace Code2015.GUI.IngameUI
 
             fl = FileSystem.Instance.Locate("nig_send_ball.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
+
+            backgroundSelected = new Texture[3];
+            fl = FileSystem.Instance.Locate("nig_send_ball_s1.tex", GameFileLocs.GUI);
+            backgroundSelected[0] = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("nig_send_ball_s2.tex", GameFileLocs.GUI);
+            backgroundSelected[1] = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("nig_send_ball_s3.tex", GameFileLocs.GUI);
+            backgroundSelected[2] = UITextureManager.Instance.CreateInstance(fl);
+
 
 
             resBallsCount[0].Type = RBallType.Green;
@@ -224,21 +235,22 @@ namespace Code2015.GUI.IngameUI
         {
             if (state == State.Opened)
             {
+                selectedIndex = -1;
+
+
+                for (int i = 0; i < 3; i++)
+                {
+                    Vector2 size = transformedItemBR[i] - transformedItemTL[i];
+
+                    Rectangle rect = new Rectangle((int)transformedItemTL[i].X, (int)transformedItemTL[i].Y, (int)size.X + 1, (int)size.Y + 1);
+
+                    if (Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect))
+                    {
+                        selectedIndex = i;
+                    }
+                }
                 if (MouseInput.IsMouseUpLeft)
                 {
-                    int selectedIndex = -1;
-                    for (int i = 0; i < 3; i++)
-                    {
-                        Vector2 size = transformedItemBR[i] - transformedItemTL[i];
-
-                        Rectangle rect = new Rectangle((int)transformedItemTL[i].X, (int)transformedItemTL[i].Y, (int)size.X + 1, (int)size.Y + 1);
-
-                        if (Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect))
-                        {
-                            selectedIndex = i;
-                        }
-                    }
-
                     if (selectedIndex != -1)
                     {
                         if (resBallItemCount[selectedIndex] != 0)
@@ -246,9 +258,9 @@ namespace Code2015.GUI.IngameUI
                             selectedBallType = resBallsItemType[selectedIndex];
                             isCancelled = false;
                         }
-          
 
-                        
+
+
                     }
 
                     Close();
@@ -298,7 +310,7 @@ namespace Code2015.GUI.IngameUI
                 float radLng = MathEx.Degree2Radian(targetCity.Longitude);
                 float radLat = MathEx.Degree2Radian(targetCity.Latitude);
 
-                float latSign = Math.Sign(radLat);
+                float lngSign = Math.Sign(radLng);
 
                 Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
                 Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);
@@ -307,7 +319,7 @@ namespace Code2015.GUI.IngameUI
                 Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
                 cityNormal.Normalize();
 
-                Vector3 hpPos = targetCity.Position + cityNormal * 100 + tangx * (latSign * City.CityRadius * 0.55f);
+                Vector3 hpPos = targetCity.Position + cityNormal * 100 + tangx * (lngSign * City.CityRadius * 0.55f);
 
                 Viewport vp = renderSys.Viewport;
                 Vector3 screenPos = vp.Project(hpPos, scene.Camera.ProjectionMatrix,
@@ -331,8 +343,14 @@ namespace Code2015.GUI.IngameUI
 
                 sprite.SetTransform(trans);
 
-                sprite.Draw(background, 0, 0, ColorValue.White);
-
+                if (selectedIndex == -1)
+                {
+                    sprite.Draw(background, 0, 0, ColorValue.White);
+                }
+                else 
+                {
+                    sprite.Draw(backgroundSelected[selectedIndex], 0, 0, ColorValue.White);
+                }
                 UpdateHotarea(ref trans);
 
                 if (state == State.Opened)

@@ -23,6 +23,8 @@ namespace Code2015.World
         Defend,
         Gathered,
         Free,
+
+        Float
     }
 
     /// <summary>
@@ -66,7 +68,10 @@ namespace Code2015.World
         #endregion
 
         public List<RBall> Balls { get { return subBalls; } }
-
+        public City SourceCity 
+        {
+            get { return sourceCity; }
+        }
         public City FollowingCity 
         {
             get
@@ -358,6 +363,7 @@ namespace Code2015.World
         const float MaxRadius = City.CityRadius * 1.5f;
         const float EduMaxRadius = City.CityRadius * 1.9f;
 
+        const float FloatingSpeedMod = 0.5f;
         const float MinSpeedMod = 1;
         const float GatherSpeedMod = 3.5f;
         const float AttackCitySpeedMod = 7.0f;
@@ -410,7 +416,12 @@ namespace Code2015.World
 
         RGatheredBall gatheredParent;
 
-        
+        #region State_Float
+
+        City floatingTarget;
+
+        #endregion
+
         #region State_Attack
 
         RBall target;
@@ -463,7 +474,7 @@ namespace Code2015.World
 
         float NextRadius()
         {
-            if (Type == RBallType.Disease || Type == RBallType.Disease) 
+            if (Type == RBallType.Disease || Type == RBallType.Health) 
             {
                 return CitySafeRadius;
             }
@@ -823,6 +834,12 @@ namespace Code2015.World
             NewMove(targetPos);
             ChangeState(RBallState.BeginingAttackCity);
         }
+        public void Float(City target) 
+        {
+            floatingTarget = target;
+            NewMove(target.Position);
+            ChangeState(RBallState.Float);
+        }
         public void Reposition() 
         {
             Vector3 targetPos;
@@ -877,9 +894,9 @@ namespace Code2015.World
 
         void IntegrateRoundAngle(float dt)
         {
-            
+            float mod = Type == RBallType.Education || Type == RBallType.Volience ? 2 : 1;
             float sign = state == RBallState.AttackCity ? -1 : 1;
-            roundAngle += sign * dt * speedModifier * refrenceLinSpeed / currentRadius;
+            roundAngle += mod * sign * dt * speedModifier * refrenceLinSpeed / currentRadius;
             if (roundAngle > MathEx.PIf * 2)
                 roundAngle -= MathEx.PIf * 2;
         }
@@ -910,8 +927,18 @@ namespace Code2015.World
                         CalculateRoundTransform(currentRadius, false, out pos, out orientation);
                         Position = pos;
 
-                        dockCity.Heal(dt * props.Heal);
-                        dockCity.Develop(props.Contribution, dt);
+                        if (dockCity.Owner != null)
+                        {
+                            if (dockCity.Owner == Owner)
+                            {
+                                dockCity.Heal(dt * props.Heal);
+                                dockCity.Develop(props.Contribution, dt);
+                            }
+                            else
+                            {
+                                dockCity.Develop(-props.Contribution, dt);
+                            }
+                        }
                         break;
                     }
                 case RBallState.Gathering:
@@ -956,7 +983,7 @@ namespace Code2015.World
                             {
                                 if (weaponCoolDown <= 0)
                                 {
-                                    float dmg = Type == RBallType.Oil ? RulesTable.OilBallBaseDamage : RulesTable.GreenBallBaseDamage;
+                                    float dmg = props.Damage;
                                     dockCity.Damage(dmg, Owner);
                                     Damage(dmg * 0.005f);
                                     weaponCoolDown = WeaponCoolDownTime;
@@ -999,7 +1026,7 @@ namespace Code2015.World
                             {
                                 if (weaponCoolDown <= 0)
                                 {
-                                    float dmg = Type == RBallType.Oil ? RulesTable.OilBallBaseDamage : RulesTable.GreenBallBaseDamage;
+                                    float dmg = props.Damage;
                                     target.Damage(dmg);
                                     weaponCoolDown = WeaponCoolDownTime;
                                 }
@@ -1007,19 +1034,32 @@ namespace Code2015.World
                         }
                         break;
                     }
+                case RBallState.Float:
+                    {
+                        NewMoveUpdate(dt);
+
+                        float dist = Vector3.DistanceSquared(position, floatingTarget.Position);
+                       
+                        if (dist < City.CityOutterRadius * City.CityOutterRadius)
+                        {
+                            Free(floatingTarget);                            
+                        }
+
+                        break;
+                    }
             }
             base.Update(gameTime);
 
             
             if (dockCity != null &&
-                (state != RBallState.Gathered || state != RBallState.Gathering || state != RBallState.Free))
+                (state != RBallState.Gathered || state != RBallState.Gathering || state != RBallState.Free || state != RBallState.Float))
             {
 
                 // 攻击
-                if (dockCity.Owner != Owner)
+                if (dockCity.Owner != Owner )
                 {
                     enemyCheckTime -= dt;
-                    if (enemyCheckTime <= 0)
+                    if (enemyCheckTime <= 0 && props.Damage > 10)
                     {
                         // 在别人城里
                         if (dockCity.NearbyOwnedBallCount == 0)
@@ -1044,15 +1084,18 @@ namespace Code2015.World
                         case RBallType.Green:
                         case RBallType.Education:
                         case RBallType.Volience:
-                            if (dockCity.NearbyEnemyBallCount > 0)
+                            if (props.Damage > 10)
                             {
-                                if (state != RBallState.Attack)
-                                    Defend();
-                            }
+                                if (dockCity.NearbyEnemyBallCount > 0)
+                                {
+                                    if (state != RBallState.Attack)
+                                        Defend();
+                                }
+                            }                            
                             break;
                         case RBallType.Health:
                         case RBallType.Disease:
-                            if (dockCity.HPRate > 1 - float.Epsilon)                             
+                            if (dockCity.HPRate > 1 - float.Epsilon && props.Damage > 10)
                             {
                                 if (dockCity.NearbyEnemyBallCount > 0)
                                 {
@@ -1062,7 +1105,7 @@ namespace Code2015.World
                             }
                             break;
                     }
-                   
+
                 }
 
                 

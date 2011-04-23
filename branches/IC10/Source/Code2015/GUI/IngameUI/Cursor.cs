@@ -134,6 +134,9 @@ namespace Code2015.GUI.IngameUI
 
         }
 
+
+
+
         void UpdateScroll(GameTime time)
         {
             #region 屏幕边缘滚动视野
@@ -198,40 +201,71 @@ namespace Code2015.GUI.IngameUI
                 City hoverCity = selectionMarker.MouseHoverObject as City;
 
                 bool passed = false;
-                if (selCity != null)
+                if (selCity != null && hoverCity != null)
                 {
-                    if (selCity.IsCaptured && selCity.Owner == player && hoverCity != null && selCity.CanHandleCommand())
+                    if (selCity != hoverCity)
                     {
-                        if (selCity != hoverCity)
+                        if (selCity.IsCaptured && selCity.Owner == player)
                         {
-                            // attack
-
-                            if (MouseInput.IsMouseUpRight && selectionMarker.HasPath)
+                            #region 出击
+                            if (selCity.CanHandleCommand())
                             {
-                                isWaitingRBallSelect = true;
-                                sendBallSelect.Open(selCity, hoverCity);
-
-                                            //sendBallSelect.TargetCity = picker.SelectedCity;
-                                //selCity.Throw(hoverCity);
-                            }
-
-                            if (selectionMarker.HasPath)
-                            {
-                                if (hoverCity.Owner != selCity.Owner)
+                                // attack
+                                if (MouseInput.IsMouseUpRight && selectionMarker.HasPath)
                                 {
-                                    cursorState = MouseCursor.Attack;
+                                    if (selCity.NearbyOwnedBallCount > 0)
+                                    {
+                                        if (selCity.HasMultipleTypeRBalls())
+                                        {
+                                            isWaitingRBallSelect = true;
+                                            sendBallSelect.Open(selCity, hoverCity);
+                                        }
+                                        else
+                                        {
+                                            selCity.Throw(hoverCity);
+                                        }
+                                    }
+                                }
+                                if (selectionMarker.HasPath && selCity.NearbyOwnedBallCount > 0)
+                                {
+                                    if (hoverCity.Owner != selCity.Owner)
+                                    {
+                                        cursorState = MouseCursor.Attack;
+                                    }
+                                    else
+                                    {
+                                        cursorState = MouseCursor.Move;
+                                    }
                                 }
                                 else
                                 {
+                                    cursorState = MouseCursor.Stop;
+                                }
+
+                                passed = true;
+                            }
+                            #endregion
+                        }
+                        else
+                        {
+                            #region 漂流
+                            if (selCity.HasOwnedBalls(player) && selCity.Owner != player && hoverCity.Owner == player)
+                            {
+                                if (selectionMarker.PathNodeLength == 2)
+                                {
+                                    if (MouseInput.IsMouseUpRight)
+                                    {
+                                        for (int i = 0; i < selCity.NearbyEnemyBallCount; i++)
+                                        {
+                                            selCity.GetNearbyEnemyBall(i).Float(hoverCity);
+                                        }
+
+                                    }
                                     cursorState = MouseCursor.Move;
+                                    passed = true;
                                 }
                             }
-                            else
-                            {
-                                cursorState = MouseCursor.Stop;
-                            }
-
-                            passed = true;
+                            #endregion
                         }
                     }
                 }
