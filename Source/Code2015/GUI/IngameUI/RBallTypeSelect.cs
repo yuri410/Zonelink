@@ -15,6 +15,9 @@ namespace Code2015.GUI.IngameUI
 {
     class RBallTypeSelect : UIComponent
     {
+        static readonly Vector2[] ItemTL = { new Vector2(16, 16), new Vector2(20, 89), new Vector2(20, 150) };
+        static readonly Vector2[] ItemBR = { new Vector2(68, 72), new Vector2(72, 125), new Vector2(72, 196) };
+
         enum State
         {
             Close,
@@ -39,6 +42,10 @@ namespace Code2015.GUI.IngameUI
         State state;
 
         float animProgress;
+
+
+        Vector2[] transformedItemTL = new Vector2[3];
+        Vector2[] transformedItemBR = new Vector2[3];
 
 
         struct BallRecord
@@ -206,6 +213,39 @@ namespace Code2015.GUI.IngameUI
             {
                 if (MouseInput.IsMouseUpLeft)
                 {
+                    int selectedIndex = -1;
+                    for (int i = 0; i < 3; i++)
+                    {
+                        Vector2 size = transformedItemBR[i] - transformedItemTL[i];
+
+                        Rectangle rect = new Rectangle((int)transformedItemBR[i].X, (int)transformedItemBR[i].Y, (int)size.X + 1, (int)size.Y + 1);
+
+                        if (Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect))
+                        {
+                            selectedIndex = i;
+                        }
+                    }
+
+                    if (selectedIndex != -1)
+                    {
+                       // isCancelled = false;
+
+                        switch (selectedIndex)
+                        {
+                            case 0:
+
+                                break;
+                            case 1:
+
+                                break;
+                            case 2:
+
+                                break;
+                        }
+
+
+                    }
+
                     Close();
                 }
             }
@@ -237,8 +277,16 @@ namespace Code2015.GUI.IngameUI
 
         }
 
-       
-         private void RenderSendBall(Sprite sprite)
+        void UpdateHotarea(ref Matrix trans)
+        {
+            for (int i = 0; i < 3; i++)
+            {
+                transformedItemTL[i] = Vector2.TransformSimple(ItemTL[i], ref trans);
+                transformedItemBR[i] = Vector2.TransformSimple(ItemBR[i], ref trans);
+            }
+        }
+
+        private void RenderSendBall(Sprite sprite)
          {
              if (targetCity != null)
              {
@@ -270,7 +318,11 @@ namespace Code2015.GUI.IngameUI
 
                  Matrix trans = Matrix.Translation(0, -background.Height / 2, 0) *
                             Matrix.Scaling(scale, scale, 1) * Matrix.Translation(screenPos.X, screenPos.Y, 0);
+
+
+                 UpdateHotarea(ref trans);
                  
+
                  sprite.SetTransform(trans);
                  
                  sprite.Draw(background, 0, 0, ColorValue.White);
@@ -290,6 +342,8 @@ namespace Code2015.GUI.IngameUI
 
              }
          }
+
+        
 
 
          int[] startY = new int[3];
