@@ -88,7 +88,6 @@ namespace Code2015.GUI
 
         SelectionMarker selectionMarker;
 
-        SelectInfo selectInfo;
 
         CitySelectInfo cityStatusInfo;
         RBallTypeSelect sendBallSelect;
@@ -130,7 +129,6 @@ namespace Code2015.GUI
          
 
             //-----Ruan-----------
-            selectInfo = new SelectInfo(game, parent, scene, gamelogic);
             //AddElement(selectInfo);
 
             cityStatusInfo = new CitySelectInfo(game, parent, scene, gamelogic);
@@ -148,7 +146,7 @@ namespace Code2015.GUI
             scene.Scene.AddObjectToScene(selectionMarker);
 
 
-            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, selectInfo, cityStatusInfo,
+            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, cityStatusInfo,
                                            sendBallSelect,  miniMap, selectionMarker);
             AddElement(layeredCursor);
 

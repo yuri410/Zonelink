@@ -162,7 +162,7 @@ namespace Code2015.GUI.IngameUI
         {
             get
             {
-                return 5;
+                return 52;
             }
         }
 
@@ -307,7 +307,8 @@ namespace Code2015.GUI.IngameUI
                 if (isExpBuffer)
                     sprite.Draw(statusExpBuffTex, 802,624, ColorValue.White);
                 if (isDownShow)
-                    sprite.Draw(statusExpdownBuff, 839,622,ColorValue.White);
+                    sprite.Draw(statusExpdownBuff, 839,622,ColorValue.White);
+
                 f6.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 456, 572, ColorValue.White);
                 f6.DrawString(sprite, level.ToString().ToUpperInvariant(), 775, 570, ColorValue.White);
                 //画资源球图标

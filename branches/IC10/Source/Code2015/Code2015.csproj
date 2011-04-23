@@ -168,7 +168,6 @@
     <Compile Include="GUI\IngameUI\Quest.cs" />
     <Compile Include="GUI\IngameUI\RankInfo.cs" />
     <Compile Include="GUI\IngameUI\RBallTypeSelect.cs" />
-    <Compile Include="GUI\IngameUI\SelectInfo.cs" />
     <Compile Include="GUI\Intro.cs" />
     <Compile Include="GUI\LoadingOverlay.cs" />
     <Compile Include="GUI\MainMenu.cs" />
@@ -178,7 +177,6 @@
     <Compile Include="GUI\IngameUI\MiniMap.cs" />
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="GUI\Popup.cs" />
-    <Compile Include="GUI\IngameUI\ResourceInfo.cs" />
     <Compile Include="GUI\ScoreScreen2.cs" />
     <Compile Include="GUI\Tutorial.cs" />
     <Compile Include="GUI\ExitConfirm.cs" />

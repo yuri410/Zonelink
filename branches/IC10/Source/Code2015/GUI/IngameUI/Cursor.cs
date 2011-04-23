@@ -40,10 +40,11 @@ namespace Code2015.GUI.IngameUI
         Picker picker;
 
         SelectionMarker selectionMarker;
-        SelectInfo selectInfo;
         CitySelectInfo citySelectInfo;
         RBallTypeSelect sendBallSelect;
         MiniMap miniMap;
+
+        bool isWaitingRBallSelect;
 
         Texture cursor;
         Texture[] cursor_sel;
@@ -70,7 +71,7 @@ namespace Code2015.GUI.IngameUI
         Point mouseRightPosition;
 
         public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker,
-            SelectInfo selInfo, CitySelectInfo citySelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
+             CitySelectInfo citySelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
         {
             this.parent = parent;
             this.logic = gamelogic;
@@ -83,7 +84,6 @@ namespace Code2015.GUI.IngameUI
             this.picker = picker;
 
             this.selectionMarker = marker;
-            this.selectInfo = selInfo;
             this.citySelectInfo = citySelectInfo;
             this.sendBallSelect = sendBallSelect;
             this.miniMap = map;
@@ -185,9 +185,9 @@ namespace Code2015.GUI.IngameUI
                 }
             }
         }
-        void UpdateMouseCursor(GameTime time) 
-        {
 
+        void UpdateMouseCursorScene(GameTime time) 
+        {
             if (MouseInput.IsMouseUpLeft)
             {
                 picker.SelectCurrentObject();
@@ -208,7 +208,11 @@ namespace Code2015.GUI.IngameUI
 
                             if (MouseInput.IsMouseUpRight && selectionMarker.HasPath)
                             {
-                                selCity.Throw(hoverCity);
+                                isWaitingRBallSelect = true;
+                                sendBallSelect.Open(selCity, hoverCity);
+
+                                            //sendBallSelect.TargetCity = picker.SelectedCity;
+                                //selCity.Throw(hoverCity);
                             }
 
                             if (selectionMarker.HasPath)
@@ -222,7 +226,7 @@ namespace Code2015.GUI.IngameUI
                                     cursorState = MouseCursor.Move;
                                 }
                             }
-                            else 
+                            else
                             {
                                 cursorState = MouseCursor.Stop;
                             }
@@ -264,6 +268,23 @@ namespace Code2015.GUI.IngameUI
                 }
             }
         }
+        void UpdateMouseCursor(GameTime time) 
+        {
+            bool isOnHUD = isWaitingRBallSelect;
+
+            if (miniMap.HitTest(MouseInput.X, MouseInput.Y))
+                isOnHUD = true;
+
+            if (isOnHUD)
+            {
+                cursorState = MouseCursor.Normal;
+            }
+            else
+            {
+                UpdateMouseCursorScene(time);
+            }
+            
+        }
         public override void Update(GameTime time)
         {
             base.Update(time);
@@ -275,11 +296,19 @@ namespace Code2015.GUI.IngameUI
 
             UpdateMouseCursor(time);
 
-            selectInfo.SelectedObject = picker.SelectedObject;
-
             citySelectInfo.SelectedCity = picker.SelectedCity;
 
-            sendBallSelect.SelectedCity = picker.SelectedCity;
+
+            if (isWaitingRBallSelect)
+            {
+                if (!sendBallSelect.IsOpened)
+                {
+                    if (!sendBallSelect.IsCancelled)
+                        sendBallSelect.SourceCity.Throw(sendBallSelect.TargetCity, sendBallSelect.SelectedBallType);
+
+                    isWaitingRBallSelect = false;
+                }
+            }
         }
             
     
