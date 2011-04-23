@@ -32,6 +32,7 @@ using Apoc3D.Media;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.World;
 
 namespace Code2015.Effects
 {
@@ -74,15 +75,17 @@ namespace Code2015.Effects
         PixelShader pixShader;
         VertexShader vtxShader;
 
-
+        Texture fontTexture;
         Texture noTexture;
 
         public unsafe BoardEffect(RenderSystem rs)
             : base(rs, BoardEffectFactory.Name, false)
         {
             FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
-            noTexture = TextureManager.Instance.CreateInstance(fl);// fac.CreateTexture(1, 1, 1, TextureUsage.Static, ImagePixelFormat.A8R8G8B8);
+            noTexture = TextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("boardfont.tex", GameFileLocs.Texture);
+            fontTexture = TextureManager.Instance.CreateInstance(fl);
 
             this.renderSys = rs;
 
@@ -113,8 +116,6 @@ namespace Code2015.Effects
                 pixShader.SetValue("i_a", EffectParams.LightAmbient);
                 pixShader.SetValue("i_d", EffectParams.LightDiffuse);
                 pixShader.SetValue("lightDir", EffectParams.LightDir);
-                vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
-
 
 
                 ShaderSamplerState state2 = new ShaderSamplerState();
@@ -129,8 +130,10 @@ namespace Code2015.Effects
 
                 pixShader.SetTexture("hatch0", MaterialLibrary.Instance.Hatch0);
                 pixShader.SetTexture("hatch1", MaterialLibrary.Instance.Hatch1);
+                pixShader.SetTexture("texSymbol", fontTexture);
                 pixShader.SetSamplerState("hatch0", ref state2);
                 pixShader.SetSamplerState("hatch1", ref state2);
+                pixShader.SetSamplerState("texSymbol", ref state2);
 
 
                 ShaderSamplerState state = new ShaderSamplerState();
@@ -216,6 +219,17 @@ namespace Code2015.Effects
                 Matrix.Multiply(ref op.Transformation, ref EffectParams.DepthViewProj, out lightPrjTrans);
 
                 vtxShader.SetValue("smTrans", lightPrjTrans);
+
+                IResourceObject res = op.Sender as IResourceObject;
+                if (res != null)
+                {
+                    pixShader.SetValue("amount", new Vector2(res.AmountPer, res.MaxValue));
+                }
+                else                 
+                {
+                    pixShader.SetValue("amount", new Vector2(123, 456));
+                }
+                
 
                 if (!stateSetted)
                 {

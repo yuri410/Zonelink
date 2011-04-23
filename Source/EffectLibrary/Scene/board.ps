@@ -44,9 +44,9 @@ float getFontColor(float2 texCoord, uniform int digit)
     }
     
     number = fmod(number, 10);
-    texCoord.x = floor(number) * 0.1f;
+    texCoord.x = floor(number) * 0.1f + texCoord.x * 0.1f;
     
-    return tex2D(texSymbol, texCoord).a;
+    return 1-tex2D(texSymbol, texCoord).a;
 } 
 
 PSOutput main(PSInput ip)
@@ -61,8 +61,8 @@ PSOutput main(PSInput ip)
 	
 	
 	
-	const float2 tl = float2(421, 74)/1024;
-	const float2 br = float2(918, 515)/1024;
+	const float2 tl = float2(421, 74)/1024.0;
+	const float2 br = float2(918, 515)/1024.0;
 	
 	const float2 gridSize = (br - tl) / float2(3,2);
 	
@@ -70,32 +70,29 @@ PSOutput main(PSInput ip)
 	
 	float fontcolor = 1;
 	if (ip.TexCoord.x> tl.x && ip.TexCoord.x< br.x && ip.TexCoord.y> tl.y && ip.TexCoord.y< br.y)
-	{
-	    int curline = ip.TexCoord.y > gridSize.y ? 3 : 0;
+	{	
+	    int curline = ip.TexCoord.y > (gridSize.y + tl.y) ? 3 : 0;
 	    
 	    if (ip.TexCoord.x > gridTL[2].x)
 	    {
+	        // 3
+	        float2 ntx = (ip.TexCoord - gridTL[2]) / gridSize;
+	        fontcolor = getFontColor(ntx, 0 + curline);
+	    }
+	    else
+	    {
 	        if (ip.TexCoord.x > gridTL[1].x)
 	        {
-	            if (ip.TexCoord.x > gridTL[0].x)
-	            {
-	                // 1
-	                float2 ntx = (ip.TexCoord - gridTL[0]) / gridSize;
-	                fontcolor = getFontColor(ntx, 2 + curline);
-	            }
-	            else
-	            {
-	                // 2
-	                float2 ntx = (ip.TexCoord - gridTL[1])/ gridSize;
-	                fontcolor = getFontColor(ntx, 1 + curline);
-	            }
+	            // 2
+	            float2 ntx = (ip.TexCoord - gridTL[1]) / gridSize;
+	            fontcolor = getFontColor(ntx, 1 + curline);
 	        }
 	        else
 	        {
-	            // 3
-	            float2 ntx = (ip.TexCoord - gridTL[2]) / gridSize;
-	            fontcolor = getFontColor(ntx, 0 + curline);
-	        }	        
+	            // 1
+	            float2 ntx = (ip.TexCoord - gridTL[0])/ gridSize;
+	            fontcolor = getFontColor(ntx, 2 + curline);
+	        }
 	    }
 	}
 	
@@ -111,9 +108,10 @@ PSOutput main(PSInput ip)
 	
 	float4 p = amb+dif;
 	p.a = saturate(p.a);
+	p.rgb *= fontcolor;
 	
     o.Color = tex2D(texDif, ip.TexCoord) * p;
-    o.Color = 0.67 + (o.Color -0.5)/ 1.5;
+    o.Color = 0.67 + (o.Color -0.5)/ 1.2;
     
     o.Color.rgb *= 0.7 + 0.3*shd;
     
@@ -123,6 +121,6 @@ PSOutput main(PSInput ip)
     
 	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
     
-    o.Color.rgb *=  hatchColor * fontcolor;
+    o.Color.rgb *=  hatchColor;
     return o;
 }
