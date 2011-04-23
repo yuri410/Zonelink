@@ -240,7 +240,7 @@ namespace Code2015.GUI.IngameUI
                                                         scene.Camera.ViewMatrix, Matrix.Identity);
 
 
-                 float scale = 2.5f * Vector3.Distance(lp, rp) / 2;
+                 float scale = 1; // 2.5f * Vector3.Distance(lp, rp) / 2;
 
                  Matrix trans = Matrix.Translation(-background.Width / 2, -background.Height / 2, 0) *
                             Matrix.Scaling(scale, scale, 1) * Matrix.Translation(screenPos.X, screenPos.Y, 0);

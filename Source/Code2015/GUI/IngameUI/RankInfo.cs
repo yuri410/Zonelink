@@ -22,7 +22,11 @@ namespace Code2015.GUI.IngameUI
         Texture rankBackground;
         Texture homeBackground;
         Texture rankColor;
-        
+
+        GameFontRuan f8;
+        GameFontRuan f6;
+
+
 
         public override int Order
         {
@@ -52,6 +56,10 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("nig_rank_color.tex", GameFileLocs.GUI);
             rankColor = UITextureManager.Instance.CreateInstance(fl);
 
+            f6 = GameFontManager.Instance.FRuanEdged4;
+            f8 = GameFontManager.Instance.FRuanEdged6;
+
+
         }
 
 
@@ -75,12 +83,33 @@ namespace Code2015.GUI.IngameUI
             {
                 if (players[i].Type != PlayerType.LocalHuman)
                 {
-                    sprite.Draw(rankBackground, -6, startY, players[i].SideColor);
+                    string s = (i+1).ToString();
+                    sprite.Draw(rankBackground, -6, startY, ColorValue.White);
+                    f8.DrawString(sprite, s, 2, startY - 20, ColorValue.White);
+
+
+                    Matrix trans = Matrix.Scaling(0.5f, 0.5f, 1) * Matrix.Translation(new Vector3(18, startY + 7, 0));
+                    sprite.SetTransform(trans);
+
+                    f8.DrawString(sprite, "TH", 0, 0, ColorValue.White);
+                    sprite.SetTransform(Matrix.Identity);
+
+                    sprite.Draw(rankColor, 35, startY + 9, players[i].SideColor);
+                    f8.DrawString(sprite, "8".ToString(), 80, startY - 20, ColorValue.White);
                     startY += 37;
                 }
                 else
                 {
+                    string s = (i + 1).ToString();
                     sprite.Draw(homeBackground, -6, startY - 4, players[i].SideColor);
+                    f8.DrawString(sprite, s, 2, startY, ColorValue.White);
+
+                    Matrix trans = Matrix.Scaling(0.5f, 0.5f, 1) * Matrix.Translation(new Vector3(18, startY + 20, 0));
+                    sprite.SetTransform(trans);
+                    f8.DrawString(sprite, "TH", 0, 0, ColorValue.White);
+                    sprite.SetTransform(Matrix.Identity);
+
+                    f6.DrawString(sprite, "8".ToString(), 83, startY - 40, ColorValue.White);
                     startY += 70;
                 }           
             }
