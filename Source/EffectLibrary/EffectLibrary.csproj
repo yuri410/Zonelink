@@ -112,12 +112,6 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
-    <None Include="MM\mmcitylink.vs" />
-    <None Include="MM\mmcitylink.ps" />
-    <None Include="MM\mmterrain.ps" />
-    <None Include="MM\mmterrain.vs" />
-    <None Include="MM\mmwater.vs" />
-    <None Include="MM\mmwater.ps" />
     <None Include="NormalBuffer\normalGen.ps" />
     <None Include="NormalBuffer\normalGen.vs" />
     <None Include="NormalBuffer\terrainNormalGen.ps" />
@@ -137,6 +131,8 @@
     <None Include="Scene\fog.vsh" />
     <None Include="Scene\fog.psh" />
     <None Include="Scene\skinnedstandard.ps" />
+    <None Include="Scene\board.ps" />
+    <None Include="Scene\board.vs" />
     <None Include="ShadowMap\skinnedShadowMap.vs" />
     <None Include="UI\City\citylink.ps" />
     <None Include="UI\City\citylink.vs" />
