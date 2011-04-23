@@ -58,9 +58,22 @@ namespace Code2015.GUI.IngameUI
             return b.count.CompareTo(a.count);
         }
 
+        /// <summary>
+        /// 0 代表Green
+        /// 1 代表Education
+        /// 2 代表Health
+        /// </summary>
         BallRecord[] resBallsCount = new BallRecord[3];
-
         
+        
+        /// <summary>
+        /// 0 代表第1个框
+        /// 1 代表第2个框
+        /// 2 代表第3个框
+        /// </summary>
+        RBallType[] resBallsItemType = new RBallType[3];
+        int[] resBallItemCount = new int[3];
+
         RBallType selectedBallType;
 
         City targetCity;
@@ -228,22 +241,12 @@ namespace Code2015.GUI.IngameUI
 
                     if (selectedIndex != -1)
                     {
-                       // isCancelled = false;
-
-                        switch (selectedIndex)
+                        if (resBallItemCount[selectedIndex] != 0)
                         {
-                            case 0:
-
-                                break;
-                            case 1:
-
-                                break;
-                            case 2:
-
-                                break;
+                            selectedBallType = resBallsItemType[selectedIndex];
                         }
-
-
+                            
+                        isCancelled = false;
                     }
 
                     Close();
@@ -259,6 +262,10 @@ namespace Code2015.GUI.IngameUI
                 resBallsCount[0].count = 0;
                 resBallsCount[1].count = 0;
                 resBallsCount[2].count = 0;
+
+                resBallItemCount[0] = 0;
+                resBallItemCount[1] = 0;
+                resBallItemCount[2] = 0;
 
                 for (int i = 0; i < sourceCity.NearbyOwnedBallCount; i++)
                 {
@@ -363,6 +370,8 @@ namespace Code2015.GUI.IngameUI
                              {
                                  if (resBallsCount[i].count != 0)
                                  {
+                                     resBallsItemType[left] = RBallType.Green;
+                                     resBallItemCount[left] = resBallsCount[i].count;
                                      int x = 82 - greenBallBtn.Width / 2;
                                      int y = startY[left] - greenBallBtn.Height / 2; 
                                                          
@@ -376,6 +385,8 @@ namespace Code2015.GUI.IngameUI
                              {
                                  if (resBallsCount[i].count != 0)
                                  {
+                                     resBallsItemType[left] = RBallType.Education;
+                                     resBallItemCount[left] = resBallsCount[i].count;
                                      int x = 82 - educationBallBtn.Width / 2;
                                      int y = startY[left] - educationBallBtn.Height / 2;
                                      sprite.Draw(educationBallBtn, x, y, ColorValue.White);
@@ -388,6 +399,8 @@ namespace Code2015.GUI.IngameUI
                              {
                                  if (resBallsCount[i].count != 0)
                                  {
+                                     resBallsItemType[left] = RBallType.Health;
+                                     resBallItemCount[left] = resBallsCount[i].count;
                                      int x = 82 - healthBallBtn.Width / 2;
                                      int y = startY[left] - healthBallBtn.Height / 2;
                                      sprite.Draw(healthBallBtn, x, y, ColorValue.White);
