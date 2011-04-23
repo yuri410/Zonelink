@@ -85,10 +85,10 @@ namespace Code2015.GUI.IngameUI
                 {
                     string s = (i+1).ToString();
                     sprite.Draw(rankBackground, -6, startY, ColorValue.White);
-                    f8.DrawString(sprite, s, 2, startY - 20, ColorValue.White);
+                    f8.DrawString(sprite, s, 0, startY - 20, ColorValue.White);
 
 
-                    Matrix trans = Matrix.Scaling(0.5f, 0.5f, 1) * Matrix.Translation(new Vector3(18, startY + 7, 0));
+                    Matrix trans = Matrix.Scaling(0.33f, 0.33f, 1) * Matrix.Translation(new Vector3(19, startY + 14, 0));
                     sprite.SetTransform(trans);
 
                     f8.DrawString(sprite, "TH", 0, 0, ColorValue.White);
@@ -104,12 +104,12 @@ namespace Code2015.GUI.IngameUI
                     sprite.Draw(homeBackground, -6, startY - 4, players[i].SideColor);
                     f8.DrawString(sprite, s, 2, startY, ColorValue.White);
 
-                    Matrix trans = Matrix.Scaling(0.5f, 0.5f, 1) * Matrix.Translation(new Vector3(18, startY + 20, 0));
+                    Matrix trans = Matrix.Scaling(0.35f, 0.35f, 1) * Matrix.Translation(new Vector3(22, startY + 35, 0));
                     sprite.SetTransform(trans);
                     f8.DrawString(sprite, "TH", 0, 0, ColorValue.White);
                     sprite.SetTransform(Matrix.Identity);
 
-                    f6.DrawString(sprite, "8".ToString(), 83, startY - 40, ColorValue.White);
+                    f6.DrawString(sprite, "8".ToString(), 73, startY - 45, ColorValue.White);
                     startY += 70;
                 }           
             }
