@@ -32,6 +32,7 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.Logic;
+using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -46,6 +47,9 @@ namespace Code2015.World
         public bool IsInOcean { get; private set; }
 
         Model[] model;
+        Model board;
+
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
         SoundObject sound;
 
@@ -113,6 +117,19 @@ namespace Code2015.World
 
             sound = SoundManager.Instance.MakeSoundObjcet("oil", null, BoundingSphere.Radius * 8.0f / 3.0f);
             sound.Position = position;
+          
+            
+            FileLocation fl2 = FileSystem.Instance.Locate("wooden_board.mesh", GameFileLocs.Model);
+
+            board = new Model(ModelManager.Instance.CreateInstance(rs, fl2));
+            board.CurrentAnimation.Clear();
+            board.CurrentAnimation.Add(
+                new NoAnimaionPlayer(
+                    Matrix.Translation(-50, 25, 23) *
+                    Matrix.Scaling(2.1f, 2.1f, 2.1f) *
+                    Matrix.RotationX(-MathEx.PiOver2) *
+                    Matrix.RotationY((-MathEx.PIf * 7.0f) / 8.0f)
+                    ));
         }
 
 
@@ -158,11 +175,28 @@ namespace Code2015.World
             {
                 ResVisible(this);
             }
+
+            opBuffer.FastClear();
+
+            RenderOperation[] ops = board.GetRenderOperation();
+            if (ops != null)
+            {
+                for (int i = 0; i < ops.Length; i++)
+                {
+                    //ops[i].Transformation *= stdTransform;
+                }
+                opBuffer.Add(ops);
+            }
             if (ModelL0 != null)
             {
-                return ModelL0.GetRenderOperation();
+                ops = ModelL0.GetRenderOperation();
+                if (ops != null)
+                {
+                    opBuffer.Add(ops);
+                }
             }
-            return null;
+            opBuffer.Trim();
+            return opBuffer.Elements;
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
@@ -170,7 +204,7 @@ namespace Code2015.World
             {
                 ResVisible(this);
             }
-            return base.GetRenderOperation(level);
+            return GetRenderOperation();
         }
         public override void Update(GameTime dt)
         {
