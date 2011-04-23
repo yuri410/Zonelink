@@ -78,7 +78,17 @@ namespace Code2015.World
         ISelectableObject mouseHoverObject;
 
 
-
+        public int PathNodeLength
+        {
+            get 
+            {
+                if (nodes != null)
+                {
+                    return nodes.Length;
+                }
+                return 0;
+            }
+        }
         public bool HasPath
         {
             get { return nodes != null; }

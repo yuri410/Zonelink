@@ -6,7 +6,7 @@ float move : register(c0);
 
 struct PSInput
 {
-    float2 NormalCoord : TEXCOORD0;
+    float3 NormalCoord : TEXCOORD0;
 };
 
 struct PSOutput
@@ -22,17 +22,13 @@ PSOutput main(PSInput ip)
 
     PSOutput o;
 	
-	float2 refrCoords = ip.NormalCoord - move;
-	float2 distOffset = (float2)tex2D(dudvMap, ip.NormalCoord) * kDistortion;
+	float2 refrCoords = ip.NormalCoord.xy - move;
+	float2 distOffset = (float2)tex2D(dudvMap, ip.NormalCoord.xy) * kDistortion;
 
 	float3 normalVector = (float3)tex2D(normalMap, refrCoords + distOffset);
-	normalVector = normalVector * 2.0 - 1.0;
+
 	
-	normalVector.z *= 0.5f;
-	normalVector.xy *=2;
-	normalVector = normalize(normalVector);
-	
-    o.Color = float4(0.5*(normalVector + 1), 1);
+    o.Color = float4(normalVector.xy, ip.NormalCoord.z, 1);
 
     return o;
 }

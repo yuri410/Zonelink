@@ -94,7 +94,14 @@ namespace Code2015.GUI
 
         RankInfo rankInfo;
 
-        ExitConfirm exitConfirm;
+        
+        NIGMenu nigMenu;
+        NIGWin nigWin;
+        NIGFail nigFail;
+        NIGObjective nigObjective;
+        NIGColor nigColor;
+
+        //ExitConfirm exitConfirm;
         bool isEscPressed;
 
         ExitGame exit;
@@ -129,7 +136,7 @@ namespace Code2015.GUI
          
 
             //-----Ruan-----------
-            //AddElement(selectInfo);
+
 
             cityStatusInfo = new CitySelectInfo(game, parent, scene, gamelogic);
             AddElement(cityStatusInfo);
@@ -137,10 +144,20 @@ namespace Code2015.GUI
             sendBallSelect = new RBallTypeSelect(game, parent, scene, gamelogic);
             AddElement(sendBallSelect);
 
-            exitConfirm = new ExitConfirm();
-            AddElement(exitConfirm);
 
-           
+
+            nigMenu = new NIGMenu(game, parent, scene, gamelogic);
+            AddElement(nigMenu);
+            nigColor = new NIGColor(game, parent, scene, gamelogic);
+            AddElement(nigColor);
+            nigWin = new NIGWin(game, parent, scene, gamelogic);
+            AddElement(nigWin);
+            nigFail = new NIGFail(game, parent, scene, gamelogic);
+            AddElement(nigFail);
+            nigObjective = new NIGObjective(game, parent, scene, gamelogic);
+            AddElement(nigObjective);
+            nigColor = new NIGColor(game, parent, scene, gamelogic);
+            AddElement(nigColor);
 
             selectionMarker = new SelectionMarker(renderSys, gamelogic.Field, player);
             scene.Scene.AddObjectToScene(selectionMarker);
@@ -151,7 +168,7 @@ namespace Code2015.GUI
             AddElement(layeredCursor);
 
 
-            exit = new ExitGame(game, parent, scene, gamelogic);
+            exit = new ExitGame(game, parent, scene, gamelogic, nigMenu);
             AddElement(exit);
 
             quest = new Quest(game, parent, scene, gamelogic);
@@ -189,14 +206,14 @@ namespace Code2015.GUI
                         isEscPressed = keyState.IsKeyDown(XI.Keys.Escape);
                         if (isEscPressed)
                         {
-                            if (!exitConfirm.IsShown)
-                            {
-                                exitConfirm.Show();
-                            }
-                            else
-                            {
-                                parent.Over();
-                            }
+                            //if (!exitConfirm.IsShown)
+                            //{
+                            //    exitConfirm.Show();
+                            //}
+                            //else
+                            //{
+                            //    parent.Over();
+                            //}
                         }
                     }
                     else
@@ -207,17 +224,17 @@ namespace Code2015.GUI
 
                     if (exit.IsExitClicked)
                     {
-                        if (!exitConfirm.IsShown)
-                        {
-                            exitConfirm.Show();
-                        }
-                        else
-                        {
-                            parent.Over();
-                        }
+                        //if (!exitConfirm.IsShown)
+                        //{
+                        //    exitConfirm.Show();
+                        //}
+                        //else
+                        //{
+                        //    parent.Over();
+                        //}
                     }
 
-                    parent.IsPaused = exitConfirm.IsShown;
+                    //parent.IsPaused = exitConfirm.IsShown;
 
                     base.Update(time);
                 }
