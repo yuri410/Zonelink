@@ -11,6 +11,7 @@ namespace Code2015.World
 {
     class GatherCity : City
     {
+
         Harvester harvester;
         //NaturalResource exRes;
 
