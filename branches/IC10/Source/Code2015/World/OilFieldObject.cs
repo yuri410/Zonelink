@@ -119,7 +119,7 @@ namespace Code2015.World
             sound.Position = position;
           
             
-            FileLocation fl2 = FileSystem.Instance.Locate("wooden_board.mesh", GameFileLocs.Model);
+            FileLocation fl2 = FileSystem.Instance.Locate("wooden_board_oil.mesh", GameFileLocs.Model);
 
             board = new Model(ModelManager.Instance.CreateInstance(rs, fl2));
             board.CurrentAnimation.Clear();
@@ -183,7 +183,7 @@ namespace Code2015.World
             {
                 for (int i = 0; i < ops.Length; i++)
                 {
-                    //ops[i].Transformation *= stdTransform;
+                    ops[i].Sender = this;
                 }
                 opBuffer.Add(ops);
             }
@@ -249,11 +249,11 @@ namespace Code2015.World
         #region IResourceObject 成员
         float IResourceObject.MaxValue
         {
-            get { return MaxAmount / (7500f * 2 / 20.0f); }
+            get { return MaxAmount; }
         }
         float IResourceObject.AmountPer
         {
-            get { return CurrentAmount / (7500f * 2 / 20.0f); }
+            get { return CurrentAmount; }
         }
 
         NaturalResourceType IResourceObject.Type

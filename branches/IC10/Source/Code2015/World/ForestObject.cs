@@ -145,7 +145,7 @@ namespace Code2015.World
                 selectionSphere.Radius = 200;
             }
 
-            FileLocation fl = FileSystem.Instance.Locate("wooden_board.mesh", GameFileLocs.Model);
+            FileLocation fl = FileSystem.Instance.Locate("wooden_board_green.mesh", GameFileLocs.Model);
 
             board = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             board.CurrentAnimation.Clear();
@@ -181,6 +181,7 @@ namespace Code2015.World
             {
                 for (int i = 0; i < ops.Length; i++)
                 {
+                    ops[i].Sender = this;
                     ops[i].Transformation *= stdTransform;
                 }
                 opBuffer.Add(ops);
@@ -222,11 +223,11 @@ namespace Code2015.World
         #region IResourceObject 成员
         float IResourceObject.MaxValue 
         {
-            get { return MaxAmount / (7500f * 2 / 20.0f); }
+            get { return MaxAmount; }
         }
         float IResourceObject.AmountPer
         {
-            get { return CurrentAmount / (7500f * 2 / 20.0f); }
+            get { return CurrentAmount; }
         }
         NaturalResourceType IResourceObject.Type
         {
