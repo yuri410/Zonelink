@@ -54,12 +54,13 @@ namespace Code2015.GUI.IngameUI
 
             FileLocation fl = FileSystem.Instance.Locate("nig_esc.tex", GameFileLocs.GUI);
             exitButton.Image = UITextureManager.Instance.CreateInstance(fl);
-            exitButton.X = 0;
+            exitButton.X = -13;
             exitButton.Y = 0;
             exitButton.Width = exitButton.Image.Width;
             exitButton.Height = exitButton.Image.Height;
             exitButton.Enabled = true;
             exitButton.IsValid = true;
+
 
             isButtonClicked = false;
 
