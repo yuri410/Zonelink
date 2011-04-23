@@ -40,6 +40,8 @@ namespace Code2015.GUI.IngameUI
 
         SelectionMarker selectionMarker;
         SelectInfo selectInfo;
+        CitySelectInfo citySelectInfo;
+        RBallTypeSelect sendBallSelect;
         MiniMap miniMap;
 
         Texture cursor;
@@ -66,7 +68,7 @@ namespace Code2015.GUI.IngameUI
         Point mouseRightPosition;
 
         public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker,
-            SelectInfo selInfo, MiniMap map, SelectionMarker marker)
+            SelectInfo selInfo, CitySelectInfo citySelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
         {
             this.parent = parent;
             this.logic = gamelogic;
@@ -80,6 +82,8 @@ namespace Code2015.GUI.IngameUI
 
             this.selectionMarker = marker;
             this.selectInfo = selInfo;
+            this.citySelectInfo = citySelectInfo;
+            this.sendBallSelect = sendBallSelect;
             this.miniMap = map;
 
             FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
@@ -260,6 +264,10 @@ namespace Code2015.GUI.IngameUI
             selectionMarker.MouseHoverObject = picker.MouseHoverObject;
 
             selectInfo.SelectedObject = picker.SelectedObject;
+
+            citySelectInfo.SelectedCity = picker.SelectedCity;
+
+            sendBallSelect.SelectedCity = picker.SelectedCity;
         }
             
     

@@ -7,14 +7,12 @@ using Apoc3D.Graphics;
 using Code2015.Logic;
 using Code2015.EngineEx;
 using Apoc3D.MathLib;
+using Apoc3D.Vfs;
 
 namespace Code2015.GUI.IngameUI
 {
     class CitySelectInfo : UIComponent
     {
-        const int X = 996;
-        const int Y = 800;
-
 
         GameScene scene;
         GameState gameLogic;
@@ -22,11 +20,46 @@ namespace Code2015.GUI.IngameUI
         Code2015 game;
         Game parent;
         Player player;
-        Picker picker;
-        GameFontRuan f14;
+
+
+        #region 城市状态
+        Texture statusBackground;  
+        Texture statusHPBackground;
+        Texture statusHPTex;
+        Texture statusExpBackground;
+        Texture statusExpTex;
+        Texture statusExpBuffTex;
+        Texture statusHPBufferTex;
+        #endregion
+        
+        #region 血条
+        Texture onCityHPBackground;
+        Texture onCityHPTex;
+        Texture onCityHPBase;
+        #endregion
+
+
+        Texture greenBallTex;
+        Texture educationBallTex;
+        Texture healthBallTex;
+
+
+        GameFontRuan feg8;
+
+        struct BallRecord
+        {
+            public RBallType Type;
+            public int count;
+        }
+        private static int BallRecordCompare(BallRecord a, BallRecord b)
+        {
+            return b.count.CompareTo(a.count);
+        }
+
+        BallRecord[] resBallsCount = new BallRecord[3];
+
         
         City selectCity;
-
         public City SelectedCity
         {
             get { return selectCity; }
@@ -36,6 +69,9 @@ namespace Code2015.GUI.IngameUI
                 {
                     selectCity = value;
 
+                    resBallsCount[0].count = 0;
+                    resBallsCount[1].count = 0;
+                    resBallsCount[2].count = 0;
                     //if (selectCity != null)
                     //{
                     //    if (selectCity.Owner != player)
@@ -47,18 +83,68 @@ namespace Code2015.GUI.IngameUI
             }
         }
 
-        public CitySelectInfo(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker)
+
+
+        public CitySelectInfo(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
             this.scene = scene;
             this.renderSys = game.RenderSystem;
             this.player = parent.HumanPlayer;
-            this.picker = picker;
             this.gameLogic = gamelogic;
             this.parent = parent;
             this.game = game;
 
+            FileLocation fl = FileSystem.Instance.Locate("nig_status_bk.tex", GameFileLocs.GUI);
+            statusBackground = UITextureManager.Instance.CreateInstance(fl);
 
-            f14 = GameFontManager.Instance.FRuan;
+            fl = FileSystem.Instance.Locate("nig_status_hp_group.tex", GameFileLocs.GUI);
+            statusHPBackground = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_status_exp_bk.tex", GameFileLocs.GUI);
+            statusExpBackground = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_status_hp.tex", GameFileLocs.GUI);
+            statusHPTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_status_exp.tex", GameFileLocs.GUI);
+            statusExpTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_exp_buff.tex", GameFileLocs.GUI);
+            statusExpBuffTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_hp_buff.tex", GameFileLocs.GUI);
+            statusHPBufferTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_city_hp_group.tex", GameFileLocs.GUI);
+            onCityHPBackground = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_city_hp.tex", GameFileLocs.GUI);
+            onCityHPTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_city_hp_bk.tex", GameFileLocs.GUI);
+            onCityHPBase = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_icon_green.tex", GameFileLocs.GUI);
+            greenBallTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_icon_edu.tex", GameFileLocs.GUI);
+            educationBallTex = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_icon_hospital.tex", GameFileLocs.GUI);
+            healthBallTex = UITextureManager.Instance.CreateInstance(fl);
+
+
+            resBallsCount[0].Type = RBallType.Green;
+            resBallsCount[0].count = 0;
+
+            resBallsCount[1].Type = RBallType.Education;
+            resBallsCount[1].count = 0;
+
+            resBallsCount[2].Type = RBallType.Health;
+            resBallsCount[2].count = 0;
+
+            feg8 = GameFontManager.Instance.FRuanEdged8;
+
         }
 
         public override int Order
@@ -78,28 +164,195 @@ namespace Code2015.GUI.IngameUI
 
         public override void Render(Sprite sprite)
         {
-    
+
+            RenderSelectedCityHP(sprite);
+            RenderCityStatus(sprite);
+            RenderBallIcon(sprite);
+        }
+
+
+        private void StatisticRBall()
+        {
             if (selectCity != null)
             {
-                int hp = (int)selectCity.HealthValue;
-                int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
+                resBallsCount[0].count = 0;
+                resBallsCount[1].count = 0;
+                resBallsCount[2].count = 0;
 
-                string hpInfo = hp.ToString() + "   " + hpFull.ToString();
-                string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
-                f14.DrawString(sprite, hpInfo, 100, 100, ColorValue.White);
+                for (int i = 0; i < selectCity.NearbyOwnedBallCount; i++)
+                {
+                    if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Green)
+                        resBallsCount[0].count++;
 
-                //string test = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
-                f14.DrawString(sprite, developmentInfo, 100, 250, ColorValue.White);
 
-                f14.DrawString(sprite, "/!\"$',-.:;", 100, 400, ColorValue.White);      
-            }        
+                    if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Education)
+                        resBallsCount[1].count++;
+
+                    if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Health)
+                        resBallsCount[2].count++;
+                }
+            }
+
 
         }
 
 
         public override void Update(GameTime time)
         {
-            base.Update(time);  
+            base.Update(time);
+            StatisticRBall();
+        }
+
+
+        private void RenderSelectedCityHP(Sprite sprite)
+        {
+            if (SelectedCity != null)
+            {
+                float radLng = MathEx.Degree2Radian(SelectedCity.Longitude);
+                float radLat = MathEx.Degree2Radian(SelectedCity.Latitude);
+
+                Vector3 tangy = PlanetEarth.GetTangentY(radLng, radLat);
+                Vector3 tangx = PlanetEarth.GetTangentX(radLng, radLat);
+
+                Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
+                cityNormal.Normalize();
+
+                Vector3 hpPos = SelectedCity.Position + tangy * 350 + cityNormal * 100;
+
+                Viewport vp = renderSys.Viewport;
+                Vector3 screenPos = vp.Project(hpPos, scene.Camera.ProjectionMatrix,
+                                               scene.Camera.ViewMatrix, Matrix.Identity);
+
+                Vector3 lp = vp.Project(hpPos + tangx, scene.Camera.ProjectionMatrix,
+                                                       scene.Camera.ViewMatrix, Matrix.Identity);
+
+                Vector3 rp = vp.Project(hpPos - tangx, scene.Camera.ProjectionMatrix,
+                                                       scene.Camera.ViewMatrix, Matrix.Identity);
+
+
+                float scale = 1.5f * Vector3.Distance(lp, rp) / 2;
+
+                Matrix trans = Matrix.Translation(-onCityHPBackground.Width / 2, -onCityHPBackground.Height / 2, 0) *
+                           Matrix.Scaling(scale, scale, 1) * Matrix.Translation(screenPos.X, screenPos.Y, 0);
+
+
+
+                int hpTexWidth = (int)(onCityHPTex.Width * SelectedCity.HPRate);
+
+                sprite.SetTransform(trans);
+                sprite.Draw(onCityHPBase, 0, 0, ColorValue.White);
+                sprite.Draw(onCityHPTex, new Rectangle(0, 0, hpTexWidth, onCityHPTex.Height),
+                    new Rectangle(0, 0, hpTexWidth, onCityHPTex.Height), ColorValue.White);
+                sprite.Draw(onCityHPBackground, 0, 0, ColorValue.White);
+                sprite.SetTransform(Matrix.Identity);
+
+            }
+        }
+
+        private void RenderCityStatus(Sprite sprite)
+        {
+            if (selectCity != null)
+            {
+
+                sprite.Draw(statusBackground, 405, 580, ColorValue.White);
+                sprite.Draw(statusExpBackground, 589, 623, ColorValue.White);
+               
+                sprite.Draw(statusHPBufferTex, 790, 620, ColorValue.White);
+                sprite.Draw(statusExpBuffTex, 828, 616, ColorValue.White);
+
+
+                feg8.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 526, 604, ColorValue.White);
+
+                //画资源球图标
+                 
+
+                int hp = (int)selectCity.HealthValue;
+                int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
+
+
+                string hpInfo = hp.ToString() + "   " + hpFull.ToString();
+                string developmentInfo = selectCity.Name.ToString().ToUpperInvariant();
+
+
+
+
+                int hpTexWidth = (int)(statusHPTex.Width * SelectedCity.HPRate);
+
+                //int expTexWidth = (int)(statusExpTex.Width * SelectedCity.
+
+
+                sprite.Draw(statusHPTex, new Rectangle(505, 638, hpTexWidth, statusHPTex.Height),
+                    new Rectangle(0, 0, hpTexWidth, statusHPTex.Height), ColorValue.White);
+
+                sprite.Draw(statusHPBackground, 502, 640, ColorValue.White);
+            }
+
+        }
+ 
+        private void RenderBallIcon(Sprite sprite)
+        {
+            if (selectCity != null)
+            {
+                //Array.Sort(resBallsCount, BallRecordCompare);
+
+                int left = 0;
+                for (int i = 0; i < resBallsCount.Length; i++)
+                {
+                    switch (resBallsCount[i].Type)
+                    {
+                        case RBallType.Green:
+                            {
+                                if (resBallsCount[i].count != 0)
+                                {
+                                    int x = 687 + 69 * left - greenBallTex.Width / 2;
+                                    int y = 692 - greenBallTex.Height / 2;
+                                    sprite.Draw(greenBallTex, x, y, ColorValue.White);
+                                    feg8.DrawString(sprite, resBallsCount[i].count.ToString(), x + 20, y + 20, ColorValue.Black);
+                                    left++;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+
+                            }
+                            break;
+                        case RBallType.Education:
+                            {
+                                if (resBallsCount[i].count != 0)
+                                {
+                                    int x = 687 + 69 * left - educationBallTex.Width / 2;
+                                    int y = 692 - educationBallTex.Height /2 ;
+                                    sprite.Draw(educationBallTex, x, y, ColorValue.White);
+                                    feg8.DrawString(sprite, resBallsCount[i].count.ToString(), x + 20, y + 20, ColorValue.Black);
+
+                                    left++;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                        case RBallType.Health:
+                            {
+                                if (resBallsCount[i].count != 0)
+                                {
+                                    int x = 687 + 69 * left - healthBallTex.Width / 2;
+                                    int y = 692 - healthBallTex.Height / 2;
+                                    sprite.Draw(healthBallTex, x, y, ColorValue.White);
+                                    feg8.DrawString(sprite, resBallsCount[i].count.ToString(), x + 20, y + 20, ColorValue.Black);
+                                    left++;
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            break;
+                    }
+                }
+            }
         }
     }
 }
