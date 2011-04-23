@@ -35,6 +35,7 @@ using Code2015.Logic;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
 using Code2015.GUI.IngameUI;
+using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI
 {
@@ -89,8 +90,16 @@ namespace Code2015.GUI
 
         SelectInfo selectInfo;
 
+        CitySelectInfo cityStatusInfo;
+        RBallTypeSelect sendBallSelect;
+
+        RankInfo rankInfo;
+
         ExitConfirm exitConfirm;
         bool isEscPressed;
+
+        ExitGame exit;
+        Quest quest;
 
         Player player;
 
@@ -103,64 +112,57 @@ namespace Code2015.GUI
             this.game = game;
             this.renderSys = game.RenderSystem;
             this.scene = scene;
-           // this.physWorld = new ScreenPhysicsWorld();
+        
 
             this.player = parent.HumanPlayer;
-
 
 
             picker = new Picker(game, parent, scene, gamelogic);
             AddElement(picker);
 
-            //AddElement(new ColorNotify(player));
-            //this.cityEdit = new CityEditPanel(game, parent, scene, gamelogic);
-            //AddElement(cityEdit);
 
             this.infoUI = new InfoUI(game, parent, scene, gamelogic);
             AddElement(infoUI);
 
-            //this.brackets = new Brackets(game, parent, scene, gamelogic, picker);
-           // AddElement(brackets);
-
-            //this.icons = new GoalIcons(parent, this, infoUI.CityInfoDisplay, scene, physWorld, brackets);
-           // AddElement(icons);
-
-           // brackets.SetGoalIcons(icons);
-
-            //this.pieceMaker = new GoalPieceMaker(player.Area, renderSys, scene.Camera, icons);
-
-           
-           // this.playerProgress = new DevelopmentMeter(game, parent, scene, gamelogic);
-           // AddElement(playerProgress);
+          
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
-            AddElement(miniMap);
-            //this.noticeBar = new NoticeBar(game, parent, scene, gamelogic, miniMap);
-            //AddElement(noticeBar);
-
-            //this.container = new PieceContainer(game, parent, scene, gamelogic, icons);
-            //AddElement(container);
-            //PieceContainerOverlay overlay = new PieceContainerOverlay(game, parent, scene, gamelogic);
-            //AddElement(overlay);
-
-            //icons.SetPieceContainer(container);
-            //co2graph = new CO2Graph(game, parent, scene, gamelogic);
-            //AddElement(co2graph);
+            //AddElement(miniMap);
+         
 
             //-----Ruan-----------
             selectInfo = new SelectInfo(game, parent, scene, gamelogic);
-            AddElement(selectInfo);
+            //AddElement(selectInfo);
+
+            cityStatusInfo = new CitySelectInfo(game, parent, scene, gamelogic);
+            AddElement(cityStatusInfo);
+
+            sendBallSelect = new RBallTypeSelect(game, parent, scene, gamelogic);
+            AddElement(sendBallSelect);
 
             exitConfirm = new ExitConfirm();
             AddElement(exitConfirm);
 
-
+           
 
             selectionMarker = new SelectionMarker(renderSys, player);
             scene.Scene.AddObjectToScene(selectionMarker);
 
 
-            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, selectInfo, miniMap, selectionMarker);
+            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, selectInfo, cityStatusInfo,
+                                           sendBallSelect,  miniMap, selectionMarker);
             AddElement(layeredCursor);
+
+
+            exit = new ExitGame(game, parent, scene, gamelogic);
+            AddElement(exit);
+
+            quest = new Quest(game, parent, scene, gamelogic);
+            AddElement(quest);
+
+            rankInfo = new RankInfo(game, parent, scene, gamelogic);
+            AddElement(rankInfo);
+
+            
         }
 
         public override void Render(Sprite sprite)
@@ -171,6 +173,7 @@ namespace Code2015.GUI
                 {                  
                     base.Render(sprite);
                 }
+              
             }
         }
 
@@ -201,6 +204,19 @@ namespace Code2015.GUI
                     else
                     {
                         isEscPressed = keyState.IsKeyDown(XI.Keys.Escape);
+                    }
+
+
+                    if (exit.IsExitClicked)
+                    {
+                        if (!exitConfirm.IsShown)
+                        {
+                            exitConfirm.Show();
+                        }
+                        else
+                        {
+                            parent.Over();
+                        }
                     }
 
                     parent.IsPaused = exitConfirm.IsShown;
