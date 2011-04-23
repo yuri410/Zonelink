@@ -51,7 +51,7 @@ namespace Code2015.GUI
 
 
         CityInfoDisplay cityInfoDisplay;
-        ResInfoDisplay resInfoDisplay;
+        //ResInfoDisplay resInfoDisplay;
 
         RtsCamera camera;
 
@@ -76,7 +76,7 @@ namespace Code2015.GUI
             this.player = parent.HumanPlayer;
 
             this.cityInfoDisplay = new CityInfoDisplay(scene, renderSys, player);
-            this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
+            //this.resInfoDisplay = new ResInfoDisplay(scene, renderSys);
 
         }
 
@@ -100,7 +100,7 @@ namespace Code2015.GUI
         public override void Render(Sprite sprite)
         {
             cityInfoDisplay.Render(sprite);
-            resInfoDisplay.Render(sprite);
+            //resInfoDisplay.Render(sprite);
 
         }
 
@@ -108,7 +108,7 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
             cityInfoDisplay.Update(time);
-            resInfoDisplay.Update(time);
+            //resInfoDisplay.Update(time);
 
         }
     }

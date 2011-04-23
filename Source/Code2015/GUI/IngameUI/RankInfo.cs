@@ -32,7 +32,7 @@ namespace Code2015.GUI.IngameUI
         {
             get
             {
-                return 99;
+                return 51;
             }
         }
 

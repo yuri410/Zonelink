@@ -171,53 +171,53 @@ namespace Code2015.GUI
 
     }
 
-    class ResInfoDisplay : UIComponent
-    {
-        Dictionary<IResourceObject, ResourceInfo> resTable;
-        GameScene scene;
-        RenderSystem renderSys;
-        RtsCamera camera;
+    //class ResInfoDisplay : UIComponent
+    //{
+    //    Dictionary<IResourceObject, ResourceInfo> resTable;
+    //    GameScene scene;
+    //    RenderSystem renderSys;
+    //    RtsCamera camera;
 
 
 
-        public Matrix Projection;
-        public Matrix View;
+    //    public Matrix Projection;
+    //    public Matrix View;
 
-        public Vector3 CameraPosition;
+    //    public Vector3 CameraPosition;
 
-        public ResInfoDisplay(GameScene scene, RenderSystem rs)
-        {
-            this.scene = scene;
-            this.camera = scene.Camera;
-            this.renderSys = rs;
-            this.resTable = new Dictionary<IResourceObject, ResourceInfo>();
-        }
+    //    public ResInfoDisplay(GameScene scene, RenderSystem rs)
+    //    {
+    //        this.scene = scene;
+    //        this.camera = scene.Camera;
+    //        this.renderSys = rs;
+    //        this.resTable = new Dictionary<IResourceObject, ResourceInfo>();
+    //    }
 
-        public override void Render(Sprite sprite)
-        {
-            Projection = camera.ProjectionMatrix;
-            View = camera.ViewMatrix;
-            CameraPosition = camera.Position;
+    //    public override void Render(Sprite sprite)
+    //    {
+    //        Projection = camera.ProjectionMatrix;
+    //        View = camera.ViewMatrix;
+    //        CameraPosition = camera.Position;
 
-            for (int i = 0; i < scene.VisibleResourceCount; i++)
-            {
-                IResourceObject res = scene.GetResourceObject(i);
+    //        for (int i = 0; i < scene.VisibleResourceCount; i++)
+    //        {
+    //            IResourceObject res = scene.GetResourceObject(i);
 
-                ResourceInfo info;
+    //            ResourceInfo info;
 
-                if (!resTable.TryGetValue(res, out info))
-                {
-                    info = new ResourceInfo(this, renderSys, res);
-                    resTable.Add(res, info);
-                }
+    //            if (!resTable.TryGetValue(res, out info))
+    //            {
+    //                info = new ResourceInfo(this, renderSys, res);
+    //                resTable.Add(res, info);
+    //            }
 
-                info.Render(sprite);
-            }
-        }
+    //            info.Render(sprite);
+    //        }
+    //    }
 
-        public override void Update(GameTime time)
-        {
+    //    public override void Update(GameTime time)
+    //    {
            
-        }
-    }
+    //    }
+    //}
 }
