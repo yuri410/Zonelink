@@ -441,7 +441,6 @@
     <Compile Include="StaticPlay.cs" />
     <Compile Include="World\BallPathFinder.cs" />
     <Compile Include="World\City.cs" />
-    <Compile Include="World\NatrualResSelect.cs" />
     <Compile Include="World\SelectionMarker.cs">
       <SubType>Code</SubType>
     </Compile>

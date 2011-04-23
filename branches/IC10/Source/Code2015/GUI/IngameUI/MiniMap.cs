@@ -35,26 +35,19 @@ using Code2015.World;
 
 namespace Code2015.GUI
 {
-    enum AnimState
-    {
-        Inside,
-        Outside,
-        In,
-        Out
-    }
     class MiniMap : UIComponent
     {
-        const int PanelX = -48;
-        const int PanelY = 547;
+        const int PanelX = 899;
+        const int PanelY = 528;
         const int PanelWidth = 388;
         const int PanelHeight = 179;
 
         const float PopBaseSpeed = 0.75f;
 
-        const int MapX = 7;
-        const int MapY = 28;
-        const int MapWidth = 325;
-        const int MapHeight = 160;
+        const int MapX = 20;
+        const int MapY = 30;
+        const int MapWidth = 360;
+        const int MapHeight = 190;
 
         const float RotIn = -MathEx.PiOver2;
 
@@ -68,8 +61,6 @@ namespace Code2015.GUI
         FastList<Popup2> marks = new FastList<Popup2>();
 
         Texture background;
-        Texture compass;
-        Button switchButton;
 
         #region 内容显示
         Texture cameraView;
@@ -88,9 +79,7 @@ namespace Code2015.GUI
         Dictionary<City, Point> positionBuffer = new Dictionary<City, Point>();
         #endregion
 
-        AnimState state;
-
-        float rot;
+        //float rot;
 
         public MiniMap(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
@@ -99,33 +88,11 @@ namespace Code2015.GUI
             this.renderSys = game.RenderSystem;
             this.scene = scene;
             this.gameLogic = gamelogic;
-            this.state = AnimState.Outside;
             this.camera = scene.Camera;
 
-            FileLocation fl = FileSystem.Instance.Locate("ig_map.tex", GameFileLocs.GUI);
+            FileLocation fl = FileSystem.Instance.Locate("nig_minimap.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            switchButton = new Button();
-            switchButton.X = 302;
-            switchButton.Y = 554;
-            switchButton.Width = 38;
-            switchButton.Height = 21;
-
-            switchButton.Enabled = true;
-            switchButton.IsValid = true;
-
-            fl = FileSystem.Instance.Locate("ig_normal.tex", GameFileLocs.GUI);
-            switchButton.Image = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_hover.tex", GameFileLocs.GUI);
-            switchButton.ImageMouseOver = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_click.tex", GameFileLocs.GUI);
-            switchButton.ImageMouseDown = UITextureManager.Instance.CreateInstance(fl);
-
-            switchButton.MouseClick += SwitchButton_MouseClick;
-
-
-            fl = FileSystem.Instance.Locate("ig_map_guide.tex", GameFileLocs.GUI);
-            compass = UITextureManager.Instance.CreateInstance(fl);
 
             #region 内容显示
             fl = FileSystem.Instance.Locate("ig_map_view.tex", GameFileLocs.GUI);
@@ -166,26 +133,21 @@ namespace Code2015.GUI
             }
 
         }
-        void SwitchButton_MouseClick(object sender, MouseButtonFlags btn)
-        {
-            if (state != AnimState.Inside)
-            {
-                state = AnimState.In;
-            }
-        }
+   
+
         public override int Order
         {
             get { return 4; }
         }
         public override bool HitTest(int x, int y)
         {
-            if (state == AnimState.Outside)
-            {
+            //if (state == AnimState.Outside)
+            //{
                 Rectangle rect = new Rectangle(PanelX, PanelY, PanelWidth, PanelHeight);
-                return Control.IsInBounds(x, y, ref rect) || switchButton.HitTest(x, y);
-            }
-            Rectangle rect2 = new Rectangle(51, 688, 111, 38);
-            return Control.IsInBounds(x, y, ref rect2);
+                return Control.IsInBounds(x, y, ref rect);
+            //}
+            //Rectangle rect2 = new Rectangle(51, 688, 111, 38);
+            //return Control.IsInBounds(x, y, ref rect2);
         }
 
         Point GetPosition(float lng, float lat) 
@@ -233,21 +195,21 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            sprite.SetTransform(Matrix.RotationZ(-rot) * Matrix.Translation(0, PanelY + PanelHeight, 0));
-            sprite.Draw(background, PanelX, -PanelHeight, ColorValue.White);
+            sprite.SetTransform(Matrix.Translation(PanelX, PanelY + PanelHeight, 0));
+            sprite.Draw(background, 0, -PanelHeight, ColorValue.White);
 
-            if (switchButton.IsPressed)
-            {
-                sprite.Draw(switchButton.ImageMouseDown, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
-            }
-            else if (switchButton.IsMouseOver)
-            {
-                sprite.Draw(switchButton.ImageMouseOver, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
-            }
-            else
-            {
-                sprite.Draw(switchButton.Image, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
-            }
+            //if (switchButton.IsPressed)
+            //{
+            //    sprite.Draw(switchButton.ImageMouseDown, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            //}
+            //else if (switchButton.IsMouseOver)
+            //{
+            //    sprite.Draw(switchButton.ImageMouseOver, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            //}
+            //else
+            //{
+            //    sprite.Draw(switchButton.Image, switchButton.X, switchButton.Y - (PanelY + PanelHeight), switchButton.ModulateColor);
+            //}
 
             BattleField field = gameLogic.Field;
 
@@ -360,25 +322,41 @@ namespace Code2015.GUI
             }
             #endregion
 
-            sprite.Draw(compass, -21, 666, ColorValue.White);
+            //sprite.Draw(compass, -21, 666, ColorValue.White);
         }
 
 
         public override void UpdateInteract(GameTime time)
         {
-            switchButton.Update(time);
+            //switchButton.Update(time);
 
-            if (state == AnimState.Inside)
+            //if (state == AnimState.Inside)
+            //{
+            //    state = AnimState.Out;
+            //}
+            //if (state == AnimState.Outside)
+            //{
+
+            Rectangle rect = new Rectangle(PanelX + MapX - 20, PanelY + MapY - 20, MapWidth, MapHeight + 40);
+            Rectangle rect2 = new Rectangle(PanelX + MapX + 67, PanelY + MapY, MapWidth, MapHeight);
+
+            if (Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect))
             {
-                state = AnimState.Out;
-            }
-            if (state == AnimState.Outside)
-            {
-                Rectangle rect2 = new Rectangle(MapX, PanelY + MapY, MapWidth, MapHeight);
-                if (MouseInput.IsLeftPressed && Control.IsInBounds(MouseInput.X, MouseInput.Y, ref rect2))
+                if (MouseInput.IsLeftPressed)
                 {
-                    int x = MouseInput.X - MapX;
-                    int y = MouseInput.Y - MapY - PanelY;
+                    int x = MouseInput.X;
+                    int y = MouseInput.Y;
+
+                    if (x < rect2.Left)
+                        x = rect2.Left;
+                    if (y < rect2.Top)
+                        y = rect2.Top;
+                    if (x > rect2.Right)
+                        x = rect2.Right;
+                    if (y > rect2.Bottom)
+                        y = rect2.Bottom;
+                    x = x - MapX - PanelX;
+                    y = y - MapY - PanelY;
 
                     float yspan = MathEx.PIf;
 
@@ -390,25 +368,25 @@ namespace Code2015.GUI
         public override void Update(GameTime time)
         {
             const float StdRot = 0;
-            if (state == AnimState.Out)
-            {
-                rot += (StdRot - rot + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
-                if (rot >= StdRot)
-                {
-                    rot = StdRot;
-                    state = AnimState.Outside;
-                }
+            //if (state == AnimState.Out)
+            //{
+            //    rot += (StdRot - rot + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
+            //    if (rot >= StdRot)
+            //    {
+            //        rot = StdRot;
+            //        state = AnimState.Outside;
+            //    }
 
-            }
-            else if (state == AnimState.In)
-            {
-                rot -= (StdRot - rot + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
-                if (rot < RotIn)
-                {
-                    rot = RotIn;
-                    state = AnimState.Inside;                    
-                }
-            }
+            //}
+            //else if (state == AnimState.In)
+            //{
+            //    rot -= (StdRot - rot + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;
+            //    if (rot < RotIn)
+            //    {
+            //        rot = RotIn;
+            //        state = AnimState.Inside;                    
+            //    }
+            //}
             for (int i = marks.Count - 1; i >= 0; i--)
             {
                 if (marks[i].IsFinished)
