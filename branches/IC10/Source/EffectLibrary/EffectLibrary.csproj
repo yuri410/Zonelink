@@ -135,6 +135,8 @@
     <None Include="Scene\skinnedstandard.ps" />
     <None Include="Scene\board.ps" />
     <None Include="Scene\board.vs" />
+    <None Include="Scene\standardnh.ps" />
+    <None Include="Scene\standardnh.vs" />
     <None Include="ShadowMap\skinnedShadowMap.vs" />
     <None Include="UI\City\citylink.ps" />
     <None Include="UI\City\citylink.vs" />

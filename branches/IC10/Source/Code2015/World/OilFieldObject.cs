@@ -78,7 +78,7 @@ namespace Code2015.World
 
             frameIdx = Randomizer.GetRandomInt(FrameCount - 1);
 
-            float scale = Game.ObjectScale * 2.9f;// 2.2f;
+            float scale = Game.ObjectScale * 3.7f;// 2.2f;
             if (isOcean)
             {
                 model = new Model[FrameCount];
@@ -126,7 +126,7 @@ namespace Code2015.World
             board.CurrentAnimation.Add(
                 new NoAnimaionPlayer(
                     Matrix.Translation(-50, 25, 23) *
-                    Matrix.Scaling(2.1f, 2.1f, 2.1f) *
+                    Matrix.Scaling(2.7f, 2.7f, 2.7f) *
                     Matrix.RotationX(-MathEx.PiOver2) *
                     Matrix.RotationY((-MathEx.PIf * 7.0f) / 8.0f)
                     ));

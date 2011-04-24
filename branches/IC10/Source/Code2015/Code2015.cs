@@ -120,6 +120,7 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(SmokeRDEffectFactory.Name, new SmokeRDEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(GoalEffectFactory.Name, new GoalEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(BoardEffectFactory.Name, new BoardEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(StandardNHEffectFactory.Name, new StandardNHEffectFactory(renderSys));
 
             RulesTable.LoadRules();
 

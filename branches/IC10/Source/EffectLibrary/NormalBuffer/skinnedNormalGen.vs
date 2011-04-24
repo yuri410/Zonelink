@@ -40,5 +40,5 @@ void main(
     oPos = mul(vin.Position, mvp);
     oN = normalize(mul(vin.Normal, (float3x3)worldView));
     oTex.xy = vin.TexCoord;
-    oTex.z = saturate(oPos.z/6000);
+    oTex.z = saturate(oPos.z/6500);
 }

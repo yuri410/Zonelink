@@ -152,7 +152,7 @@ namespace Code2015.World
             board.CurrentAnimation.Add(
                 new NoAnimaionPlayer(
                     Matrix.Translation(0, 0, 25) *
-                    Matrix.Scaling(2.1f, 2.1f, 2.1f) *
+                    Matrix.Scaling(2.7f, 2.7f, 2.7f) *
                     Matrix.RotationX(-MathEx.PiOver2) *
                     Matrix.RotationY((-MathEx.PIf * 7.0f) / 8.0f)
                     ));

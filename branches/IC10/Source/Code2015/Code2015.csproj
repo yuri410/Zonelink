@@ -109,6 +109,7 @@
     <Compile Include="Effects\BoltEffect.cs" />
     <Compile Include="Effects\SkinnedStandardEffect.cs" />
     <Compile Include="Effects\BoardEffect.cs" />
+    <Compile Include="Effects\StandardNHEffect.cs" />
     <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PostRenderer.cs" />
@@ -493,6 +494,7 @@
     <Compile Include="World\TerrainTile.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="World\SplashSmoke.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Configs\resources.xml">

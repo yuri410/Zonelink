@@ -101,6 +101,7 @@ namespace Code2015.World
         int currentForm;
 
         Smokes smoke;
+        SplashSmokes splashSmoke;
 
         Model cityBase;
 
@@ -541,6 +542,8 @@ namespace Code2015.World
                         wakeingUp[0].CurrentAnimation.Insert(0, scaling);
                         #endregion
 
+
+                        scaling = new NoAnimaionPlayer(Matrix.Scaling(26, 26, 26));
                         #region Health
 
                         fl = FileSystem.Instance.Locate("ch_hospital_catch.mesh", GameFileLocs.Model);
@@ -660,7 +663,8 @@ namespace Code2015.World
                         break;
                     }
             }
-            smoke = new Smokes(this, rs); 
+            smoke = new Smokes(this, rs);
+            splashSmoke = new SplashSmokes(this, rs);
             ChangeState(CityState.Sleeping);
 
             sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityRadius * 2);
@@ -767,6 +771,7 @@ namespace Code2015.World
                     }
                     currentForm = 0;
                 }
+                splashSmoke.Fire();
             }
             stopped[currentForm].PlayAnimation();                           
         }
@@ -1466,6 +1471,8 @@ namespace Code2015.World
             {
                 if (smoke != null)
                     smoke.Update(dt);
+                if (splashSmoke != null)
+                    splashSmoke.Update(dt);
             }
             
             UpdateState(dt);
@@ -1518,7 +1525,11 @@ namespace Code2015.World
                     opBuffer.Add(ops);
                 }
             }
-
+            ops = splashSmoke.GetRenderOperation();
+            if (ops != null) 
+            {
+                opBuffer.Add(ops);
+            }
             
             ops = null;
             switch (currentState)
