@@ -70,7 +70,8 @@ namespace Code2015.World
             Ouch,
             Woot,
             Haha,
-            Yeah
+            Yeah,
+            LevelUp
         }
         struct Yangbing
         {
@@ -132,8 +133,9 @@ namespace Code2015.World
 
         Model[] happyWords;
         Model ouchWord;
+        Model levelUpWord;
 
-
+        int lastLevel;
 
         #region Idle_State
         float nextIdleAnimationCD;
@@ -311,7 +313,7 @@ namespace Code2015.World
 
         void PlayWord(WordType t)
         {
-            if (isWordPlaying)
+            if (!isWordPlaying)
             {
                 wordType = t;
                 wordPlayProgress = 0;
@@ -696,8 +698,8 @@ namespace Code2015.World
                     }
             }
 
-            Matrix wordTransform = Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(MathEx.PiOver4);
-            wordTransform.TranslationValue = new Vector3(250, 300, -250);
+            Matrix wordTransform = Matrix.Scaling(2, 2, 2) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf-MathEx.PiOver4);
+            wordTransform.TranslationValue = new Vector3(-250, 200, 250);
             
             happyWords = new Model[3];
             fl = FileSystem.Instance.Locate("pop_haha.mesh", GameFileLocs.Model);
@@ -720,6 +722,15 @@ namespace Code2015.World
             ouchWord = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             ouchWord.CurrentAnimation.Clear();
             ouchWord.CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
+
+
+            wordTransform = Matrix.Scaling(1.67f, 1.67f, 1.67f) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf - MathEx.PiOver4);
+            wordTransform.TranslationValue = new Vector3(-250, 200, 250);
+            
+            fl = FileSystem.Instance.Locate("pop_levelup.mesh", GameFileLocs.Model);
+            levelUpWord = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            levelUpWord.CurrentAnimation.Clear();
+            levelUpWord.CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
 
             smoke = new Smokes(this, rs);
             splashSmoke = new SplashSmokes(this, rs);
@@ -1305,11 +1316,25 @@ namespace Code2015.World
                     break;
                 case CityState.Fear:
                     fear[currentForm].PlayAnimation();
+                    PlayWord(WordType.Ouch);
+
                     break;
                 case CityState.Idle:
                     idle[currentForm].PlayAnimation();
                     break;
                 case CityState.Laugh:
+
+                    laugh[currentForm].PlayAnimation();
+
+                    int t = Randomizer.GetRandomInt(3);
+                    if (t==0)
+                        PlayWord(WordType.Woot);
+                    else if (t == 1)
+                        PlayWord(WordType.Yeah);
+                    else 
+                        PlayWord(WordType.Haha);
+
+
                     break;
                 case CityState.Stopped:
                     stopped[currentForm].PlayAnimation();
@@ -1539,8 +1564,18 @@ namespace Code2015.World
 
             if (isWordPlaying)
             {
-                wordPlayProgress += ddt * 0.5f;
+                wordPlayProgress += ddt * 0.67f;
+                if (wordPlayProgress > 1)
+                    isWordPlaying = false;
             }
+
+            int lvl = Level;
+            if (lvl > lastLevel)
+            {
+                PlayWord(WordType.LevelUp);
+                lastLevel = lvl;
+            }
+            
         }
 
         public void TestBalls()
@@ -1589,7 +1624,7 @@ namespace Code2015.World
                 }
             }
             ops = splashSmoke.GetRenderOperation();
-            if (ops != null) 
+            if (ops != null)
             {
                 opBuffer.Add(ops);
             }
@@ -1597,15 +1632,17 @@ namespace Code2015.World
             if (isWordPlaying)
             {
                 // y=-(x-1)^2+1
+                float scale = -MathEx.Sqr(MathEx.Saturate(wordPlayProgress * 6) * 1.5f - 1) + 1;
+                //float scale = -MathEx.Sqr(MathEx.Clamp(wordPlayProgress * 2, 0, 1.2f) - 1) + 1;
+                scale = 0.5f + 1.5f * scale;
 
-                float scale = -MathEx.Sqr(MathEx.Clamp(wordPlayProgress*2, 0, 1.2f) - 1) + 1;
                 Matrix scaling = Matrix.Scaling(scale, scale, scale);
 
                 switch (wordType)
                 {
                     case WordType.Haha:
                         ops = happyWords[0].GetRenderOperation();
-                        break; 
+                        break;
                     case WordType.Ouch:
                         ops = happyWords[1].GetRenderOperation();
                         break;
@@ -1615,7 +1652,10 @@ namespace Code2015.World
                     case WordType.Yeah:
                         ops = happyWords[2].GetRenderOperation();
                         break;
-                }                
+                    case WordType.LevelUp:
+                        ops = levelUpWord.GetRenderOperation();
+                        break;
+                }
                 if (ops != null)
                 {
                     for (int i = 0; i < ops.Length; i++)
@@ -1660,7 +1700,7 @@ namespace Code2015.World
                     {
                         ops = catchingRelease[currentForm].GetRenderOperation();
                     }
-                    else 
+                    else
                     {
                         ops = catching[currentForm].GetRenderOperation();
                     }

@@ -368,7 +368,7 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
-                                    if (selectCity.GetProductionType() == RBallType.Green)
+                                    if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Green)
                                     {
 
                                         int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
@@ -398,7 +398,7 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
-                                    if (selectCity.GetProductionType() == RBallType.Education)
+                                    if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Education)
                                     {
 
                                         int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
@@ -428,7 +428,7 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
-                                    if (selectCity.GetProductionType() == RBallType.Health)
+                                    if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Health)
                                     {
 
                                         int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
