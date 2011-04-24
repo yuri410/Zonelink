@@ -17,6 +17,6 @@ VSOutput main(VSInput ip)
 
     o.Position = mul(ip.Position, mvp);
     o.NormalCoord = ip.NormalCoord * 3.5;
-    o.NormalCoord.z = saturate(o.Position.z/6000);
+    o.NormalCoord.z = saturate(o.Position.z/6500);
     return o;
 }

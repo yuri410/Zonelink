@@ -13,5 +13,5 @@ void main(
     oPos = mul(pos, mvp);
     oN = normalize(mul(n, (float3x3)worldView));
     oTex.xy = tex;
-    oTex.z = saturate(oPos.z/6000);
+    oTex.z = saturate(oPos.z/6500);
 }

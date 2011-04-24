@@ -19,7 +19,7 @@ VSOutput main(VSInput ip)
     vo.Position = mul(ip.Position, mvp);
     
     vo.GlobeCoord.xy = ip.GlobeCoord;
-    vo.GlobeCoord.z = saturate(vo.Position.z/6000);
+    vo.GlobeCoord.z = saturate(vo.Position.z/6500);
     
     return vo;
 }

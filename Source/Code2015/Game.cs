@@ -74,7 +74,7 @@ namespace Code2015
     class Game : IGameComponent, IDisposable
     {
         public const float ObjectScale = 3;
-        public const float TreeScale = ObjectScale * 3.33f;
+        public const float TreeScale = ObjectScale * 4.0f;
 
 
         object syncHelper = new object();
