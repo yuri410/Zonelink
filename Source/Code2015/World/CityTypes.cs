@@ -334,7 +334,7 @@ namespace Code2015.World
         
         public override float GetProductionProgress()
         {
-            return generateRBallCD / generateRBallTime;
+            return 1 - generateRBallCD / generateRBallTime;
         }
 
         public override void Parse(GameConfigurationSection sect)
