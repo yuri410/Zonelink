@@ -65,6 +65,13 @@ namespace Code2015.World
     /// </summary>
     class City : WorldObject, ISelectableObject
     {
+        enum WordType
+        {
+            Ouch,
+            Woot,
+            Haha,
+            Yeah
+        }
         struct Yangbing
         {
             public const float SchoolPreseveTime = (62.0f / 30.0f) * (30.0f / 62.0f);
@@ -117,6 +124,15 @@ namespace Code2015.World
         Model[] sleeping;
 
         CityType cityType;
+
+
+        bool isWordPlaying;
+        WordType wordType;
+        float wordPlayProgress;
+
+        Model[] happyWords;
+        Model ouchWord;
+
 
 
         #region Idle_State
@@ -181,7 +197,11 @@ namespace Code2015.World
 
         public float CatchPreserveTime
         {
-            get { return catching[currentForm].SkinAnimDuration; }
+            get 
+            {
+                
+                return catching[currentForm].SkinAnimDuration;
+            }
         }
 
         public Quaternion CurrentFacing
@@ -286,6 +306,18 @@ namespace Code2015.World
         {
             get;
             private set;
+        }
+
+
+        void PlayWord(WordType t)
+        {
+            if (isWordPlaying)
+            {
+                wordType = t;
+                wordPlayProgress = 0;
+
+                isWordPlaying = true;
+            }
         }
 
         public bool CanProduceProduction()
@@ -663,6 +695,32 @@ namespace Code2015.World
                         break;
                     }
             }
+
+            Matrix wordTransform = Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(MathEx.PiOver4);
+            wordTransform.TranslationValue = new Vector3(250, 300, -250);
+            
+            happyWords = new Model[3];
+            fl = FileSystem.Instance.Locate("pop_haha.mesh", GameFileLocs.Model);
+            happyWords[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            happyWords[0].CurrentAnimation.Clear();
+            happyWords[0].CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
+
+            fl = FileSystem.Instance.Locate("pop_ouch.mesh", GameFileLocs.Model);
+            happyWords[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            happyWords[1].CurrentAnimation.Clear();
+            happyWords[1].CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
+
+            
+            fl = FileSystem.Instance.Locate("pop_yeah.mesh", GameFileLocs.Model);
+            happyWords[2] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            happyWords[2].CurrentAnimation.Clear();
+            happyWords[2].CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
+
+            fl = FileSystem.Instance.Locate("pop_woot.mesh", GameFileLocs.Model);
+            ouchWord = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            ouchWord.CurrentAnimation.Clear();
+            ouchWord.CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
+
             smoke = new Smokes(this, rs);
             splashSmoke = new SplashSmokes(this, rs);
             ChangeState(CityState.Sleeping);
@@ -1478,6 +1536,11 @@ namespace Code2015.World
             UpdateState(dt);
 
             UpdateAI(dt);
+
+            if (isWordPlaying)
+            {
+                wordPlayProgress += ddt * 0.5f;
+            }
         }
 
         public void TestBalls()
@@ -1530,7 +1593,38 @@ namespace Code2015.World
             {
                 opBuffer.Add(ops);
             }
-            
+
+            if (isWordPlaying)
+            {
+                // y=-(x-1)^2+1
+
+                float scale = -MathEx.Sqr(MathEx.Clamp(wordPlayProgress*2, 0, 1.2f) - 1) + 1;
+                Matrix scaling = Matrix.Scaling(scale, scale, scale);
+
+                switch (wordType)
+                {
+                    case WordType.Haha:
+                        ops = happyWords[0].GetRenderOperation();
+                        break; 
+                    case WordType.Ouch:
+                        ops = happyWords[1].GetRenderOperation();
+                        break;
+                    case WordType.Woot:
+                        ops = ouchWord.GetRenderOperation();
+                        break;
+                    case WordType.Yeah:
+                        ops = happyWords[2].GetRenderOperation();
+                        break;
+                }                
+                if (ops != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Transformation = scaling * ops[i].Transformation;
+                    }
+                    opBuffer.Add(ops);
+                }
+            }
             ops = null;
             switch (currentState)
             {

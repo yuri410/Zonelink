@@ -88,6 +88,10 @@ namespace Code2015.GUI.IngameUI
             exitButton.MouseClick += ExitButton_Click;
         }
 
+        public bool IsHidden 
+        {
+            get { return state == NIGDialogState.Hiding; }
+        }
 
         public void Show()
         {
