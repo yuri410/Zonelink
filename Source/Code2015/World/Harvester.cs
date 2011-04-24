@@ -110,6 +110,15 @@ namespace Code2015.World
 
         #region 仓库
         float harvStorage;
+        public float CurrentStorage
+        {
+          
+            get
+            {
+                return harvStorage;
+            }
+        }
+
 
         bool isFullLoaded;
         NaturalResource exRes;
@@ -121,6 +130,14 @@ namespace Code2015.World
         /// 矿车当前的生命值
         /// </summary>
         float currentHp;
+        public float CurrentHP
+        {
+           
+            get
+            {
+                return currentHp;
+            }
+        }
 
 
 
