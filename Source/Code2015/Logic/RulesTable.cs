@@ -139,22 +139,22 @@ namespace Code2015.Logic
             EducationBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["HealthBall"];
-            EducationBallBaseHeal = sect.GetSingle("BaseHealth");
-            HealthDevelopStep = sect.GetSingle("GenInterval");
+            HealthBallBaseHeal = sect.GetSingle("BaseHealth");
+            HealthBallGenInterval = sect.GetSingle("GenInterval");
             HealthBallContribution = sect.GetSingle("Contribution"); ;
             HealthBallBaseDamage = sect.GetSingle("BaseDamage");
             HealthBallBaseHeal = sect.GetSingle("BaseHeal");
-
+           
             sect = con["DiseaseBall"];
             DiseaseBallBaseHeal = sect.GetSingle("BaseHealth");
-            DiseaseDevelopStep = sect.GetSingle("GenInterval");
+            DiseaseBallGenInterval = sect.GetSingle("GenInterval");
             DiseaseBallContribution = sect.GetSingle("Contribution");
             DiseaseBallBaseDamage = sect.GetSingle("BaseDamage");
             DiseaseBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["VolienceBall"];
             VolienceBallBaseHeal = sect.GetSingle("BaseHealth");
-            VolienceDevelopStep = sect.GetSingle("GenInterval");
+            VolienceBallGenInterval = sect.GetSingle("GenInterval");
             VolienceBallContribution = sect.GetSingle("Contribution");
             VolienceBallBaseDamage = sect.GetSingle("BaseDamage");
             VolienceBallBaseHeal = sect.GetSingle("BaseHeal");

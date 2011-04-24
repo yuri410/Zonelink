@@ -287,6 +287,36 @@ namespace Code2015.World
             private set;
         }
 
+        public bool CanProduceProduction()
+        {
+            return Type != CityType.Neutral;
+        }
+
+        public RBallType GetProductionType()
+        {
+            switch (Type)
+            {
+                case CityType.Oil:
+                    return RBallType.Oil;
+                case CityType.Health:
+                    return RBallType.Health;
+                case CityType.Disease:
+                    return RBallType.Disease;
+                case CityType.Education:
+                    return RBallType.Education;
+                case CityType.Volience:
+                    return RBallType.Volience;
+                case CityType.Green:
+                    return RBallType.Green;
+            }
+            throw new InvalidOperationException();
+        }
+
+        public virtual float GetProductionProgress() 
+        {
+            throw new NotImplementedException();
+        }
+
 
         public event CityVisibleHander CityVisible;
 
