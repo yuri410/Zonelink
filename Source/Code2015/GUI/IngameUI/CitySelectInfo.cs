@@ -51,7 +51,6 @@ namespace Code2015.GUI.IngameUI
         Texture educationBallTex;
         Texture healthBallTex;
 
-
         GameFontRuan f8;
         GameFontRuan f6;
 
@@ -369,6 +368,17 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
+                                    if (selectCity.GetProductionType() == RBallType.Green)
+                                    {
+
+                                        int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
+
+
+                                        sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
+                                             new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
+
+                                    }
+
                                     int x = 687 + 69 * left - greenBallTex.Width / 2;
                                     int y = 692 - greenBallTex.Height / 2;
                                     sprite.Draw(greenBallTex, x, y, ColorValue.White);
@@ -379,10 +389,8 @@ namespace Code2015.GUI.IngameUI
                                     sprite.SetTransform(Matrix.Identity);
                                     left++;
                                 }
-                                else
-                                {
-                                    break;
-                                }
+
+                                
 
                             }
                             break;
@@ -390,6 +398,17 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
+                                    if (selectCity.GetProductionType() == RBallType.Education)
+                                    {
+
+                                        int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
+
+
+                                        sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
+                                             new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
+
+                                    }
+
                                     int x = 687 + 69 * left - educationBallTex.Width / 2;
                                     int y = 692 - educationBallTex.Height /2 ;
                                     sprite.Draw(educationBallTex, x, y, ColorValue.White);
@@ -402,16 +421,24 @@ namespace Code2015.GUI.IngameUI
 
                                     left++;
                                 }
-                                else
-                                {
-                                    break;
-                                }
+                               
                             }
                             break;
                         case RBallType.Health:
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
+                                    if (selectCity.GetProductionType() == RBallType.Health)
+                                    {
+
+                                        int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
+
+
+                                        sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
+                                             new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
+
+                                    }
+
                                     int x = 687 + 69 * left - healthBallTex.Width / 2;
                                     int y = 692 - healthBallTex.Height / 2;
                                     sprite.Draw(healthBallTex, x, y, ColorValue.White);
@@ -422,14 +449,13 @@ namespace Code2015.GUI.IngameUI
                                     sprite.SetTransform(Matrix.Identity);
                                     left++;
                                 }
-                                else
-                                {
-                                    break;
-                                }
+                             
                             }
                             break;
                     }
                 }
+
+                
             }
         }
 
