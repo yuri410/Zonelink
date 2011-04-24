@@ -90,7 +90,7 @@ namespace Code2015.GUI
 
 
         CitySelectInfo cityStatusInfo;
-        NResSelectInfo nResSelectInfo;
+        ObjectSelectInfo objectStatusInfo;
         RBallTypeSelect sendBallSelect;
 
         RankInfo rankInfo;
@@ -142,9 +142,9 @@ namespace Code2015.GUI
             cityStatusInfo = new CitySelectInfo(game, parent, scene, gamelogic);
             AddElement(cityStatusInfo);
 
-            nResSelectInfo = new NResSelectInfo(game, parent, scene, gamelogic);
-            AddElement(nResSelectInfo);
-          
+            objectStatusInfo = new ObjectSelectInfo(game, parent, scene, gamelogic);
+            AddElement(objectStatusInfo);
+
             sendBallSelect = new RBallTypeSelect(game, parent, scene, gamelogic);
             AddElement(sendBallSelect);
 
@@ -167,7 +167,7 @@ namespace Code2015.GUI
             scene.Scene.AddObjectToScene(selectionMarker);
 
 
-            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, cityStatusInfo, nResSelectInfo,
+            layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, cityStatusInfo, objectStatusInfo,
                                            sendBallSelect,  miniMap, selectionMarker);
             AddElement(layeredCursor);
 

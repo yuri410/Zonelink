@@ -41,7 +41,7 @@ namespace Code2015.GUI.IngameUI
 
         SelectionMarker selectionMarker;
         CitySelectInfo citySelectInfo;
-        NResSelectInfo nResSelectInfo;
+        ObjectSelectInfo objSelectInfo;
         RBallTypeSelect sendBallSelect;
         MiniMap miniMap;
 
@@ -72,7 +72,7 @@ namespace Code2015.GUI.IngameUI
         Point mouseRightPosition;
 
         public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker,
-             CitySelectInfo citySelectInfo, NResSelectInfo nResSelectInfo ,RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
+             CitySelectInfo citySelectInfo, ObjectSelectInfo objSelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
         {
             this.parent = parent;
             this.logic = gamelogic;
@@ -86,7 +86,7 @@ namespace Code2015.GUI.IngameUI
 
             this.selectionMarker = marker;
             this.citySelectInfo = citySelectInfo;
-            this.nResSelectInfo = nResSelectInfo;
+            this.objSelectInfo = objSelectInfo;
             this.sendBallSelect = sendBallSelect;
             this.miniMap = map;
 
@@ -310,7 +310,11 @@ namespace Code2015.GUI.IngameUI
 
             if (miniMap.HitTest(MouseInput.X, MouseInput.Y))
                 isOnHUD = true;
-
+            if (citySelectInfo.HitTest(MouseInput.X, MouseInput.Y))
+                isOnHUD = true;
+            if (objSelectInfo.HitTest(MouseInput.X, MouseInput.Y))
+                isOnHUD = true;
+            
             if (isOnHUD)
             {
                 cursorState = MouseCursor.Normal;
@@ -333,8 +337,7 @@ namespace Code2015.GUI.IngameUI
             UpdateMouseCursor(time);
 
             citySelectInfo.SelectedCity = picker.SelectedCity;
-            nResSelectInfo.SelectedResource = picker.SelectedObject as NaturalResource;
-            nResSelectInfo.SelectHarvester = picker.SelectedObject as Harvester;
+            objSelectInfo.SelectedObject = picker.SelectedObject;
 
             if (isWaitingRBallSelect)
             {

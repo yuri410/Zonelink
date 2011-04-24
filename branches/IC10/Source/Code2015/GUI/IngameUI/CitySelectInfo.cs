@@ -1,13 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Code2015.World;
 using Apoc3D;
 using Apoc3D.Graphics;
-using Code2015.Logic;
-using Code2015.EngineEx;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using Code2015.EngineEx;
+using Code2015.Logic;
+using Code2015.World;
+using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI.IngameUI
 {
@@ -28,6 +29,7 @@ namespace Code2015.GUI.IngameUI
         Texture statusHPTex;
         Texture statusExpBackground;
         Texture statusExpTex;
+        Texture statusProducePrgTex;
 
 
         Texture statusExpBuffTex;
@@ -143,6 +145,8 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("nig_icon_hospital.tex", GameFileLocs.GUI);
             healthBallTex = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("nig_status_city_produceprg.tex", GameFileLocs.GUI);
+            statusProducePrgTex = UITextureManager.Instance.CreateInstance(fl);
 
             resBallsCount[0].Type = RBallType.Green;
             resBallsCount[0].count = 0;
@@ -169,6 +173,11 @@ namespace Code2015.GUI.IngameUI
 
         public override bool HitTest(int x, int y)
         {
+            if (selectCity != null)
+            {
+                Rectangle rect = new Rectangle(417, 586, 498, 134);
+                return Control.IsInBounds(x, y, ref rect);
+            }
             return false;
         }
 
@@ -264,7 +273,7 @@ namespace Code2015.GUI.IngameUI
                                                        scene.Camera.ViewMatrix, Matrix.Identity);
 
 
-                float scale = 1.5f * Vector3.Distance(lp, rp) / 2;
+                float scale = 1.75f * Vector3.Distance(lp, rp) / 2;
 
                 Matrix trans = Matrix.Translation(-onCityHPBackground.Width / 2, -onCityHPBackground.Height / 2, 0) *
                            Matrix.Scaling(scale, scale, 1) * Matrix.Translation(screenPos.X, screenPos.Y, 0);

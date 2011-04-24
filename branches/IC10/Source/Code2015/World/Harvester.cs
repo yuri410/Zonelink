@@ -110,16 +110,6 @@ namespace Code2015.World
 
         #region 仓库
         float harvStorage;
-        public float CurrentStorage
-        {
-          
-            get
-            {
-                return harvStorage;
-            }
-        }
-
-
         bool isFullLoaded;
         NaturalResource exRes;
         bool isLoading;
@@ -130,17 +120,24 @@ namespace Code2015.World
         /// 矿车当前的生命值
         /// </summary>
         float currentHp;
-        public float CurrentHP
+
+
+        public float CurrentStorage 
         {
-           
-            get
-            {
-                return currentHp;
-            }
+            get { return harvStorage; }
         }
-
-
-
+        public float Storage 
+        {
+            get { return props.Storage; }
+        }
+        public float HealthValue 
+        {
+            get { return currentHp; }
+        }
+        public float HPRate 
+        {
+            get { return currentHp / props.HP; }
+        }
         public bool IsFullLoaded { get { return isFullLoaded; } set { isFullLoaded = value; } }
 
         public NaturalResource ExRes
