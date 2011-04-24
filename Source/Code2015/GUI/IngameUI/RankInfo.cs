@@ -95,7 +95,7 @@ namespace Code2015.GUI.IngameUI
                     sprite.SetTransform(Matrix.Identity);
 
                     sprite.Draw(rankColor, 35, startY + 9, players[i].SideColor);
-                    f8.DrawString(sprite, players[i].Area.CityCount.ToString(), 80, startY - 20, ColorValue.White);
+                    f8.DrawString(sprite, players.Count.ToString(), 80, startY - 20, ColorValue.White);
                     startY += 37;
                 }
                 else
@@ -109,7 +109,7 @@ namespace Code2015.GUI.IngameUI
                     f8.DrawString(sprite, "TH", 0, 0, ColorValue.White);
                     sprite.SetTransform(Matrix.Identity);
 
-                    f6.DrawString(sprite, players[i].Area.CityCount.ToString(), 73, startY - 45, ColorValue.White);
+                    f6.DrawString(sprite, players.Count.ToString(), 73, startY - 45, ColorValue.White);
                     startY += 70;
                 }           
             }
@@ -135,7 +135,7 @@ namespace Code2015.GUI.IngameUI
         }
     
 
-        private void StatisticRank(List<Player> players)
+        public static void StatisticRank(List<Player> players)
         {
             players.Sort(ComparePlayer);   
         }

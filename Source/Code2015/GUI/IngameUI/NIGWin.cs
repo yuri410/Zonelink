@@ -63,8 +63,8 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("nig_result_back.tex", GameFileLocs.GUI);
             backButton = new Button();
             backButton.Image = UITextureManager.Instance.CreateInstance(fl);
-            backButton.X = 461;
-            backButton.Y = 542;
+            backButton.X = 450; 
+            backButton.Y = 530;
             backButton.Width = backButton.Image.Width;
             backButton.Height = backButton.Image.Height;
             backButton.Enabled = true;
@@ -74,8 +74,8 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("nig_result_replay.tex", GameFileLocs.GUI);
             replayButton = new Button();
             replayButton.Image = UITextureManager.Instance.CreateInstance(fl);
-            replayButton.X = 588;
-            replayButton.Y = 542;
+            replayButton.X = 590;
+            replayButton.Y = 530;
             replayButton.Width = replayButton.Image.Width;
             replayButton.Height = replayButton.Image.Height;
             replayButton.Enabled = true;
@@ -85,8 +85,8 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("nig_result_next.tex", GameFileLocs.GUI);
             nextButton = new Button();
             nextButton.Image = UITextureManager.Instance.CreateInstance(fl);
-            nextButton.X = 750;
-            nextButton.Y = 542;
+            nextButton.X = 745;
+            nextButton.Y = 528;
             nextButton.Width = nextButton.Image.Width;
             nextButton.Height = nextButton.Image.Height;
             nextButton.Enabled = true;
@@ -112,12 +112,13 @@ namespace Code2015.GUI.IngameUI
 
         public void Show()
         {
-            state = NIGDialogState.Showing;
+            state = NIGDialogState.MovingIn;
         }
         public void Hide()
         {
-            state = NIGDialogState.Hiding;
+            state = NIGDialogState.MovingOut;
         }
+
 
         public override int Order
         {
@@ -138,21 +139,29 @@ namespace Code2015.GUI.IngameUI
 
         public override void Update(Apoc3D.GameTime time)
         {
-            if (state == NIGDialogState.Hiding)
+            if (state == NIGDialogState.MovingOut)
             {
-                showPrg -= time.ElapsedGameTimeSeconds;
+                showPrg -= time.ElapsedGameTimeSeconds * 8;
                 if (showPrg < 0)
                 {
                     showPrg = 0;
+                    state = NIGDialogState.Hiding;
                 }
             }
-            else if (state == NIGDialogState.Showing)
+            else if (state == NIGDialogState.MovingIn)
             {
-                showPrg += time.ElapsedGameTimeSeconds;
+                showPrg += time.ElapsedGameTimeSeconds * 8;
                 if (showPrg > 1)
                 {
                     showPrg = 1;
+                    state = NIGDialogState.Showing;
                 }
+            }
+            if (state == NIGDialogState.Showing)
+            {
+                replayButton.Update(time);
+                backButton.Update(time);
+                nextButton.Update(time);
             }
         }
 
@@ -160,9 +169,9 @@ namespace Code2015.GUI.IngameUI
         {
             if (state == NIGDialogState.Showing)
             {
-                backButton.UpdateInteract(time);
-                replayButton.UpdateInteract(time);
-                nextButton.UpdateInteract(time);
+                replayButton.Update(time);
+                backButton.Update(time);
+                nextButton.Update(time);
             }
         }
 
@@ -197,9 +206,47 @@ namespace Code2015.GUI.IngameUI
             if (state != NIGDialogState.Hiding)
             {
                 ColorValue overlayColor = ColorValue.Transparent;
-                overlayColor.A = (byte)(byte.MaxValue * showPrg);
+                overlayColor.A = (byte)(165 * showPrg);
 
                 sprite.Draw(overlay, 0, 0, overlayColor);
+
+
+                int x = 373;
+                int y = 54;
+
+
+                Matrix trans = Matrix.Translation(-background.Width / 2, -background.Height / 2, 0) *
+                    Matrix.Scaling(showPrg * 0.8f + 0.2f, 1, 1) *
+                    Matrix.Translation(x + background.Width / 2, y + background.Height / 2, 0);
+
+                sprite.SetTransform(trans);
+                sprite.Draw(background, 0, 0, ColorValue.White);
+                sprite.SetTransform(Matrix.Identity);
+
+            }
+            if (state == NIGDialogState.Showing)
+            {
+                sprite.Draw(clearTex, 668, 57, ColorValue.White);
+
+                sprite.Draw(backButton.Image, backButton.X, backButton.Y, ColorValue.White);
+                if (backButton.IsMouseOver)
+                {
+                    sprite.Draw(backButton.Image, backButton.X, backButton.Y - 4, ColorValue.White);
+                }
+
+                sprite.Draw(nextButton.Image, nextButton.X, nextButton.Y, ColorValue.White);
+                if (nextButton.IsMouseOver)
+                {
+                    sprite.Draw(nextButton.Image, nextButton.X, nextButton.Y - 4, ColorValue.White);
+                }
+
+                sprite.Draw(replayButton.Image, replayButton.X, replayButton.Y, ColorValue.White);
+                if (replayButton.IsMouseOver)
+                {
+                    sprite.Draw(replayButton.Image, replayButton.X, replayButton.Y - 4, ColorValue.White);
+                }
+
+                RenderRank(sprite);
 
 
             }
@@ -208,21 +255,21 @@ namespace Code2015.GUI.IngameUI
 
         public void RenderRank(Sprite sprite)
         {
-
             List<Player> players = new List<Player>();
             for (int i = 0; i < gameLogic.LocalPlayerCount; i++)
                 players.Add(gameLogic.GetLocalPlayer(i));
 
-            StatisticRank(players);
+            RankInfo.StatisticRank(players);
 
-            int startX = 500;
-            int startY = 150;
+            int startX = 543;
+            int startY = 160;
+
             for (int i = 0; i < players.Count; i++)
             {
                 if (players[i].Type != PlayerType.LocalHuman)
                 {
                     string s = (i + 1).ToString();
-                    sprite.Draw(rankBackground, startX - 6, startY, ColorValue.White);
+                    sprite.Draw(rankBackground, startX, startY, ColorValue.White);
                     f8.DrawString(sprite, s, startX, startY - 20, ColorValue.White);
 
 
@@ -233,13 +280,13 @@ namespace Code2015.GUI.IngameUI
                     sprite.SetTransform(Matrix.Identity);
 
                     sprite.Draw(rankColor, startX + 35, startY + 9, players[i].SideColor);
-                    f8.DrawString(sprite, "8".ToString(), startX + 80, startY - 20, ColorValue.White);
+                    f8.DrawString(sprite, players.Count.ToString(), startX + 80, startY - 20, ColorValue.White);
                     startY += 37;
                 }
                 else
                 {
                     string s = (i + 1).ToString();
-                    sprite.Draw(homeBackground, startX - 6, startY - 4, players[i].SideColor);
+                    sprite.Draw(homeBackground, startX, startY - 4, players[i].SideColor);
                     f8.DrawString(sprite, s, startX + 2, startY, ColorValue.White);
 
                     Matrix trans = Matrix.Scaling(0.35f, 0.35f, 1) * Matrix.Translation(new Vector3(startX + 22, startY + 35, 0));
@@ -247,22 +294,10 @@ namespace Code2015.GUI.IngameUI
                     f8.DrawString(sprite, "TH", 0, 0, ColorValue.White);
                     sprite.SetTransform(Matrix.Identity);
 
-                    f6.DrawString(sprite, "8".ToString(), startX + 73, startY - 45, ColorValue.White);
+                    f6.DrawString(sprite, players.Count.ToString(), startX + 73, startY - 45, ColorValue.White);
                     startY += 70;
                 }
             }
-
-        }
-
-
-        private static int ComparePlayer(Player a, Player b)
-        {
-            return b.Area.CityCount.CompareTo(a.Area.CityCount);
-        }
-
-        private void StatisticRank(List<Player> players)
-        {
-            players.Sort(ComparePlayer);
         }
 
 
