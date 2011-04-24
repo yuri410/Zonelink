@@ -179,7 +179,7 @@ namespace Code2015.GUI.IngameUI
                 Vector3 cityNormal = PlanetEarth.GetNormal(radLng, radLat);
                 cityNormal.Normalize();
 
-                Vector3 hpPos = selectedHarv.Position + tangy * 50;
+                Vector3 hpPos = selectedHarv.Position + tangy * 100;
 
                 Viewport vp = renderSys.Viewport;
                 Vector3 screenPos = vp.Project(hpPos, scene.Camera.ProjectionMatrix,
@@ -192,7 +192,7 @@ namespace Code2015.GUI.IngameUI
                                                        scene.Camera.ViewMatrix, Matrix.Identity);
 
 
-                float scale = 1.25f * Vector3.Distance(lp, rp);
+                float scale = 1.0f * Vector3.Distance(lp, rp);
 
                 Matrix trans = Matrix.Translation(-harvHPBarBackground.Width / 2, -harvHPBarBackground.Height / 2, 0) *
                            Matrix.Scaling(scale, scale, 1) * Matrix.Translation(screenPos.X, screenPos.Y, 0);
