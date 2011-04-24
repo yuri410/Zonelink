@@ -331,10 +331,10 @@ namespace Code2015.World
             generateRBallTime = ResetGenerateRBallCD(Type);
             generateRBallCD = generateRBallTime;
         }
-
+        
         public override float GetProductionProgress()
         {
-            return base.GetProductionProgress();
+            return generateRBallCD / generateRBallTime;
         }
 
         public override void Parse(GameConfigurationSection sect)
