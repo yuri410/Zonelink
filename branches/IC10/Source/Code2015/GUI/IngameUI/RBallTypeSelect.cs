@@ -107,6 +107,7 @@ namespace Code2015.GUI.IngameUI
             }
         }
 
+        GameFontRuan f8;
 
         void ChangeState(State ns)
         {
@@ -147,6 +148,7 @@ namespace Code2015.GUI.IngameUI
             backgroundSelected[2] = UITextureManager.Instance.CreateInstance(fl);
 
 
+            f8 = GameFontManager.Instance.FRuanEdged8;
 
             resBallsCount[0].Type = RBallType.Green;
             resBallsCount[0].count = 0;
@@ -398,6 +400,12 @@ namespace Code2015.GUI.IngameUI
                                     int y = startY[left] - greenBallBtn.Height / 2;
 
                                     sprite.Draw(greenBallBtn, x, y, ColorValue.White);
+
+                                  
+
+                                 
+                                   
+                                   
                                     left++;
                                 }
 
@@ -409,9 +417,13 @@ namespace Code2015.GUI.IngameUI
                                 {
                                     resBallsItemType[left] = RBallType.Education;
                                     resBallItemCount[left] = resBallsCount[i].count;
-                                    int x = 82 - educationBallBtn.Width / 2;
+                                    int x = 88 - educationBallBtn.Width / 2;
                                     int y = startY[left] - educationBallBtn.Height / 2;
+
                                     sprite.Draw(educationBallBtn, x, y, ColorValue.White);
+
+                                
+                                    
                                     left++;
                                 }
 
@@ -423,9 +435,14 @@ namespace Code2015.GUI.IngameUI
                                 {
                                     resBallsItemType[left] = RBallType.Health;
                                     resBallItemCount[left] = resBallsCount[i].count;
-                                    int x = 82 - healthBallBtn.Width / 2;
+                                    int x = 88 - healthBallBtn.Width / 2;
                                     int y = startY[left] - healthBallBtn.Height / 2;
+
                                     sprite.Draw(healthBallBtn, x, y, ColorValue.White);
+
+                                  
+
+                                    
                                     left++;
                                 }
                             }

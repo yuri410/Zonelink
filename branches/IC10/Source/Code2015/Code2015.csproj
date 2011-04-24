@@ -169,6 +169,7 @@
     <Compile Include="GUI\IngameUI\NIGMenu.cs" />
     <Compile Include="GUI\IngameUI\NIGObjective.cs" />
     <Compile Include="GUI\IngameUI\NIGWin.cs" />
+    <Compile Include="GUI\IngameUI\NResSelectInfo.cs" />
     <Compile Include="GUI\IngameUI\Picker.cs" />
     <Compile Include="GUI\IngameUI\Quest.cs" />
     <Compile Include="GUI\IngameUI\RankInfo.cs" />

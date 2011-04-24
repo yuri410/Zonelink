@@ -41,6 +41,7 @@ namespace Code2015.GUI.IngameUI
 
         SelectionMarker selectionMarker;
         CitySelectInfo citySelectInfo;
+        NResSelectInfo nResSelectInfo;
         RBallTypeSelect sendBallSelect;
         MiniMap miniMap;
 
@@ -71,7 +72,7 @@ namespace Code2015.GUI.IngameUI
         Point mouseRightPosition;
 
         public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker,
-             CitySelectInfo citySelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
+             CitySelectInfo citySelectInfo, NResSelectInfo nResSelectInfo ,RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
         {
             this.parent = parent;
             this.logic = gamelogic;
@@ -85,6 +86,7 @@ namespace Code2015.GUI.IngameUI
 
             this.selectionMarker = marker;
             this.citySelectInfo = citySelectInfo;
+            this.nResSelectInfo = nResSelectInfo;
             this.sendBallSelect = sendBallSelect;
             this.miniMap = map;
 
@@ -331,7 +333,8 @@ namespace Code2015.GUI.IngameUI
             UpdateMouseCursor(time);
 
             citySelectInfo.SelectedCity = picker.SelectedCity;
-
+            nResSelectInfo.SelectedResource = picker.SelectedObject as NaturalResource;
+            nResSelectInfo.SelectHarvester = picker.SelectedObject as Harvester;
 
             if (isWaitingRBallSelect)
             {
