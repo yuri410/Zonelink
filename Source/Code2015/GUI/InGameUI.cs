@@ -238,7 +238,7 @@ namespace Code2015.GUI
                         //}
                     }
 
-                    //parent.IsPaused = exitConfirm.IsShown;
+                    parent.IsPaused = !nigMenu.IsHidden;
 
                     base.Update(time);
                 }
