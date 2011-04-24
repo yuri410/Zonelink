@@ -61,6 +61,20 @@ namespace Code2015.World
         //    exRes = res;
         //}
 
+        public override float GetProductionProgress()
+        {
+            float result;
+            if (Type == CityType.Oil)
+            {
+                result = resourceBuffer / RulesTable.OilBallCost;
+            }
+            else
+            {
+                result = resourceBuffer / RulesTable.GreenBallCost;
+            }
+            return MathEx.Saturate(result);
+        }
+
         public Harvester.Props getHarvProps()
         {
             Harvester.Props props = new Harvester.Props();
@@ -292,44 +306,65 @@ namespace Code2015.World
         /// <summary>
         ///  产生资源球所需时间
         /// </summary>
+        float generateRBallTime;
         float generateRBallCD;
 
+        static float ResetGenerateRBallCD(CityType ctype)
+        {
+            switch (ctype)
+            {
+                case CityType.Health:
+                    return RulesTable.HealthBallGenInterval;
+                case CityType.Volience:
+                    return RulesTable.VolienceBallGenInterval;
+                case CityType.Disease:
+                    return RulesTable.DiseaseBallGenInterval;
+                case CityType.Education:
+                    return RulesTable.EducationBallGenInterval;
+            }
+            throw new InvalidOperationException();
+        }
 
         public ProductionCity(BattleField btfld, Player owner, CityType type)
             : base(btfld, owner, type)
         {
-            
+            generateRBallTime = ResetGenerateRBallCD(Type);
+            generateRBallCD = generateRBallTime;
         }
 
+        public override float GetProductionProgress()
+        {
+            return base.GetProductionProgress();
+        }
 
         public override void Parse(GameConfigurationSection sect)
         {
             base.Parse(sect);
-            ResetGenerateRBallCD();
         }
-        private void ResetGenerateRBallCD()
+
+
+        public override void ProduceBall()
         {
-            switch (Type)
+            base.ProduceBall();
+
+            switch (Type) 
             {
                 case CityType.Health:
-                    generateRBallCD = RulesTable.HealthBallGenInterval;
-                    return;
-                case CityType.Volience:
-                    generateRBallCD = RulesTable.VolienceBallGenInterval;
-                    return;
+                    battleField.CreateResourceBall(Owner, this, RBallType.Health);
+                    break;
                 case CityType.Disease:
-                    generateRBallCD = RulesTable.DiseaseBallGenInterval;
-                    return;
+                    battleField.CreateResourceBall(Owner, this, RBallType.Disease);
+                    break;
+                case CityType.Volience:
+                    battleField.CreateResourceBall(Owner, this, RBallType.Volience);
+                    break;
                 case CityType.Education:
-                    generateRBallCD = RulesTable.EducationBallGenInterval;
-                    return;
-                case CityType.Neutral:
-                    throw new InvalidOperationException();
-                case CityType.Green:
-                    throw new InvalidOperationException();
-            } throw new InvalidOperationException();
+                    battleField.CreateResourceBall(Owner, this, RBallType.Education);
+                    break;
+
+            }
         }
-      
+        
         public override void Update(GameTime dt)
         {
             base.Update(dt);
@@ -342,7 +377,8 @@ namespace Code2015.World
 
                 if (generateRBallCD < 0)
                 {
-                    ResetGenerateRBallCD();
+                    generateRBallCD = generateRBallTime;
+                    ProduceBall();
                 }
             }
         }

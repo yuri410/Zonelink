@@ -137,7 +137,7 @@ namespace Code2015.GUI
 
         public override int Order
         {
-            get { return 4; }
+            get { return 60; }
         }
         public override bool HitTest(int x, int y)
         {
