@@ -32,7 +32,7 @@ namespace Code2015.GUI
 {
     class Popup : UIComponent
     {
-        const float YShift = 100;
+        const float YShift = 15;
         int x;
         int y;
 
@@ -57,14 +57,9 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            float alpha = 1 - MathEx.Saturate(time / duration);
-            int ny = (int)(y - (1 - alpha) * YShift);
+            int ny = (int)(y - MathEx.Saturate(time * 2 / duration) * YShift);
 
-            ColorValue modClr = new ColorValue(1, 1, 1, alpha);
-            //ColorValue modClr2 = new ColorValue(0, 0, 0, alpha);
-            sprite.Draw(texture, x, ny, modClr);
-            //font.DrawString(sprite, text, x + 1, ny + 1, 15, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr2.PackedValue);
-            //font.DrawString(sprite, text, x, ny, 15, DrawTextFormat.Center | DrawTextFormat.VerticalCenter, (int)modClr.PackedValue);
+            sprite.Draw(texture, x, ny, ColorValue.White);
         }
         public override void Update(GameTime time)
         {

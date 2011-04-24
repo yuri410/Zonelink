@@ -1464,17 +1464,17 @@ namespace Code2015.World
                 {
                     visibleCountDown = 10;
                     isVisible = false;
-                }                
+                }
             }
 
             if (isVisible)
             {
                 if (smoke != null)
                     smoke.Update(dt);
-                if (splashSmoke != null)
-                    splashSmoke.Update(dt);
             }
-            
+
+            if (splashSmoke != null)
+                splashSmoke.Update(dt);
             UpdateState(dt);
 
             UpdateAI(dt);
