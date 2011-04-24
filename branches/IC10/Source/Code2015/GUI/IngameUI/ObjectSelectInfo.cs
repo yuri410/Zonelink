@@ -233,21 +233,22 @@ namespace Code2015.GUI.IngameUI
             
             sprite.Draw(statusHarvBackground, 405, 580, ColorValue.White);
 
-            sprite.Draw(statusHPBarBarValue, new Rectangle(588, 658, harvHPBarWidth, statusHPBarBarValue.Height),
+            sprite.Draw(statusHPBarBarValue, new Rectangle(562, 640, harvHPBarWidth, statusHPBarBarValue.Height),
                     new Rectangle(0, 0, harvHPBarWidth, statusHPBarBarValue.Height), ColorValue.White);
-            sprite.Draw(statusHPBarBarEdge, 570, 655, ColorValue.White);
+            sprite.Draw(statusHPBarBarEdge, 544, 637, ColorValue.White);
 
 
-            sprite.Draw(statusSTBarBarValue, new Rectangle(699, 690, harvSTBarWidth, statusSTBarBarValue.Height),
+            sprite.Draw(statusSTBarBarValue, new Rectangle(679, 672, harvSTBarWidth, statusSTBarBarValue.Height),
                 new Rectangle(0, 0, harvSTBarWidth, statusSTBarBarValue.Height), ColorValue.White);
-            sprite.Draw(statusSTBarBarEdge, 685, 686, ColorValue.White);
+            sprite.Draw(statusSTBarBarEdge, 661, 666, ColorValue.White);
 
-            Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(676, 660, 0));
+            Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(715, 667, 0));
             sprite.SetTransform(trans);
             f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
             sprite.SetTransform(Matrix.Identity);
          
         }
+
         void RenderOil(Sprite sprite)
         {
             OilFieldObject oil = (OilFieldObject)selectedResource;
@@ -257,13 +258,13 @@ namespace Code2015.GUI.IngameUI
                 int hpFull = (int)(oil.MaxAmount);
 
                 int hpTexWidth = (int)(statusOilBarValue.Width * (oil.CurrentAmount / oil.MaxAmount));
-                sprite.Draw(statusOilBarValue, new Rectangle(580, 625, hpTexWidth, statusOilBarValue.Height),
+                sprite.Draw(statusOilBarValue, new Rectangle(580, 615, hpTexWidth, statusOilBarValue.Height),
                          new Rectangle(0, 0, hpTexWidth, statusOilBarValue.Height), ColorValue.White);
-                sprite.Draw(statusOilBarEdge, 566, 625, ColorValue.White);
+                sprite.Draw(statusOilBarEdge, 566, 615, ColorValue.White);
 
                 string hpInfo = hp.ToString() + "/" + hpFull.ToString();
 
-                Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(666, 634, 0));
+                Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(666, 622, 0));
                 sprite.SetTransform(trans);
                 f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
                 sprite.SetTransform(Matrix.Identity);
@@ -279,13 +280,13 @@ namespace Code2015.GUI.IngameUI
                 int hpFull = (int)(oil.MaxAmount);
 
                 int hpTexWidth = (int)(statusGreenBarValue.Width * (oil.CurrentAmount / oil.MaxAmount));
-                sprite.Draw(statusGreenBarValue, new Rectangle(598, 625, hpTexWidth, statusGreenBarValue.Height),
+                sprite.Draw(statusGreenBarValue, new Rectangle(598, 615, hpTexWidth, statusGreenBarValue.Height),
                          new Rectangle(0, 0, hpTexWidth, statusGreenBarValue.Height), ColorValue.White);
-                sprite.Draw(statusGreenBarEdge, 580, 610, ColorValue.White);
+                sprite.Draw(statusGreenBarEdge, 580, 600, ColorValue.White);
 
                 string hpInfo = hp.ToString() + "/" + hpFull.ToString();
 
-                Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(676, 634, 0));
+                Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(680, 624, 0));
                 sprite.SetTransform(trans);
                 f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
                 sprite.SetTransform(Matrix.Identity);
