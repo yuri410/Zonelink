@@ -11,7 +11,7 @@ using Code2015.World;
 
 namespace Code2015.GUI.IngameUI
 {
-    enum NIGDialogState 
+    public enum NIGDialogState 
     {
         MovingIn,
         MovingOut,
