@@ -89,7 +89,7 @@ namespace Code2015.GUI
 
             this.game = game;
             this.parent = parent;
-          
+
 
             FileLocation fl = FileSystem.Instance.Locate("nmm_credits.tex", GameFileLocs.GUI);
             credits = UITextureManager.Instance.CreateInstance(fl);
@@ -100,14 +100,14 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("nmm_play.tex", GameFileLocs.GUI);
             start = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("mm_btn_credits_hover.tex", GameFileLocs.GUI);
-            credits_hover = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("mm_btn_quit_hover.tex", GameFileLocs.GUI);
-            exit_hover = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("mm_btn_help_hover.tex", GameFileLocs.GUI);
-            help_hover = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("mm_btn_single_hover.tex", GameFileLocs.GUI);
-            start_hover = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("mm_btn_credits_hover.tex", GameFileLocs.GUI);
+            //credits_hover = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("mm_btn_quit_hover.tex", GameFileLocs.GUI);
+            //exit_hover = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("mm_btn_help_hover.tex", GameFileLocs.GUI);
+            //help_hover = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("mm_btn_single_hover.tex", GameFileLocs.GUI);
+            //start_hover = UITextureManager.Instance.CreateInstance(fl);
 
 
 
