@@ -77,13 +77,15 @@ namespace Code2015.GUI
         float time;
         float duration;
         Texture texture;
+        ColorValue modColor;
 
-        public Popup2(RenderSystem rs, Texture tex, int x, int y, float duration)
+        public Popup2(RenderSystem rs, Texture tex, int x, int y, float duration, ColorValue modColor)
         {
             this.x = x;
             this.y = y;
             this.texture = tex;
             this.duration = duration;
+            this.modColor = modColor;
         }
 
         public bool IsFinished
@@ -101,7 +103,9 @@ namespace Code2015.GUI
             float alpha = MathEx.Saturate(1 - d);
 
 
-            ColorValue modClr = new ColorValue(1, 1, 1, alpha);
+            ColorValue modClr = modColor;// new ColorValue(1, 1, 1, alpha);
+            modClr.A = (byte)(byte.MaxValue * alpha);
+
 
             float scale = 5 - 4 * alpha;
             sprite.SetTransform(Matrix.Translation(-texture.Width / 2, -texture.Height / 2, 0) * Matrix.Scaling(scale, scale, scale) * Matrix.Translation(x, y, 0));

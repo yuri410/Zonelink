@@ -218,28 +218,7 @@ namespace Code2015.GUI
 
         //    return goal;
         //}
-        ColorValue GetColor(int selIndex)
-        {
-            ColorValue selectedColor = ColorValue.Red;
-            switch (selIndex)
-            {
-                case 1:
-                    selectedColor = ColorValue.Red;
-                    break;
-                case 3:
-                    selectedColor = ColorValue.Yellow;
-                    break;
-                case 2:
-                    selectedColor = ColorValue.Green;
 
-                    break;
-                case 0:
-                    selectedColor = ColorValue.Blue;
-
-                    break;
-
-            } return selectedColor;
-        }
         void StartButton_Click(object sender, MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left)
@@ -343,6 +322,45 @@ namespace Code2015.GUI
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             }
         }
+
+        struct ColorSortEntry
+        {
+            public float Weight;
+            public ColorValue Color;
+        }
+        static int Comparison(ColorSortEntry a, ColorSortEntry b)
+        {
+            return a.Weight.CompareTo(b.Weight);
+        }
+
+        ColorValue[] GetSideColors()
+        {
+            ColorSortEntry[] entries = new ColorSortEntry[8];
+          
+            entries[0].Color = ColorValue.Red;
+            entries[1].Color = ColorValue.Yellow;
+            entries[2].Color = ColorValue.Green;
+            entries[3].Color = ColorValue.Blue;
+            entries[4].Color = ColorValue.Purple;
+            entries[5].Color = ColorValue.Orange;
+            entries[6].Color = ColorValue.LightBlue;
+            entries[7].Color = ColorValue.Pink;
+            for (int i = 0; i < entries.Length; i++)
+            {
+                entries[i].Weight = Randomizer.GetRandomSingle();
+            }
+            Array.Sort<ColorSortEntry>(entries, Comparison);
+
+
+
+            ColorValue[] reuslt = new ColorValue[entries.Length];
+            for (int i = 0; i < entries.Length; i++) 
+            {
+                reuslt[i] = entries[i].Color;
+            }
+            return reuslt;
+        }
+
         public override void Update(GameTime time)
         {
             mousePosition.X = MouseInput.X;
@@ -362,10 +380,7 @@ namespace Code2015.GUI
                     isStarting = false;
                     GameCreationParameters gcp = new GameCreationParameters();
 
-                    int selIndex = Randomizer.GetRandomInt(4);
-
                     gcp.Player1 = new Player("Player",  0);
-                    gcp.Player1.SideColor = GetColor(selIndex);
                     gcp.Player2 = new AIPlayer( 1);
                     gcp.Player3 = new AIPlayer( 2);
                     gcp.Player4 = new AIPlayer( 3);
@@ -374,33 +389,16 @@ namespace Code2015.GUI
                     gcp.Player7 = new AIPlayer(6);
                     gcp.Player8 = new AIPlayer(7);
 
+                    ColorValue[] colors = GetSideColors();
+                    gcp.Player1.SideColor = colors[0];
+                    gcp.Player2.SideColor = colors[1];
+                    gcp.Player3.SideColor = colors[2];
+                    gcp.Player4.SideColor = colors[3];
+                    gcp.Player5.SideColor = colors[4];
+                    gcp.Player6.SideColor = colors[5];
+                    gcp.Player7.SideColor = colors[6];
+                    gcp.Player8.SideColor = colors[7];
 
-                    int i = Randomizer.GetRandomInt(3);
-
-
-                    while (i == selIndex)
-                    {
-                        i++;
-                        i %= Colors.Length;
-                    }
-                    gcp.Player2.SideColor = GetColor(i);
-                    int sel1 = i;
-
-                    i = Randomizer.GetRandomInt(2);
-                    while (i == selIndex || i == sel1)
-                    {
-                        i++;
-                        i %= Colors.Length;
-                    }
-                    gcp.Player3.SideColor = GetColor(i);
-                    int sel2 = i;
-
-                    while (i == selIndex || i == sel1 || i == sel2)
-                    {
-                        i++;
-                        i %= Colors.Length;
-                    }
-                    gcp.Player4.SideColor = GetColor(i);
                     game.StartNewGame(gcp);
                     
                     //isPostStarting = true;
