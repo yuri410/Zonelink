@@ -134,6 +134,7 @@
     <Compile Include="Engine\Apoc3D.Graphics\Scene\Atmosphere.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="GUI\Controls\ScrollBar.cs" />
     <Compile Include="GUI\IngameUI\CityInfo.cs">
       <SubType>Code</SubType>
     </Compile>
