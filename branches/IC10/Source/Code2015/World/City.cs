@@ -1030,9 +1030,6 @@ namespace Code2015.World
                 if (player != null)
                 {
                     ChangeState(CityState.WakeingUp);
-                }
-                else
-                {
                     for (int i = 0; i < linkableCity.Count; i++)
                     {
                         linkableCity[i].NotifyNearbyCityCaptured(this);
