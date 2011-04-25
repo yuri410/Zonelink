@@ -169,7 +169,7 @@ namespace Code2015.EngineEx
 
                     float density = PlantDensity.Instance.GetPlantDensity(blkLng, blkLat);
 
-                    int count = (int)(density * 2.0f);
+                    int count = (int)(density * 3.0f);
 
                     for (int i = 0; i < count; i++)
                     {

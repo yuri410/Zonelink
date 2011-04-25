@@ -73,13 +73,13 @@ namespace Code2015.World
             Yeah,
             LevelUp
         }
-        struct Yangbing
-        {
-            public const float SchoolPreseveTime = (62.0f / 30.0f) * (30.0f / 62.0f);
-            //public const float GunPreseveTime = (68.0f / 30.0f) * (29.0f / 68.0f);
-            public const float HospitalPreseveTime = (29.0f / 30.0f) * (15.0f / 29.0f);
-            //public const float FactoryPreseveTime = (44.0f / 30.0f) * (26.0f / 44.0f);
-        }
+        //struct Yangbing
+        //{
+        //    public const float SchoolPreseveTime = (62.0f / 30.0f) * (30.0f / 62.0f);
+        //    //public const float GunPreseveTime = (68.0f / 30.0f) * (29.0f / 68.0f);
+        //    public const float HospitalPreseveTime = (29.0f / 30.0f) * (15.0f / 29.0f);
+        //    //public const float FactoryPreseveTime = (44.0f / 30.0f) * (26.0f / 44.0f);
+        //}
 
         public const float CityRadiusDeg = 3.5f;
 
@@ -1353,10 +1353,10 @@ namespace Code2015.World
                     catching[currentForm].PlayAnimation();
                     break;
                 case CityState.PostCatch:
-                    if (catchingRelease[currentForm] != null)
+                    //if (catchingRelease[currentForm] != null)
                         catchingRelease[currentForm].PlayAnimation();
-                    else
-                        catching[currentForm].ResumeAnimation();
+                    //else
+                        //catching[currentForm].ResumeAnimation();
                     break;
                 case CityState.Fear:
                     fear[currentForm].PlayAnimation();
@@ -1406,11 +1406,11 @@ namespace Code2015.World
                     sleeping[currentForm].PlayAnimation();
                     break;
                 case CityState.WaitingGather:
-                    if (throwingPrepare[currentForm] != null)
+                    //if (throwingPrepare[currentForm] != null)
                         throwingPrepare[currentForm].PlayAnimation();
-                    else
-                        throwing[currentForm].ResumeAnimation();
-                    break;
+                    //else
+                        //throwing[currentForm].ResumeAnimation();
+                        break;
             }
             currentState = state;
         }
@@ -1455,10 +1455,10 @@ namespace Code2015.World
                     if (isVisible) stopped[currentForm].Update(time);
                     break;
                 case CityState.PostCatch:
-                    if (catchingRelease[currentForm] != null)
+                    //if (catchingRelease[currentForm] != null)
                         catchingRelease[currentForm].Update(time);
-                    else
-                        catching[currentForm].Update(time);
+                    //else
+                        //catching[currentForm].Update(time);
                     break;
                 case CityState.Catch:
                     catching[currentForm].Update(time);
@@ -1740,24 +1740,24 @@ namespace Code2015.World
                     ops = sleeping[currentForm].GetRenderOperation();
                     break;
                 case CityState.PostCatch:
-                    if (catchingRelease[currentForm] != null)
-                    {
+                    //if (catchingRelease[currentForm] != null)
+                    //{
                         ops = catchingRelease[currentForm].GetRenderOperation();
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         ops = catching[currentForm].GetRenderOperation();
-                    }
+                    //}
                     break;
                 case CityState.WaitingGather:
-                    if (throwingPrepare[currentForm] != null)
-                    {
+                    //if (throwingPrepare[currentForm] != null)
+                    //{
                         ops = throwingPrepare[currentForm].GetRenderOperation();
-                    }
-                    else
-                    {
+                    //}
+                    //else
+                    //{
                         ops = throwing[currentForm].GetRenderOperation();
-                    }
+                    //}
                     break;
             }
 

@@ -4,43 +4,43 @@
         <Longitude>-84.09375</Longitude>
         <Latitude>39.36543</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource1>
     <Resource2>
         <Longitude>-94.78124</Longitude>
         <Latitude>31.09409</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource2>
     <Resource3>
         <Longitude>-110.25</Longitude>
         <Latitude>34.05797</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource3>
     <Resource4>
-        <Longitude>-92.25</Longitude>
-        <Latitude>46.41138</Latitude>
+        <Longitude>-96.75</Longitude>
+        <Latitude>44.23611</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource4>
     <Resource5>
-        <Longitude>104.0625</Longitude>
-        <Latitude>24.04814</Latitude>
+        <Longitude>118.125</Longitude>
+        <Latitude>42.77777</Latitude>
         <Type>Petro</Type>
-        <Amount>250</Amount>
+        <Amount>75</Amount>
     </Resource5>
     <Resource6>
         <Longitude>-43.3026</Longitude>
         <Latitude>43.4</Latitude>
         <Type>Petro</Type>
-        <Amount>250</Amount>
+        <Amount>75</Amount>
     </Resource6>
     <Resource7>
         <Longitude>-34.03125</Longitude>
         <Latitude>33.23851</Latitude>
         <Type>Petro</Type>
-        <Amount>250</Amount>
+        <Amount>75</Amount>
     </Resource7>
     <Resource8>
         <Longitude>-95.0625</Longitude>
@@ -64,61 +64,61 @@
         <Longitude>-57.09375</Longitude>
         <Latitude>-5.054704</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>100</Amount>
     </Resource11>
     <Resource12>
         <Longitude>-54.5625</Longitude>
         <Latitude>-27.1116</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>100</Amount>
     </Resource12>
     <Resource13>
         <Longitude>-36</Longitude>
         <Latitude>-23.33333</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>50</Amount>
     </Resource13>
     <Resource14>
         <Longitude>-52.65717</Longitude>
         <Latitude>25.55</Latitude>
         <Type>Petro</Type>
-        <Amount>250</Amount>
+        <Amount>75</Amount>
     </Resource14>
     <Resource15>
         <Longitude>-54</Longitude>
         <Latitude>-43.62319</Latitude>
         <Type>Petro</Type>
-        <Amount>50</Amount>
+        <Amount>100</Amount>
     </Resource15>
     <Resource16>
         <Longitude>-22.7829</Longitude>
         <Latitude>43.75</Latitude>
         <Type>Petro</Type>
-        <Amount>250</Amount>
+        <Amount>75</Amount>
     </Resource16>
     <Resource17>
-        <Longitude>-5.625</Longitude>
-        <Latitude>42.17391</Latitude>
+        <Longitude>93.56249</Longitude>
+        <Latitude>13.125</Latitude>
         <Type>Petro</Type>
-        <Amount>50</Amount>
+        <Amount>150</Amount>
     </Resource17>
     <Resource18>
-        <Longitude>-10.96875</Longitude>
-        <Latitude>5.942029</Latitude>
+        <Longitude>-61.3125</Longitude>
+        <Latitude>42.77777</Latitude>
         <Type>Petro</Type>
         <Amount>250</Amount>
     </Resource18>
     <Resource19>
-        <Longitude>21.57586</Longitude>
-        <Latitude>13.65</Latitude>
+        <Longitude>19.6875</Longitude>
+        <Latitude>-6.319444</Latitude>
         <Type>Petro</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
     </Resource19>
     <Resource20>
-        <Longitude>30.375</Longitude>
-        <Latitude>-20.43478</Latitude>
+        <Longitude>28.3125</Longitude>
+        <Latitude>-17.74306</Latitude>
         <Type>Petro</Type>
-        <Amount>25</Amount>
+        <Amount>75</Amount>
     </Resource20>
     <Resource21>
         <Longitude>18.28125</Longitude>
@@ -127,22 +127,22 @@
         <Amount>375</Amount>
     </Resource21>
     <Resource22>
-        <Longitude>6.46875</Longitude>
-        <Latitude>25.57987</Latitude>
+        <Longitude>7.125</Longitude>
+        <Latitude>25.27777</Latitude>
         <Type>Petro</Type>
         <Amount>375</Amount>
     </Resource22>
     <Resource23>
-        <Longitude>32.625</Longitude>
-        <Latitude>26.52174</Latitude>
+        <Longitude>54.75</Longitude>
+        <Latitude>50.55555</Latitude>
         <Type>Petro</Type>
-        <Amount>375</Amount>
+        <Amount>75</Amount>
     </Resource23>
     <Resource24>
         <Longitude>10.125</Longitude>
         <Latitude>4.202898</Latitude>
         <Type>Petro</Type>
-        <Amount>25</Amount>
+        <Amount>75</Amount>
     </Resource24>
     <Resource25>
         <Longitude>26.71875</Longitude>
@@ -157,28 +157,28 @@
         <Amount>250</Amount>
     </Resource26>
     <Resource27>
-        <Longitude>63.52054</Longitude>
-        <Latitude>49</Latitude>
+        <Longitude>81.9375</Longitude>
+        <Latitude>34.75694</Latitude>
         <Type>Petro</Type>
         <Amount>250</Amount>
     </Resource27>
     <Resource28>
-        <Longitude>65.53125</Longitude>
-        <Latitude>43.65426</Latitude>
+        <Longitude>75.375</Longitude>
+        <Latitude>44.72222</Latitude>
         <Type>Petro</Type>
         <Amount>250</Amount>
     </Resource28>
     <Resource29>
-        <Longitude>42.39732</Longitude>
-        <Latitude>24.15</Latitude>
+        <Longitude>39.5625</Longitude>
+        <Latitude>32.32639</Latitude>
         <Type>Petro</Type>
-        <Amount>375</Amount>
+        <Amount>75</Amount>
     </Resource29>
     <Resource30>
-        <Longitude>38.7762</Longitude>
-        <Latitude>32.9</Latitude>
+        <Longitude>55.875</Longitude>
+        <Latitude>35.72916</Latitude>
         <Type>Petro</Type>
-        <Amount>375</Amount>
+        <Amount>75</Amount>
     </Resource30>
     <Resource31>
         <Longitude>51.1875</Longitude>
@@ -187,14 +187,14 @@
         <Amount>250</Amount>
     </Resource31>
     <Resource32>
-        <Longitude>70.13672</Longitude>
-        <Latitude>50.34546</Latitude>
+        <Longitude>81.75</Longitude>
+        <Latitude>41.31944</Latitude>
         <Type>Petro</Type>
         <Amount>250</Amount>
     </Resource32>
     <Resource33>
-        <Longitude>13.5</Longitude>
-        <Latitude>18.22757</Latitude>
+        <Longitude>-4.3125</Longitude>
+        <Latitude>27.46528</Latitude>
         <Type>Petro</Type>
         <Amount>375</Amount>
     </Resource33>
@@ -208,17 +208,17 @@
         <Longitude>81.28125</Longitude>
         <Latitude>18.53391</Latitude>
         <Type>Petro</Type>
-        <Amount>25</Amount>
+        <Amount>150</Amount>
     </Resource35>
     <Resource36>
         <Longitude>138.9375</Longitude>
         <Latitude>-13.76812</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource36>
     <Resource37>
-        <Longitude>73.125</Longitude>
-        <Latitude>-28.03063</Latitude>
+        <Longitude>75.9375</Longitude>
+        <Latitude>-31.84028</Latitude>
         <Type>Petro</Type>
         <Amount>250</Amount>
     </Resource37>
@@ -232,25 +232,25 @@
         <Longitude>128.25</Longitude>
         <Latitude>46.10503</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource39>
     <Resource40>
         <Longitude>110.5312</Longitude>
         <Latitude>-27.3913</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource40>
     <Resource41>
         <Longitude>129.375</Longitude>
         <Latitude>29.13043</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource41>
     <Resource42>
-        <Longitude>118.4062</Longitude>
-        <Latitude>41.81619</Latitude>
+        <Longitude>105.375</Longitude>
+        <Latitude>37.67361</Latitude>
         <Type>Petro</Type>
-        <Amount>50</Amount>
+        <Amount>75</Amount>
     </Resource42>
     <Resource43>
         <Longitude>130.2188</Longitude>
@@ -268,13 +268,13 @@
         <Longitude>132.1875</Longitude>
         <Latitude>-21.90372</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource45>
     <Resource46>
         <Longitude>147.9375</Longitude>
         <Latitude>-41.88406</Latitude>
         <Type>Petro</Type>
-        <Amount>150</Amount>
+        <Amount>75</Amount>
     </Resource46>
     <Resource47>
         <Longitude>129.0938</Longitude>
@@ -284,10 +284,10 @@
         <Radius>5</Radius>
     </Resource47>
     <Resource48>
-        <Longitude>92.8125</Longitude>
-        <Latitude>30.86956</Latitude>
+        <Longitude>103.6875</Longitude>
+        <Latitude>-2.916667</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>150</Amount>
         <Radius>5</Radius>
     </Resource48>
     <Resource49>
@@ -336,7 +336,7 @@
         <Longitude>65.81249</Longitude>
         <Latitude>-34.05797</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>4</Radius>
     </Resource55>
     <Resource56>
@@ -350,14 +350,14 @@
         <Longitude>119.5312</Longitude>
         <Latitude>2.753623</Latitude>
         <Type>Wood</Type>
-        <Amount>50</Amount>
+        <Amount>150</Amount>
         <Radius>7</Radius>
     </Resource57>
     <Resource58>
         <Longitude>147.375</Longitude>
-        <Latitude>-26.23188</Latitude>
+        <Latitude>-27.22222</Latitude>
         <Type>Wood</Type>
-        <Amount>75</Amount>
+        <Amount>100</Amount>
         <Radius>6</Radius>
     </Resource58>
     <Resource59>
@@ -368,10 +368,10 @@
         <Radius>5</Radius>
     </Resource59>
     <Resource61>
-        <Longitude>100.4063</Longitude>
-        <Latitude>1.884058</Latitude>
+        <Longitude>97.3125</Longitude>
+        <Latitude>15.3125</Latitude>
         <Type>Wood</Type>
-        <Amount>50</Amount>
+        <Amount>125</Amount>
         <Radius>7</Radius>
     </Resource61>
     <Resource63>
@@ -382,17 +382,17 @@
         <Radius>6</Radius>
     </Resource63>
     <Resource64>
-        <Longitude>45.5625</Longitude>
-        <Latitude>41.30434</Latitude>
+        <Longitude>60.5625</Longitude>
+        <Latitude>46.90972</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>100</Amount>
         <Radius>4</Radius>
     </Resource64>
     <Resource65>
-        <Longitude>56.53125</Longitude>
-        <Latitude>49.42028</Latitude>
+        <Longitude>75.9375</Longitude>
+        <Latitude>36.70139</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>7</Radius>
     </Resource65>
     <Resource66>
@@ -403,39 +403,39 @@
         <Radius>2</Radius>
     </Resource66>
     <Resource67>
-        <Longitude>27.5625</Longitude>
-        <Latitude>-15.50725</Latitude>
+        <Longitude>26.0625</Longitude>
+        <Latitude>-13.85417</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>50</Amount>
         <Radius>4</Radius>
     </Resource67>
     <Resource68>
         <Longitude>73.96874</Longitude>
         <Latitude>-23.74179</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>6</Radius>
     </Resource68>
     <Resource69>
-        <Longitude>14.34375</Longitude>
-        <Latitude>8.730853</Latitude>
+        <Longitude>13.875</Longitude>
+        <Latitude>9.965277</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>100</Amount>
         <Radius>7</Radius>
     </Resource69>
     <Resource70>
         <Longitude>65.53125</Longitude>
         <Latitude>-12.71335</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>6</Radius>
     </Resource70>
     <Resource71>
-        <Longitude>-65.81249</Longitude>
-        <Latitude>3.333333</Latitude>
+        <Longitude>-66.9375</Longitude>
+        <Latitude>7.291666</Latitude>
         <Type>Wood</Type>
-        <Amount>50</Amount>
-        <Radius>6</Radius>
+        <Amount>150</Amount>
+        <Radius>7</Radius>
     </Resource71>
     <Resource72>
         <Longitude>-65.81249</Longitude>
@@ -448,12 +448,12 @@
         <Longitude>-6.1875</Longitude>
         <Latitude>3.829321</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>6</Radius>
     </Resource73>
     <Resource74>
-        <Longitude>-54.5625</Longitude>
-        <Latitude>-8.730853</Latitude>
+        <Longitude>-52.3125</Longitude>
+        <Latitude>-11.42361</Latitude>
         <Type>Wood</Type>
         <Amount>100</Amount>
         <Radius>6</Radius>
@@ -466,8 +466,8 @@
         <Radius>4</Radius>
     </Resource75>
     <Resource76>
-        <Longitude>-88.59375</Longitude>
-        <Latitude>5.942029</Latitude>
+        <Longitude>-88.68749</Longitude>
+        <Latitude>11.18055</Latitude>
         <Type>Wood</Type>
         <Amount>150</Amount>
         <Radius>6</Radius>
@@ -480,10 +480,10 @@
         <Radius>3</Radius>
     </Resource77>
     <Resource78>
-        <Longitude>55.96875</Longitude>
-        <Latitude>31.73913</Latitude>
+        <Longitude>62.8125</Longitude>
+        <Latitude>39.86111</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>100</Amount>
         <Radius>1.7</Radius>
     </Resource78>
     <Resource79>
@@ -494,22 +494,22 @@
         <Radius>5.7</Radius>
     </Resource79>
     <Resource80>
-        <Longitude>-46.6875</Longitude>
-        <Latitude>39.56521</Latitude>
+        <Longitude>15.75</Longitude>
+        <Latitude>42.53472</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>5.7</Radius>
     </Resource80>
     <Resource81>
-        <Longitude>73.96874</Longitude>
-        <Latitude>47.63676</Latitude>
+        <Longitude>79.3125</Longitude>
+        <Latitude>49.58333</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>7</Radius>
     </Resource81>
     <Resource82>
-        <Longitude>-73.56445</Longitude>
-        <Latitude>50.31741</Latitude>
+        <Longitude>-69.9375</Longitude>
+        <Latitude>47.39583</Latitude>
         <Type>Wood</Type>
         <Amount>50</Amount>
         <Radius>3</Radius>
@@ -532,28 +532,28 @@
         <Longitude>101.5313</Longitude>
         <Latitude>19.45295</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>50</Amount>
         <Radius>3</Radius>
     </Resource85>
     <Resource86>
         <Longitude>128.8125</Longitude>
         <Latitude>-24.66083</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>50</Amount>
         <Radius>3</Radius>
     </Resource86>
     <Resource87>
-        <Longitude>100.4063</Longitude>
-        <Latitude>-31.73913</Latitude>
+        <Longitude>118.125</Longitude>
+        <Latitude>-31.84028</Latitude>
         <Type>Wood</Type>
-        <Amount>100</Amount>
+        <Amount>25</Amount>
         <Radius>5</Radius>
     </Resource87>
     <Resource88>
         <Longitude>55.40625</Longitude>
         <Latitude>-25.07246</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>5</Radius>
     </Resource88>
     <Resource90>
@@ -564,8 +564,8 @@
         <Radius>2</Radius>
     </Resource90>
     <Resource91>
-        <Longitude>18.5625</Longitude>
-        <Latitude>-7.101449</Latitude>
+        <Longitude>15.75</Longitude>
+        <Latitude>-7.534722</Latitude>
         <Type>Wood</Type>
         <Amount>50</Amount>
         <Radius>5</Radius>
@@ -581,56 +581,56 @@
         <Longitude>0.5625</Longitude>
         <Latitude>12.02898</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>150</Amount>
         <Radius>4</Radius>
     </Resource93>
     <Resource94>
-        <Longitude>83.53125</Longitude>
-        <Latitude>22.51641</Latitude>
+        <Longitude>84</Longitude>
+        <Latitude>21.38889</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>50</Amount>
         <Radius>6</Radius>
     </Resource94>
     <Resource95>
-        <Longitude>64.40625</Longitude>
-        <Latitude>38.44639</Latitude>
+        <Longitude>85.875</Longitude>
+        <Latitude>40.83333</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>6</Radius>
     </Resource95>
     <Resource96>
         <Longitude>-39.09375</Longitude>
         <Latitude>32.01313</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>150</Amount>
         <Radius>7</Radius>
     </Resource96>
     <Resource97>
         <Longitude>-27.84375</Longitude>
         <Latitude>38.9855</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>150</Amount>
         <Radius>6</Radius>
     </Resource97>
     <Resource98>
-        <Longitude>46.31836</Longitude>
-        <Latitude>22.02455</Latitude>
+        <Longitude>45.5625</Longitude>
+        <Latitude>24.30556</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>50</Amount>
         <Radius>3</Radius>
     </Resource98>
     <Resource74cfdce1fce44dee8ebabc2f9d49ff37>
-        <Longitude>-54</Longitude>
-        <Latitude>31.73913</Latitude>
+        <Longitude>-53.0625</Longitude>
+        <Latitude>35</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
-        <Radius>5</Radius>
+        <Amount>200</Amount>
+        <Radius>7</Radius>
     </Resource74cfdce1fce44dee8ebabc2f9d49ff37>
     <Resource36d60698a76842249a9e4d3d79508b26>
         <Longitude>-25.875</Longitude>
         <Latitude>1.304348</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>6</Radius>
     </Resource36d60698a76842249a9e4d3d79508b26>
     <Resource33b58ede0b60445593320ed66a2b99ff>
@@ -644,21 +644,21 @@
         <Longitude>-17.15625</Longitude>
         <Latitude>11.73913</Latitude>
         <Type>Wood</Type>
-        <Amount>375</Amount>
+        <Amount>200</Amount>
         <Radius>5</Radius>
     </Resourceae5e58c41fe442f78dec20b1c657b608>
     <Resource3b6aa784305f43c4a7e66fa0df0018c2>
         <Longitude>2.25</Longitude>
         <Latitude>47.10145</Latitude>
         <Type>Wood</Type>
-        <Amount>50</Amount>
+        <Amount>200</Amount>
         <Radius>5</Radius>
     </Resource3b6aa784305f43c4a7e66fa0df0018c2>
     <Resource9ea8d0a713b64debbf1ab1be19cc9cf3>
         <Longitude>18.28125</Longitude>
         <Latitude>49.13043</Latitude>
         <Type>Wood</Type>
-        <Amount>50</Amount>
+        <Amount>200</Amount>
         <Radius>6</Radius>
     </Resource9ea8d0a713b64debbf1ab1be19cc9cf3>
     <Resource96c9cc0c03ba43d8ac2eb0d70edde602>
