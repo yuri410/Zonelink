@@ -105,7 +105,7 @@
         <Longitude>0.1948052</Longitude>
         <Latitude>39.35065</Latitude>
         <Linkable>C0103, C0401, C0205</Linkable>
-        <Type>Green</Type>
+        <Type>Neutral</Type>
     </C0206>
     <C0209>
         <Name>Serder</Name>
@@ -215,14 +215,14 @@
         <Latitude>21.03896</Latitude>
         <Farm>1</Farm>
         <Linkable>C0206, C0304, C0402, C0602</Linkable>
-        <Type>Oil</Type>
+        <Type>Neutral</Type>
     </C0401>
     <C0402>
         <Name>Aouzou</Name>
         <Longitude>18.7013</Longitude>
         <Latitude>21.03896</Latitude>
         <Linkable>C0401, C0306, C0603, C0305</Linkable>
-	      <Type>Oil</Type>
+	      <Type>Neutral</Type>
     </C0402>
     <C0403>
         <Name>Chittagong</Name>

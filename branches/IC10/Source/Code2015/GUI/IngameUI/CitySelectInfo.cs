@@ -24,6 +24,7 @@ namespace Code2015.GUI.IngameUI
 
 
         #region 城市状态
+        Texture statusEnemyBackground;  
         Texture statusBackground;  
         Texture statusHPBackground;
         Texture statusHPTex;
@@ -104,6 +105,9 @@ namespace Code2015.GUI.IngameUI
 
             FileLocation fl = FileSystem.Instance.Locate("nig_status_bk.tex", GameFileLocs.GUI);
             statusBackground = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_status_enemyCity.tex", GameFileLocs.GUI);
+            statusEnemyBackground = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("nig_status_hp_group.tex", GameFileLocs.GUI);
             statusHPBackground = UITextureManager.Instance.CreateInstance(fl);
@@ -304,24 +308,28 @@ namespace Code2015.GUI.IngameUI
                 int hpFull = (int)(selectCity.HealthValue / selectCity.HPRate);
                 int level = selectCity.Level;
                 string name = selectCity.Name;
-                
 
 
-                sprite.Draw(statusBackground, 405, 580, ColorValue.White);
-                
+                if (selectCity.Owner == player)
+                {
+                    sprite.Draw(statusBackground, 405, 580, ColorValue.White);
+                }
+                else
+                {
+                    sprite.Draw(statusEnemyBackground, 405, 580, ColorValue.White);
+                }
 
-                if (isHPBuffer )
-                    sprite.Draw(statusHPBufferTex, 776,624, ColorValue.White);
+                if (isHPBuffer)
+                    sprite.Draw(statusHPBufferTex, 776, 624, ColorValue.White);
                 if (isExpBuffer)
-                    sprite.Draw(statusExpBuffTex, 802,624, ColorValue.White);
+                    sprite.Draw(statusExpBuffTex, 802, 624, ColorValue.White);
                 if (isDownShow)
-                    sprite.Draw(statusExpdownBuff, 839,622,ColorValue.White);
+                    sprite.Draw(statusExpdownBuff, 839, 622, ColorValue.White);
 
                 f6.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 456, 572, ColorValue.White);
                 f6.DrawString(sprite, level.ToString().ToUpperInvariant(), 775, 570, ColorValue.White);
-                //画资源球图标
-                 
-                
+
+                //画资源球图标                                
                 int hpTexWidth = (int)(statusHPTex.Width * SelectedCity.HPRate);
                 string hpInfo = hp.ToString() + "/" + hpFull.ToString();
 
@@ -333,40 +341,45 @@ namespace Code2015.GUI.IngameUI
                     new Rectangle(0, 0, hpTexWidth, statusHPTex.Height), ColorValue.White);
                 sprite.Draw(statusHPBackground, 506, 640, ColorValue.White);
 
+                if (selectCity.Owner == player)
+                {
+                    Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(579, 638, 0));
+                    sprite.SetTransform(trans);
+                    f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
+                    sprite.SetTransform(Matrix.Identity);
 
-                Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(579, 638, 0));
-                sprite.SetTransform(trans);
-                f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
-                sprite.SetTransform(Matrix.Identity);
-                
-                //EXP
-                sprite.Draw(statusExpTex, new Rectangle(578, 624, expTexWidth, statusExpTex.Height),
-                    new Rectangle(0, 0, expTexWidth, statusExpTex.Height), ColorValue.White);
-                sprite.Draw(statusExpBackground, 579, 624, ColorValue.White);
+                    //EXP
+                    sprite.Draw(statusExpTex, new Rectangle(578, 624, expTexWidth, statusExpTex.Height),
+                        new Rectangle(0, 0, expTexWidth, statusExpTex.Height), ColorValue.White);
+                    sprite.Draw(statusExpBackground, 579, 624, ColorValue.White);
 
 
-                trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(635, 620, 0));
-                sprite.SetTransform(trans);
-                f8.DrawString(sprite, expInfo, 0, 0, ColorValue.White);  
-                sprite.SetTransform(Matrix.Identity) ;
+                    trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(635, 620, 0));
+                    sprite.SetTransform(trans);
+                    f8.DrawString(sprite, expInfo, 0, 0, ColorValue.White);
+                    sprite.SetTransform(Matrix.Identity);
+                }
             }
-
         }
  
         private void RenderBallIcon(Sprite sprite)
         {
-            if (selectCity != null)
+            if (selectCity != null && selectCity.Owner == player)
             {
+
                 //Array.Sort(resBallsCount, BallRecordCompare);
 
                 int left = 0;
                 for (int i = 0; i < resBallsCount.Length; i++)
                 {
-                    switch (resBallsCount[i].Type)
+                    RBallType ballType = resBallsCount[i].Type;
+                    bool overrideDraw = selectCity.CanProduceProduction() ? (ballType == selectCity.GetProductionType()) : false;
+                    //resBallsCount[i].Type == selectCity.GetProductionType()
+                    switch (ballType)
                     {
                         case RBallType.Green:
                             {
-                                if (resBallsCount[i].count != 0)
+                                if (resBallsCount[i].count != 0 || overrideDraw)
                                 {
                                     if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Green)
                                     {
@@ -396,7 +409,7 @@ namespace Code2015.GUI.IngameUI
                             break;
                         case RBallType.Education:
                             {
-                                if (resBallsCount[i].count != 0)
+                                if (resBallsCount[i].count != 0 || overrideDraw)
                                 {
                                     if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Education)
                                     {
@@ -426,7 +439,7 @@ namespace Code2015.GUI.IngameUI
                             break;
                         case RBallType.Health:
                             {
-                                if (resBallsCount[i].count != 0)
+                                if (resBallsCount[i].count != 0 || overrideDraw)
                                 {
                                     if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Health)
                                     {
