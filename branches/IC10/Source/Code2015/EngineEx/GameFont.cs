@@ -50,66 +50,66 @@ namespace Code2015.EngineEx
             singleton = new GameFontManager(rs);
         }
 
-        GameFont f201;
-        GameFont f18;
-        GameFont f14;
-        GameFont f20ig1;
-        GameFont f18g1;
-        GameFontRuan fRuan4;
-        GameFontRuan fRuan6;
-        GameFontRuan fRuan8;
+        //GameFont f201;
+        //GameFont f18;
+        //GameFont f14;
+        //GameFont f20ig1;
+        //GameFont f18g1;
+        //GameFontRuan fRuan4;
+        //GameFontRuan fRuan6;
+        //GameFontRuan fRuan8;
         GameFontRuan fRuanEdged4;
         GameFontRuan fRuanEdged6;
         GameFontRuan fRuanEdged8;
 
         private GameFontManager(RenderSystem rs)
         {
-            f20ig1 = new GameFont("f20ig1");
-            f18g1 = new GameFont("f18g1"); 
-            f201 = new GameFont("f20i");
-            f14 = new GameFont("f14");
-            f18 = new GameFont("f18");
-            fRuan4 = new GameFontRuan("font");
-            fRuan6 = new GameFontRuan("font_s");
-            fRuan8 = new GameFontRuan("font_ss");
+            //f20ig1 = new GameFont("f20ig1");
+            //f18g1 = new GameFont("f18g1"); 
+            //f201 = new GameFont("f20i");
+            ////f14 = new GameFont("f14");
+            //f18 = new GameFont("f18");
+            //fRuan4 = new GameFontRuan("font");
+            //fRuan6 = new GameFontRuan("font_s");
+            //fRuan8 = new GameFontRuan("font_ss");
             fRuanEdged4 = new GameFontRuan("font_edged");
             fRuanEdged6 = new GameFontRuan("font_edgeds");
             fRuanEdged8 = new GameFontRuan("font_edgedss");
         }
-        public GameFont F18G1 
-        {
-            get { return f18g1; }
-        }
-        public GameFont F20IG1
-        {
-            get { return f20ig1; }
-        }
-        public GameFont F14
-        {
-            get { return f18; }
-        }
+        //public GameFont F18G1 
+        //{
+        //    get { return f18g1; }
+        //}
+        //public GameFont F20IG1
+        //{
+        //    get { return f20ig1; }
+        //}
+        //public GameFont F14
+        //{
+        //    get { return f18; }
+        //}
 
-        public GameFont F18
-        {
-            get { return f18; }
-        }
-        public GameFont F20I
-        {
-            get { return f201; }
-        }
+        //public GameFont F18
+        //{
+        //    get { return f18; }
+        //}
+        //public GameFont F20I
+        //{
+        //    get { return f201; }
+        //}
 
-        public GameFontRuan FRuan4
-        {
-            get { return fRuan4; }
-        }
-        public GameFontRuan FRuan6
-        {
-            get { return fRuan6; }
-        }
-        public GameFontRuan FRuan8
-        {
-            get { return fRuan8; }
-        }
+        //public GameFontRuan FRuan4
+        //{
+        //    get { return fRuan4; }
+        //}
+        //public GameFontRuan FRuan6
+        //{
+        //    get { return fRuan6; }
+        //}
+        //public GameFontRuan FRuan8
+        //{
+        //    get { return fRuan8; }
+        //}
 
         public GameFontRuan FRuanEdged4
         {

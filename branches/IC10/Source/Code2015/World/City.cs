@@ -36,7 +36,7 @@ namespace Code2015.World
     enum CityState
     {
         Stopped,
-        Throw,        
+        Throw,
         ThrowContinued,
         Catch,
         PostCatch,
@@ -72,6 +72,13 @@ namespace Code2015.World
             Haha,
             Yeah,
             LevelUp
+        }
+        struct ThrowTask
+        {
+            public RBallType typeToThrow;
+            public bool isTypedThrow;
+
+            public List<City> throwPath;
         }
         //struct Yangbing
         //{
@@ -142,19 +149,20 @@ namespace Code2015.World
 
         #endregion
 
-        float reThrowDelay;
+        //float reThrowDelay;
 
         #region Throw_State
 
-        RGatheredBall rgball;
-        RBallType typeToThrow;
-        bool isTypedThrow;
-        List<City> throwPath;
+        FastQueue<RGatheredBall> receivedRGBall = new FastQueue<RGatheredBall>();
+        FastQueue<ThrowTask> throwQueue = new FastQueue<ThrowTask>();
+        RGatheredBall throwRgball;
 
         #endregion
-        
+
         #region ThrowCont_State
+        float throwContCheckCD;
         List<RBall> ballsToThrowCont;
+        List<City> throwPathCont;
         #endregion
 
         Quaternion currentFacing;
@@ -173,7 +181,7 @@ namespace Code2015.World
 
         string[] linkableCityName;
         FastList<City> linkableCity = new FastList<City>();
-        
+
 
         SoundObject sound;
 
@@ -199,9 +207,9 @@ namespace Code2015.World
 
         public float CatchPreserveTime
         {
-            get 
+            get
             {
-                
+
                 return catching[currentForm].SkinAnimDuration;
             }
         }
@@ -234,7 +242,7 @@ namespace Code2015.World
         /// <summary>
         ///  获取城市的发展等级
         /// </summary>
-        public int Level 
+        public int Level
         {
             get
             {
@@ -321,7 +329,7 @@ namespace Code2015.World
                 isWordPlaying = true;
             }
         }
-       
+
         public int GetOwnedAttackBallCount()
         {
             int result = 0;
@@ -359,7 +367,7 @@ namespace Code2015.World
             throw new InvalidOperationException();
         }
 
-        public virtual float GetProductionProgress() 
+        public virtual float GetProductionProgress()
         {
             throw new NotImplementedException();
         }
@@ -379,20 +387,20 @@ namespace Code2015.World
         }
 
         public float GetDevelopmentStep()
-        { 
+        {
             //设置城市类型
             switch (Type)
             {
                 case CityType.Neutral:
-                    return  20;                    
+                    return 20;
                 case CityType.Health:
                     return RulesTable.HealthDevelopStep;
                 case CityType.Green:
-                    return RulesTable.GreenDevelopStep;                    
+                    return RulesTable.GreenDevelopStep;
                 case CityType.Education:
-                    return RulesTable.EducationDevelopStep;                    
+                    return RulesTable.EducationDevelopStep;
                 case CityType.Disease:
-                    return RulesTable.DiseaseDevelopStep;                    
+                    return RulesTable.DiseaseDevelopStep;
                 case CityType.Oil:
                     return RulesTable.OilDevelopStep;
                 case CityType.Volience:
@@ -419,7 +427,7 @@ namespace Code2015.World
             stopped = new Model[2];
             wakeingUp = new Model[2];
 
-            
+
 
             switch (Type)
             {
@@ -488,7 +496,7 @@ namespace Code2015.World
                         catching[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                         catching[1].AnimationCompeleted += Animation_Completed;
                         catching[1].CurrentAnimation.Insert(0, scaling);
-                        
+
                         fl = FileSystem.Instance.Locate("ch_green_catchrelease.mesh", GameFileLocs.Model);
                         catchingRelease[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                         catchingRelease[1].AnimationCompeleted += Animation_Completed;
@@ -542,7 +550,7 @@ namespace Code2015.World
                 case CityType.Volience:
                     {
 
-                        NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(0.67f, 0.67f, 0.67f));
+                        NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(40, 40, 40));
                         #region Volience
                         fl = FileSystem.Instance.Locate("ch_volience_catch.mesh", GameFileLocs.Model);
                         catching[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -598,66 +606,76 @@ namespace Code2015.World
                         wakeingUp[0].CurrentAnimation.Insert(0, scaling);
                         #endregion
 
-                        #region Education
+                        catching[1] = catching[0];
+                        catchingRelease[1] = catchingRelease[0];
+                        throwing[1] = throwing[0];
+                        throwingPrepare[1] = throwingPrepare[0];
+                        fear[1] = fear[0];
+                        idle[1] = idle[0];
+                        laugh[1] = laugh[0];
+                        sleeping[1] = sleeping[0];
+                        stopped[1] = stopped[0];
+                        wakeingUp[1] = wakeingUp[0];
+                        //#region Education
 
-                        fl = FileSystem.Instance.Locate("ch_school_catch.mesh", GameFileLocs.Model);
-                        catching[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        catching[1].AnimationCompeleted += Animation_Completed;
-                        catching[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_catch.mesh", GameFileLocs.Model);
+                        //catching[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //catching[1].AnimationCompeleted += Animation_Completed;
+                        //catching[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_catchrelease.mesh", GameFileLocs.Model);
-                        catchingRelease[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        catchingRelease[1].AnimationCompeleted += Animation_Completed;
-                        catchingRelease[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_catchrelease.mesh", GameFileLocs.Model);
+                        //catchingRelease[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //catchingRelease[1].AnimationCompeleted += Animation_Completed;
+                        //catchingRelease[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_throwrelease.mesh", GameFileLocs.Model);
-                        throwing[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        throwing[1].AnimationCompeleted += Animation_Completed;
-                        throwing[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_throwrelease.mesh", GameFileLocs.Model);
+                        //throwing[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //throwing[1].AnimationCompeleted += Animation_Completed;
+                        //throwing[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_throw.mesh", GameFileLocs.Model);
-                        throwingPrepare[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        throwingPrepare[1].AnimationCompeleted += Animation_Completed;
-                        throwingPrepare[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_throw.mesh", GameFileLocs.Model);
+                        //throwingPrepare[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //throwingPrepare[1].AnimationCompeleted += Animation_Completed;
+                        //throwingPrepare[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_fear.mesh", GameFileLocs.Model);
-                        fear[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        fear[1].AnimationCompeleted += Animation_Completed;
-                        fear[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_fear.mesh", GameFileLocs.Model);
+                        //fear[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //fear[1].AnimationCompeleted += Animation_Completed;
+                        //fear[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_idle.mesh", GameFileLocs.Model);
-                        idle[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        idle[1].AnimationCompeleted += Animation_Completed;
-                        idle[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_idle.mesh", GameFileLocs.Model);
+                        //idle[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //idle[1].AnimationCompeleted += Animation_Completed;
+                        //idle[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_laugh.mesh", GameFileLocs.Model);
-                        laugh[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        laugh[1].AnimationCompeleted += Animation_Completed;
-                        laugh[1].CurrentAnimation.Insert(0, scaling);
+                        //fl = FileSystem.Instance.Locate("ch_school_laugh.mesh", GameFileLocs.Model);
+                        //laugh[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //laugh[1].AnimationCompeleted += Animation_Completed;
+                        //laugh[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_school_sleeping.mesh", GameFileLocs.Model);
-                        sleeping[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        sleeping[1].AnimationCompeleted += Animation_Completed;
-                        sleeping[1].CurrentAnimation.Insert(0, scaling);
-                        sleeping[1].AutoLoop = true;
+                        //fl = FileSystem.Instance.Locate("ch_school_sleeping.mesh", GameFileLocs.Model);
+                        //sleeping[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //sleeping[1].AnimationCompeleted += Animation_Completed;
+                        //sleeping[1].CurrentAnimation.Insert(0, scaling);
+                        //sleeping[1].AutoLoop = true;
 
-                        fl = FileSystem.Instance.Locate("ch_school_stopped.mesh", GameFileLocs.Model);
-                        stopped[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        stopped[1].AnimationCompeleted += Animation_Completed;
-                        stopped[1].CurrentAnimation.Insert(0, scaling);
-                        stopped[1].AutoLoop = true;
+                        //fl = FileSystem.Instance.Locate("ch_school_stopped.mesh", GameFileLocs.Model);
+                        //stopped[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //stopped[1].AnimationCompeleted += Animation_Completed;
+                        //stopped[1].CurrentAnimation.Insert(0, scaling);
+                        //stopped[1].AutoLoop = true;
 
-                        fl = FileSystem.Instance.Locate("ch_school_wakeup.mesh", GameFileLocs.Model);
-                        wakeingUp[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        wakeingUp[1].AnimationCompeleted += Animation_Completed;
-                        wakeingUp[1].CurrentAnimation.Insert(0, scaling);
-                        #endregion
+                        //fl = FileSystem.Instance.Locate("ch_school_wakeup.mesh", GameFileLocs.Model);
+                        //wakeingUp[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        //wakeingUp[1].AnimationCompeleted += Animation_Completed;
+                        //wakeingUp[1].CurrentAnimation.Insert(0, scaling);
+                        //#endregion
                         break;
                     }
                 case CityType.Disease:
                 case CityType.Health:
                     {
-                        NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(50, 50, 50));
+                        NoAnimaionPlayer scaling = new NoAnimaionPlayer(Matrix.Scaling(50, 50, 50) * Matrix.RotationY(-MathEx.PiOver2));
                         #region Disease
                         fl = FileSystem.Instance.Locate("ch_virus_catch.mesh", GameFileLocs.Model);
                         catching[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -674,8 +692,8 @@ namespace Code2015.World
                         throwingPrepare[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                         throwingPrepare[0].AnimationCompeleted += Animation_Completed;
                         throwingPrepare[0].CurrentAnimation.Insert(0, scaling);
-                      
-                        fl = FileSystem.Instance.Locate("ch_virus_catchRelease.mesh", GameFileLocs.Model);
+
+                        fl = FileSystem.Instance.Locate("ch_virus_throwRelease.mesh", GameFileLocs.Model);
                         throwing[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                         throwing[0].AnimationCompeleted += Animation_Completed;
                         throwing[0].CurrentAnimation.Insert(0, scaling);
@@ -722,10 +740,21 @@ namespace Code2015.World
                         catching[1].AnimationCompeleted += Animation_Completed;
                         catching[1].CurrentAnimation.Insert(0, scaling);
 
-                        fl = FileSystem.Instance.Locate("ch_hospital_throw.mesh", GameFileLocs.Model);
+                        fl = FileSystem.Instance.Locate("ch_hospital_catchRelease.mesh", GameFileLocs.Model);
+                        catchingRelease[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        catchingRelease[1].AnimationCompeleted += Animation_Completed;
+                        catchingRelease[1].CurrentAnimation.Insert(0, scaling);
+
+
+                        fl = FileSystem.Instance.Locate("ch_hospital_throwRelease.mesh", GameFileLocs.Model);
                         throwing[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                         throwing[1].AnimationCompeleted += Animation_Completed;
                         throwing[1].CurrentAnimation.Insert(0, scaling);
+
+                        fl = FileSystem.Instance.Locate("ch_hospital_throw.mesh", GameFileLocs.Model);
+                        throwingPrepare[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        throwingPrepare[1].AnimationCompeleted += Animation_Completed;
+                        throwingPrepare[1].CurrentAnimation.Insert(0, scaling);
 
                         fl = FileSystem.Instance.Locate("ch_hospital_fear.mesh", GameFileLocs.Model);
                         fear[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -835,9 +864,9 @@ namespace Code2015.World
                     }
             }
 
-            Matrix wordTransform = Matrix.Scaling(2, 2, 2) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf-MathEx.PiOver4);
+            Matrix wordTransform = Matrix.Scaling(2, 2, 2) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf - MathEx.PiOver4);
             wordTransform.TranslationValue = new Vector3(-200, 200, 200);
-            
+
             happyWords = new Model[3];
             fl = FileSystem.Instance.Locate("pop_haha.mesh", GameFileLocs.Model);
             happyWords[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -849,7 +878,7 @@ namespace Code2015.World
             happyWords[1].CurrentAnimation.Clear();
             happyWords[1].CurrentAnimation.Add(new NoAnimaionPlayer(wordTransform));
 
-            
+
             fl = FileSystem.Instance.Locate("pop_yeah.mesh", GameFileLocs.Model);
             happyWords[2] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             happyWords[2].CurrentAnimation.Clear();
@@ -863,7 +892,7 @@ namespace Code2015.World
 
             wordTransform = Matrix.Scaling(1.67f, 1.67f, 1.67f) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf - MathEx.PiOver4);
             wordTransform.TranslationValue = new Vector3(-200, 200, 200);
-            
+
             fl = FileSystem.Instance.Locate("pop_levelup.mesh", GameFileLocs.Model);
             levelUpWord = new Model(ModelManager.Instance.CreateInstance(rs, fl));
             levelUpWord.CurrentAnimation.Clear();
@@ -913,29 +942,29 @@ namespace Code2015.World
             healthValue -= v * RulesTable.CityArmor;
             if (healthValue < 0)
             {
-                healthValue =  development * RulesTable.CityDevHealthRate;
+                healthValue = development * RulesTable.CityDevHealthRate;
                 ChangeOwner(owener);
             }
         }
-        public void Heal(float v) 
+        public void Heal(float v)
         {
             healthValue += v;
             if (healthValue > development * RulesTable.CityDevHealthRate)
                 healthValue = development * RulesTable.CityDevHealthRate;
         }
 
-        void RefreshNearbyBalls() 
+        void RefreshNearbyBalls()
         {
             nearbyEnemyBalls.FastClear();
             nearbyOwnedBalls.FastClear();
 
-            for (int i = 0; i < nearbyBallList.Count; i++) 
+            for (int i = 0; i < nearbyBallList.Count; i++)
             {
                 if (nearbyBallList[i].Owner == Owner)
                 {
                     nearbyOwnedBalls.Add(nearbyBallList[i]);
                 }
-                else 
+                else
                 {
                     nearbyEnemyBalls.Add(nearbyBallList[i]);
                 }
@@ -979,7 +1008,7 @@ namespace Code2015.World
                 }
                 splashSmoke.Fire();
             }
-            stopped[currentForm].PlayAnimation();                           
+            stopped[currentForm].PlayAnimation();
         }
         public virtual void ChangeOwner(Player player)
         {
@@ -1073,7 +1102,7 @@ namespace Code2015.World
             development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
             healthValue = development * RulesTable.CityDevHealthRate;
 
-           
+
 
 
             float facing = MathEx.PIf + (Randomizer.GetRandomSingle() - 0.5f) * MathEx.PiOver2;
@@ -1116,7 +1145,7 @@ namespace Code2015.World
             if (nearbyOwnedBalls.Count > 0)
             {
                 RBallType detected = nearbyOwnedBalls[0].Type;
-                
+
                 for (int i = 1; i < nearbyOwnedBalls.Count; i++)
                 {
                     if (nearbyOwnedBalls[i].Type != detected)
@@ -1126,7 +1155,7 @@ namespace Code2015.World
                 }
             }
             return false;
-            
+
         }
         public bool CanHandleCommand()
         {
@@ -1138,7 +1167,8 @@ namespace Code2015.World
             {
                 case CityState.WaitingGather:
                     {
-                        rgball.Cancel();
+                        throwRgball.Cancel();
+                        ChangeState(CityState.Stopped);
                         break;
                     }
                 case CityState.Rotate:
@@ -1178,10 +1208,10 @@ namespace Code2015.World
                 case CityState.Catch:
                     ChangeState(CityState.PostCatch);
 
-                    if (!rgball.IsPathFinished)
-                    {
-                        reThrowDelay = 0.5f;
-                    }
+                    //if (!throwRgball.IsPathFinished)
+                    //{
+                    //    reThrowDelay = 0.5f;
+                    //}
                     break;
                 case CityState.PostCatch:
                     ChangeState(CityState.Stopped);
@@ -1279,23 +1309,34 @@ namespace Code2015.World
             bool flag2 = currentState == CityState.PostCatch || currentState == CityState.WaitingGather;
 
 
-            if (currentState != CityState.Sleeping && CanHandleCommand() && !flag && !flag2)
+            if (currentState != CityState.Sleeping)
             {
-                if (rgball.SourceCity != null && rgball.SourceCity.Owner != Owner)
+                if (CanHandleCommand() && !flag && !flag2)
                 {
-                    Quaternion targetRot = GetOrientation(rgball.Position);
-                    RotateTo(targetRot, 0.5f);
-                    SetRotationPurpose(CityRotationPurpose.Fear);
+                    if (rgball.SourceCity != null && rgball.SourceCity.Owner != Owner)
+                    {
+                        Quaternion targetRot = GetOrientation(rgball.Position);
+                        RotateTo(targetRot, 0.5f);
+                        SetRotationPurpose(CityRotationPurpose.Fear);
+                    }
+                    else
+                    {
+                        Quaternion targetRot = GetOrientation(rgball.Position);
+                        RotateTo(targetRot, 0.5f);
+                        SetRotationPurpose(CityRotationPurpose.Receive);
+                        //this.throwRgball = rgball;
+                        receivedRGBall.Enqueue(rgball);
+                    }
                 }
                 else
                 {
-                    Quaternion targetRot = GetOrientation(rgball.Position);
-                    RotateTo(targetRot, 0.5f);
-                    SetRotationPurpose(CityRotationPurpose.Receive);
-                    this.rgball = rgball;
+                    if (rgball.SourceCity != null && rgball.SourceCity.Owner == Owner)
+                    {
+                        receivedRGBall.Enqueue(rgball);
+                    }
                 }
             }
-          
+
         }
 
         void ReceiveNow()
@@ -1305,16 +1346,18 @@ namespace Code2015.World
 
         void ThrowNow()
         {
-            if (throwPath == null)
+            ThrowTask task = throwQueue.Dequeue();
+            if (task.throwPath == null)
             {
                 throw new InvalidOperationException();
             }
             List<RBall> toThrow = new List<RBall>(nearbyBallList.Count);
-            if (isTypedThrow)
+            if (task.isTypedThrow)
             {
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
-                    if (nearbyBallList[i].Owner == Owner && nearbyBallList[i].Type == typeToThrow)
+                    if (nearbyBallList[i].Owner == Owner && nearbyBallList[i].Type == task.typeToThrow
+                        && nearbyBallList[i].State != RBallState.Gathered && nearbyBallList[i].State != RBallState.Gathering)
                     {
                         toThrow.Add(nearbyBallList[i]);
                     }
@@ -1325,7 +1368,8 @@ namespace Code2015.World
 
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
-                    if (nearbyBallList[i].Owner == Owner)
+                    if (nearbyBallList[i].Owner == Owner
+                        && nearbyBallList[i].State != RBallState.Gathered && nearbyBallList[i].State != RBallState.Gathering)
                     {
                         toThrow.Add(nearbyBallList[i]);
                     }
@@ -1336,8 +1380,8 @@ namespace Code2015.World
             {
                 return;
             }
-            rgball = battleField.CreateRGatherBall(toThrow, this, throwPath);
-            throwPath = null;
+            throwRgball = battleField.CreateRGatherBall(toThrow, this, task.throwPath);
+
             ChangeState(CityState.WaitingGather);
         }
         void ThrowNowContinued()
@@ -1353,8 +1397,12 @@ namespace Code2015.World
                     toThrow.Add(ballsToThrowCont[i]);
                 }
             }
-            rgball = battleField.CreateRGatherBall(toThrow, this, throwPath);
-            throwPath = null;
+            if (toThrow.Count == 0) 
+            {
+                return;
+            }
+            throwRgball = battleField.CreateRGatherBall(toThrow, this, throwPathCont);
+            throwPathCont = null;
             ChangeState(CityState.WaitingGather);
         }
 
@@ -1367,26 +1415,40 @@ namespace Code2015.World
             if (!CanHandleCommand())
                 return false;
 
-            CancelCurrentCommand();
+            for (int i = 0; i < throwQueue.Count; i++)
+            {
+                ThrowTask tt = throwQueue.GetElement(i);
+                if (!tt.isTypedThrow && tt.throwPath[tt.throwPath.Count - 1] == target)
+                {
+                    return false;
+                }
+            }
 
-            reThrowDelay = 0;
-            rgball = null;
+            //CancelCurrentCommand();
+
+            //reThrowDelay = 0;
+            //throwRgball = null;
             battleField.BallPathFinder.Reset();
             BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
 
             if (result != null)
             {
-                throwPath = new List<City>(result.NodeCount);
+                List<City> throwPath = new List<City>(result.NodeCount);
                 for (int i = 0; i < result.NodeCount; i++)
                 {
                     throwPath.Add(result[i]);
                 }
 
-                Quaternion targetRot = GetOrientation(result[0].Position);
+                //Quaternion targetRot = GetOrientation(result[0].Position);
 
-                RotateTo(targetRot, 0.5f);
-                SetRotationPurpose(CityRotationPurpose.Throw);
-                isTypedThrow = false;
+                //RotateTo(targetRot, 0.5f);
+                //SetRotationPurpose(CityRotationPurpose.Throw);
+
+
+                ThrowTask tt = new ThrowTask();
+                tt.isTypedThrow = false;
+                tt.throwPath = throwPath;
+                throwQueue.Enqueue(tt);
                 return true;
             }
             return false;
@@ -1400,27 +1462,40 @@ namespace Code2015.World
             if (!CanHandleCommand())
                 return false;
 
-            CancelCurrentCommand();
+            for (int i = 0; i < throwQueue.Count; i++)
+            {
+                ThrowTask tt = throwQueue.GetElement(i);
+                if (tt.isTypedThrow && tt.typeToThrow == type &&
+                    tt.throwPath[tt.throwPath.Count - 1] == target)
+                {
+                    return false;
+                }
+            }
+            //CancelCurrentCommand();
 
-            reThrowDelay = 0;
-            rgball = null;
+            //reThrowDelay = 0;
+            //throwRgball = null;
             battleField.BallPathFinder.Reset();
             BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
 
             if (result != null)
             {
-                throwPath = new List<City>(result.NodeCount);
+                List<City> throwPath = new List<City>(result.NodeCount);
                 for (int i = 0; i < result.NodeCount; i++)
                 {
                     throwPath.Add(result[i]);
                 }
 
-                Quaternion targetRot = GetOrientation(result[0].Position);
+                //Quaternion targetRot = GetOrientation(result[0].Position);
 
-                RotateTo(targetRot, 0.5f);
-                SetRotationPurpose(CityRotationPurpose.Throw);
-                isTypedThrow = true;
-                typeToThrow = type;
+                //RotateTo(targetRot, 0.5f);
+                //SetRotationPurpose(CityRotationPurpose.Throw);
+
+                ThrowTask tt;
+                tt.isTypedThrow = true;
+                tt.throwPath = throwPath;
+                tt.typeToThrow = type;
+                throwQueue.Enqueue(tt);
                 return true;
             }
             return false;
@@ -1433,12 +1508,12 @@ namespace Code2015.World
         /// <param name="follow"></param>
         void ThrowContinued(City next, List<City> follow, List<RBall> balls)
         {
-            if (!CanHandleCommand())
-            {
-                // 重设延时，到时候重新尝试
-                reThrowDelay = 0.5f;
-                return;
-            }
+            //if (!CanHandleCommand())
+            //{
+            //    // 重设延时，到时候重新尝试
+            //    reThrowDelay = 0.5f;
+            //    return;
+            //}
 
             // 重新寻路，考虑断路可能
             battleField.BallPathFinder.Reset();
@@ -1446,10 +1521,10 @@ namespace Code2015.World
 
             if (result != null)
             {
-                throwPath = new List<City>(result.NodeCount);
+                throwPathCont = new List<City>(result.NodeCount);
                 for (int i = 0; i < result.NodeCount; i++)
                 {
-                    throwPath.Add(result[i]);
+                    throwPathCont.Add(result[i]);
                 }
 
                 ballsToThrowCont = balls;
@@ -1467,10 +1542,7 @@ namespace Code2015.World
                     catching[currentForm].PlayAnimation();
                     break;
                 case CityState.PostCatch:
-                    //if (catchingRelease[currentForm] != null)
-                        catchingRelease[currentForm].PlayAnimation();
-                    //else
-                        //catching[currentForm].ResumeAnimation();
+                    catchingRelease[currentForm].PlayAnimation();
                     break;
                 case CityState.Fear:
                     fear[currentForm].PlayAnimation();
@@ -1485,11 +1557,11 @@ namespace Code2015.World
                     laugh[currentForm].PlayAnimation();
 
                     int t = Randomizer.GetRandomInt(3);
-                    if (t==0)
+                    if (t == 0)
                         PlayWord(WordType.Woot);
                     else if (t == 1)
                         PlayWord(WordType.Yeah);
-                    else 
+                    else
                         PlayWord(WordType.Haha);
 
 
@@ -1504,8 +1576,8 @@ namespace Code2015.World
                     break;
                 case CityState.Throw:
                     throwing[currentForm].PlayAnimation();
-                    rgball.NotifyThrow();
-                    rgball = null;
+                    throwRgball.NotifyThrow();
+                    throwRgball = null;
                     break;
                 case CityState.WakeingUp:
                     wakeingUp[currentForm].PlayAnimation();
@@ -1520,11 +1592,8 @@ namespace Code2015.World
                     sleeping[currentForm].PlayAnimation();
                     break;
                 case CityState.WaitingGather:
-                    //if (throwingPrepare[currentForm] != null)
-                        throwingPrepare[currentForm].PlayAnimation();
-                    //else
-                        //throwing[currentForm].ResumeAnimation();
-                        break;
+                    throwingPrepare[currentForm].PlayAnimation();
+                    break;
             }
             currentState = state;
         }
@@ -1559,7 +1628,7 @@ namespace Code2015.World
                                 break;
 
                         }
-                        
+
                         rotationPurpose = CityRotationPurpose.None;
                     }
                     float progress = MathEx.Saturate(1 - remainingRotationTime / rotationTime);
@@ -1569,10 +1638,7 @@ namespace Code2015.World
                     if (isVisible) stopped[currentForm].Update(time);
                     break;
                 case CityState.PostCatch:
-                    //if (catchingRelease[currentForm] != null)
-                        catchingRelease[currentForm].Update(time);
-                    //else
-                        //catching[currentForm].Update(time);
+                    catchingRelease[currentForm].Update(time);
                     break;
                 case CityState.Catch:
                     catching[currentForm].Update(time);
@@ -1587,15 +1653,38 @@ namespace Code2015.World
                     if (isVisible) laugh[currentForm].Update(time);
                     break;
                 case CityState.Stopped:
-                    if (reThrowDelay > 0)
+                    //if (reThrowDelay > 0)
+                    //{
+                    //    reThrowDelay -= dt;
+                    //    if (reThrowDelay < 0)
+                    //    {
+                    //        ThrowContinued(throwRgball.FollowingCity, throwRgball.GetRemainingPath(), throwRgball.Balls);
+                    //    }
+                    //}
+                   
+                    if (throwQueue.Count > 0)
                     {
-                        reThrowDelay -= dt;
-                        if (reThrowDelay < 0)
-                        {
-                            ThrowContinued(rgball.FollowingCity, rgball.GetRemainingPath(), rgball.Balls);
-                        }
+                        ThrowTask tt = throwQueue.Head();
+
+                        Quaternion targetRot = GetOrientation(tt.throwPath[0].Position);
+
+                        RotateTo(targetRot, 0.5f);
+                        SetRotationPurpose(CityRotationPurpose.Throw);
+                        break;
                     }
-                    
+                    throwContCheckCD -= dt;
+                    if (receivedRGBall.Count > 0 && throwContCheckCD < 0)
+                    {
+                        RGatheredBall rgb = receivedRGBall.Dequeue();
+
+                        if (!rgb.IsPathFinished)
+                        {
+                            ThrowContinued(rgb.FollowingCity, rgb.GetRemainingPath(), rgb.Balls);
+                            break;
+                        }
+                        throwContCheckCD = 0.5f;
+                    }
+
                     smoke.EmitEnabled = true;
 
                     if (nextIdleAnimationCD > 0)
@@ -1640,14 +1729,11 @@ namespace Code2015.World
                     if (isVisible) sleeping[currentForm].Update(time);
                     break;
                 case CityState.WaitingGather:
-                    if (rgball.CurrentState == RGatheredBall.State.WaitingThrow)
+                    if (throwRgball.CurrentState == RGatheredBall.State.WaitingThrow)
                     {
                         ChangeState(CityState.Throw);
                     }
-                    if (throwingPrepare[currentForm] != null)
-                        throwingPrepare[currentForm].Update(time);
-                    else
-                        throwing[currentForm].Update(time);
+                    throwingPrepare[currentForm].Update(time);
                     break;
             }
 
@@ -1671,7 +1757,7 @@ namespace Code2015.World
                     RBall ball = nearbyBallList[i];
                     nearbyOwnedBalls.RemoveAt(i);
                 }
-            } 
+            }
             for (int i = nearbyEnemyBalls.Count - 1; i >= 0; i--)
             {
                 if (nearbyEnemyBalls[i].IsDied)
@@ -1733,17 +1819,19 @@ namespace Code2015.World
                 PlayWord(WordType.LevelUp);
                 lastLevel = lvl;
             }
-            
+
         }
 
         public void TestBalls()
         {
-            for (int i = 0; i < 5; i++)
-            {
-                battleField.CreateResourceBall(Owner, this, RBallType.Health);
-                battleField.CreateResourceBall(Owner, this, RBallType.Education);
+            //for (int i = 0; i < 5; i++)
+            //{
+            //    battleField.CreateResourceBall(Owner, this, RBallType.Health);
+            //    battleField.CreateResourceBall(Owner, this, RBallType.Education);
+            //    battleField.CreateResourceBall(Owner, this, RBallType.Volience);
+            //    battleField.CreateResourceBall(Owner, this, RBallType.Disease);
 
-            }
+            //}
         }
         public virtual void ProduceBall()
         {
@@ -1854,24 +1942,12 @@ namespace Code2015.World
                     ops = sleeping[currentForm].GetRenderOperation();
                     break;
                 case CityState.PostCatch:
-                    //if (catchingRelease[currentForm] != null)
-                    //{
-                        ops = catchingRelease[currentForm].GetRenderOperation();
-                    //}
-                    //else
-                    //{
-                        ops = catching[currentForm].GetRenderOperation();
-                    //}
+                    ops = catchingRelease[currentForm].GetRenderOperation();
+
                     break;
                 case CityState.WaitingGather:
-                    //if (throwingPrepare[currentForm] != null)
-                    //{
-                        ops = throwingPrepare[currentForm].GetRenderOperation();
-                    //}
-                    //else
-                    //{
-                        ops = throwing[currentForm].GetRenderOperation();
-                    //}
+                    ops = throwingPrepare[currentForm].GetRenderOperation();
+
                     break;
             }
 
