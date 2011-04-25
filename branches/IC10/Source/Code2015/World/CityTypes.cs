@@ -56,6 +56,35 @@ namespace Code2015.World
            
         }
 
+
+        public float GetNearResourceCount()
+        {
+            NaturalResource[] resList = battleField.NaturalResources;
+            float result = 0;
+            for (int i = 0; i < resList.Length; i++)
+            {
+                if (resList[i].Type == NaturalResourceType.Wood)
+                {
+                    ForestObject forest = (ForestObject)resList[i];
+                    float d = Vector3.Distance(forest.ForestCenter, this.Position);
+                    if (d < gatherDistance)
+                    {
+                        result++;
+                    }
+                }
+                else if (resList[i].Type == NaturalResourceType.Oil)
+                {
+                    float d = Vector3.Distance(resList[i].Position, this.Position);
+                    if (d < gatherDistance)
+                    {
+                        result++;
+                    }
+                }
+
+            }
+            return result;
+        }
+
         //public void SetTargetExResource(NaturalResource res)
         //{
         //    exRes = res;

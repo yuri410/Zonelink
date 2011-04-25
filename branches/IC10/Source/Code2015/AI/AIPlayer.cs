@@ -34,8 +34,8 @@ namespace Code2015.AI
     {
         AIDecision decision;
 
-        public AIPlayer(GameGoal goal,int id)
-            : base("Computer", goal, id)
+        public AIPlayer(int id)
+            : base("Computer",  id)
         {
             Type = PlayerType.LocalAI;
         }

@@ -34,14 +34,14 @@ using Code2015.Logic;
 
 namespace Code2015.World
 {
-    struct ScoreEntry
-    {
-        public Player Player;
+    //struct ScoreEntry
+    //{
+    //    public Player Player;
 
-        public float Total;
-        public float Development;
-        //public float CO2;
-    }
+    //    public float Total;
+    //    public float Development;
+    //    //public float CO2;
+    //}
 
     /// <summary>
     ///  表示游戏逻辑状态。
@@ -60,11 +60,11 @@ namespace Code2015.World
         }
         public bool CheckGameOver()
         {
-            for (int i = 0; i < localPlayers.Length; i++)
-            {
-                if (localPlayers[i].Win) { return true; }
-            }
-            return LocalHumanPlayer.Area.CityCount == 0;
+            //for (int i = 0; i < localPlayers.Length; i++)
+            //{
+            //    if (localPlayers[i].Win) { return true; }
+            //}
+            return LocalHumanPlayer.Area.CityCount == 0 || LocalHumanPlayer.Win;
         }
         public void InitialStandards()
         {
@@ -168,10 +168,10 @@ namespace Code2015.World
             battleField.Update(time);
         }
 
-        int Comparision(ScoreEntry a, ScoreEntry b)
-        {
-            return -a.Total.CompareTo(b.Total);
-        }
+        //int Comparision(ScoreEntry a, ScoreEntry b)
+        //{
+        //    return -a.Total.CompareTo(b.Total);
+        //}
 
         public int LocalPlayerCount
         {
@@ -181,24 +181,24 @@ namespace Code2015.World
         {
             return localPlayers[i];
         }
-        public ScoreEntry[] GetScores()
-        {
-            //Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();
+        //public ScoreEntry[] GetScores()
+        //{
+        //    //Dictionary<Player, float> co2s = SLGWorld.EnergyStatus.GetCarbonWeights();
 
-            ScoreEntry[] result = new ScoreEntry[localPlayers.Length];
-            for (int i = 0; i < result.Length; i++)
-            {
-                result[i].Player = localPlayers[i];
-                result[i].Development = localPlayerArea[i].GetTotalDevelopment();
+        //    ScoreEntry[] result = new ScoreEntry[localPlayers.Length];
+        //    for (int i = 0; i < result.Length; i++)
+        //    {
+        //        result[i].Player = localPlayers[i];
+        //        result[i].Development = localPlayerArea[i].GetTotalDevelopment();
 
-                //co2s.TryGetValue(localPlayers[i], out result[i].CO2);
+        //        //co2s.TryGetValue(localPlayers[i], out result[i].CO2);
 
-                result[i].Total += result[i].Development;// -0.2f * result[i].CO2;
-            }
+        //        result[i].Total += result[i].Development;// -0.2f * result[i].CO2;
+        //    }
 
-            Array.Sort<ScoreEntry>(result, Comparision);
-            return result;
-        }
+        //    Array.Sort<ScoreEntry>(result, Comparision);
+        //    return result;
+        //}
 
         public BattleField Field
         {

@@ -58,15 +58,15 @@ namespace Code2015.Logic
         }
 
 
-        public float GetTotalDevelopment()
-        {
-            float result = 0;
-            for (int i = 0; i < cities.Count; i++)
-            {
-                result += cities[i].Development;
-            }
-            return result;
-        }
+        //public float GetTotalDevelopment()
+        //{
+        //    float result = 0;
+        //    for (int i = 0; i < cities.Count; i++)
+        //    {
+        //        result += cities[i].Development;
+        //    }
+        //    return result;
+        //}
 
         public PlayerArea(BattleField region, Player player)
         {

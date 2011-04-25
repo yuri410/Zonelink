@@ -367,7 +367,7 @@ namespace Code2015.GUI
         }
         public override void Update(GameTime time)
         {
-            const float StdRot = 0;
+            //const float StdRot = 0;
             //if (state == AnimState.Out)
             //{
             //    rot += (StdRot - rot + PopBaseSpeed) * time.ElapsedGameTimeSeconds * 2;

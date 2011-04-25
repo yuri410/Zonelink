@@ -212,12 +212,12 @@ namespace Code2015.GUI
             }
         }
 
-        GameGoal CreateGoal()
-        {
-            GameGoal goal = new GameGoal(RulesTable.CityMaxDevelopment * 8);
+        //GameGoal CreateGoal()
+        //{
+        //    GameGoal goal = new GameGoal(RulesTable.CityMaxDevelopment * 8);
 
-            return goal;
-        }
+        //    return goal;
+        //}
         ColorValue GetColor(int selIndex)
         {
             ColorValue selectedColor = ColorValue.Red;
@@ -364,11 +364,15 @@ namespace Code2015.GUI
 
                     int selIndex = Randomizer.GetRandomInt(4);
 
-                    gcp.Player1 = new Player("Player", CreateGoal(), 0);
+                    gcp.Player1 = new Player("Player",  0);
                     gcp.Player1.SideColor = GetColor(selIndex);
-                    gcp.Player2 = new AIPlayer(CreateGoal(), 1);
-                    gcp.Player3 = new AIPlayer(CreateGoal(), 2);
-                    gcp.Player4 = new AIPlayer(CreateGoal(), 3);
+                    gcp.Player2 = new AIPlayer( 1);
+                    gcp.Player3 = new AIPlayer( 2);
+                    gcp.Player4 = new AIPlayer( 3);
+                    gcp.Player5 = new AIPlayer(4);
+                    gcp.Player6 = new AIPlayer(5);
+                    gcp.Player7 = new AIPlayer(6);
+                    gcp.Player8 = new AIPlayer(7);
 
 
                     int i = Randomizer.GetRandomInt(3);

@@ -175,7 +175,7 @@ namespace Code2015.GUI
         Tutorial tutorial;
         Intro intro;
         //LoadingScreen loadScreen;
-        ScoreScreen2 scoreScreen;
+        //ScoreScreen2 scoreScreen;
         CreditScreen credits;
         LoadingOverlay loadingOverlay;
 
@@ -306,23 +306,23 @@ namespace Code2015.GUI
         }
 
 
-        void ShowScore(ScoreEntry[] entries)
-        {
-            if (scoreScreen != null)
-            {
-                scoreScreen.Clear();
-            }
-            else
-            {
-                scoreScreen = new ScoreScreen2(game, this);
-            }
-            for (int i = 0; i < entries.Length; i++)
-            {
-                scoreScreen.Add(entries[i]);
-            }
+        //void ShowScore(ScoreEntry[] entries)
+        //{
+        //    if (scoreScreen != null)
+        //    {
+        //        scoreScreen.Clear();
+        //    }
+        //    else
+        //    {
+        //        scoreScreen = new ScoreScreen2(game, this);
+        //    }
+        //    for (int i = 0; i < entries.Length; i++)
+        //    {
+        //        scoreScreen.Add(entries[i]);
+        //    }
 
-            CurrentScreen = scoreScreen;
-        }
+        //    CurrentScreen = scoreScreen;
+        //}
 
         public override void Render(Sprite sprite)
         {
@@ -444,7 +444,7 @@ namespace Code2015.GUI
             {
                 if (game.CurrentGame.IsOver)
                 {
-                    ShowScore(game.CurrentGame.ResultScore);
+                    //ShowScore(game.CurrentGame.ResultScore);
                     game.Back();
                 }
             }

@@ -80,7 +80,7 @@ namespace Code2015.GUI
         GameState logic;
 
         
-        InfoUI infoUI;
+        //InfoUI infoUI;
         MiniMap miniMap;
 
         Picker picker;
@@ -128,8 +128,8 @@ namespace Code2015.GUI
             AddElement(picker);
 
 
-            this.infoUI = new InfoUI(game, parent, scene, gamelogic);
-            AddElement(infoUI);
+            //this.infoUI = new InfoUI(game, parent, scene, gamelogic);
+            //AddElement(infoUI);
 
           
             this.miniMap = new MiniMap(game, parent, scene, gamelogic);
@@ -184,6 +184,21 @@ namespace Code2015.GUI
             
         }
 
+
+        public void ShowFinished()
+        {
+            if (player.Win)
+            {
+                if (nigWin.IsHidden)
+                    nigWin.Show();
+            }
+            else
+            {
+                if (nigWin.IsHidden)
+                    nigFail.Show();
+            }
+        }
+
         public override void Render(Sprite sprite)
         {
             if (!parent.IsOver)
@@ -210,6 +225,8 @@ namespace Code2015.GUI
                         isEscPressed = keyState.IsKeyDown(XI.Keys.Escape);
                         if (isEscPressed)
                         {
+                            if (nigMenu.IsHidden)
+                                nigMenu.Show();
                             //if (!exitConfirm.IsShown)
                             //{
                             //    exitConfirm.Show();
@@ -230,6 +247,8 @@ namespace Code2015.GUI
 
                     if (exit.IsExitClicked)
                     {
+                        if (nigMenu.IsHidden)
+                            nigMenu.Show();
                         //if (!exitConfirm.IsShown)
                         //{
                         //    exitConfirm.Show();
@@ -240,7 +259,7 @@ namespace Code2015.GUI
                         //}
                     }
 
-                    parent.IsPaused = !nigMenu.IsHidden;
+                    parent.IsPaused = !nigMenu.IsHidden || !nigFail.IsHidden || !nigObjective.IsHidden || !nigWin.IsHidden || !nigColor.IsHidden;
 
                     base.Update(time);
                 }

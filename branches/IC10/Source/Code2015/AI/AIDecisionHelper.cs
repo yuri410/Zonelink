@@ -40,11 +40,9 @@ namespace Code2015.AI
         {
             public City city;
 
-            public float HRCount;
-            public float LRCount;
-            //public float FoodCount;
+            public float ResourceCount;
 
-            public FastList<City> NearbyCity;
+            //public FastList<City> NearbyCity;
         }
 
 
@@ -52,69 +50,54 @@ namespace Code2015.AI
 
         public AIDecisionHelper(BattleField world)
         {
-            //float r = CityGrade.GetGatherRadius(UrbanSize.Large);
+            cityDataTable = new Dictionary<City, CityData>(world.CityCount);
 
-            //cityDataTable = new Dictionary<City, CityData>(world.CityCount);
+            for (int i = 0; i < world.CityCount; i++)
+            {
+                City cc = world.Cities[i];
+                Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
 
-            //for (int i = 0; i < world.CityCount; i++)
-            //{
-            //    City cc = world.Cities[i];
-            //    Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
+                CityData data = new CityData();
+                data.city = cc;
 
-            //    CityData data = new CityData();
-            //    data.city = cc;
-            //    data.FoodCount = cc.FarmLandCount;
 
-            //    for (int j = 0; j < world.ResourceCount; j++)
-            //    {
-            //        NaturalResource res = world.GetResource(j);
+                GatherCity gc = cc as GatherCity;
 
-            //        Vector2 pos = new Vector2(res.Latitude, res.Longitude);
-            //        float dist = Vector2.Distance(pos, myPos);
-            //        if (dist < r)
-            //        {
-            //            switch (res.Type)
-            //            {
-            //                case NaturalResourceType.Petro:
-            //                    data.HRCount++;
-            //                    break;
-            //                case NaturalResourceType.Wood:
-            //                    data.LRCount++;
-            //                    break;
-            //            }
-            //        }
-            //    }
+                if (gc != null)
+                {
+                    data.ResourceCount = gc.GetNearResourceCount();
+                }
 
-            //    data.NearbyCity = new FastList<City>();
-            //    for (int j = 0; j < world.CityCount; j++)
-            //    {
-            //        City cc2 = world.GetCity(j);
-            //        if (cc != cc2)
-            //        {
-            //            Vector2 pos = new Vector2(cc2.Latitude, cc2.Longitude);
-            //            float dist = Vector2.Distance(pos, myPos);
 
-            //            if (dist < PlayerArea.CaptureDistanceThreshold)
-            //            {
-            //                data.NearbyCity.Add(cc2);
-            //            }
-            //        }
-            //    }
-            //    cityDataTable.Add(cc, data);
-            //}
+                //data.NearbyCity = new FastList<City>();
+                //for (int j = 0; j < world.CityCount; j++)
+                //{
+                //    City cc2 = world.GetCity(j);
+                //    if (cc != cc2)
+                //    {
+                //        Vector2 pos = new Vector2(cc2.Latitude, cc2.Longitude);
+                //        float dist = Vector2.Distance(pos, myPos);
+
+                //        if (dist < PlayerArea.CaptureDistanceThreshold)
+                //        {
+                //            data.NearbyCity.Add(cc2);
+                //        }
+                //    }
+                //}
+                cityDataTable.Add(cc, data);
+            }
         }
 
         public float GetCityMark(City cc, float a, float b, float c) 
         {
-            return 0;
-            //if (cc.IsCaptured)
-            //    return float.MinValue;
-            //CityData data;
-            //if (cityDataTable.TryGetValue(cc, out data))
-            //{
-            //    return a * data.HRCount + b * data.LRCount + c * data.FoodCount;
-            //}
-            //return float.MinValue;
+            if (cc.IsCaptured)
+                return float.MinValue;
+            CityData data;
+            if (cityDataTable.TryGetValue(cc, out data))
+            {
+                return a * data.ResourceCount + b * data.city.Level + c * data.city.NearbyOwnedBallCount;
+            }
+            return float.MinValue;
         }
     }
 }

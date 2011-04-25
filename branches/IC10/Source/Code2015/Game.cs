@@ -65,7 +65,26 @@ namespace Code2015
             get;
             set;
         }
-
+        public Player Player5
+        {
+            get;
+            set;
+        }
+        public Player Player6
+        {
+            get;
+            set;
+        }
+        public Player Player7
+        {
+            get;
+            set;
+        }
+        public Player Player8
+        {
+            get;
+            set;
+        }
     }
 
     /// <summary>
@@ -146,7 +165,7 @@ namespace Code2015
 
         public void Over()
         {
-            ResultScore = gameState.GetScores();
+            //ResultScore = gameState.GetScores();
             IsOver = true;
         }
         public bool IsOver
@@ -173,6 +192,22 @@ namespace Code2015
             if (gcp.Player4 != null && gcp.Player4.Type != PlayerType.Remote)
             {
                 list.Add(gcp.Player4);
+            }
+            if (gcp.Player5 != null && gcp.Player5.Type != PlayerType.Remote)
+            {
+                list.Add(gcp.Player5);
+            }
+            if (gcp.Player6 != null && gcp.Player6.Type != PlayerType.Remote)
+            {
+                list.Add(gcp.Player6);
+            }
+            if (gcp.Player7 != null && gcp.Player7.Type != PlayerType.Remote)
+            {
+                list.Add(gcp.Player7);
+            }
+            if (gcp.Player8 != null && gcp.Player8.Type != PlayerType.Remote)
+            {
+                list.Add(gcp.Player8);
             }
             return list.ToArray();
         }
@@ -297,11 +332,11 @@ namespace Code2015
             }
         }
 
-        public ScoreEntry[] ResultScore
-        {
-            get;
-            private set;
-        } 
+        //public ScoreEntry[] ResultScore
+        //{
+        //    get;
+        //    private set;
+        //} 
 
         public void Update(GameTime time)
         {
@@ -356,21 +391,25 @@ namespace Code2015
             else
             {
 
-                if (gameState.CheckGameOver())
-                {
-                    if (!IsOver)
-                    {
-                        ResultScore = gameState.GetScores();
+                //if (gameState.CheckGameOver())
+                //{
+                    //if (!IsOver)
+                    //{
+                        //ResultScore = gameState.GetScores();
                         //ScoreEntry[] entries = gameState.GetScores();
                         //ingameUI.ShowScore(entries);
-                        IsOver = true;
-                    }
-                }
-                else
+                        //IsOver = true;
+                    //}
+                //}
+                //else
                 {
                     if (!IsPaused)
                     {
                         gameState.Update(time);
+                        if (gameState.CheckGameOver())
+                        {
+                            ingameUI.ShowFinished();
+                        }
                     }
                 }
 

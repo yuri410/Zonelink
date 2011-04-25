@@ -54,6 +54,10 @@ namespace Code2015.GUI.IngameUI
             overlay = UITextureManager.Instance.CreateInstance(fl);
             state = NIGDialogState.Hiding;
         }
+        public bool IsHidden
+        {
+            get { return state == NIGDialogState.Hiding; }
+        }
         public void Show()
         {
             state = NIGDialogState.MovingIn;

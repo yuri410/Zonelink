@@ -162,9 +162,6 @@
     <Compile Include="GUI\InGameUI.cs">
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="GUI\IngameUI\InfoUI.cs">
-      <SubType>Code</SubType>
-    </Compile>
     <Compile Include="GUI\IngameUI\NIGColor.cs" />
     <Compile Include="GUI\IngameUI\NIGFail.cs" />
     <Compile Include="GUI\IngameUI\NIGMenu.cs" />
@@ -184,10 +181,8 @@
     <Compile Include="GUI\IngameUI\MiniMap.cs" />
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="GUI\Popup.cs" />
-    <Compile Include="GUI\ScoreScreen2.cs" />
     <Compile Include="GUI\Tutorial.cs" />
     <Compile Include="Logic\BattleField.cs" />
-    <Compile Include="Logic\GameGoal.cs" />
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
