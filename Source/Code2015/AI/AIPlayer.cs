@@ -43,8 +43,8 @@ namespace Code2015.AI
         public override void Update(GameTime time)
         {
             base.Update(time);
-            if (decision != null)
-                decision.Update(time);
+            //if (decision != null)
+                //decision.Update(time);
         }
 
         public override void SetParent(GameState state)

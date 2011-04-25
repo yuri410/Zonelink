@@ -596,7 +596,20 @@ namespace Code2015.World
             {
                 ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.6f, 1.6f, 1.6f) * Matrix.RotationX(-MathEx.PiOver2)));
             }
-            else 
+            else if (Type == RBallType.Volience) 
+            {
+                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2.0f, 2.0f, 2.0f) * Matrix.RotationX(-MathEx.PiOver2)));
+            }
+            else if (Type == RBallType.Education) 
+            {
+                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2.25f, 2.25f, 2.25f) * Matrix.RotationX(-MathEx.PiOver2)));
+            }
+            else if (Type == RBallType.Disease)
+            {
+                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(3.75f, 3.75f, 3.75f) 
+                    * Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(MathEx.PiOver2)));
+            }
+            else
             {
                 ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.4f, 1.4f, 1.4f) * Matrix.RotationX(-MathEx.PiOver2)));
             }

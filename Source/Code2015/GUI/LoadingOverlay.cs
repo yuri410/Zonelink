@@ -71,7 +71,7 @@ namespace Code2015.GUI
                 Out(0);
             }
 
-            alpha += dir * time.ElapsedGameTimeSeconds;
+            alpha += dir * time.ElapsedGameTimeSeconds * 7;
             
             if (alpha > 1)
             {

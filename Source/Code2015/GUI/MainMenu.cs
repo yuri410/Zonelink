@@ -38,9 +38,7 @@ using Code2015.World;
 namespace Code2015.GUI
 {
     class MainMenu : UIComponent
-    {
-        static readonly ColorValue[] Colors = new ColorValue[] { ColorValue.Red, ColorValue.Yellow, ColorValue.Green, ColorValue.Blue };
-
+    {        
         Code2015 game;
         Menu parent;
 
@@ -50,7 +48,7 @@ namespace Code2015.GUI
         Texture start;
 
         Texture background;
-        Texture linkbg;
+        //Texture linkbg;
 
         Texture mapTex;
         Texture waterTex;
@@ -103,8 +101,8 @@ namespace Code2015.GUI
             fl = FileSystem.Instance.Locate("nmm_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
-            fl = FileSystem.Instance.Locate("mm_start_link.tex", GameFileLocs.GUI);
-            linkbg = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("mm_start_link.tex", GameFileLocs.GUI);
+            //linkbg = UITextureManager.Instance.CreateInstance(fl);
 
             fl = FileSystem.Instance.Locate("nmm_roles.tex", GameFileLocs.GUI);
             rolesTex = UITextureManager.Instance.CreateInstance(fl);
@@ -200,7 +198,7 @@ namespace Code2015.GUI
             if (btn == MouseButtonFlags.Left)
             {
                 parent.GetTutorial().Reset();
-                parent.CurrentScreen = parent.GetTutorial();
+                parent.NextScreen = parent.GetTutorial();
               
             }
         }
@@ -225,7 +223,7 @@ namespace Code2015.GUI
         {
             if (btn == MouseButtonFlags.Left)
             {
-                parent.CurrentScreen = parent.GetCredits();
+                parent.NextScreen = parent.GetCredits();
 
             }
         }
@@ -349,7 +347,7 @@ namespace Code2015.GUI
             //}
 
             //sprite.Draw(parent.Earth, 0, 0, ColorValue.White);
-            if (parent.CurrentScreen == null)
+            if (parent.NextScreen == null)
             {
                 sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
             }

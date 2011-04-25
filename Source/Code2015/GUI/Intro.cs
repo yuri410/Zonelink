@@ -33,8 +33,8 @@ namespace Code2015.GUI
 {
     class Intro : UIComponent
     {
-        const int FrameCount = 40;
-        float delay = 6;
+        const int FrameCount = 199;
+        float delay = 2.5f;
 
         int currentFrame;
         Texture[] frames = new Texture[FrameCount];
@@ -46,7 +46,7 @@ namespace Code2015.GUI
         {
             for (int i = 0; i < FrameCount; i++)
             {
-                FileLocation fl = FileSystem.Instance.Locate(i.ToString("D2") + ".tex",GameFileLocs.Movie);
+                FileLocation fl = FileSystem.Instance.Locate("logo" + i.ToString("D3") + ".tex", GameFileLocs.Movie);
 
                 frames[i] = UITextureManager.Instance.CreateInstance(fl);
             }
@@ -61,38 +61,42 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-            currentFrame++;
+            Rectangle rect = new Rectangle(0, 0, 1280, 720);
             if (currentFrame >= frames.Length)
             {
-                if (delay > 3)
+                if (delay > 1.25f)
                 {
-                    sprite.Draw(frames[frames.Length - 1], 0, 0, ColorValue.White);
+                    sprite.Draw(frames[frames.Length - 1], rect, ColorValue.White);
                     ColorValue color = ColorValue.White;
-                    color.A = (byte)(byte.MaxValue * (1 - MathEx.Saturate((delay - 3) / 3)));
-                    sprite.Draw(blackBg, 0, 0, color);
+                    color.A = (byte)(byte.MaxValue * (1 - MathEx.Saturate((delay - 1.25f) / 1.25f)));
+                    sprite.Draw(blackBg, rect, color);
                 }
                 else
                 {
                     ColorValue color = ColorValue.White;
-                    color.A = (byte)(byte.MaxValue * MathEx.Saturate(delay / 3));
-                    sprite.Draw(blackBg, 0, 0, color);
+                    color.A = (byte)(byte.MaxValue * MathEx.Saturate(delay / 1.25f));
+                    sprite.Draw(blackBg, rect, color);
                 }
-                
+
 
                 delay -= 0.04f;
             }
             else
             {
-                sprite.Draw(frames[currentFrame], 0, 0, ColorValue.White);
+                sprite.Draw(frames[currentFrame], rect, ColorValue.White);
             }
         }
-
+        public override void Update(Apoc3D.GameTime time)
+        {
+            currentFrame++;
+            base.Update(time);
+        }
         protected override void Dispose(bool disposing)
         {
             base.Dispose(disposing);
             if (disposing)
             {
-                for (int i = 0; i < FrameCount; i++) 
+                for (int i = 0; i < FrameCount; i++)
                 {
                     frames[i].Dispose();
                 }

@@ -52,7 +52,7 @@ namespace Code2015.GUI
 
             FileLocation fl = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("crd_bg.tex", GameFileLocs.GUI);
+            fl = FileSystem.Instance.Locate("credits_bg.tex", GameFileLocs.GUI);
             bg = UITextureManager.Instance.CreateInstance(fl);
             fl = FileSystem.Instance.Locate("crd_list.tex", GameFileLocs.GUI);
             list = UITextureManager.Instance.CreateInstance(fl);
@@ -66,8 +66,6 @@ namespace Code2015.GUI
 
         public override void Render(Sprite sprite)
         {
-
-            //parent.RenderLogo(sprite);
             sprite.Draw(bg, 0, 0, ColorValue.White);
 
             int panelHeight = 538;
@@ -93,7 +91,7 @@ namespace Code2015.GUI
             mousePosition.Y = MouseInput.Y;
             if (MouseInput.IsMouseUpLeft) 
             {
-                parent.CurrentScreen = null;
+                parent.Back();
             }
 
             roll += 0.1f * time.ElapsedGameTimeSeconds;

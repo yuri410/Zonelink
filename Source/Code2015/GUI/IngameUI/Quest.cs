@@ -17,7 +17,7 @@ namespace Code2015.GUI.IngameUI
         Code2015 game;
         Game parent;
 
-        GameFontRuan fedge8;
+        GameFontRuan fedge6;
 
         private Texture background;
 
@@ -41,7 +41,7 @@ namespace Code2015.GUI.IngameUI
             background = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fedge8 = GameFontManager.Instance.FRuan8;
+            fedge6 = GameFontManager.Instance.FRuanEdged8;
         }
 
         public override void Render(Sprite sprite)
@@ -50,7 +50,7 @@ namespace Code2015.GUI.IngameUI
 
             sprite.Draw(background, new Vector2(0, 613), ColorValue.White);
 
-            fedge8.DrawString(sprite, "HELP 15 CITIES", 130, 660, ColorValue.Black);
+            fedge6.DrawString(sprite, "HELP 15 CITIES", 130, 660, ColorValue.White);
           
         }
     }

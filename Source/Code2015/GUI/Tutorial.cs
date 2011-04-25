@@ -30,21 +30,26 @@ using Apoc3D.GUI.Controls;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.GUI.IngameUI;
 
 namespace Code2015.GUI
 {
     class Tutorial : UIComponent
     {
+//        back_btn	498,557
+//help_bg		0,0
+//help_next	655,535
+//help_panel	97,24
         const int TotalPages = 14;
         Menu parent;
         Texture background;
+        Texture panel;
         Texture[] help;
         Texture[] helpText;
 
-        Texture contquit;
-        Texture contHover1;
-        Texture contHover2;
-        Texture helpBtnDown;
+        Texture nextBtn;
+        Texture prevBtn;
+        Texture exitBtn;
 
         Texture cursor;
         Point mousePosition;
@@ -52,10 +57,16 @@ namespace Code2015.GUI
         int currentPage;
 
         Button nextButton;
+        Button prevButton;        
         Button exitButton;
 
         NormalSoundObject mouseHover;
         NormalSoundObject mouseDown;
+
+
+        float showPrg;
+        NIGDialogState state;
+
 
         public Tutorial(Menu parent)
         {
@@ -72,46 +83,63 @@ namespace Code2015.GUI
             }
 
 
-            nextButton = new Button();
-            nextButton.Enabled = true;
-            nextButton.IsValid = true;
-            nextButton.X = 1071;
-            nextButton.Y = 354;
-            nextButton.Width = 90;
-            nextButton.Height = 204;
-            nextButton.MouseClick += Continue_Click;
-            nextButton.MouseEnter += Button_MouseIn;
-            nextButton.MouseDown += Button_DownSound;
-
-            exitButton = new Button();
-            exitButton.Enabled = true;
-            exitButton.IsValid = true;
-            exitButton.X = 1071;
-            exitButton.Y = 569;
-            exitButton.Width = 90;
-            exitButton.Height = 112;
-            exitButton.MouseClick += Exit_Click;
-            exitButton.MouseEnter += Button_MouseIn;
-            exitButton.MouseDown += Button_DownSound;
-
-            FileLocation fl2 = FileSystem.Instance.Locate("tut_bg.tex", GameFileLocs.GUI);
+            FileLocation fl2 = FileSystem.Instance.Locate("help_bg.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl2);
 
             fl2 = FileSystem.Instance.Locate("cursor.tex", GameFileLocs.GUI);
             cursor = UITextureManager.Instance.CreateInstance(fl2);
 
-            fl2 = FileSystem.Instance.Locate("tut_helpcont_hover.tex", GameFileLocs.GUI);
-            contHover1 = UITextureManager.Instance.CreateInstance(fl2);
-            fl2 = FileSystem.Instance.Locate("tut_helpcont_hover2.tex", GameFileLocs.GUI);
-            contHover2 = UITextureManager.Instance.CreateInstance(fl2);
-            fl2 = FileSystem.Instance.Locate("tut_helpcont.tex", GameFileLocs.GUI);
-            contquit = UITextureManager.Instance.CreateInstance(fl2);
 
-            fl2 = FileSystem.Instance.Locate("mm_btn_help_down.tex", GameFileLocs.GUI);
-            helpBtnDown = UITextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("help_next.tex", GameFileLocs.GUI);
+            nextBtn = UITextureManager.Instance.CreateInstance(fl2);
+            fl2 = FileSystem.Instance.Locate("help_back.tex", GameFileLocs.GUI);
+            prevBtn = UITextureManager.Instance.CreateInstance(fl2);
+            fl2 = FileSystem.Instance.Locate("nig_m_btn_back.tex", GameFileLocs.GUI);
+            exitBtn = UITextureManager.Instance.CreateInstance(fl2);
+
+            fl2 = FileSystem.Instance.Locate("help_panel.tex", GameFileLocs.GUI);
+            panel = UITextureManager.Instance.CreateInstance(fl2);
+
+
+            nextButton = new Button();
+            nextButton.Enabled = true;
+            nextButton.IsValid = true;
+            nextButton.X = 655;
+            nextButton.Y = 535;
+            nextButton.Width = nextBtn.Width;
+            nextButton.Height = nextBtn.Height;
+            nextButton.MouseClick += Continue_Click;
+            nextButton.MouseEnter += Button_MouseIn;
+            nextButton.MouseDown += Button_DownSound;
+
+            prevButton = new Button();
+            prevButton.Enabled = true;
+            prevButton.IsValid = true;
+            prevButton.X = 498;
+            prevButton.Y = 540;
+            prevButton.Width = prevBtn.Width;
+            prevButton.Height = prevBtn.Height;
+            prevButton.MouseClick += Continue_Click;
+            prevButton.MouseEnter += Button_MouseIn;
+            prevButton.MouseDown += Button_DownSound;
+
+            exitButton = new Button();
+            exitButton.Enabled = true;
+            exitButton.IsValid = true;
+            exitButton.X = 990;
+            exitButton.Y = 560;
+            exitButton.Width = exitBtn.Width;
+            exitButton.Height = exitBtn.Height;
+            exitButton.MouseClick += Exit_Click;
+            exitButton.MouseEnter += Button_MouseIn;
+            exitButton.MouseDown += Button_DownSound;
+
 
             mouseHover = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonHover", null, 0);
             mouseDown = (NormalSoundObject)SoundManager.Instance.MakeSoundObjcet("buttonDown", null, 0);
+
+            state = NIGDialogState.Hiding;
         }
         public void Reset() { currentPage = 0; }
         public bool Advance()
@@ -119,12 +147,28 @@ namespace Code2015.GUI
             currentPage++;
             return currentPage < TotalPages;
         }
+        public bool Back()
+        {
+            currentPage--;
+            return currentPage >= 0;
+        }
 
         public bool IsFinished
         {
             get { return currentPage >= TotalPages; }
         }
 
+
+        public void NotifyShown() 
+        {
+            state = NIGDialogState.MovingIn;
+        }
+        void Close() 
+        {
+
+            state = NIGDialogState.MovingOut;
+
+        }
         void Button_MouseIn(object sender, MouseButtonFlags btn)
         {
             mouseHover.Fire();
@@ -136,13 +180,22 @@ namespace Code2015.GUI
                 mouseDown.Fire();
             }
         }
+        void Prev_Click(object sender, MouseButtonFlags btn)
+        {
+            if (btn == MouseButtonFlags.Left)
+            {
+                if (!Back())
+                {
+                }
+            }
+        }
         void Continue_Click(object sender,MouseButtonFlags btn)
         {
             if (btn == MouseButtonFlags.Left) 
             {
                 if (!Advance())
                 {
-                    parent.CurrentScreen = null;
+                    
                 }
             }
         }
@@ -150,7 +203,7 @@ namespace Code2015.GUI
         {
             if (btn == MouseButtonFlags.Left)
             {
-                parent.CurrentScreen = null;
+                state = NIGDialogState.MovingOut;
             }
         }
 
@@ -158,29 +211,48 @@ namespace Code2015.GUI
         {
             sprite.Draw(background, 0, 0, ColorValue.White);
 
+            if (showPrg > 0.5f)
+            {
+                Matrix trans = Matrix.Translation(-background.Width / 2, -background.Height / 2, 0) *
+                   Matrix.Scaling((showPrg - 0.5f) * 2 * 0.8f + 0.2f, 1, 1) *
+                   Matrix.Translation(97 + background.Width / 2, 24 + background.Height / 2, 0);
+
+                sprite.SetTransform(trans);
+                sprite.Draw(panel, 0, 0, ColorValue.White);
+                sprite.SetTransform(Matrix.Identity);
+            }
+
             int idx = currentPage;
             if (idx >= TotalPages)
                 idx = TotalPages - 1;
 
-            if (nextButton.IsMouseOver && !nextButton.IsPressed)
+            if (state == NIGDialogState.Showing)
             {
-                sprite.Draw(contHover1, 1051, 345, ColorValue.White);
-            }
-            else if (exitButton.IsMouseOver && !exitButton.IsPressed)
-            {
-                sprite.Draw(contHover2, 1051, 345, ColorValue.White);
-            }
-            else
-            {
-                sprite.Draw(contquit, 1051, 345, ColorValue.White);
+                sprite.Draw(nextBtn, nextButton.X, nextButton.Y, ColorValue.White);
+                if (nextButton.IsMouseOver && !nextButton.IsPressed)
+                {
+                    sprite.Draw(nextBtn, nextButton.X, nextButton.Y - 1, ColorValue.White);
+                }
+
+
+                sprite.Draw(prevBtn, prevButton.X, prevButton.Y, ColorValue.White);
+                if (prevButton.IsMouseOver && !exitButton.IsPressed)
+                {
+                    sprite.Draw(prevBtn, prevButton.X, prevButton.Y - 1, ColorValue.White);
+                }
+
+
+                sprite.Draw(exitBtn, exitButton.X, exitButton.Y, ColorValue.White);
+                if (exitButton.IsMouseOver && !exitButton.IsPressed)
+                {
+                    sprite.Draw(exitBtn, exitButton.X, exitButton.Y - 3, ColorValue.White);
+                }
             }
 
-            Rectangle rect = new Rectangle(62, 186, 916, 465);
+            Rectangle rect = new Rectangle(62, 186, 616, 365);
             sprite.Draw(help[idx], rect, ColorValue.White);
             sprite.Draw(helpText[idx], 84, 15, ColorValue.White);
 
-
-            sprite.Draw(helpBtnDown, 1107 - 192 / 2, 241 - 195 / 2, ColorValue.White);
             sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }
         public override void Update(GameTime time)
@@ -188,8 +260,34 @@ namespace Code2015.GUI
             mousePosition.X = MouseInput.X;
             mousePosition.Y = MouseInput.Y;
 
-            nextButton.Update(time);
-            exitButton.Update(time);
+
+            if (state == NIGDialogState.MovingIn)
+            {
+                showPrg += time.ElapsedGameTimeSeconds * 4;
+                if (showPrg > 1)
+                {
+                    showPrg = 1;
+                    state = NIGDialogState.Showing;
+                }
+            }
+            else if (state == NIGDialogState.MovingOut)
+            {
+                showPrg -= time.ElapsedGameTimeSeconds * 4;
+                if (showPrg < 0)
+                {
+                    showPrg = 0;
+                    state = NIGDialogState.Hiding;
+                    parent.Back();
+                }
+            }
+
+            if (state == NIGDialogState.Showing)
+            {
+                nextButton.Update(time);
+                prevButton.Update(time);
+                exitButton.Update(time);
+            }
+            
         }
     }
 }

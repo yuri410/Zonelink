@@ -70,7 +70,7 @@ namespace Code2015.EngineEx
             OrthoZoom = 2000;
             isPerspective = fovy < 175 && fovy > 5;
             FieldOfView = fovy;
-            Height = 60;
+            Height = 70;
 
 
             ResetView();
