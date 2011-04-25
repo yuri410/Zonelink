@@ -241,7 +241,9 @@ namespace Code2015.GUI
             //light3 = Randomizer.GetRandomSingle() * MathEx.PIf * 2;
 
 
-            fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
+            //fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
+
+            fl = FileSystem.Instance.Locate("nmm_logo.tex", GameFileLocs.GUI);
             logo = UITextureManager.Instance.CreateInstance(fl);
 
             //fl = FileSystem.Instance.Locate("mm_logo_l1.tex", GameFileLocs.GUI);
