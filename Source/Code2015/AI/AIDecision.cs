@@ -33,7 +33,10 @@ namespace Code2015.AI
 {
     class AIDecision
     {
-        const int AIMaxCities = 8;
+        const int AIHelpMiniumBallCount = 10;
+        const int AIAttackMiniumBallCount = 5;
+
+        const int AIMaxCities = 10;
         AIPlayer player;
         PlayerArea area;
         AIDecisionHelper helper;
@@ -42,10 +45,10 @@ namespace Code2015.AI
         List<City> cityBuffer = new List<City>();
 
         BattleField world;
-        //CityPluginFactory pluginFactory;
+
 
         [SLGValue]
-        const float AIDecisionDelay = 20;
+        const float AIDecisionDelay = 5;
         [SLGValue]
         const float DecisionRandom = 4;
 
@@ -55,146 +58,134 @@ namespace Code2015.AI
             this.player = player;
             this.area = player.Area;
 
-            //pluginFactory = new CityPluginFactory();
 
             helper = new AIDecisionHelper(world);
         }
 
+        void Attack()
+        {
+            float maxAttack = 0;
 
+            City bestAttackCity = null;
+            City bestAttackCityParent = null;
+
+
+            for (int i = 0; i < area.CityCount; i++)
+            {
+                City cc = area.GetCity(i);
+
+                for (int j = 0; j < cc.LinkableCityCount; j++)
+                {
+                    City cc2 = cc.GetLinkableCity(j);
+                    if (cc2.Owner != player)
+                    {
+                        float m = helper.GetCityMark(cc2, 2.5f, 1, -0.05f);
+                        if (m > maxAttack)
+                        {
+                            maxAttack = m;
+                            bestAttackCity = cc2;
+                            bestAttackCityParent = cc;
+                        }
+                    }
+                }
+            }
+
+            if (bestAttackCity != null && bestAttackCityParent.CanHandleCommand())
+            {
+                int abc = bestAttackCityParent.GetOwnedAttackBallCount();
+                if (abc >= AIAttackMiniumBallCount &&
+                    bestAttackCityParent.NearbyOwnedBallCount >= bestAttackCity.GetOwnedAttackBallCount())
+                {                    
+                    bestAttackCityParent.Throw(bestAttackCity);
+                }
+            }
+        }
+
+        int GetCityDanger(City a)
+        {
+            int result = 0;
+            for (int j = 0; j < a.LinkableCityCount; j++)
+            {
+                City cc = a.GetLinkableCity(j);
+                if (cc.Owner == null)
+                {
+                    result++;
+
+                }
+                else if (cc.Owner != player)
+                {
+                    result += 5;
+                }
+            }
+            return result;
+        }
         public void Update(GameTime time)
         {
-            //// 电脑单一决策。
-            //// 每隔一段时间
+            if (area.CityCount == 0)
+                return;
 
-            //// .25的概率
-            //// 寻找附近权值较大城市
-            //// 占领。
+            if (decisionTime < 0)
+            {
+                //if (Randomizer.GetRandomSingle() < 0.2f)
+                //{
+                    if (area.CityCount < AIMaxCities)
+                    {
+                        Attack();
+                    }
+                   
+                //}
+                //else 
+                //{
 
-            //// .75的概率
-            //// 选择一个城市。根据附近情况1对1建立工厂附加物。
-            //// 其余随机填充
+                //    City bestHelpCity = null;
+                //    City bestHelpCitySource = null;
+                //    float score = 0;
 
-            //if (area.CityCount == 0)
-            //    return;
+                //    for (int i = 0; i < area.CityCount; i++)
+                //    {
+                //        City a = area.GetCity(i);
+                //        int ad = GetCityDanger(a);
 
-            //if (decisionTime < 0)
-            //{
-            //    const float P = .2f;
+                //        if (ad < 2)
+                //        {
+                //            for (int j = i + 1; j < area.CityCount; j++)
+                //            {
+                //                City b = area.GetCity(j);
+                //                int bd = GetCityDanger(b);
+                //                if (bd > 10)
+                //                {
+                //                    float s = Vector3.Distance(a.Position, b.Position);
+                //                    s = 7000 - s;
+                //                    s += b.NearbyOwnedBallCount * 100;
+                //                    if (s > score)
+                //                    {
+                //                        bestHelpCity = a;
+                //                        bestHelpCitySource = b;
+                //                    }
+                //                }
 
-            //    float ran = Randomizer.GetRandomSingle();
+                //            }
+                //        }
+                //    }
 
-            //    if (ran < P && area.CityCount < AIMaxCities)
-            //    {
-            //        float max = float.MinValue;
-            //        City bestCity = null;
-            //        City bestCityParent = null;
-            //        for (int i = 0; i < area.CityCount; i++)
-            //        {
-            //            City cc = area.GetCity(i);
-
-            //            for (int j = 0; j < cc.LinkableCityCount; j++)
-            //            {
-            //                City cc2 = cc.GetLinkableCity(j);
-            //                if (cc2.CanCapture(player))
-            //                {
-            //                    float m = helper.GetCityMark(cc2, 1, 1, 1);
-            //                    if (m > max)
-            //                    {
-            //                        max = m;
-            //                        bestCity = cc2;
-            //                        bestCityParent = cc;
-            //                    }
-            //                }
-            //            }
-            //        }
-
-            //        if (bestCity != null)
-            //        {
-            //            bestCity.SetCapture(bestCityParent);
-            //        }
-
-            //    }
-            //    else
-            //    {
-            //        bool finished = false;
-            //        while (!finished)
-            //        {
-            //            int i = Randomizer.GetRandomInt(area.CityCount);
-
-            //            City cc = area.GetCity(i);
-            //            float r = CityGrade.GetGatherRadius(cc.Size);
-
-            //            if (cc.CanAddPlugins)
-            //            {
-            //                Vector2 myPos = new Vector2(cc.Latitude, cc.Longitude);
-
-            //                cc.LocalLR.Commit(400);
-            //                for (int j = 0; j < world.ResourceCount && cc.CanAddPlugins; j++)
-            //                {
-            //                    NaturalResource res = world.GetResource(j);
-            //                    if (!res.IsLow)
-            //                    {
-            //                        Vector2 pos = new Vector2(res.Latitude, res.Longitude);
-            //                        float dist = Vector2.Distance(pos, myPos);
-
-            //                        if (dist <= r)
-            //                        {
-            //                            switch (res.Type)
-            //                            {
-            //                                case NaturalResourceType.Petro:
-            //                                    //CityPlugin plugin = pluginFactory.MakeOilRefinary();
-            //                                    cc.Add(plugin);
-            //                                    break;
-            //                                case NaturalResourceType.Wood:
-            //                                    //plugin = pluginFactory.MakeWoodFactory();
-            //                                    cc.Add(plugin);
-            //                                    break;
-            //                            }
-            //                        }
-            //                    }
-            //                }
-            //                if (cc.CanAddPlugins)
-            //                {
-            //                    int rem = CityGrade.GetMaxPlugins(cc.Size) - cc.PluginCount;
-
-            //                    for (int j = 0; j < rem; j++)
-            //                    {
-            //                        //CityPlugin plugin;
-
-            //                        bool k = Randomizer.GetRandomBool();
-
-            //                        if (k)
-            //                        {
-            //                            //plugin = pluginFactory.MakeHospital();
-            //                        }
-            //                        else
-            //                        {
-            //                            //plugin = pluginFactory.MakeEducationAgent();
-            //                        }
-            //                        //cc.Add(plugin);
-            //                    }
-            //                }
-            //                finished = true;
-
-            //                //cc.Parent.UpgradeAI();
-            //                cc.Parent.UpgradeAI();
-            //            }
-            //            else
-            //            {
-            //                cc.LocalLR.Commit(200);
-            //                cc.Parent.UpgradeAI();
-            //                cc.Parent.UpgradeAI();
-            //                finished = true;
-            //            }
-            //        }
-            //    }
-
-            //    decisionTime = AIDecisionDelay + Randomizer.GetRandomSingle() * DecisionRandom;
-            //}
-            //else
-            //{
-            //    decisionTime -= time.ElapsedGameTimeSeconds;
-            //}
+                //    if (bestHelpCity != null && bestHelpCitySource.GetOwnedAttackBallCount() > AIHelpMiniumBallCount)
+                //    {
+                //        if (!bestHelpCitySource.Throw(bestHelpCity))
+                //        {
+                //            Attack();
+                //        }
+                //    }
+                //    else
+                //    {
+                //        Attack();
+                //    }
+                //}
+                    decisionTime = AIDecisionDelay + Randomizer.GetRandomSingle() * DecisionRandom;
+            }
+            else
+            {
+                decisionTime -= time.ElapsedGameTimeSeconds;
+            }
 
         }
     }

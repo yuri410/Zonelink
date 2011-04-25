@@ -50,15 +50,10 @@ namespace Code2015.Logic
             get;
             set;
         }
-        public GameGoal Goal
-        {
-            get;
-            private set;
-        }
 
-        public Player(string name, GameGoal goal, int id)
+
+        public Player(string name,  int id)
         {
-            this.Goal = goal;
             this.Name = name;
             this.Type = PlayerType.LocalHuman;
             this.ID = id;
@@ -110,15 +105,16 @@ namespace Code2015.Logic
 
         public virtual void Update(GameTime time)
         {
-            if (Goal != null)
-            {
-                Goal.Check(this);
+            //if (Goal != null)
+            //{
+            //Goal.Check(this);
 
-                Win |= Goal.DevelopmentPercentage >= 1;
-            }
-            if (Area != null) 
+
+            //}
+            if (Area != null)
             {
                 Area.Update(time);
+                Win |= Area.CityCount >= 15;
             }
         }
     }

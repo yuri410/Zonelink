@@ -110,6 +110,10 @@ namespace Code2015.GUI.IngameUI
 
         }
 
+        public bool IsHidden
+        {
+            get { return state == NIGDialogState.Hiding; }
+        }
         public void Show()
         {
             state = NIGDialogState.MovingIn;

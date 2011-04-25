@@ -208,7 +208,7 @@ namespace Code2015.EngineEx
 
 
                     sprite.Draw(font, rect, srect, color);
-                    x += charWidth[ch] - 8;
+                    x += charWidth[ch] - 1;
                 }
                 else
                 {
@@ -357,7 +357,7 @@ namespace Code2015.EngineEx
 
 
                     sprite.Draw(font, rect, srect, color);
-                    x += charWidthReal[ch] + 5;
+                    x += charWidthReal[ch] +1;
                 }
                 else
                 {

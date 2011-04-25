@@ -6,7 +6,7 @@
     <FRecoverRate>0.0010</FRecoverRate>
   </NRCommon>
   <CityCommon>
-    <BallLimit>41</BallLimit>
+    <BallLimit>20</BallLimit>
     <MaxDevelopment>10000</MaxDevelopment>
     <DevHealthRate>0.1</DevHealthRate>
     <DevRBallHealthRate>0.01</DevRBallHealthRate>

@@ -76,9 +76,9 @@ namespace Code2015.World
         struct Yangbing
         {
             public const float SchoolPreseveTime = (62.0f / 30.0f) * (30.0f / 62.0f);
-            public const float GunPreseveTime = (68.0f / 30.0f) * (29.0f / 68.0f);
+            //public const float GunPreseveTime = (68.0f / 30.0f) * (29.0f / 68.0f);
             public const float HospitalPreseveTime = (29.0f / 30.0f) * (15.0f / 29.0f);
-            public const float FactoryPreseveTime = (44.0f / 30.0f) * (26.0f / 44.0f);
+            //public const float FactoryPreseveTime = (44.0f / 30.0f) * (26.0f / 44.0f);
         }
 
         public const float CityRadiusDeg = 3.5f;
@@ -321,7 +321,19 @@ namespace Code2015.World
                 isWordPlaying = true;
             }
         }
-
+       
+        public int GetOwnedAttackBallCount()
+        {
+            int result = 0;
+            for (int i = 0; i < nearbyOwnedBalls.Count; i++)
+            {
+                if (nearbyOwnedBalls[i].Type == RBallType.Oil || nearbyOwnedBalls[i].Type == RBallType.Green)
+                {
+                    result++;
+                }
+            }
+            return result;
+        }
         public bool CanProduceProduction()
         {
             return Type != CityType.Neutral;
@@ -538,7 +550,18 @@ namespace Code2015.World
                         catching[0].AnimationCompeleted += Animation_Completed;
                         catching[0].CurrentAnimation.Insert(0, scaling);
 
+                        fl = FileSystem.Instance.Locate("ch_virus_catchRelease.mesh", GameFileLocs.Model);
+                        catchingRelease[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        catchingRelease[0].AnimationCompeleted += Animation_Completed;
+                        catchingRelease[0].CurrentAnimation.Insert(0, scaling);
+
+
                         fl = FileSystem.Instance.Locate("ch_virus_throw.mesh", GameFileLocs.Model);
+                        throwingPrepare[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        throwingPrepare[0].AnimationCompeleted += Animation_Completed;
+                        throwingPrepare[0].CurrentAnimation.Insert(0, scaling);
+                      
+                        fl = FileSystem.Instance.Locate("ch_virus_catchRelease.mesh", GameFileLocs.Model);
                         throwing[0] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                         throwing[0].AnimationCompeleted += Animation_Completed;
                         throwing[0].CurrentAnimation.Insert(0, scaling);
@@ -699,7 +722,7 @@ namespace Code2015.World
             }
 
             Matrix wordTransform = Matrix.Scaling(2, 2, 2) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf-MathEx.PiOver4);
-            wordTransform.TranslationValue = new Vector3(-250, 200, 250);
+            wordTransform.TranslationValue = new Vector3(-200, 200, 200);
             
             happyWords = new Model[3];
             fl = FileSystem.Instance.Locate("pop_haha.mesh", GameFileLocs.Model);
@@ -725,7 +748,7 @@ namespace Code2015.World
 
 
             wordTransform = Matrix.Scaling(1.67f, 1.67f, 1.67f) * Matrix.RotationX(-MathEx.PIf / 5.0f) * Matrix.RotationY(MathEx.PIf - MathEx.PiOver4);
-            wordTransform.TranslationValue = new Vector3(-250, 200, 250);
+            wordTransform.TranslationValue = new Vector3(-200, 200, 200);
             
             fl = FileSystem.Instance.Locate("pop_levelup.mesh", GameFileLocs.Model);
             levelUpWord = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -864,6 +887,13 @@ namespace Code2015.World
                 if (player != null)
                 {
                     ChangeState(CityState.WakeingUp);
+                }
+                else
+                {
+                    for (int i = 0; i < linkableCity.Count; i++)
+                    {
+                        linkableCity[i].NotifyNearbyCityCaptured(this);
+                    }
                 }
             }
         }
@@ -1084,6 +1114,16 @@ namespace Code2015.World
             return targetRot;
         }
 
+        public void NotifyNearbyCityCaptured(City c)
+        {
+            if (CanHandleCommand())
+            {
+                if (c.Owner == Owner)
+                {
+                    ChangeState(CityState.Laugh);
+                }
+            }
+        }
 
         public void NotifyResourceBallMoveIn(RBall ball)
         {
@@ -1208,10 +1248,10 @@ namespace Code2015.World
         ///  人类直接命令发球
         /// </summary>
         /// <param name="target"></param>
-        public void Throw(City target)
+        public bool Throw(City target)
         {
             if (!CanHandleCommand())
-                return;
+                return false;
 
             CancelCurrentCommand();
 
@@ -1233,16 +1273,18 @@ namespace Code2015.World
                 RotateTo(targetRot, 0.5f);
                 SetRotationPurpose(CityRotationPurpose.Throw);
                 isTypedThrow = false;
+                return true;
             }
+            return false;
         }
         /// <summary>
         ///  人类直接命令发球
         /// </summary>
         /// <param name="target"></param>
-        public void Throw(City target, RBallType type)
+        public bool Throw(City target, RBallType type)
         {
             if (!CanHandleCommand())
-                return;
+                return false;
 
             CancelCurrentCommand();
 
@@ -1265,7 +1307,9 @@ namespace Code2015.World
                 SetRotationPurpose(CityRotationPurpose.Throw);
                 isTypedThrow = true;
                 typeToThrow = type;
+                return true;
             }
+            return false;
         }
 
         /// <summary>
