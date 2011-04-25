@@ -65,17 +65,17 @@ namespace Code2015.GUI
         #region 内容显示
         Texture cameraView;
 
-        Texture redDot;
-        Texture greenDot;
-        Texture blueDot;
-        Texture yellowDot;
+        //Texture redDot;
+        //Texture greenDot;
+        //Texture blueDot;
+        //Texture yellowDot;
+        Texture mapCircle;
+        Texture mapdot;
 
-        Texture whiteDot;
-
-        Texture redRing;
-        Texture greenRing;
-        Texture blueRing;
-        Texture yellowRing;
+        //Texture redRing;
+        //Texture greenRing;
+        //Texture blueRing;
+        //Texture yellowRing;
         Dictionary<City, Point> positionBuffer = new Dictionary<City, Point>();
         #endregion
 
@@ -99,26 +99,29 @@ namespace Code2015.GUI
             cameraView = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("ig_mp_redpoint.tex", GameFileLocs.GUI);
-            redDot = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_greenpoint.tex", GameFileLocs.GUI);
-            greenDot = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_yellowpoint.tex", GameFileLocs.GUI);
-            yellowDot = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_bluepoint.tex", GameFileLocs.GUI);
-            blueDot = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_whitepoint.tex", GameFileLocs.GUI);
-            whiteDot = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_redpoint.tex", GameFileLocs.GUI);
+            //redDot = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_greenpoint.tex", GameFileLocs.GUI);
+            //greenDot = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_yellowpoint.tex", GameFileLocs.GUI);
+            //yellowDot = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_bluepoint.tex", GameFileLocs.GUI);
+            //blueDot = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("nig_mp_dot.tex", GameFileLocs.GUI);
+            mapdot = UITextureManager.Instance.CreateInstance(fl);
+
+            fl = FileSystem.Instance.Locate("nig_mp_circle.tex", GameFileLocs.GUI);
+            mapCircle = UITextureManager.Instance.CreateInstance(fl);
 
 
-            fl = FileSystem.Instance.Locate("ig_mp_red.tex", GameFileLocs.GUI);
-            redRing  = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_green.tex", GameFileLocs.GUI);
-            greenRing = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_yellow.tex", GameFileLocs.GUI);
-            yellowRing = UITextureManager.Instance.CreateInstance(fl);
-            fl = FileSystem.Instance.Locate("ig_mp_blue.tex", GameFileLocs.GUI);
-            blueRing = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_red.tex", GameFileLocs.GUI);
+            //redRing  = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_green.tex", GameFileLocs.GUI);
+            //greenRing = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_yellow.tex", GameFileLocs.GUI);
+            //yellowRing = UITextureManager.Instance.CreateInstance(fl);
+            //fl = FileSystem.Instance.Locate("ig_mp_blue.tex", GameFileLocs.GUI);
+            //blueRing = UITextureManager.Instance.CreateInstance(fl);
 
             #endregion
 
@@ -174,21 +177,8 @@ namespace Code2015.GUI
             pt.X += MapX;
             pt.Y += MapY + PanelY;
 
-            Texture tex = redRing;
-            if (color == ColorValue.Yellow)
-            {
-                tex = yellowRing;
-            }
-            else if (color == ColorValue.Blue)
-            {
-                tex = blueRing;
-            }
-            else if (color == ColorValue.Green)
-            {
-                tex = greenRing;
-            }
 
-            Popup2 pop2 = new Popup2(renderSys, tex, pt.X, pt.Y, 3);
+            Popup2 pop2 = new Popup2(renderSys, mapCircle, pt.X, pt.Y, 3, color);
 
             marks.Add(pop2);
         }
@@ -220,30 +210,16 @@ namespace Code2015.GUI
 
                 if (!cc.IsHomeCity)
                 {
-                    Texture dot;
+                    ColorValue modColor;
+
                     if (cc.IsCaptured)
                     {
-                        ColorValue color = cc.Owner.SideColor;
-                        if (color == ColorValue.Red)
-                        {
-                            dot = redDot;
-                        }
-                        else if (color == ColorValue.Green)
-                        {
-                            dot = greenDot;
-                        }
-                        else if (color == ColorValue.Blue)
-                        {
-                            dot = blueDot;
-                        }
-                        else
-                        {
-                            dot = yellowDot;
-                        }
+                        modColor = cc.Owner.SideColor;
+                       
                     }
                     else
                     {
-                        dot = whiteDot;
+                        modColor = ColorValue.White;
                     }
 
                     Point pt;
@@ -256,31 +232,23 @@ namespace Code2015.GUI
 
                         positionBuffer.Add(cc, pt);
                     }
-                    sprite.Draw(dot, pt.X - 7, pt.Y - 7, ColorValue.White);
+                    sprite.Draw(mapdot, pt.X - 7, pt.Y - 7, modColor);
                 }
                 else
                 {
-                    Texture ring;
+                    ColorValue modColor;
 
                     if (cc.IsCaptured)
                     {
-                        ColorValue color = cc.Owner.SideColor;
-                        if (color == ColorValue.Red)
-                        {
-                            ring = redRing;
-                        }
-                        else if (color == ColorValue.Green)
-                        {
-                            ring = greenRing;
-                        }
-                        else if (color == ColorValue.Blue)
-                        {
-                            ring = blueRing;
-                        }
-                        else
-                        {
-                            ring = yellowRing;
-                        }
+                        modColor = cc.Owner.SideColor;
+                    }
+                    else
+                    {
+                        modColor = ColorValue.White;
+                    }
+                    if (cc.IsCaptured)
+                    {
+                        
 
                         Point pt;
                         if (!positionBuffer.TryGetValue(cc, out pt))
@@ -292,7 +260,7 @@ namespace Code2015.GUI
 
                             positionBuffer.Add(cc, pt);
                         }
-                        sprite.Draw(ring, pt.X - 12, pt.Y - 12, ColorValue.White);
+                        sprite.Draw(mapCircle, pt.X - 12, pt.Y - 12, modColor);
                     }
 
                 }
