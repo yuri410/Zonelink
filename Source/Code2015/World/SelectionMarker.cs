@@ -39,9 +39,9 @@ namespace Code2015.World
 {
     class SelectionMarker : SceneObject
     {
-        public const float LinkWidthScale = 0.007f;
+        public const float LinkWidthScale = 3.300f;
         public const float LinkHeightScale = 1.0f;
-        public const float LinkBaseLength = 300;
+        public const float LinkBaseLength = 345;
 
         public const float HarvestRingRadius = 175;
         public const float ResourceRingRadius = 333;
@@ -250,7 +250,7 @@ namespace Code2015.World
             ori.TranslationValue = center + normal * 150;
 
             return Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(-MathEx.PiOver2) *
-                    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, 1 + LinkWidthScale * dist) * ori;
+                    Matrix.Scaling(dist / LinkBaseLength, 1 + LinkHeightScale, LinkWidthScale) * ori;
         }
 
         private void SetNodes(City[] nodes)
