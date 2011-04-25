@@ -49,11 +49,6 @@ namespace Code2015.GUI
         Texture help;
         Texture start;
 
-        Texture credits_hover;
-        Texture exit_hover;
-        Texture help_hover;
-        Texture start_hover;
-
         Texture background;
         Texture linkbg;
 
