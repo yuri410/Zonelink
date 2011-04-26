@@ -113,6 +113,7 @@ namespace Code2015.GUI.IngameUI
         {
             if (btn == MouseButtonFlags.Left)
             {
+                game.RestartGame();
                 Hide();
             }
         }

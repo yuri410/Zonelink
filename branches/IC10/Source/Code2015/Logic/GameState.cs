@@ -135,6 +135,7 @@ namespace Code2015.World
 
         }
 
+
         public GameState(Player[] localPlayer)
         {
             this.battleField = new BattleField();// srcState.Field;

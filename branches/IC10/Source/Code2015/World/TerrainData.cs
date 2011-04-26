@@ -46,20 +46,29 @@ namespace Code2015.World
             singleton = new TerrainData();
         }
 
-        const int DataWidth1 = 129 * 36;
-        const int DataHeight1 = 129 * 14;
 
-        const int DataWidth2 = 33 * 36;
-        const int DataHeight2 = 33 * 14;
+        const int Data1Len = 33;
+        const int Data2Len = 17;
+
+        const int DataWidth1 = Data1Len * 36;
+        const int DataHeight1 = Data1Len * 14;
+
+        const int DataWidth2 = Data2Len * 36;
+        const int DataHeight2 = Data2Len * 14;
 
         //const int TileLength0 = 513;
-        const int TileLength1 = 129;
-        const int TileLength2 = 33;
+        const int TileLength1 = Data1Len;
+        const int TileLength2 = Data2Len;
 
         //ContentBinaryReader reader0;
-        ContentBinaryReader reader1;
-        ContentBinaryReader reader2;
+        //ContentBinaryReader reader1;
+        //ContentBinaryReader reader2;
         //bool[,] existData;
+
+        ushort[] data0;
+        ushort[] data1;
+
+
 
         object syncHelper = new object();
 
@@ -74,14 +83,14 @@ namespace Code2015.World
 
 
 
-        long GetPosition1(int tx, int ty)
-        {
-            return sizeof(ushort) * (TileLength1 * ty * DataWidth1 + tx * TileLength1);
-        }
-        long GetPosition2(int tx, int ty)
-        {
-            return sizeof(ushort) * (TileLength2 * ty * DataWidth2 + tx * TileLength2);
-        }
+        //long GetPosition1(int tx, int ty)
+        //{
+        //    return sizeof(ushort) * (TileLength1 * ty * DataWidth1 + tx * TileLength1);
+        //}
+        //long GetPosition2(int tx, int ty)
+        //{
+        //    return sizeof(ushort) * (TileLength2 * ty * DataWidth2 + tx * TileLength2);
+        //}
 
         //public bool HasData(int tx, int ty)
         //{
@@ -90,13 +99,6 @@ namespace Code2015.World
         //}
 
 
-        // 使用地形1级
-
-        public void GetSlopTangentMatrix(Vector2 p, Vector2 upper, Vector2 right, out Matrix trans)
-        {
-
-            throw new NotImplementedException();
-        }
 
 
 
@@ -114,12 +116,13 @@ namespace Code2015.World
             if (x < 0) x += DataWidth1;
             if (x >= DataWidth1) x -= DataWidth1;
 
-            lock (syncHelper)
-            {
-                reader1.BaseStream.Position = sizeof(ushort) * (y * DataWidth1 + x);
+            return data0[y * DataWidth1 + x] / 7.0f - TerrainMeshManager.PostZeroLevel;
+            //lock (syncHelper)
+            //{
+            //    reader1.BaseStream.Position = sizeof(ushort) * (y * DataWidth1 + x);
 
-                return (reader1.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
-            }
+            //    return (reader1.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
+            //}
         }
         //public float QueryHeight(float longtiude, float latitude)
         //{
@@ -142,39 +145,68 @@ namespace Code2015.World
         //        return (reader0.ReadUInt16() / 7.0f - TerrainMeshManager.PostZeroLevel);
         //    }
         //}
-
-        public float[] GetData(int tx, int ty)
+        float[] GetData1(int tx, int ty)
         {
             Transform(ref tx, ref ty);
 
             float[] result = null;
             long colSpan = 0;
-            long start = 0;
             int tileLen = 0;
 
-            ContentBinaryReader cbr = null;
+            //ContentBinaryReader cbr = null;
 
-            cbr = reader2;
-            start = GetPosition2(tx, ty);
-            colSpan = DataWidth2 * sizeof(ushort);
+            //cbr = reader2;
+            long start = TileLength2 * ty * DataWidth2 + tx * TileLength2;
+            colSpan = DataWidth2;
             tileLen = TileLength2;
 
 
             result = new float[tileLen * tileLen];
             for (int i = 0; i < tileLen; i++)
             {
-                lock (syncHelper)
+                long rowStart = start + i * colSpan;
+                for (int j = 0; j < tileLen; j++)
                 {
-                    cbr.BaseStream.Position = start + i * colSpan;
-
-                    for (int j = 0; j < tileLen; j++)
-                    {
-                        result[i * tileLen + j] = cbr.ReadUInt16() / 7.0f;
-                    }
+                    result[i * tileLen + j] = data1[rowStart + j] / 7.0f;
                 }
             }
 
             return result;
+        }
+        float[] GetData0(int tx, int ty)
+        {
+            Transform(ref tx, ref ty);
+
+            float[] result = null;
+            long colSpan = 0;
+            int tileLen = 0;
+
+
+            long start = TileLength1 * ty * DataWidth1 + tx * TileLength1;
+            colSpan = DataWidth1;
+            tileLen = TileLength1;
+
+
+            result = new float[tileLen * tileLen];
+            for (int i = 0; i < tileLen; i++)
+            {
+                long rowStart = start + i * colSpan;
+                for (int j = 0; j < tileLen; j++)
+                {
+                    result[i * tileLen + j] = data0[rowStart + j] / 7.0f;
+                }
+            }
+
+            return result;
+        }
+
+        public float[] GetData(int tx, int ty, int size)
+        {
+            if (size == 33) 
+            {
+                return GetData0(tx, ty);
+            }
+            return GetData1(tx, ty);
         }
 
         private TerrainData()
@@ -182,11 +214,35 @@ namespace Code2015.World
             //FileLocation fl = FileSystem.Instance.Locate("terrain_l0.tdmp", GameFileLocs.Terrain);
             //reader0 = new ContentBinaryReader(fl);
 
-            FileLocation fl = FileSystem.Instance.Locate("terrain_l1.tdmp", GameFileLocs.Terrain);
-            reader1 = new ContentBinaryReader(fl);
+            FileLocation fl = FileSystem.Instance.Locate("terrain_l2.tdmp", GameFileLocs.Terrain);
+            ContentBinaryReader reader1 = new ContentBinaryReader(fl);
 
-            fl = FileSystem.Instance.Locate("terrain_l2.tdmp", GameFileLocs.Terrain);
-            reader2 = new ContentBinaryReader(fl);
+            data0 = new ushort[DataWidth1 * DataHeight1];
+            for (int i = 0; i < DataHeight1; i++)
+            {
+                for (int j = 0; j < DataWidth1; j++)
+                {
+                    data0[i * DataWidth1 + j] = reader1.ReadUInt16();
+                }
+            }
+            reader1.Close();
+
+
+
+            fl = FileSystem.Instance.Locate("terrain_l3.tdmp", GameFileLocs.Terrain);
+            ContentBinaryReader reader2 = new ContentBinaryReader(fl);
+
+            data1 = new ushort[DataHeight2 * DataWidth2];
+            for (int i = 0; i < DataHeight2; i++)
+            {
+                for (int j = 0; j < DataWidth2; j++)
+                {
+                    data1[i * DataWidth2 + j] = reader2.ReadUInt16();
+                }
+            }
+            reader2.Close();
+
+
 
             //fl = FileSystem.Instance.Locate("flags.dat", GameFileLocs.Terrain);
 
@@ -205,8 +261,6 @@ namespace Code2015.World
 
         protected override void dispose()
         {
-            reader1.Close();
-            reader2.Close();
         }
     }
 }

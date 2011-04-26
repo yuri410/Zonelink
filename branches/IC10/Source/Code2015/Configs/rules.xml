@@ -33,28 +33,28 @@
     <BaseHeal>0</BaseHeal>
   </GreenBall>
   <EducationBall>
-    <BaseHealth>150</BaseHealth>
+    <BaseHealth>300</BaseHealth>
     <GenInterval>15</GenInterval>
     <Contribution>1</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </EducationBall>
   <VolienceBall>
-    <BaseHealth>150</BaseHealth>
+    <BaseHealth>300</BaseHealth>
     <GenInterval>15</GenInterval>
     <Contribution>1</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </VolienceBall>
   <HealthBall>
-    <BaseHealth>150</BaseHealth>
+    <BaseHealth>300</BaseHealth>
     <GenInterval>15</GenInterval>
     <Contribution>0.2</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>5</BaseHeal>
   </HealthBall>
   <DiseaseBall>
-    <BaseHealth>150</BaseHealth>
+    <BaseHealth>300</BaseHealth>
     <GenInterval>15</GenInterval>
     <Contribution>0.2</Contribution>
     <BaseDamage>10</BaseDamage>

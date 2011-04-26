@@ -59,6 +59,33 @@ namespace Code2015.Effects
             fx.Dispose();
         }
     }
+    public class TerrainEffect17Factory : EffectFactory
+    {
+        static readonly string typeName = "Terrain17";
+
+
+        public static string Name
+        {
+            get { return typeName; }
+        }
+
+        RenderSystem renderSystem;
+
+        public TerrainEffect17Factory(RenderSystem rs)
+        {
+            renderSystem = rs;
+        }
+
+        public override Effect CreateInstance()
+        {
+            return new TerrainEffect17(renderSystem);
+        }
+
+        public override void DestroyInstance(Effect fx)
+        {
+            fx.Dispose();
+        }
+    }
     
     class TerrainEffect33 : TerrainEffect
     {
@@ -68,6 +95,13 @@ namespace Code2015.Effects
         }
     }
 
+    class TerrainEffect17 : TerrainEffect
+    {
+        public TerrainEffect17(RenderSystem renderSystem)
+            : base(renderSystem, 17)
+        {
+        }
+    }
     class TerrainEffect : RigidEffect
     {
         RenderSystem renderSystem;

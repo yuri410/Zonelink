@@ -37,7 +37,8 @@ namespace Code2015
     {
         static FastList<ResourceHandle<Texture>> textureBuffer = new FastList<ResourceHandle<Texture>>();
         static FastList<ResourceHandle<ModelData>> modelBuffer = new FastList<ResourceHandle<ModelData>>();
-        static FastList<ResourceHandle<TerrainMesh>> terrainMesh = new FastList<ResourceHandle<TerrainMesh>>();
+        //static FastList<ResourceHandle<TerrainMesh>> terrainMesh0 = new FastList<ResourceHandle<TerrainMesh>>();
+        static FastList<ResourceHandle<TerrainMesh>> terrainMesh1 = new FastList<ResourceHandle<TerrainMesh>>();
 
         public static void Cache(RenderSystem rs)
         {
@@ -68,9 +69,15 @@ namespace Code2015
             {
                 for (int j = 1; j < PlanetEarth.LatTileCount * 2; j += 2)
                 {
-                    ResourceHandle<TerrainMesh> mesh = TerrainMeshManager.Instance.CreateInstance(rs, i, j + PlanetEarth.LatTileStart);
-                    mesh.Touch();
-                    terrainMesh.Add(mesh);
+                    //ResourceHandle<TerrainMesh> mesh0 = TerrainMeshManager.Instance.CreateInstance(rs, i, j + PlanetEarth.LatTileStart, 33);
+                    //mesh0.Touch();
+                    //terrainMesh0.Add(mesh0);
+
+                    ResourceHandle<TerrainMesh> mesh1 = TerrainMeshManager.Instance.CreateInstance(rs, i, j + PlanetEarth.LatTileStart, 17);
+                    mesh1.Touch();
+                    terrainMesh1.Add(mesh1);
+
+
                 }
             }
         }

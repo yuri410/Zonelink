@@ -41,6 +41,7 @@ using XGS = Microsoft.Xna.Framework.GamerServices;
 using XN = Microsoft.Xna.Framework.Net;
 using XFG = Microsoft.Xna.Framework.Graphics;
 using Code2015.Logic;
+using Code2015.AI;
 
 namespace Code2015
 {
@@ -56,6 +57,46 @@ namespace Code2015
     /// </summary>
     class Code2015 : IRenderWindowHandler
     {
+        #region 
+        struct ColorSortEntry
+        {
+            public float Weight;
+            public ColorValue Color;
+        }
+        static int Comparison(ColorSortEntry a, ColorSortEntry b)
+        {
+            return a.Weight.CompareTo(b.Weight);
+        }
+
+        ColorValue[] GetSideColors()
+        {
+            ColorSortEntry[] entries = new ColorSortEntry[8];
+          
+            entries[0].Color = ColorValue.Red;
+            entries[1].Color = ColorValue.Yellow;
+            entries[2].Color = ColorValue.Green;
+            entries[3].Color = ColorValue.Blue;
+            entries[4].Color = ColorValue.Purple;
+            entries[5].Color = ColorValue.Orange;
+            entries[6].Color = ColorValue.LightBlue;
+            entries[7].Color = ColorValue.Pink;
+            for (int i = 0; i < entries.Length; i++)
+            {
+                entries[i].Weight = Randomizer.GetRandomSingle();
+            }
+            Array.Sort<ColorSortEntry>(entries, Comparison);
+
+
+
+            ColorValue[] reuslt = new ColorValue[entries.Length];
+            for (int i = 0; i < entries.Length; i++) 
+            {
+                reuslt[i] = entries[i].Color;
+            }
+            return reuslt;
+        }
+        #endregion
+
         RenderSystem renderSys;
 
         Menu menu;
@@ -64,6 +105,7 @@ namespace Code2015
         Sprite sprite;
         X.Game game;
 
+        bool isRestartingGame;
 
         public Code2015(RenderSystem rs, X.Game game)
         {
@@ -105,6 +147,7 @@ namespace Code2015
 
             EffectManager.Initialize(renderSys);
             EffectManager.Instance.RegisterModelEffectType(TerrainEffect33Factory.Name, new TerrainEffect33Factory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(TerrainEffect17Factory.Name, new TerrainEffect17Factory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(WaterEffectFactory.Name, new WaterEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(StandardEffectFactory.Name, new StandardEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(SkinnedStandardEffectFactory.Name, new SkinnedStandardEffectFactory(renderSys));
@@ -161,9 +204,37 @@ namespace Code2015
             EngineTimer.Dispose();
         }
 
-
-        public void StartNewGame(GameCreationParameters gcp)
+        public void RestartGame()
         {
+            currentGame.Over();
+
+            currentGame = null;
+            StartNewGame();
+
+        }
+        public void StartNewGame()
+        {
+            GameCreationParameters gcp = new GameCreationParameters();
+
+            gcp.Player1 = new Player("Player", 0);
+            gcp.Player2 = new AIPlayer(1);
+            gcp.Player3 = new AIPlayer(2);
+            gcp.Player4 = new AIPlayer(3);
+            gcp.Player5 = new AIPlayer(4);
+            gcp.Player6 = new AIPlayer(5);
+            gcp.Player7 = new AIPlayer(6);
+            gcp.Player8 = new AIPlayer(7);
+
+            ColorValue[] colors = GetSideColors();
+            gcp.Player1.SideColor = colors[0];
+            gcp.Player2.SideColor = colors[1];
+            gcp.Player3.SideColor = colors[2];
+            gcp.Player4.SideColor = colors[3];
+            gcp.Player5.SideColor = colors[4];
+            gcp.Player6.SideColor = colors[5];
+            gcp.Player7.SideColor = colors[6];
+            gcp.Player8.SideColor = colors[7];
+
             currentGame = new Game(this, gcp);
         }
         public void Back() 
@@ -212,6 +283,12 @@ namespace Code2015
             if (currentGame != null)
             {
                 currentGame.Update(time);
+            }
+
+            if (isRestartingGame) 
+            {
+                StartNewGame();
+                isRestartingGame = false;
             }
         }
 

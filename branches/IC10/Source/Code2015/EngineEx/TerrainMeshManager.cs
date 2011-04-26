@@ -124,15 +124,18 @@ namespace Code2015.EngineEx
         RenderSystem renderSystem;
         //Dictionary<int, SharedBlockIndexData> sharedIBCache = new Dictionary<int, SharedBlockIndexData>();
         SharedIndexData index33;
+        SharedIndexData index17;
 
         private TerrainMeshManager() { }
         private TerrainMeshManager(int cacheSize)
             : base(cacheSize)
         {
         }
-        public SharedIndexData GetIndexData() 
+        public SharedIndexData GetIndexData(int size)
         {
-            return index33;
+            if (size == 33)
+                return index33;
+            return index17;
         }
         //public SharedBlockIndexData GetSharedIndexData(int terrEdgeSize) 
         //{
@@ -144,7 +147,7 @@ namespace Code2015.EngineEx
         //    }
         //    return result;
         //}
-        public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y)
+        public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y, int size)
         {
             if (!loaded)
             {
@@ -156,6 +159,7 @@ namespace Code2015.EngineEx
                         renderSystem = rs;
 
                         index33 = new SharedIndexData(rs, 33);
+                        index17 = new SharedIndexData(rs, 17);
                         //SharedBlockIndexData sharedIdxBuffer1025 = new SharedBlockIndexData(rs, 513);
                         //SharedBlockIndexData sharedIdxBuffer257 = new SharedBlockIndexData(rs, 129);
                         //SharedBlockIndexData sharedIdxBuffer65 = new SharedBlockIndexData(rs, 33);
@@ -165,10 +169,10 @@ namespace Code2015.EngineEx
                     }
                 }
             }
-            Resource retrived = base.Exists(TerrainMesh.GetHashString(x, y));
+            Resource retrived = base.Exists(TerrainMesh.GetHashString(x, y, size));
             if (retrived == null)
             {
-                TerrainMesh mdl = new TerrainMesh(rs, x, y);
+                TerrainMesh mdl = new TerrainMesh(rs, x, y, size);
                 retrived = mdl;
                 base.NotifyResourceNew(mdl);
             }

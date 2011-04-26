@@ -6,6 +6,7 @@ using Apoc3D.Graphics;
 using Apoc3D.Vfs;
 using Apoc3D.MathLib;
 using Code2015.EngineEx;
+using Code2015.Logic;
 
 namespace Code2015.GUI.IngameUI
 {
@@ -16,6 +17,7 @@ namespace Code2015.GUI.IngameUI
         RenderSystem renderSys;
         Code2015 game;
         Game parent;
+        Player player;
 
         GameFontRuan fedge6;
 
@@ -40,6 +42,7 @@ namespace Code2015.GUI.IngameUI
             FileLocation fl = FileSystem.Instance.Locate("nig_quest.tex", GameFileLocs.GUI);
             background = UITextureManager.Instance.CreateInstance(fl);
 
+            player = gamelogic.LocalHumanPlayer;
 
             fedge6 = GameFontManager.Instance.FRuanEdged8;
         }
@@ -50,7 +53,10 @@ namespace Code2015.GUI.IngameUI
 
             sprite.Draw(background, new Vector2(0, 613), ColorValue.White);
 
-            fedge6.DrawString(sprite, "HELP 15 CITIES", 130, 660, ColorValue.White);
+            string msg = "HELP 15 CITIES";
+
+            fedge6.DrawString(sprite, msg, 130, 660, ColorValue.White);
+            fedge6.DrawString(sprite, "\n " + player.Area.CityCount.ToString() + " / 15 )", 130, 660, ColorValue.White);
           
         }
     }

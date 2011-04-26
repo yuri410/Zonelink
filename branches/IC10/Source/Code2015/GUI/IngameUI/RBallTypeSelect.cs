@@ -159,9 +159,7 @@ namespace Code2015.GUI.IngameUI
             resBallsCount[2].Type = RBallType.Health;
             resBallsCount[2].count = 0;
 
-            startY[0] = 50;
-            startY[1] = 111;
-            startY[2] = 170;
+
         }
 
 
@@ -349,7 +347,7 @@ namespace Code2015.GUI.IngameUI
                 {
                     sprite.Draw(background, 0, 0, ColorValue.White);
                 }
-                else 
+                else
                 {
                     sprite.Draw(backgroundSelected[selectedIndex], 0, 0, ColorValue.White);
                 }
@@ -373,7 +371,9 @@ namespace Code2015.GUI.IngameUI
 
 
 
-        int[] startY = new int[3];
+        int[] startY = new int[3] { 50, 111, 170 }; //各个资源球框的位置
+        int[] countStartY = new int[3] { 9, 20, 27 };
+        int[] countStartX = new int[3] { 34, 36, 32 };
 
         private void RenderBallIcon(Sprite sprite)
         {
@@ -385,7 +385,10 @@ namespace Code2015.GUI.IngameUI
                 resBallItemCount[1] = 0;
                 resBallItemCount[2] = 0;
 
-                int left = 0;
+
+
+
+                int order = 0;
                 for (int i = 0; i < resBallsCount.Length; i++)
                 {
                     switch (resBallsCount[i].Type)
@@ -394,19 +397,19 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
-                                    resBallsItemType[left] = RBallType.Green;
-                                    resBallItemCount[left] = resBallsCount[i].count;
+                                    resBallsItemType[order] = RBallType.Green;
+                                    resBallItemCount[order] = resBallsCount[i].count;
                                     int x = 82 - greenBallBtn.Width / 2;
-                                    int y = startY[left] - greenBallBtn.Height / 2;
+                                    int y = startY[order] - greenBallBtn.Height / 2;
 
                                     sprite.Draw(greenBallBtn, x, y, ColorValue.White);
 
-                                  
+                                    string count = resBallsCount[i].count.ToString();
 
-                                 
-                                   
-                                   
-                                    left++;
+                                    f8.DrawString(sprite, count.ToString(), x + countStartX[order], y + countStartY[order], ColorValue.White);
+
+
+                                    order++;
                                 }
 
                             }
@@ -415,16 +418,20 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
-                                    resBallsItemType[left] = RBallType.Education;
-                                    resBallItemCount[left] = resBallsCount[i].count;
+                                    resBallsItemType[order] = RBallType.Education;
+                                    resBallItemCount[order] = resBallsCount[i].count;
                                     int x = 88 - educationBallBtn.Width / 2;
-                                    int y = startY[left] - educationBallBtn.Height / 2;
+                                    int y = startY[order] - educationBallBtn.Height / 2;
 
                                     sprite.Draw(educationBallBtn, x, y, ColorValue.White);
 
-                                
-                                    
-                                    left++;
+
+                                    string count = resBallsCount[i].count.ToString();
+
+                                    f8.DrawString(sprite, count.ToString(), x + countStartX[order], y + countStartY[order], ColorValue.White);
+
+
+                                    order++;
                                 }
 
                             }
@@ -433,17 +440,19 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
-                                    resBallsItemType[left] = RBallType.Health;
-                                    resBallItemCount[left] = resBallsCount[i].count;
+                                    resBallsItemType[order] = RBallType.Health;
+                                    resBallItemCount[order] = resBallsCount[i].count;
                                     int x = 88 - healthBallBtn.Width / 2;
-                                    int y = startY[left] - healthBallBtn.Height / 2;
+                                    int y = startY[order] - healthBallBtn.Height / 2;
+
 
                                     sprite.Draw(healthBallBtn, x, y, ColorValue.White);
 
-                                  
+                                    string count = resBallsCount[i].count.ToString();
 
-                                    
-                                    left++;
+                                    f8.DrawString(sprite, count.ToString(), x + countStartX[order], y + countStartY[order], ColorValue.White);
+
+                                    order++;
                                 }
                             }
                             break;

@@ -1193,6 +1193,9 @@ namespace Code2015.World
         
         public bool CanHandleCommand()
         {
+            if (currentState == CityState.Rotate && rotationPurpose != CityRotationPurpose.None)
+                return false;
+
             return currentState != CityState.Catch && currentState != CityState.Throw && 
                 currentState != CityState.ThrowContinued && currentState != CityState.WaitingGather;
         }
@@ -1795,6 +1798,11 @@ namespace Code2015.World
                     if (throwRgball.CurrentState == RGatheredBall.State.WaitingThrow)
                     {
                         ChangeState(CityState.Throw);
+                    }
+                    else if (throwRgball.CurrentState == RGatheredBall.State.Finished) 
+                    {
+                        ChangeState(CityState.Stopped);
+                        throwRgball = null;
                     }
                     throwingPrepare[currentForm].Update(time);
                     break;
