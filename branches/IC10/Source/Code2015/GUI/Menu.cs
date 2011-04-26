@@ -61,7 +61,6 @@ namespace Code2015.GUI
         //SelectScreen sideSelect;
         //RenderTarget renderTarget;
 
-        Texture logo;
         Texture overlay34;
         float overlayAlpha;
 
@@ -129,22 +128,10 @@ namespace Code2015.GUI
 
             //fl = FileSystem.Instance.Locate("mm_logo.tex", GameFileLocs.GUI);
 
-            fl = FileSystem.Instance.Locate("nmm_logo.tex", GameFileLocs.GUI);
-            logo = UITextureManager.Instance.CreateInstance(fl);
 
         }
-        public void RenderLogo(Sprite sprite)
-        {
-            sprite.Draw(logo, 0, 0, ColorValue.White);
+       
 
-            //ColorValue color = ColorValue.White;
-            //color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light1) * 0.5f + 1));
-            //sprite.Draw(logolgt1, (int)(Math.Cos(light1) * 10), 0, color);
-            //color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light2) * 0.5f + 1));
-            //sprite.Draw(logolgt2, (int)(Math.Cos(light2) * 10), 0, color);
-            //color.A = (byte)(byte.MaxValue * MathEx.Saturate((float)Math.Cos(light3) * 0.5f + 1));
-            //sprite.Draw(logolgt3, (int)(Math.Cos(light3) * 10), 0, color);
-        }
         public void Render()
         {
 
@@ -174,20 +161,20 @@ namespace Code2015.GUI
 
                     currentScreen.Render(sprite);
                     sprite.Draw(overlay34, 0, 0, color);
-                    
+
                 }
                 else
                 {
                     //if (overlayAlpha > 0)
                     //{
-                        //overlayAlpha -= 0.1f;
-                        ColorValue color = ColorValue.White;
-                        color.A = (byte)(byte.MaxValue * MathEx.Saturate(overlayAlpha) * 0.5f);
+                    //overlayAlpha -= 0.1f;
+                    ColorValue color = ColorValue.White;
+                    color.A = (byte)(byte.MaxValue * MathEx.Saturate(overlayAlpha) * 0.5f);
 
-                        sprite.Draw(overlay34, 0, 0, color);
+                    sprite.Draw(overlay34, 0, 0, color);
                     //}
                     //else
-                        //overlayAlpha = 0;
+                    //overlayAlpha = 0;
                 }
             }
 
