@@ -18,13 +18,6 @@ namespace Code2015.World
 
     abstract class NaturalResource : WorldObject
     {
-        const float OTimesMaxAmount = 2;
-        //const float ORecoverBias = 1;
-
-
-        //const float FRecoverRate = 0.0015f;
-        //const float FRecoverBias = 1;
-        const float FTimesMaxAmount = 2;
 
         public const int OilFrameCount = 30;
         //public const float OilScale = 6.6f;
@@ -73,16 +66,7 @@ namespace Code2015.World
         private void Reset(float current) 
         {
             CurrentAmount = current;
-
-            switch (Type)
-            {
-                case NaturalResourceType.Oil:
-                    MaxAmount = CurrentAmount * OTimesMaxAmount;
-                    break;
-                case NaturalResourceType.Wood:
-                    MaxAmount = CurrentAmount * FTimesMaxAmount;
-                    break;
-            }
+            MaxAmount = CurrentAmount;
             
         }
 

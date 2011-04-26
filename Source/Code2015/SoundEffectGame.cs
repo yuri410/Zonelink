@@ -181,8 +181,12 @@ namespace Code2015
             {
                 idx = Randomizer.GetRandomInt(soundEffects[(int)category].Length);
             }
-            return soundEffects[(int)category][idx].Play(Volume);
+            SoundEffectInstance inst = soundEffects[(int)category][idx].CreateInstance();//.Play(Volume, 0, 0);
+            inst.Volume = Volume;
 
+            inst.Play();
+
+            return inst;
             //return soundEffect.Play();
         }
         public SoundEffectInstance Play(SoundEffectPart category, float volume)
@@ -193,7 +197,10 @@ namespace Code2015
             {
                 idx = Randomizer.GetRandomInt(soundEffects[(int)category].Length);
             }
-            return soundEffects[(int)category][idx].Play(volume * Volume);
+            SoundEffectInstance inst = soundEffects[(int)category][idx].CreateInstance();//.Play(volume * Volume, 0, 0);
+            inst.Volume = volume * Volume;
+            inst.Play();
+            return inst;
 
         }
         //pitch,pan（-1左声道，1右声道）默认值设为0；
@@ -205,8 +212,15 @@ namespace Code2015
             {
                 idx = Randomizer.GetRandomInt(soundEffects[(int)category].Length);
             }
-            return soundEffects[(int)category][idx].Play(volume * Volume, pitch, pan, isLoop);
+            SoundEffectInstance inst = soundEffects[(int)category][idx].CreateInstance();
+            inst.Volume = volume;
+            inst.Pitch = pitch;
+            inst.Pan = pan;
+            inst.IsLooped = isLoop;
+            inst.Play();
 
+            //return soundEffects[(int)category][idx].Play(volume * Volume, pitch, pan, isLoop);
+            return inst;
         }
         //播放3D声音
 
@@ -242,8 +256,13 @@ namespace Code2015
 
                 //MXF.Vector3* tempPointer2 = (MXF.Vector3*)(&emitter);
                 //this.Emitter.Position = *tempPointer2;
-
-                return sf.Play3D(listener, emitter);
+                SoundEffectInstance inst = sf.CreateInstance();
+                
+                //return sf.Play3D(listener, emitter);
+                inst.Apply3D(listener, emitter);
+                inst.Play();
+                
+                return inst;
             }
         }
 
@@ -259,7 +278,15 @@ namespace Code2015
                 
                 //this.Listener.Position = *tempPointer1;
                 //this.Emitter.Position = *tempPointer2;
-                return sf.Play3D(listener, emitter, volume * Volume, pitch, loop);
+                SoundEffectInstance inst = sf.CreateInstance();
+                inst.Apply3D(listener, emitter);
+                inst.Volume = volume;
+                inst.Pitch = pitch;
+                inst.IsLooped = loop;
+
+                //return sf.Play3D(listener, emitter, volume * Volume, pitch, loop);
+                inst.Play();
+                return inst;
             }
         }
 

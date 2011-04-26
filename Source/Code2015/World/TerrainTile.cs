@@ -38,7 +38,8 @@ namespace Code2015.World
     /// </summary>
     class TerrainTile : SceneObject
     {
-        ResourceHandle<TerrainMesh> terrain;
+        ResourceHandle<TerrainMesh> terrain0;
+        //ResourceHandle<TerrainMesh> terrain1;
         //ResourceHandle<TerrainMesh> terrain3;
 
         ResourceHandle<TerrainMesh> activeTerrain;
@@ -52,12 +53,12 @@ namespace Code2015.World
         public TerrainTile(RenderSystem rs, int col, int lat)
             : base(true)
         {
-            terrain = TerrainMeshManager.Instance.CreateInstance(rs, col, lat);
-            terrain.Touch();
-            //terrain3 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 3);
-
-            Transformation = terrain.GetWeakResource().Transformation;
-            BoundingSphere = terrain.GetWeakResource().BoundingSphere;
+            terrain0 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 17);
+            terrain0.Touch();
+            //terrain1 = TerrainMeshManager.Instance.CreateInstance(rs, col, lat, 17);
+            //terrain1.Touch();
+            Transformation = terrain0.GetWeakResource().Transformation;
+            BoundingSphere = terrain0.GetWeakResource().BoundingSphere;
 
             //Transformation = terrain0.GetWeakResource().Transformation;
             //BoundingSphere = terrain0.GetWeakResource().BoundingSphere;
@@ -82,26 +83,47 @@ namespace Code2015.World
 
         public override void PrepareVisibleObjects(ICamera cam, int level)
         {
-            if (terrain.State == ResourceState.Loaded)
-            {
-                ActiveTerrain = terrain;
-            }
-            else
-            {
-                terrain.Touch();
-            }
+            //if (level > 0)
+            //{
+            //    if (terrain1.State == ResourceState.Loaded)
+            //    {
+            //        ActiveTerrain = terrain1;
+            //    }
+            //    else
+            //    {
+            //        terrain1.Touch();
+            //    }
 
-            if (ActiveTerrain != null)
-            {
-                TerrainMesh tm = ActiveTerrain.Resource;
+            //    if (ActiveTerrain != null)
+            //    {
+            //        TerrainMesh tm = ActiveTerrain.Resource;
 
-                tm.PrepareVisibleObjects(cam, level);
+            //        tm.PrepareVisibleObjects(cam, level);
+            //    }
+            //}
+            //else
+            {
+                if (terrain0.State == ResourceState.Loaded)
+                {
+                    ActiveTerrain = terrain0;
+                }
+                else
+                {
+                    terrain0.Touch();
+                }
+
+                if (ActiveTerrain != null)
+                {
+                    TerrainMesh tm = ActiveTerrain.Resource;
+
+                    tm.PrepareVisibleObjects(cam, level);
+                }
             }
         }
 
         public override void Update(GameTime dt)
         {
-            BoundingSphere = terrain.GetWeakResource().BoundingSphere;
+            BoundingSphere = terrain0.GetWeakResource().BoundingSphere;
         }
 
         public override bool IsSerializable
@@ -115,10 +137,10 @@ namespace Code2015.World
 
             if (disposing)
             {
-                terrain.Dispose();
+                terrain0.Dispose();
                 //terrain2.Dispose();
             }
-            terrain = null;
+            terrain0 = null;
             //terrain2 = null;
         }
     }

@@ -79,7 +79,7 @@ namespace Code2015.EngineEx
         /// <summary>
         ///  地形一条边上的顶点数
         /// </summary>
-        const int terrEdgeSize = 33;
+        int terrEdgeSize = 33;
 
 
         VertexDeclaration vtxDecl;
@@ -131,18 +131,19 @@ namespace Code2015.EngineEx
 
         public event ObjectSpaceChangedHandler ObjectSpaceChanged;
         
-        public static string GetHashString(int x, int y)
+        public static string GetHashString(int x, int y, int size)
         {
-            return "TM" + x.ToString("D2") + y.ToString("D2");
+            return "TM" + x.ToString("D2") + y.ToString("D2") + size.ToString("D2"); ;
         }
 
 
 
-        public TerrainMesh(RenderSystem rs, int x, int y)
-            : base(TerrainMeshManager.Instance, GetHashString(x, y))
+        public TerrainMesh(RenderSystem rs, int x, int y, int size)
+            : base(TerrainMeshManager.Instance, GetHashString(x, y, size))
         {
             this.opBuffer = new FastList<RenderOperation>();
 
+            this.terrEdgeSize = size;
             this.tileX = x;
             this.tileY = y;
 
@@ -180,7 +181,7 @@ namespace Code2015.EngineEx
         {
             int size = 0;
 
-            size += TerrainVertex.Size * 33 * 33;
+            size += TerrainVertex.Size * terrEdgeSize * terrEdgeSize;
             size += sizeof(int) * (2 * 2) * 6;
 
             return size;
@@ -189,7 +190,7 @@ namespace Code2015.EngineEx
         protected override void load()
         {
             // 读取地形数据
-            float[] data = TerrainData.Instance.GetData(tileX, tileY);
+            float[] data = TerrainData.Instance.GetData(tileX, tileY, terrEdgeSize);
 
             float radtc = MathEx.Degree2Radian(tileCol);
             float radtl = MathEx.Degree2Radian(tileLat);
@@ -199,7 +200,10 @@ namespace Code2015.EngineEx
             int vertexCount = terrEdgeSize * terrEdgeSize;
             int terrEdgeLen = terrEdgeSize - 1;
 
-            material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect33Factory.Name));
+            if (terrEdgeSize == 33)
+                material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect33Factory.Name));
+            else
+                material.SetEffect(EffectManager.Instance.GetModelEffect(TerrainEffect17Factory.Name));
 
             #region 顶点数据
 
@@ -259,7 +263,7 @@ namespace Code2015.EngineEx
             #endregion
 
             #region 索引数据
-            SharedIndexData sindexData = TerrainMeshManager.Instance.GetIndexData();
+            SharedIndexData sindexData = TerrainMeshManager.Instance.GetIndexData(terrEdgeSize);
             indexBuffer = sindexData.Index;
             #endregion
 

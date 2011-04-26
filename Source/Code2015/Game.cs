@@ -212,6 +212,7 @@ namespace Code2015
             return list.ToArray();
         }
 
+
         public Game(Code2015 game, GameCreationParameters gcp)
         {
             this.game = game;

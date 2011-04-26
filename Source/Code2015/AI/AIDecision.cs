@@ -79,7 +79,7 @@ namespace Code2015.AI
                     City cc2 = cc.GetLinkableCity(j);
                     if (cc2.Owner != player)
                     {
-                        float m = helper.GetCityMark(cc2, 2.5f, 1, -0.05f);
+                        float m = helper.GetCityMark(cc2, 2.5f, 1, 0) + cc.NearbyOwnedBallCount * 0.5f;
                         if (m > maxAttack)
                         {
                             maxAttack = m;
@@ -93,8 +93,7 @@ namespace Code2015.AI
             if (bestAttackCity != null && bestAttackCityParent.CanHandleCommand())
             {
                 int abc = bestAttackCityParent.GetOwnedAttackBallCount();
-                if (abc >= AIAttackMiniumBallCount &&
-                    bestAttackCityParent.NearbyOwnedBallCount >= bestAttackCity.GetOwnedAttackBallCount())
+                if (abc >= AIAttackMiniumBallCount)
                 {                    
                     bestAttackCityParent.Throw(bestAttackCity);
                 }

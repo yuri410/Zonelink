@@ -9,9 +9,9 @@
     <RootNamespace>Code2015</RootNamespace>
     <AssemblyName>ZoneLink</AssemblyName>
     <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
-    <XnaFrameworkVersion>v3.0</XnaFrameworkVersion>
+    <XnaFrameworkVersion>v3.1</XnaFrameworkVersion>
     <XnaPlatform>Windows</XnaPlatform>
-    <XnaCrossPlatformGroupID>b36397d7-24e6-4677-8586-da77faa04a9d</XnaCrossPlatformGroupID>
+    <XnaCrossPlatformGroupID>3cc672c9-b651-4592-8686-88edbd294ba9</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
     <PublishUrl>publish\</PublishUrl>
@@ -60,11 +60,11 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Xna.Framework, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
+    <Reference Include="Microsoft.Xna.Framework, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=x86">
       <Private>False</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
-    <Reference Include="Microsoft.Xna.Framework.Game, Version=3.0.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
+    <Reference Include="Microsoft.Xna.Framework.Game, Version=3.1.0.0, Culture=neutral, PublicKeyToken=6d5c3888ef60e27d, processorArchitecture=MSIL">
       <Private>False</Private>
       <SpecificVersion>True</SpecificVersion>
     </Reference>
@@ -558,7 +558,7 @@
   </ItemGroup>
   <ItemGroup>
     <NestedContentProject Include="Sounds\Sounds.contentproj">
-      <Project>80ef2075-1a8e-4d44-bd76-8bae1ea27f61</Project>
+      <Project>b99c6cd4-90bc-4174-8ffd-084cc8181c56</Project>
       <Visible>false</Visible>
     </NestedContentProject>
   </ItemGroup>
