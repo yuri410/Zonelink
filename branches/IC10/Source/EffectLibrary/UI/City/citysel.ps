@@ -1,4 +1,4 @@
-
+float4 modColor : register(c0);
 sampler2D texDif : register(s0);
 
 struct PSInput
@@ -15,7 +15,7 @@ PSOutput main(PSInput ip)
 {
     PSOutput o;
 	
-	o.Color = tex2D(texDif, ip.TexCoord);
+	o.Color = tex2D(texDif, ip.TexCoord) * modColor;
     
     return o;
 }

@@ -430,7 +430,7 @@ namespace Code2015.World
             stopped = new Model[2];
             wakeingUp = new Model[2];
 
-
+            currentForm = Randomizer.GetRandomBool() ? 1 : 0;
 
             switch (Type)
             {
@@ -1199,9 +1199,11 @@ namespace Code2015.World
             return false;
 
         }
+        
         public bool CanHandleCommand()
         {
-            return currentState != CityState.Catch && currentState != CityState.Throw && currentState != CityState.ThrowContinued;
+            return currentState != CityState.Catch && currentState != CityState.Throw && 
+                currentState != CityState.ThrowContinued && currentState != CityState.WaitingGather;
         }
         //public void CancelCurrentCommand()
         //{
@@ -1386,6 +1388,29 @@ namespace Code2015.World
             ChangeState(CityState.Catch);
         }
 
+
+        bool CheckBallThrowable(RBall ball)
+        {
+            if (ball.Owner != Owner)
+            {
+                return false;
+            }
+            if (ball.State == RBallState.Gathered)
+            {
+                return false;
+            }
+            if (ball.State == RBallState.Gathering)
+            {
+                return false;
+            }
+            if (ball.IsDied)
+            {
+                return false;
+            }
+            return true;
+
+        }
+
         void ThrowNow()
         {
             ThrowTask task = throwQueue.Dequeue();
@@ -1398,8 +1423,7 @@ namespace Code2015.World
             {
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
-                    if (nearbyBallList[i].Owner == Owner && nearbyBallList[i].Type == task.typeToThrow
-                        && nearbyBallList[i].State != RBallState.Gathered && nearbyBallList[i].State != RBallState.Gathering)
+                    if (CheckBallThrowable(nearbyBallList[i]) && nearbyBallList[i].Type == task.typeToThrow)
                     {
                         toThrow.Add(nearbyBallList[i]);
                     }
@@ -1410,8 +1434,7 @@ namespace Code2015.World
 
                 for (int i = 0; i < nearbyBallList.Count; i++)
                 {
-                    if (nearbyBallList[i].Owner == Owner
-                        && nearbyBallList[i].State != RBallState.Gathered && nearbyBallList[i].State != RBallState.Gathering)
+                    if (CheckBallThrowable(nearbyBallList[i]))
                     {
                         toThrow.Add(nearbyBallList[i]);
                     }

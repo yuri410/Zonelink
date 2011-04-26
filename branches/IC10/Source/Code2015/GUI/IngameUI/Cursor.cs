@@ -13,6 +13,12 @@ namespace Code2015.GUI.IngameUI
 {
     class Cursor : UIComponent
     {
+        enum CursorColor
+        {
+            White,
+            Yellow,
+            Red
+        }
         [Flags]
         enum MouseCursor
         {
@@ -64,6 +70,7 @@ namespace Code2015.GUI.IngameUI
         Texture cursor_stop;
 
         MouseCursor cursorState;
+        CursorColor cursorColor;
 
         int cursorYOffset;
         int selCurIndex;
@@ -137,7 +144,14 @@ namespace Code2015.GUI.IngameUI
         }
 
 
-
+        CursorColor getColor(Player owner)
+        {
+            if (owner == player)
+                return CursorColor.White;
+            if (owner == null)
+                return CursorColor.Yellow;
+            return CursorColor.Red;
+        }
 
         void UpdateScroll(GameTime time)
         {
@@ -197,6 +211,8 @@ namespace Code2015.GUI.IngameUI
             {
                 picker.SelectCurrentObject();
             }
+            cursorColor = CursorColor.White;
+
             if (selectionMarker.SelectedObject != null)
             {
                 City selCity = selectionMarker.SelectedObject as City;
@@ -207,45 +223,46 @@ namespace Code2015.GUI.IngameUI
                 {
                     if (selCity != hoverCity)
                     {
+
                         if (selCity.IsCaptured && selCity.Owner == player)
                         {
                             #region 出击
-                            if (selCity.CanHandleCommand())
+
+                            cursorColor = getColor(hoverCity.Owner);
+                            // attack
+                            if (MouseInput.IsMouseUpRight && selectionMarker.HasPath)
                             {
-                                // attack
-                                if (MouseInput.IsMouseUpRight && selectionMarker.HasPath)
+                                if (selCity.NearbyOwnedBallCount > 0)
                                 {
-                                    if (selCity.NearbyOwnedBallCount > 0)
+                                    if (selCity.HasMultipleTypeRBalls())
                                     {
-                                        if (selCity.HasMultipleTypeRBalls())
-                                        {
-                                            isWaitingRBallSelect = true;
-                                            sendBallSelect.Open(selCity, hoverCity);
-                                        }
-                                        else
-                                        {
-                                            selCity.Throw(hoverCity);
-                                        }
-                                    }
-                                }
-                                if (selectionMarker.HasPath && selCity.NearbyOwnedBallCount > 0)
-                                {
-                                    if (hoverCity.Owner != selCity.Owner)
-                                    {
-                                        cursorState = MouseCursor.Attack;
+                                        isWaitingRBallSelect = true;
+                                        sendBallSelect.Open(selCity, hoverCity);
                                     }
                                     else
                                     {
-                                        cursorState = MouseCursor.Move;
+                                        selCity.Throw(hoverCity);
                                     }
+                                }
+                            }
+                            if (selectionMarker.HasPath && selCity.NearbyOwnedBallCount > 0)
+                            {
+                                if (hoverCity.Owner != selCity.Owner)
+                                {
+                                    cursorState = MouseCursor.Attack;
                                 }
                                 else
                                 {
-                                    cursorState = MouseCursor.Stop;
+                                    cursorState = MouseCursor.Move;
                                 }
-
-                                passed = true;
                             }
+                            else
+                            {
+                                cursorState = MouseCursor.Stop;
+                            }
+
+                            passed = true;
+
                             #endregion
                         }
                         else
@@ -264,6 +281,7 @@ namespace Code2015.GUI.IngameUI
 
                                     }
                                     cursorState = MouseCursor.Move;
+                                    cursorColor = getColor(hoverCity.Owner);
                                     passed = true;
                                 }
                             }
@@ -279,6 +297,11 @@ namespace Code2015.GUI.IngameUI
                         if (selectionMarker.SelectedObject != selectionMarker.MouseHoverObject)
                         {
                             cursorState = MouseCursor.Selection;
+
+                            if (hoverCity != null)
+                            {
+                                cursorColor = getColor(hoverCity.Owner);
+                            }
                         }
                         else
                         {
@@ -294,9 +317,16 @@ namespace Code2015.GUI.IngameUI
             }
             else
             {
+                City hoverCity = selectionMarker.MouseHoverObject as City;
+
                 if (selectionMarker.MouseHoverObject != null)
                 {
                     cursorState = MouseCursor.Selection;
+
+                    if (hoverCity != null)
+                    {
+                        cursorColor = getColor(hoverCity.Owner);
+                    }
                 }
                 else
                 {
@@ -318,6 +348,7 @@ namespace Code2015.GUI.IngameUI
             if (isOnHUD)
             {
                 cursorState = MouseCursor.Normal;
+                cursorColor = CursorColor.White;
             }
             else
             {
@@ -456,9 +487,19 @@ namespace Code2015.GUI.IngameUI
                     break;
             }
 
-            
+            ColorValue modColor = ColorValue.White;
+            switch (cursorColor) 
+            {
+                case CursorColor.Red:
+                    modColor = ColorValue.Red;
+                    break;
+                case CursorColor.Yellow:
+                    modColor = ColorValue.Yellow;
+                    break;
+                        
+            }
             sprite.Draw(ctex, MathEx.Clamp(0, Program.ScreenWidth, MouseInput.X) - hsp.X,
-                MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y - cursorYOffset, ColorValue.White);
+                MathEx.Clamp(0, Program.ScreenHeight, MouseInput.Y) - hsp.Y - cursorYOffset, modColor);
         }
 
         public override bool HitTest(int x, int y)
