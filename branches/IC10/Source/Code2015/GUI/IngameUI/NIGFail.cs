@@ -143,7 +143,7 @@ namespace Code2015.GUI.IngameUI
             }
         }
 
-
+        float clearProgress = 1.3f;
         public override void Update(Apoc3D.GameTime time)
         {
             if (state == NIGDialogState.MovingOut)
@@ -168,6 +168,20 @@ namespace Code2015.GUI.IngameUI
             {
                 replayButton.Update(time);
                 backButton.Update(time);
+
+                float dt = (float)time.ElapsedGameTime.TotalSeconds;
+                if (clearProgress > 0)
+                {
+                    clearProgress -= dt;
+                }
+                else
+                {
+                    clearProgress = 0;
+                }
+            }
+            if (state == NIGDialogState.Hiding)
+            {
+                clearProgress = 1.8f;
             }
         }
 
@@ -205,7 +219,34 @@ namespace Code2015.GUI.IngameUI
             }
             if (state == NIGDialogState.Showing)
             {
-                sprite.Draw(failTex, 661, 54, ColorValue.White);
+                //sprite.Draw(failTex, 661, 54, ColorValue.White);
+
+                if (clearProgress > 1)
+                {
+                    float scale = -MathEx.Sqr(MathEx.Saturate(1 * 6) * 1.5f - 1) + 1;
+                    scale = 0.5f + 1.5f * scale;
+
+                    Matrix trans = Matrix.Scaling(scale, scale, 1) *
+                        Matrix.Translation(661 + failTex.Width / 2, 54 + failTex.Height / 2, 0);
+
+                    sprite.SetTransform(trans);
+                    sprite.Draw(failTex, -failTex.Width / 2, -failTex.Height / 2, ColorValue.White);
+                    sprite.SetTransform(Matrix.Identity);
+                }
+
+                if (clearProgress <= 1)
+                {
+                    float scale = -MathEx.Sqr(MathEx.Saturate(clearProgress * 6) * 1.5f - 1) + 1;
+                    scale = 0.5f + 1.5f * scale;
+
+                    Matrix trans = Matrix.Scaling(scale, scale, 1) *
+                        Matrix.Translation(661 + failTex.Width / 2, 54 + failTex.Height / 2, 0);
+
+                    sprite.SetTransform(trans);
+                    sprite.Draw(failTex, -failTex.Width / 2, -failTex.Height / 2, ColorValue.White);
+                    sprite.SetTransform(Matrix.Identity);
+               
+                }
 
                 sprite.Draw(backButton.Image, backButton.X, backButton.Y, ColorValue.White);
                 if (backButton.IsMouseOver)

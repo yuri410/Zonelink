@@ -228,7 +228,7 @@ namespace Code2015.GUI
             }
         }
 
-
+        
 
         public override void Render(Sprite sprite)
         {
@@ -237,14 +237,33 @@ namespace Code2015.GUI
             sprite.Draw(background, 0, 0, ColorValue.White);
             sprite.Draw(waterTex, 0, 0, ColorValue.White);
             sprite.Draw(mapTex, 0, 0, ColorValue.White);
-            sprite.Draw(rolesTex, 258, 75, ColorValue.White);      
+            //sprite.Draw(rolesTex, 258, 75, ColorValue.White);      
             sprite.Draw(boarderTex, 0, 0, ColorValue.White);
+
+            float rolescale = -MathEx.Sqr(MathEx.Saturate(rolesProgress * 6) * 1.5f - 1) + 1;
+            rolescale = 0.5f + (0.5f / 0.75f) * rolescale;
+            Matrix roletrans = Matrix.Scaling(rolescale, rolescale, 1) *
+                    Matrix.Translation(258 + rolesTex.Width / 2, 75 + rolesTex.Height / 2, 0);
+            sprite.SetTransform(roletrans);
+            sprite.Draw(rolesTex, -rolesTex.Width / 2, -rolesTex.Height / 2, ColorValue.White);
+            sprite.SetTransform(Matrix.Identity);
+
+            
 
             parent.RenderLogo(sprite);
 
             if (startButton.IsMouseOver)
             {
-                sprite.Draw(start, startButton.X, startButton.Y, ColorValue.Yellow);
+                // y=-(x-1)^2+1
+                float scale = -MathEx.Sqr(MathEx.Saturate(startProgress * 6) * 1.5f - 1) + 1;
+                scale = 0.5f + 1.5f * scale;
+
+                Matrix trans = Matrix.Scaling(scale, scale, 1) *
+                    Matrix.Translation(startButton.X + start.Width / 2, startButton.Y + start.Height / 2, 0);
+                //sprite.Draw(start, startButton.X, startButton.Y, ColorValue.Yellow);
+                sprite.SetTransform(trans);
+                sprite.Draw(start, -start.Width / 2, - start.Height / 2, ColorValue.Yellow);
+                sprite.SetTransform(Matrix.Identity);
             }
             else
             {
@@ -254,7 +273,16 @@ namespace Code2015.GUI
 
             if (helpButton.IsMouseOver)
             {
-                sprite.Draw(help, helpButton.X, helpButton.Y, ColorValue.Yellow);
+              //  sprite.Draw(help, helpButton.X, helpButton.Y, ColorValue.Yellow);
+                float scale = -MathEx.Sqr(MathEx.Saturate(helpProgress * 6) * 1.5f - 1) + 1;
+                scale = 0.5f + 1.5f * scale;
+
+                Matrix trans = Matrix.Scaling(scale, scale, 1) *
+                    Matrix.Translation(helpButton.X + help.Width / 2, helpButton.Y + help.Height / 2, 0);
+               
+                sprite.SetTransform(trans);
+                sprite.Draw(help, -help.Width / 2, -help.Height / 2, ColorValue.Yellow);
+                sprite.SetTransform(Matrix.Identity);
             }
             else
             {
@@ -263,7 +291,16 @@ namespace Code2015.GUI
 
             if (exitButton.IsMouseOver) 
             {
-                sprite.Draw(exit, exitButton.X, exitButton.Y, ColorValue.Yellow);
+                //sprite.Draw(exit, exitButton.X, exitButton.Y, ColorValue.Yellow);
+                float scale = -MathEx.Sqr(MathEx.Saturate(exitProgress * 6) * 1.5f - 1) + 1;
+                scale = 0.5f + 1.5f * scale;
+
+                Matrix trans = Matrix.Scaling(scale, scale, 1) *
+                    Matrix.Translation(exitButton.X + exit.Width / 2, exitButton.Y + exit.Height / 2, 0);
+
+                sprite.SetTransform(trans);
+                sprite.Draw(exit, -help.Width / 2, -exit.Height / 2, ColorValue.Yellow);
+                sprite.SetTransform(Matrix.Identity);
             }
             else
             {
@@ -272,7 +309,16 @@ namespace Code2015.GUI
  
             if (creditButton.IsMouseOver) 
             {
-                sprite.Draw(credits, creditButton.X, creditButton.Y, ColorValue.Yellow);
+                //sprite.Draw(credits, creditButton.X, creditButton.Y, ColorValue.Yellow);
+                float scale = -MathEx.Sqr(MathEx.Saturate(creditProgress * 6) * 1.5f - 1) + 1;
+                scale = 0.5f + 1.5f * scale;
+
+                Matrix trans = Matrix.Scaling(scale, scale, 1) *
+                    Matrix.Translation(creditButton.X + credits.Width / 2, creditButton.Y + credits.Height / 2, 0);
+
+                sprite.SetTransform(trans);
+                sprite.Draw(credits, -credits.Width / 2, -credits.Height / 2, ColorValue.Yellow);
+                sprite.SetTransform(Matrix.Identity);
             }
             else
             {
@@ -285,7 +331,7 @@ namespace Code2015.GUI
 
             //if (startButton.IsPressed)
             //{
-            //    sprite.Draw(start, x, y, ColorValue.White);
+            //    sprite.Draw(start, x, y, ColorValue.White); 
             //}
             //else if (startButton.IsMouseOver)
             //{
@@ -391,16 +437,84 @@ namespace Code2015.GUI
             return reuslt;
         }
 
+        float startProgress = 0;
+        float exitProgress = 0;
+        float helpProgress = 0;
+        float creditProgress = 0;
+        float rolesProgress = 0;
+
         public override void Update(GameTime time)
         {
             mousePosition.X = MouseInput.X;
             mousePosition.Y = MouseInput.Y; 
             
+            float dt = (float)time.ElapsedGameTime.TotalSeconds;
 
             startButton.Update(time);
             creditButton.Update(time);
             exitButton.Update(time);
             helpButton.Update(time);
+
+            rolesProgress += dt * 1.5f;
+            if (rolesProgress > 1)
+            {
+                rolesProgress = 1;
+            }
+
+            if (startButton.IsMouseOver)
+            {
+                startProgress += dt * 3;
+                if (startProgress > 1)
+                {
+                    startProgress = 1;
+                }
+            }
+            else
+            {
+                startProgress = 0;
+            }
+
+            if (exitButton.IsMouseOver)
+            {
+                exitProgress += dt * 3;
+                if (exitProgress > 1)
+                {
+                    exitProgress = 1;
+                }
+            }
+            else
+            {
+                exitProgress = 0;
+            }
+
+            if (helpButton.IsMouseOver)
+            {
+                helpProgress += dt * 3;
+                if (helpProgress > 1)
+                {
+                    helpProgress = 1;
+                }
+            }
+            else
+            {
+            
+                helpProgress = 0;
+            }
+
+            if (creditButton.IsMouseOver)
+            {
+                creditProgress += dt * 3;
+                if (creditProgress > 1)
+                {
+                    creditProgress = 1;
+                }
+            }
+            else
+            {
+                creditProgress = 0;
+            }
+
+
 
             if (isStarting)
             {
