@@ -370,6 +370,28 @@ namespace Code2015.World
             if (selectedCity != null || selectedResource != null || selectedHarv != null)
             {
                 RenderOperation[] ops = inner_marker.GetRenderOperation();
+
+                if (selectedCity != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = selectedCity.Owner;
+                    }
+                }
+                else if (selectedHarv != null) 
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = selectedHarv.Parent.Owner;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = null;
+                    }
+                }
                 if (ops != null)
                 {
                     opBuffer.Add(ops);
@@ -379,6 +401,27 @@ namespace Code2015.World
             if (mouseHoverCity != null || mouseHoverHarv != null || mouseHoverResource != null)
             {
                 RenderOperation[] ops = outter_marker.GetRenderOperation();
+                if (mouseHoverCity != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = mouseHoverCity.Owner;
+                    }
+                }
+                else if (mouseHoverHarv != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = mouseHoverHarv.Parent.Owner;
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = null;
+                    }
+                }
                 if (ops != null)
                 {
                     opBuffer.Add(ops);

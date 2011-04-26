@@ -1,4 +1,3 @@
-#include "waterDepth.vsh"
 
 float4x4 mvp : register(c0);
 float3 viewPos : register(c4);

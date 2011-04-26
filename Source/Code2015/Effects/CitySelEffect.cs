@@ -33,6 +33,7 @@ using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.World;
+using Code2015.Logic;
 
 namespace Code2015.Effects
 {
@@ -135,6 +136,11 @@ namespace Code2015.Effects
             //effect.EndPass();
         }
 
+        static readonly Vector4 RedModColor = new Vector4(0.75f, 0.15f, 0.15f, 1);
+        static readonly Vector4 WhiteModColor = new Vector4(1, 1, 1, 1);
+        static readonly Vector4 YellowModColor = new Vector4(1, 1, 0.55f, 1);
+        
+
 
 
         public override void Setup(Material mat, ref RenderOperation op)
@@ -145,6 +151,23 @@ namespace Code2015.Effects
 
                 vtxShader.SetValue("mvp", ref mvp);
                 //vtxShader.SetValue("world", ref op.Transformation);
+                if (op.Sender != null)
+                {
+                    Player plr = (Player)op.Sender;
+
+                    if (plr.Type == PlayerType.LocalHuman)
+                    {
+                        pixShader.SetValue("modColor", WhiteModColor);
+                    }
+                    else
+                    {
+                        pixShader.SetValue("modColor", RedModColor);
+                    }
+                }
+                else 
+                {
+                    pixShader.SetValue("modColor", YellowModColor);
+                }
 
                 if (!stateSetted)
                 {
