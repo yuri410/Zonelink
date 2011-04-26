@@ -70,7 +70,7 @@ namespace Code2015.EngineEx
             OrthoZoom = 2000;
             isPerspective = fovy < 175 && fovy > 5;
             FieldOfView = fovy;
-            Height = 70;
+            Height = 61;
 
 
             ResetView();
@@ -97,7 +97,7 @@ namespace Code2015.EngineEx
 
             axis = Vector3.TransformSimple(axis, Quaternion.RotationAxis(yawAxis, yaw));
 
-            position = target + axis * height * 35;
+            position = target + axis * height * 35 * 1.15f;
             Matrix viewTrans = Matrix.LookAtRH(position, target, up);
 
             Frustum.View = viewTrans;

@@ -64,7 +64,7 @@ namespace Code2015.World
 
             Viewport vp = rs.Viewport;
             float aspectRatio = vp.Width / (float)vp.Height;
-            camera = new RtsCamera(45, aspectRatio);
+            camera = new RtsCamera(42.5f, aspectRatio);
 
 
             SceneRendererParameter sm = new SceneRendererParameter();
