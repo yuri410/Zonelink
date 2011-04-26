@@ -103,13 +103,6 @@
 
     <Volume>0.4</Volume>
   </buildup>
-  <lightning>
-    <Control>Random</Control>
-    <Type>World</Type>
-    <Sounds>lightning1, lightning2, lightninga, lightningb, lightningc, lightningd</Sounds>
-
-    <Volume>0.7</Volume>
-  </lightning>
-
+  
   
 </soundEffect>
