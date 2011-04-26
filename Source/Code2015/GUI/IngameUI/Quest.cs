@@ -27,7 +27,7 @@ namespace Code2015.GUI.IngameUI
         {
             get
             {
-                return 50;
+                return 58;
             }
         }
 
@@ -56,7 +56,7 @@ namespace Code2015.GUI.IngameUI
             string msg = "HELP 15 CITIES";
 
             fedge6.DrawString(sprite, msg, 130, 660, ColorValue.White);
-            fedge6.DrawString(sprite, "\n " + player.Area.CityCount.ToString() + " / 15 )", 130, 660, ColorValue.White);
+            fedge6.DrawString(sprite, "\n " + player.Area.CityCount.ToString() + " / 15 )", 130, 660, ColorValue.Yellow);
           
         }
     }
