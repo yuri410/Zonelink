@@ -1,6 +1,6 @@
 #define SFUMATO_PERCENTAGE 90.0
 
-#define FadeFogNear 2800.0
+#define FadeFogNear 3200.0
 #define FadeFogFar 6000.0
 
 

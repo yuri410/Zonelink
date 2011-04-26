@@ -349,7 +349,10 @@ namespace Code2015.World
         {
             return Type != CityType.Neutral;
         }
-
+        public virtual bool IsFull()
+        {
+            return false;
+        }
         public RBallType GetProductionType()
         {
             switch (Type)
@@ -1825,7 +1828,7 @@ namespace Code2015.World
             {
                 if (nearbyOwnedBalls[i].IsDied)
                 {
-                    RBall ball = nearbyBallList[i];
+                    RBall ball = nearbyOwnedBalls[i];
                     nearbyOwnedBalls.RemoveAt(i);
                 }
             }

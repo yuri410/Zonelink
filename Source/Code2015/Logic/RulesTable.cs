@@ -118,42 +118,42 @@ namespace Code2015.Logic
 
             #region 各种资源球配置读取
             sect = con["OilBall"];
-            OilBallBaseHeal = sect.GetSingle("BaseHealth");
+            OilBallBaseHealth = sect.GetSingle("BaseHealth");
             OilBallCost = sect.GetSingle("Cost");
             OilBallContribution = sect.GetSingle("Contribution");
             OilBallBaseDamage = sect.GetSingle("BaseDamage");
             OilBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["GreenBall"];
-            GreenBallBaseHeal = sect.GetSingle("BaseHealth");
+            GreenBallBaseHealth = sect.GetSingle("BaseHealth");
             GreenBallCost = sect.GetSingle("Cost");
             GreenBallContribution = sect.GetSingle("Contribution");
             GreenBallBaseDamage = sect.GetSingle("BaseDamage");
             GreenBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["EducationBall"];
-            EducationBallBaseHeal = sect.GetSingle("BaseHealth");
+            EducationBallBaseHealth = sect.GetSingle("BaseHealth");
             EducationBallGenInterval = sect.GetSingle("GenInterval");
             EducationBallContribution = sect.GetSingle("Contribution");
             EducationBallBaseDamage = sect.GetSingle("BaseDamage");
             EducationBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["HealthBall"];
-            HealthBallBaseHeal = sect.GetSingle("BaseHealth");
+            HealthBallBaseHealth = sect.GetSingle("BaseHealth");
             HealthBallGenInterval = sect.GetSingle("GenInterval");
             HealthBallContribution = sect.GetSingle("Contribution"); ;
             HealthBallBaseDamage = sect.GetSingle("BaseDamage");
             HealthBallBaseHeal = sect.GetSingle("BaseHeal");
            
             sect = con["DiseaseBall"];
-            DiseaseBallBaseHeal = sect.GetSingle("BaseHealth");
+            DiseaseBallBaseHealth = sect.GetSingle("BaseHealth");
             DiseaseBallGenInterval = sect.GetSingle("GenInterval");
             DiseaseBallContribution = sect.GetSingle("Contribution");
             DiseaseBallBaseDamage = sect.GetSingle("BaseDamage");
             DiseaseBallBaseHeal = sect.GetSingle("BaseHeal");
 
             sect = con["VolienceBall"];
-            VolienceBallBaseHeal = sect.GetSingle("BaseHealth");
+            VolienceBallBaseHealth = sect.GetSingle("BaseHealth");
             VolienceBallGenInterval = sect.GetSingle("GenInterval");
             VolienceBallContribution = sect.GetSingle("Contribution");
             VolienceBallBaseDamage = sect.GetSingle("BaseDamage");

@@ -2,13 +2,15 @@
 using System.Collections.Generic;
 using System.Text;
 using Apoc3D;
+using Apoc3D.Collections;
 using Apoc3D.Graphics;
 using Apoc3D.Graphics.Animation;
+using Apoc3D.Graphics.Effects;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
+using Code2015.Effects;
 using Code2015.EngineEx;
 using Code2015.Logic;
-using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -55,11 +57,9 @@ namespace Code2015.World
         Vector3 position;
         City sourceCity;
 
-        Vector3 normal;
-
-
-
         #region FLY
+
+        Vector3 normal;
         Vector3 srcPosition;
         Vector3 dstPosition;
         float flyProgress;
@@ -368,6 +368,7 @@ namespace Code2015.World
             public float Heal;
 
             public float MaxHealth;
+            public float BaseMaxHealth;
         }
 
         const float EnemyCheckTime = 0.75f;
@@ -381,8 +382,8 @@ namespace Code2015.World
         const float MinSpeedMod = 1;
         const float GatherSpeedMod = 3.5f;
         const float AttackCitySpeedMod = 7.0f;
-        const float DefenceSpeedMod = 3.5f;
-        const float AttackSpeedMod = 2.5f;
+        const float DefenceSpeedMod = 2.5f;
+        const float AttackSpeedMod = 3.5f;
 
         const float MaxLinSpeed = 233;
         const float MinLinSpeed = 190;
@@ -394,7 +395,7 @@ namespace Code2015.World
 
         const float MoveDistanceThreshold = 50;
 
-        const float AttackRange = 100;
+        const float AttackRange = 150;
 
         /// <summary>
         ///  高生命值球的现实比例系数
@@ -456,6 +457,10 @@ namespace Code2015.World
         private float roundAngle;
         #endregion
 
+        FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
+        Tail tail;
+        Material redTail;
+        Material greenTail;
 
         float refrenceLinSpeed;
 
@@ -518,7 +523,8 @@ namespace Code2015.World
             {
                 case RBallType.Oil:
                     {
-                        props.MaxHealth = RulesTable.OilBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.BaseMaxHealth = RulesTable.OilBallBaseHealth;
+                        props.MaxHealth = props.BaseMaxHealth * (city.Level / 10.0f + 1);
                         props.Contribution = RulesTable.OilBallContribution;
                         props.Heal = RulesTable.OilBallBaseHeal;
                         props.Damage = RulesTable.OilBallBaseDamage;
@@ -527,7 +533,8 @@ namespace Code2015.World
                     }
                 case RBallType.Green:
                     {
-                        props.MaxHealth = RulesTable.GreenBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.BaseMaxHealth = RulesTable.GreenBallBaseHealth;
+                        props.MaxHealth = props.BaseMaxHealth * (city.Level / 10.0f + 1);
                         props.Contribution = RulesTable.GreenBallContribution;
                         props.Heal = RulesTable.GreenBallBaseHeal;
                         props.Damage = RulesTable.GreenBallBaseDamage;
@@ -536,7 +543,8 @@ namespace Code2015.World
                     }
                 case RBallType.Disease:
                     {
-                        props.MaxHealth = RulesTable.DiseaseBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.BaseMaxHealth = RulesTable.DiseaseBallBaseHealth;
+                        props.MaxHealth = props.BaseMaxHealth * (city.Level / 10.0f + 1);
                         props.Contribution = RulesTable.DiseaseBallContribution;
                         props.Heal = RulesTable.DiseaseBallBaseHeal;
                         props.Damage = RulesTable.DiseaseBallBaseDamage;
@@ -545,7 +553,8 @@ namespace Code2015.World
                     }
                 case RBallType.Health:
                     {
-                        props.MaxHealth = RulesTable.HealthBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.BaseMaxHealth = RulesTable.DiseaseBallBaseHealth;
+                        props.MaxHealth = props.BaseMaxHealth * (city.Level / 10.0f + 1);
                         props.Contribution = RulesTable.HealthBallContribution;
                         props.Heal = RulesTable.HealthBallBaseHeal;
                         props.Damage = RulesTable.HealthBallBaseDamage;
@@ -554,7 +563,8 @@ namespace Code2015.World
                     }
                 case RBallType.Education:
                     {
-                        props.MaxHealth = RulesTable.EducationBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.BaseMaxHealth = RulesTable.EducationBallBaseHealth;
+                        props.MaxHealth = props.BaseMaxHealth * (city.Level / 10.0f + 1);
                         props.Contribution = RulesTable.EducationBallContribution;
                         props.Heal = RulesTable.EducationBallBaseHeal;
                         props.Damage = RulesTable.EducationBallBaseDamage;
@@ -563,7 +573,8 @@ namespace Code2015.World
                     }
                 case RBallType.Volience:
                     {
-                        props.MaxHealth = RulesTable.VolienceBallBaseHealth + city.Development * RulesTable.CityDevRBallHealthRate;
+                        props.BaseMaxHealth = RulesTable.VolienceBallBaseHealth;
+                        props.MaxHealth = props.BaseMaxHealth + city.Development * RulesTable.CityDevRBallHealthRate;
                         props.Contribution = RulesTable.VolienceBallContribution;
                         props.Heal = RulesTable.VolienceBallBaseHeal;
                         props.Damage = RulesTable.VolienceBallBaseDamage;
@@ -589,22 +600,22 @@ namespace Code2015.World
             switch (Type)
             {
                 case RBallType.Disease:
-                    fl = FileSystem.Instance.Locate("rb_virus_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_virus_ball.mesh", GameFileLocs.Model);
                     break;
                 case RBallType.Education:
-                    fl = FileSystem.Instance.Locate("rb_school_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_school_ball.mesh", GameFileLocs.Model);
                     break;
                 case RBallType.Green:
-                    fl = FileSystem.Instance.Locate("rb_green_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_green_ball.mesh", GameFileLocs.Model);
                     break;
                 case RBallType.Health:
-                    fl = FileSystem.Instance.Locate("rb_hospital_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_hospital_ball.mesh", GameFileLocs.Model);
                     break;
                 case RBallType.Oil:
-                    fl = FileSystem.Instance.Locate("rb_oil_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_oil_ball.mesh", GameFileLocs.Model);
                     break;
                 case RBallType.Volience:
-                    fl = FileSystem.Instance.Locate("rb_volient_ball.mesh", GameFileLocs.Model);   
+                    fl = FileSystem.Instance.Locate("rb_volient_ball.mesh", GameFileLocs.Model);
                     break;
             }
             ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
@@ -614,17 +625,17 @@ namespace Code2015.World
             {
                 ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(1.6f, 1.6f, 1.6f) * Matrix.RotationX(-MathEx.PiOver2)));
             }
-            else if (Type == RBallType.Volience) 
+            else if (Type == RBallType.Volience)
             {
                 ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2.0f, 2.0f, 2.0f) * Matrix.RotationX(-MathEx.PiOver2)));
             }
-            else if (Type == RBallType.Education) 
+            else if (Type == RBallType.Education)
             {
                 ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(2.25f, 2.25f, 2.25f) * Matrix.RotationX(-MathEx.PiOver2)));
             }
             else if (Type == RBallType.Disease)
             {
-                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(3.75f, 3.75f, 3.75f) 
+                ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(3.75f, 3.75f, 3.75f)
                     * Matrix.RotationX(-MathEx.PiOver2) * Matrix.RotationY(MathEx.PiOver2)));
             }
             else
@@ -633,6 +644,32 @@ namespace Code2015.World
             }
 
             UpdateDisplayScale();
+
+
+
+            fl = FileSystem.Instance.Locate("tail_red.tex", GameFileLocs.Texture);
+            redTail = new Material(rs);
+            redTail.CullMode = CullMode.None;
+            redTail.ZEnabled = false;
+            redTail.ZWriteEnabled = false;
+            redTail.SetEffect(EffectManager.Instance.GetModelEffect(TailEffectFactory.Name));
+            redTail.IsTransparent = false;
+            redTail.PriorityHint = RenderPriority.Last;
+            redTail.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
+
+            fl = FileSystem.Instance.Locate("tail_green.tex", GameFileLocs.Texture);
+            greenTail = new Material(rs);
+            greenTail.CullMode = CullMode.None;
+            greenTail.ZEnabled = false;
+            greenTail.ZWriteEnabled = false;
+            greenTail.SetEffect(EffectManager.Instance.GetModelEffect(TailEffectFactory.Name));
+            greenTail.IsTransparent = false;
+            greenTail.PriorityHint = RenderPriority.Last;
+            greenTail.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
+
+            tail = new Tail(rs, 10, 2, redTail);
+
+
 
             soundObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("rball_die", null, 1000);
         }
@@ -870,7 +907,9 @@ namespace Code2015.World
             Quaternion dockOri;
             CalculateRoundTransform(CityAttackRadius, true, out targetPos, out dockOri);
             NewMove(targetPos);
-            ChangeState(RBallState.BeginingAttackCity);
+
+            tail.Reset();
+            ChangeState(RBallState.BeginingAttackCity);            
         }
         public void Float(City target) 
         {
@@ -910,19 +949,57 @@ namespace Code2015.World
             ChangeState(RBallState.Gathering);
         }
 
-        void UpdateDisplayScale() 
+        void UpdateDisplayScale()
         {
-            float s = 1 + Health * RBallHealthScale;
-            Matrix.Scaling(s,s,s, out displayScale);
+            float s = (0.3f + (Health / MaxHealth) * 0.7f) *
+                (props.MaxHealth / props.BaseMaxHealth);
+            s *= 1.10f;
+
+            Matrix.Scaling(s, s, s, out displayScale);
         }
         public override RenderOperation[] GetRenderOperation()
         {
+            opBuffer.FastClear();
+            
             RenderOperation[] ops = base.GetRenderOperation();
-            for (int i = 0; i < ops.Length; i++) 
+            if (ops != null)
             {
-                ops[i].Transformation = displayScale * ops[i].Transformation;
+                for (int i = 0; i < ops.Length; i++)
+                {
+                    ops[i].Transformation = displayScale * ops[i].Transformation;
+                }
+                opBuffer.Add(ops);
             }
-            return ops;
+            if (state == RBallState.AttackCity)
+            {
+                if (dockCity.Owner == null)
+                {
+                    ops = tail.GetRenderOperation();
+                    if (ops != null)
+                    {
+                        for (int i = 0; i < ops.Length; i++)
+                        {
+                            ops[i].Material = greenTail;
+                        }
+                        opBuffer.Add(ops);
+                    }
+                }
+                else
+                {
+                    ops = tail.GetRenderOperation();
+                    if (ops != null)
+                    {
+                        for (int i = 0; i < ops.Length; i++)
+                        {
+                            ops[i].Material = redTail;
+                        }
+                        opBuffer.Add(ops);
+                    }
+                }
+            }
+
+            opBuffer.Trim();
+            return opBuffer.Elements;
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
@@ -938,6 +1015,10 @@ namespace Code2015.World
             if (roundAngle > MathEx.PIf * 2)
                 roundAngle -= MathEx.PIf * 2;
         }
+
+
+
+
 
         public override void Update(GameTime gameTime)
         {
@@ -974,7 +1055,7 @@ namespace Code2015.World
                             }
                             else
                             {
-                                dockCity.Develop(-props.Contribution, dt);
+                                dockCity.Develop(-props.Contribution * 5, dt);
                             }
                         }
                         break;
@@ -1017,6 +1098,8 @@ namespace Code2015.World
                             CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
                             Position = pos;
 
+                            tail.Update(gameTime, position, orientation.Forward);
+
                             if (speedModifier >= AttackCitySpeedMod - 0.5f)
                             {
                                 if (weaponCoolDown <= 0)
@@ -1042,9 +1125,11 @@ namespace Code2015.World
                                 CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
                                 Position = pos;
 
+                                tail.Update(gameTime, position, orientation.Forward);
                                 speedModifierTarget = MinSpeedMod;
                             }
                         }
+                        
                         break;
                     }
                 case RBallState.Defend:

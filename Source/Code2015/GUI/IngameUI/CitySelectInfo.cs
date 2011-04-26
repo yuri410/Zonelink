@@ -30,8 +30,9 @@ namespace Code2015.GUI.IngameUI
         Texture statusHPTex;
         Texture statusExpBackground;
         Texture statusExpTex;
+        
         Texture statusProducePrgTex;
-
+        Texture statusMaxBalls;
 
         Texture statusExpBuffTex;
         bool isExpBuffer;
@@ -47,6 +48,7 @@ namespace Code2015.GUI.IngameUI
         Texture onCityHPBase;
         #endregion
 
+        float buffWave;
 
         Texture greenBallTex;
         Texture educationBallTex;
@@ -150,6 +152,8 @@ namespace Code2015.GUI.IngameUI
 
             fl = FileSystem.Instance.Locate("nig_status_city_produceprg.tex", GameFileLocs.GUI);
             statusProducePrgTex = UITextureManager.Instance.CreateInstance(fl);
+            fl = FileSystem.Instance.Locate("nig_max_balls.tex", GameFileLocs.GUI);
+            statusMaxBalls = UITextureManager.Instance.CreateInstance(fl);
 
             resBallsCount[0].Type = RBallType.Green;
             resBallsCount[0].count = 0;
@@ -207,34 +211,44 @@ namespace Code2015.GUI.IngameUI
 
                 for (int i = 0; i < selectCity.NearbyOwnedBallCount; i++)
                 {
-                    if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Green)
+                    RBallType type = selectCity.GetNearbyOwnedBall(i).Type;
+                    if (type == RBallType.Green)
                         resBallsCount[0].count++;
 
 
-                    if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Education)
+                    if (type == RBallType.Education)
+                    {
                         resBallsCount[1].count++;
+                        isExpBuffer = true;
+                    }
+                    if (type == RBallType.Volience) 
+                    {
+                        isExpBuffer = true;
+                    }
 
-                    if (selectCity.GetNearbyOwnedBall(i).Type == RBallType.Health)
+                    if (type == RBallType.Health)
+                    {
                         resBallsCount[2].count++;
+                        isHPBuffer = true;
+                    }
+                    if (type == RBallType.Disease)
+                    {
+                        isHPBuffer = true;
+                    }
+
                 }
 
                 for (int i = 0; i < selectCity.NearbyEnemyBallCount; i++)
                 {
-                    if (selectCity.GetNearbyEnemyBall(i).Type == RBallType.Volience)
+                    RBallType type = selectCity.GetNearbyEnemyBall(i).Type;
+                    if (type == RBallType.Education || type == RBallType.Volience)
                     {
                         isDownShow = true;
                         break;
                     }
                 }
 
-                if (resBallsCount[1].count != 0)
-                {
-                    isExpBuffer = true;
-                 }
-                if (resBallsCount[2].count != 0)
-                {
-                    isHPBuffer = true;
-                }
+
 
             }
 
@@ -247,6 +261,12 @@ namespace Code2015.GUI.IngameUI
         {
             base.Update(time);
             StatisticRBall();
+
+            buffWave += time.ElapsedGameTimeSeconds * 8;
+            if (buffWave > MathEx.PIf * 2)
+            {
+                buffWave -= MathEx.PIf * 2;
+            }
         }
 
 
@@ -319,12 +339,33 @@ namespace Code2015.GUI.IngameUI
                     sprite.Draw(statusEnemyBackground, 405, 580, ColorValue.White);
                 }
 
+                
                 if (isHPBuffer)
-                    sprite.Draw(statusHPBufferTex, 776, 624, ColorValue.White);
+                {
+                    Matrix buffScale = Matrix.Scaling(new Vector3(0.1f * (float)Math.Sin(buffWave) + 1));
+                    buffScale.TranslationValue = new Vector3(776 + statusHPBufferTex.Width / 2, 624 + statusHPBufferTex.Height / 2, 0);
+
+                    sprite.SetTransform(buffScale);
+                    sprite.Draw(statusHPBufferTex, -statusHPBufferTex.Width / 2, -statusHPBufferTex.Height / 2, ColorValue.White);
+
+                }
                 if (isExpBuffer)
-                    sprite.Draw(statusExpBuffTex, 802, 624, ColorValue.White);
+                {
+                    Matrix buffScale = Matrix.Scaling(new Vector3(0.1f * (float)Math.Sin(buffWave) + 1));
+                    buffScale.TranslationValue = new Vector3(802 + statusExpBuffTex.Width / 2, 624 + statusExpBuffTex.Height / 2, 0);
+
+                    sprite.SetTransform(buffScale);
+                    sprite.Draw(statusExpBuffTex, -statusExpBuffTex.Width / 2, -statusExpBuffTex.Height / 2, ColorValue.White);
+                }
                 if (isDownShow)
-                    sprite.Draw(statusExpdownBuff, 839, 622, ColorValue.White);
+                {
+                    Matrix buffScale = Matrix.Scaling(new Vector3(0.1f * (float)Math.Sin(buffWave) + 1));
+                    buffScale.TranslationValue = new Vector3(839 + statusExpdownBuff.Width / 2, 622 + statusExpdownBuff.Height / 2, 0);
+
+                    sprite.SetTransform(buffScale);
+                    sprite.Draw(statusExpdownBuff, -statusExpdownBuff.Width / 2, -statusExpdownBuff.Height / 2, ColorValue.White);
+                }
+                sprite.SetTransform(Matrix.Identity);
 
                 f6.DrawString(sprite, selectCity.Name.ToUpperInvariant(), 456, 572, ColorValue.White);
                 f6.DrawString(sprite, level.ToString().ToUpperInvariant(), 775, 570, ColorValue.White);
@@ -383,13 +424,18 @@ namespace Code2015.GUI.IngameUI
                                 {
                                     if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Green)
                                     {
+                                        if (selectCity.IsFull())
+                                        {
+                                            sprite.Draw(statusMaxBalls, 651 + 69 * left, 723 - statusMaxBalls.Height, ColorValue.White);
+                                        }
+                                        else
+                                        {
+                                            int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
 
-                                        int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
 
-
-                                        sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
-                                             new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
-
+                                            sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
+                                                 new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
+                                        }
                                     }
 
                                     int x = 687 + 69 * left - greenBallTex.Width / 2;
@@ -413,13 +459,18 @@ namespace Code2015.GUI.IngameUI
                                 {
                                     if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Education)
                                     {
+                                        if (selectCity.IsFull())
+                                        {
+                                            sprite.Draw(statusMaxBalls, 651 + 69 * left, 723 - statusMaxBalls.Height, ColorValue.White);
+                                        }
+                                        else
+                                        {
+                                            int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
 
-                                        int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
 
-
-                                        sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
-                                             new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
-
+                                            sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
+                                                 new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
+                                        }
                                     }
 
                                     int x = 687 + 69 * left - educationBallTex.Width / 2;
@@ -443,13 +494,18 @@ namespace Code2015.GUI.IngameUI
                                 {
                                     if (selectCity.CanProduceProduction() && selectCity.GetProductionType() == RBallType.Health)
                                     {
+                                        if (selectCity.IsFull())
+                                        {
+                                            sprite.Draw(statusMaxBalls, 651 + 69 * left, 723 - statusMaxBalls.Height, ColorValue.White);
+                                        }
+                                        else
+                                        {
+                                            int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
 
-                                        int height = (int)(selectCity.GetProductionProgress() * statusProducePrgTex.Height);
 
-
-                                        sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
-                                             new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
-
+                                            sprite.Draw(statusProducePrgTex, new Rectangle(651 + 69 * left, 723 - height, statusProducePrgTex.Width, height),
+                                                 new Rectangle(0, statusProducePrgTex.Height - height, statusProducePrgTex.Width, height), ColorValue.White);
+                                        }
                                     }
 
                                     int x = 687 + 69 * left - healthBallTex.Width / 2;
