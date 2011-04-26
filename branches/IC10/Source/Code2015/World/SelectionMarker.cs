@@ -44,7 +44,7 @@ namespace Code2015.World
         public const float LinkBaseLength = 450;
 
         public const float HarvestRingRadius = 175;
-        public const float ResourceRingRadius = 250;
+        public const float ResourceRingRadius = 360;
 
         public const float CitySelScale = 1.9f;
 

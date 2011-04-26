@@ -184,7 +184,9 @@ namespace Code2015.World
 
 
         SoundObject sound;
-
+        Normal3DSoundObject[] laughSound;
+        Normal3DSoundObject[] fearSound;
+        Normal3DSoundObject popSound;
         //SoundObject 
 
 
@@ -326,6 +328,7 @@ namespace Code2015.World
                 wordType = t;
                 wordPlayProgress = 0;
 
+                popSound.Fire();
                 isWordPlaying = true;
             }
         }
@@ -902,8 +905,50 @@ namespace Code2015.World
             splashSmoke = new SplashSmokes(this, rs);
             ChangeState(CityState.Sleeping);
 
-            sound = SoundManager.Instance.MakeSoundObjcet("city", null, CityRadius * 2);
-            sound.Position = Position;
+            sound = SoundManager.Instance.MakeSoundObjcet("snore", null, CityRadius * 2.5f);
+            sound.Position = position;
+
+            const float SoundRadius = 1500;
+
+
+            popSound = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("pop", null, SoundRadius);
+            popSound.Position = position;
+
+            laughSound = new Normal3DSoundObject[2];
+            fearSound = new Normal3DSoundObject[2];
+            switch (Type)
+            {
+                case CityType.Green:
+                case CityType.Oil:
+                    laughSound[0] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("oil_laugh", null, SoundRadius);
+                    fearSound[0] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("oil_fear", null, SoundRadius);
+                    laughSound[0].Position = position;
+                    fearSound[0].Position = position;
+
+                    laughSound[1] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("green_laugh", null, SoundRadius);
+                    laughSound[1].Position = position;
+                   
+                    break;
+                case CityType.Neutral:
+                    fearSound[0] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("neutral_fear", null, SoundRadius);
+                    fearSound[0].Position = position;
+                    fearSound[1] = fearSound[0];
+                    break;
+                case CityType.Education:
+                case CityType.Volience:
+                    laughSound[0] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("volience_laugh", null, SoundRadius);
+                    fearSound[0] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("volience_fear", null, SoundRadius);
+                    laughSound[0].Position = position;
+                    fearSound[0].Position = position;
+                    break;
+                case CityType.Disease:
+                case CityType.Health:
+                    laughSound[1] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("hosp_laugh", null, SoundRadius);
+                    fearSound[1] = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("hosp_fear", null, SoundRadius);
+                    laughSound[1].Position = position;
+                    fearSound[1].Position = position;
+                    break;
+            }
         }
 
         int Camparision(NaturalResource a, NaturalResource b)
@@ -1158,26 +1203,26 @@ namespace Code2015.World
         {
             return currentState != CityState.Catch && currentState != CityState.Throw && currentState != CityState.ThrowContinued;
         }
-        public void CancelCurrentCommand()
-        {
-            switch (currentState)
-            {
-                case CityState.WaitingGather:
-                    {
-                        throwRgball.Cancel();
-                        ChangeState(CityState.Stopped);
-                        break;
-                    }
-                case CityState.Rotate:
-                    {
-                        if (rotationPurpose != CityRotationPurpose.None)
-                        {
-                            rotationPurpose = CityRotationPurpose.None;
-                        }
-                        break;
-                    }
-            }
-        }
+        //public void CancelCurrentCommand()
+        //{
+        //    switch (currentState)
+        //    {
+        //        case CityState.WaitingGather:
+        //            {
+        //                throwRgball.Cancel();
+        //                ChangeState(CityState.Stopped);
+        //                break;
+        //            }
+        //        case CityState.Rotate:
+        //            {
+        //                if (rotationPurpose != CityRotationPurpose.None)
+        //                {
+        //                    rotationPurpose = CityRotationPurpose.None;
+        //                }
+        //                break;
+        //            }
+        //    }
+        //}
 
         void RotateTo(Quaternion angle, float time)
         {
@@ -1409,8 +1454,8 @@ namespace Code2015.World
         /// <param name="target"></param>
         public bool Throw(City target)
         {
-            if (!CanHandleCommand())
-                return false;
+            //if (!CanHandleCommand())
+                //return false;
 
             for (int i = 0; i < throwQueue.Count; i++)
             {
@@ -1456,8 +1501,8 @@ namespace Code2015.World
         /// <param name="target"></param>
         public bool Throw(City target, RBallType type)
         {
-            if (!CanHandleCommand())
-                return false;
+            //if (!CanHandleCommand())
+                //return false;
 
             for (int i = 0; i < throwQueue.Count; i++)
             {
@@ -1545,6 +1590,10 @@ namespace Code2015.World
                     fear[currentForm].PlayAnimation();
                     PlayWord(WordType.Ouch);
 
+                    if (fearSound[currentForm] != null)
+                    {
+                        fearSound[currentForm].Fire();
+                    }
                     break;
                 case CityState.Idle:
                     idle[currentForm].PlayAnimation();
@@ -1561,7 +1610,10 @@ namespace Code2015.World
                     else
                         PlayWord(WordType.Haha);
 
-
+                    if (laughSound[currentForm] != null)
+                    {
+                        laughSound[currentForm].Fire();
+                    }
                     break;
                 case CityState.Stopped:
                     stopped[currentForm].PlayAnimation();
@@ -1817,6 +1869,30 @@ namespace Code2015.World
                 lastLevel = lvl;
             }
 
+            if (sound != null)
+            {
+                sound.Update(dt);
+            }
+            if (popSound != null)
+            {
+                popSound.Update(dt);
+            }
+            for (int i = 0; i < laughSound.Length; i++)
+            {
+                if (laughSound[i] != null) 
+                {
+                    laughSound[i].Update(dt);
+                }
+            }
+            for (int i = 0; i < fearSound.Length; i++)
+            {
+                if (fearSound[i] != null)
+                {
+                    fearSound[i].Update(dt);
+                }
+
+            }
+            
         }
 
         public void TestBalls()

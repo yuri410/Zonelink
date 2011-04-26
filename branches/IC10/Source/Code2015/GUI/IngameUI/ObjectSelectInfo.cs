@@ -244,7 +244,7 @@ namespace Code2015.GUI.IngameUI
 
             Matrix trans = Matrix.Scaling(0.8f, 0.8f, 1) * Matrix.Translation(new Vector3(715, 667, 0));
             sprite.SetTransform(trans);
-            f8.DrawString(sprite, hpInfo, 0, 0, ColorValue.White);
+            f8.DrawString(sprite, stInfo, 0, 0, ColorValue.White);
             sprite.SetTransform(Matrix.Identity);
          
         }

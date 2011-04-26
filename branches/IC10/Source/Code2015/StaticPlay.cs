@@ -38,7 +38,7 @@ namespace Code2015
             stoped,playing, fadein, fadeout
         }
         
-        const float standard = 0.15f;
+        const float standard = 0.10f;
 
         static ContentManager cm;
         //static Song start;

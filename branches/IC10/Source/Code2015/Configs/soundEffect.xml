@@ -18,7 +18,7 @@
     <Fadein>sfx-forestin</Fadein>
     <Medium>a_forest1,a_forest2,a_forest3</Medium>
     <Fadeout>sfx-forestout</Fadeout>
-    <Volume>0.3</Volume>
+    <Volume>0.8</Volume>
   </forest>
   
   <!--bird-->
@@ -40,7 +40,7 @@
     <Fadein>oil1</Fadein>
     <Medium>oil2a,oil2b,oil2c</Medium>
     <Fadeout>oil3</Fadeout>
-    <Volume>0.2</Volume>
+    <Volume>0.4</Volume>
   </oil>
   
   <!--River-->
@@ -66,7 +66,7 @@
     <Control>Random, Ambient</Control>
     <Type>World</Type>
     <Sounds>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Sounds>
-    <Volume>0.4</Volume>
+    <Volume>0.6</Volume>
   </wind>
   
   <wolf>
@@ -85,16 +85,16 @@
   <buttonhover>
     <Control>None</Control>
     <Type>Normal</Type>
-    <Sounds>mousehover</Sounds>
+    <Sounds>bubble</Sounds>
     
-    <Volume>0.4</Volume>
+    <Volume>0.5</Volume>
   </buttonhover>
   <buttondown>
     <Control>None</Control>
     <Type>Normal</Type>
     <Sounds>mousedown</Sounds>
 
-    <Volume>0.4</Volume>
+    <Volume>0.3</Volume>
   </buttondown>
   <buildup>
     <Control>None</Control>
@@ -103,6 +103,89 @@
 
     <Volume>0.4</Volume>
   </buildup>
+
+  <catch>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>catch, catch2</Sounds>
+    <Volume>0.4</Volume>
+  </catch>
+  <throw>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>throw, throw2</Sounds>
+    <Volume>0.4</Volume>
+  </throw>
+
+
+  <green_laugh>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>green_laugh1, green_laugh2</Sounds>
+    <Volume>0.4</Volume>
+  </green_laugh>
+  <volience_laugh>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>volience_laugh</Sounds>
+    <Volume>0.4</Volume>
+  </volience_laugh>
+  <oil_laugh>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>oil_laugh</Sounds>
+    <Volume>0.4</Volume>
+  </oil_laugh>
+  <hosp_laugh>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>hosp_laugh</Sounds>
+    <Volume>0.4</Volume>
+  </hosp_laugh>
   
+  <hosp_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>hosp_fear</Sounds>
+    <Volume>0.4</Volume>
+  </hosp_fear>
+  <oil_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>oil_fear</Sounds>
+    <Volume>0.4</Volume>
+  </oil_fear>
+  <volience_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>volience_fear</Sounds>
+    <Volume>0.4</Volume>
+  </volience_fear>
+  <neutral_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>neutral_fear</Sounds>
+    <Volume>0.4</Volume>
+  </neutral_fear>
   
+  <pop>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>pop</Sounds>
+    <Volume>0.4</Volume>
+  </pop>
+  <rball_die>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>rball_die, rballdie2, rballdie3</Sounds>
+    <Volume>0.2</Volume>
+  </rball_die>
+  <snore>
+    <Control>Loop</Control>
+    <Type>World</Type>
+    <Fadein>dummy</Fadein>
+    <Medium>snore</Medium>
+    <Fadeout>dummy</Fadeout>
+    <Volume>0.4</Volume>
+  </snore>
 </soundEffect>

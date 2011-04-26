@@ -45,6 +45,8 @@ namespace Code2015.World
             Finished
         }
 
+        Normal3DSoundObject throwSound;
+        Normal3DSoundObject catchSound;
 
         List<City> goPath;
         State state;
@@ -55,7 +57,7 @@ namespace Code2015.World
 
         Vector3 normal;
 
-        float targetAngle;
+
 
         #region FLY
         Vector3 srcPosition;
@@ -63,8 +65,8 @@ namespace Code2015.World
         float flyProgress;
         bool notifyedDest;
         City destCity;
-        
-        Vector3 flyRoundCenter;
+
+        bool catchSoundPlayed;
         #endregion
 
         public List<RBall> Balls { get { return subBalls; } }
@@ -162,7 +164,7 @@ namespace Code2015.World
 
 
             position = GetRGBallPosition(dockCity, dockCity.CurrentFacing);
-            
+
             int lineCount = (int)Math.Ceiling(Math.Sqrt(balls.Count));
             float span = (MathEx.PIf * 2) / lineCount;
 
@@ -180,6 +182,10 @@ namespace Code2015.World
                 ballOffsets.Add(positionInGBall);
                 balls[i].Gather(this, positionInGBall + position, oriInGBall);
             }
+
+            throwSound = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("throw", null, 1500);
+            catchSound = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("catch", null, 1500);
+            
         }
 
         public void Cancel()
@@ -217,14 +223,14 @@ namespace Code2015.World
                 this.destCity = dstCity;
 
 
-                if (dstCity.Type == CityType.Health)
-                {
-                    targetAngle = MathEx.PiOver4;
-                }
-                else
-                {
-                    targetAngle = MathEx.PIf / 6.0f;
-                }
+                //if (dstCity.Type == CityType.Health)
+                //{
+                //    targetAngle = MathEx.PiOver4;
+                //}
+                //else
+                //{
+                //    targetAngle = MathEx.PIf / 6.0f;
+                //}
 
                 Quaternion newDstOri = dstCity.GetOrientation(srcPosition);
 
@@ -233,11 +239,13 @@ namespace Code2015.World
 
                 dstPosition = GetRGBallPosition(dstCity, newDstOri);
 
-                flyRoundCenter = GetFlyCenter(dstCity.Transformation.Up);
+
                 notifyedDest = false;
                 flyProgress = 0;
+
+                throwSound.Fire();
             }
-            else if (newState == State.Finished) 
+            else if (newState == State.Finished)
             {
                 ReleaseBalls();
             }
@@ -246,17 +254,7 @@ namespace Code2015.World
         }
 
 
-        Vector3 GetFlyCenter(Vector3 n)
-        {
-            Vector3 d = dstPosition - srcPosition;
-            
-            Vector3 r = Vector3.Cross(d, n);
-            r = Vector3.Cross(r, d);
-            r.Normalize();
-            Vector3 cp = dstPosition + srcPosition;
-            cp *= 0.5f;
-            return cp - r * (float)Math.Tan(MathEx.PiOver2 - targetAngle) * d.Length() * 0.5f;
-        }
+
         void UpdateFly(GameTime time)
         {
             //Vector3 r = Vector3.Lerp(srcPosition, dstPosition, flyProgress) - flyRoundCenter;
@@ -277,9 +275,21 @@ namespace Code2015.World
                 if (!notifyedDest)
                 {
                     destCity.NotifyIncomingBall(this);
+
                     notifyedDest = true;
                 }
             }
+
+            timeStamp += 0.5f;
+            if ((flyProgress / 0.5f) > timeStamp)
+            {
+                if (!catchSoundPlayed)
+                {
+                    catchSound.Fire();
+                    catchSoundPlayed = true;
+                }
+            }
+
 
             {
                 float t = flyProgress * 2;
@@ -337,6 +347,10 @@ namespace Code2015.World
 
             }
 
+            catchSound.Position = position;
+            catchSound.Update(time);
+            throwSound.Position = position;
+            throwSound.Update(time);
         }
 
         
@@ -444,6 +458,10 @@ namespace Code2015.World
 
 
         float refrenceLinSpeed;
+
+
+        Normal3DSoundObject soundObject;
+        bool shouldPlayDeathSonds;
 
         public RBallState State
         {
@@ -615,15 +633,22 @@ namespace Code2015.World
             }
 
             UpdateDisplayScale();
+
+            soundObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("rball_die", null, 1000);
         }
 
         public void Damage(float v)
         {
-            Health -= v;
-            if (Health < 0)
+            if (Health > 0)
             {
-                this.Owner = null;
+                Health -= v;
+                if (Health <= 0 && Owner != null)
+                {
+                    this.Owner = null;
+                    shouldPlayDeathSonds = true;
+                }
             }
+
         }
 
         void ChangeState(RBallState newState)
@@ -1125,7 +1150,13 @@ namespace Code2015.World
             }
 
 
-
+            if (shouldPlayDeathSonds) 
+            {
+                soundObject.Position = position;
+                soundObject.Update(gameTime);
+                soundObject.Fire();
+                shouldPlayDeathSonds = false;
+            }
 
 
         }
