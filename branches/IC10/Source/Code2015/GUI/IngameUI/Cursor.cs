@@ -34,7 +34,8 @@ namespace Code2015.GUI.IngameUI
             Selection = 64,
             Move = 65,
             Attack = 66,
-            Stop = 67
+            Stop = 67,
+            TooFar
         }
         GameScene scene;
         RenderSystem renderSys;
@@ -68,6 +69,7 @@ namespace Code2015.GUI.IngameUI
         Texture cursor_dl;
         Texture cursor_dr;
         Texture cursor_stop;
+        Texture cursor_toofar;
 
         MouseCursor cursorState;
         CursorColor cursorColor;
@@ -123,6 +125,8 @@ namespace Code2015.GUI.IngameUI
             fl = FileSystem.Instance.Locate("cursor_stop.tex", GameFileLocs.GUI);
             cursor_stop = UITextureManager.Instance.CreateInstance(fl);
 
+            fl = FileSystem.Instance.Locate("cursor_toofar.tex", GameFileLocs.GUI);
+            cursor_toofar = UITextureManager.Instance.CreateInstance(fl);
 
             cursor_sel = new Texture[11];
 
@@ -292,15 +296,38 @@ namespace Code2015.GUI.IngameUI
 
                 if (!passed)
                 {
+                    Harvester hoverHarv = selectionMarker.MouseHoverObject as Harvester;
+                    Harvester selectedHarv = selectionMarker.SelectedObject as Harvester;
+                    ForestObject naturalResource = selectionMarker.MouseHoverObject as ForestObject;
+
                     if (selectionMarker.MouseHoverObject != null)
                     {
                         if (selectionMarker.SelectedObject != selectionMarker.MouseHoverObject)
                         {
                             cursorState = MouseCursor.Selection;
 
-                            if (hoverCity != null)
+                            if (hoverHarv != null)
                             {
-                                cursorColor = getColor(hoverCity.Owner);
+                                cursorColor = getColor(hoverHarv.Owner);
+                            }
+
+                            if (selectedHarv != null && naturalResource != null)                                
+                            {
+                                if (selectedHarv.Parent.IsResourceInRange(naturalResource))
+                                {
+                                    cursorState = MouseCursor.Attack;
+                                    cursorColor = CursorColor.Yellow;
+
+                                    if (MouseInput.IsMouseUpRight)
+                                    {
+                                        selectedHarv.Parent.Gather(naturalResource);
+                                    }
+                                }
+                                else 
+                                {
+                                    // too far
+                                    cursorState = MouseCursor.TooFar;        
+                                }
                             }
                         }
                         else
@@ -312,12 +339,15 @@ namespace Code2015.GUI.IngameUI
                     {
                         // command harv
                         cursorState = MouseCursor.Normal;
+
+
                     }
                 }
             }
             else
             {
                 City hoverCity = selectionMarker.MouseHoverObject as City;
+                Harvester hoverHarv = selectionMarker.MouseHoverObject as Harvester;
 
                 if (selectionMarker.MouseHoverObject != null)
                 {
@@ -326,6 +356,10 @@ namespace Code2015.GUI.IngameUI
                     if (hoverCity != null)
                     {
                         cursorColor = getColor(hoverCity.Owner);
+                    }
+                    if (hoverHarv != null)
+                    {
+                        cursorColor = getColor(hoverHarv.Owner);
                     }
                 }
                 else
@@ -430,6 +464,10 @@ namespace Code2015.GUI.IngameUI
                 case MouseCursor.Stop:
                     hsp = new Point(33, 33);
                     ctex = cursor_stop;
+                    break;
+                case MouseCursor.TooFar:
+                    hsp = new Point(65, 65);
+                    ctex = cursor_toofar;
                     break;
                 case MouseCursor.Move:
                     hsp = new Point(65, 86);

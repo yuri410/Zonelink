@@ -6,6 +6,7 @@ using Apoc3D.MathLib;
 using Code2015.EngineEx;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.Collections;
 
 namespace Code2015.World
 {
@@ -21,7 +22,7 @@ namespace Code2015.World
         //资源搜索范围
         float gatherDistance;
 
-        private List<NaturalResource> nearResource = new List<NaturalResource>();
+        private FastList<NaturalResource> nearResource = new FastList<NaturalResource>();
 
         public NaturalResource ExResource
         {
@@ -56,7 +57,10 @@ namespace Code2015.World
            
         }
 
-
+        public bool IsResourceInRange(NaturalResource res)
+        {
+            return nearResource.Contains(res);
+        }
         public float GetNearResourceCount()
         {
             NaturalResource[] resList = battleField.NaturalResources;
@@ -118,6 +122,29 @@ namespace Code2015.World
             base.ChangeType();
             FindResources(battleField.NaturalResources);
         }
+
+        public void Gather(NaturalResource res)
+        {
+            if (!IsCaptured)
+                return;
+
+            int nid = nearResource.IndexOf(res);
+            if (nid == -1)
+                return;
+
+            resourceIndex = nid;
+
+            NaturalResource exRes = ExResource;
+            if (exRes != null)
+            {
+                harvester.Move(MathEx.Degree2Radian(exRes.Longitude), MathEx.Degree2Radian(exRes.Latitude));
+                harvester.SetMovePurpose(MovePurpose.Gather);
+            }
+
+            harvester.ExRes = exRes;
+
+        }
+
         void Harv_Dest(object sender, EventArgs e)
         {
             harvester.Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));

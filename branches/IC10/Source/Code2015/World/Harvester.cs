@@ -354,12 +354,17 @@ namespace Code2015.World
             float ddt = (float)dt.ElapsedGameTimeSeconds;
 
             #region 装货卸货
+
             if (isLoading && exRes != null)
             {
-                // 计算开矿倍数，保证能够完成卸货
-                float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
+                if (harvStorage < props.Storage)
+                {
+                    // 计算开矿倍数，保证能够完成卸货
+                    float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
 
-                harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt * scale);
+                    harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt * scale);
+
+                }
                 loadingTime -= ddt;
 
                 // 开矿loadingTime时间之后，停止并引发事件
@@ -371,6 +376,14 @@ namespace Code2015.World
                         GotThere(this, EventArgs.Empty);
                 }
             }
+            
+            //else
+            //{
+            //    isFullLoaded = true;
+            //    loadingTime = 0;
+            //    if (GotThere != null)
+            //        GotThere(this, EventArgs.Empty);
+            //}
             if (isUnloading)
             {
                 // 计算开矿倍数，保证能够完成卸货
