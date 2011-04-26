@@ -609,70 +609,61 @@ namespace Code2015.World
                         wakeingUp[0].CurrentAnimation.Insert(0, scaling);
                         #endregion
 
-                        catching[1] = catching[0];
-                        catchingRelease[1] = catchingRelease[0];
-                        throwing[1] = throwing[0];
-                        throwingPrepare[1] = throwingPrepare[0];
-                        fear[1] = fear[0];
-                        idle[1] = idle[0];
-                        laugh[1] = laugh[0];
-                        sleeping[1] = sleeping[0];
-                        stopped[1] = stopped[0];
-                        wakeingUp[1] = wakeingUp[0];
-                        //#region Education
+                        scaling = new NoAnimaionPlayer(Matrix.Translation(0, -2.5f, 0) * Matrix.Scaling(40, 40, 40));
+                        #region Education
 
-                        //fl = FileSystem.Instance.Locate("ch_school_catch.mesh", GameFileLocs.Model);
-                        //catching[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //catching[1].AnimationCompeleted += Animation_Completed;
-                        //catching[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_catch.mesh", GameFileLocs.Model);
+                        catching[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        catching[1].AnimationCompeleted += Animation_Completed;
+                        catching[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_catchrelease.mesh", GameFileLocs.Model);
-                        //catchingRelease[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //catchingRelease[1].AnimationCompeleted += Animation_Completed;
-                        //catchingRelease[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_catchrelease.mesh", GameFileLocs.Model);
+                        catchingRelease[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        catchingRelease[1].AnimationCompeleted += Animation_Completed;
+                        catchingRelease[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_throwrelease.mesh", GameFileLocs.Model);
-                        //throwing[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //throwing[1].AnimationCompeleted += Animation_Completed;
-                        //throwing[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_throwrelease.mesh", GameFileLocs.Model);
+                        throwing[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        throwing[1].AnimationCompeleted += Animation_Completed;
+                        throwing[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_throw.mesh", GameFileLocs.Model);
-                        //throwingPrepare[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //throwingPrepare[1].AnimationCompeleted += Animation_Completed;
-                        //throwingPrepare[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_throw.mesh", GameFileLocs.Model);
+                        throwingPrepare[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        throwingPrepare[1].AnimationCompeleted += Animation_Completed;
+                        throwingPrepare[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_fear.mesh", GameFileLocs.Model);
-                        //fear[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //fear[1].AnimationCompeleted += Animation_Completed;
-                        //fear[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_fear.mesh", GameFileLocs.Model);
+                        fear[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        fear[1].AnimationCompeleted += Animation_Completed;
+                        fear[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_idle.mesh", GameFileLocs.Model);
-                        //idle[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //idle[1].AnimationCompeleted += Animation_Completed;
-                        //idle[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_idle.mesh", GameFileLocs.Model);
+                        idle[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        idle[1].AnimationCompeleted += Animation_Completed;
+                        idle[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_laugh.mesh", GameFileLocs.Model);
-                        //laugh[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //laugh[1].AnimationCompeleted += Animation_Completed;
-                        //laugh[1].CurrentAnimation.Insert(0, scaling);
+                        fl = FileSystem.Instance.Locate("ch_school_laugh.mesh", GameFileLocs.Model);
+                        laugh[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        laugh[1].AnimationCompeleted += Animation_Completed;
+                        laugh[1].CurrentAnimation.Insert(0, scaling);
 
-                        //fl = FileSystem.Instance.Locate("ch_school_sleeping.mesh", GameFileLocs.Model);
-                        //sleeping[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //sleeping[1].AnimationCompeleted += Animation_Completed;
-                        //sleeping[1].CurrentAnimation.Insert(0, scaling);
-                        //sleeping[1].AutoLoop = true;
+                        fl = FileSystem.Instance.Locate("ch_school_sleeping.mesh", GameFileLocs.Model);
+                        sleeping[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        sleeping[1].AnimationCompeleted += Animation_Completed;
+                        sleeping[1].CurrentAnimation.Insert(0, scaling);
+                        sleeping[1].AutoLoop = true;
 
-                        //fl = FileSystem.Instance.Locate("ch_school_stopped.mesh", GameFileLocs.Model);
-                        //stopped[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //stopped[1].AnimationCompeleted += Animation_Completed;
-                        //stopped[1].CurrentAnimation.Insert(0, scaling);
-                        //stopped[1].AutoLoop = true;
+                        fl = FileSystem.Instance.Locate("ch_school_stopped.mesh", GameFileLocs.Model);
+                        stopped[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        stopped[1].AnimationCompeleted += Animation_Completed;
+                        stopped[1].CurrentAnimation.Insert(0, scaling);
+                        stopped[1].AutoLoop = true;
 
-                        //fl = FileSystem.Instance.Locate("ch_school_wakeup.mesh", GameFileLocs.Model);
-                        //wakeingUp[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-                        //wakeingUp[1].AnimationCompeleted += Animation_Completed;
-                        //wakeingUp[1].CurrentAnimation.Insert(0, scaling);
-                        //#endregion
+                        fl = FileSystem.Instance.Locate("ch_school_wakeup.mesh", GameFileLocs.Model);
+                        wakeingUp[1] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+                        wakeingUp[1].AnimationCompeleted += Animation_Completed;
+                        wakeingUp[1].CurrentAnimation.Insert(0, scaling);
+                        #endregion
                         break;
                     }
                 case CityType.Disease:
