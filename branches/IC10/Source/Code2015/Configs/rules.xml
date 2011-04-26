@@ -33,32 +33,32 @@
     <BaseHeal>0</BaseHeal>
   </GreenBall>
   <EducationBall>
-    <BaseHealth>300</BaseHealth>
-    <GenInterval>15</GenInterval>
-    <Contribution>1</Contribution>
+    <BaseHealth>450</BaseHealth>
+    <GenInterval>20</GenInterval>
+    <Contribution>7</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </EducationBall>
   <VolienceBall>
-    <BaseHealth>300</BaseHealth>
-    <GenInterval>15</GenInterval>
-    <Contribution>1</Contribution>
+    <BaseHealth>450</BaseHealth>
+    <GenInterval>20</GenInterval>
+    <Contribution>7</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </VolienceBall>
   <HealthBall>
-    <BaseHealth>300</BaseHealth>
-    <GenInterval>15</GenInterval>
+    <BaseHealth>600</BaseHealth>
+    <GenInterval>20</GenInterval>
     <Contribution>0.2</Contribution>
     <BaseDamage>10</BaseDamage>
-    <BaseHeal>5</BaseHeal>
+    <BaseHeal>50</BaseHeal>
   </HealthBall>
   <DiseaseBall>
-    <BaseHealth>300</BaseHealth>
-    <GenInterval>15</GenInterval>
+    <BaseHealth>600</BaseHealth>
+    <GenInterval>20</GenInterval>
     <Contribution>0.2</Contribution>
     <BaseDamage>10</BaseDamage>
-    <BaseHeal>5</BaseHeal>
+    <BaseHeal>50</BaseHeal>
   </DiseaseBall>
 
   <OilCity>

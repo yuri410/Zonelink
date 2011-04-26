@@ -35,9 +35,9 @@ using Code2015.EngineEx;
 
 namespace Code2015.Effects
 {
-    public class GoalEffectFactory : EffectFactory
+    public class TailEffectFactory : EffectFactory
     {
-        static readonly string typeName = "Goal";
+        static readonly string typeName = "Tail";
 
 
         public static string Name
@@ -49,14 +49,14 @@ namespace Code2015.Effects
 
         RenderSystem device;
 
-        public GoalEffectFactory(RenderSystem dev)
+        public TailEffectFactory(RenderSystem dev)
         {
             device = dev;
         }
 
         public override Effect CreateInstance()
         {
-            return new GoalEffect(device);
+            return new TailEffect(device);
         }
 
         public override void DestroyInstance(Effect fx)
@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class GoalEffect : Effect
+    class TailEffect : Effect
     {
         bool stateSetted;
 
@@ -76,30 +76,50 @@ namespace Code2015.Effects
 
         Texture noTexture;
 
-        public unsafe GoalEffect(RenderSystem rs)
-            : base(false, GoalEffectFactory.Name)
+        public unsafe TailEffect(RenderSystem rs)
+            : base(false,  TailEffectFactory.Name)
         {
             FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
             noTexture = TextureManager.Instance.CreateInstance(fl);
 
             this.renderSys = rs;
 
-            fl = FileSystem.Instance.Locate("goal.cvs", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("tail.cvs", GameFileLocs.Effect);
             vtxShader = LoadVertexShader(renderSys, fl);
 
-            fl = FileSystem.Instance.Locate("goal.cps", GameFileLocs.Effect);
+            fl = FileSystem.Instance.Locate("tail.cps", GameFileLocs.Effect);
             pixShader = LoadPixelShader(renderSys, fl);
 
         }
 
+        public override bool SupportsMode(RenderMode mode)
+        {
+            switch (mode)
+            {
+                case RenderMode.Depth:
+                    return false;
+                case RenderMode.Final:
+                case RenderMode.Simple:
+                case RenderMode.Wireframe:
+                    return true;
+                case RenderMode.DeferredNormal:
+                    return false;
+            }
+            return false;
+        }
 
         protected override int begin()
         {
-            renderSys.BindShader(vtxShader);
-            renderSys.BindShader(pixShader);
-            pixShader.SetValue("i_a", EffectParams.LightAmbient);
-            pixShader.SetValue("i_d", EffectParams.LightDiffuse);
-            
+            //if (mode == RenderMode.DeferredNormal)
+            //{
+                //renderSys.BindShader(nrmGenPShader);
+                //renderSys.BindShader(nrmGenVShader);
+            //}
+            //else
+            {
+                renderSys.BindShader(vtxShader);
+                renderSys.BindShader(pixShader);
+            }
             stateSetted = false;
             return 1;
             //return effect.Begin(FX.DoNotSaveState | FX.DoNotSaveShaderState | FX.DoNotSaveSamplerState);
@@ -117,16 +137,14 @@ namespace Code2015.Effects
             //effect.EndPass();
         }
 
-        Matrix rot45 = Matrix.RotationX(MathEx.PiOver4);
 
         public override void Setup(Material mat, ref RenderOperation op)
         {
-            Matrix world = rot45 * op.Transformation;
-            Matrix mvp = world * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
-            
+
+            Matrix mvp = EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+
             vtxShader.SetValue("mvp", ref mvp);
-            pixShader.SetValue("world", ref world);
-            pixShader.SetValue("lightDir", EffectParams.InvView.Forward);
+            //vtxShader.SetValue("cameraZ", EffectParams.InvView.Forward);
 
             if (!stateSetted)
             {
@@ -134,43 +152,31 @@ namespace Code2015.Effects
                 state.AddressU = TextureAddressMode.Wrap;
                 state.AddressV = TextureAddressMode.Wrap;
                 state.AddressW = TextureAddressMode.Wrap;
-                state.MinFilter = TextureFilter.Linear;
-                state.MagFilter = TextureFilter.Linear;
+                state.MinFilter = TextureFilter.Anisotropic;
+                state.MagFilter = TextureFilter.Anisotropic;
                 state.MipFilter = TextureFilter.Linear;
                 state.MaxAnisotropy = 8;
                 state.MipMapLODBias = 0;
 
-                pixShader.SetValue("k_a", mat.Ambient);
-                pixShader.SetValue("k_d", mat.Diffuse);
-                //pixShader.SetValue("k_e", mat.Emissive);
 
-                pixShader.SetSamplerState("texDif", ref state);
+
+                pixShader.SetSamplerState("Sampler", ref state);
 
                 ResourceHandle<Texture> clrTex = mat.GetTexture(0);
                 if (clrTex == null)
                 {
-                    pixShader.SetTexture("texDif", noTexture);
+                    pixShader.SetTexture("Sampler", noTexture);
                 }
                 else
                 {
-                    pixShader.SetTexture("texDif", clrTex);
-                }
-
-                state.MipMapLODBias = -3;
-                pixShader.SetSamplerState("texNrm", ref state);
-
-                clrTex = mat.GetTexture(1);
-                if (clrTex == null)
-                {
-                    pixShader.SetTexture("texNrm", noTexture);
-                }
-                else
-                {
-                    pixShader.SetTexture("texNrm", clrTex);
+                    pixShader.SetTexture("Sampler", clrTex);
                 }
 
                 stateSetted = true;
             }
+
+
+
         }
 
         

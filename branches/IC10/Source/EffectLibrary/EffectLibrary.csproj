@@ -123,8 +123,6 @@
     <None Include="Particle\smoke.vs" />
     <None Include="Scene\atmosphere.ps" />
     <None Include="Scene\atmosphere.vs" />
-    <None Include="Scene\goal.ps" />
-    <None Include="Scene\goal.vs" />
     <None Include="Scene\bolt.ps" />
     <None Include="Scene\bolt.vs" />
     <None Include="Scene\skinnedstandard.vs" />
@@ -137,6 +135,8 @@
     <None Include="Scene\board.vs" />
     <None Include="Scene\standardnh.ps" />
     <None Include="Scene\standardnh.vs" />
+    <None Include="Scene\tail.ps" />
+    <None Include="Scene\tail.vs" />
     <None Include="ShadowMap\skinnedShadowMap.vs" />
     <None Include="UI\City\citylink.ps" />
     <None Include="UI\City\citylink.vs" />

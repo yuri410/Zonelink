@@ -227,6 +227,7 @@ namespace Code2015.Effects
                     {
                         nrmGenPShader.SetTexture("texDif", clrTex);
                     }
+                    stateSetted = true;
                 }
             }
             else

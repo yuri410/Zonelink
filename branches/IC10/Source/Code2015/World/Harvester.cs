@@ -185,7 +185,7 @@ namespace Code2015.World
             this.map = map;
 
 
-            BoundingSphere.Radius = 50;
+            BoundingSphere.Radius = 80;
             
         }
 
@@ -193,6 +193,8 @@ namespace Code2015.World
         {
             model = new Model[NumModels];
             model_bad = new Model[NumModels];
+
+            const float scale = 0.8f;
 
             for (int i = 0; i < NumModels; i++)
             {
@@ -202,14 +204,14 @@ namespace Code2015.World
                 model[i].CurrentAnimation.Clear();
                 model[i].CurrentAnimation.Add(new NoAnimaionPlayer(
                     Matrix.RotationY(MathEx.PIf) *
-                    Matrix.Scaling(Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f)));
-            
-            fl = FileSystem.Instance.Locate("cow_bad" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
+                    Matrix.Scaling(Game.ObjectScale * scale, Game.ObjectScale * scale, Game.ObjectScale * scale)));
+
+                fl = FileSystem.Instance.Locate("cow_bad" + i.ToString("D2") + ".mesh", GameFileLocs.Model);
                 model_bad[i] = new Model(ModelManager.Instance.CreateInstance(rs, fl));
                 model_bad[i].CurrentAnimation.Clear();
                 model_bad[i].CurrentAnimation.Add(new NoAnimaionPlayer(
                     Matrix.RotationY(MathEx.PIf) *
-                    Matrix.Scaling(Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f, Game.ObjectScale * 0.67f)));
+                    Matrix.Scaling(Game.ObjectScale * scale, Game.ObjectScale * scale, Game.ObjectScale * scale)));
             }
             //style.Cow = new ResourceHandle<ModelData>[CowFrameCount];
             //for (int i = 0; i < CowFrameCount; i++)

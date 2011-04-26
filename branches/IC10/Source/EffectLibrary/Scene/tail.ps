@@ -1,0 +1,13 @@
+
+sampler2D Sampler: register(s0);
+
+struct PS_Input
+{
+	float2 TexCoord : TEXCOORD0;
+	float4 Color : COLOR0;
+};
+
+float4 main(PS_Input input) : COLOR0
+{
+    return tex2D(Sampler, input.TexCoord) * float4(0.1,0.1,0.1,1);
+}

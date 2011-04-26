@@ -22,6 +22,8 @@ namespace Code2015.World
         //资源搜索范围
         float gatherDistance;
 
+        bool isGatherOnHold;
+
         private FastList<NaturalResource> nearResource = new FastList<NaturalResource>();
 
         public NaturalResource ExResource
@@ -147,6 +149,7 @@ namespace Code2015.World
 
         void Harv_Dest(object sender, EventArgs e)
         {
+
             harvester.Move(MathEx.Degree2Radian(Longitude), MathEx.Degree2Radian(Latitude));
             harvester.SetMovePurpose(MovePurpose.Home);
 
@@ -155,19 +158,21 @@ namespace Code2015.World
         }
         void Harv_Home(object sender, EventArgs e)
         {
-            NaturalResource exRes = ExResource;
-            if (IsCaptured && exRes!=null)
+            if (!isGatherOnHold)
             {
-                harvester.Move(MathEx.Degree2Radian(exRes.Longitude), MathEx.Degree2Radian(exRes.Latitude));
-                harvester.SetMovePurpose(MovePurpose.Gather);
-            }
-            if (!harvester.IsFullLoaded && sender == harvester)
-            {
-                FindNewNaturalResource();
-            }
+                NaturalResource exRes = ExResource;
+                if (IsCaptured && exRes != null)
+                {
+                    harvester.Move(MathEx.Degree2Radian(exRes.Longitude), MathEx.Degree2Radian(exRes.Latitude));
+                    harvester.SetMovePurpose(MovePurpose.Gather);
+                }
+                if (!harvester.IsFullLoaded && sender == harvester)
+                {
+                    FindNewNaturalResource();
+                }
 
-            harvester.ExRes = exRes;
-
+                harvester.ExRes = exRes;
+            }
 
             //harvSendWait = getHarvWaitTime();
         }
@@ -334,19 +339,36 @@ namespace Code2015.World
                 battleField.CreateResourceBall(Owner, this, RBallType.Green);
             }
         }
-        
+        public override bool IsFull()
+        {
+            return nearbyBallList.Count >= RulesTable.CityBallLimit;
+        }
         public override void Update(GameTime gameTime)
         {
             base.Update(gameTime);
 
             float required = Type == CityType.Green ? RulesTable.OilBallCost : RulesTable.GreenBallCost;
 
-            if (resourceBuffer > required && nearbyBallList.Count < RulesTable.CityBallLimit)
+            if (nearbyBallList.Count >= RulesTable.CityBallLimit && !isGatherOnHold)
+            {
+                isGatherOnHold = true;
+            }
+
+            if (resourceBuffer > required && !isGatherOnHold)
             {
                 ProduceBall();
                 resourceBuffer -= required;
             }
             harvester.Update(gameTime);
+
+            if (isGatherOnHold) 
+            {
+                if (nearbyBallList.Count < RulesTable.CityBallLimit)
+                {
+                    isGatherOnHold = false;
+                    Gather(ExResource);
+                }
+            }
         }
 
         public override void Parse(GameConfigurationSection sect)
