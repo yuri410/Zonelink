@@ -33,7 +33,7 @@ Violence city is opposite to education city, represents cities produce insecure 
 Make own bad cities more bad.
 
 6.	Disease City
-http://lrvbsvnicg.googlecode.com/files/con_disease.png
+http://lrvbsvnicg.googlecode.com/files/con_virus.png
 Disease city is opposite to healthy city and infected by the virus, represents cites produce disease element ball which heal The Ruiners' cities.
 
 ==Neutral==
