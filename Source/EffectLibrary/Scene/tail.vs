@@ -1,42 +1,31 @@
+#include "waterDepth.vsh"
 
 float4x4 mvp : register(c0);
-//float3 cameraZ : register(c4);
 
-struct VertexShaderInput
+
+struct VSInput
 {
     float4 Position : POSITION0;
-    float2 TexCoord : TEXCOORD0; 
-    //float3 Direction : TEXCOORD1;
+    float3 Normal : NORMAL;
+    float2 TexCoord : TEXCOORD0;
 };
-
-
-struct VertexShaderOutput
+struct VSOutput
 {
     float4 Position : POSITION0;
-	float2 TexCoord : TEXCOORD0;
+    float2 TexCoord : TEXCOORD0;
 };
 
-
-
-VertexShaderOutput main(VertexShaderInput input)
+VSOutput main(VSInput ip)
 {
-    VertexShaderOutput output;
-    //float3 tangent = cross(input.Direction, cameraZ);
-	//t//angent = normalize(tangent);
+    VSOutput o;
 
-	//tangent *= 500;
-
-	//if (input.TexCoord.x<0.5)
-	//{
-	//	input.Position.xyz -= tangent;
-	//}
-	//else
-	//{
-	//	input.Position.xyz += tangent;
-	//}
-	output.Position = mul(mvp, input.Position);
-	
-	output.TexCoord = input.TexCoord;
-    return output;
+    o.Position = mul(ip.Position, mvp);
+    o.TexCoord = ip.TexCoord;
+    
+    float tmp = o.TexCoord.x;
+    o.TexCoord.x = o.TexCoord.y;
+    o.TexCoord.y = tmp;
+	//o.TexCoord.x = 1- o.TexCoord.x;
+	//o.TexCoord = 1- o.TexCoord;
+    return o;
 }
-

@@ -7,6 +7,7 @@ using Code2015.Logic;
 using Apoc3D.MathLib;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Apoc3D.GUI.Controls;
 
 namespace Code2015.GUI.IngameUI
 {
@@ -26,13 +27,13 @@ namespace Code2015.GUI.IngameUI
         GameFontRuan f8;
         GameFontRuan f6;
 
-
+        List<Player> players = new List<Player>();
 
         public override int Order
         {
             get
             {
-                return 51;
+                return 57;
             }
         }
 
@@ -59,23 +60,43 @@ namespace Code2015.GUI.IngameUI
             f6 = GameFontManager.Instance.FRuanEdged4;
             f8 = GameFontManager.Instance.FRuanEdged6;
 
-
+           
+            //for (int i = 0; i < gameLogic.LocalPlayerCount; i++)
+                //players.Add(gameLogic.GetLocalPlayer(i));
         }
 
 
         public override bool HitTest(int x, int y)
         {
-            return base.HitTest(x, y);
+            if (x < 128)
+            {
+                int startY = 41;
+                for (int i = 0; i < players.Count; i++)
+                {
+                    if (players[i].Type != PlayerType.LocalHuman)
+                    {
+                        startY += 37;
+                    }
+                    else
+                    {
+                        Rectangle rect = new Rectangle(-6, startY - 4, homeBackground.Width, homeBackground.Height);
+                        if (Control.IsInBounds(x, y, ref rect))
+                        {
+                            return true;
+                        }
+                    }
+                }
+            }
+            return false;
         }
 
 
         public override void Render(Sprite sprite)
         {
-
-            List<Player> players = new List<Player>();
+            //List<Player> players = new List<Player>();
+            players.Clear();
             for (int i = 0; i < gameLogic.LocalPlayerCount; i++)
                 players.Add(gameLogic.GetLocalPlayer(i));
-          
             StatisticRank(players);
 
             int startY = 41;
@@ -120,11 +141,29 @@ namespace Code2015.GUI.IngameUI
         public override void Update(Apoc3D.GameTime time)
         {
             base.Update(time);
+         
         }
 
         public override void UpdateInteract(Apoc3D.GameTime time)
         {
             base.UpdateInteract(time);
+
+            if (MouseInput.IsMouseUpLeft) 
+            {
+                Player player = gameLogic.LocalHumanPlayer;
+
+                PlayerArea area = player.Area;
+                for (int i = 0; i < area.CityCount; i++)
+                {
+                    if (area.GetCity(i).IsHomeCity) 
+                    {
+                        scene.Camera.Longitude = MathEx.Degree2Radian(area.GetCity(i).Longitude);
+                        scene.Camera.Latitude = MathEx.Degree2Radian(area.GetCity(i).Latitude);
+
+                        return;
+                    }
+                }
+            }
         }
 
 

@@ -65,7 +65,7 @@ namespace Code2015.Effects
         }
     }
 
-    class TailEffect : Effect
+    class TailEffect : RigidEffect
     {
         bool stateSetted;
 
@@ -77,7 +77,7 @@ namespace Code2015.Effects
         Texture noTexture;
 
         public unsafe TailEffect(RenderSystem rs)
-            : base(false,  TailEffectFactory.Name)
+            : base(rs,  TailEffectFactory.Name, false)
         {
             FileLocation fl = FileSystem.Instance.Locate("tillingmark.tex", GameFileLocs.Texture);
             noTexture = TextureManager.Instance.CreateInstance(fl);
@@ -119,6 +119,10 @@ namespace Code2015.Effects
             {
                 renderSys.BindShader(vtxShader);
                 renderSys.BindShader(pixShader);
+
+                pixShader.SetValue("i_a", EffectParams.LightAmbient);
+                pixShader.SetValue("i_d", EffectParams.LightDiffuse);
+
             }
             stateSetted = false;
             return 1;
@@ -141,7 +145,7 @@ namespace Code2015.Effects
         public override void Setup(Material mat, ref RenderOperation op)
         {
 
-            Matrix mvp = EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
+            Matrix mvp = op.Transformation * EffectParams.CurrentCamera.ViewMatrix * EffectParams.CurrentCamera.ProjectionMatrix;
 
             vtxShader.SetValue("mvp", ref mvp);
             //vtxShader.SetValue("cameraZ", EffectParams.InvView.Forward);
@@ -159,20 +163,22 @@ namespace Code2015.Effects
                 state.MipMapLODBias = 0;
 
 
+                pixShader.SetValue("k_a", mat.Ambient);
+                pixShader.SetValue("k_d", mat.Diffuse);
+                pixShader.SetValue("k_e", mat.Emissive);
 
-                pixShader.SetSamplerState("Sampler", ref state);
+
+                pixShader.SetSamplerState("texDif", ref state);
 
                 ResourceHandle<Texture> clrTex = mat.GetTexture(0);
                 if (clrTex == null)
                 {
-                    pixShader.SetTexture("Sampler", noTexture);
+                    pixShader.SetTexture("texDif", noTexture);
                 }
                 else
                 {
-                    pixShader.SetTexture("Sampler", clrTex);
+                    pixShader.SetTexture("texDif", clrTex);
                 }
-
-                stateSetted = true;
             }
 
 

@@ -51,6 +51,7 @@ namespace Code2015.GUI.IngameUI
         ObjectSelectInfo objSelectInfo;
         RBallTypeSelect sendBallSelect;
         MiniMap miniMap;
+        RankInfo rankInfo;
 
         bool isWaitingRBallSelect;
 
@@ -81,11 +82,12 @@ namespace Code2015.GUI.IngameUI
         Point mouseRightPosition;
 
         public Cursor(Code2015 game, Game parent, GameScene scene, GameState gamelogic, Picker picker,
-             CitySelectInfo citySelectInfo, ObjectSelectInfo objSelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker)
+             CitySelectInfo citySelectInfo, ObjectSelectInfo objSelectInfo, RBallTypeSelect sendBallSelect, MiniMap map, SelectionMarker marker, RankInfo rankInfo)
         {
             this.parent = parent;
             this.logic = gamelogic;
             this.player = gamelogic.LocalHumanPlayer;
+            this.rankInfo = rankInfo;
 
             this.game = game;
             this.renderSys = game.RenderSystem;
@@ -378,7 +380,10 @@ namespace Code2015.GUI.IngameUI
                 isOnHUD = true;
             if (objSelectInfo.HitTest(MouseInput.X, MouseInput.Y))
                 isOnHUD = true;
-            
+
+            if (rankInfo.HitTest(MouseInput.X, MouseInput.Y))
+                isOnHUD = true;
+
             if (isOnHUD)
             {
                 cursorState = MouseCursor.Normal;
