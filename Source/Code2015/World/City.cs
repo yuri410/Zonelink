@@ -1803,13 +1803,13 @@ namespace Code2015.World
                     catching[currentForm].Update(time);
                     break;
                 case CityState.Fear:
-                    if (isVisible) fear[currentForm].Update(time);
+                    fear[currentForm].Update(time);
                     break;
                 case CityState.Idle:
-                    if (isVisible) idle[currentForm].Update(time);
+                    idle[currentForm].Update(time);
                     break;
                 case CityState.Laugh:
-                    if (isVisible) laugh[currentForm].Update(time);
+                    laugh[currentForm].Update(time);
                     break;
                 case CityState.Stopped:
                     //if (reThrowDelay > 0)
@@ -1892,11 +1892,36 @@ namespace Code2015.World
                     {
                         ChangeState(CityState.Throw);
                     }
-                    else if (throwRgball.CurrentState == RGatheredBall.State.Finished) 
+                    else if (throwRgball.CurrentState == RGatheredBall.State.Finished)
                     {
                         ChangeState(CityState.Stopped);
                         throwRgball = null;
                     }
+                    else
+                    {
+                        if (throwRgball.Balls.Count == 0)
+                        {
+                            ChangeState(CityState.Stopped);
+                            throwRgball = null;
+                        }
+                        else 
+                        {
+                            bool passed = false;
+                            for (int i = 0; i < throwRgball.Balls.Count; i++) 
+                            {
+                                if (!throwRgball.Balls[i].IsDied) 
+                                {
+                                    passed = true;
+                                }
+                            }
+                            if (!passed)
+                            {
+                                ChangeState(CityState.Stopped);
+                                throwRgball = null;
+                            }
+                        }
+                    }
+                    
                     throwingPrepare[currentForm].Update(time);
                     break;
             }

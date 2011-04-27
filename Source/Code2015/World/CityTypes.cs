@@ -457,7 +457,7 @@ namespace Code2015.World
             {
                 generateRBallCD -= ddt;
 
-                if (generateRBallCD < 0)
+                if (generateRBallCD < 0 && !IsFull())
                 {
                     generateRBallCD = generateRBallTime;
                     ProduceBall();

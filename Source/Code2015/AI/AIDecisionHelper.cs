@@ -90,8 +90,6 @@ namespace Code2015.AI
 
         public float GetCityMark(City cc, float a, float b, float c) 
         {
-            if (cc.IsCaptured)
-                return float.MinValue;
             CityData data;
             if (cityDataTable.TryGetValue(cc, out data))
             {

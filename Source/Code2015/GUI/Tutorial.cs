@@ -40,12 +40,12 @@ namespace Code2015.GUI
 //help_bg		0,0
 //help_next	655,535
 //help_panel	97,24
-        const int TotalPages = 14;
+        const int TotalPages = 20;
         Menu parent;
         Texture background;
         Texture panel;
         Texture[] help;
-        Texture[] helpText;
+
 
         Texture nextBtn;
         Texture prevBtn;
@@ -72,14 +72,12 @@ namespace Code2015.GUI
         {
             this.parent = parent;
             help = new Texture[TotalPages];
-            helpText = new Texture[TotalPages];
 
-            for (int i = 0; i < 14; i++)
+            for (int i = 0; i < TotalPages; i++)
             {
-                FileLocation fl = FileSystem.Instance.Locate("sh" + (i + 1).ToString() + ".tex", GameFileLocs.Help);
+                FileLocation fl = FileSystem.Instance.Locate((i + 1).ToString() + ".tex", GameFileLocs.Help);
                 help[i] = UITextureManager.Instance.CreateInstance(fl);
-                fl = FileSystem.Instance.Locate("sh" + (i + 1).ToString() + "t.tex", GameFileLocs.Help);
-                helpText[i] = UITextureManager.Instance.CreateInstance(fl);
+
             }
 
 
@@ -120,15 +118,15 @@ namespace Code2015.GUI
             prevButton.Y = 540;
             prevButton.Width = prevBtn.Width;
             prevButton.Height = prevBtn.Height;
-            prevButton.MouseClick += Continue_Click;
+            prevButton.MouseClick += Prev_Click;
             prevButton.MouseEnter += Button_MouseIn;
             prevButton.MouseDown += Button_DownSound;
 
             exitButton = new Button();
             exitButton.Enabled = true;
             exitButton.IsValid = true;
-            exitButton.X = 990;
-            exitButton.Y = 560;
+            exitButton.X = 980;
+            exitButton.Y = 555;
             exitButton.Width = exitBtn.Width;
             exitButton.Height = exitBtn.Height;
             exitButton.MouseClick += Exit_Click;
@@ -145,11 +143,15 @@ namespace Code2015.GUI
         public bool Advance()
         {
             currentPage++;
+            if (currentPage >= TotalPages)
+                currentPage = TotalPages - 1;
             return currentPage < TotalPages;
         }
         public bool Back()
         {
             currentPage--;
+            if (currentPage < 0)
+                currentPage = 0;
             return currentPage >= 0;
         }
 
@@ -171,7 +173,7 @@ namespace Code2015.GUI
         }
         void Button_MouseIn(object sender, MouseButtonFlags btn)
         {
-            mouseHover.Fire();
+            //mouseHover.Fire();
         }
         void Button_DownSound(object sender, MouseButtonFlags btn)
         {
@@ -222,9 +224,9 @@ namespace Code2015.GUI
                 sprite.SetTransform(Matrix.Identity);
             }
 
-            int idx = currentPage;
-            if (idx >= TotalPages)
-                idx = TotalPages - 1;
+            //int idx = currentPage;
+            //if (idx >= TotalPages)
+            //    idx = TotalPages - 1;
 
             if (state == NIGDialogState.Showing)
             {
@@ -247,11 +249,12 @@ namespace Code2015.GUI
                 {
                     sprite.Draw(exitBtn, exitButton.X, exitButton.Y - 3, ColorValue.White);
                 }
+                sprite.Draw(help[currentPage], 0, 0, ColorValue.White);
             }
 
-            Rectangle rect = new Rectangle(62, 186, 616, 365);
-            sprite.Draw(help[idx], rect, ColorValue.White);
-            sprite.Draw(helpText[idx], 84, 15, ColorValue.White);
+
+
+
 
             sprite.Draw(cursor, mousePosition.X, mousePosition.Y, ColorValue.White);
         }

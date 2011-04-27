@@ -55,7 +55,7 @@ namespace Code2015.GUI
 
         Texture cursor;
         Texture bg;
-        Texture list;
+        //Texture list;
         Point mousePosition;
 
         NormalSoundObject mouseHover;
@@ -108,11 +108,13 @@ namespace Code2015.GUI
 
         private void Reset()
         {
-            ruanProgress = -0.4f;
-            xinProgress = -1.2f;
-            zjProgress = -1.6f;
-            ybProgress = -0.8f;
-            musicProgress = -2.0f;
+            const float interval = 0.33f;
+
+            ruanProgress = -interval;
+            ybProgress = -interval * 2;
+            xinProgress = -interval * 3;
+            zjProgress = -interval * 4;
+            musicProgress = -interval * 5;
         }
 
         public override void Render(Sprite sprite)
