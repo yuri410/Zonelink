@@ -1,5 +1,4 @@
-
-
+#labels Featured
 ZoneLink is perfectly playable without reading this manual, but it may be helpful to have things written out for reference and some of the features are not explicitly mentioned in the game. Here follows an overview of things you should know.
 
 ==Game Concepts==
