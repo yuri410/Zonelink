@@ -46,11 +46,11 @@ namespace Code2015.GUI
 
         Button backBtn;
 
-        float ruanProgress = -0.4f;
-        float xinProgress = -1.2f;
-        float zjProgress = -1.6f;
-        float ybProgress = -0.8f;
-        float musicProgress = -2.0f;
+        float ruanProgress;
+        float xinProgress;
+        float zjProgress;
+        float ybProgress;
+        float musicProgress;
 
 
         Texture cursor;
@@ -111,7 +111,7 @@ namespace Code2015.GUI
             ruanProgress = -0.4f;
             xinProgress = -1.2f;
             zjProgress = -1.6f;
-            ybProgress = -0.6f;
+            ybProgress = -0.8f;
             musicProgress = -2.0f;
         }
 
