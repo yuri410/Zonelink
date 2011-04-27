@@ -38,6 +38,7 @@ Disease city is opposite to healthy city and infected by the virus, represents c
 
 ==Neutral==
 7.	Neutral City
+http://lrvbsvnicg.googlecode.com/files/con_neutral.png
 Neutral city is a unique city. There are some neutral city on the earth, many between your city and enemy city. So before you help that city, you need to get the neutral city first. Therefore neutral city doesn’t produce any resource ball.
 
 
