@@ -28,6 +28,7 @@ using Apoc3D.Vfs;
 using Apoc3D.Graphics;
 using Apoc3D.MathLib;
 using Apoc3D;
+using Code2015.EngineEx;
 
 namespace Code2015.GUI
 {
@@ -36,12 +37,17 @@ namespace Code2015.GUI
         float alpha;
         float dir;
         Texture overlay34;
+        Texture lds_bg;
         Code2015 parent; 
         float perdelay;
+
         public LoadingOverlay(Code2015 parent, Texture overlay34)
         {
             this.parent = parent;
             this.overlay34 = overlay34;
+
+            FileLocation fl = FileSystem.Instance.Locate("lds_bg.tex", GameFileLocs.GUI);
+            lds_bg = UITextureManager.Instance.CreateInstance(fl);
         }
 
         public void In() { dir = 1; }
@@ -54,6 +60,12 @@ namespace Code2015.GUI
             ColorValue color = ColorValue.White;
             color.A = (byte)(byte.MaxValue * MathEx.Saturate(alpha));
             sprite.Draw(overlay34, 0, 0, color);
+
+            if (alpha>=1)
+            {
+                sprite.Draw(lds_bg, 0, 0, ColorValue.White);
+            }
+
         }
 
         public override void Update(GameTime time)
@@ -71,7 +83,7 @@ namespace Code2015.GUI
                 Out(0);
             }
 
-            alpha += dir * time.ElapsedGameTimeSeconds * 7;
+            alpha += dir * time.ElapsedGameTimeSeconds * 2;
             
             if (alpha > 1)
             {
