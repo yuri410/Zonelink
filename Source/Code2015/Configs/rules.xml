@@ -35,14 +35,14 @@
   <EducationBall>
     <BaseHealth>450</BaseHealth>
     <GenInterval>20</GenInterval>
-    <Contribution>7</Contribution>
+    <Contribution>3.5</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </EducationBall>
   <VolienceBall>
     <BaseHealth>450</BaseHealth>
     <GenInterval>20</GenInterval>
-    <Contribution>7</Contribution>
+    <Contribution>3.5</Contribution>
     <BaseDamage>10</BaseDamage>
     <BaseHeal>0</BaseHeal>
   </VolienceBall>

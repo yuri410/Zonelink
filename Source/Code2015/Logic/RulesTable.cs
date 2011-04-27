@@ -18,6 +18,8 @@ namespace Code2015.Logic
 
         public static int CityBallLimit { get; private set; }
         public static float CityMaxDevelopment { get; private set; }
+        public const float CityMaxHPScale = 2.5f;
+        public static float CityMinDevelopment = 100;
         /// <summary>
         ///  发展度的多少是最大生命
         /// </summary>

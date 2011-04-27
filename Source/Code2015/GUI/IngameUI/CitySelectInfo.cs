@@ -215,27 +215,30 @@ namespace Code2015.GUI.IngameUI
                     if (type == RBallType.Green)
                         resBallsCount[0].count++;
 
-
-                    if (type == RBallType.Education)
+                    if (!selectCity.IsDevFull)
                     {
-                        resBallsCount[1].count++;
-                        isExpBuffer = true;
+                        if (type == RBallType.Education)
+                        {
+                            resBallsCount[1].count++;
+                            isExpBuffer = true;
+                        }
+                        if (type == RBallType.Volience)
+                        {
+                            isExpBuffer = true;
+                        }
                     }
-                    if (type == RBallType.Volience) 
+                    if (!selectCity.IsMaxHealthFull || selectCity.HPRate < 1)
                     {
-                        isExpBuffer = true;
+                        if (type == RBallType.Health)
+                        {
+                            resBallsCount[2].count++;
+                            isHPBuffer = true;
+                        }
+                        if (type == RBallType.Disease)
+                        {
+                            isHPBuffer = true;
+                        }
                     }
-
-                    if (type == RBallType.Health)
-                    {
-                        resBallsCount[2].count++;
-                        isHPBuffer = true;
-                    }
-                    if (type == RBallType.Disease)
-                    {
-                        isHPBuffer = true;
-                    }
-
                 }
 
                 for (int i = 0; i < selectCity.NearbyEnemyBallCount; i++)

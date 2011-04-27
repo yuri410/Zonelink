@@ -240,15 +240,15 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (selCity.NearbyOwnedBallCount > 0)
                                 {
-                                    if (selCity.HasMultipleTypeRBalls())
+                                    //if (selCity.HasMultipleTypeRBalls())
                                     {
                                         isWaitingRBallSelect = true;
                                         sendBallSelect.Open(selCity, hoverCity);
                                     }
-                                    else
-                                    {
-                                        selCity.Throw(hoverCity);
-                                    }
+                                    //else
+                                    //{
+                                        //selCity.Throw(hoverCity);
+                                    //}
                                 }
                             }
                             if (selectionMarker.HasPath && selCity.NearbyOwnedBallCount > 0)
@@ -391,6 +391,7 @@ namespace Code2015.GUI.IngameUI
             }
             else
             {
+                UpdateScroll(time);
                 UpdateMouseCursorScene(time);
             }
             
@@ -398,8 +399,6 @@ namespace Code2015.GUI.IngameUI
         public override void Update(GameTime time)
         {
             base.Update(time);
-
-            UpdateScroll(time);
 
             selectionMarker.SelectedObject = picker.SelectedObject;
             selectionMarker.MouseHoverObject = picker.MouseHoverObject;
@@ -414,8 +413,20 @@ namespace Code2015.GUI.IngameUI
                 if (!sendBallSelect.IsOpened)
                 {
                     if (!sendBallSelect.IsCancelled)
-                        sendBallSelect.SourceCity.Throw(sendBallSelect.TargetCity, sendBallSelect.SelectedBallType);
-
+                    {
+                        if (sendBallSelect.IsAllSelected)
+                        {
+                            sendBallSelect.SourceCity.Throw(sendBallSelect.TargetCity);
+                        }
+                        else if (sendBallSelect.IsCountedThrow)
+                        {
+                            sendBallSelect.SourceCity.Throw(sendBallSelect.TargetCity, sendBallSelect.SelectedBallType, sendBallSelect.SelectedCount);
+                        }
+                        else
+                        {
+                            sendBallSelect.SourceCity.Throw(sendBallSelect.TargetCity, sendBallSelect.SelectedBallType);
+                        }
+                    }
                     isWaitingRBallSelect = false;
                 }
             }

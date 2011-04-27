@@ -366,7 +366,7 @@ namespace Code2015.World
             public float Damage;
             public float Contribution;
             public float Heal;
-
+            public float HealthIncr;
             public float MaxHealth;
             public float BaseMaxHealth;
         }
@@ -548,7 +548,7 @@ namespace Code2015.World
                         props.Contribution = RulesTable.DiseaseBallContribution;
                         props.Heal = RulesTable.DiseaseBallBaseHeal;
                         props.Damage = RulesTable.DiseaseBallBaseDamage;
-
+                        props.HealthIncr = 0.0015f;
                         break;
                     }
                 case RBallType.Health:
@@ -558,7 +558,7 @@ namespace Code2015.World
                         props.Contribution = RulesTable.HealthBallContribution;
                         props.Heal = RulesTable.HealthBallBaseHeal;
                         props.Damage = RulesTable.HealthBallBaseDamage;
-
+                        props.HealthIncr = 0.0015f;
                         break;
                     }
                 case RBallType.Education:
@@ -1056,7 +1056,7 @@ namespace Code2015.World
                         {
                             if (dockCity.Owner == Owner)
                             {
-                                dockCity.Heal(dt * props.Heal);
+                                dockCity.Heal(dt * props.Heal, props.HealthIncr * dt);
                                 dockCity.Develop(props.Contribution, dt);
                             }
                             else
