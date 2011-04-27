@@ -240,6 +240,8 @@ namespace Code2015.GUI
                         {
                             if (nigMenu.IsHidden)
                                 nigMenu.Show();
+
+                            //nigFail.Show();
                             //if (!exitConfirm.IsShown)
                             //{
                             //    exitConfirm.Show();

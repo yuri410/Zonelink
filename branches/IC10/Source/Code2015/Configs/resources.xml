@@ -315,7 +315,7 @@
         <Longitude>9</Longitude>
         <Latitude>21.30435</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>300</Amount>
         <Radius>2</Radius>
     </Resource52>
     <Resource53>
@@ -399,7 +399,7 @@
         <Longitude>-0.84375</Longitude>
         <Latitude>31.15942</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>300</Amount>
         <Radius>2</Radius>
     </Resource66>
     <Resource67>
@@ -574,7 +574,7 @@
         <Longitude>-9.28125</Longitude>
         <Latitude>22.75362</Latitude>
         <Type>Wood</Type>
-        <Amount>25</Amount>
+        <Amount>300</Amount>
         <Radius>2</Radius>
     </Resource92>
     <Resource93>

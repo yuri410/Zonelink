@@ -142,9 +142,10 @@ namespace Code2015.GUI.IngameUI
                 int x = 442;
                 int y = 164;
 
-
+                float scale = -MathEx.Sqr(MathEx.Saturate(showPrg) * 1.5f - 1) + 1;
+                scale = (1.0f / 0.75f) * scale;
                 Matrix trans = Matrix.Translation(-background.Width / 2, -background.Height / 2, 0) *
-                    Matrix.Scaling(showPrg * 0.8f + 0.2f, 1, 1) *
+                    Matrix.Scaling(scale, scale, 1) *
                     Matrix.Translation(x + background.Width / 2, y + background.Height / 2, 0);
 
                 sprite.SetTransform(trans);

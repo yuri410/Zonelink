@@ -1112,7 +1112,7 @@ namespace Code2015.World
                                 {
                                     float dmg = props.Damage;
                                     dockCity.Damage(dmg, Owner);
-                                    Damage(dmg * 0.005f);
+                                    Damage(dmg * 0.075f);
                                     weaponCoolDown = WeaponCoolDownTime;
                                 }
                             }
@@ -1181,7 +1181,7 @@ namespace Code2015.World
 
             
             if (dockCity != null &&
-                (state != RBallState.Gathered || state != RBallState.Gathering || state != RBallState.Free || state != RBallState.Float))
+                (state != RBallState.Gathered && state != RBallState.Gathering && state != RBallState.Free && state != RBallState.Float))
             {
 
                 // 攻击
