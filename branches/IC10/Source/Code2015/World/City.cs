@@ -79,6 +79,9 @@ namespace Code2015.World
             public bool isTypedThrow;
 
             public List<City> throwPath;
+
+            public bool isCountedThrow;
+            public int throwCount;
         }
         //struct Yangbing
         //{
@@ -133,7 +136,7 @@ namespace Code2015.World
 
         CityType cityType;
 
-
+        #region Word
         bool isWordPlaying;
         WordType wordType;
         float wordPlayProgress;
@@ -141,6 +144,9 @@ namespace Code2015.World
         Model[] happyWords;
         Model ouchWord;
         Model levelUpWord;
+        #endregion
+
+        float cityHpScale = 1;
 
         int lastLevel;
 
@@ -240,7 +246,10 @@ namespace Code2015.World
 
         public float HealthValue { get { return healthValue; } }
 
-
+        public float CurrentMaxHealth
+        {
+            get { return development * RulesTable.CityDevHealthRate * cityHpScale; }
+        }
         /// <summary>
         ///  获取城市的发展等级
         /// </summary>
@@ -275,7 +284,7 @@ namespace Code2015.World
 
         public float HPRate
         {
-            get { return healthValue / (development * RulesTable.CityDevHealthRate); }
+            get { return healthValue / CurrentMaxHealth; }
         }
 
 
@@ -951,6 +960,14 @@ namespace Code2015.World
             float db = Vector3.DistanceSquared(b.Position, this.Position);
             return da.CompareTo(db);
         }
+        public bool IsDevFull 
+        {
+            get { return development >= RulesTable.CityMaxDevelopment; }
+        }
+        public bool IsMaxHealthFull
+        {
+            get { return development >= RulesTable.CityMaxDevelopment - float.Epsilon || cityHpScale >= RulesTable.CityMaxHPScale - float.Epsilon; }
+        }
 
         /// <summary>
         ///  城市自然发展。根据dt，增加发展量
@@ -963,7 +980,7 @@ namespace Code2015.World
             development += dt * GetDevelopmentStep();
             if (development > RulesTable.CityMaxDevelopment)
                 development = RulesTable.CityMaxDevelopment;
-            healthValue = healthRate * this.Development * RulesTable.CityDevHealthRate;
+            healthValue = CurrentMaxHealth * healthRate;
         }
         public void Develop(float amount, float dt)
         {
@@ -973,7 +990,12 @@ namespace Code2015.World
             development += amount * dt;
             if (development > RulesTable.CityMaxDevelopment)
                 development = RulesTable.CityMaxDevelopment;
-            healthValue = healthRate * development * RulesTable.CityDevHealthRate;
+
+            if (development < RulesTable.CityMinDevelopment)
+                development = RulesTable.CityMinDevelopment;
+            
+            healthValue = CurrentMaxHealth * healthRate;
+
         }
 
         public void Damage(float v, Player owener)
@@ -981,15 +1003,18 @@ namespace Code2015.World
             healthValue -= v * RulesTable.CityArmor;
             if (healthValue < 0)
             {
-                healthValue = development * RulesTable.CityDevHealthRate;
+                healthValue = CurrentMaxHealth;
                 ChangeOwner(owener);
             }
         }
-        public void Heal(float v)
+        public void Heal(float v, float ratioIncr)
         {
             healthValue += v;
-            if (healthValue > development * RulesTable.CityDevHealthRate)
-                healthValue = development * RulesTable.CityDevHealthRate;
+            if (healthValue > CurrentMaxHealth)
+                healthValue = CurrentMaxHealth;
+            cityHpScale += ratioIncr;
+            if (cityHpScale > RulesTable.CityMaxHPScale)
+                cityHpScale = RulesTable.CityMaxHPScale;
         }
 
         void RefreshNearbyBalls()
@@ -1136,7 +1161,7 @@ namespace Code2015.World
             linkableCityName = sect.GetStringArray("Linkable", null);
 
             development = sect.GetSingle("InitialDevelopment", RulesTable.CityInitialDevelopment);
-            healthValue = development * RulesTable.CityDevHealthRate;
+            healthValue = CurrentMaxHealth;
 
 
 
@@ -1418,11 +1443,24 @@ namespace Code2015.World
             List<RBall> toThrow = new List<RBall>(nearbyBallList.Count);
             if (task.isTypedThrow)
             {
-                for (int i = 0; i < nearbyBallList.Count; i++)
+                if (task.isCountedThrow)
                 {
-                    if (CheckBallThrowable(nearbyBallList[i]) && nearbyBallList[i].Type == task.typeToThrow)
+                    for (int i = 0; i < nearbyBallList.Count && toThrow.Count < task.throwCount; i++)
                     {
-                        toThrow.Add(nearbyBallList[i]);
+                        if (CheckBallThrowable(nearbyBallList[i]) && nearbyBallList[i].Type == task.typeToThrow)
+                        {
+                            toThrow.Add(nearbyBallList[i]);
+                        }
+                    }
+                }
+                else
+                {
+                    for (int i = 0; i < nearbyBallList.Count; i++)
+                    {
+                        if (CheckBallThrowable(nearbyBallList[i]) && nearbyBallList[i].Type == task.typeToThrow)
+                        {
+                            toThrow.Add(nearbyBallList[i]);
+                        }
                     }
                 }
             }
@@ -1467,7 +1505,6 @@ namespace Code2015.World
             throwPathCont = null;
             ChangeState(CityState.WaitingGather);
         }
-
         /// <summary>
         ///  人类直接命令发球
         /// </summary>
@@ -1475,7 +1512,7 @@ namespace Code2015.World
         public bool Throw(City target)
         {
             //if (!CanHandleCommand())
-                //return false;
+            //return false;
 
             for (int i = 0; i < throwQueue.Count; i++)
             {
@@ -1519,6 +1556,57 @@ namespace Code2015.World
         ///  人类直接命令发球
         /// </summary>
         /// <param name="target"></param>
+        public bool Throw(City target, RBallType type, int count)
+        {
+            //if (!CanHandleCommand())
+            //return false;
+
+            for (int i = 0; i < throwQueue.Count; i++)
+            {
+                ThrowTask tt = throwQueue.GetElement(i);
+                if (tt.isTypedThrow && tt.typeToThrow == type &&
+                    tt.throwPath[tt.throwPath.Count - 1] == target)
+                {
+                    return false;
+                }
+            }
+            //CancelCurrentCommand();
+
+            //reThrowDelay = 0;
+            //throwRgball = null;
+            battleField.BallPathFinder.Reset();
+            BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
+
+            if (result != null)
+            {
+                List<City> throwPath = new List<City>(result.NodeCount);
+                for (int i = 0; i < result.NodeCount; i++)
+                {
+                    throwPath.Add(result[i]);
+                }
+
+                //Quaternion targetRot = GetOrientation(result[0].Position);
+
+                //RotateTo(targetRot, 0.5f);
+                //SetRotationPurpose(CityRotationPurpose.Throw);
+
+                ThrowTask tt;
+                tt.isTypedThrow = true;
+                tt.throwPath = throwPath;
+                tt.typeToThrow = type;
+                tt.isCountedThrow = true;
+                tt.throwCount = count;
+                throwQueue.Enqueue(tt);
+                return true;
+            }
+            return false;
+        }
+
+
+        /// <summary>
+        ///  人类直接命令发球
+        /// </summary>
+        /// <param name="target"></param>
         public bool Throw(City target, RBallType type)
         {
             //if (!CanHandleCommand())
@@ -1556,6 +1644,8 @@ namespace Code2015.World
                 ThrowTask tt;
                 tt.isTypedThrow = true;
                 tt.throwPath = throwPath;
+                tt.throwCount = 0;
+                tt.isCountedThrow = false;
                 tt.typeToThrow = type;
                 throwQueue.Enqueue(tt);
                 return true;

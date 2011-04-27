@@ -53,6 +53,7 @@ namespace Code2015.GUI.IngameUI
         {
             public RBallType Type;
             public int count;
+            public float selectedCount;
         }
         private static int BallRecordCompare(BallRecord a, BallRecord b)
         {
@@ -73,16 +74,35 @@ namespace Code2015.GUI.IngameUI
         /// 2 代表第3个框
         /// </summary>
         RBallType[] resBallsItemType = new RBallType[3];
+        int[] resBallItemSelectedCount = new int[3];
         int[] resBallItemCount = new int[3];
 
         RBallType selectedBallType;
+        int selectedCount;
+        bool isAllSelected;
 
         City targetCity;
         City sourceCity;
 
+
         bool isCancelled;
         int selectedIndex;
+        bool isCountedThrow;
 
+        bool isOpeningClicked;
+
+        public bool IsAllSelected
+        {
+            get { return isAllSelected; }
+        }
+        public bool IsCountedThrow 
+        {
+            get { return isCountedThrow; }
+        }
+        public int SelectedCount
+        {
+            get { return selectedCount; }
+        }
         public bool IsCancelled
         {
             get { return isCancelled; }
@@ -165,14 +185,14 @@ namespace Code2015.GUI.IngameUI
 
         public void Open(City souceCity, City targetCity)
         {
+            isAllSelected = false;
             isCancelled = true;
+            isOpeningClicked = false;
+            isCountedThrow = false;
             this.sourceCity = souceCity;
             this.targetCity = targetCity;
-
-            resBallsCount[0].count = 0;
-            resBallsCount[1].count = 0;
-            resBallsCount[2].count = 0;
-
+            
+            StatisticRBall(true);
             ChangeState(State.Opening);
         }
         public void Close()
@@ -186,7 +206,7 @@ namespace Code2015.GUI.IngameUI
 
         public override bool HitTest(int x, int y)
         {
-            if (state == State.Opened)
+            if (state != State.Close)
             {
                 return true;
             }
@@ -209,7 +229,7 @@ namespace Code2015.GUI.IngameUI
 
             if (state == State.Opened)
             {
-                StatisticRBall();
+                StatisticRBall(false);
             }
             if (state == State.Opening)
             {
@@ -253,9 +273,15 @@ namespace Code2015.GUI.IngameUI
                 {
                     if (selectedIndex != -1)
                     {
-                        if (resBallItemCount[selectedIndex] != 0)
+                        if (resBallItemSelectedCount[selectedIndex] != 0)
                         {
                             selectedBallType = resBallsItemType[selectedIndex];
+
+                            if (resBallItemSelectedCount[selectedIndex] != resBallItemCount[selectedIndex])
+                            {
+                                selectedCount = resBallItemSelectedCount[selectedIndex];
+                                isCountedThrow = true;
+                            }
                             isCancelled = false;
                         }
 
@@ -265,30 +291,62 @@ namespace Code2015.GUI.IngameUI
 
                     Close();
                 }
-            }
+                
 
+            }
+            else if (state == State.Opening) 
+            {
+                if (MouseInput.IsMouseDownRight)
+                {
+                    isOpeningClicked = true;
+                }
+                if (MouseInput.IsMouseUpRight && isOpeningClicked) 
+                {
+                    isAllSelected = true;
+                    isCancelled = false;
+                    Close();
+                }
+            }
         }
 
-        private void StatisticRBall()
+        private void StatisticRBall(bool firstTime)
         {
             if (targetCity != null)
             {
                 resBallsCount[0].count = 0;
                 resBallsCount[1].count = 0;
                 resBallsCount[2].count = 0;
-
+                if (firstTime)
+                {
+                    resBallsCount[0].selectedCount = 0;
+                    resBallsCount[1].selectedCount = 0;
+                    resBallsCount[2].selectedCount = 0;
+                }
                 for (int i = 0; i < sourceCity.NearbyOwnedBallCount; i++)
                 {
                     if (sourceCity.GetNearbyOwnedBall(i).Type == RBallType.Green)
+                    {
                         resBallsCount[0].count++;
-
+                        if (firstTime)
+                            resBallsCount[0].selectedCount++;
+                    }
 
                     if (sourceCity.GetNearbyOwnedBall(i).Type == RBallType.Education)
+                    {
                         resBallsCount[1].count++;
+                        if (firstTime)
+                            resBallsCount[1].selectedCount++;
+                    }
 
                     if (sourceCity.GetNearbyOwnedBall(i).Type == RBallType.Health)
+                    {
                         resBallsCount[2].count++;
+                        if (firstTime)
+                            resBallsCount[2].selectedCount++;
+                    }
                 }
+
+
             }
 
 
@@ -369,7 +427,22 @@ namespace Code2015.GUI.IngameUI
         }
 
 
+        void UpdateSelCount(int order, int i)
+        {
+            if (selectedIndex == order)
+            {
+                float s = MouseInput.DScrollWheelValue;
 
+                resBallsCount[i].selectedCount += (s * 0.02f);
+
+                if (resBallsCount[i].selectedCount < 0)
+                    resBallsCount[i].selectedCount = 0;
+                if (resBallsCount[i].selectedCount > resBallsCount[i].count)
+                {
+                    resBallsCount[i].selectedCount = resBallsCount[i].count;
+                }
+            }
+        }
 
         int[] startY = new int[3] { 50, 111, 170 }; //各个资源球框的位置
         int[] countStartY = new int[3] { 9, 20, 27 };
@@ -381,6 +454,9 @@ namespace Code2015.GUI.IngameUI
             {
                 //Array.Sort(resBallsCount, BallRecordCompare);
 
+                resBallItemSelectedCount[0] = 0;
+                resBallItemSelectedCount[1] = 0;
+                resBallItemSelectedCount[2] = 0;
                 resBallItemCount[0] = 0;
                 resBallItemCount[1] = 0;
                 resBallItemCount[2] = 0;
@@ -397,17 +473,21 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
+                                    UpdateSelCount(order, i);
+
+
                                     resBallsItemType[order] = RBallType.Green;
+                                    resBallItemSelectedCount[order] = (int)resBallsCount[i].selectedCount;
                                     resBallItemCount[order] = resBallsCount[i].count;
+
                                     int x = 82 - greenBallBtn.Width / 2;
                                     int y = startY[order] - greenBallBtn.Height / 2;
 
                                     sprite.Draw(greenBallBtn, x, y, ColorValue.White);
 
-                                    string count = resBallsCount[i].count.ToString();
+                                    string count = ((int)resBallsCount[i].selectedCount).ToString();
 
                                     f8.DrawString(sprite, count.ToString(), x + countStartX[order], y + countStartY[order], ColorValue.White);
-
 
                                     order++;
                                 }
@@ -418,15 +498,20 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
+                                    UpdateSelCount(order, i);
+
+
                                     resBallsItemType[order] = RBallType.Education;
+                                    resBallItemSelectedCount[order] = (int)resBallsCount[i].selectedCount;
                                     resBallItemCount[order] = resBallsCount[i].count;
+                                    
                                     int x = 88 - educationBallBtn.Width / 2;
                                     int y = startY[order] - educationBallBtn.Height / 2;
 
                                     sprite.Draw(educationBallBtn, x, y, ColorValue.White);
 
 
-                                    string count = resBallsCount[i].count.ToString();
+                                    string count = ((int)resBallsCount[i].selectedCount).ToString();
 
                                     f8.DrawString(sprite, count.ToString(), x + countStartX[order], y + countStartY[order], ColorValue.White);
 
@@ -440,15 +525,20 @@ namespace Code2015.GUI.IngameUI
                             {
                                 if (resBallsCount[i].count != 0)
                                 {
+                                    UpdateSelCount(order, i);
+
+
                                     resBallsItemType[order] = RBallType.Health;
+                                    resBallItemSelectedCount[order] = (int)resBallsCount[i].selectedCount;
                                     resBallItemCount[order] = resBallsCount[i].count;
+                                    
                                     int x = 88 - healthBallBtn.Width / 2;
                                     int y = startY[order] - healthBallBtn.Height / 2;
 
 
                                     sprite.Draw(healthBallBtn, x, y, ColorValue.White);
 
-                                    string count = resBallsCount[i].count.ToString();
+                                    string count = ((int)resBallsCount[i].selectedCount).ToString();
 
                                     f8.DrawString(sprite, count.ToString(), x + countStartX[order], y + countStartY[order], ColorValue.White);
 

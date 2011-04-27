@@ -341,7 +341,7 @@ namespace Code2015.World
         }
         public override bool IsFull()
         {
-            return nearbyBallList.Count >= RulesTable.CityBallLimit;
+            return NearbyOwnedBallCount >= RulesTable.CityBallLimit;
         }
         public override void Update(GameTime gameTime)
         {
@@ -442,7 +442,11 @@ namespace Code2015.World
 
             }
         }
-        
+
+        public override bool IsFull()
+        {
+            return NearbyOwnedBallCount >= RulesTable.CityBallLimit;            
+        }
         public override void Update(GameTime dt)
         {
             base.Update(dt);
