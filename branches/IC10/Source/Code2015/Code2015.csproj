@@ -467,7 +467,6 @@
     <Compile Include="Logic\Player.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Program.cs" />
-    <Compile Include="World\Atmosphere.cs" />
     <Compile Include="EngineEx\GameConfigurationSection.cs" />
     <Compile Include="Logic\GameState.cs" />
     <Compile Include="World\Harvester.cs" />

@@ -151,6 +151,7 @@ namespace Code2015.GUI.IngameUI
                 sprite.Draw(background, 0, 0, ColorValue.White);
                 sprite.SetTransform(Matrix.Identity);
 
+
             }
             if (state == NIGDialogState.Showing)
             {
@@ -160,6 +161,8 @@ namespace Code2015.GUI.IngameUI
                 {
                     sprite.Draw(okButton.Image, okButton.X, okButton.Y - 4, ColorValue.White);
                 }
+
+                GameFontManager.Instance.FRuanEdged8.DrawString(sprite, "HELP 15 CITIES.\nYOU MUST SURVIVE.", 540, 240, ColorValue.White);
             }
         }
     }

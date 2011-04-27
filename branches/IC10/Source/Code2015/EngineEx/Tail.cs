@@ -92,15 +92,15 @@ namespace Code2015.EngineEx
             geoData.VertexBuffer = m_vtxBuffer;
             geoData.IndexBuffer = m_idxBuffer;
             geoData.VertexDeclaration = m_vtxDecl;
-            geoData.PrimitiveType = RenderPrimitiveType.LineStrip;
+            geoData.PrimitiveType = RenderPrimitiveType.TriangleStrip;
         }
 
         public RenderOperation[] GetRenderOperation()
         {
             if (m_currentLength >= 2)
             {
-                geoData.VertexCount = m_currentLength * 2;
-                geoData.PrimCount = m_currentLength * 2 - 1;// m_currentLength * 2 - 2;
+                //geoData.VertexCount = m_currentLength * 2;
+                geoData.PrimCount = m_currentLength * 2 - 2;
                 return opBuffer;
             }
             return null;

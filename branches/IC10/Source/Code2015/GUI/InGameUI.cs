@@ -109,7 +109,8 @@ namespace Code2015.GUI
         Quest quest;
 
         Player player;
-
+        bool isColorShowed;
+        bool isQuestShowed;
 
         public InGameUI(Code2015 game, Game parent, GameScene scene, GameState gamelogic)
         {
@@ -163,12 +164,15 @@ namespace Code2015.GUI
             nigColor = new NIGColor(game, parent, scene, gamelogic);
             AddElement(nigColor);
 
+            rankInfo = new RankInfo(game, parent, scene, gamelogic);
+            AddElement(rankInfo);
+
             selectionMarker = new SelectionMarker(renderSys, gamelogic.Field, player);
             scene.Scene.AddObjectToScene(selectionMarker);
 
 
             layeredCursor = new Cursor(game, parent, scene, gamelogic, picker, cityStatusInfo, objectStatusInfo,
-                                           sendBallSelect,  miniMap, selectionMarker);
+                                           sendBallSelect,  miniMap, selectionMarker, rankInfo);
             AddElement(layeredCursor);
 
 
@@ -177,9 +181,6 @@ namespace Code2015.GUI
 
             quest = new Quest(game, parent, scene, gamelogic);
             AddElement(quest);
-
-            rankInfo = new RankInfo(game, parent, scene, gamelogic);
-            AddElement(rankInfo);
 
             
         }
@@ -218,6 +219,18 @@ namespace Code2015.GUI
             {
                 if (parent.IsLoaded)
                 {
+                    
+                    if (!isQuestShowed )
+                    {
+                        nigObjective.Show();
+                        isQuestShowed = true;
+                    }
+                    if (!isColorShowed && nigObjective.IsHidden)
+                    {
+                        nigColor.Show();
+                        isColorShowed = true;
+                    }
+
                     XI.KeyboardState keyState = XI.Keyboard.GetState();
 
                     if (!isEscPressed)

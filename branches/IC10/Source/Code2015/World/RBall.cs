@@ -458,9 +458,9 @@ namespace Code2015.World
         #endregion
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
-        Tail tail;
-        Material redTail;
-        Material greenTail;
+        Model red_tail;
+        Model green_tail;
+        
 
         float refrenceLinSpeed;
 
@@ -645,33 +645,15 @@ namespace Code2015.World
 
             UpdateDisplayScale();
 
+            fl = FileSystem.Instance.Locate("rball_tail_red.mesh", GameFileLocs.Model);
+            red_tail = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            red_tail.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.RotationX(-MathEx.PiOver2) ));
 
+            fl = FileSystem.Instance.Locate("rball_tail_green.mesh", GameFileLocs.Model);
+            green_tail = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            green_tail.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.RotationX(-MathEx.PiOver2)));
 
-            fl = FileSystem.Instance.Locate("tail_red.tex", GameFileLocs.Texture);
-            redTail = new Material(rs);
-            redTail.CullMode = CullMode.None;
-            redTail.ZEnabled = false;
-            redTail.ZWriteEnabled = false;
-            redTail.SetEffect(EffectManager.Instance.GetModelEffect(TailEffectFactory.Name));
-            redTail.IsTransparent = false;
-            redTail.PriorityHint = RenderPriority.Last;
-            redTail.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
-
-            fl = FileSystem.Instance.Locate("tail_green.tex", GameFileLocs.Texture);
-            greenTail = new Material(rs);
-            greenTail.CullMode = CullMode.None;
-            greenTail.ZEnabled = false;
-            greenTail.ZWriteEnabled = false;
-            greenTail.SetEffect(EffectManager.Instance.GetModelEffect(TailEffectFactory.Name));
-            greenTail.IsTransparent = false;
-            greenTail.PriorityHint = RenderPriority.Last;
-            greenTail.SetTexture(0, TextureManager.Instance.CreateInstance(fl));
-
-            tail = new Tail(rs, 10, 2, redTail);
-
-
-
-            soundObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("rball_die", null, 1000);
+            soundObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("rball_die", null, 1800);
         }
 
         public void Damage(float v)
@@ -908,7 +890,7 @@ namespace Code2015.World
             CalculateRoundTransform(CityAttackRadius, true, out targetPos, out dockOri);
             NewMove(targetPos);
 
-            tail.Reset();
+            //tail.Reset();
             ChangeState(RBallState.BeginingAttackCity);            
         }
         public void Float(City target) 
@@ -959,47 +941,71 @@ namespace Code2015.World
         }
         public override RenderOperation[] GetRenderOperation()
         {
-            opBuffer.FastClear();
-            
-            RenderOperation[] ops = base.GetRenderOperation();
-            if (ops != null)
+            if (state != RBallState.AttackCity || (state == RBallState.AttackCity && speedModifier < AttackCitySpeedMod - 0.1f))
             {
-                for (int i = 0; i < ops.Length; i++)
+                RenderOperation[] ops = base.GetRenderOperation();
+                if (ops != null)
                 {
-                    ops[i].Transformation = displayScale * ops[i].Transformation;
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Transformation = displayScale * ops[i].Transformation;
+                    }
                 }
-                opBuffer.Add(ops);
+
+                return ops;
             }
-            if (state == RBallState.AttackCity)
             {
+
+                opBuffer.FastClear();
+                RenderOperation[] ops = base.GetRenderOperation();
+                if (ops != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Transformation = displayScale * ops[i].Transformation;
+                    }
+                    opBuffer.Add(ops);
+                }
+
+
+                Matrix trans = Transformation;
+                trans.TranslationValue = dockCity.Position + Transformation.Up * currentHeight;
+
+
+                Matrix invTrans = Transformation;
+                invTrans.Invert();
+
+                Matrix.Multiply(ref  trans, ref invTrans, out trans);
+
                 if (dockCity.Owner == null)
                 {
-                    ops = tail.GetRenderOperation();
+                    ops = green_tail.GetRenderOperation();
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Transformation = trans * ops[i].Transformation;
+                    } 
                     if (ops != null)
                     {
-                        for (int i = 0; i < ops.Length; i++)
-                        {
-                            ops[i].Material = greenTail;
-                        }
                         opBuffer.Add(ops);
                     }
                 }
                 else
                 {
-                    ops = tail.GetRenderOperation();
+                    ops = red_tail.GetRenderOperation();
                     if (ops != null)
                     {
                         for (int i = 0; i < ops.Length; i++)
                         {
-                            ops[i].Material = redTail;
-                        }
+                            ops[i].Transformation = trans * ops[i].Transformation;
+                        } 
                         opBuffer.Add(ops);
                     }
                 }
-            }
 
-            opBuffer.Trim();
-            return opBuffer.Elements;
+
+                opBuffer.Trim();
+                return opBuffer.Elements;
+            }
         }
         public override RenderOperation[] GetRenderOperation(int level)
         {
@@ -1098,7 +1104,7 @@ namespace Code2015.World
                             CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
                             Position = pos;
 
-                            tail.Update(gameTime, position, orientation.Forward);
+                            //tail.Update(gameTime, position, orientation.Forward);
 
                             if (speedModifier >= AttackCitySpeedMod - 0.5f)
                             {
@@ -1125,7 +1131,7 @@ namespace Code2015.World
                                 CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
                                 Position = pos;
 
-                                tail.Update(gameTime, position, orientation.Forward);
+                                    //tail.Update(gameTime, position, orientation.Forward);
                                 speedModifierTarget = MinSpeedMod;
                             }
                         }

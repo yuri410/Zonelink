@@ -1,13 +1,39 @@
+#include "ShadowMapping.psh"
 
-sampler2D Sampler: register(s0);
+sampler2D texDif : register(s0);
+float4 k_d : register(c0);
+float4 k_a : register(c1);
+float4 k_e : register(c3);
 
-struct PS_Input
+float4 i_a : register(c5);
+float4 i_d : register(c6);
+float3 lightDir : register(c8);
+
+struct PSInput
 {
-	float2 TexCoord : TEXCOORD0;
-	float4 Color : COLOR0;
+    float2 TexCoord : TEXCOORD0;
+    
 };
 
-float4 main(PS_Input input) : COLOR0
+struct PSOutput
 {
-    return tex2D(Sampler, input.TexCoord) * float4(0.1,0.1,0.1,1);
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+	float4 amb = i_a * k_a;
+	float4 dif = i_d * k_d;
+	
+	
+	float4 p = amb+dif+k_e;
+	p.a = saturate(p.a);
+	
+    o.Color = tex2D(texDif, ip.TexCoord) * p;
+    
+    
+  
+    return o;
 }
