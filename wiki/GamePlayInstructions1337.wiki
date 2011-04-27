@@ -11,29 +11,29 @@ We use cartoon and lively characters to represent those seven types city. Now, w
 ==The Protectors==
 1.	City of Green
 
-http://lrvbsvnicg.googlecode.com/files/con_virus.png
+http://lrvbsvnicg.googlecode.com/files/con_green.png
 City of green produces high-tech and green energy, controlled by you. This type city produces green resource balls which can change bad cities to your side and protect them from The Ruiners.
 
 2.	City of Scholarship
-
+http://lrvbsvnicg.googlecode.com/files/con_school.png
 City of Scholarship has a good development of education, produces educational resource ball. This type ball can accelerate city’s development level. When transferred to city of bad side, it decreases that city’s development level.
 
 3.	City of Health
-
+http://lrvbsvnicg.googlecode.com/files/con_health.png
 City of health has advanced medical facilities, produces medical resource ball. This type ball can heal a city quickly. 
 
 ==The Ruiners==
 4.	Oil City
-
+http://lrvbsvnicg.googlecode.com/files/con_oil.png
 Oil city is opposite to green city, represents cities produce polluting energy. This type city produces oil element ball which can make other city polluted.
 
 5.	Violence City
-
+http://lrvbsvnicg.googlecode.com/files/con_vil.png
 Violence city is opposite to education city, represents cities produce insecure and violence. This type city produces violence element ball which can slow down The Protectors' city’s development level.
 Make own bad cities more bad.
 
 6.	Disease City
-
+http://lrvbsvnicg.googlecode.com/files/con_disease.png
 Disease city is opposite to healthy city and infected by the virus, represents cites produce disease element ball which heal The Ruiners' cities.
 
 ==Neutral==
