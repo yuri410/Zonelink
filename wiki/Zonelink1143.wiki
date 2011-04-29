@@ -1,13 +1,15 @@
-#summary One-sentence summary of this page.
+#summary ZoneLink ver1143, Imagine Cup 2010 Game Design Round 2.
 
-= Introduction =
+ZoneLink is a game about developing cities and upgrading cities. With the aim of making your city developing more efficient and archiving the MDG, you need to use smart strategies to link cities and upgrade cities while competing with other three players. By blending realtime strategy and puzzle game elements together, ZoneLink offers a unique and fun gameplay that challenges the player to keep a sharp mind in building accessories and react quickly in allocation of goal pieces.
 
-Add your content here.
+Game download:
+http://lrvbsvnicg.googlecode.com/files/zonelink1143.exe
+
+Game video:
 
 
-= Details =
+Some screenshots:
 
-Add your content here.  Format your content with:
-  * Text in *bold* or _italic_
-  * Headings, paragraphs, and lists
-  * Automatic links to other wiki pages
+http://lrvbsvnicg.googlecode.com/files/screen2.png
+
+http://lrvbsvnicg.googlecode.com/files/screen4.png
