@@ -1,0 +1,65 @@
+//  SobelX       SobelY
+//  1  0 -1      1  2  1
+//  2  0 -2      0  0  0
+//  1  0 -1     -1 -2 -1
+
+sampler2D samNormalBuffer : register(s0);
+sampler2D colorTex : register(s1);
+
+float2 normalBufferSize : register(c0);
+
+struct PSInput
+{
+	float2 TexCoord : TEXCOORD0;
+};
+
+
+float3 getNormal(float2 texc)
+{
+    float2 nxy = 2*tex2D(samNormalBuffer, texc).rg - 1;
+    
+    return (float3(nxy, sqrt(1-dot(nxy, nxy)) )+1) * 0.5;
+}
+
+float4 main(PSInput ip) : COLOR
+{
+	float offX = 1.0 / normalBufferSize.x;
+	float offY = 1.0 / normalBufferSize.y;
+
+	float3 s[3][3];
+	
+	float2 s00 = float2(ip.TexCoord.x - offX, ip.TexCoord.y - offY);
+	float2 s01 = float2(ip.TexCoord.x,        ip.TexCoord.y - offY);
+	
+	float2 s02 = float2(ip.TexCoord.x + offX, ip.TexCoord.y - offY);
+	float2 s10 = float2(ip.TexCoord.x - offX, ip.TexCoord.y);
+	
+	float2 s12 = float2(ip.TexCoord.x + offX, ip.TexCoord.y);
+	float2 s20 = float2(ip.TexCoord.x - offX, ip.TexCoord.y + offY);
+	
+	float2 s21 = float2(ip.TexCoord.x,        ip.TexCoord.y + offY);
+	float2 s22 = float2(ip.TexCoord.x + offX, ip.TexCoord.y + offY);
+	
+	
+	s[0][0] = getNormal(s00);
+	s[0][1] = getNormal(s01);
+	s[0][2] = getNormal(s02);
+	s[1][0] = getNormal(s10);
+	s[1][2] = getNormal(s12);
+	s[2][0] = getNormal(s20);
+	s[2][1] = getNormal(s21);
+	s[2][2] = getNormal(s22);
+
+	// Sobel filter in X direction
+	float3 sobelX = s[0][0] + 2 * s[1][0] + s[2][0] - s[0][2] - 2 * s[1][2] - s[2][2];
+	// Sobel filter in Y direction
+	float3 sobelY = s[0][0] + 2 * s[0][1] + s[0][2] - s[2][0] - 2 * s[2][1] - s[2][2];
+
+	// Find edge
+	float3 edgeSqr = (sobelX * sobelX + sobelY * sobelY);
+  	float value = dot(edgeSqr, float3(1,1,1));
+  	
+	
+	float4 color = tex2D(colorTex, ip.TexCoord);
+	return lerp( color, float4(0,0,0, 1), saturate(value * 0.1));
+}

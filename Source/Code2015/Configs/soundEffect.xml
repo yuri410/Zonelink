@@ -1,0 +1,191 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<soundEffect>  
+  <!--City-->
+  <city> 
+    <Control>Loop, Random</Control>
+    <Type>World</Type>
+    <Fadein>sfx-cityin</Fadein>
+    <Medium>sfx-city1,sfx-city2,sfx-city3,sfx-city4</Medium>
+    <Fadeout>sfx-cityout</Fadeout>
+    <Volume>0.6</Volume>
+  </city>
+  
+  <!--Forest-->
+  <forest>
+    <Control>Loop, Random</Control>
+    <Type>World</Type>
+    <Fadein>sfx-forestin</Fadein>
+    <Medium>a_forest1,a_forest2,a_forest3</Medium>
+    <Fadeout>sfx-forestout</Fadeout>
+    <Volume>0.8</Volume>
+  </forest>
+  
+  <!--bird-->
+  <bird>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>birda1,birda2,birda3,birda4,birda5,birda6,birda7,birda8,birda9,birdb1,birdb2,birdb3</Sounds>
+    <Volume>0.1</Volume>
+    <Probability>0.005</Probability>
+  </bird>
+
+ 
+ 
+
+  <!--Oil-->
+  <oil>
+    <Control>Loop, Random</Control>
+    <Type>World</Type>
+    <Fadein>oil1</Fadein>
+    <Medium>oil2a,oil2b,oil2c</Medium>
+    <Fadeout>oil3</Fadeout>
+    <Volume>0.4</Volume>
+  </oil>
+  
+  <!--River-->
+  <river>
+    <Control>Loop, Random</Control>
+    <Type>World</Type>
+    <Fadein>sfx-waterin</Fadein>
+    <Medium>sfx-water1, sfx-water2, sfx-water3</Medium>
+    <Fadeout>sfx-waterout</Fadeout>
+    <Volume>0.5</Volume>
+  </river>
+  
+  <!--Sea-->
+  <sea>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>waterb1, waterb2, waterb3</Sounds>
+    <Probability>0.001</Probability>
+  </sea>
+  
+  <!--Wind-->
+  <wind>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>wind1a,wind1b,wind1c,wind1d,wind2a,wind2b,wind2c,wind2d</Sounds>
+    <Volume>0.6</Volume>
+  </wind>
+  
+  <wolf>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>wolf1,wolf2,wolf3,wolf4,wolf5</Sounds>
+    <Probability>0.001</Probability>
+  </wolf>
+  <wuya>
+    <Control>Random, Ambient</Control>
+    <Type>World</Type>
+    <Sounds>wuya1, wuya2</Sounds>
+    <Probability>0.0001</Probability>
+    <Volume>0.05</Volume>
+  </wuya>
+  <buttonhover>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>bubble</Sounds>
+    
+    <Volume>0.5</Volume>
+  </buttonhover>
+  <buttondown>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>mousedown</Sounds>
+
+    <Volume>0.3</Volume>
+  </buttondown>
+  <buildup>
+    <Control>None</Control>
+    <Type>Normal</Type>
+    <Sounds>buildup</Sounds>
+
+    <Volume>0.4</Volume>
+  </buildup>
+
+  <catch>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>catch, catch2</Sounds>
+    <Volume>0.4</Volume>
+  </catch>
+  <throw>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>throw, throw2</Sounds>
+    <Volume>0.4</Volume>
+  </throw>
+
+
+  <green_laugh>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>green_laugh1, green_laugh2</Sounds>
+    <Volume>0.4</Volume>
+  </green_laugh>
+  <volience_laugh>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>volience_laugh</Sounds>
+    <Volume>0.4</Volume>
+  </volience_laugh>
+  <oil_laugh>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>oil_laugh</Sounds>
+    <Volume>0.4</Volume>
+  </oil_laugh>
+  <hosp_laugh>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>hosp_laugh</Sounds>
+    <Volume>0.4</Volume>
+  </hosp_laugh>
+  
+  <hosp_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>hosp_fear</Sounds>
+    <Volume>0.4</Volume>
+  </hosp_fear>
+  <oil_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>oil_fear</Sounds>
+    <Volume>0.4</Volume>
+  </oil_fear>
+  <volience_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>volience_fear</Sounds>
+    <Volume>0.4</Volume>
+  </volience_fear>
+  <neutral_fear>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>neutral_fear</Sounds>
+    <Volume>0.4</Volume>
+  </neutral_fear>
+  
+  <pop>
+    <Control>None</Control>
+    <Type>World</Type>
+    <Sounds>pop</Sounds>
+    <Volume>0.4</Volume>
+  </pop>
+  <rball_die>
+    <Control>Random</Control>
+    <Type>World</Type>
+    <Sounds>rball_die, rballdie2, rballdie3</Sounds>
+    <Volume>0.2</Volume>
+  </rball_die>
+  <snore>
+    <Control>Loop</Control>
+    <Type>World</Type>
+    <Fadein>dummy</Fadein>
+    <Medium>snore</Medium>
+    <Fadeout>dummy</Fadeout>
+    <Volume>0.4</Volume>
+  </snore>
+</soundEffect>

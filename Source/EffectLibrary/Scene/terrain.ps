@@ -1,0 +1,115 @@
+#include "waterDepth.psh"
+#include "ShadowMapping.psh"
+#include "hatching.psh"
+#include "fog.psh"
+
+sampler2D texDet1 : register(s0);
+sampler2D texDet2 : register(s1);
+sampler2D texDet3 : register(s2);
+sampler2D texDet4 : register(s3);
+
+sampler2D texDif : register(s4);
+sampler2D texNorm : register(s5);
+sampler2D texShd : register(s6);
+
+float4 k_d : register(c0);
+float4 k_a : register(c1);
+
+float4 i_a : register(c2);
+float4 i_d : register(c3);
+
+
+struct PSInput
+{
+    float2 GlobeCoord : TEXCOORD0; 
+    float2 DetailCoord : TEXCOORD1; 
+
+    float4 smLgtPos : TEXCOORD2;
+	float3 TangentSpaceLDir : TEXCOORD4;
+    float2 Height_Blend : TEXCOORD5;
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+    float3 N = 2 * (float3)tex2D(texNorm, ip.GlobeCoord) - 1;
+    
+    N.xy *= 1.7;
+    N = normalize(N);
+    
+    float ndl = dot(N, ip.TangentSpaceLDir);
+	
+	float4 index = tex2D(texDif, ip.GlobeCoord);
+	
+	int ia = (int)(index.g/0.25);
+	int ib = (int)(index.b/0.25);
+	
+	float wgt = saturate(N.z);
+    
+    if (wgt < 0.8f)
+    {
+		index.xyz *= 0.5;
+		index[3] += 2*( 1- (wgt/0.8) );
+    }
+    
+	float mod = 0;
+	float4 color=0;
+	
+	if (index[0]>=0.1)
+	{
+		color += (index[0]) * tex2D(texDet1, ip.DetailCoord);
+		mod += index[0];
+	}
+	if (index[1]>=0.1)
+	{
+		color += (index[1]) * tex2D(texDet2, ip.DetailCoord);
+		mod += index[1];
+	}
+	if (index[2]>=0.1)
+	{
+		color += (index[2]) * tex2D(texDet3, ip.DetailCoord);
+		mod += index[2];
+	}
+	if (index[3]>=0.1)
+	{
+		color += (index[3]) * tex2D(texDet4, ip.DetailCoord);
+		mod += index[3];
+	}
+	color/=mod;
+	
+	float4 amb = i_a * k_a;
+	float4 dif = i_d * k_d;
+	//dif.xyz *= max(0, ndl);
+	
+    float2 ShadowTexC = (ip.smLgtPos.xy / ip.smLgtPos.w) * 0.5 + float2( 0.5, 0.5 );
+    ShadowTexC.y = 1.0f - ShadowTexC.y;
+
+	float shd = VSM_FILTER(texShd, ShadowTexC, ip.smLgtPos.z);
+	
+	color.rgb+=0.1f;
+    o.Color = color * (amb + dif );
+   
+   
+    o.Color.rgb *= 0.7 + shd * 0.3;
+    
+    o.Color = GetColor(o.Color, ip.Height_Blend.x);
+    
+    
+    
+    // =========================================================
+    float2 hatchTexCoord = ip.DetailCoord*2;
+    
+	float3 hatchColor = computeHatchColor((ndl * shd-0.5)*1.5+0.5, hatchTexCoord);
+    
+    o.Color.rgb *= hatchColor;
+    
+    o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.Height_Blend.y);
+    
+    return o;
+}

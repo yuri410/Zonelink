@@ -1,0 +1,18 @@
+sampler2D tex : register(s0);
+
+float BloomThreshold : register(c0);
+
+
+struct PSInput
+{
+	float2 TexCoord : TEXCOORD0;
+};
+
+float4 main(PSInput ip) : COLOR
+{
+    float4 c = tex2D(tex, ip.TexCoord);
+
+    float4 result = saturate((c - BloomThreshold) / (1 - BloomThreshold));
+    
+    return result;
+}
