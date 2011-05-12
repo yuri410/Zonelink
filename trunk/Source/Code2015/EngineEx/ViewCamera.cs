@@ -193,7 +193,7 @@ namespace Code2015.EngineEx
         }
         public override Matrix GetSMTrans() 
         {
-            Matrix invT = Matrix.Invert(Frustum.view);
+            Matrix invT = Matrix.Invert(Frustum.View);
 
             float h = Height * 35;
 

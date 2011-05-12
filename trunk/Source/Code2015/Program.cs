@@ -42,8 +42,7 @@ namespace Code2015
 
         static RenderWindow CreateRenderWindow()
         {
-            FileSystem.Instance.AddWorkingDir(StorageContainer.TitleLocation);
-            GraphicsAPIManager.Instance.RegisterGraphicsAPI(new Apoc3D.RenderSystem.Xna.XnaGraphicsAPIFactory());
+            //GraphicsAPIManager.Instance.RegisterGraphicsAPI(new Apoc3D.RenderSystem.Xna.XnaGraphicsAPIFactory());
             devContent = GraphicsAPIManager.Instance.CreateDeviceContent();
 
             PresentParameters pm = new PresentParameters();
@@ -78,6 +77,9 @@ namespace Code2015
         /// </summary>
         static void Main(string[] args)
         {
+            FileSystem.Instance.AddWorkingDir(StorageContainer.TitleLocation);
+            PluginManager.Initiailze(null, null);
+
             using (RenderWindow game = CreateRenderWindow())
             {
                 Window = game;
