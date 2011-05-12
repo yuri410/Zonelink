@@ -1,0 +1,34 @@
+
+sampler2D dudvMap : register(s0);
+sampler2D normalMap : register(s1);
+
+float move : register(c0);
+
+struct PSInput
+{
+    float3 NormalCoord : TEXCOORD0;
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+	const float kShine = 128.0;
+	const float kDistortion = 0.015;
+	const float kRefraction = 0.029;
+
+    PSOutput o;
+	
+	float2 refrCoords = ip.NormalCoord.xy - move;
+	float2 distOffset = (float2)tex2D(dudvMap, ip.NormalCoord.xy) * kDistortion;
+
+	float3 normalVector = (float3)tex2D(normalMap, refrCoords + distOffset);
+
+	
+    o.Color = float4(normalVector.xy, ip.NormalCoord.z, 1);
+
+    return o;
+}

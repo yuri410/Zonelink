@@ -1,0 +1,21 @@
+
+sampler2D texDif : register(s0);
+
+struct PSInput
+{
+    float2 TexCoord : TEXCOORD0;
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+	
+	o.Color = tex2D(texDif, ip.TexCoord);
+    
+    return o;
+}

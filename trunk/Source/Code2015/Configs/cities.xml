@@ -1,0 +1,435 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<cities>
+    <C0000>
+        <Name>Sogdiondon</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>55.85714</Latitude>
+        <Linkable>C0108</Linkable>
+        <Type>Health</Type>
+    </C0000>
+    <C0100>
+        <Name>Mohall</Name>
+        <Longitude>-101.6883</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Linkable>C0200, C0201</Linkable>        
+        <Type>Green</Type>
+        <StartUp>1</StartUp>
+    </C0100>
+    <C0102>
+        <Name>Gaspe</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Linkable>C0202, C0203</Linkable>
+        <Type>Disease</Type>
+    </C0102>
+    <C0103>
+        <Name>Stuttgart</Name>
+        <Longitude>9.350649</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Linkable>C0206, C0104</Linkable>
+        <Type>Oil</Type>
+    </C0103>
+    <C0104>
+        <Name>Sharhorod</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Linkable>C0103, C0105</Linkable>
+        <Type>Health</Type>
+    </C0104>
+    <C0105>
+        <Name>Biyatov</Name>
+        <Longitude>46.36364</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Linkable>C0104, C0209</Linkable>
+        <Type>Oil</Type>
+        <StartUp>3</StartUp>
+    </C0105>
+    <C0108>
+        <Name>Hulun Buir</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>48.7013</Latitude>
+        <Linkable>C0000, C0212, C0213</Linkable>
+        <Type>Green</Type>
+      <StartUp>4</StartUp>
+    </C0108>
+  
+    <C0200>
+        <Name>Price</Name>
+        <Longitude>-110.8442</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0100, C0300</Linkable>
+        <Type>Oil</Type>
+        <StartUp>1</StartUp>
+    </C0200>
+    <C0201>
+        <Name>Moberly</Name>
+        <Longitude>-92.33765</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0100, C0202, C0300</Linkable>
+        <Type>Green</Type>
+        <StartUp>1</StartUp>
+    </C0201>
+    <C0202>
+        <Name>Washington</Name>
+        <Longitude>-73.83116</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0201, C0102, C0203</Linkable>
+        <Type>Education</Type>
+    </C0202>
+  
+    <C0203>
+        <Name>North Atlantis</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0102, C0202, C0204</Linkable>
+        <Type>Oil</Type>
+    </C0203>
+    <C0204>
+        <Name>Lajes</Name>
+        <Longitude>-36.81818</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0303, C0203, C0205</Linkable>
+        <Type>Oil</Type>
+        <StartUp>2</StartUp>
+    </C0204>
+    <C0205>
+        <Name>Santa Cruz</Name>
+        <Longitude>-18.31169</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0206, C0204, C0303</Linkable>
+        <Type>Green</Type>
+        <StartUp>2</StartUp>
+    </C0205>
+    <C0206>
+        <Name>Barcelona</Name>
+        <Longitude>0.1948052</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0103, C0401, C0205</Linkable>
+        <Type>Neutral</Type>
+    </C0206>
+    <C0209>
+        <Name>Serder</Name>
+        <Longitude>55.71428</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Farm>1</Farm>
+        <Linkable>C0105, C0307, C0210</Linkable>
+	      <Type>Oil</Type>
+	      <StartUp>3</StartUp>
+    </C0209>
+  
+    <C0210>
+        <Name>Kaxgar</Name>
+        <Longitude>74.22078</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0209, C0309</Linkable>
+	      <Type>Green</Type>
+    </C0210>
+    <C0211>
+        <Name>Jiayuguan</Name>
+        <Longitude>92.72727</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0309, C0212</Linkable>
+	      <Type>Oil</Type>
+    </C0211>
+    <C0212>
+        <Name>Beijing</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0211, C0108, C0311</Linkable>
+	      <Type>Green</Type>
+	      <StartUp>4</StartUp>
+    </C0212>
+    <C0213>
+        <Name>Sokcho</Name>
+        <Longitude>129.7402</Longitude>
+        <Latitude>39.35065</Latitude>
+        <Linkable>C0311, C0108</Linkable>
+	      <Type>Oil</Type>
+	      <StartUp>4</StartUp>
+    </C0213>
+    <C0300>
+        <Name>Dallas</Name>
+        <Longitude>-101.6883</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Linkable>C0200, C0201, C0500</Linkable>
+	      <Type>Green</Type>
+	      <StartUp>1</StartUp>
+    </C0300>
+  
+    <C0303>
+        <Name>Espargos</Name>
+        <Longitude>-27.66234</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Linkable>C0204, C0205</Linkable>
+	      <Type>Oil</Type>
+	      <StartUp>2</StartUp>
+    </C0303>
+    <C0304>
+      <Name>Marrakech</Name>
+      <Longitude>-9.155844</Longitude>
+      <Latitude>30.1948</Latitude>
+      <Linkable>C0401</Linkable>
+      <Type>Green</Type>
+    </C0304>
+    <C0305>
+      <Name>Gadamis</Name>
+      <Longitude>9.350649</Longitude>
+      <Latitude>30.1948</Latitude>
+      <Linkable>C0402</Linkable>
+      <Type>Oil</Type>
+    </C0305>
+    <C0306>
+        <Name>Cario</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Linkable>C0307, C0402</Linkable>
+	      <Type>Volience</Type>
+    </C0306>
+    <C0307>
+        <Name>AI Basrah</Name>
+        <Longitude>46.36364</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Linkable>C0306, C0209</Linkable>
+        <Type>Green</Type>
+	      <StartUp>3</StartUp>
+    </C0307>
+    <C0309>
+        <Name>Huoerba</Name>
+        <Longitude>83.37662</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Linkable>C0210, C0211, C0403</Linkable>
+        <Type>Disease</Type>
+    </C0309>
+    <C0311>
+        <Name>Shanghai</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>30.1948</Latitude>
+        <Linkable>C0212, C0213, C0404</Linkable>
+        <Type>Oil</Type>
+        <StartUp>4</StartUp>
+    </C0311>
+  
+    <C0401>
+        <Name>Mokhtar</Name>
+        <Longitude>0.1948052</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Farm>1</Farm>
+        <Linkable>C0206, C0304, C0402, C0602</Linkable>
+        <Type>Neutral</Type>
+    </C0401>
+    <C0402>
+        <Name>Aouzou</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Linkable>C0401, C0306, C0603, C0305</Linkable>
+	      <Type>Neutral</Type>
+    </C0402>
+    <C0403>
+        <Name>Chittagong</Name>
+        <Longitude>92.72727</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Linkable>C0309, C0503, C0504</Linkable>
+        <Type>Green</Type>
+        <StartUp>7</StartUp>
+    </C0403>
+    <C0404>
+        <Name>Zhanjiang</Name>
+        <Longitude>111.2338</Longitude>
+        <Latitude>21.03896</Latitude>
+        <Linkable>C0311, C0504, C0505</Linkable>
+        <Type>Volience</Type>
+    </C0404>
+    <C0500>
+        <Name>Panama</Name>
+        <Longitude>-83.18182</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Linkable>C0300, C0600</Linkable>
+        <Type>Neutral</Type>
+    </C0500>
+  
+    <C0503>
+        <Name>Chennai</Name>
+        <Longitude>83.37662</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Linkable>C0403</Linkable>
+        <Type>Oil</Type>
+        <StartUp>7</StartUp>
+    </C0503>
+    <C0504>
+        <Name>Koh Kong</Name>
+        <Longitude>101.8831</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Linkable>C0403, C0404</Linkable>
+        <Type>Green</Type>
+        <StartUp>7</StartUp>
+    </C0504>
+    <C0505>
+        <Name>Batangas</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>11.68831</Latitude>
+        <Linkable>C0404, C0704</Linkable>
+        <Type>Oil</Type>
+    </C0505>
+    <C0600>
+        <Name>Bogota</Name>
+        <Longitude>-73.83116</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Linkable>C0500, C0601, C0800</Linkable>
+        <Type>Education</Type>
+    </C0600>
+    <C0601>
+        <Name>Anapi</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Linkable>C0600, C0800</Linkable>	
+        <Type>Disease</Type>
+    </C0601>
+  
+    <C0602>
+        <Name>Greewill</Name>
+        <Longitude>-18.31169</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Linkable>C0401, C0801</Linkable>
+        <Type>Oil</Type>
+    </C0602>
+    <C0603>
+        <Name>Gemena</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>2.337662</Latitude>
+        <Type>Oil</Type>
+        <Linkable>C0402, C0703</Linkable>
+        <StartUp>6</StartUp>
+    </C0603>
+    <C0703>
+        <Name>Manono</Name>
+        <Longitude>27.85714</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Type>Green</Type>
+        <Linkable>C0603, C0802, C0902</Linkable>
+        <StartUp>6</StartUp>
+    </C0703>
+    <C0704>
+        <Name>Ruteng</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Linkable>C0505, C0807</Linkable>
+        <Type>Education</Type>
+    </C0704>
+    <C0705>
+        <Name>Gahgo</Name>
+        <Longitude>138.8961</Longitude>
+        <Latitude>-6.818182</Latitude>
+        <Type>Health</Type>
+        <Linkable>C0807</Linkable>
+    </C0705>
+  
+    <C0800>
+        <Name>Cuiaba</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Type>Oil</Type>
+        <Linkable>C0600, C0601, C0801, C0900</Linkable>
+        <StartUp>5</StartUp>
+    </C0800>
+    <C0801>
+        <Name>Salvador</Name>
+        <Longitude>-36.81818</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Linkable>C0800, C0602</Linkable>
+        <Type>Neutral</Type>
+    </C0801>
+    <C0802>
+        <Name>Huambo</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Type>Green</Type>
+        <Linkable>C0703, C1001</Linkable>
+        <StartUp>6</StartUp>
+    </C0802>
+    <C0805>
+        <Name>Grande</Name>
+        <Longitude>74.22078</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Type>Neutral</Type>
+        <Linkable>C0902, C0905</Linkable>
+    </C0805>
+    <C0807>
+        <Name>Darwin</Name>
+        <Longitude>129.7402</Longitude>
+        <Latitude>-15.97403</Latitude>
+        <Type>Oil</Type>
+        <Linkable>C0704, C0705, C0906, C0907</Linkable>
+        <StartUp>8</StartUp>
+    </C0807>
+  
+    <C0900>
+        <Name>Salta</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Type>Green</Type>
+        <Linkable>C0800, C1000</Linkable>
+        <StartUp>5</StartUp>
+    </C0900>
+    <C0902>
+        <Name>Ankillhago</Name>
+        <Longitude>46.36364</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Type>Volience</Type>
+        <Linkable>C0703, C0805</Linkable>
+    </C0902>
+    <C0905>
+        <Name>Canarvon</Name>
+        <Longitude>101.8831</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Type>Volience</Type>
+        <Linkable>C0805, C0906</Linkable>
+    </C0905>
+    <C0906>
+        <Name>Meekatharra</Name>
+        <Longitude>120.3896</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Type>Oil</Type>
+        <Linkable>C0905, C0807</Linkable>
+        <StartUp>8</StartUp>
+    </C0906>
+    <C0907>
+        <Name>Mt Isa</Name>
+        <Longitude>138.8961</Longitude>
+        <Latitude>-25.32467</Latitude>
+        <Type>Green</Type>
+        <Linkable>C0807, C1003</Linkable>
+        <StartUp>8</StartUp>
+    </C0907>
+  
+    <C1000>
+        <Name>Montevideo</Name>
+        <Longitude>-55.32467</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Type>Oil</Type>
+        <Linkable>C0900, C1100</Linkable>
+	<StartUp>5</StartUp>
+    </C1000>
+    <C1001>
+        <Name>Cape Town</Name>
+        <Longitude>18.7013</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Type>Disease</Type>
+        <Linkable>C0802</Linkable>
+    </C1001>
+    <C1003>
+        <Name>Sydney</Name>
+        <Longitude>148.2467</Longitude>
+        <Latitude>-34.67532</Latitude>
+        <Type>Green</Type>
+        <Linkable>C0907</Linkable>
+	<StartUp>8</StartUp>
+    </C1003>
+    <C1100>
+        <Name>Trelew</Name>
+        <Longitude>-64.67532</Longitude>
+        <Latitude>-43.63636</Latitude>
+        <Type>Oil</Type>
+        <Linkable>C1000</Linkable>
+	<StartUp>5</StartUp>
+    </C1100>
+</cities>

@@ -1,0 +1,18 @@
+float4x4 view;
+
+struct PSInput
+{
+    float3 GlobeCoord : TEXCOORD0;
+};
+
+
+sampler2D texNorm : register(s0);
+
+float4 main( PSInput ip) : COLOR 
+{
+	float3 N = tex2D(texNorm, ip.GlobeCoord.xy).rgb * 2 - 1;
+	
+	N = normalize( mul(N, (float3x3)view));
+	
+    return float4((0.5*(N + 1)).xy, ip.GlobeCoord.z ,1);
+}

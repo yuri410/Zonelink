@@ -1,0 +1,15 @@
+
+sampler2D texDif : register(s0);
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(float alpha : TEXCOORD0, float2 tex1 : TEXCOORD1)
+{
+    PSOutput o;
+    o.Color = tex2D(texDif, tex1);
+    o.Color.a *= alpha;
+    return o;
+}

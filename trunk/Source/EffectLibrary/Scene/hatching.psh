@@ -1,0 +1,46 @@
+
+
+sampler2D hatch0 : register(s8);
+sampler2D hatch1 : register(s9);
+
+#define SHADOW_COLOR (float3(39,40,47) / 255.0)
+#define AMBIENT 0.25
+
+float3 computeWeights(float hatchFactor, float3 initialWeights) 
+{
+	float3 weights = max(float3(hatchFactor,hatchFactor,hatchFactor) - initialWeights, float3(0,0,0));
+
+	// flag weights which are <= 2
+	float3 flags = step(weights, float3(2,2,2));
+
+	// multiply component-wise to zero weights > 2
+	weights *= flags;
+
+	// flag weights which are > 1
+	flags = step(float3(1,1,1), weights);
+	weights = flags*2.0 - weights;
+	flags = step(float3(0,0,0), weights) - step(weights, float3(0,0,0));
+	weights *= flags;
+
+	return weights;
+}
+
+float3 computeHatchColor(float lum, float2 hatchTexCoord)
+{
+
+                
+    float hatchLayers = 5;
+    float hatchFactor = saturate(lum + AMBIENT) * (hatchLayers - 1) + 1;
+    
+    float3 weightsA = float3(5.0, 4.0, 3.0);
+    float3 hatchWeightsA = computeWeights(hatchFactor, weightsA);
+    float3 weightsB = float3(2.0, 1.0, 0.0);
+    float3 hatchWeightsB = computeWeights(hatchFactor, weightsB);
+
+    float3 h0 = tex2D(hatch0, hatchTexCoord).rgb * hatchWeightsA;
+    float3 h1 = tex2D(hatch1, hatchTexCoord).rgb * hatchWeightsB;
+
+    float hatch = dot(h0, float3(1,1,1)) + dot(h1, float3(1,1,1));
+	float3 hatchColor = SHADOW_COLOR + float3(hatch,hatch,hatch);
+    return hatchColor;   
+}
