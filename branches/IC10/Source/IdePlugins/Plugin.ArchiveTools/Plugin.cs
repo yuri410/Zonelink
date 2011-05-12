@@ -8,7 +8,9 @@ namespace Plugin.ArchiveTools
 {
     public class Plugin : Apoc3D.Ide.IPlugin
     {
-        LpkArchivePacker conv = new LpkArchivePacker();
+        PakArchivePacker conv = new PakArchivePacker();
+        PAKViewerFactory pakviewer = new PAKViewerFactory();
+        LpkArchivePacker conv2 = new LpkArchivePacker();
         LPKViewerFactory lpkviewer = new LPKViewerFactory();
 
         #region IPlugin 成员
@@ -35,12 +37,16 @@ namespace Plugin.ArchiveTools
         public void Load()
         {
             ConverterManager.Instance.Register(conv);
+            DesignerManager.Instance.RegisterDesigner(pakviewer);
+            ConverterManager.Instance.Register(conv2);
             DesignerManager.Instance.RegisterDesigner(lpkviewer);
         }
 
         public void Unload()
         {
             ConverterManager.Instance.Unregister(conv);
+            DesignerManager.Instance.UnregisterDesigner(pakviewer);
+            ConverterManager.Instance.Unregister(conv2);
             DesignerManager.Instance.UnregisterDesigner(lpkviewer);
         }
 
