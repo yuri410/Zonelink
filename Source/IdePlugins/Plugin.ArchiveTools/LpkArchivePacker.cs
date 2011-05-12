@@ -10,7 +10,7 @@ namespace Plugin.ArchiveTools
     {       
         public override void ShowDialog(object sender, EventArgs e)
         {
-            PackerFrom frm = new PackerFrom();
+            LpkPackerFrom frm = new LpkPackerFrom();
             frm.ShowDialog();
         }
 

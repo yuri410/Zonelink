@@ -22,6 +22,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <DebugType>pdbonly</DebugType>
@@ -31,6 +32,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <PlatformTarget>x86</PlatformTarget>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -40,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditableModel.cs" />
     <Compile Include="Il.cs" />
     <Compile Include="Ilu.cs" />
     <Compile Include="Converter\IndexMapMixer.cs" />
@@ -48,8 +49,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Converter\TextureConverter.cs" />
     <Compile Include="Converter\IndexMapMixer4.cs" />
-    <Compile Include="Converter\Xml2ModelConverter2.cs" />
-    <Compile Include="Converter\XMLModelParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="DevIL.dll">
@@ -90,7 +89,7 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\Plugins\$(TargetFileName)
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\$(TargetFileName)
 
 Copy $(TargetDir)$(TargetName)".pdb" $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\Plugins\$(TargetName)".pdb"</PostBuildEvent>
   </PropertyGroup>

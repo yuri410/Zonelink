@@ -14,6 +14,9 @@
     <XnaCrossPlatformGroupID>3cc672c9-b651-4592-8686-88edbd294ba9</XnaCrossPlatformGroupID>
     <ApplicationIcon>Game.ico</ApplicationIcon>
     <Thumbnail>GameThumbnail.png</Thumbnail>
+    <IsWebBootstrapper>false</IsWebBootstrapper>
+    <TargetFrameworkSubset>
+    </TargetFrameworkSubset>
     <PublishUrl>publish\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
@@ -26,11 +29,8 @@
     <MapFileExtensions>true</MapFileExtensions>
     <ApplicationRevision>0</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
-    <IsWebBootstrapper>false</IsWebBootstrapper>
     <UseApplicationTrust>false</UseApplicationTrust>
     <BootstrapperEnabled>true</BootstrapperEnabled>
-    <TargetFrameworkSubset>
-    </TargetFrameworkSubset>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <DebugSymbols>true</DebugSymbols>
@@ -118,7 +118,23 @@
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
     <Compile Include="Engine\Apoc3D.Core\BitTable.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\CRC.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\ICoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\InBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LzmaBench.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaBase.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaDecoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZMA\LzmaEncoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\IMatchFinder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzBinTree.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzInWindow.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\LZ\LzOutWindow.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\OutBuffer.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoder.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoderBit.cs" />
+    <Compile Include="Engine\Apoc3D.Core\LZMA\RangeCoder\RangeCoderBitTree.cs" />
     <Compile Include="Engine\Apoc3D.Core\MathLib\ValueSmoother.cs" />
+    <Compile Include="Engine\Apoc3D.Core\Vfs\PakArchive.cs" />
     <Compile Include="Engine\Apoc3D.Graphics\Animation\Bone.cs">
       <SubType>Code</SubType>
     </Compile>
