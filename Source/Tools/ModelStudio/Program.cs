@@ -35,7 +35,7 @@ namespace ModelStudio
             // zou jia's res dir
             FileSystem.Instance.AddWorkingDir(@"D:\zonelink2");
 
-            GraphicsAPIManager.Instance.RegisterGraphicsAPI(new Apoc3D.RenderSystem.Xna.XnaGraphicsAPIFactory());
+            PluginManager.Initiailze(null, null);
 
             DeviceContent dc = GraphicsAPIManager.Instance.CreateDeviceContent();
 

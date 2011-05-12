@@ -31,6 +31,14 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Apoc3D.Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EngineBin\Apoc3D.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="Apoc3D.Ide, Version=0.0.4149.42204, Culture=neutral, processorArchitecture=x86">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\EngineBin\Apoc3D.Ide.exe</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Design" />
@@ -95,10 +103,6 @@
       <Project>{9CCB378A-849F-4578-BAE9-DAA749B63FAD}</Project>
       <Name>Code2015</Name>
     </ProjectReference>
-    <ProjectReference Include="..\..\Code2015\Engine\Apoc3D.Ide\Apoc3D.Ide.csproj">
-      <Project>{AA72D449-B468-4698-A28D-926E2225FC5A}</Project>
-      <Name>Apoc3D.Ide</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
@@ -109,8 +113,8 @@
   </Target>
   -->
   <PropertyGroup>
-    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\$(TargetFileName)
+    <PostBuildEvent>Copy $(TargetPath) $(SolutionDir)\EngineBin\$(TargetFileName)
 
-Copy $(TargetDir)$(TargetName)".pdb" $(SolutionDir)\Code2015\Engine\Apoc3D.Ide\bin\Plugins\$(TargetName)".pdb"</PostBuildEvent>
+Copy $(TargetDir)$(TargetName)".pdb" $(SolutionDir)\EngineBin\$(TargetName)".pdb"</PostBuildEvent>
   </PropertyGroup>
 </Project>
