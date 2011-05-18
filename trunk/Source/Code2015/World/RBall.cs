@@ -322,7 +322,7 @@ namespace Code2015.World
                         bool passed = true;
                         for (int i = 0; i < subBalls.Count; i++)
                         {
-                            if (subBalls[i].State != RBallState.Gathered)
+                            if (!subBalls[i].IsDied && subBalls[i].State != RBallState.Gathered)
                             {
                                 passed = false;
                                 break;
