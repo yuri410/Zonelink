@@ -1,4 +1,4 @@
-<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
+﻿<Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="3.5">
   <PropertyGroup>
     <ProjectGuid>{C54304AB-EADB-4C22-B9B7-2A3850BCD5A7}</ProjectGuid>
     <ProjectTypeGuids>{6D335F3A-9D43-41b4-9D22-F6F17C4BE596};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -119,6 +119,8 @@
     <None Include="Scene\atmosphere.vs" />
     <None Include="Scene\bolt.ps" />
     <None Include="Scene\bolt.vs" />
+    <None Include="Scene\fogofwar.ps" />
+    <None Include="Scene\fogofwar.vs" />
     <None Include="Scene\skinnedstandard.vs" />
     <None Include="Scene\Skinning.vsh" />
     <None Include="Scene\hatching.psh" />

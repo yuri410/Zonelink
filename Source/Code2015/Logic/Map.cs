@@ -87,7 +87,7 @@ namespace Code2015.Logic
             {
                 for (int j = -w; j < w; j++)
                 {
-                    float rr = (float)Math.Sqrt(MathEx.Sqr(i - y) + MathEx.Sqr(j - x));
+                    float rr = (float)Math.Sqrt(MathEx.Sqr(i) + MathEx.Sqr(j));
 
                     if (rr <= w)
                     {

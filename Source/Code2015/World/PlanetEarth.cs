@@ -262,8 +262,7 @@ namespace Code2015.World
         RenderSystem renderSys;
 
         TerrainTile[] terrainTiles;
-
-
+        
         public PlanetEarth(RenderSystem rs)
         {
             renderSys = rs;

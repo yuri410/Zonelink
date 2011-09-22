@@ -1,0 +1,28 @@
+#include "fog.psh"
+
+
+sampler2D texDif : register(s0);
+
+struct PSInput
+{
+    float3 TexCoord : TEXCOORD0;
+};
+
+struct PSOutput
+{
+    float4 Color : COLOR;
+};
+
+PSOutput main(PSInput ip)
+{
+    PSOutput o;
+    
+    float lum = tex2D(texDif, ip.TexCoord.xy).r;
+    
+    
+    o.Color = float4(0,0,0,
+		lerp((1-lum)*0.75, 0, ip.TexCoord.z)
+    );
+    
+    return o;
+}

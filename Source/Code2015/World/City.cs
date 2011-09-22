@@ -2032,7 +2032,29 @@ namespace Code2015.World
                 }
 
             }
-            
+
+            bool light =false;
+            if (Owner != null && Owner.Type == PlayerType.LocalHuman)
+            {
+                light = true;
+            }
+            else 
+            {
+                for (int i = 0; i < nearbyEnemyBalls.Count && !light; i++)
+                {
+                    if (nearbyEnemyBalls[i].Owner != null && nearbyEnemyBalls[i].Owner.Type == PlayerType.LocalHuman)
+                    {
+                        light = true;
+                    }
+                }
+            }
+
+           
+            if (light)
+            {
+                battleField.Fog.LightArea(MathEx.Degree2Radian(Longitude),
+                    MathEx.Degree2Radian(Latitude), MathEx.Degree2Radian(10));
+            }
         }
 
         public void TestBalls()
