@@ -37,7 +37,7 @@ namespace Code2015.World
     class OceanWater : StaticModelObject
     {
         RenderSystem renderSys;
-        //Sphere oceanSphere;
+        
         OceanWaterTile[] waterTiles;
         OceanWaterDataManager dataMgr;
 
@@ -51,16 +51,7 @@ namespace Code2015.World
         {
             renderSys = rs;
 
-            //Material[][] mats = new Material[1][];
-            //mats[0] = new Material[1];
-            //mats[0][0] = new Material(renderSys);
-            //mats[0][0].IsTransparent = true;
-
-            ////mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-            ////mats[0][0].SetTexture(0, TerrainMaterialLibrary.Instance.GlobalIndexTexture);
-            
-            //mats[0][0].SetEffect(EffectManager.Instance.GetModelEffect(WaterEffectFactory.Name));
-
+         
             dataMgr = new OceanWaterDataManager(rs);
 
 
@@ -73,9 +64,6 @@ namespace Code2015.World
                     waterTiles[index++] = new OceanWaterTile(rs, dataMgr, i, j + PlanetEarth.LatTileStart);
                 }
             }
-
-            //oceanSphere = new Sphere(rs, PlanetEarth.PlanetRadius + TerrainMeshManager.PostZeroLevel, 
-            //    PlanetEarth.ColTileCount * 4, PlanetEarth.LatTileCount * 4, mats);
 
             //base.ModelL0 = oceanSphere;
 

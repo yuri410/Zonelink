@@ -246,6 +246,9 @@ namespace Code2015
                 scene.Scene.AddObjectToScene(city);
             }
 
+            field.Fog.InitailizeGraphics(renderSys);
+            scene.Scene.AddObjectToScene(field.Fog);
+
             AddResources(field);
             AddScenery();
             

@@ -164,6 +164,7 @@ namespace Code2015
             EffectManager.Instance.RegisterModelEffectType(TailEffectFactory.Name, new TailEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(BoardEffectFactory.Name, new BoardEffectFactory(renderSys));
             EffectManager.Instance.RegisterModelEffectType(StandardNHEffectFactory.Name, new StandardNHEffectFactory(renderSys));
+            EffectManager.Instance.RegisterModelEffectType(FogOfWarEffectFactory.Name, new FogOfWarEffectFactory(renderSys));
 
             RulesTable.LoadRules();
 

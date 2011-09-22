@@ -49,8 +49,11 @@ namespace Code2015
         BallPathFinderManager ballPathFinderMgr;
         BallPathFinder ballPathFinder;
 
+        FogOfWar fogofwar;
+
         City[] cities;
 
+        public FogOfWar Fog { get { return fogofwar; } }
         public Map Map { get { return map; } }
         public City[] Cities
         {
@@ -86,6 +89,10 @@ namespace Code2015
 
             //Init Natural Resource
             InitializeNaturalResource();
+
+
+            fogofwar = new FogOfWar();
+
         }
 
         #region 初始化城市

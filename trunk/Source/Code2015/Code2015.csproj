@@ -105,6 +105,7 @@
     <Compile Include="Effects\CityRingEffect.cs" />
     <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
+    <Compile Include="Effects\FogOfWarEffect.cs" />
     <Compile Include="Effects\TailEffect.cs" />
     <Compile Include="Effects\Post\PieProgress.cs" />
     <Compile Include="Effects\Post\CO2PieProgress.cs" />
@@ -198,6 +199,7 @@
     <Compile Include="StaticPlay.cs" />
     <Compile Include="World\BallPathFinder.cs" />
     <Compile Include="World\City.cs" />
+    <Compile Include="World\FogOfWar.cs" />
     <Compile Include="World\SelectionMarker.cs">
       <SubType>Code</SubType>
     </Compile>
