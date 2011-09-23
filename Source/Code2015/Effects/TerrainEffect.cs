@@ -104,6 +104,8 @@ namespace Code2015.Effects
     }
     class TerrainEffect : RigidEffect
     {
+        public static Texture FogMask;
+
         RenderSystem renderSystem;
 
         PixelShader nrmPixShader;
@@ -171,7 +173,7 @@ namespace Code2015.Effects
                 //vtxShader.SetValue("viewPos", EffectParams.CurrentCamera.Position);
 
                 pixShader.SetTexture("texShd", EffectParams.DepthMap[0]);
-                
+                pixShader.SetTexture("texFog", FogMask);
 
                 ShaderSamplerState state = new ShaderSamplerState();
                 state.AddressU = TextureAddressMode.Wrap;
@@ -206,7 +208,7 @@ namespace Code2015.Effects
 
                 pixShader.SetSamplerState("texDif", ref state);
                 pixShader.SetSamplerState("texNorm", ref state);
-
+                pixShader.SetSamplerState("texFog", ref state);
 
                 TerrainTexture tex;
                 tex = MaterialLibrary.Instance.GetTexture("Snow");

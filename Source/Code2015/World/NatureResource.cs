@@ -57,8 +57,8 @@ namespace Code2015.World
         }
 
 
-        public NaturalResource()
-            
+        protected NaturalResource(BattleField btfld)
+            : base(btfld)
         {
       
         }

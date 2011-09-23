@@ -1,0 +1,9 @@
+
+sampler2D texFog : register(s7);
+
+
+float3 GetFogOfWarColor(float2 globeTC, float3 originalColor)
+{
+	float fow = tex2D(texFog, globeTC).r;
+    return lerp(originalColor, float3(0,0,0), (1-fow) * 0.5);
+}

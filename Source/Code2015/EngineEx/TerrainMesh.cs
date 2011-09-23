@@ -160,6 +160,7 @@ namespace Code2015.EngineEx
             material.Power = 1;
             material.PriorityHint = RenderPriority.Second;
 
+
             PlanetEarth.TileCoord2CoordNew(x, y, out tileCol, out tileLat);
 
             // 估算包围球

@@ -269,7 +269,7 @@ namespace Code2015.Effects
                     {
                         pixShader.SetTexture("texDif", clrTex);
                     }
-
+                    pixShader.SetTexture("texFog", TerrainEffect.FogMask);
 
                     Vector2 isVeg_wind = new Vector2();
 

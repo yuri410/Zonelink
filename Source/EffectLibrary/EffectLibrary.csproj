@@ -119,8 +119,8 @@
     <None Include="Scene\atmosphere.vs" />
     <None Include="Scene\bolt.ps" />
     <None Include="Scene\bolt.vs" />
-    <None Include="Scene\fogofwar.ps" />
-    <None Include="Scene\fogofwar.vs" />
+    <None Include="Scene\fogofwar.psh" />
+    <None Include="Scene\fogofwar_obj.psh" />
     <None Include="Scene\skinnedstandard.vs" />
     <None Include="Scene\Skinning.vsh" />
     <None Include="Scene\hatching.psh" />

@@ -54,7 +54,8 @@ namespace Code2015.World
         SoundObject sound;
 
 
-        public OilFieldObject()
+        public OilFieldObject(BattleField btfld)
+            : base(btfld)
         {
             frameIdx = Randomizer.GetRandomInt(OilFrameCount - 1);
 
@@ -178,20 +179,28 @@ namespace Code2015.World
 
             opBuffer.FastClear();
 
-            RenderOperation[] ops = board.GetRenderOperation();
-            if (ops != null)
+            if (Visiblity > 0)
             {
-                for (int i = 0; i < ops.Length; i++)
-                {
-                    ops[i].Sender = this;
-                }
-                opBuffer.Add(ops);
-            }
-            if (ModelL0 != null)
-            {
-                ops = ModelL0.GetRenderOperation();
+                RenderOperation[] ops = board.GetRenderOperation();
                 if (ops != null)
                 {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = this;
+                    }
+                    opBuffer.Add(ops);
+                }
+            }
+            
+            if (ModelL0 != null)
+            {
+                RenderOperation[] ops = ModelL0.GetRenderOperation();
+                if (ops != null)
+                {
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = this;
+                    }
                     opBuffer.Add(ops);
                 }
             }

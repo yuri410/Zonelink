@@ -941,6 +941,13 @@ namespace Code2015.World
         }
         public override RenderOperation[] GetRenderOperation()
         {
+            if (dockCity != null)
+            {
+                if (!dockCity.IsInVisibleRange)
+                {
+                    return null;
+                }
+            }
             if (state != RBallState.AttackCity || (state == RBallState.AttackCity && speedModifier < AttackCitySpeedMod - 0.1f))
             {
                 RenderOperation[] ops = base.GetRenderOperation();
@@ -948,6 +955,7 @@ namespace Code2015.World
                 {
                     for (int i = 0; i < ops.Length; i++)
                     {
+                        //ops[i].Sender = this;
                         ops[i].Transformation = displayScale * ops[i].Transformation;
                     }
                 }
@@ -962,6 +970,7 @@ namespace Code2015.World
                 {
                     for (int i = 0; i < ops.Length; i++)
                     {
+                        //ops[i].Sender = this;
                         ops[i].Transformation = displayScale * ops[i].Transformation;
                     }
                     opBuffer.Add(ops);

@@ -13,7 +13,7 @@ struct VSInput
     float4 Position : POSITION0;
     float3 Normal : NORMAL;
     float3 TexCoord : TEXCOORD0;
-    
+    float2 GlobalTC : TEXCOORD1;
 };
 struct VSOutput
 {
@@ -22,6 +22,7 @@ struct VSOutput
     float3 Normal : TEXCOORD1;
     float4 smLgtPos : TEXCOORD2;
     float3 ViewDir : TEXCOORD5;
+    float2 GlobalTC : TEXCOORD3;
 };
 
 VSOutput main(VSInput ip)
@@ -60,5 +61,6 @@ VSOutput main(VSInput ip)
 	o.ViewDir = normalize(wpos - viewPos);
 	
 	o.smLgtPos = mul(ip.Position , smTrans);
+	o.GlobalTC = ip.GlobalTC;
     return o;
 }

@@ -221,13 +221,13 @@ namespace Code2015
             this.soundWorld = new SoundObjectWorld();
             
             gameState = new GameState(GetLocalPlayers(gcp));
-          
 
+            BattleField field = gameState.Field;
             // 初始化场景
             this.scene = new GameScene(renderSys);
            
 
-            BattleField field = gameState.Field;
+            
             field.ResourceBallChanged += Field_ResourceBallChanged;
 
             for (int i = 0; i < field.CityCount; i++)
@@ -247,10 +247,9 @@ namespace Code2015
             }
 
             field.Fog.InitailizeGraphics(renderSys);
-            scene.Scene.AddObjectToScene(field.Fog);
 
             AddResources(field);
-            AddScenery();
+            AddScenery(field);
             
             gameState.InitialStandards();
             {
@@ -292,7 +291,7 @@ namespace Code2015
                 }
             }
         }
-        void AddScenery()
+        void AddScenery(BattleField field)
         {
             FileLocation fl = FileSystem.Instance.Locate("sceneObjects.xml", GameFileLocs.Config);
             Configuration config = ConfigurationManager.Instance.CreateInstance(fl);
@@ -301,7 +300,9 @@ namespace Code2015
             {
                 ConfigurationSection sect = e.Value;
 
-                SceneryObject obj = new SceneryObject(renderSys, sect);
+                SceneryObject obj = new SceneryObject(field);
+                obj.Parse((GameConfigurationSection)sect);
+                obj.InitalizeGraphics(renderSys);
                 scene.Scene.AddObjectToScene(obj);
             }
         }
