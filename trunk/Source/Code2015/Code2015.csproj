@@ -105,7 +105,6 @@
     <Compile Include="Effects\CityRingEffect.cs" />
     <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
-    <Compile Include="Effects\FogOfWarEffect.cs" />
     <Compile Include="Effects\TailEffect.cs" />
     <Compile Include="Effects\Post\PieProgress.cs" />
     <Compile Include="Effects\Post\CO2PieProgress.cs" />
@@ -179,7 +178,6 @@
     <Compile Include="Logic\PathFinder.cs" />
     <Compile Include="Logic\PlayerArea.cs" />
     <Compile Include="Code2015.cs" />
-    <Compile Include="EngineEx\BasicConfigs.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
     <Compile Include="Effects\Post\Bloom.cs" />
@@ -199,7 +197,7 @@
     <Compile Include="StaticPlay.cs" />
     <Compile Include="World\BallPathFinder.cs" />
     <Compile Include="World\City.cs" />
-    <Compile Include="World\FogOfWar.cs" />
+    <Compile Include="Logic\FogOfWar.cs" />
     <Compile Include="World\SelectionMarker.cs">
       <SubType>Code</SubType>
     </Compile>

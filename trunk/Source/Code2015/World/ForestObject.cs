@@ -80,7 +80,8 @@ namespace Code2015.World
             private set;
         }
 
-        public ForestObject()
+        public ForestObject(BattleField btfld)
+            : base(btfld)
         {
            
 
@@ -176,16 +177,20 @@ namespace Code2015.World
                 opBuffer.Add(ops);
             }
 
-            ops = board.GetRenderOperation();
-            if (ops != null)
+            if (Visiblity > 0) 
             {
-                for (int i = 0; i < ops.Length; i++)
+                ops = board.GetRenderOperation();
+                if (ops != null)
                 {
-                    ops[i].Sender = this;
-                    ops[i].Transformation *= stdTransform;
+                    for (int i = 0; i < ops.Length; i++)
+                    {
+                        ops[i].Sender = this;
+                        ops[i].Transformation *= stdTransform;
+                    }
+                    opBuffer.Add(ops);
                 }
-                opBuffer.Add(ops);
             }
+            
 
             opBuffer.Trim();
             return opBuffer.Elements;

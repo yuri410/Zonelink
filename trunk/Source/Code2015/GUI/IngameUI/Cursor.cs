@@ -306,14 +306,19 @@ namespace Code2015.GUI.IngameUI
                     {
                         if (selectionMarker.SelectedObject != selectionMarker.MouseHoverObject)
                         {
-                            cursorState = MouseCursor.Selection;
-
-                            if (hoverHarv != null)
+                            WorldObject wo = selectionMarker.MouseHoverObject as WorldObject;
+                            if (wo != null && wo.IsInVisibleRange)
                             {
-                                cursorColor = getColor(hoverHarv.Owner);
+                                cursorState = MouseCursor.Selection;
                             }
 
-                            if (selectedHarv != null && naturalResource != null)                                
+                            if (hoverHarv != null && hoverHarv.IsInVisibleRange)
+                            {
+                                cursorColor = getColor(hoverHarv.Owner);
+                                cursorState = MouseCursor.Selection;
+                            }
+
+                            if (selectedHarv != null && naturalResource != null)
                             {
                                 if (selectedHarv.Parent.IsResourceInRange(naturalResource))
                                 {
@@ -325,12 +330,14 @@ namespace Code2015.GUI.IngameUI
                                         selectedHarv.Parent.Gather(naturalResource);
                                     }
                                 }
-                                else 
+                                else
                                 {
                                     // too far
-                                    cursorState = MouseCursor.TooFar;        
+                                    cursorState = MouseCursor.TooFar;
                                 }
                             }
+                           
+                                
                         }
                         else
                         {
@@ -353,16 +360,23 @@ namespace Code2015.GUI.IngameUI
 
                 if (selectionMarker.MouseHoverObject != null)
                 {
-                    cursorState = MouseCursor.Selection;
+                    WorldObject wo = selectionMarker.MouseHoverObject as WorldObject;
+                    if (wo != null && wo.IsInVisibleRange)
+                    {
+                        cursorState = MouseCursor.Selection;
+                    }
 
-                    if (hoverCity != null)
+                    if (hoverCity != null && hoverCity.IsInVisibleRange)
                     {
                         cursorColor = getColor(hoverCity.Owner);
                     }
-                    if (hoverHarv != null)
+                    if (hoverHarv != null && hoverHarv.IsInVisibleRange)
                     {
                         cursorColor = getColor(hoverHarv.Owner);
+                        cursorState = MouseCursor.Selection;
                     }
+
+                   
                 }
                 else
                 {

@@ -1,0 +1,8 @@
+
+float visiblity;
+
+float3 GetFogOfWarColor(float3 originalColor)
+{
+	float fow = visiblity;
+    return lerp(originalColor, float3(0,0,0), (1-visiblity) * 0.5);
+}

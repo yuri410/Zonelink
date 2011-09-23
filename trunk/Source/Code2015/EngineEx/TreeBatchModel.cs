@@ -50,20 +50,22 @@ namespace Code2015.EngineEx
             public Vector3 pos;
             public Vector3 n;
             public Vector3 tex1;
+            public Vector2 tc;
 
             public static int Size
             {
-                get { return Vector3.SizeInBytes + Vector3.SizeInBytes + Vector3.SizeInBytes; }
+                get { return Vector3.SizeInBytes + Vector3.SizeInBytes + Vector3.SizeInBytes + Vector2.SizeInBytes; }
             }
 
             static VertexElement[] elements;
 
             static TreeVertex()
             {
-                elements = new VertexElement[3];
+                elements = new VertexElement[4];
                 elements[0] = new VertexElement(0, VertexElementFormat.Vector3, VertexElementUsage.Position);
                 elements[1] = new VertexElement(elements[0].Size, VertexElementFormat.Vector3, VertexElementUsage.Normal);
                 elements[2] = new VertexElement(elements[1].Offset + elements[1].Size, VertexElementFormat.Vector3, VertexElementUsage.TextureCoordinate, 0);
+                elements[3] = new VertexElement(elements[2].Offset + elements[2].Size, VertexElementFormat.Vector2, VertexElementUsage.TextureCoordinate, 1);
             }
 
             public static VertexElement[] Elements
@@ -226,6 +228,14 @@ namespace Code2015.EngineEx
                                 {
                                     Memory.Copy(&p, dst, TreeVertex.Size);
                                 }
+
+                                p.tc = new Vector2(treeLng, treeLat);
+                                p.tc.X += MathEx.PIf;
+                                //p.tc.Y -= MathEx.Degree2Radian(10);
+
+                                p.tc.X = 0.5f * p.tc.X / MathEx.PIf;
+                                p.tc.Y = (-p.tc.Y + MathEx.PiOver2) / MathEx.PIf;
+
                                 vertices.Add(vtxBldBuffer);
                             }
                         }

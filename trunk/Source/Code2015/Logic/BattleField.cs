@@ -45,6 +45,7 @@ namespace Code2015
         List<RBall> resBalls = new List<RBall>();
         List<RGatheredBall> gatherBalls = new List<RGatheredBall>();
 
+
         Map map;
         BallPathFinderManager ballPathFinderMgr;
         BallPathFinder ballPathFinder;
@@ -80,6 +81,7 @@ namespace Code2015
         public BattleField()
         {
             map = new Map(this);
+            fogofwar = new FogOfWar();
 
             //Init Cities
             LoadCities();
@@ -170,14 +172,14 @@ namespace Code2015
 
                 if (type == "wood")
                 {
-                    ForestObject forest = new ForestObject();
+                    ForestObject forest = new ForestObject(this);
                     forest.Parse(sect);
                     resources.Add(forest);
 
                 }
                 else if (type == "petro")
                 {
-                    OilFieldObject fld = new OilFieldObject();
+                    OilFieldObject fld = new OilFieldObject(this);
                     fld.Parse(sect);
                     resources.Add(fld);
                 }           
@@ -234,6 +236,7 @@ namespace Code2015
                     gatherBalls.RemoveAt(i);
                 }
             }
+            fogofwar.Update(gameTime);
             //foreach ( City city in cities)
             //{
             //    city.Update(gameTime);

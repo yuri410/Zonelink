@@ -109,7 +109,7 @@ namespace Code2015.World
         public const float CitySelRingScale = 2.35f;
 
 
-        protected BattleField battleField;
+
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
 
@@ -213,6 +213,7 @@ namespace Code2015.World
             get { return currentState; }
         }
 
+        
         public float CatchPreserveTime
         {
             get
@@ -392,7 +393,7 @@ namespace Code2015.World
 
 
         public City(BattleField btfld, Player owner, CityType type)
-            : base(owner)
+            : base(owner, btfld)
         {
             this.battleField = btfld;
             this.Type = type;
@@ -1959,6 +1960,7 @@ namespace Code2015.World
 
         public override void Update(GameTime dt)
         {
+            base.Update(dt);
             float ddt = (float)dt.ElapsedGameTimeSeconds;
 
             if (Owner != null)
@@ -2053,8 +2055,9 @@ namespace Code2015.World
             if (light)
             {
                 battleField.Fog.LightArea(MathEx.Degree2Radian(Longitude),
-                    MathEx.Degree2Radian(Latitude), MathEx.Degree2Radian(10));
+                    MathEx.Degree2Radian(Latitude), MathEx.Degree2Radian(15));
             }
+           
         }
 
         public void TestBalls()
@@ -2193,6 +2196,7 @@ namespace Code2015.World
                 for (int i = 0; i < ops.Length; i++)
                 {
                     ops[i].Transformation *= currentFacingMatrix;
+                    ops[i].Sender = this;
                 }
                 opBuffer.Add(ops);
             }

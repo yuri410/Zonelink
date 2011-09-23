@@ -1,5 +1,6 @@
 #include "ShadowMapping.psh"
 #include "fog.psh"
+#include "fogofwar_obj.psh"
 
 sampler2D texDif : register(s0);
 sampler2D texShd : register(s1);
@@ -62,6 +63,8 @@ PSOutput main(PSInput ip)
    
     
     o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.TexCoord.z);
-
+	// =======================================================
+    
+    o.Color.rgb = GetFogOfWarColor(o.Color.rgb);
     return o;
 }

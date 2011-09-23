@@ -6,6 +6,7 @@ using Code2015.EngineEx;
 using Code2015.Logic;
 using Apoc3D.MathLib;
 using Apoc3D.Graphics;
+using Apoc3D;
 
 namespace Code2015.World
 {
@@ -14,12 +15,21 @@ namespace Code2015.World
     /// </summary>
     abstract class WorldObject : StaticModelObject
     {
+        protected BattleField battleField;
         /// <summary>
         ///  拥有此物体的玩家
         /// </summary>
         public Player Owner { get; protected set; }
 
-
+        public bool IsInVisibleRange
+        {
+            get { return Visiblity > 0.3f; }
+        }
+        public float Visiblity
+        {
+            get;
+            private set;
+        }
         /// <summary>
         ///  经度
         /// </summary>
@@ -30,17 +40,20 @@ namespace Code2015.World
         public float Latitude { get; protected set; }
 
 
-        protected WorldObject(Player owner) 
+        protected WorldObject(Player owner, BattleField battfield) 
         {
             this.Owner = owner;
+            this.battleField = battfield;
             //fsmMachine = new FSMMachine(this);
             //this.IsSelected = false;
         }
-
-        protected WorldObject() 
+        protected WorldObject(BattleField battfield)
         {
+            this.battleField = battfield;
             //fsmMachine = new FSMMachine(this);
         }
+
+
 
         public abstract void InitalizeGraphics(RenderSystem rs);
 
@@ -50,11 +63,12 @@ namespace Code2015.World
         //    return fsmMachine.HandleMessage(msg);
         //}
 
-        ////更新状态
-        //public override void Update(GameTime dt)
-        //{
-        //    this.fsmMachine.Update(dt);
-        //}
+        //更新状态
+        public override void Update(GameTime dt)
+        {
+            Visiblity = battleField.Fog.GetVisibility(MathEx.Degree2Radian(Longitude),
+                   MathEx.Degree2Radian(Latitude));
+        }
 
         public override bool IntersectsSelectionRay(ref Ray ray)
         {

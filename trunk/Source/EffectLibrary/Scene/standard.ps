@@ -1,5 +1,6 @@
 #include "ShadowMapping.psh"
 #include "hatching.psh"
+#include "fogofwar_obj.psh"
 
 sampler2D texDif : register(s0);
 sampler2D texShd : register(s1);
@@ -64,5 +65,9 @@ PSOutput main(PSInput ip)
 	float3 hatchColor = computeHatchColor(ndl * shd, hatchTexCoord);
     
     o.Color.rgb *=  hatchColor;
+    
+    // =======================================================
+    
+    o.Color.rgb = GetFogOfWarColor(o.Color.rgb);
     return o;
 }

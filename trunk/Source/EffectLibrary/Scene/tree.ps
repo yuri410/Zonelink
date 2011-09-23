@@ -1,6 +1,7 @@
 #include "ShadowMapping.psh"
 #include "hatching.psh"
 #include "fog.psh"
+#include "fogofwar.psh"
 
 sampler2D texDif : register(s0);
 sampler2D texShd : register(s1);
@@ -22,6 +23,7 @@ struct PSInput
     float3 Normal : TEXCOORD1; 
 	float4 smLgtPos : TEXCOORD2;
     float3 ViewDir : TEXCOORD5;
+    float2 GlobalTC : TEXCOORD3;
 };
 
 struct PSOutput
@@ -68,6 +70,9 @@ PSOutput main(PSInput ip)
     
     
     o.Color.rgb = lerp(o.Color.rgb, FOG_COLOR, ip.TexCoord.z);
-
+	
+	// =======================================================
+    
+    o.Color.rgb = GetFogOfWarColor(ip.GlobalTC,o.Color.rgb);
     return o;
 }

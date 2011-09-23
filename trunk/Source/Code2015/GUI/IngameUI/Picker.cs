@@ -135,8 +135,31 @@ namespace Code2015.GUI
 
         public void SelectCurrentObject()
         {
-            SelectedObject = MouseHoverObject;
-            SelectedCity = MouseHoverCity;
+            Harvester harv = MouseHoverObject as Harvester;
+            WorldObject wo = MouseHoverObject as WorldObject;
+            if (wo != null && wo.IsInVisibleRange)
+            {
+                SelectedObject = MouseHoverObject;
+            }
+            else if (harv != null && harv.IsInVisibleRange)
+            {
+                SelectedObject = MouseHoverObject;
+            }
+            else 
+            {
+                SelectedObject = null;
+            }
+
+            if (MouseHoverCity != null && MouseHoverCity.IsInVisibleRange)
+            {
+                SelectedCity = MouseHoverCity;
+            }
+            else 
+            {
+                SelectedCity = null;
+            }
+            //SelectedObject = MouseHoverObject;
+            //SelectedCity = MouseHoverCity;
         }
 
         public override void UpdateInteract(GameTime time)
@@ -145,6 +168,12 @@ namespace Code2015.GUI
             MouseHoverObject = obj as ISelectableObject;
             MouseHoverCity = MouseHoverObject as City;
             
+            Harvester harv = MouseHoverObject as Harvester;
+            if (harv != null && !harv.IsInVisibleRange)
+            {
+                MouseHoverObject = null;
+            }
+
         }
     }
 }

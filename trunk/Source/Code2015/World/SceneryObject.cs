@@ -34,35 +34,72 @@ using Code2015.EngineEx;
 
 namespace Code2015.World
 {
-    class SceneryObject : StaticModelObject
+    class SceneryObject : WorldObject
     {
-        public SceneryObject(RenderSystem rs, ConfigurationSection sect)
+        BattleField battleField;
+        string modelName;
+
+        float scale;
+        float rot;
+
+        public SceneryObject(BattleField btfld)
+            : base(btfld)
         {
-            FileLocation fl = FileSystem.Instance.Locate(sect["Model"], GameFileLocs.Model);
-            float scale = sect.GetSingle("Radius", 1);
+            battleField = btfld;
 
-            float rot = sect.GetSingle("Amount", 0);
+            //float lng = sect.GetSingle("Longitude");
+            //float lat = sect.GetSingle("Latitude");
+            //lng = MathEx.Degree2Radian(lng);
+            //lat = MathEx.Degree2Radian(lat);
 
-            ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
-            ModelL0.CurrentAnimation.Clear();
-            ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(scale, scale, scale) * 
-                Matrix.RotationY(MathEx.Degree2Radian(rot))));
-
-            float lng = sect.GetSingle("Longitude");
-            float lat = sect.GetSingle("Latitude");
-            lng = MathEx.Degree2Radian(lng);
-            lat = MathEx.Degree2Radian(lat);
-
-            float alt = TerrainData.Instance.QueryHeight(lng, lat);
-
-            Position = PlanetEarth.GetPosition(lng, lat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
-            Orientation =  PlanetEarth.GetOrientation(lng, lat);
         }
 
         public override bool IsSerializable
         {
             get { return false; }
         }
+        public override RenderOperation[] GetRenderOperation()
+        {
+            RenderOperation[] rop = ModelL0.GetRenderOperation();
+            if (rop != null)
+            {
+                for (int i = 0; i < rop.Length; i++)
+                {
+                    rop[i].Sender = this;
+                }
+            }
+            return rop;
+        }
 
+
+
+        public override void Parse(GameConfigurationSection sect)
+        {
+            base.Parse(sect);
+
+            modelName = sect["Model"];
+            
+            scale = sect.GetSingle("Radius", 1);
+
+            rot = sect.GetSingle("Amount", 0);
+
+            float radLng = MathEx.Degree2Radian(Longitude);
+            float radLat = MathEx.Degree2Radian(Latitude);
+
+            float alt = TerrainData.Instance.QueryHeight(radLng, radLat);
+
+            Position = PlanetEarth.GetPosition(radLng, radLat, PlanetEarth.PlanetRadius + alt * TerrainMeshManager.PostHeightScale);
+            Orientation = PlanetEarth.GetOrientation(radLng, radLat);
+        }
+
+        public override void InitalizeGraphics(RenderSystem rs)
+        {
+            FileLocation fl = FileSystem.Instance.Locate(modelName, GameFileLocs.Model);
+
+            ModelL0 = new Model(ModelManager.Instance.CreateInstance(rs, fl));
+            ModelL0.CurrentAnimation.Clear();
+            ModelL0.CurrentAnimation.Add(new NoAnimaionPlayer(Matrix.Scaling(scale, scale, scale) *
+                Matrix.RotationY(MathEx.Degree2Radian(rot))));
+        }
     }
 }

@@ -145,7 +145,8 @@ namespace Code2015.World
             get { return exRes; }
             set { exRes = value; }
         }
-
+        public float Visibility { get; private set; }
+        public bool IsInVisibleRange { get { return Visibility > 0.2f; } }
         public float Longitude
         {
             get { return longtitude; }
@@ -620,9 +621,41 @@ namespace Code2015.World
             // 通过插值计算的经纬度得到坐标
             Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
             base.Update(dt);
+
+
+
+            BattleField field = map.Field;
+
+
+            if (parent != null && parent.Owner != null && parent.Owner.Type == PlayerType.LocalHuman)
+            {
+                field.Fog.LightArea(longtitude,
+                    latitude, MathEx.Degree2Radian(5));
+            }
+
+            Visibility = field.Fog.GetVisibility(longtitude,
+                   latitude);
+            //if (IsSelected && IsInVisibleRange)
+            //{
+            //    IsSelected = false;
+
+            //}   
+
         }
 
+        public override RenderOperation[] GetRenderOperation(int level)
+        {
+            if (Visibility < 0.2f)
+                return null;
+            RenderOperation[] rop = base.GetRenderOperation(level);
 
+            if (rop != null)
+            {
+                for (int i = 0; i < rop.Length; i++)
+                    rop[i].Sender = this;
+            }
+            return rop;
+        }
 
         #region ISelectableObject 成员
 

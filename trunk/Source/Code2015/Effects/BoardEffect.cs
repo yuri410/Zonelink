@@ -229,7 +229,16 @@ namespace Code2015.Effects
                 {
                     pixShader.SetValue("amount", new Vector2(123, 456));
                 }
-                
+
+                WorldObject wo = op.Sender as WorldObject;
+                if (wo != null)
+                {
+                    pixShader.SetValue("visiblity", wo.Visiblity);
+                }
+                else
+                {
+                    pixShader.SetValue("visiblity", 0.0f);
+                }
 
                 if (!stateSetted)
                 {

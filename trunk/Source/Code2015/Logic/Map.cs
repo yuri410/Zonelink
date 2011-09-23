@@ -71,6 +71,11 @@ namespace Code2015.Logic
             br.Close();
         }
 
+        public BattleField Field
+        {
+            get { return region; }
+        }
+
         public PathFinderManager PathFinder
         {
             get { return pathFinder; }

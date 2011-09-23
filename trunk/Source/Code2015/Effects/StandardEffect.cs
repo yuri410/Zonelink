@@ -32,6 +32,7 @@ using Apoc3D.Media;
 using Apoc3D.Scene;
 using Apoc3D.Vfs;
 using Code2015.EngineEx;
+using Code2015.World;
 
 namespace Code2015.Effects
 {
@@ -242,6 +243,18 @@ namespace Code2015.Effects
 
                 vtxShader.SetValue("smTrans", lightPrjTrans);
 
+
+                WorldObject wo = op.Sender as WorldObject;
+                if (wo != null)
+                {
+                    pixShader.SetValue("visiblity", wo.Visiblity);
+                }
+                else
+                {
+                    pixShader.SetValue("visiblity", 1.0f);
+                }
+
+
                 if (!stateSetted)
                 {
                     ShaderSamplerState state = new ShaderSamplerState();
@@ -261,6 +274,7 @@ namespace Code2015.Effects
                     pixShader.SetValue("k_e", mat.Emissive);
                     pixShader.SetValue("k_power", mat.Power);
 
+                    
 
                     pixShader.SetSamplerState("texDif", ref state);
 
