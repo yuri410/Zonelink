@@ -71,15 +71,19 @@ namespace Code2015
 
         AudioListener listener;
         Dictionary<string, SoundEffectGame> sfxTable;
+        Vector3 listenerPosition;
 
         public Vector3 ListenerPosition
         {
             get
             {
-                XF.Vector3 v = listener.Position;
-                return new Vector3(v.X, v.Y, v.Z);
+                return listenerPosition;
+                //XF.Vector3 v = listener.Position;
+                //return new Vector3(v.X, v.Y, v.Z);
             }
-            set { listener.Position = new XF.Vector3(value.X, value.Y, value.Z); }
+            set { listener.Position = new XF.Vector3(value.X, value.Y, value.Z);
+            listenerPosition = value;
+            }
         }
 
         /// <summary>

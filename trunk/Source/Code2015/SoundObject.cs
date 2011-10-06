@@ -55,6 +55,7 @@ namespace Code2015
         protected SoundEffectInstance currentInstance;
         //protected Vector3 cameraPosition;
         Vector3 position;
+        bool isPosDirty;
 
         public float Radius 
         {
@@ -85,7 +86,7 @@ namespace Code2015
         public Vector3 Position
         {
             get { return position; }
-            set { position = value; }
+            set { position = value; isPosDirty = true; }
         }
 
         #region IUpdatable 成员
@@ -107,8 +108,12 @@ namespace Code2015
             {
                 soundEffectGame.Update(this, currentInstance);
             }
-           
-            emitter.Position = new MXF.Vector3(position.X, position.Y, position.Z);
+
+            if (isPosDirty)
+            {
+                emitter.Position = new MXF.Vector3(position.X, position.Y, position.Z);
+                isPosDirty = false;
+            }
             //emitter.Forward = MXF.Vector3.Normalize(emitter.Position);
            
         }

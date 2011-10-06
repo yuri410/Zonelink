@@ -60,6 +60,7 @@ namespace Code2015.Effects
 
         public override bool SupportsMode(RenderMode mode)
         {
+            
             return true;
         }
     }

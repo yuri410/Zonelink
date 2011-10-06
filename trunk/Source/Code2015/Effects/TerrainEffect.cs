@@ -142,6 +142,7 @@ namespace Code2015.Effects
         {
             //if (mode == RenderMode.Depth)
                 //return false;
+            
             return true;
         }
 
