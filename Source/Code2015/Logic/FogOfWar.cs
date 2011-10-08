@@ -205,7 +205,7 @@ namespace Code2015.Logic
                         else { cooldown[i][j] = 0; }
                         
                         int diff = targetValue[i][j] - visiblity[i][j];
-                        if (Math.Abs(diff) > 4)
+                        if (diff > 4 || diff < -4)
                         {
                             visiblity[i][j] += Math.Sign(diff) * 4;
                         }
