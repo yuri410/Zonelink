@@ -1,0 +1,19 @@
+
+
+
+sampler2D depthTex : register(s0);
+
+
+
+struct PSInput
+{
+	float2 TexCoord : TEXCOORD0;
+};
+
+
+float4 main(float2 texCoord : TEXCOORD0) : COLOR0
+{
+    float depth = tex2D(depthTex, texCoord).z;
+    
+    return float4(depth,depth,depth,1);
+}

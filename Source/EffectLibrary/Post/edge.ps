@@ -61,5 +61,5 @@ float4 main(PSInput ip) : COLOR
   	
 	
 	float4 color = tex2D(colorTex, ip.TexCoord);
-	return lerp( color, float4(0,0,0, 1), saturate(value * 0.1));
+	return lerp( color , float4(0,0,0, 1), saturate(value * 0.1));
 }

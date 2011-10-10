@@ -36,7 +36,7 @@ namespace Code2015.World
 {
     class SceneryObject : WorldObject
     {
-        BattleField battleField;
+
         string modelName;
 
         float scale;
@@ -45,7 +45,7 @@ namespace Code2015.World
         public SceneryObject(BattleField btfld)
             : base(btfld)
         {
-            battleField = btfld;
+
 
             //float lng = sect.GetSingle("Longitude");
             //float lat = sect.GetSingle("Latitude");

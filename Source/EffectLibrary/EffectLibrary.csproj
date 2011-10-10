@@ -115,6 +115,7 @@
     <None Include="NormalBuffer\waterNormalGen.vs" />
     <None Include="Particle\smoke.ps" />
     <None Include="Particle\smoke.vs" />
+    <None Include="Post\depthView.ps" />
     <None Include="Scene\atmosphere.ps" />
     <None Include="Scene\atmosphere.vs" />
     <None Include="Scene\bolt.ps" />
