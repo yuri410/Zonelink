@@ -30,6 +30,7 @@ using Apoc3D.Media;
 using Code2015.Effects;
 using Apoc3D.Graphics.Effects;
 using Code2015.World;
+using Code2015.GUI;
 
 namespace Code2015.EngineEx
 {
@@ -92,6 +93,7 @@ namespace Code2015.EngineEx
         Bloom bloomEff;
         Composite compEff;
         EdgeDetect edgeEff;
+        DepthView depthViewEff;
 
         GaussBlur gaussBlur;
 
@@ -106,7 +108,9 @@ namespace Code2015.EngineEx
         GeomentryData quadOp;
         GeomentryData smallQuadOp;
 
-        public GamePostRenderer(RenderSystem rs, RtsCamera camera)
+        Texture whitePixel;
+
+        unsafe public GamePostRenderer(RenderSystem rs, RtsCamera camera)
         {
             this.factory = rs.ObjectFactory;
 
@@ -117,8 +121,13 @@ namespace Code2015.EngineEx
             compEff = new Composite(rs);
             gaussBlur = new GaussBlur(rs);
             edgeEff = new EdgeDetect(rs);
+            depthViewEff = new DepthView(rs);
 
             vtxDecl = factory.CreateVertexDeclaration(RectVertex.Elements);
+
+            whitePixel = factory.CreateTexture(1, 1, 1, TextureUsage.StaticWriteOnly, ImagePixelFormat.A8R8G8B8);
+            *(uint*)whitePixel.Lock(0, LockMode.None).Pointer.ToPointer() = 0xffffffff;
+            whitePixel.Unlock(0);
 
             LoadUnmanagedResources();
         }
@@ -133,6 +142,19 @@ namespace Code2015.EngineEx
             renderSys.RenderSimple(smallQuadOp);
         }
 
+
+        enum TestMode
+        { 
+            Final,
+            Original,
+            Normal,
+            Edge,
+            Depth,
+            Blurred
+        }
+
+        TestMode testMode;
+        Microsoft.Xna.Framework.Input.KeyboardState lastState;
         /// <summary>
         ///  见接口
         /// </summary>
@@ -140,10 +162,31 @@ namespace Code2015.EngineEx
         /// <param name="screenTarget"></param>
         public void RenderFullScene(ISceneRenderer renderer, RenderTarget screenTarget, RenderMode mode)
         {
+            Microsoft.Xna.Framework.Input.KeyboardState ks = Microsoft.Xna.Framework.Input.Keyboard.GetState();
+            if (ks.IsKeyDown(Microsoft.Xna.Framework.Input.Keys.C) &&
+                lastState.IsKeyUp(Microsoft.Xna.Framework.Input.Keys.C))
+            {
+                testMode++;
+                if (testMode > TestMode.Blurred)
+                    testMode = TestMode.Final;
+            }
+            lastState = ks;
+
+            if (testMode == TestMode.Original)
+            {
+                renderer.RenderScene(screenTarget, RenderMode.Final);
+                return;
+            }
+            if (testMode == TestMode.Normal)
+            {
+                renderer.RenderScene(screenTarget, RenderMode.DeferredNormal);
+                return;
+            }
+
             renderer.RenderScene(nrmDepthBuffer, RenderMode.DeferredNormal);
 
-
             renderer.RenderScene(colorBuffer, RenderMode.Final);
+
 
             Viewport vp = renderSys.Viewport;
 
@@ -165,22 +208,33 @@ namespace Code2015.EngineEx
             sampler2.MinFilter = TextureFilter.Linear;
 
             #region 边缘合成
-            renderSys.SetRenderTarget(0, edgeResultBuffer);
+            renderSys.SetRenderTarget(0, testMode == TestMode.Edge ? screenTarget : edgeResultBuffer);
             edgeEff.Begin();
 
             edgeEff.SetSamplerStateDirect(0, ref sampler1);
             edgeEff.SetSamplerStateDirect(1, ref sampler1);
 
             edgeEff.SetTextureDirect(0, nrmDepthBuffer.GetColorBufferTexture());
-            edgeEff.SetTextureDirect(1, colorBuffer.GetColorBufferTexture());
+            edgeEff.SetTextureDirect(1, testMode == TestMode.Edge ? whitePixel : colorBuffer.GetColorBufferTexture());
 
             Vector2 nrmBufSize = new Vector2(vp.Width, vp.Height);
             edgeEff.SetValue("normalBufferSize", ref nrmBufSize);
-
             DrawBigQuad();
             edgeEff.End();
             #endregion
 
+            if (testMode == TestMode.Edge)
+                return;
+            if (testMode == TestMode.Depth)
+            {
+                renderSys.SetRenderTarget(0, screenTarget);
+                depthViewEff.Begin();
+                depthViewEff.SetSamplerStateDirect(0, ref sampler1);
+                depthViewEff.SetTextureDirect(0, nrmDepthBuffer.GetColorBufferTexture());
+                DrawBigQuad();
+                depthViewEff.End();
+                return;
+            }
             #region 高斯X
             renderSys.SetRenderTarget(0, blurredRt1);
 
@@ -202,7 +256,7 @@ namespace Code2015.EngineEx
 
             #region 高斯Y
 
-            renderSys.SetRenderTarget(0, blurredRt2);
+            renderSys.SetRenderTarget(0, testMode == TestMode.Blurred ? screenTarget : blurredRt2);
             gaussBlur.Begin();
 
             gaussBlur.SetSamplerStateDirect(0, ref sampler1);
@@ -213,13 +267,22 @@ namespace Code2015.EngineEx
                 gaussBlur.SetValueDirect(i, ref guassFilter.SampleOffsetsY[i]);
                 gaussBlur.SetValueDirect(i + 15, guassFilter.SampleWeights[i]);
             }
-            DrawSmallQuad();
+            if (testMode == TestMode.Blurred)
+            {
+                DrawBigQuad();
+            }
+            else
+            {
+                DrawSmallQuad();
+            }
 
             gaussBlur.End();
 
 
             #endregion
 
+            if (testMode == TestMode.Blurred)
+                return;
 
             #region DOF合成
 

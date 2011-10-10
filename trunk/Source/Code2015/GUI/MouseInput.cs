@@ -122,6 +122,11 @@ namespace Code2015.GUI
             private set;
         }
 
+        public static bool IsMouseUpMiddle
+        {
+            get;
+            private set;
+        }
         public static bool IsLeftPressed 
         {
             get { return currentState.LeftButton == XI.ButtonState.Pressed; }
@@ -135,9 +140,10 @@ namespace Code2015.GUI
         {
             IsMouseUpLeft = false;
             IsMouseUpRight = false;
+            IsMouseUpMiddle = false;
             IsMouseDownLeft = false;
             IsMouseDownRight = false;
-
+            
             oldState = currentState;
             OldScrollWheelValue = ScrollWheelValue;
             
@@ -175,6 +181,9 @@ namespace Code2015.GUI
                 IsMouseDownRight = true;
             }
 
+
+
+
             if (currentState.LeftButton == XI.ButtonState.Released &&
                 oldState.LeftButton == XI.ButtonState.Pressed)
             {
@@ -191,6 +200,7 @@ namespace Code2015.GUI
                 {
                     MouseUp(MouseButtonFlags.Middle, currentState.X, currentState.Y);
                 }
+                IsMouseUpMiddle = true;
             }
             if (currentState.RightButton == XI.ButtonState.Released &&
                 oldState.RightButton == XI.ButtonState.Pressed)

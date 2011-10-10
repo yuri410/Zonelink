@@ -42,4 +42,16 @@ namespace Code2015.Effects
             LoadVertexShader(rs, fl);
         }
     }
+    class DepthView : PostEffect
+    {
+        public DepthView(RenderSystem rs)
+            : base(rs)
+        {
+            FileLocation fl = FileSystem.Instance.Locate("depthView.cps", FileLocateRule.Effects);
+            LoadPixelShader(rs, fl);
+
+            fl = FileSystem.Instance.Locate("postQuad.cvs", FileLocateRule.Effects);
+            LoadVertexShader(rs, fl);
+        }
+    }
 }
