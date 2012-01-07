@@ -165,14 +165,14 @@ namespace Code2015.World
 
             position = GetRGBallPosition(dockCity, dockCity.CurrentFacing);
 
-            int lineCount = (int)Math.Ceiling(Math.Sqrt(balls.Count));
+            float lineCount = (float)Math.Sqrt(balls.Count);
             float span = (MathEx.PIf * 2) / lineCount;
 
             ballOffsets = new List<Vector3>(balls.Count);
             for (int i = 0; i < balls.Count; i++)
             {
-                int row = i / lineCount;
-                int col = i % lineCount;
+                float row = (float)i / lineCount;
+                float col = (float)Math.IEEERemainder(i, lineCount);
 
                 float radLng = col * span;
                 float radLat = (2 * row - lineCount) * span;
