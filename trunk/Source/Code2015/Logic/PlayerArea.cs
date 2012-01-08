@@ -32,7 +32,7 @@ using Code2015.World;
 namespace Code2015.Logic
 {
     delegate void NewMessageHandler(string msg, int level);
-
+    delegate void OwnedCityChangedHandler(City cc);
     /// <summary>
     ///  表示玩家当前所有的城市
     /// </summary>
@@ -84,6 +84,8 @@ namespace Code2015.Logic
             get { return rootCity; }
         }
 
+        public event OwnedCityChangedHandler NewCity;
+        public event OwnedCityChangedHandler LostCity;
 
 
         ///// <summary>
@@ -183,6 +185,11 @@ namespace Code2015.Logic
             //    }
             //}
             cities.Add(city);
+
+            if (NewCity != null)
+            {
+                NewCity(city);
+            }
         }
         public void NotifyLostCity(City city)
         {
@@ -192,6 +199,10 @@ namespace Code2015.Logic
             }
 
             cities.Remove(city);
+            if (LostCity != null)
+            {
+                LostCity(city);
+            }
         }
 
         //public event NewMessageHandler NewMessage;

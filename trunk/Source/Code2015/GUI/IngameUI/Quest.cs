@@ -53,10 +53,10 @@ namespace Code2015.GUI.IngameUI
 
             sprite.Draw(background, new Vector2(0, 613), ColorValue.White);
 
-            string msg = "HELP 15 CITIES";
+            string msg = "TRANSFORM 25 CITIES";
 
             fedge6.DrawString(sprite, msg, 130, 660, ColorValue.White);
-            fedge6.DrawString(sprite, "\n " + player.Area.CityCount.ToString() + " / 15 )", 130, 660, ColorValue.Yellow);
+            fedge6.DrawString(sprite, "\n " + player.Area.CityCount.ToString() + " / 25 )", 130, 660, ColorValue.Yellow);
           
         }
     }

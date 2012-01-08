@@ -114,7 +114,7 @@ namespace Code2015.Logic
             if (Area != null)
             {
                 Area.Update(time);
-                Win |= Area.CityCount >= 15;
+                Win |= Area.CityCount >= 25;
             }
         }
     }

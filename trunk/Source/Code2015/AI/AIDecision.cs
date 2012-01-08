@@ -33,16 +33,50 @@ namespace Code2015.AI
 {
     class AIDecision
     {
-        const int AIHelpMiniumBallCount = 10;
+        class CityWeights
+        {
+            public float OilBallRequirements;
+            public float BulletRequirements;
+            public float VirusRequirements;
+
+            public float BaseBias;
+
+            public CityWeights()
+            {
+                BaseBias = Randomizer.GetRandomSingle() * 0.01f;
+            }
+        }
+
+        /** AI Decision making is based on a weighted system
+         *  
+         *  The sending of balls with AI's own bound is based on:
+         *   OilBall = Type, Adjacency
+         *   Bullet = Type, Adjacency, Limit, Level
+         *   Virus = Health, Type
+         *   
+         *  Details:
+         *   OilBall: CityDangerIndex * (1+ Type is neutral city)
+         *   Bullet: (Type is not Violence * 0.5 + 0.5) * InvCityDangerIndex * (Level!=10) * (Type is not Violence) ? (5-NumOfBullet) : 1 
+         *   Virus:  if all cities are full health then back to Producer, else 1-HealthRate * (Type is not VCity)
+         */
+        const int AIMoveMiniumAttackBallCount = 10;
+        const int AIMoveMiniumBuffBallCount = 2;
+
+        const int AIMaxCityCallCount = 50;
         const int AIAttackMiniumBallCount = 5;
 
-        const int AIMaxCities = 10;
+        const int AIMaxCities = 25;
         AIPlayer player;
         PlayerArea area;
+
+        /// <summary>
+        ///  This decision helper is for attack/expanding decision only
+        /// </summary>
         AIDecisionHelper helper;
         float decisionTime;
 
-        List<City> cityBuffer = new List<City>();
+        //List<City> cityBuffer = new List<City>();
+        Dictionary<City, CityWeights> cityWeights = new Dictionary<City, CityWeights>(25);
 
         BattleField world;
 
@@ -60,6 +94,10 @@ namespace Code2015.AI
 
 
             helper = new AIDecisionHelper(world);
+
+            area.NewCity += PlayerArea_NewCity;
+            area.LostCity += PlayerArea_RemoveCity;
+
         }
 
         void Attack()
@@ -100,7 +138,7 @@ namespace Code2015.AI
             }
         }
 
-        int GetCityDanger(City a)
+        int GetCityDangerIndex(City a)
         {
             int result = 0;
             for (int j = 0; j < a.LinkableCityCount; j++)
@@ -125,67 +163,138 @@ namespace Code2015.AI
 
             if (decisionTime < 0)
             {
-                //if (Randomizer.GetRandomSingle() < 0.2f)
-                //{
+                if (Randomizer.GetRandomSingle() < 0.2f)
+                {
                     if (area.CityCount < AIMaxCities)
                     {
                         Attack();
                     }
-                   
-                //}
-                //else 
-                //{
 
-                //    City bestHelpCity = null;
-                //    City bestHelpCitySource = null;
-                //    float score = 0;
+                }
+                else
+                {
+                    for (int k = 0; k < 2 && area.CityCount > 1; k++)
+                    {
+                        //bool succeed = false;
+                        int i = Randomizer.GetRandomInt(area.CityCount);
+                        int j = Randomizer.GetRandomInt(area.CityCount);
+                        while (i == j)
+                        {
+                            j = Randomizer.GetRandomInt(area.CityCount);
+                        }
 
-                //    for (int i = 0; i < area.CityCount; i++)
-                //    {
-                //        City a = area.GetCity(i);
-                //        int ad = GetCityDanger(a);
+                        City ca = area.GetCity(i);
+                        City cb = area.GetCity(j);
 
-                //        if (ad < 2)
-                //        {
-                //            for (int j = i + 1; j < area.CityCount; j++)
-                //            {
-                //                City b = area.GetCity(j);
-                //                int bd = GetCityDanger(b);
-                //                if (bd > 10)
-                //                {
-                //                    float s = Vector3.Distance(a.Position, b.Position);
-                //                    s = 7000 - s;
-                //                    s += b.NearbyOwnedBallCount * 100;
-                //                    if (s > score)
-                //                    {
-                //                        bestHelpCity = a;
-                //                        bestHelpCitySource = b;
-                //                    }
-                //                }
+                        CityWeights caw;
+                        CityWeights cbw;
 
-                //            }
-                //        }
-                //    }
+                        cityWeights.TryGetValue(ca, out caw);
+                        cityWeights.TryGetValue(cb, out cbw);
 
-                //    if (bestHelpCity != null && bestHelpCitySource.GetOwnedAttackBallCount() > AIHelpMiniumBallCount)
-                //    {
-                //        if (!bestHelpCitySource.Throw(bestHelpCity))
-                //        {
-                //            Attack();
-                //        }
-                //    }
-                //    else
-                //    {
-                //        Attack();
-                //    }
-                //}
-                    decisionTime = AIDecisionDelay + Randomizer.GetRandomSingle() * DecisionRandom;
+                        if (caw != null && cbw != null)
+                        {
+                            world.BallPathFinder.Reset();
+                            BallPathFinderResult result = world.BallPathFinder.FindPath(ca, cb);
+                            if (result != null)
+                            {
+                                if (caw.BulletRequirements < cbw.BulletRequirements)
+                                {
+                                    if (ca.NearbyOwnedBallCount > AIMoveMiniumBuffBallCount && 
+                                        cb.NearbyOwnedBallCount < AIMaxCityCallCount)
+                                        ca.Throw(cb, RBallType.Volience);
+                                }
+                                else
+                                {
+                                    if (cb.NearbyOwnedBallCount > AIMoveMiniumBuffBallCount &&
+                                        ca.NearbyOwnedBallCount < AIMaxCityCallCount)
+                                        cb.Throw(ca, RBallType.Volience);
+                                }
+
+                                if (caw.OilBallRequirements < cbw.OilBallRequirements)
+                                {
+                                    if (ca.NearbyOwnedBallCount > AIMoveMiniumAttackBallCount &&
+                                        cb.NearbyOwnedBallCount < AIMaxCityCallCount)
+                                        ca.Throw(cb, RBallType.Oil);
+                                }
+                                else
+                                {
+                                    if (cb.NearbyOwnedBallCount > AIMoveMiniumAttackBallCount &&
+                                        ca.NearbyOwnedBallCount < AIMaxCityCallCount)
+                                        cb.Throw(ca, RBallType.Oil);
+                                }
+
+                                if (caw.VirusRequirements < cbw.VirusRequirements)
+                                {
+                                    if (ca.NearbyOwnedBallCount > AIMoveMiniumBuffBallCount &&
+                                        cb.NearbyOwnedBallCount < AIMaxCityCallCount)
+                                        ca.Throw(cb, RBallType.Disease);
+                                }
+                                else
+                                {
+                                    if (cb.NearbyOwnedBallCount > AIMoveMiniumBuffBallCount &&
+                                        ca.NearbyOwnedBallCount < AIMaxCityCallCount)
+                                        cb.Throw(ca, RBallType.Disease);
+                                }
+
+                            }
+                        }
+                    }
+                }
+                decisionTime = AIDecisionDelay + Randomizer.GetRandomSingle() * DecisionRandom;
             }
             else
             {
                 decisionTime -= time.ElapsedGameTimeSeconds;
             }
 
+        }
+
+        void PlayerArea_NewCity(City cc)
+        {
+            UpdateCityWeights();
+        }
+        void PlayerArea_RemoveCity(City cc)
+        {
+            UpdateCityWeights();
+        }
+
+        void UpdateCityWeights()
+        {
+            bool allFullHealth = true;
+            for (int i = 0; i < area.CityCount; i++)
+            {
+                City cc = area.GetCity(i);
+
+                if (cc.HPRate < 1 - 0.01f)
+                {
+                    allFullHealth = false;
+                    break;
+                }
+            }
+
+            for (int i = 0; i < area.CityCount; i++)
+            {
+                City cc = area.GetCity(i);
+                CityWeights weight;
+
+                if (!cityWeights.TryGetValue(cc, out weight))
+                {
+                    weight = new CityWeights();
+                    cityWeights.Add(cc, weight);
+                }
+
+                int dindex = GetCityDangerIndex(cc);
+                weight.OilBallRequirements = dindex * (1 + cc.Type == CityType.Neutral ? 1 : 0);
+                weight.OilBallRequirements += weight.BaseBias;
+
+                int isNotViolence = (cc.Type != CityType.Volience ? 1 : 0);
+                weight.BulletRequirements = (1 - (isNotViolence * cc.Level) / 10.0f) * (isNotViolence * 0.5f + 0.5f) / dindex;
+                weight.BulletRequirements += weight.BaseBias;
+
+                weight.VirusRequirements = allFullHealth ? (cc.Type == CityType.Disease ? 1 : 0) : (1 - cc.HPRate);
+                weight.VirusRequirements += weight.BaseBias;
+            }
         }
     }
 }
