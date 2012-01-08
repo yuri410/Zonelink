@@ -163,7 +163,7 @@ namespace Code2015.GUI.IngameUI
                     sprite.Draw(okButton.Image, okButton.X, okButton.Y - 4, ColorValue.White);
                 }
 
-                GameFontManager.Instance.FRuanEdged8.DrawString(sprite, "HELP 15 CITIES.\nYOU MUST SURVIVE.", 540, 240, ColorValue.White);
+                GameFontManager.Instance.FRuanEdged8.DrawString(sprite, "TRANSFORM 25 CITIES.\nYOU MUST SURVIVE.", 540, 240, ColorValue.White);
             }
         }
     }
