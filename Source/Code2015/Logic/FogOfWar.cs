@@ -54,7 +54,7 @@ namespace Code2015.Logic
         Texture mask;
         Filter2DResult[] gaussFilter = new Filter2DResult[50];
 
-        bool fogAllOut = true;
+        bool fogAllOut = false;
 
         Texture FogMask
         { get { return mask; } }
