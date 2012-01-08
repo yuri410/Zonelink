@@ -128,13 +128,32 @@ namespace Code2015.AI
                 }
             }
 
-            if (bestAttackCity != null && bestAttackCityParent.CanHandleCommand())
+            if (bestAttackCity != null)// && bestAttackCityParent.CanHandleCommand()
             {
-                int abc = bestAttackCityParent.GetOwnedAttackBallCount();
-                if (abc >= AIAttackMiniumBallCount && abc >= bestAttackCity.GetOwnedAttackBallCount())
+
+                int targetAttackCount = bestAttackCity.GetOwnedAttackBallCount();
+
+                int accumBallCount = 0;
+                int tries = 0;
+                for (int i = Randomizer.GetRandomInt(area.CityCount); 
+                    tries < area.CityCount && accumBallCount <= targetAttackCount; 
+                    i = Randomizer.GetRandomInt(area.CityCount))
                 {
-                    bestAttackCityParent.Throw(bestAttackCity);
+                    City cc = area.GetCity(i);
+
+                    int toAdd = cc.NearbyOwnedBallCount;
+
+                    if (toAdd >= AIAttackMiniumBallCount && cc.Throw(bestAttackCity))
+                    {
+                        accumBallCount += toAdd;
+                    }
+                    tries++;
                 }
+                //int abc = bestAttackCityParent.GetOwnedAttackBallCount();
+                //if (abc >= AIAttackMiniumBallCount && abc >= bestAttackCity.GetOwnedAttackBallCount())
+                //{
+                //    bestAttackCityParent.Throw(bestAttackCity);
+                //}
             }
         }
 
