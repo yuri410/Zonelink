@@ -28,6 +28,7 @@ using Apoc3D;
 using Apoc3D.MathLib;
 using Code2015.Logic;
 using Code2015.World;
+using Apoc3D.Collections;
 
 namespace Code2015.AI
 {
@@ -41,9 +42,15 @@ namespace Code2015.AI
 
             public float BaseBias;
 
+            public float GetWeightedOilRequirements(City c)
+            {
+                float ratio = (c.NearbyEnemyBallCount + 1) / (c.NearbyOwnedBallCount + 1);
+                return OilBallRequirements * ratio;
+            }
+
             public CityWeights()
             {
-                BaseBias = Randomizer.GetRandomSingle() * 0.01f;
+                //BaseBias = Randomizer.GetRandomSingle() * 0.01f;
             }
         }
 
@@ -105,7 +112,7 @@ namespace Code2015.AI
             float maxAttack = 0;
 
             City bestAttackCity = null;
-            City bestAttackCityParent = null;
+            //City bestAttackCityParent = null;
 
 
             for (int i = 0; i < area.CityCount; i++)
@@ -122,7 +129,7 @@ namespace Code2015.AI
                         {
                             maxAttack = m;
                             bestAttackCity = cc2;
-                            bestAttackCityParent = cc;
+                            //bestAttackCityParent = cc;
                         }
                     }
                 }
@@ -130,7 +137,7 @@ namespace Code2015.AI
 
             if (bestAttackCity != null)// && bestAttackCityParent.CanHandleCommand()
             {
-
+                FastList<City> sources = new FastList<City>();
                 int targetAttackCount = bestAttackCity.GetOwnedAttackBallCount();
 
                 int accumBallCount = 0;
@@ -143,17 +150,25 @@ namespace Code2015.AI
 
                     int toAdd = cc.NearbyOwnedBallCount;
 
-                    if (toAdd >= AIAttackMiniumBallCount && cc.Throw(bestAttackCity))
+                    if (toAdd >= AIAttackMiniumBallCount && cc.HasPathTo(bestAttackCity))
                     {
                         accumBallCount += toAdd;
+                        sources.Add(cc);
                     }
                     tries++;
                 }
-                //int abc = bestAttackCityParent.GetOwnedAttackBallCount();
-                //if (abc >= AIAttackMiniumBallCount && abc >= bestAttackCity.GetOwnedAttackBallCount())
-                //{
-                //    bestAttackCityParent.Throw(bestAttackCity);
-                //}
+
+
+                int abc = accumBallCount;
+                if (abc >= bestAttackCity.GetOwnedAttackBallCount())
+                {
+                    for (int i = 0; i < sources.Count; i++) 
+                    {
+                        sources[i].Throw(bestAttackCity);
+                    }
+
+                    //bestAttackCityParent.Throw(bestAttackCity);
+                }
             }
         }
 
@@ -213,6 +228,9 @@ namespace Code2015.AI
 
                         if (caw != null && cbw != null)
                         {
+                            float caw_o = caw.GetWeightedOilRequirements(ca);
+                            float cbw_o = cbw.GetWeightedOilRequirements(cb);
+
                             world.BallPathFinder.Reset();
                             BallPathFinderResult result = world.BallPathFinder.FindPath(ca, cb);
                             if (result != null)
@@ -223,20 +241,20 @@ namespace Code2015.AI
                                         cb.NearbyOwnedBallCount < AIMaxCityCallCount)
                                         ca.Throw(cb, RBallType.Volience);
                                 }
-                                else
+                                else if (caw.BulletRequirements > cbw.BulletRequirements)
                                 {
                                     if (cb.NearbyOwnedBallCount > AIMoveMiniumBuffBallCount &&
                                         ca.NearbyOwnedBallCount < AIMaxCityCallCount)
                                         cb.Throw(ca, RBallType.Volience);
                                 }
 
-                                if (caw.OilBallRequirements < cbw.OilBallRequirements)
+                                if (caw_o < cbw_o)
                                 {
                                     if (ca.NearbyOwnedBallCount > AIMoveMiniumAttackBallCount &&
                                         cb.NearbyOwnedBallCount < AIMaxCityCallCount)
                                         ca.Throw(cb, RBallType.Oil);
                                 }
-                                else
+                                else if (caw_o > cbw_o)
                                 {
                                     if (cb.NearbyOwnedBallCount > AIMoveMiniumAttackBallCount &&
                                         ca.NearbyOwnedBallCount < AIMaxCityCallCount)
@@ -249,7 +267,7 @@ namespace Code2015.AI
                                         cb.NearbyOwnedBallCount < AIMaxCityCallCount)
                                         ca.Throw(cb, RBallType.Disease);
                                 }
-                                else
+                                else if (caw.VirusRequirements > cbw.VirusRequirements)
                                 {
                                     if (cb.NearbyOwnedBallCount > AIMoveMiniumBuffBallCount &&
                                         ca.NearbyOwnedBallCount < AIMaxCityCallCount)

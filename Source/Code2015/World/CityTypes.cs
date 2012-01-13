@@ -316,7 +316,7 @@ namespace Code2015.World
         {
             for (int i = 0; i < nearResource.Count; i++)
             {
-                if (nearResource[i].CurrentAmount > 0)
+                if (nearResource[i].CurrentAmount > nearResource[i].MaxAmount * 0.1f)
                     resourceIndex = i;
             }
         }
