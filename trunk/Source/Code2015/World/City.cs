@@ -1506,6 +1506,14 @@ namespace Code2015.World
             throwPathCont = null;
             ChangeState(CityState.WaitingGather);
         }
+
+        public bool HasPathTo(City target)
+        {
+            battleField.BallPathFinder.Reset();
+            BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, target);
+            return result != null;
+        }
+
         /// <summary>
         ///  人类直接命令发球
         /// </summary>
@@ -1967,6 +1975,12 @@ namespace Code2015.World
             {
                 NaturalDevelop(ddt);
 
+                //// cheating
+                //if (Owner.Type == PlayerType.LocalHuman)
+                //{
+                //    if (healthValue<CurrentMaxHealth)
+                //        healthValue++;
+                //}
                 //float devIncr = 0;
                 //// 计算附近同阵营资源球贡献发展量
                 //for (int i = 0; i < nearbyBallList.Count; i++)
