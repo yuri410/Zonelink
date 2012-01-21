@@ -89,9 +89,9 @@ namespace Code2015.AI
 
 
         [SLGValue]
-        const float AIDecisionDelay = 5;
+        const float AIDecisionDelay = 2;
         [SLGValue]
-        const float DecisionRandom = 4;
+        const float DecisionRandom = 2;
 
         public AIDecision(BattleField world, AIPlayer player)
         {
