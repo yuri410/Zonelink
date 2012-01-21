@@ -323,6 +323,8 @@ namespace Code2015.World
 
         public void NotifyGotResource(float change)
         {
+            //if (Owner != null && Owner.Type == PlayerType.LocalAI)
+                //change *= 5;
             this.resourceBuffer += change;
         }
 

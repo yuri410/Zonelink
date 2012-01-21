@@ -64,6 +64,7 @@ namespace Code2015.World
             //{
             //    if (localPlayers[i].Win) { return true; }
             //}
+            //return false;
             return LocalHumanPlayer.Area.CityCount == 0 || LocalHumanPlayer.Win;
         }
         public void InitialStandards()
