@@ -31,6 +31,10 @@ using Apoc3D.Vfs;
 
 namespace Code2015.EngineEx
 {
+    /// <summary>
+    ///  Stores the index data for each size of the terrain tile at a specific LOD, 
+    ///  since the mesh in one LOD share the same index data as the topology is unchanged.
+    /// </summary>
     class SharedIndexData
     {
         IndexBuffer indexBuffer;
@@ -147,6 +151,14 @@ namespace Code2015.EngineEx
         //    }
         //    return result;
         //}
+        /// <summary>
+        ///  Create a terrain mesh at the given tile-based coordinate and with a given size.
+        /// </summary>
+        /// <param name="rs"></param>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="size">The size can be either 33 or 17</param>
+        /// <returns></returns>
         public ResourceHandle<TerrainMesh> CreateInstance(RenderSystem rs, int x, int y, int size)
         {
             if (!loaded)

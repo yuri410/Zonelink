@@ -80,23 +80,27 @@ namespace Code2015.World
         AStarNodeBall[] units;
         /// <summary>
         /// 城市到节点的表
+        /// The table establishing a one to one relation ship between City and AStarNodeBall
         /// </summary>
         Dictionary<City, AStarNodeBall> nodeTable;
 
         City[] terrain;
 
         /// <summary>
-        /// BFS队列
+        ///  BFS队列
+        ///  The queue for broad first search 
         /// </summary>
         Queue<AStarNodeBall> queue = new Queue<AStarNodeBall>();
 
         /// <summary>
         /// 队列中的点 判重哈希表
+        /// The table used to check if the node is in the queue
         /// </summary>
         Dictionary<int, AStarNodeBall> inQueueTable = new Dictionary<int, AStarNodeBall>();
 
         /// <summary>
         /// 遍历过的点 判重哈希表
+        /// The table used to check if the node has been passed
         /// </summary>
         Dictionary<int, AStarNodeBall> passedTable = new Dictionary<int, AStarNodeBall>();
 
@@ -173,6 +177,7 @@ namespace Code2015.World
 
         /// <summary>
         /// 准备新的寻路
+        /// Prepares a new path finding
         /// </summary>
         public void Reset()
         {
@@ -184,6 +189,7 @@ namespace Code2015.World
 
         /// <summary>
         /// 继续未完成的寻路
+        /// Prepares to continue an unended path finding
         /// </summary>
         public void Continue()
         {
@@ -216,9 +222,10 @@ namespace Code2015.World
 
             AStarNodeBall finalNode = null;
 
+            // this is just a ordinary BFS with a sorting
             while (queue.Count > 0 && !(found))
             {
-                AStarNodeBall curPos = queue.Dequeue(); //将open列表中最前面的元素设为当前格
+                AStarNodeBall curPos = queue.Dequeue();
                 int curHash = curPos.GetHashCode();
 
 
@@ -228,6 +235,7 @@ namespace Code2015.World
                 City cc = curPos.City;
 
                 // BFS展开新节点
+                // expand sub nodes in the searching
                 for (int i = 0; i < cc.LinkableCityCount; i++) 
                 {
                     City nc = cc.GetLinkableCity(i);
@@ -237,10 +245,12 @@ namespace Code2015.World
 
                     if (np.City == target)
                     {
+                        // found the way to the destination
                         found = true; //找到路径了
                         finalNode = np;
 
                         np.depth = curPos.depth + 1;
+
                         np.parent = curPos;  //当前格坐标为终点的父方格坐标
                         break;
                     }
@@ -261,6 +271,8 @@ namespace Code2015.World
                             isNPInQueue = true;
                         }
 
+                        // check if the expanded node is allowable
+                        // Is the grid node is node in passedTable and inQueueTable?
                         if (!isNPInQueue &&
                             (!passedTable.TryGetValue(npHash, out temp) && temp != np))
                         //如果此方格不在即将展开的节点表 和 已遍历过的节点表

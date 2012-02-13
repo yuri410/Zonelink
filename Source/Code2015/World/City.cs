@@ -17,6 +17,7 @@ namespace Code2015.World
 {
     /// <summary>
     /// 城市的类型的标识
+    /// The enumeration containing all the types of cities
     /// </summary>
     enum CityType
     {
@@ -35,25 +36,53 @@ namespace Code2015.World
 
     enum CityState
     {
+        /// <summary>
+        ///  The default state, the time city can handle some messages or do random idle things
+        /// </summary>
         Stopped,
+        /// <summary>
+        ///  The state when the city is just to send a RGatheredBall, playing putting down the arm animation
+        /// </summary>
         Throw,
+        /// <summary>
+        ///  [Not used]
+        /// </summary>
         ThrowContinued,
+        /// <summary>
+        ///  The arm raising state to catch the ball
+        /// </summary>
         Catch,
+        /// <summary>
+        ///  After getting the ball, put down the arm
+        /// </summary>
         PostCatch,
+        /// <summary>
+        ///  The state when the city plays idle animation
+        /// </summary>
         Idle,
         WakeingUp,
         Laugh,
         Fear,
         Sleeping,
         Rotate,
+        /// <summary>
+        ///  The state when the city is wating RGatheredBall is ready before throwing,
+        ///  the raising arm animation is played in this state
+        /// </summary>
         WaitingGather
     }
 
+    /// <summary>
+    ///  The city may rotate to an angle to do something
+    /// </summary>
     enum CityRotationPurpose
     {
         None,
         Throw,
         Receive,
+        /// <summary>
+        ///  Similar to Throw, used for passing balls as intermediate passer
+        /// </summary>
         ThrowContinued,
         Fear
     }
@@ -62,9 +91,27 @@ namespace Code2015.World
     /// <summary>
     ///  表示游戏世界中的城市
     ///  是特殊的类型才继承，比如那些带矿车的
+    ///  Represents a city in the game world.
+    ///  Cities with special function are implemented by inheriting.
+    ///  
+    ///  <remarks>
+    ///   The state flow of some operations:
+    ///   
+    ///   Player ask a city to throw something:
+    ///     Stopped->Rotate->WaitingGather->Throw
+    ///   When the city receives a RGatheredBall(friend side), to pass to the next city
+    ///     Stopped->Rotate->Catch->PostCatch->
+    ///     Stopped->Rotate->WaitingGather->Throw
+    ///   
+    ///   When an enemy RGatheredBall is received
+    ///     Stopped->Rotate->Fear
+    ///  </remarks>
     /// </summary>
     class City : WorldObject, ISelectableObject
     {
+        /// <summary>
+        ///  The words the city can make in curtain circumstances
+        /// </summary>
         enum WordType
         {
             Ouch,
@@ -73,14 +120,33 @@ namespace Code2015.World
             Yeah,
             LevelUp
         }
+        /// <summary>
+        ///  Each throw ball command is treated as a task like this, queued in
+        ///  a list to be handled by the city
+        /// </summary>
         struct ThrowTask
         {
-            public RBallType typeToThrow;
+            /// <summary>
+            ///  Indicates if the throwing is to throw a given type of balls by the player
+            /// </summary>
             public bool isTypedThrow;
+            /// <summary>
+            ///  The type of balls if isTypedThrow
+            /// </summary>
+            public RBallType typeToThrow;
 
+            /// <summary>
+            ///  A list of cities along the way
+            /// </summary>
             public List<City> throwPath;
 
+            /// <summary>
+            ///  Indicates if the throwing have a given number of balls by the player
+            /// </summary>
             public bool isCountedThrow;
+            /// <summary>
+            ///  The number of balls if isCountedThrow
+            /// </summary>
             public int throwCount;
         }
         //struct Yangbing
@@ -95,16 +161,19 @@ namespace Code2015.World
 
         /// <summary>
         ///  城市底座所占圆的半径
+        ///  The city's radius
         /// </summary>
         public const float CityRadius = Game.ObjectScale * 100;
 
         /// <summary>
         ///  城市所属圈的半径
+        ///  The radius of the side color ring
         /// </summary>
         public const float CityOutterRadius = CityRadius + Game.ObjectScale * 15;
 
         /// <summary>
         ///  城市选择圈的半径
+        ///  The selection radius
         /// </summary>
         public const float CitySelRingScale = 2.35f;
 
@@ -136,7 +205,7 @@ namespace Code2015.World
 
         CityType cityType;
 
-        #region Word
+        #region States for Word
         bool isWordPlaying;
         WordType wordType;
         float wordPlayProgress;
@@ -151,6 +220,9 @@ namespace Code2015.World
         int lastLevel;
 
         #region Idle_State
+        /// <summary>
+        ///  The amount of time to elapse before playing the next idle animation
+        /// </summary>
         float nextIdleAnimationCD;
 
         #endregion
@@ -161,11 +233,19 @@ namespace Code2015.World
 
         FastQueue<RGatheredBall> receivedRGBall = new FastQueue<RGatheredBall>();
         FastQueue<ThrowTask> throwQueue = new FastQueue<ThrowTask>();
+        /// <summary>
+        ///  The RGatheredBall, which is a virtual big ball with all ball gathered created in a Throw_State,
+        ///  
+        /// </summary>
         RGatheredBall throwRgball;
 
         #endregion
 
         #region ThrowCont_State
+        /// <summary>
+        ///  The amount of time need to elapse when checking if any incoming RGatheredBall should 
+        ///  be passed to the next city
+        /// </summary>
         float throwContCheckCD;
         List<RBall> ballsToThrowCont;
         List<City> throwPathCont;
@@ -195,7 +275,10 @@ namespace Code2015.World
         Normal3DSoundObject popSound;
         //SoundObject 
 
-
+        /// <summary>
+        ///  Development index of the city, the factor
+        ///  of health, experience and level
+        /// </summary>
         float development;
         float healthValue;
 
@@ -241,6 +324,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  获取城市的名称
+        ///  Gets the name of the city
         /// </summary>
         public string Name { get; set; }
 
@@ -253,6 +337,7 @@ namespace Code2015.World
         }
         /// <summary>
         ///  获取城市的发展等级
+        ///  Gets the level of the city
         /// </summary>
         public int Level
         {
@@ -265,6 +350,7 @@ namespace Code2015.World
         }
         /// <summary>
         ///  获取城市经验值，在[0, 1]区间
+        ///  Gets the experience points of the city
         /// </summary>
         public float LevelEP
         {
@@ -280,6 +366,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  获取城市的发展度
+        ///  Gets the development index of the city
         /// </summary>
         public float Development { get { return development; } }
 
@@ -291,6 +378,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  城市附近敌我的资源球
+        ///  The nearby RBalls, rotating, both enemy's and owned
         /// </summary>
         protected List<RBall> nearbyBallList = new List<RBall>();
         FastList<RBall> nearbyEnemyBalls = new FastList<RBall>();
@@ -309,6 +397,7 @@ namespace Code2015.World
         }
         /// <summary>
         ///  是否有被玩家占领
+        ///  Check if this city is captured by player
         /// </summary>
         public bool IsCaptured
         {
@@ -323,6 +412,8 @@ namespace Code2015.World
         }
         /// <summary>
         ///  待选起始点
+        ///  A int showing the which starting position on a map this city is
+        ///  -1 If not a starting point.
         /// </summary>
         public int StartUp
         {
@@ -330,7 +421,10 @@ namespace Code2015.World
             private set;
         }
 
-
+        /// <summary>
+        ///  Bumps out a word beside the city
+        /// </summary>
+        /// <param name="t"></param>
         void PlayWord(WordType t)
         {
             if (!isWordPlaying)
@@ -972,6 +1066,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  城市自然发展。根据dt，增加发展量
+        ///  The city develops naturally, increasing development index slowly
         /// </summary>
         /// <param name="dt"></param>
         private void NaturalDevelop(float dt)
@@ -1516,6 +1611,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  人类直接命令发球
+        ///  Throw a ball. Just call method when the player asks a city.
         /// </summary>
         /// <param name="target"></param>
         public bool Throw(City target)
@@ -1563,6 +1659,7 @@ namespace Code2015.World
         }
         /// <summary>
         ///  人类直接命令发球
+        ///  Throw a ball. Just call method when the player asks a city.
         /// </summary>
         /// <param name="target"></param>
         public bool Throw(City target, RBallType type, int count)
@@ -1614,6 +1711,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  人类直接命令发球
+        ///  Throw a ball. Just call method when the player asks a city.
         /// </summary>
         /// <param name="target"></param>
         public bool Throw(City target, RBallType type)
@@ -1664,6 +1762,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  自动续传球
+        ///  Automatically passing balls when the city has received balls from other city to pass on
         /// </summary>
         /// <param name="next"></param>
         /// <param name="follow"></param>
@@ -1677,6 +1776,8 @@ namespace Code2015.World
             //}
 
             // 重新寻路，考虑断路可能
+            // Do the path finding again, considering if the path could no longer exist due to
+            // loss of city
             battleField.BallPathFinder.Reset();
             BallPathFinderResult result = battleField.BallPathFinder.FindPath(this, follow[follow.Count - 1]);
 
@@ -1829,7 +1930,7 @@ namespace Code2015.World
                     //        ThrowContinued(throwRgball.FollowingCity, throwRgball.GetRemainingPath(), throwRgball.Balls);
                     //    }
                     //}
-                   
+                    // handle the requrest in the throw queue first, if any
                     if (throwQueue.Count > 0)
                     {
                         ThrowTask tt = throwQueue.Head();
@@ -1840,6 +1941,8 @@ namespace Code2015.World
                         SetRotationPurpose(CityRotationPurpose.Throw);
                         break;
                     }
+
+                    // then if any balls to pass on, if any and throwContCheckCD is ready
                     throwContCheckCD -= dt;
                     if (receivedRGBall.Count > 0 && throwContCheckCD < 0)
                     {
@@ -1855,6 +1958,7 @@ namespace Code2015.World
 
                     smoke.EmitEnabled = true;
 
+                    // to idle
                     if (nextIdleAnimationCD > 0)
                     {
                         nextIdleAnimationCD -= dt;
@@ -1908,6 +2012,8 @@ namespace Code2015.World
                     }
                     else
                     {
+                        // check if the balls in the RGatheredBall is gone for some reason
+                        // the city should turn back to normal to aviod dead lock
                         if (throwRgball.Balls.Count == 0)
                         {
                             ChangeState(CityState.Stopped);
@@ -1939,6 +2045,7 @@ namespace Code2015.World
         private void UpdateAI(GameTime time)
         {
             // 检查资源球死亡
+            // Check if the balls is dead
             for (int i = nearbyBallList.Count - 1; i >= 0; i--)
             {
                 if (nearbyBallList[i].IsDied)

@@ -16,21 +16,58 @@ namespace Code2015.World
 {
     enum RBallState
     {
+        /// <summary>
+        ///  The ball is ready, moving around the city
+        /// </summary>
         Standby,
+        /// <summary>
+        /// [Not used]
+        /// </summary>
         Born,
+        /// <summary>
+        ///  The ball is going to a RGatheredBall
+        /// </summary>
         Gathering,
+        /// <summary>
+        ///  The state when the ball going closer to the center city before attacking it.
+        /// </summary>
         BeginingAttackCity,
+        /// <summary>
+        ///  The state when the ball attack other enemy balls
+        /// </summary>
         Attack,
-        AttackCity,        
+        /// <summary>
+        ///  The state when the ball attacks the city,
+        ///  accelerating moving around close to the city
+        /// </summary>
+        AttackCity, 
+        /// <summary>
+        ///  The state when the ball defend the home city and attack other enemy balls
+        /// </summary>
         Defend,
+        /// <summary>
+        ///  The state when the ball has arrived the RGatheredBall
+        /// </summary>
         Gathered,
+        /// <summary>
+        ///  The state when the ball is changing to the Standby state, 
+        ///  adjusting its position to the orbit
+        /// </summary>
         Free,
-
+        /// <summary>
+        ///  The state when the ball is fleeing or be calling back from an enemy city
+        /// </summary>
         Float
     }
 
     /// <summary>
     ///  大球只进行一次跳跃
+    ///  
+    ///  The RGatheredBall, which is a virtual big ball with all ball gathered created in a Throw_State,
+    ///  staying in air until the next city has received it.
+    ///  
+    ///  The life of RGatheredBall lasts only throwing between 2 cities. Continuously passing balls will
+    ///  create new ones for the latter steps.
     /// </summary>
     class RGatheredBall
     {
@@ -358,6 +395,7 @@ namespace Code2015.World
 
     /// <summary>
     ///  表示资源球
+    ///  Represents resource balls.
     /// </summary>
     class RBall : WorldDynamicObject
     {
@@ -397,10 +435,11 @@ namespace Code2015.World
 
         const float AttackRange = 150;
 
-        /// <summary>
-        ///  高生命值球的现实比例系数
-        /// </summary>
-        const float RBallHealthScale = 0.0125f;
+        ///// <summary>
+        /////  高生命值球的现实比例系数
+        /////  The multipler of 
+        ///// </summary>
+        //const float RBallHealthScale = 0.0125f;
 
         public RBallType Type { get; private set; }
 
@@ -941,6 +980,7 @@ namespace Code2015.World
         }
         public override RenderOperation[] GetRenderOperation()
         {
+            // not drawing anything when in fog
             if (dockCity != null)
             {
                 if (!dockCity.IsInVisibleRange)
@@ -948,6 +988,8 @@ namespace Code2015.World
                     return null;
                 }
             }
+
+            // normal drawing
             if (state != RBallState.AttackCity || (state == RBallState.AttackCity && speedModifier < AttackCitySpeedMod - 0.1f))
             {
                 RenderOperation[] ops = base.GetRenderOperation();
@@ -962,6 +1004,8 @@ namespace Code2015.World
 
                 return ops;
             }
+
+            // add the tails to the render operation when needed, beside the normal model
             {
 
                 opBuffer.FastClear();
