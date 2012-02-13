@@ -10,6 +10,9 @@ using Apoc3D.Collections;
 
 namespace Code2015.World
 {
+    /// <summary>
+    ///  Represents cities with a harvester exploiting resources to produce resource balls
+    /// </summary>
     class GatherCity : City
     {
 
@@ -19,7 +22,10 @@ namespace Code2015.World
         int resourceIndex = 0;
         float resourceBuffer;
 
-        //资源搜索范围
+        /// <summary>
+        ///  资源搜索范围
+        ///  The distance that the city searches for resource to exploit
+        /// </summary>
         float gatherDistance;
 
         bool isGatherOnHold;
@@ -215,6 +221,10 @@ namespace Code2015.World
 
 
         //周围资源资源
+        /// <summary>
+        ///  Finds the nearby resources
+        /// </summary>
+        /// <param name="resList"></param>
         public void FindResources(NaturalResource[] resList)
         {
             nearResource.Clear();
@@ -311,6 +321,7 @@ namespace Code2015.World
         
         /// <summary>
         ///  从附近的资源中寻找一个数量足够的新资源
+        ///  Choose a new resource site to exploit with sufficient amount of resources
         /// </summary>
         private void FindNewNaturalResource()
         {
@@ -381,12 +392,19 @@ namespace Code2015.World
         }
     }
 
+    /// <summary>
+    ///  Represnts cities generating resource balls overtime
+    /// </summary>
     class ProductionCity : City
     {
         /// <summary>
         ///  产生资源球所需时间
+        ///  The total amount of time to generate a RBall
         /// </summary>
         float generateRBallTime;
+        /// <summary>
+        ///  The remaining amount of time to generate a RBall
+        /// </summary>
         float generateRBallCD;
 
         static float ResetGenerateRBallCD(CityType ctype)
@@ -423,11 +441,35 @@ namespace Code2015.World
         }
 
 
+
+        public override bool IsFull()
+        {
+            return NearbyOwnedBallCount >= RulesTable.CityBallLimit;            
+        }
+        public override void Update(GameTime dt)
+        {
+            base.Update(dt);
+
+
+            float ddt = (float)dt.ElapsedGameTimeSeconds;
+            if (Owner != null)
+            {
+                generateRBallCD -= ddt;
+
+                // generate when ready
+                if (generateRBallCD < 0 && !IsFull())
+                {
+                    generateRBallCD = generateRBallTime;
+                    ProduceBall();
+                }
+            }
+        }
+
         public override void ProduceBall()
         {
             base.ProduceBall();
 
-            switch (Type) 
+            switch (Type)
             {
                 case CityType.Health:
                     battleField.CreateResourceBall(Owner, this, RBallType.Health);
@@ -444,29 +486,6 @@ namespace Code2015.World
 
             }
         }
-
-        public override bool IsFull()
-        {
-            return NearbyOwnedBallCount >= RulesTable.CityBallLimit;            
-        }
-        public override void Update(GameTime dt)
-        {
-            base.Update(dt);
-
-
-            float ddt = (float)dt.ElapsedGameTimeSeconds;
-            if (Owner != null)
-            {
-                generateRBallCD -= ddt;
-
-                if (generateRBallCD < 0 && !IsFull())
-                {
-                    generateRBallCD = generateRBallTime;
-                    ProduceBall();
-                }
-            }
-        }
-
 
     }
 }

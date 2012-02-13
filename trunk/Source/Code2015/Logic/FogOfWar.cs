@@ -15,8 +15,16 @@ using Apoc3D.Collections;
 
 namespace Code2015.Logic
 {
+    /// <summary>
+    ///  Implements FogOfWar feature, dividing the battle field to a 2D array 
+    ///  whose element means the visibility of each quad location on the planet.
+    /// </summary>
     unsafe class FogOfWar
     {
+        /// <summary>
+        ///  A filter used to influence an area of visibility
+        ///  Each location is weighted
+        /// </summary>
         class Filter2DResult
         {
             public float[][] Filter;
@@ -46,16 +54,30 @@ namespace Code2015.Logic
         const int VisiblityCap = 255;
         const int StdTargetValue = 2000;
 
-
+        /// <summary>
+        ///  The amount of time needed to darken the cell
+        /// </summary>
         int[][] cooldown;
+        /// <summary>
+        ///  the value that the cell should close to
+        /// </summary>
         int[][] targetValue;
+        /// <summary>
+        ///  how well the cell is in sight
+        /// </summary>
         int[][] visiblity;
+        /// <summary>
+        ///  the luminance result, can work in a range of 0-255
+        /// </summary>
         int[][] result;
         Texture mask;
         Filter2DResult[] gaussFilter = new Filter2DResult[50];
 
         bool fogAllOut = false;
 
+        /// <summary>
+        ///  Gets the global luminance texture
+        /// </summary>
         Texture FogMask
         { get { return mask; } }
 
@@ -118,12 +140,24 @@ namespace Code2015.Logic
         { 
 
         }
+        /// <summary>
+        ///  Gets the visibility at a given location
+        /// </summary>
+        /// <param name="lng"></param>
+        /// <param name="lat"></param>
+        /// <returns></returns>
         public float GetVisibility(float lng, float lat)
         {
             int x, y;
             GetMapCoord(lng, lat, out x, out y);
             return result[y][x] / 255.0f;
         }
+        /// <summary>
+        ///  Light up an round area
+        /// </summary>
+        /// <param name="lng"></param>
+        /// <param name="lat"></param>
+        /// <param name="r"></param>
         public void LightArea(float lng, float lat, float r)
         {
             int x, y;
@@ -157,7 +191,15 @@ namespace Code2015.Logic
             }
         }
 
-
+        /// <summary>
+        ///  Update the visibility
+        ///  
+        /// <remarks>
+        ///  Each cell has 4 int value, cooldown, targetValue, visiblity and result.
+        ///  
+        /// </remarks>
+        /// </summary>
+        /// <param name="dt"></param>
         public void Update(GameTime dt)
         {
             //base.Update(dt);
@@ -229,6 +271,7 @@ namespace Code2015.Logic
                 }
             }
 
+            // upload to texture
             if (gotRect)
             { 
                 Rectangle rect = new Rectangle (minX, minY, maxX - minX+1, maxY - minY + 1);

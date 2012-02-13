@@ -39,6 +39,10 @@ namespace Code2015.EngineEx
 {
     delegate void ObjectSpaceChangedHandler(Matrix matrix, BoundingSphere sphere);
 
+    /// <summary>
+    ///  This is where the terrain mesh is generated.
+    ///  Each terrain mesh represents a tile on the spheric planet surface at a specific LOD.
+    /// </summary>
     unsafe class TerrainMesh : Resource, IRenderable
     {
         const float PlanetRadius = PlanetEarth.PlanetRadius;
@@ -78,6 +82,7 @@ namespace Code2015.EngineEx
 
         /// <summary>
         ///  地形一条边上的顶点数
+        ///  The number of vertices on the edge of the terrain tile.
         /// </summary>
         int terrEdgeSize = 33;
 
@@ -90,7 +95,9 @@ namespace Code2015.EngineEx
         RenderSystem renderSystem;
         ObjectFactory factory;
 
-
+        /// <summary>
+        ///  Buffer for the render operations every frame
+        /// </summary>
         FastList<RenderOperation> opBuffer;
 
         Material material;
@@ -110,6 +117,7 @@ namespace Code2015.EngineEx
 
         /// <summary>
         ///  经度
+        ///  The longitude for this tile, in radian
         /// </summary>
         public float TileCol
         {
@@ -117,20 +125,33 @@ namespace Code2015.EngineEx
         }
         /// <summary>
         ///  纬度
+        ///  The latitude for this tile, in radian
         /// </summary>
         public float TileLat
         {
             get { return tileLat; }
         }
 
+        /// <summary>
+        ///  The number of vertices on the edge of the terrain tile.
+        /// </summary>
         public int TerrainSize
         {
             get { return terrEdgeSize; }
         }
 
-
+        /// <summary>
+        ///  Raises when the world transform of this object have changed
+        /// </summary>
         public event ObjectSpaceChangedHandler ObjectSpaceChanged;
         
+        /// <summary>
+        ///  Generates a string that represent this resource
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="size"></param>
+        /// <returns></returns>
         public static string GetHashString(int x, int y, int size)
         {
             return "TM" + x.ToString("D2") + y.ToString("D2") + size.ToString("D2"); ;
@@ -188,9 +209,14 @@ namespace Code2015.EngineEx
             return size;
         }
 
+        /// <summary>
+        ///  This implements the method in resource, to load the mesh data(vertex buffer, index buffer)
+        ///  of this terrain tile.
+        /// </summary>
         protected override void load()
         {
             // 读取地形数据
+            // This line will load the terrain data in this tile.
             float[] data = TerrainData.Instance.GetData(tileX, tileY, terrEdgeSize);
 
             float radtc = MathEx.Degree2Radian(tileCol);
@@ -217,11 +243,14 @@ namespace Code2015.EngineEx
 
             float cellAngle = radSpan / (float)terrEdgeLen;
             #region 计算顶点坐标
+            // Caluclate the position of each vertex
 
             // i为纬度方向
+            // i is in the latitude direction
             for (int i = 0; i < terrEdgeSize; i++)
             {
                 // j为经度方向
+                // j is in the longitude direction
                 for (int j = 0; j < terrEdgeSize; j++)
                 {
                     Vector3 pos = PlanetEarth.GetPosition(radtc + j * cellAngle, radtl - i * cellAngle);
@@ -229,6 +258,7 @@ namespace Code2015.EngineEx
                     int index = i * terrEdgeSize + j;
 
                     // 计算海拔高度
+                    // calculate the elevation
                     float height = (data[index] - TerrainMeshManager.PostZeroLevel) * TerrainMeshManager.PostHeightScale;
 
                     //if (height > 0)
@@ -247,8 +277,11 @@ namespace Code2015.EngineEx
                     normal.Normalize();
                     vtxArray[index].Position = pos + normal * height;
 
-
+                    // this index is used to generate detailed texture coordinate in vertex shader
                     vtxArray[index].Index = index;
+
+
+                    // map the texture coordinate for global texturing
                     float curCol = radtc + j * cellAngle;
                     float curLat = radSpan + radtl - i * cellAngle;
 

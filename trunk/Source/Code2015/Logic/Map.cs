@@ -32,6 +32,9 @@ using Code2015.World;
 
 namespace Code2015.Logic
 {
+    /// <summary>
+    ///  Global map data for path finding an height calculation
+    /// </summary>
     class Map
     {
         public const int MapWidth = PathFinderManager.DW;

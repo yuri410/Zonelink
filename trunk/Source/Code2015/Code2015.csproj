@@ -173,6 +173,9 @@
     <Compile Include="GUI\MouseInput.cs" />
     <Compile Include="GUI\Popup.cs" />
     <Compile Include="GUI\Tutorial.cs" />
+    <Compile Include="LevelSystem\Level.cs" />
+    <Compile Include="LevelSystem\Mission.cs" />
+    <Compile Include="LevelSystem\Task.cs" />
     <Compile Include="Logic\BattleField.cs" />
     <Compile Include="Logic\Map.cs" />
     <Compile Include="Logic\PathFinder.cs" />

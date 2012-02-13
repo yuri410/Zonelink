@@ -42,6 +42,9 @@ namespace Code2015.World
         Home,
     }
 
+    /// <summary>
+    ///  Represent a step in the movement of a harvester
+    /// </summary>
     struct MoveNode
     {
         public float Longitude;
@@ -52,12 +55,20 @@ namespace Code2015.World
         public Quaternion Ori;
     }
 
-
+    /// <summary>
+    ///  Represents a harvester serving a city, taking resources from
+    ///  nearby resource sites.
+    /// </summary>
     class Harvester : WorldDynamicObject, ISelectableObject
     {
+        /// <summary>
+        ///  The harvest use a number of NumModels to animate.
+        ///  Each model is a frame.
+        /// </summary>
         public const int NumModels = 30;
         /// <summary>
         ///  矿车属性
+        ///  The inborn properties of the harvester
         /// </summary>
         public struct Props
         {
@@ -75,7 +86,13 @@ namespace Code2015.World
 
         float longtitude;
         float latitude;
+        /// <summary>
+        ///  The starting move node the harvester is moving between 2 nodes
+        /// </summary>
         MoveNode src;
+        /// <summary>
+        ///  The destination move node the harvester is moving between 2 nodes
+        /// </summary>
         MoveNode target;
 
 
@@ -93,22 +110,34 @@ namespace Code2015.World
 
         /// <summary>
         ///  表示是否在原地旋转对准出发方向
+        ///  Indicates if the harvester is turning to a direction
         /// </summary>
         bool isAdjustingDirection;
         /// <summary>
         ///  表示是否获得下一节点的朝向信息
+        ///  Indicates if the orientation information for the next 2 nodes
+        ///  should be loaded.
         /// </summary>
         bool rotUpdated;
         /// <summary>
         ///  表示是否已经获得下一节点的位置信息
+        ///  Indicates if the Position information for the next 2 nodes
+        ///  should be loaded.
         /// </summary>
         bool stateUpdated;
 
+        /// <summary>
+        ///  The interpolation factor when the harvester moving between 2 nodes.
+        /// </summary>
         float nodeMotionProgress;
+        /// <summary>
+        ///  The index of node that the harvester is on.
+        /// </summary>
         int currentNode;
         PathFinderResult currentPath;
 
         #region 仓库
+        // the storage information goes here
         float harvStorage;
         bool isFullLoaded;
         NaturalResource exRes;
@@ -117,7 +146,8 @@ namespace Code2015.World
         float loadingTime;
         #endregion
         /// <summary>
-        /// 矿车当前的生命值
+        ///  矿车当前的生命值
+        ///  The current health point
         /// </summary>
         float currentHp;
 
@@ -229,6 +259,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  调用Move之后设置目的，否则为无目的
+        ///  To set the purpose of the movment, this should be called after calling move.
         /// </summary>
         /// <param name="purpose"></param>
         public void SetMovePurpose(MovePurpose purpose)
@@ -238,6 +269,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  强制设置采集车位置
+        ///  Force to set the position of the harvester
         /// </summary>
         /// <param name="longtitude"></param>
         /// <param name="latitude"></param>
@@ -262,6 +294,8 @@ namespace Code2015.World
 
         /// <summary>
         ///  让采集车移动到有经纬度确定的地点
+        ///  Ask the harvester to move to a given location, which is represented
+        ///  by longtitude and latitude
         /// </summary>
         /// <param name="lng"></param>
         /// <param name="lat"></param>
@@ -283,6 +317,7 @@ namespace Code2015.World
             currentPath = finder.FindPath(sx, sy, tx, ty);
             
             // 新的动作要先调整朝向
+            // Adjust direction before going
             isAdjustingDirection = true;
 
             currentNode = 0;
@@ -291,6 +326,7 @@ namespace Code2015.World
 
         /// <summary>
         ///  当寻路需要RCPF的时候，调用这个继续寻路
+        ///  This Move is used when the pathing finding requires continues finding
         /// </summary>
         /// <param name="x"></param>
         /// <param name="y"></param>
@@ -310,6 +346,8 @@ namespace Code2015.World
 
         /// <summary>
         ///  有两个Map的坐标计算采集车朝向
+        ///  Calculate the orientation by the given 2 points in Map's coordinate,
+        ///  which can be converted from long-lat by Map.GetMapCoord
         /// </summary>
         /// <param name="pa"></param>
         /// <param name="pb"></param>
@@ -322,13 +360,16 @@ namespace Code2015.World
             float blat;
 
             // 先得到两个点的经纬度
+            // first convert the coord to long-lat
             Map.GetCoord(pa.X, pa.Y, out alng, out alat);
             Map.GetCoord(pb.X, pb.Y, out blng, out blat);
 
             // 法向
+            // calculate the normal vector(up vector)
             Vector3 n = PlanetEarth.GetNormal(alng, alat);
 
             // 高度
+            // elevation
             float altA = map.GetHeight(alng, alat);
             Vector3 posA = PlanetEarth.GetPosition(alng, alat, altA + PlanetEarth.PlanetRadius);
             float altB = map.GetHeight(blng, blat);
@@ -342,6 +383,7 @@ namespace Code2015.World
             n = Vector3.Cross(dir, bi);
 
             // 采集车旋转World矩阵由向量基构建
+            // constitute a final world matrix using these vectors
             Matrix result = Matrix.Identity;
             result.Right = bi;
             result.Up = n;
@@ -357,12 +399,14 @@ namespace Code2015.World
             float ddt = (float)dt.ElapsedGameTimeSeconds;
 
             #region 装货卸货
-
+            // Process the loading/unloading
             if (isLoading && exRes != null)
             {
                 if (harvStorage < props.Storage)
                 {
                     // 计算开矿倍数，保证能够完成卸货
+                    // calculate the loading/unloading ratio, to ensure with this speed multiplier
+                    // the harvester can finish the job in time.
                     float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
 
                     harvStorage += exRes.Exploit(RulesTable.HarvLoadingSpeed * ddt * scale);
@@ -371,6 +415,7 @@ namespace Code2015.World
                 loadingTime -= ddt;
 
                 // 开矿loadingTime时间之后，停止并引发事件
+                // when the time runs out, stop to raise the event
                 if (loadingTime < 0)
                 {
                     isFullLoaded = harvStorage >= props.Storage;
@@ -390,28 +435,36 @@ namespace Code2015.World
             if (isUnloading)
             {
                 // 计算开矿倍数，保证能够完成卸货
+                // calculate the loading/unloading ratio, to ensure with this speed multiplier
+                // the harvester can finish the job in time.
                 float scale = props.Storage / (RulesTable.HarvLoadingSpeed * RulesTable.HarvLoadingTime);
 
                 float change = RulesTable.HarvLoadingSpeed * ddt * scale;
 
                 // 检查车上的存量是否足够
+                // check if remaining storage is enough
                 if (harvStorage - change > 0)
                 {
                     // 足够时定量卸下
+                    // unload all when enough
                     harvStorage -= change;
                     // 并且通知城市得到资源
+                    // and tell the city the amount of resource obtained
                     parent.NotifyGotResource(change);
                 }
                 else
                 {
                     // 不够时把剩下的都卸了
-                    harvStorage = 0;
+                    // otherwise, unload all the remains
                     parent.NotifyGotResource(harvStorage);
+                    harvStorage = 0;
+                    
                 }
 
                 loadingTime -= ddt;
 
                 // 一定时间后停止
+                // when the time runs out, stop to raise the event
                 if (loadingTime < 0)
                 {
                     isUnloading = false;
@@ -430,15 +483,19 @@ namespace Code2015.World
                 if (nextNode >= currentPath.NodeCount)
                 {
                     #region 寻路完毕，状态转换
+                    // when the path following is finished, by reaching the final node
+                    // switch to new state
                     nextNode = 0;
                     nodeMotionProgress = 0;
 
                     if (currentPath.RequiresPathFinding)
                     {
+                        // continues path finding
                         Move(destX, destY);
                     }
                     else
                     {
+                        // stop by setting null
                         currentPath = null;
 
                         if (movePurpose == MovePurpose.Gather)
@@ -457,19 +514,28 @@ namespace Code2015.World
                 else
                 {
                     #region 路径节点插值
+                    // calculate the interpolation between 2 nodes
+
 
                     // 采集车在每两个节点之间移动都是一定过程
                     // 其位置/朝向是插值结果。差值参数为nodeMotionProgress
+                    // The locomotion of harvester between 2 MoveNode is a process in time.
+                    // Its position and orientation is the result of interpolation, where 
+                    // nodeMotionProgress is the interpolation amount.
 
                     Point cp = currentPath[currentNode];
                     Point np = currentPath[nextNode];
 
                     // 在一开始就尝试获取下一节点位置
+                    // Check if the position in the next 2 MoveNodes need to be updated,
+                    // as parameters to calculate translation
                     if (!stateUpdated)
                     {
                         if (isAdjustingDirection)
                         {
                             // 在调整方向时，车是位置不动的
+                            // The car does not move when changing direction
+
                             Map.GetCoord(np.X, np.Y, out src.Longitude, out src.Latitude);
 
                             src.Alt = map.GetHeight(src.Longitude, src.Latitude);
@@ -490,6 +556,9 @@ namespace Code2015.World
                     }
                     
                     // 在进行了一半之后开始获取下一节点朝向
+                    // When the interpolation amount run over 0.5, update the 
+                    // information for orientation of the next 2 nodes, as parameters to calculate
+                    // turning.
                     if (nodeMotionProgress > 0.5f && !rotUpdated)
                     {
                         if (isAdjustingDirection)
@@ -522,6 +591,9 @@ namespace Code2015.World
                     altitude = MathEx.LinearInterpose(src.Alt, target.Alt, nodeMotionProgress);
 
                     #region 动画控制
+                    // Animate by changing the index
+
+                    // Car have a different look when on water
                     if (altitude < 0)
                         mdlIndex++;
                     else
@@ -553,10 +625,12 @@ namespace Code2015.World
                     #endregion
 
                     // 采集车不会潜水
+                    // Keep the car not diving
                     if (altitude < 0)
                         altitude = 0;
 
                     // 球面插值，计算出朝向
+                    // Spherical interpolation for direction
                     Orientation = Matrix.RotationQuaternion(
                         Quaternion.Slerp(src.Ori, target.Ori, nodeMotionProgress > 0.5f ? nodeMotionProgress - 0.5f : nodeMotionProgress + 0.5f));
 
@@ -567,16 +641,19 @@ namespace Code2015.World
                     else 
                     {
                         // 挺进节点插值进度
+                        // Progress the interpolation between 2 nodes
                         nodeMotionProgress += 0.05f * acceleration;
                     }
 
                     // 检查节点之间插值是否完成
+                    // Check if the interpolation is done
                     if (nodeMotionProgress > 1)
                     {
                         nodeMotionProgress = 0;
 
                         if (isAdjustingDirection)
                             // 我们只允许调整方向一次，调整这次不会让车在节点上移动，currentNode不变
+                            // We only allow adjust the direction once
                             isAdjustingDirection = false; 
                         else
                             currentNode++;
@@ -589,20 +666,25 @@ namespace Code2015.World
                 }
 
                 #region 加速度计算
+                // Calculate the acceleration
                 if (currentPath != null)
                 {
                     // 检查是否是最后一个节点了
+                    // Check if this is the last node
                     if (nextNode == currentPath.NodeCount - 1)
                     {
                         // 开始减速
+                        // Deceleration
                         acceleration -= ddt * 1.5f;
                         // 防止减速的过慢
+                        // Set the minimum
                         if (acceleration < 0.33f)
                             acceleration = 0.33f;
                     }
                     else if (!isAdjustingDirection)
                     {
                         // 平时都是加速到最大为止
+                        // otherwise, increase to full speed
                         acceleration += ddt * 1.5f;
                         if (acceleration > 1)
                             acceleration = 1;
@@ -619,6 +701,7 @@ namespace Code2015.World
             //Orientation *= PlanetEarth.GetOrientation(longtitude, latitude);
 
             // 通过插值计算的经纬度得到坐标
+            // The position is obtained by the interpolated long-lat coordinate
             Position = PlanetEarth.GetPosition(longtitude, latitude, PlanetEarth.PlanetRadius + altitude);
             base.Update(dt);
 
