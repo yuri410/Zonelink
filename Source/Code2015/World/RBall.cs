@@ -61,12 +61,10 @@ namespace Code2015.World
     }
 
     /// <summary>
-    ///  大球只进行一次跳跃
-    ///  
-    ///  The RGatheredBall, which is a virtual big ball with all ball gathered created in a Throw_State,
+    ///  The RGatheredBall, which is a virtual big ball with all ball gathered created in a City.Throw_State,
     ///  staying in air until the next city has received it.
     ///  
-    ///  The life of RGatheredBall lasts only throwing between 2 cities. Continuously passing balls will
+    ///  The lifetime of RGatheredBall lasts only throwing between 2 cities. Continuously passing balls will
     ///  create new ones for the latter steps.
     /// </summary>
     class RGatheredBall
@@ -78,9 +76,22 @@ namespace Code2015.World
 
         public enum State
         {
+            /// <summary>
+            ///  State when the RBalls are gathering to the RGatheredBall's location
+            /// </summary>
             WaitingGathering,
+            /// <summary>
+            ///  State when waiting the NotifyThrow() call from city. 
+            ///  Usually city are turning or playing animation at the time.
+            /// </summary>
             WaitingThrow,
+            /// <summary>
+            ///  State when the ball is in the air
+            /// </summary>
             Flying,
+            /// <summary>
+            ///  State when the ball has reached the target city
+            /// </summary>
             Finished
         }
 
@@ -95,10 +106,15 @@ namespace Code2015.World
         City sourceCity;
 
         #region FLY
-
+        // The trace of RGatheredBall in the air is a arc
+        // Constant velocity at horizontal direction(relative to the surface)
+        // and a quadric trace at vertical direction
         Vector3 normal;
         Vector3 srcPosition;
         Vector3 dstPosition;
+        /// <summary>
+        ///  The interpolation amount, increases over time
+        /// </summary>
         float flyProgress;
         bool notifyedDest;
         City destCity;
@@ -152,7 +168,8 @@ namespace Code2015.World
         }
 
         /// <summary>
-        ///  释放所有资源球
+        ///  Releases all RBalls from this GatheredBall when it have arrived 
+        ///  at the destination city
         /// </summary>
         void ReleaseBalls() 
         {
@@ -163,7 +180,9 @@ namespace Code2015.World
                 subBalls[i].Free(cc);
             }
         }
-
+        /// <summary>
+        ///  Releases all RBalls from this GatheredBall when gathering
+        /// </summary>
         void ReleaseBallGathering() 
         {
             
@@ -174,7 +193,7 @@ namespace Code2015.World
         }
 
         /// <summary>
-        ///  计算在一定方向上，城市手中的RG球位置
+        ///  Calculate the position of the RBall in the city's hand at the given direction
         /// </summary>
         /// <param name="city"></param>
         /// <param name="ori"></param>
@@ -225,6 +244,9 @@ namespace Code2015.World
             
         }
 
+        /// <summary>
+        ///  Cancel the gathering
+        /// </summary>
         public void Cancel()
         {
             switch (state)
@@ -239,6 +261,9 @@ namespace Code2015.World
             }
          
         }
+        /// <summary>
+        ///  Notified by city, ask the RGatheredBall to go flying
+        /// </summary>
         public void NotifyThrow()
         {
             ChangeState(State.Flying);
@@ -259,15 +284,6 @@ namespace Code2015.World
                 City dstCity = goPath[0];
                 this.destCity = dstCity;
 
-
-                //if (dstCity.Type == CityType.Health)
-                //{
-                //    targetAngle = MathEx.PiOver4;
-                //}
-                //else
-                //{
-                //    targetAngle = MathEx.PIf / 6.0f;
-                //}
 
                 Quaternion newDstOri = dstCity.GetOrientation(srcPosition);
 
@@ -291,18 +307,19 @@ namespace Code2015.World
         }
 
 
-
+        /// <summary>
+        ///  Update called for the Flying state
+        /// </summary>
+        /// <param name="time"></param>
         void UpdateFly(GameTime time)
         {
-            //Vector3 r = Vector3.Lerp(srcPosition, dstPosition, flyProgress) - flyRoundCenter;
-            //r.Normalize();
-            //r *= (dstPosition - srcPosition).Length() * 0.5f;
-
+            // linear lerp
             position = Vector3.Lerp(srcPosition, dstPosition, flyProgress);
 
             flyProgress += time.ElapsedGameTimeSeconds * 0.5f;
 
-
+            // estimate the remaining time to check if the target city's catch
+            // animation should be played to make it in time
             float timeStamp = destCity.CatchPreserveTime;
 
             timeStamp = 1.5f - timeStamp;
@@ -313,10 +330,12 @@ namespace Code2015.World
                 {
                     destCity.NotifyIncomingBall(this);
 
+                    // only notify once
                     notifyedDest = true;
                 }
             }
 
+            // estimate the remaining time to check if the receive sound should be played
             timeStamp += 0.5f;
             if ((flyProgress / 0.5f) > timeStamp)
             {
@@ -327,7 +346,7 @@ namespace Code2015.World
                 }
             }
 
-
+            // now adds height to the position
             {
                 float t = flyProgress * 2;
                 const float Gr = 1000;
@@ -344,6 +363,7 @@ namespace Code2015.World
                 position += normal * h;
             }
 
+            // finishes as long as the progress reaches 1
             if (flyProgress > 1)
             {
                 ChangeState(State.Finished);
@@ -375,6 +395,8 @@ namespace Code2015.World
                 case State.Flying:
                     {
                         UpdateFly(time);
+
+                        // keep the RBalls inside the same position as this GatheredBall
                         for (int i = 0; i < subBalls.Count; i++) 
                         {
                             subBalls[i].Position = ballOffsets[i] + position;
@@ -394,11 +416,20 @@ namespace Code2015.World
     }
 
     /// <summary>
-    ///  表示资源球
     ///  Represents resource balls.
     /// </summary>
+    /// <remarks>
+    ///  Basically there are 2 types of locomotion in RBalls,
+    ///  orbit and targeted moving.
+    ///  
+    ///  AttackCity, Standby are orbit moving.
+    ///  The reset moves toward a target.
+    /// </remarks>
     class RBall : WorldDynamicObject
     {
+        /// <summary>
+        ///  The inborn properties of the RBall, varies from type to type
+        /// </summary>
         public struct Props
         {
             public float Damage;
@@ -423,23 +454,36 @@ namespace Code2015.World
         const float DefenceSpeedMod = 2.5f;
         const float AttackSpeedMod = 3.5f;
 
+        /// <summary>
+        ///  Minimum linear velocity to limit refrenceLinSpeed
+        /// </summary>
         const float MaxLinSpeed = 233;
+        /// <summary>
+        ///  Maximum linear velocity to limit refrenceLinSpeed
+        /// </summary>
         const float MinLinSpeed = 190;
 
+        /// <summary>
+        ///  The radius of the impassable barier at the center of the city, stopping
+        ///  balls in normal cases
+        /// </summary>
         const float CitySafeRadius = 193;
+        /// <summary>
+        ///  The radius when the balls are attcking the docking city
+        /// </summary>
         const float CityAttackRadius = 150;
 
 
-
+        /// <summary>
+        ///  The amount of distance to assume the destination has arrive when the remaining
+        ///  distance is smaller than this. Used in moving.
+        /// </summary>
         const float MoveDistanceThreshold = 50;
-
+        /// <summary>
+        ///  The amount of distance for a RBall can attack a enemy RBall within this distance.
+        /// </summary>
         const float AttackRange = 150;
 
-        ///// <summary>
-        /////  高生命值球的现实比例系数
-        /////  The multipler of 
-        ///// </summary>
-        //const float RBallHealthScale = 0.0125f;
 
         public RBallType Type { get; private set; }
 
@@ -450,28 +494,47 @@ namespace Code2015.World
 
         readonly Props props;
 
+        /// <summary>
+        ///  The remaining time for the next attack(on enemy RBall)
+        /// </summary>
         float weaponCoolDown;
+        /// <summary>
+        ///  The remaining time to check if any balls to attack in the city
+        /// </summary>
         float enemyCheckTime;
 
-        float speedModifierTarget = 1;
+        
+        /// <summary>
+        ///  The current velocity multipler
+        /// </summary>
         float speedModifier = 1;
+        /// <summary>
+        ///  The velocity multipler that the speedModifier is approching to
+        /// </summary>
+        float speedModifierTarget = 1;
 
         Matrix displayScale;
 
         #region State_NewMove
-        
+        // This State_NewMove, a sub-state, is used inside and as a part of a variety of states, 
+        // to let the RBall move to a given location
         bool isMoving;
 
         Vector3 moveTarget;
 
-        float rotationLerp;
         #endregion
 
-
+        /// <summary>
+        ///  Keep a reference if the RBall is gathering
+        /// </summary>
         RGatheredBall gatheredParent;
 
         #region State_Float
 
+        /// <summary>
+        ///  The destination city when in float state
+        ///  Ordinarily, balls flee back to their the nearest adjancent home city
+        /// </summary>
         City floatingTarget;
 
         #endregion
@@ -485,22 +548,34 @@ namespace Code2015.World
 
         #region Standby
         /// <summary>
-        /// 在城市上方旋转半径
+        /// The radius when the RBall orbits around the city in 
+        /// Standby state.
         /// </summary>
         private float currentRadius;
+        /// <summary>
+        ///  The height of the orbit
+        /// </summary>
         private float currentHeight;
 
         /// <summary>
-        /// 旋转角度
+        ///  The current orbit angle to the center of the city
         /// </summary>
         private float roundAngle;
         #endregion
 
         FastList<RenderOperation> opBuffer = new FastList<RenderOperation>();
+        /// <summary>
+        ///  The tail is presented by a horizontal transparent plane with a arc in the texture
+        ///  To make the final look, the plane is position at the center of the city, rotating
+        ///  to keep after its RBall
+        /// </summary>
         Model red_tail;
         Model green_tail;
         
-
+        /// <summary>
+        ///  A random value between MinLinSpeed and MaxLinSpeed, used as the normal
+        ///  linear velocity when standing by
+        /// </summary>
         float refrenceLinSpeed;
 
 
@@ -534,6 +609,9 @@ namespace Code2015.World
             }
         }
 
+        /// <summary>
+        ///  Get a random radius for the RBall's orbit
+        /// </summary>
         float NextRadius()
         {
             if (Type == RBallType.Disease || Type == RBallType.Health) 
@@ -546,6 +624,9 @@ namespace Code2015.World
             }
             return Randomizer.GetRandomSingle() * (MaxRadius - MinRadius) + MinRadius;
         }
+        /// <summary>
+        ///  Get a random height
+        /// </summary>
         static float NextHeight()
         {
             return Randomizer.GetRandomSingle() * 150 + 150;
@@ -695,6 +776,9 @@ namespace Code2015.World
             soundObject = (Normal3DSoundObject)SoundManager.Instance.MakeSoundObjcet("rball_die", null, 1800);
         }
 
+        /// <summary>
+        ///  Damage this RBall's health by a given value
+        /// </summary>
         public void Damage(float v)
         {
             if (Health > 0)
@@ -731,30 +815,28 @@ namespace Code2015.World
                     speedModifierTarget = AttackSpeedMod;
                     break;
             }
-            //switch (newState) 
-            //{
-            //    case RBallState.Positioning:
-            //        {                        
 
-            //            //positioningStartPosition = position;
-            //            //positioningEndPosition = dockCity.Position + offset;
-            //            positioningProgress = 0;
-            //            positioningDistance = Vector3.Distance(ref positioningStartPosition, ref positioningEndPosition);
-            //            break;
-            //        }
-            //}
             state = newState;
         }
 
+        /// <summary>
+        ///  Called to enter the move sub-state, 
+        /// </summary>
+        /// <param name="pos"></param>
         void NewMove(Vector3 pos)
         {
             moveTarget = pos;
             isMoving = true;
         }
+        /// <summary>
+        ///  Called when moving for the Update
+        /// </summary>
+        /// <param name="dt"></param>
         void NewMoveUpdate(float dt)
         {
 
             Vector3 direction = moveTarget - position;
+            // Is it close enough to assume arrived?
             if (direction.LengthSquared() > MathEx.Sqr(MoveDistanceThreshold * (float)Math.Sqrt(speedModifier)))
             {
 
@@ -768,6 +850,7 @@ namespace Code2015.World
 
                     if (state != RBallState.BeginingAttackCity && (Type != RBallType.Disease || Type != RBallType.Health))
                     {
+                        // At the city's center, a cylinder with a radius of CitySafeRadius, is impassable.
                         if (dist < CitySafeRadius)
                         {
                             Vector3 newDir;
@@ -787,27 +870,22 @@ namespace Code2015.World
                     newOri.Up = cityNormal;
                     newOri.Right = Vector3.Normalize(Vector3.Cross(currentDir, cityNormal));
                     newOri.Up = Vector3.Cross(newOri.Right, currentDir);
-                    //Vector3 currentDir = orientation.Forward;
 
-                    //Quaternion rotmod = shortestArcQuat(currentDir, Vector3.Lerp(currentDir, direction, 0.5f), cityNormal);
-
-
-                    //orientation *= Matrix.RotationQuaternion(rotmod);
                     orientation = newOri;
 
-                    //currentDir = orientation.Forward;
                     Position += newOri.Forward * (refrenceLinSpeed * speedModifier * dt);
                 }
-                rotationLerp += dt;
 
             }
             else
             {
                 isMoving = false;
-                rotationLerp = 0;
             }
         }
 
+        /// <summary>
+        ///  Calculate the orbit transfrom for balls
+        /// </summary>
         void CalculateRoundTransform(float radius, bool clockwise, out Vector3 pos, out Matrix rot)
         {
             Matrix dockOri = dockCity.Transformation;
@@ -826,7 +904,9 @@ namespace Code2015.World
             pos = dockCity.Position + ofs;
             rot = Matrix.RotationY(rotYAngle) * dockOri;
         }
-
+        /// <summary>
+        ///  Same as above
+        /// </summary>
         void CalculateRoundTransform(float radius, bool clockwise, out Vector3 pos, out Quaternion rot)
         {
             Matrix dockOri = dockCity.Transformation;
@@ -847,11 +927,14 @@ namespace Code2015.World
         }
 
         
-
+        /// <summary>
+        ///  Try attack other ememy balls in the docking city
+        /// </summary>
         void Attack()
         {
             if (dockCity.NearbyOwnedBallCount > 0)
             {
+                // The enemy from the same side as the city's
                 int tries = 0;
                 int idx = Randomizer.GetRandomInt(dockCity.NearbyOwnedBallCount);
 
@@ -874,7 +957,7 @@ namespace Code2015.World
             }
             else if (dockCity.NearbyEnemyBallCount > 0)
             {
-                // 其他阵营的敌人
+                // The enemy from other sides than the city's
                 int tries = 0;
                 int idx = Randomizer.GetRandomInt(dockCity.NearbyEnemyBallCount);
 
@@ -897,6 +980,9 @@ namespace Code2015.World
                 }
             }
         }
+        /// <summary>
+        ///  Enters defend state when the docking city is owned
+        /// </summary>
         void Defend()
         {
             if (dockCity.NearbyEnemyBallCount > 0)
@@ -922,6 +1008,12 @@ namespace Code2015.World
                 }
             }
         }
+        /// <summary>
+        ///  Enters the attack city state.
+        ///  First the balls will move close to the center. Then accelerating to a enough speed before
+        ///  makeing damaged on the city. When the capturing has done, the balls decrease and move to stand by
+        ///  position.
+        /// </summary>
         void AttackCity()
         {
             Vector3 targetPos;
@@ -932,12 +1024,19 @@ namespace Code2015.World
             //tail.Reset();
             ChangeState(RBallState.BeginingAttackCity);            
         }
+        /// <summary>
+        ///  Flee from a city to a given target city
+        /// </summary>
         public void Float(City target) 
         {
             floatingTarget = target;
             NewMove(target.Position);
             ChangeState(RBallState.Float);
         }
+        
+        /// <summary>
+        ///  Changes the state to Free, making the ball back to their stand by position
+        /// </summary>
         public void Reposition() 
         {
             Vector3 targetPos;
@@ -948,6 +1047,10 @@ namespace Code2015.World
             ChangeState(RBallState.Free);
 
         }
+        /// <summary>
+        ///  Called when the ball has arrived a different city than its previous one.
+        ///  Changes the state to Free, making the ball back to their stand by position.
+        /// </summary>
         public void Free(City city)
         {
             gatheredParent = null;
@@ -972,6 +1075,7 @@ namespace Code2015.World
 
         void UpdateDisplayScale()
         {
+            // bigger ball has more health
             float s = (0.3f + (Health / MaxHealth) * 0.7f) *
                 (props.MaxHealth / props.BaseMaxHealth);
             s *= 1.10f;
@@ -1065,7 +1169,9 @@ namespace Code2015.World
             return GetRenderOperation();
         }
 
-
+        /// <summary>
+        ///  Used to calculate orbit moving angle
+        /// </summary>
         void IntegrateRoundAngle(float dt)
         {
             float mod = Type == RBallType.Education || Type == RBallType.Volience ? 2 : 1;
@@ -1086,6 +1192,7 @@ namespace Code2015.World
             if (weaponCoolDown > 0)
                 weaponCoolDown -= dt;
 
+            // accelerating and decelerating
             if (speedModifier < speedModifierTarget)
             {
                 speedModifier += dt;
@@ -1105,6 +1212,7 @@ namespace Code2015.World
                         CalculateRoundTransform(currentRadius, false, out pos, out orientation);
                         Position = pos;
 
+                        // stand by balls can contribute their docking city
                         if (dockCity.Owner != null)
                         {
                             if (dockCity.Owner == Owner)
@@ -1149,6 +1257,7 @@ namespace Code2015.World
                     }
                 case RBallState.AttackCity:
                     {
+                        // attack when city not owned
                         if (dockCity.Owner != Owner)
                         {
                             IntegrateRoundAngle(dt);
@@ -1172,19 +1281,21 @@ namespace Code2015.World
                         }
                         else
                         {
+                            // when owned, check if the speed has decreased low enough 
                             if (speedModifier < AttackCitySpeedMod * 0.3f || speedModifier < MinSpeedMod)
                             {
+                                // if so, go back to normal standby position
                                 Reposition();
                             }
                             else
                             {
+                                // otherwise, keep moveing, decelerating
                                 IntegrateRoundAngle(dt);
 
                                 Vector3 pos;
                                 CalculateRoundTransform(CityAttackRadius, true, out pos, out orientation);
                                 Position = pos;
 
-                                    //tail.Update(gameTime, position, orientation.Forward);
                                 speedModifierTarget = MinSpeedMod;
                             }
                         }
@@ -1232,18 +1343,16 @@ namespace Code2015.World
             }
             base.Update(gameTime);
 
-            
+            // try attack if any attackable, and when in a suitable state
             if (dockCity != null &&
                 (state != RBallState.Gathered && state != RBallState.Gathering && state != RBallState.Free && state != RBallState.Float))
             {
-
-                // 攻击
                 if (dockCity.Owner != Owner )
                 {
+                    // In an enemy city
                     enemyCheckTime -= dt;
                     if (enemyCheckTime <= 0 && props.Damage > 10)
                     {
-                        // 在别人城里
                         if (dockCity.NearbyOwnedBallCount == 0)
                         {
                             if (state != RBallState.AttackCity && state != RBallState.BeginingAttackCity)
@@ -1268,6 +1377,7 @@ namespace Code2015.World
                         case RBallType.Volience:
                             if (props.Damage > 10)
                             {
+                                // defend if any
                                 if (dockCity.NearbyEnemyBallCount > 0)
                                 {
                                     if (state != RBallState.Attack)
@@ -1277,6 +1387,8 @@ namespace Code2015.World
                             break;
                         case RBallType.Health:
                         case RBallType.Disease:
+                            // These type of balls
+                            // defend if able to attack and the city is in good condition
                             if (dockCity.HPRate > 1 - float.Epsilon && props.Damage > 10)
                             {
                                 if (dockCity.NearbyEnemyBallCount > 0)
