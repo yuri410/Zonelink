@@ -90,7 +90,6 @@ namespace Code2015.EngineEx
         RenderTarget blurredRt2;
 
 
-        Bloom bloomEff;
         Composite compEff;
         EdgeDetect edgeEff;
         DepthView depthViewEff;
@@ -117,7 +116,6 @@ namespace Code2015.EngineEx
             this.renderSys = rs;
             this.camera = camera;
 
-            bloomEff = new Bloom(rs);
             compEff = new Composite(rs);
             gaussBlur = new GaussBlur(rs);
             edgeEff = new EdgeDetect(rs);
