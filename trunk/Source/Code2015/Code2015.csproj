@@ -106,26 +106,18 @@
     <Compile Include="Effects\CitySelEffect.cs" />
     <Compile Include="Effects\EarthBaseEffect.cs" />
     <Compile Include="Effects\TailEffect.cs" />
-    <Compile Include="Effects\Post\PieProgress.cs" />
-    <Compile Include="Effects\Post\CO2PieProgress.cs" />
     <Compile Include="Effects\Post\EdgeDetect.cs" />
-    <Compile Include="Effects\SmokeEffect.cs" />
     <Compile Include="Effects\Post\GaussBlurShd.cs" />
     <Compile Include="Effects\RigidBaseEffect.cs" />
     <Compile Include="Effects\StandardEffect.cs" />
     <Compile Include="Effects\TerrainEffect.cs" />
     <Compile Include="Effects\TreeEffect.cs" />
     <Compile Include="Effects\WaterEffect.cs" />
-    <Compile Include="Effects\CloudEffect.cs" />
-    <Compile Include="Effects\ParticleEffect.cs" />
-    <Compile Include="Effects\BoltEffect.cs" />
     <Compile Include="Effects\SkinnedStandardEffect.cs" />
     <Compile Include="Effects\BoardEffect.cs" />
     <Compile Include="Effects\StandardNHEffect.cs" />
-    <Compile Include="EngineEx\Cloud.cs" />
     <Compile Include="EngineEx\GameFont.cs" />
     <Compile Include="EngineEx\PostRenderer.cs" />
-    <Compile Include="EngineEx\Tail.cs" />
     <Compile Include="EngineEx\TreeBatchModel.cs" />
     <Compile Include="EngineEx\TreeBatchModelManager.cs" />
     <Compile Include="EngineEx\TreeModelLibrary.cs" />
@@ -183,15 +175,10 @@
     <Compile Include="Code2015.cs" />
     <Compile Include="EngineEx\GameConfiguration.cs" />
     <Compile Include="EngineEx\ViewCamera.cs" />
-    <Compile Include="Effects\Post\Bloom.cs" />
     <Compile Include="Effects\Post\Composite.cs" />
     <Compile Include="Effects\Post\GaussBlur.cs" />
     <Compile Include="Effects\Post\PostEffect.cs" />
     <Compile Include="Logic\RulesTable.cs" />
-    <Compile Include="ParticleSystem\ParticleModifier.cs" />
-    <Compile Include="ParticleSystem\SmokeEffect.cs" />
-    <Compile Include="ParticleSystem\TransferEffect.cs" />
-    <Compile Include="ParticleSystem\ResourceEffect.cs" />
     <Compile Include="Precache.cs" />
     <Compile Include="SoundEffectGame.cs" />
     <Compile Include="SoundManager.cs" />
@@ -213,13 +200,9 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="GUI\UITextureManager.cs" />
-    <Compile Include="ParticleSystem\Particle.cs" />
-    <Compile Include="ParticleSystem\ParticleEffect.cs" />
-    <Compile Include="ParticleSystem\ParticleEmitter.cs" />
     <Compile Include="World\ForestObject.cs" />
     <Compile Include="EngineEx\GameFileLocs.cs" />
     <Compile Include="EngineEx\OctplSceneManager.cs" />
-    <Compile Include="EngineEx\ReflectionCamera.cs" />
     <Compile Include="EngineEx\TerrainMesh.cs" />
     <Compile Include="EngineEx\TerrainMeshManager.cs" />
     <Compile Include="EngineEx\TerrainTexture.cs" />

@@ -34,7 +34,6 @@ using Apoc3D.Vfs;
 using Code2015.EngineEx;
 using Code2015.GUI;
 using Code2015.Logic;
-using Code2015.ParticleSystem;
 using Code2015.World;
 using XI = Microsoft.Xna.Framework.Input;
 

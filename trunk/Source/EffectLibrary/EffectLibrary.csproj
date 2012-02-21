@@ -113,13 +113,9 @@
     <None Include="NormalBuffer\skinnedNormalGen.vs" />
     <None Include="NormalBuffer\waterNormalGen.ps" />
     <None Include="NormalBuffer\waterNormalGen.vs" />
-    <None Include="Particle\smoke.ps" />
-    <None Include="Particle\smoke.vs" />
     <None Include="Post\depthView.ps" />
     <None Include="Scene\atmosphere.ps" />
     <None Include="Scene\atmosphere.vs" />
-    <None Include="Scene\bolt.ps" />
-    <None Include="Scene\bolt.vs" />
     <None Include="Scene\fogofwar.psh" />
     <None Include="Scene\fogofwar_obj.psh" />
     <None Include="Scene\skinnedstandard.vs" />
@@ -141,8 +137,6 @@
     <None Include="UI\City\cityring.vs" />
     <None Include="Scene\earthBase.ps" />
     <None Include="Scene\earthBase.vs" />
-    <None Include="Particle\particle.ps" />
-    <None Include="Particle\particle.vs" />
     <None Include="ShadowMap\ShadowMapping.psh" />
     <None Include="Scene\standard.ps" />
     <None Include="Scene\standard.vs" />
@@ -152,15 +146,11 @@
     <None Include="Scene\tree.vs" />
     <None Include="UI\City\citysel.ps" />
     <None Include="UI\City\citysel.vs" />
-    <None Include="UI\pieProgress.ps" />
     <None Include="Scene\water.ps" />
     <None Include="Scene\water.vs" />
     <None Include="Scene\waterDepth.psh" />
     <None Include="Scene\waterDepth.vsh" />
-    <None Include="Scene\cloud.ps" />
-    <None Include="Scene\cloud.vs" />
     <None Include="Post\edge.ps" />
-    <None Include="Post\bloom.ps" />
     <None Include="Post\blur.ps" />
     <None Include="Post\postQuad.vs" />
     <None Include="Post\composite.ps" />
@@ -169,17 +159,11 @@
     <None Include="ShadowMap\shadowMap.vs" />
     <None Include="Standard\deferedNormal.ps" />
     <None Include="Standard\deferedNormal.vs" />
-    <None Include="UI\pieProgress.vs" />
-    <None Include="UI\co2pieProgress.ps" />
-    <None Include="UI\co2pieProgress.vs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fxc.exe">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Effect\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\XNA Game Studio\Microsoft.Xna.GameStudio.targets" />
